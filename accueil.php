@@ -4,13 +4,160 @@ include_once'header.php';
 
 
 ?>
+<head>
+    <link rel="stylesheet" href="accueilBO.css">
+
+</head>
 
 
-
-<div class="main-content">
+        <div class="main-content">
             <!-- Contenu principal de la page -->
-            <h1>Ceci est un titre</h1> 
-            <p>Ceci est un test</p>
+            <header>
+                <h1>Accueil</h1>
+                <div class="filter_bar">
+                    <p>Search</p>
+                </div>
+            </header>
+            <main>
+
+                <div class="carte_offre">
+
+                    <img src="images/offre.webp" alt="Photo offre" title="Photo offre">
+                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    
+                    <div class="infoAnnonce">
+                        <p>79€</p>
+                    
+                        <div class="etoileNote">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="carte_offre">
+
+                    <img src="images/offre.webp" alt="Photo offre" title="Photo offre">
+                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    
+                    <div class="infoAnnonce">
+                        <p>79€</p>
+                    
+                        <div class="etoileNote">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="carte_offre">
+
+                    <img src="images/offre.webp" alt="Photo offre" title="Photo offre">
+                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    
+                    <div class="infoAnnonce">
+                        <p>79€</p>
+                    
+                        <div class="etoileNote">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carte_offre">
+
+                    <img src="images/offre.webp" alt="Photo offre" title="Photo offre">
+                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    
+                    <div class="infoAnnonce">
+                        <p>79€</p>
+                    
+                        <div class="etoileNote">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carte_offre">
+
+                    <img src="images/offre.webp" alt="Photo offre" title="Photo offre">
+                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    
+                    <div class="infoAnnonce">
+                        <p>79€</p>
+                    
+                        <div class="etoileNote">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carte_offre">
+
+                    <img src="images/offre.webp" alt="Photo offre" title="Photo offre">
+                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    
+                    <div class="infoAnnonce">
+                        <p>79€</p>
+                    
+                        <div class="etoileNote">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="carte_offre">
+
+                    <img src="images/offre.webp" alt="Photo offre" title="Photo offre">
+                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    
+                    <div class="infoAnnonce">
+                        <p>79€</p>
+                    
+                        <div class="etoileNote">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    
+                        </div>
+                    </div>
+                </div>
+
+            </main>
         </div>
 
     </body>
