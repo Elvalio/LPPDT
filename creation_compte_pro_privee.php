@@ -8,22 +8,22 @@
     <link rel="stylesheet" href="styleGeneral.css">
 </head>
 <body>
-    <div class="back-button">
+    <div class="bouton-retour-page-création">
         <button>
             <img src="images/IconBoutonRetour.png" alt="Bouton Image" width="15" height="15">
             Retour
         </button>
     </div>
-    <div class="container">
-        <div class="form-container">
-            <div class="form-header">
+    <div class="container-page-creation-compte">
+        <div class="form-container-page-creation-compte">
+            <div class="form-header-page-creation-compte">
                 <a href="creation_compte_pro_public.php" style="text-decoration: none;">
-                    <div class="header-professional">
+                    <div class="inscription-pro">
                         Inscription Professionnelle
                     </div>
                 </a>
                 <a href="creation_compte_membre.php" style="text-decoration: none;">
-                    <div class="header-member">
+                    <div class="inscription-membre">
                         Inscription Membre
                     </div>
                 </a>
@@ -66,10 +66,12 @@
                         <label for="ville">Ville<span class="required">*</span></label>
                         <input type="text" placeholder="Ville" id="ville" name="ville" required>
 
-                        <label for="expiration">MM/AA<span class="required">*</span></label>
+                        <div class="spacer-left"></div>
+
+                        <label for="expiration">MM/AA</label>
                         <input type="text" placeholder="MM/AA" id="expiration" name="expiration" required>
 
-                        <label for="cvv">Code de sécurité (CVV)<span class="required">*</span></label>
+                        <label for="cvv">Code de sécurité (CVV)</label>
                         <input type="text" placeholder="CVV" id="cvv" name="cvv" required>
                     </div>
 
@@ -89,7 +91,12 @@
                         <label for="confirm_password">Confirmer le Mot de passe<span class="required">*</span></label>
                         <input type="password" placeholder="Confirmer le mot de passe" id="confirm_password" name="confirm_password" required>
 
-                        <label for="cardholder_name">Prénom et Nom du titulaire de la carte<span class="required">*</span></label>
+                        <label for="num_SIREN">Numéro de SIREN<span class="required">*</span></label>
+                        <input type="text" placeholder="Numéro de SIREN" id="num_SIREN" name="num_SIREN" required>
+
+                        <div class="spacer-right"></div>
+
+                        <label for="cardholder_name">Prénom et Nom du titulaire de la carte</label>
                         <input type="text" placeholder="Titulaire de la carte" id="cardholder_name" name="cardholder_name">
 
                         <div class="form-info">
@@ -104,7 +111,7 @@
                     <label for="terms">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
                 </div>
 
-                <button type="submit" class="submit-btn">S'inscrire</button>
+                <button type="submit" class="bouton-envoi-formulaire-crea-compte">S'inscrire</button>
             </form>
             
             <div class="login">
