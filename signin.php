@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./cssHarry/stylesHarry.css">
 </head>
 
-<body>
+<body class="login-page">
     <div class="container">
         <button class="back-button"> <img src="./cssHarry/icons/arrow-left-o.svg" alt="">Retour</button>
 
