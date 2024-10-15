@@ -61,7 +61,7 @@ body {
     margin-right: 15px; /* espace entre le logo et le texte dans le menu ouvert */
 }
 
-/********************************** A TESTER ******************************************************/
+/***************************CONTROLE ICON NOTIFICATION***************************************/
 /* Si le conteneur principal est survolé, l'image de notification change */
 #sidebar:hover .notification-container .logo-nav {
     content: url('../css/icons/icons-gris/icon-notification-sans-notif-gris.svg'); 
