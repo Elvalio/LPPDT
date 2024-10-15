@@ -43,7 +43,7 @@
                     </div>
                     <div id="bottom-items">
                         <div id="top-of-bottom-items">
-                            <a href="notification.php" class="nav-item" data-icon="notification-avec-notif">
+                            <a href="#" class="nav-item" data-icon="notification-avec-notif">
                                 <div class="notification-container">
                                     <img src="../css/icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
                                     <p>Notifications</p>
