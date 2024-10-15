@@ -14,8 +14,8 @@ include_once'nav.php';
         
     </head>
     <body>
-        <h1>Créez votre offre</h1>
-        <div id="form-container">
+        <h1 class="TS-bold">Créez votre offre</h1>
+        <div id="form-container" class="FS">
             <form action="#" method="post" enctype="multipart/form-data">
                 <div id="left-part">
                     <div id="left-part-content">
