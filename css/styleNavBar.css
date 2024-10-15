@@ -1,9 +1,8 @@
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
 }
 
-.sidebar {
+#sidebar {
     position: fixed;
     z-index: 1;
     top: 0;
@@ -16,7 +15,7 @@ body {
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-.sidebar:hover {
+#sidebar:hover {
     width: 250px; /* largeur ouverte lors du survol */
 }
 
@@ -62,15 +61,15 @@ body {
     margin-right: 15px; /* espace entre le logo et le texte dans le menu ouvert */
 }
 
-.sidebar:hover .notification-container .logo-nav {
+#sidebar:hover .notification-container .logo-nav {
     content: url('../images/IconNotificationGrisSansNotif.png'); 
 }
 
-.sidebar:hover #img-profile{
+#sidebar:hover #img-profile{
      height: 35px;
 }
 
-.sidebar .nav {
+#sidebar .nav {
     display: flex;
     flex-direction: column;
     padding: 10px 0;
@@ -159,47 +158,41 @@ body {
 }
 
 .nav-item p {
-    /*display: none; /* le texte est masqué par défaut */
     white-space: nowrap;
-    font-weight:bold;
     margin: 0;
     opacity: 0; /* Rendre invisible par défaut */
     transition: none;
-}
-
-#prenom, #email{
-    font-weight:normal;
 }
 
 #email{
     font-size: 12px;
 }
 
-.sidebar:hover .nav-item p {
+#sidebar:hover .nav-item p {
     /*display: inline-block; /* le texte apparaît lorsque la sidebar est survolée */
     opacity: 1; /* Afficher le badge */
     transition: opacity 0.3s ease; /* Appliquer une transition à l'apparition */
     transition-delay: 0.05s; /* Délai de 500 ms avant d'apparaître */
 }
 
-.sidebar:hover .nav-item {
+#sidebar:hover .nav-item {
     border-radius: 4px;
 }
 
-.sidebar:hover .actuel { 
+#sidebar:hover .actuel { 
     background-color: rgba(222, 2, 43, 0.08);
 }
 
-.sidebar:hover .actuel  img{ 
+#sidebar:hover .actuel  img{ 
     background-color: transparent;
 }
 
-.sidebar:hover #items{ 
+#sidebar:hover #items{ 
     margin: 0;
 }
 
 /* Lorsque l'utilisateur survole */
-.sidebar:hover .notification-badge {
+#sidebar:hover .notification-badge {
     opacity: 1; /* Afficher le badge */
     transition: opacity 0.3s ease; /* Appliquer une transition à l'apparition */
     transition-delay: 0.16s; /* Délai de 500 ms avant d'apparaître */

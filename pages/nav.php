@@ -4,9 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../css/styleNavBar.css">
+        <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body>
-        <div class="sidebar" id="sidebar">
+        <div class="TS-bold" id="sidebar">
             <nav>
                 
                 <a href="index.html" id="pact-item">
@@ -63,8 +64,8 @@
                         <a href="#" class="nav-item">
                             <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                             <div id="infoProfile">
-                                <p id="prenom">Michael Smith</p>
-                                <p id="email">michaelsmith12@gmail.com</p>
+                                <p id="prenom" class="TS">Michael Smith</p>
+                                <p id="email" class="TS">michaelsmith12@gmail.com</p>
                             </div>
                         </a>
                     </div>

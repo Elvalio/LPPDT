@@ -5,7 +5,7 @@
   Pensez à ajouter la ligne suivante 
   dans la section <head> de la page HTML :
 
-  <link rel="stylesheet" href="styleGeneral.css">
+  <link rel="stylesheet" href="../css/styleGeneral.css">
 
 */
 /* ============================== */
@@ -36,38 +36,38 @@
 /* Police TripSans - variations */
 @font-face {
     font-family: 'TripSansBold';
-    src: url('./polices/TripSans-Bold.ttf')
+    src: url('../polices/TripSans-Bold.ttf')
     format('truetype');
 }
 
 @font-face {
     font-family: 'TripSansRegular';
-    src: url('./polices/TripSans-Regular.ttf')
+    src: url('../polices/TripSans-Regular.ttf')
     format('truetype');
 }
 
 @font-face {
     font-family: 'TripSansUltra';
-    src: url('./polices/TripSans-Ultra.ttf')
+    src: url('../polices/TripSans-Ultra.ttf')
     format('truetype');
 }
 
 /* Police FiraSans - variations */
 @font-face {
     font-family: 'FiraSansBold';
-    src: url('./polices/FiraSans-Bold.ttf')
+    src: url('../polices/FiraSans-Bold.ttf')
     format('truetype');
 }
 
 @font-face {
     font-family: 'FiraSansRegular';
-    src: url('./polices/FiraSans-Regular.ttf')
+    src: url('../polices/FiraSans-Regular.ttf')
     format('truetype');
 }
 
 @font-face {
     font-family: 'FiraSansItalic';
-    src: url('./polices/FiraSans-Italic.ttf')
+    src: url('../polices/FiraSans-Italic.ttf')
     format('truetype');
 }
 
