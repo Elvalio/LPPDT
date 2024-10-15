@@ -1,0 +1,114 @@
+@font-face {
+  font-family: 'TripSansBold';
+  src: url('./TripSans-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'TripSansRegular';
+  src: url('./TripSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'TripSansUltra';
+  src: url('./TripSans-Ultra.ttf') format('truetype');
+}
+
+body {
+  background-color: #ffffff;
+  font-family: 'TripSansRegular', sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  text-align: center;
+  width: 50%;
+
+  padding: 20px;
+}
+
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #3AD4AE;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 8px;
+  padding: 10px 50px;
+  cursor: pointer;
+  font-family: 'TripSansBold';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+
+.logo-container {
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 500px;
+}
+
+.login-form {
+  background-color: #ffffff;
+  padding: 20px;
+
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: #ccc;
+  border-style: solid;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  font-family: 'TripSansBold';
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 12px;
+  width: 100%;
+  font-family: 'TripSansUltra';
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.links {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.links a {
+  font-family: 'TripSansRegular';
+  color: #000000;
+  
+  margin-right: 15px;
+}
+
+.links a:hover {
+  text-decoration: underline;
+}
