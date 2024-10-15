@@ -67,7 +67,7 @@ include_once'nav.php';
                             <textarea id="description" name="description" rows="12" cols="60"></textarea>
                         </div>
                         <!-- Champ "Tags" -->
-                        <div class="container">
+                        <div class="container" id="tag-container">
                             <label for="tags">Tags</label>
                             <div id="tags-item-container">
                                 <input type="button" id="tags" value="bouton1">
