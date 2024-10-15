@@ -62,7 +62,7 @@ body {
 }
 
 #sidebar:hover .notification-container .logo-nav {
-    content: url('../images/IconNotificationGrisSansNotif.png'); 
+    content: url('../css/icons/icons-gris/icon-notification-sans-notif-gris.svg'); 
 }
 
 #sidebar:hover #img-profile{

@@ -17,28 +17,28 @@
                 <div id="items">
                     <div id="top-items">
                         <a href="index.html" class="nav-item actuel">
-                            <img src="../css/icons/icon-accueil.svg" alt="Logo accueil" class="logo-nav">
+                            <img src="../css/icons/icons-rouge/icon-accueil-rouge.svg" alt="Logo accueil" class="logo-nav">
                             <p>Accueil</p>
                         </a>
                         <a href="#" class="nav-item">
-                            <img src="../images/IconTableauDeBordGris.png" alt="Logo tableau de bord" class="logo-nav">
+                            <img src="../css/icons/icons-gris/icon-tableau-de-bord-gris.svg" alt="Logo tableau de bord" class="logo-nav">
                             <p>Tableau de bord</p>
                         </a>
                         
                         <a href="#" class="nav-item">
-                            <img src="../images/IconFavorisGris.png" alt="Logo favoris" class="logo-nav">
+                            <img src="../css/icons/icons-gris/icon-favoris-gris.svg" alt="Logo favoris" class="logo-nav">
                             <p>Favoris</p>
                         </a>
                         <a href="#" class="nav-item">
-                            <img src="../images/IconHistoriqueGris.png" alt="Logo historique" class="logo-nav">
+                            <img src="../css/icons/icons-gris/icon-historique-gris.svg" alt="Logo historique" class="logo-nav">
                             <p>Historique</p>
                         </a>
                         <a href="#" class="nav-item">
-                            <img src="../css/icons/icon-facturation.svg" alt="Logo Facturation" class="logo-nav">
+                            <img src="../css/icons/icons-gris/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
                             <p>Facturation</p>
                         </a>
                         <a href="#" class="nav-item">
-                            <img src="../images/IconCreerGris.png" alt="Logo création offre" class="logo-nav">
+                            <img src="../css/icons/icons-gris/icon-creation-gris.svg" alt="Logo création offre" class="logo-nav">
                             <p>Créer une offre</p>
                         </a>
                     </div>
@@ -46,18 +46,18 @@
                         <div id="top-of-bottom-items">
                             <a href="#" class="nav-item">
                                 <div class="notification-container">
-                                    <img src="../images/IconNotificationGris.png" alt="Logo notification" class="logo-nav">
+                                    <img src="../css/icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
                                     <p>Notifications</p>
                                     <div class="notification-badge">2</div>
                                 </div>
                                 
                             </a>
                             <a href="#" class="nav-item">
-                                <img src="../images/IconPararmetreGris.png" alt="Logo paramètres" class="logo-nav">
+                                <img src="../css/icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
                                 <p>Paramètres</p>
                             </a>
                             <a href="#" class="nav-item">
-                                <img src="../images/IconDeconnecterGris.png" alt="Logo déconnecter" class="logo-nav">
+                                <img src="../css/icons/icons-gris/icon-deconnection-gris.svg" alt="Logo déconnecter" class="logo-nav">
                                 <p>Se déconnecter</p>
                             </a>
                         </div>
