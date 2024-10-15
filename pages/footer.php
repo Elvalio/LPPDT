@@ -3,12 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="footer.css">
+        <link rel="stylesheet" href="../css/footer.css">
     </head>
     <footer>
         <div class="main_div">
-            <img src="images/logo_noir.png" alt="logo_noir" title="logo_noir" widht="300" id="image_full"height="160">
-            <img src="images/logo_noir_reduit.png" alt="logo_noir_reduit" title="logo_noir_reduit" id="image_reduit">
+            <img src="../images/logo_noir.png" alt="logo_noir" title="logo_noir" widht="300" id="image_full"height="160">
+            <img src="../images/logo_noir_reduit.png" alt="logo_noir_reduit" title="logo_noir_reduit" id="image_reduit">
             <div class="listes_infos">
                 <ul class="entreprise">
                     <li><p id="titre_entreprise">Entreprise</p></li>
