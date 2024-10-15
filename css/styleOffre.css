@@ -1,5 +1,6 @@
-body{
-    margin-left: 79px;
+.main-content{
+    margin-left: 78px;
+    padding: 0;
 }
 
 #form-container{
@@ -9,7 +10,7 @@ body{
 #left-part{
     border: 1px solid #D9D9D9;
     border-bottom: none;
-    border-radius: 8px;
+    border-top-right-radius: 8px;
     padding: 20px 15px 20px 30px;
     width: 746px;
     height: 840px;;
