@@ -8,8 +8,8 @@ include_once'nav.php';
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Création d'offre</title>
-        <link rel="stylesheet" href="cssLisa/styleOffre.css">
-        <link rel="stylesheet" href="styleGeneral.css">
+        <link rel="stylesheet" href="../css/styleOffre.css">
+        <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body>
         <div id="form-container">
