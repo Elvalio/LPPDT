@@ -34,7 +34,7 @@
                             <p>Historique</p>
                         </a>
                         <a href="#" class="nav-item">
-                            <img src="../images/IconFacturationGris.png" alt="Logo Facturation" class="logo-nav">
+                            <img src="../css/icons/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
                             <p>Facturation</p>
                         </a>
                         <a href="#" class="nav-item">
