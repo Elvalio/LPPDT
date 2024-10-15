@@ -1,21 +1,45 @@
 <?php
 
-include_once'header.php';
+include_once'nav.php';
 
 
 ?>
 <head>
     <link rel="stylesheet" href="styleGeneral.css">
-    <link rel="stylesheet" href="accueilBO.css">
+    <link rel="stylesheet" href="cssIlan/accueilBO.css">
 
 </head>
 
-
+<html>
+    <body>
         <div class="main-content">
             <!-- Contenu principal de la page -->
             <header>
                 <h1>Accueil</h1>
             </header>
+            <nav>
+                <div class="nav_space">
+                    <div class="search">
+                        <p>Search</p>
+                        <img src="images/search_icon.png" alt="Search" title="Search">
+                    </div>
+
+                    <div class="filtrer-trier">
+                        <p>Filtrer par</p>
+                        <img src="images/fleche.png" alt="Fleche" title="Fleche">
+                    </div>
+
+                    <div class="filtrer-trier">
+                        <p>Trier par</p>
+                        <img src="images/fleche.png" alt="Fleche" title="Fleche">
+                    </div>
+                </div>
+
+                <div class="NouveauALaUne">
+                    <p>Nouveau</p>
+                    <p>A la une</p>
+                </div>
+            </nav>
             <main>
 
                 <div class="carte_offre">

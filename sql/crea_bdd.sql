@@ -53,7 +53,7 @@ create table _secteur_prive(
 
     idC integer,
     coord_banquaire varchar(30),
-    siren varchar[9],
+    siren varchar(9),
     
   constraint _secteur_prive_pk primary key (idC),
   constraint _secteur_prive_fk_inherit foreign key
@@ -293,6 +293,7 @@ create or replace trigger tg_insert_membre
 instead of insert on membre
   for each row execute procedure insert_membre();
 
+
 insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
 insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
 
@@ -322,4 +323,50 @@ create or replace trigger tg_insert_professionnel
 instead of insert on professionnel
   for each row execute procedure insert_professionnel();
   
-insert into professionnel (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (56546514, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+insert into professionnel (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1001, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+
+-- professionnel secteur public
+
+create or replace view secteur_public as
+  select * from _secteur_public natural join professionnel;
+
+
+create or replace function insert_secteur_public()
+  returns trigger as $$
+begin
+  insert into professionnel (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (new.codePro, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.lieu, new.code_postal);
+  select idC from professionnel where codePro = new.codePro into new.idC;
+  insert into _secteur_public (idC) values (new.idC);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_secteur_public
+instead of insert on secteur_public
+  for each row execute procedure insert_secteur_public();
+  
+  
+insert into secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1002, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+
+-- professionnel secteur prive
+
+create or replace view secteur_prive as
+  select * from _secteur_prive natural join professionnel;
+
+
+create or replace function insert_secteur_prive()
+  returns trigger as $$
+begin
+  insert into professionnel (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (new.codePro, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.lieu, new.code_postal);
+  select idC from professionnel where codePro = new.codePro into new.idC;
+  insert into _secteur_prive (idC, coord_banquaire, siren) values (new.idC, new.coord_banquaire, new.siren);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_secteur_prive
+instead of insert on secteur_prive
+  for each row execute procedure insert_secteur_prive();
+  
+  
+insert into secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1003,'65151656516 44', '125475842', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
