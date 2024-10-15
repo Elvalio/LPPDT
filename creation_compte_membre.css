@@ -61,7 +61,7 @@ body {
     padding: 20px;
     border-radius: 30px;
     text-align: center;
-    width: 50%;
+    width: 100%;
     
 }
 
@@ -101,7 +101,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid #006B8F;
     border-radius: 5px;
 }
 
