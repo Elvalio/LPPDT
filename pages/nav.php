@@ -10,8 +10,8 @@
             <nav>
                 
                 <a href="index.html" id="pact-item">
-                    <img src="images/logo_reduit_rouge.png" alt="Image par défaut" class="image image-default">
-                    <img src="images/logo_rouge.png" alt="Image au survol" class="image image-hover">        
+                    <img src="../images/logo_reduit_rouge.png" alt="Image par défaut" class="image image-default">
+                    <img src="../images/logo_rouge.png" alt="Image au survol" class="image image-hover">        
                 </a>
                 <div id="items">
                     <div id="top-items">
