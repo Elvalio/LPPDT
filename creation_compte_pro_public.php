@@ -6,6 +6,7 @@
     <title>Inscription</title>
     <link rel="stylesheet" href="creation_compte_pro_public.css">
     <link rel="stylesheet" href="styleGeneral.css">
+    <link rel="stylesheet" href="creation_compte.css">
 </head>
 <body>
     <div class="bouton-retour-page-création">
