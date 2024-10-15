@@ -17,12 +17,12 @@ include_once'nav.php';
                 <div id="left-part">
                     <div id="title-categorie">
                         <!-- Champ "Titre" -->
-                        <div class="container">
+                        <div class="container" id="titre-container">
                             <label for="titre">Titre de l'offre*</label>
                             <input type="text" id="titre" name="titre" placeholder="Saisir" required />
                         </div>
                         <!-- Champ "Catégorie" -->
-                        <div class="container">
+                        <div class="container" id="categorie-container">
                             <label for="categorie">Catégorie de l'offre*</label>
                             <select id="categorie" name="categorie" required>
                                 <option value="" disabled selected hidden id="first-option">Catégorie de l'offre</option>
