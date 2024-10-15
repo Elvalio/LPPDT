@@ -1,10 +1,15 @@
+<?php
+include_once'nav.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Création d'offre</title>
-        <link rel="stylesheet" href="styleOffre.css">
+        <link rel="stylesheet" href="cssLisa/styleOffre.css">
+        <link rel="stylesheet" href="styleGeneral.css">
     </head>
     <body>
         <div id="form-container">
@@ -20,7 +25,7 @@
                         <div class="container">
                             <label for="categorie">Catégorie de l'offre*</label>
                             <select id="categorie" name="categorie" required>
-                                <option value="" disabled>Catégorie de l'offre</option>
+                                <option value="" disabled selected hidden id="first-option">Catégorie de l'offre</option>
                                 <option value="activite">Activité</option>
                                 <option value="visite">Visite</option>
                                 <option value="spectacle">Spectacle</option>
@@ -28,19 +33,25 @@
                                 <option value="restauration">Restauration</option>
                             </select>
                         </div>
-                        <div id="commune-type">
-                            <!-- Champ "Commune" -->
-                            <div class="container">
-                                <label for="commune">Commune*</label>
-                                <input type="text" id="commune" name="commune" placeholder="Saisir" required />
-                            </div>
-                            <!-- Champ "Type" -->
-                            <div class="container type-container">
-                                <label>Type d'offre</label>
-                                <input type="radio" id="standard" name="standard" value="standard" />
-                                <label for="standard">Standard</label>
-                                <input type="radio" id="premium" name="premium" value="premium" />
-                                <label for="premium">Premium</label>
+                    </div>
+                    <div id="commune-type">
+                        <!-- Champ "Commune" -->
+                        <div class="container">
+                            <label for="commune">Commune*</label>
+                            <input type="text" id="commune" name="commune" placeholder="Saisir" required />
+                        </div>
+                        <!-- Champ "Type" -->
+                        <div class="container" id="type">
+                            <label>Type d'offre</label>
+                            <div id="type-container">
+                                <div id="standard">
+                                    <input type="radio" id="standard" name="offre" value="standard" />
+                                    <label for="standard">Standard</label>
+                                </div>
+                                <div id="premium">
+                                    <input type="radio" id="premium" name="offre" value="premium" />
+                                    <label for="premium">Premium</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -69,5 +80,12 @@
                 
             </form>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const firstOption = document.getElementById('first-option');
+                firstOption.style.color = 'gray'; // Appliquer le style grisé à l'option
+            });
+        </script>
     </body>
 </html>
