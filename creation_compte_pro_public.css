@@ -1,15 +1,8 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
 body {
     background-color: white;
 }
 
-.container {
+.container-page-creation-compte {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
@@ -20,14 +13,14 @@ body {
     color: red;
 }
 
-.back-button {
+.bouton-retour-page-création {
     margin-bottom: 20px;
     position: fixed;
 	top: 30px;
     left: 30px;
 }
 
-.back-button button {
+.bouton-retour-page-création button {
     background-color: #48c9b0;
     border: none;
     color: black;
@@ -37,14 +30,14 @@ body {
     font-size: 16px;
 }
 
-.form-container {
+.form-container-page-creation-compte {
     background-color: white;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-header {
+.form-header-page-creation-compte {
     display: flex;
     margin-bottom: 20px;
     background-color: #FFF7E1;
@@ -53,7 +46,7 @@ body {
 }
 
 
-.header-professional {
+.inscription-pro {
     background-color: #A2021F;
     color: white;
     font-size: 24px;
@@ -70,7 +63,7 @@ body {
     
 }
 
-.header-member {
+.inscription-membre {
     background-color: #FFF7E1;
     z-index: +1;
     color: #006B8F;
@@ -100,7 +93,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
+    border: 2px solid #A2021F;
     border-radius: 5px;
 }
 
@@ -115,7 +108,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     margin-right: 10px;
 }
 
-.submit-btn {
+.bouton-envoi-formulaire-crea-compte {
     background-color: #A2021F;
     color: white;
     padding: 15px;
@@ -186,4 +179,12 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     border-radius: 30px;
     text-align: center;
     width: 100%;
+}
+
+.spacer-left {
+    height: 50px;
+}
+
+.spacer-right {
+    height: 50px;
 }
