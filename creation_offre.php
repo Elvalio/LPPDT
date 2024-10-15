@@ -80,12 +80,5 @@ include_once'nav.php';
                 
             </form>
         </div>
-
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const firstOption = document.getElementById('first-option');
-                firstOption.style.color = 'gray'; // Appliquer le style grisé à l'option
-            });
-        </script>
     </body>
 </html>
