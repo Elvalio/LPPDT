@@ -5,6 +5,7 @@ include_once'header.php';
 
 ?>
 <head>
+    <link rel="stylesheet" href="styleGeneral.css">
     <link rel="stylesheet" href="accueilBO.css">
 
 </head>
@@ -14,9 +15,6 @@ include_once'header.php';
             <!-- Contenu principal de la page -->
             <header>
                 <h1>Accueil</h1>
-                <div class="filter_bar">
-                    <p>Search</p>
-                </div>
             </header>
             <main>
 
@@ -34,7 +32,7 @@ include_once'header.php';
                             <img src="images/etoile.png" alt="Etoile" title="Etoile">
                             <img src="images/etoile.png" alt="Etoile" title="Etoile">
                             <img src="images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                    
+        
                         </div>
                     </div>
                 </div>

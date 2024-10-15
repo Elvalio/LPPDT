@@ -1,0 +1,133 @@
+/* ============================== */
+/*          IMPORTANT            */
+/* ============================== */
+/* 
+  Pensez à ajouter la ligne suivante 
+  dans la section <head> de la page HTML :
+
+  <link rel="stylesheet" href="styleGeneral.css">
+
+*/
+/* ============================== */
+
+
+/* ============================== */
+/*           VARIABLES CSS        */
+/* ============================== */
+
+:root {
+    --blanc-fo: #FFF7E1;      /* Blanc Front-Office */
+    --vert-clair: #9EE7A0;    /* Vert clair */
+    --turquoise: #3AD4AE;     /* Turquoise */
+    --bleu: #1DA2A7;          /* Bleu */
+    --bleu-fonce: #006B8F;    /* Bleu foncé */
+
+    --blanc-bo: #FDEDF0;      /* Blanc Back-Office */
+    --orange: #F07605;        /* Orange */
+    --rouge: #DE022B;         /* Rouge */
+    --rouge-fonce: #A2021F;   /* Rouge foncé */
+    --noir: #151515;          /* Noir */
+}
+
+/* ============================== */
+/*        POLICES DE CARACTÈRES   */
+/* ============================== */
+
+/* Police TripSans - variations */
+@font-face {
+    font-family: 'TripSansBold';
+    src: url('./polices/TripSans-Bold.ttf')
+    format('truetype');
+}
+
+@font-face {
+    font-family: 'TripSansRegular';
+    src: url('./polices/TripSans-Regular.ttf')
+    format('truetype');
+}
+
+@font-face {
+    font-family: 'TripSansUltra';
+    src: url('./polices/TripSans-Ultra.ttf')
+    format('truetype');
+}
+
+/* Police FiraSans - variations */
+@font-face {
+    font-family: 'FiraSansBold';
+    src: url('./polices/FiraSans-Bold.ttf')
+    format('truetype');
+}
+
+@font-face {
+    font-family: 'FiraSansRegular';
+    src: url('./polices/FiraSans-Regular.ttf')
+    format('truetype');
+}
+
+@font-face {
+    font-family: 'FiraSansUltra';
+    src: url('./polices/FiraSans-Ultra.ttf')
+    format('truetype');
+}
+
+/* ============================== */
+/*         CLASSES DE POLICE      */
+/* ============================== */
+
+.FS {
+    font-family: 'FiraSansRegular', 'Arial';
+}
+
+.FS-bold {
+    font-family: 'FiraSansBold', Arial;
+}
+
+.FS-ultra {
+    font-family: 'FiraSansUltra', Arial;
+}
+
+.TS {
+    font-family: 'TripSansRegular', Arial;
+}
+
+.TS-bold {
+    font-family: 'TripSansBold', Arial;
+}
+
+.TS-ultra {
+    font-family: 'TripSansUltra', Arial;
+}
+
+/* ============================== */
+/*        STYLES GÉNÉRAUX         */
+/* ============================== */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    color: var(--rouge-fonce);
+    font-size: 3.5em;
+    margin-left: 0.5em;
+}
+
+p {
+    color: var(--noir);
+}
+
+/* ============================== */
+/*          FLEXBOX STYLE         */
+/* ============================== */
+
+.flex {
+    display: flex;
+}
+
+
+.flex-center {
+    justify-content: center;
+    align-items: center;
+}
