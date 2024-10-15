@@ -17,7 +17,7 @@
                 <div id="items">
                     <div id="top-items">
                         <a href="index.html" class="nav-item actuel">
-                            <img src="../images/IconAccueilRouge.png" alt="Logo accueil" class="logo-nav">
+                            <img src="../css/icons/icon-accueil.svg" alt="Logo accueil" class="logo-nav">
                             <p>Accueil</p>
                         </a>
                         <a href="#" class="nav-item">
@@ -34,7 +34,7 @@
                             <p>Historique</p>
                         </a>
                         <a href="#" class="nav-item">
-                            <img src="../css/icons/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
+                            <img src="../css/icons/icon-facturation.svg" alt="Logo Facturation" class="logo-nav">
                             <p>Facturation</p>
                         </a>
                         <a href="#" class="nav-item">
@@ -75,6 +75,7 @@
 
             </nav>
         </div>
+
     </body>
 </html>
 

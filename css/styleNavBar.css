@@ -139,7 +139,7 @@ body {
 }
 
 .actuel{/*conteneur du logo actuel*/
-    color: #DE022B;
+    color: var(--rouge);
 }
 
 .actuel .logo-nav{ /*image du logo actuel*/
