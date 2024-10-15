@@ -10,8 +10,11 @@ include_once'nav.php';
         <title>Création d'offre</title>
         <link rel="stylesheet" href="../css/styleOffre.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
+        
+        
     </head>
     <body>
+        <h1>Créez votre offre</h1>
         <div id="form-container">
             <form action="#" method="post" enctype="multipart/form-data">
                 <div id="left-part">
@@ -42,7 +45,7 @@ include_once'nav.php';
                                 <input type="text" id="commune" name="commune" placeholder="Saisir" required />
                             </div>
                             <!-- Champ "Type" -->
-                            <div class="container" id="type-container">
+                            <div id="type-container">
                                 <label>Type d'offre</label>
                                 <div id="standard-premium">
                                     <div id="standard">
@@ -67,17 +70,35 @@ include_once'nav.php';
                             <textarea id="description" name="description" rows="12" cols="60"></textarea>
                         </div>
                         <!-- Champ "Tags" -->
-                        <div class="container" id="tag-container">
+                        <div id="tag-container">
                             <label for="tags">Tags</label>
-                            <div id="tags-item-container">
-                                <input type="button" id="tags" value="bouton1">
-                                <input type="button" id="tags" value="bouton2">
+                            <div id="tags-items-container">
+                                <input type="button" id="tags" value="Culturel">
+                                <input type="button" id="tags" value="Patrimoine">
+                                <input type="button" id="tags" value="Histoire">
+                                <input type="button" id="tags" value="Urbain">
+                                <input type="button" id="tags" value="Nature">
+                                <input type="button" id="tags" value="Plein air">
+                                <input type="button" id="tags" value="Sport">
+                                <input type="button" id="tags" value="Nautique">
+                                <input type="button" id="tags" value="Gastronomie">
+                                <input type="button" id="tags" value="Musée">
+                                <input type="button" id="tags" value="Atelier">
+                                <input type="button" id="tags" value="Musique">
+                                <input type="button" id="tags" value="Famille">
+                                <input type="button" id="tags" value="Cinéma">
+                                <input type="button" id="tags" value="Cirque">
+                                <input type="button" id="tags" value="Son et lumière">
+                                <input type="button" id="tags" value="Humour">
                             </div>
                         </div>
                         <!-- Bouton de soumission -->
                         <div id="publier-retour">
                             <input type="submit" value="Publier" />
-                            <input type="reset" value="Retour" />
+                            <button>
+                                <img src="../css/icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
+                                Retour
+                            </button>
                         </div>
                     </div>
                 </div>
