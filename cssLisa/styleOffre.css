@@ -1,0 +1,20 @@
+body{
+    margin: 0;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    min-height: 70px;
+    justify-content: space-between;
+}
+
+input{
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    min-height: 40px;
+    font-size: 16px;
+    padding-left: 10px;
+}

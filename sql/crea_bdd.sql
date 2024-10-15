@@ -12,7 +12,7 @@ create table _adresse(
 
 create table _compte
 (
-  idC integer,
+  idC serial,
   nom varchar(20),
   prenom varchar(20),
   email varchar(20),
@@ -65,7 +65,7 @@ create table _secteur_prive(
 create table _membre(
 
     idC integer,
-    pseudo character unique,-- need trigger so that this is frozen or see if you can make it an id
+    pseudo varchar(20) unique,-- need trigger so that this is frozen or see if you can make it an id
     
   constraint _membre_pk primary key (idC),
   constraint _membre_fk_inherit foreign key
@@ -76,9 +76,26 @@ create table _tag(
   idTag integer,
   libelle varchar(20),
   
-  
+  constraint _tag_pk primary key (idTag)
 );
 
+create table _tag_default(
+  idTag integer,
+  
+  constraint _tag_default_pk primary key (idTag),
+  constraint _tag_default_fk_inherit foreign key
+  (idTag) references _tag(idTag)
+);
+
+create table _tag_resto(
+  idTag integer,
+  
+  constraint _tag_resto_pk primary key (idTag),
+  constraint _tag_resto_fk_inherit foreign key
+  (idTag) references _tag(idTag)
+);
+
+-- Offre est ses enfants
 create table _offre(
   idO integer,
   titre varchar(20),
@@ -115,6 +132,17 @@ create table _activite(
   (idO) references _offre(idO)
 );
 
+create table _tags_activite(
+  idO integer,
+  idTag integer,
+  
+  constraint _tags_activite_pk primary key(idO, idTag),
+  constraint _tags_activite_fk_activite foreign key
+  (idO) references _activite(idO),
+  constraint _tags_activite_fk_tag_default foreign key
+  (idTag) references _tag_default(idTag)
+);
+
 create table _visite(
   idO integer,
   duree interval not null,
@@ -123,6 +151,17 @@ create table _visite(
   constraint _visite_pk primary key(idO),
   constraint _visite_fk_inherit foreign key
   (idO) references _offre(idO)
+);
+
+create table _tags_visite(
+  idO integer,
+  idTag integer,
+  
+  constraint _tags_visite_pk primary key(idO, idTag),
+  constraint _tags_visite_fk_visite foreign key
+  (idO) references _visite(idO),
+  constraint _tags_visite_fk_tag_default foreign key
+  (idTag) references _tag_default(idTag)
 );
 
 create table _spectacle(
@@ -135,6 +174,17 @@ create table _spectacle(
   (idO) references _offre(idO)
 );
 
+create table _tags_spectacle(
+  idO integer,
+  idTag integer,
+  
+  constraint _tags_spectacle_pk primary key(idO, idTag),
+  constraint _tags_spectacle_fk_spectacle foreign key
+  (idO) references _spectacle(idO),
+  constraint _tags_spectacle_fk_tag_default foreign key
+  (idTag) references _tag_default(idTag)
+);
+
 
 create table _parc_d_attraction(
   idO integer,
@@ -145,6 +195,17 @@ create table _parc_d_attraction(
   constraint _parc_d_attraction_pk primary key(idO),
   constraint _parc_d_attraction_fk_inherit foreign key
   (idO) references _offre(idO)
+);
+
+create table _tags_parc_d_attraction(
+  idO integer,
+  idTag integer,
+  
+  constraint _tags_parc_d_attraction_pk primary key(idO, idTag),
+  constraint _tags_parc_d_attraction_fk_parc_d_attraction foreign key
+  (idO) references _parc_d_attraction(idO),
+  constraint _tags_parc_d_attraction_fk_tag_default foreign key
+  (idTag) references _tag_default(idTag)
 );
 
 create table _restauration(
@@ -162,3 +223,103 @@ create table _restauration(
   (idO) references _offre(idO)
 );
 
+create table _tags_restauration(
+  idO integer,
+  idTag integer,
+  
+  constraint _tags_restauration_pk primary key(idO, idTag),
+  constraint _tags_restauration_fk_restauration foreign key
+  (idO) references _restauration(idO),
+  constraint _tags_restauration_fk_tag_resto foreign key
+  (idTag) references _tag_resto(idTag)
+);
+
+-- Triggers tables
+
+--TODO test these triggers
+
+-------- This should freeze codePro
+create or replace function mis_a_jour_professionnel()
+  returns trigger as $$
+begin
+  if (new.codePro <> old.codePro) then
+    raise exception 'Pas de mise à jour codePro';
+  end if;  
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_professionnel
+before update on _professionnel
+  for each row execute procedure mis_a_jour_professionnel();
+  
+--This should freeze pseudo
+create or replace function mis_a_jour_membre()
+  returns trigger as $$
+begin
+  if (new.pseudo <> old.pseudo) then
+    raise exception 'Pas de mise à jour pseudo';
+  end if;
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_membre
+before update on _membre
+  for each row execute procedure mis_a_jour_membre();
+
+------------------- Views
+
+
+-- Membre
+create or replace view membre as
+  select idC, pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal from _membre natural join _compte natural join _adresse;
+  
+
+
+create or replace function insert_membre()
+  returns trigger as $$
+begin
+  if (select not exists(select * from _adresse where ville = new.ville and lieu = new.lieu)) then
+    insert into _adresse (ville, lieu, code_postal) values (new.ville, new.lieu, new.code_postal);
+  end if;
+  insert into _compte (nom, prenom, email, telephone, mdp, ville, lieu) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.lieu) returning idC into new.idC;
+  insert into _membre (idc, pseudo) values (new.idc, new.pseudo);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_membre
+instead of insert on membre
+  for each row execute procedure insert_membre();
+
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+
+
+-- update _membre set pseudo = 'azza' where idC = 1;
+
+
+-- professionnel
+create or replace view professionnel as
+  select idC, codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal from _professionnel natural join _compte natural join _adresse;
+  
+
+
+create or replace function insert_professionnel()
+  returns trigger as $$
+begin
+  if (select not exists(select * from _adresse where ville = new.ville and lieu = new.lieu)) then
+    insert into _adresse (ville, lieu, code_postal) values (new.ville, new.lieu, new.code_postal);
+  end if;
+  insert into _compte (nom, prenom, email, telephone, mdp, ville, lieu) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.lieu) returning idC into new.idC;
+  insert into _professionnel (idc, codePro) values (new.idc, new.codePro);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_professionnel
+instead of insert on professionnel
+  for each row execute procedure insert_professionnel();
+  
+insert into professionnel (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (56546514, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
