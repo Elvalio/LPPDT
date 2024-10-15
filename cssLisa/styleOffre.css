@@ -10,16 +10,27 @@ body{
     border-radius: 8px;
     padding: 10px;
     padding-left: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
     height: 80vh;
     width: 746px;
     position: absolute;
     bottom: 0;
+    /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
 }
 
-#title-categorie{
+#left-part-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* height: 90%; */
+}
+
+#title-categorie, #commune-type{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#publier-retour{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -33,12 +44,32 @@ body{
     justify-content: space-between;
 }
 
-#titre-container{
+#titre-container, #commune-container{
     width: 440px;
 }
 
-#categorie-container{
+#categorie-container, #type-container{
     width: 220px;
+}
+
+#resume-container, #description-container{
+    padding-right: 20px;
+}
+
+#decription-container{
+    height: 500px;
+}
+
+#type-container{
+    padding-top: 5px;
+    height: 50px;
+}
+
+#standard-premium{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 190px;
 }
 
 input, select, textarea{
@@ -49,20 +80,13 @@ input, select, textarea{
     padding-left: 10px;
 }
 
+textarea{
+    height: auto;
+}
+
 input[type="radio"]{
     height: 13px;
     margin-right: 5px;
-}
-
-#type{
-    height: 50px;
-}
-
-#type-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 190px;
 }
 
 /* CE TRUC FONCTIONNE PAS
