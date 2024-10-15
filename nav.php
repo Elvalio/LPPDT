@@ -74,3 +74,13 @@
 
             </nav>
         </div>
+    </body>
+</html>
+
+
+        <!-- IMPORTANT: rajouter le code ci-dessous pour que la nav fonctionne correctement -->
+
+
+        <!--
+                <div class="main-content"> VOTRE CODE </div>     
+        -->

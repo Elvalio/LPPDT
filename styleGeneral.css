@@ -66,8 +66,8 @@
 }
 
 @font-face {
-    font-family: 'FiraSansUltra';
-    src: url('./polices/FiraSans-Ultra.ttf')
+    font-family: 'FiraSansItalic';
+    src: url('./polices/FiraSans-Italic.ttf')
     format('truetype');
 }
 
@@ -83,8 +83,8 @@
     font-family: 'FiraSansBold', Arial;
 }
 
-.FS-ultra {
-    font-family: 'FiraSansUltra', Arial;
+.FS-Italic {
+    font-family: 'FiraSansItalic', Arial;
 }
 
 .TS {
@@ -130,4 +130,20 @@ p {
 .flex-center {
     justify-content: center;
     align-items: center;
+}
+
+/* ============================== */
+/*          CLASSES DE ROTATION    */
+/* ============================== */
+
+.rotate-90 {
+    transform: rotate(90deg);
+}
+
+.rotate-180 {
+    transform: rotate(180deg);
+}
+
+.rotate--90 {
+    transform: rotate(-90deg);
 }
