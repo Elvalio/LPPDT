@@ -18,10 +18,14 @@ body {
   font-family: 'TripSansRegular', sans-serif;
   margin: 0;
   padding: 0;
+
+  height: 100vh;
+}
+
+.login-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .container {
@@ -111,4 +115,72 @@ body {
 
 .links a:hover {
   text-decoration: underline;
+}
+
+/*
+===========================================================================================================
+*/
+
+/* Styles supplémentaires pour la carte "Roméo et Juliette" avec grille */
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image */
+  grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière */
+  grid-template-areas: 
+      "title rating"
+      "description image"
+      "location image"; /* L'image prend aussi la place sous 'rating' */
+  gap: 10px;
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 600px;
+  width: 80%;
+  margin: 20px auto;
+}
+
+.card-title {
+  grid-area: title;
+  font-size: 1.5rem;
+  color: #007bff;
+  font-family: 'TripSansBold';
+}
+
+.card-description {
+  grid-area: description;
+  font-size: 1rem;
+  color: #333;
+  font-family: 'TripSansRegular';
+}
+
+.card-location {
+  grid-area: location;
+  font-size: 0.9rem;
+  color: #666;
+  font-family: 'TripSansRegular';
+}
+
+.card-rating {
+  grid-area: rating;
+  font-size: 1.2rem;
+  color: #007bff;
+  font-family: 'TripSansBold';
+  text-align: center;
+  align-self: start;
+  margin-bottom: 5px; /* Réduit l'espace entre les étoiles et l'image */
+}
+
+.card-thumbnail-container {
+  grid-area: image;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-thumbnail {
+  width: 150px; /* Image légèrement agrandie */
+  height: auto;
+  border-radius: 8px;
 }

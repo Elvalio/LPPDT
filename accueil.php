@@ -6,8 +6,8 @@ include_once'nav.php';
 ?>
 <head>
     <link rel="stylesheet" href="styleGeneral.css">
-    <link rel="stylesheet" href="cssIlan/accueilBO.css">
-
+    <link rel="stylesheet" href="Accueil/accueilBO.css">
+    <script src="Accueil/accueil.js"></script>
 </head>
 
 <html>
@@ -36,8 +36,15 @@ include_once'nav.php';
                 </div>
 
                 <div class="NouveauALaUne">
-                    <p>Nouveau</p>
-                    <p>A la une</p>
+                    <div class="BoutonNouveau">
+                        <p class="boutonNouveauALaUne">Nouveau</p>
+                        <img src="images/croix.png" alt="croix" title="croix">
+                    </div>
+
+                    <div class="BoutonALaUne">
+                        <p class="boutonNouveauALaUne">A la une</p>
+                        <img src="images/croix.png" alt="croix" title="croix">
+                    </div>
                 </div>
             </nav>
             <main>

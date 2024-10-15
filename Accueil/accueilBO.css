@@ -9,11 +9,15 @@ header+nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    width: 98%;
+    margin-left: 10px;
 }
 
 .nav_space {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+
 }
 
 .search {
@@ -69,21 +73,50 @@ header+nav {
 .NouveauALaUne {
     display: flex;
     flex-direction: row;
-
-    align-self: center;
+    align-items: center; /* Aligner verticalement le texte et l'image */
 }
 
-.NouveauALaUne>p {
+.NouveauALaUne div:hover {
+    cursor: pointer;
+}
+
+.BoutonALaUne,
+.BoutonNouveau {
+    display: flex;
+    flex-direction: row;
+    background-color: #F5F5F5; /* Couleur de fond par défaut */
+    align-self: center;
+    padding: 5px;
+    border-radius: 8px;
+    margin: 2px;
+    align-items: center; /* Aligner les éléments dans le bouton */
+}
+
+.BoutonALaUne img,
+.BoutonNouveau img {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+    visibility: hidden; /* Masquer la croix par défaut */
+    margin-left: 4px; /* Espace léger entre le texte et la croix */
+}
+
+.NouveauALaUne img.show {
+    visibility: visible; /* Afficher la croix quand la classe show est ajoutée */
+}
+
+.BoutonALaUne p,
+.BoutonNouveau p {
     width: fit-content;
     height: fit-content;
-    
-    color: #757575;
-    background-color: #F5F5F5;
-    
-    border-radius: 8px;
-    
-    padding: 5px;
-    margin: 2px;
+    color: #757575; /* Couleur du texte par défaut */
+}
+
+
+.BoutonALaUne.active,
+.BoutonNouveau.active {
+    color: #F5F5F5; /* Couleur du texte quand actif */
+    background-color: #2C2C2C; /* Couleur de fond quand actif */
 }
 
 
@@ -100,7 +133,9 @@ header+nav {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    
     flex-grow: 1;
+    flex-basis: calc(25% - 84px); /* 4 cartes par ligne, avec un espacement */
     
 }
 
@@ -135,3 +170,4 @@ header+nav {
     object-fit: cover;
     margin: 0 2px;
 }
+

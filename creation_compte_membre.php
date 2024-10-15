@@ -6,25 +6,25 @@
     <title>Inscription</title>
     <link rel="stylesheet" href="creation_compte_membre.css">
     <link rel="stylesheet" href="styleGeneral.css">
+    <link rel="stylesheet" href="creation_compte.css">
 </head>
 <body>
-    <div class="back-button">
+    <div class="bouton-retour-page-création">
         <button>
             <img src="images/IconBoutonRetour.png" alt="Bouton Image" width="15" height="15">
             Retour
         </button>
     </div>
-    <div class="container">
-        
-        <div class="form-container">
-            <div class="form-header">
+    <div class="container-page-creation-compte">
+        <div class="form-container-page-creation-compte">
+            <div class="form-header-page-creation-compte">
                 <a href="creation_compte_pro_public.php" style="text-decoration: none;">
-                    <div class="header-professional">
+                    <div class="inscription-pro">
                         Inscription Professionnelle
                     </div>
                 </a>
                 <a href="creation_compte_membre.php" style="text-decoration: none;">
-                <div class="header-member">
+                <div class="inscription-membre">
                     Inscription Membre
                 </div>
                 </a>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="submit-btn">S'inscrire</button>
+                <button type="submit" class="bouton-envoi-formulaire-crea-compte">S'inscrire</button>
             </form>
             <div class="login">
                 <button type="submit" class="connexion">Déjà inscrit ? Connectez-vous.</button>
