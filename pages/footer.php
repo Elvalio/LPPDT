@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../css/footer.css">
     </head>
-    <footer>
+    <body>
         <div class="main_div">
             <img src="../images/logo_noir.png" alt="logo_noir" title="logo_noir" widht="300" id="image_full"height="160">
             <img src="../images/logo_noir_reduit.png" alt="logo_noir_reduit" title="logo_noir_reduit" id="image_reduit">
@@ -35,5 +35,5 @@
             <a>Conditions Générales d'Utilisation</a>
             <a>RGPI</a>
         </div>
-    </footer>
+    </body>
 </html>
