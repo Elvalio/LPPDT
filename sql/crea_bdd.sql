@@ -23,7 +23,7 @@ create table _compte
   ville varchar(20),
   lieu varchar(30),
   
-  constraint __compte_pk 
+  constraint _compte_pk 
   primary key (idC),
   
   constraint _compte_fk_adresse foreign key
@@ -73,7 +73,7 @@ create table _membre(
 );
 
 create table _tag(
-  idTag integer,
+  idTag serial,
   libelle varchar(20),
   
   constraint _tag_pk primary key (idTag)
@@ -97,7 +97,7 @@ create table _tag_resto(
 
 -- Offre est ses enfants
 create table _offre(
-  idO integer,
+  idO serial,
   titre varchar(20),
   "type" varchar(20),
   option varchar(20),
@@ -105,7 +105,7 @@ create table _offre(
   photo varchar(60),
   prix_min float,
   --/moy_note
-  --nbrAvis
+  --/nbrAvis
   accessiblitie varchar(30),
   categorie varchar(30), -- need to be frozen
   denomination varchar(30),
@@ -115,6 +115,14 @@ create table _offre(
   ville varchar(20),
   lieu varchar(30),
   
+  -- Fk for pro
+  /*
+  idC integer;
+  constraint _offre_fk_professionnel foreign key
+  (idC) references professionnel(idC),
+
+  */
+
   constraint _offre_pk primary key (idO),
   
   constraint _offre_fk_adresse foreign key
@@ -370,3 +378,73 @@ instead of insert on secteur_prive
   
   
 insert into secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1003,'65151656516 44', '125475842', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+
+--- Tags
+
+-- Tags default
+
+create or replace view tag_default as
+  select * from _tag_default natural join _tag;
+  
+create or replace function insert_tag_default()
+  returns trigger as $$
+begin
+  insert into _tag (libelle) values (new.libelle) returning idTag into new.idTag;
+  insert into _tag_default (idTag) values (new.idTag);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_tag_default
+instead of insert on tag_default
+  for each row execute procedure insert_tag_default();
+  
+insert into tag_default (libelle) values ('Son et lumière');
+
+-- Tags default
+
+create or replace view tag_resto as
+  select * from _tag_resto natural join _tag;
+  
+create or replace function insert_tag_resto()
+  returns trigger as $$
+begin
+  insert into _tag (libelle) values (new.libelle) returning idTag into new.idTag;
+  insert into _tag_resto (idTag) values (new.idTag);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_tag_resto
+instead of insert on tag_resto
+  for each row execute procedure insert_tag_resto();
+  
+insert into tag_resto (libelle) values ('Français');
+
+
+--- Offres
+
+-- offre, i dont need trigger i think for insert
+
+-- activite TODO 
+
+--TODO add calculated stuff
+/*
+create or replace view activite as
+  select * from _activite natural join _offre;
+  
+create or replace function insert_activite()
+  returns trigger as $$
+begin
+  insert into _offre (libelle) values (new.libelle) returning idO into new.idO;
+  insert into _activite (idO) values (new.idO);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_activite
+instead of insert on activite
+  for each row execute procedure insert_activite();
+  
+insert into activite(titre, "type", option, description, photo, prix_min accessibilite)
+*/
