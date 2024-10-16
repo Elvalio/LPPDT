@@ -110,11 +110,27 @@ header + nav {
     padding: 0;
     margin: 0 0 0 10%;
     list-style: none;
+    opacity: 0; /* Masqué par défaut */
+    transition: opacity 3s ease; /* Transition pour l'animation de la boîte */
 }
 
+.dropdown-menu.show {
+    display: block; /* Montre le menu lorsqu'il est actif */
+    opacity: 1; /* Rendre visible */
+}
+
+/* Styles pour les éléments de la liste */
 .dropdown-menu li {
+    opacity: 0; /* Masqué par défaut */
+    transform: translateY(-10px); /* Déplace légèrement vers le haut */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transition pour l'animation des éléments */
     padding: 16px;
     border-bottom: 1px solid #eee;
+}
+
+.dropdown-menu li.show {
+    opacity: 1; /* Rendre visible */
+    transform: translateY(0); /* Remet à la position normale */
 }
 
 .dropdown-menu li:last-child {
@@ -130,6 +146,7 @@ header + nav {
 .dropdown-menu li:hover {
     background-color: #f0f0f0; /* Fond au survol */
 }
+
 
 /* Affiche le menu lorsque le parent a la classe 'active' */
 .dropdown.active .dropdown-menu {
