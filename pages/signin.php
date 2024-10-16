@@ -5,15 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Se connecter</title>
-    <link rel="stylesheet" href="./cssHarry/stylesHarry.css">
+    <link rel="stylesheet" type="text/css" href="../css/styleHarry.css">
+
 </head>
 
 <body class="login-page">
     <div class="container">
-        <button class="back-button"> <img src="./cssHarry/icons/arrow-left-o.svg" alt="">Retour</button>
+        <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
 
         <div class="logo-container">
-            <img src="cssHarry/img/logo_vert.png" alt="Logo Vert" class="logo">
+            <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo">
         </div>
 
         <form action="POST" class="login-form">
