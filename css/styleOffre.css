@@ -112,9 +112,28 @@ input, select{
     
 }
 
-select{
+/*************************************************************************/
+
+/* Style du select */
+select {
+    color: gray; /* "categorie de l'offre" en gris */
+    font-size: 16px;
+    padding: 5px;
     cursor: pointer;
 }
+
+/* Style des options après sélection */
+select:valid {
+    color: black; /* Options en noir quand une valeur est choisie */
+}
+
+/* S'assurer que les options ne soient pas grises */
+option {
+    color: black;
+}
+
+
+/*******************************************************/
 
 textarea{
     border: 1px solid #D9D9D9;
@@ -158,8 +177,3 @@ button img {
     margin-right: 10px; /* Espace entre l'image et le texte */
     width: auto; /* Largeur automatique pour garder le ratio */
 }
-
-/* CE TRUC FONCTIONNE PAS
-#first-option{
-    color: gray; 
-} */
