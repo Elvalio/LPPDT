@@ -237,7 +237,7 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
 }
 
 /* Section qui me permet d'espacer la partie haute et basse du formulaire dans la page pro */
-.spacer-left {
+.spacer {
     height: 130px;
 }
 
@@ -249,7 +249,8 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
     justify-content: center;
 }
 
-/* LES CODES CSS QUI SUIVENT SERVENT A DEFINIR LE STYLE DES BOUTON PUBLIC ET PRIVEE DANS LES 2 VERSIONS DIFFERENTES : UNE PAR PAGE (PUBLIC, PRIVEE) */
+/* LES CODES CSS QUI SUIVENT SERVENT A DEFINIR LE STYLE DES BOUTON PUBLIC ET PRIVEE 
+    DANS LES 2 VERSIONS DIFFERENTES : UNE PAR PAGE (PUBLIC, PRIVEE) */
 .public-page-public {
     background-color: #F07605;
     z-index: +1;

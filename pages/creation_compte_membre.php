@@ -70,9 +70,11 @@
                 </div>
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre">S'inscrire</button>
             </form>
-            <div class="login">
-                <button type="submit" class="connexion-page-membre">Déjà inscrit ? Connectez-vous.</button>
-            </div>
+            <a href="connexion.php" style="text-decoration: none;">
+                <div class="login">
+                    <button type="submit" class="connexion-page-membre">Déjà inscrit ? Connectez-vous.</button>
+                </div>
+            </a>
         </div>
     </div>
 </body>
