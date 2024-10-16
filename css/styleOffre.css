@@ -21,7 +21,7 @@
 }
 
 #right-part{
-    margin-right: -3px;
+    
     width: 590px;
     border-top-left-radius: 8px;
     border-top-right-radius: 0;
@@ -36,7 +36,7 @@
 }
 
 #right-part-content{
-    height: 500px;
+    /* height: 500px; */
 }
 
 #title-categorie, #commune-type{
@@ -174,7 +174,7 @@
 }
 
 .selected-image {
-    max-width: 100%; /* Limiter la largeur de l'image */
+    max-width: 530px; /* Limiter la largeur de l'image */
     height: auto; /* Garder le ratio de l'image */
     display: none; /* Cacher par défaut */
 }

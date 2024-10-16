@@ -197,11 +197,12 @@ include_once'nav.php';
                                     Supprimer une image
                                 </button>
                             </div>
+                            <p id="error-message" style="color: red; display: none;">Aucune image sélectionnée pour suppression !</p>
                             <!-- Éléments pour afficher les images importées -->
                             <div id="image-container">
-                            <img class="selected-image" src="" alt="Image sélectionnée" style="max-width: 100%; height: auto; display: none;" />
-                            <img class="selected-image" src="" alt="Image sélectionnée" style="max-width: 100%; height: auto; display: none;" />
-                            <img class="selected-image" src="" alt="Image sélectionnée" style="max-width: 100%; height: auto; display: none;" />
+                                <img class="selected-image" src="" alt="Image sélectionnée" />
+                                <img class="selected-image" src="" alt="Image sélectionnée" />
+                                <img class="selected-image" src="" alt="Image sélectionnée" />
                             </div>
                         </div>
                     </div>
@@ -210,80 +211,106 @@ include_once'nav.php';
         </div>
 
         <script>
-
+            // Récupérer tous les éléments avec la classe 'tag'
+            const tags = document.getElementsByClassName('tag');
             // Sélectionne les éléments nécessaires
-const fileInput = document.getElementById('file-upload');
-const deleteButton = document.getElementById('file-delete');
-const imageContainer = document.getElementById('image-container');
-const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
+            const fileInput = document.getElementById('file-upload');
+            const deleteButton = document.getElementById('file-delete');
+            const imageContainer = document.getElementById('image-container');
+            const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
 
-let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
-let selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression        
+            const errorMessage = document.getElementById('error-message');
 
-// Écoute l'événement de changement de l'input de fichier
-fileInput.addEventListener('change', function() {
-    // Vérifie si des fichiers sont sélectionnés
-    if (fileInput.files.length > 0 && currentImageCount < selectedImages.length) {
-        const file = fileInput.files[0]; // Prendre le premier fichier
-        const reader = new FileReader(); // Créer un nouvel objet FileReader
 
-        // Fonction à exécuter une fois que le fichier est chargé
-        reader.onload = function(e) {
-            const img = Array.from(selectedImages).find(image => image.style.display === 'none');
+            let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
+            let selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression 
+
+            // Transformer la collection en tableau et ajouter un écouteur d'événements à chaque élément
+            Array.from(tags).forEach(tag => {
+                tag.addEventListener('click', function() {
+                    this.classList.toggle('selectionne');  // Ajoute/enlève la classe 'selectionne'
+                });
+            });
             
-            if (img) {
-                img.src = e.target.result; // Met à jour la source de l'image
-                img.style.display = 'block'; // Affiche l'image
-                currentImageCount++; // Incrémenter le compteur d'images
-                deleteButton.style.display = 'block'; // Affiche le bouton de suppression
-            }
-        }
+            // Écoute l'événement de changement de l'input de fichier
+            fileInput.addEventListener('change', function() {
+                if (fileInput.files.length > 0 && currentImageCount < selectedImages.length) {
+                    const file = fileInput.files[0]; // Prendre le premier fichier
+                    const reader = new FileReader(); // Créer un nouvel objet FileReader
 
-        // Lire le fichier comme une URL de données
-        reader.readAsDataURL(file);
-        fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image
-    }
-});
+                    reader.onload = function(e) {
+                        const img = selectedImages[currentImageCount]; // Récupérer l'image à l'index actuel
+                        img.src = e.target.result; // Mettre à jour la source de l'image
+                        img.style.display = 'block'; // Afficher l'image
+                        currentImageCount++; // Incrémenter le compteur d'images
+                        deleteButton.style.display = 'block'; // Affiche le bouton de suppression si une image est présente
+                    }
 
-// Gérer le clic sur les images pour les sélectionner
-imageContainer.addEventListener('click', function(e) {
-    const target = e.target;
-    if (target.classList.contains('selected-image')) {
-        // Trouver l'index de l'image cliquée
-        selectedImageIndex = Array.from(selectedImages).indexOf(target);
-        
-        // Réinitialiser la sélection de toutes les images
-        selectedImages.forEach((img, index) => {
-            if (index === selectedImageIndex) {
-                img.classList.add('selected'); // Ajoute la classe "selected" à l'image sélectionnée
-            } else {
-                img.classList.remove('selected'); // Retire la classe "selected" des autres images
-            }
-        });
-    }
-});
+                    reader.readAsDataURL(file);
+                    fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image
+                }
+            });
 
-// Écoute l'événement de clic sur le bouton de suppression
-deleteButton.addEventListener('click', function() {
-    // Supprimer l'image sélectionnée
-    if (selectedImageIndex !== -1) { // S'il y a une image sélectionnée
-        const img = selectedImages[selectedImageIndex]; // Récupérer l'image à l'index actuel
-        img.src = ''; // Effacer la source de l'image
-        img.style.display = 'none'; // Masquer l'image
-        currentImageCount--; // Décrémenter le compteur d'images
-        selectedImageIndex = -1; // Réinitialiser l'index de sélection
-        
-        // Réinitialiser la sélection de toutes les images
-        selectedImages.forEach(img => {
-            img.classList.remove('selected'); // Retire la classe "selected" de toutes les images
-        });
+            // Gérer le clic sur les images pour les sélectionner
+            imageContainer.addEventListener('click', function(e) {
+                const target = e.target;
 
-        // Cacher le bouton de suppression si toutes les images ont été supprimées
-        if (currentImageCount === 0) {
-            deleteButton.style.display = 'none'; // Cache le bouton à nouveau
-        }
-    }
-});
+                if (target.classList.contains('selected-image')) {
+                    // Trouver l'index de l'image cliquée
+                    const clickedIndex = Array.from(selectedImages).indexOf(target);
+
+                    if (clickedIndex === selectedImageIndex) {
+                        // Si l'image cliquée est déjà sélectionnée, la désélectionner
+                        target.classList.remove('selected');
+                        selectedImageIndex = -1; // Réinitialiser l'index (aucune image sélectionnée)
+                    } else {
+                        // Si une autre image est sélectionnée, réinitialiser la sélection de toutes les images
+                        selectedImages.forEach(img => img.classList.remove('selected'));
+
+                        // Sélectionner la nouvelle image
+                        target.classList.add('selected');
+                        selectedImageIndex = clickedIndex; // Mettre à jour l'index de l'image sélectionnée
+
+                        // Cacher le message d'erreur dès qu'une image est sélectionnée
+                        errorMessage.style.display = 'none'; // Cache le message d'erreur
+                    }
+                }
+            });
+
+            // Écoute l'événement de clic sur le bouton de suppression
+            deleteButton.addEventListener('click', function() {
+                // Vérifie s'il y a une image sélectionnée
+                if (selectedImageIndex === -1) {
+                    // Si aucune image n'est sélectionnée, affiche le message d'erreur
+                    errorMessage.style.display = 'block'; // Affiche le message d'erreur
+                } else {
+                    // Supprimer l'image sélectionnée
+                    const img = selectedImages[selectedImageIndex]; // Récupérer l'image à l'index actuel
+                    img.src = ''; // Effacer la source de l'image
+                    img.style.display = 'none'; // Masquer l'image
+                    currentImageCount--; // Décrémenter le compteur d'images
+                    selectedImageIndex = -1; // Réinitialiser l'index de sélection
+
+                    // Réinitialiser la sélection de toutes les images
+                    selectedImages.forEach(img => {
+                        img.parentNode.classList.remove('selected'); // Retire la classe "selected" de toutes les images
+                    });
+
+                    // Cacher le bouton de suppression si toutes les images ont été supprimées
+                    if (currentImageCount === 0) {
+                        deleteButton.style.display = 'none'; // Cache le bouton à nouveau
+                    }
+
+                    // Cacher le message d'erreur si l'image a été supprimée avec succès
+                    errorMessage.style.display = 'none';
+                }
+            });
+
+
+
+
+
+
 
 // // Sélectionne les éléments nécessaires
 // const fileInput = document.getElementById('file-upload');
@@ -368,7 +395,7 @@ deleteButton.addEventListener('click', function() {
 
 
 
-//             // Récupérer tous les éléments avec la classe 'tag'
+// // Récupérer tous les éléments avec la classe 'tag'
 // const tags = document.getElementsByClassName('tag');
 
 // // Sélectionne les éléments nécessaires
@@ -451,63 +478,6 @@ deleteButton.addEventListener('click', function() {
 //         if (currentImageCount === 0) {
 //             deleteButton.style.display = 'none'; // Cache le bouton à nouveau
 //         }
-//     }
-// });
-
-
-
-
-            
-
-
-
-
-
-
-
-// // Sélectionne les éléments nécessaires
-// const fileInput = document.getElementById('file-upload');
-// const deleteButton = document.getElementById('file-delete');
-// const imageContainer = document.getElementById('image-container');
-// const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
-
-// let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
-
-// // Écoute l'événement de changement de l'input de fichier
-// fileInput.addEventListener('change', function() {
-//     // Vérifie si des fichiers sont sélectionnés
-//     if (fileInput.files.length > 0 && currentImageCount < selectedImages.length) {
-//         const file = fileInput.files[0]; // Prendre le premier fichier
-//         const reader = new FileReader(); // Créer un nouvel objet FileReader
-
-//         // Fonction à exécuter une fois que le fichier est chargé
-//         reader.onload = function(e) {
-//             const img = selectedImages[currentImageCount]; // Récupérer l'image à l'index actuel
-//             img.src = e.target.result; // Mettre à jour la source de l'image
-//             img.style.display = 'block'; // Afficher l'image
-//             currentImageCount++; // Incrémenter le compteur d'images
-//             deleteButton.style.display = 'block'; // Affiche le bouton de suppression si une image est présente
-//         }
-
-//         // Lire le fichier comme une URL de données
-//         reader.readAsDataURL(file);
-//         fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image
-//     }
-// });
-
-// // Écoute l'événement de clic sur le bouton de suppression
-// deleteButton.addEventListener('click', function() {
-//     // Suppression de la dernière image affichée
-//     if (currentImageCount > 0) { // S'il y a des images à supprimer
-//         currentImageCount--; // Décrémenter le compteur pour supprimer la dernière image
-//         const img = selectedImages[currentImageCount]; // Récupérer l'image à l'index actuel
-//         img.src = ''; // Effacer la source de l'image
-//         img.style.display = 'none'; // Masquer l'image
-//     }
-
-//     // Cacher le bouton de suppression si toutes les images ont été supprimées
-//     if (currentImageCount === 0) {
-//         deleteButton.style.display = 'none'; // Cache le bouton à nouveau
 //     }
 // });
 
