@@ -1,69 +1,83 @@
 <?php include_once 'nav.php'; ?>
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Balade à vélo</title>
-        <link rel="stylesheet" href="../css/samStyles.css">
-        <script src="../detail-offre.js" async></script>
-    </head>
-    
-    <body class="main-content">
-        
-    <section>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balade à vélo</title>
+    <link rel="stylesheet" href="../css/samStyles.css">
+    <script src="../detail-offre.js" async></script>
+</head>
+
+<body class="main-content">
+
+    <section class="section-page part-annonce">
         <header>
             <h1 class="titre-rouge">Balade à vélo de Tonquédec à Pluzunet</h1>
-            <h2 class="sous-titre">Place de l'Église 22140 Tonquédec | +33 7 65 84 65 96 | Durée : 2h - 3h | Âge : +8 ans</h2>
+            <h2 class="sous-titre">Place de l'Église 22140 Tonquédec | +33 7 65 84 65 96 | Durée : 2h - 3h | Âge : +8
+                ans</h2>
             <div class="container">
-        <!-- Élément carrousel -->
-        <div class="carousel">
-            <!-- Conteneur interne pour les diapositives -->
-            <div class="carousel-inner">
-                <!-- Première diapositive -->
-                <div class="slide">
-                    <!-- Image de la première diapositive -->
-                    <img src="../images/offre.webp"
-                        alt="Image 1">
+                <!-- Élément carrousel -->
+                <div class="carousel">
+                    <!-- Conteneur interne pour les diapositives -->
+                    <div class="carousel-inner">
+                        <!-- Première diapositive -->
+                        <div class="slide">
+                            <!-- Image de la première diapositive -->
+                            <img src="../images/offre.webp" alt="Image 1">
+                        </div>
+                        <!-- Deuxième diapositive -->
+                        <div class="slide">
+                            <!-- Image de la deuxième diapositive -->
+                            <img src="../images/offre.webp" alt="Image 2">
+                        </div>
+                        <!-- Troisième diapositive -->
+                        <div class="slide">
+                            <!-- Image de la troisième diapositive -->
+                            <img src="../images/offre.webp" alt="Image 3">
+                        </div>
+                        <!-- Quatrième diapositive -->
+                        <div class="slide">
+                            <!-- Image de la quatrième diapositive -->
+                            <img src="../images/offre.webp" alt="Image 4">
+                        </div>
+                        <!-- Cinquième diapositive -->
+                        <div class="slide">
+                            <!-- Image de la cinquième diapositive -->
+                            <img src="../images/offre.webp" alt="Image 5">
+                        </div>
+                    </div>
+                    <!-- Conteneur pour les boutons de navigation -->
+                    <div class="carousel-controls">
+                        <!-- Bouton pour passer à la diapositive précédente -->
+                        <button id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
+                        <!-- Bouton pour passer à la diapositive suivante -->
+                        <button id="next"><img src="../images/fleche.png" alt="Suivant"></button>
+                    </div>
+                    <!-- Conteneur pour les points de navigation -->
+                    <div class="carousel-dots"></div>
                 </div>
-                <!-- Deuxième diapositive -->
-                <div class="slide">
-                    <!-- Image de la deuxième diapositive -->
-                    <img src="../images/offre.webp"
-                        alt="Image 2">
-                </div>
-                <!-- Troisième diapositive -->
-                <div class="slide">
-                    <!-- Image de la troisième diapositive -->
-                    <img src="../images/offre.webp"
-                        alt="Image 3">
-                </div>
-                <!-- Quatrième diapositive -->
-                <div class="slide">
-                    <!-- Image de la quatrième diapositive -->
-                    <img src="../images/offre.webp"
-                        alt="Image 4">
-                </div>
-                <!-- Cinquième diapositive -->
-                <div class="slide">
-                    <!-- Image de la cinquième diapositive -->
-                    <img src="../images/offre.webp"
-                        alt="Image 5">
-                </div>
+
             </div>
-            <!-- Conteneur pour les boutons de navigation -->
-            <div class="carousel-controls">
-                <!-- Bouton pour passer à la diapositive précédente -->
-                <button id="prev">Précédent</button>
-                <!-- Bouton pour passer à la diapositive suivante -->
-                <button id="next">Suivant</button>
+            <div class="infos-offre">
+                <div class="etoiles">
+                    <img src="../images/etoile.png" alt="étoile">
+                    <img src="../images/etoile.png" alt="étoile">
+                    <img src="../images/etoile.png" alt="étoile">
+                    <img src="../images/etoile.png" alt="étoile">
+                    <img src="../images/etoile_vide.png" alt="étoile">
+                </div>
+                <p>
+                    4 Avis |
+                </p>
+                <img src="../images/wheelchair.png" alt="fauteil roulant">
+                <p>
+                    Non accessible
+                </p>
             </div>
-            <!-- Conteneur pour les points de navigation -->
-            <div class="carousel-dots"></div>
-        </div>
-    </div>
         </header>
-        <article>
+        <article class="description-offre">
             <h3>Description :</h3>
             <p>
                 Au départ de l’Église collégiale Saint Pierre, au cœur du bourg de Tonquédec, vous profiterez d’abord
@@ -117,7 +131,7 @@
             Retour
         </button>
     </section>
-    <section>
+    <section class="section-page part-avis">
         <div>
             <h3>Avis : 4</h3>
             <h3>Non Consultés : 2</h3>
@@ -199,4 +213,5 @@
         </article>
     </section>
 </body>
+
 </html>
