@@ -35,7 +35,7 @@ insert into secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, 
 
 
 -- OFFRES -- 
-insert into offre (titre, resume, "type", option, description, photo, prix_min, accessibilite, categorie, denomination, date_publication) values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.', 'Standard', 'À la Une', 'Venez découvrir la Magie des arbres dans ce site exceptionnel de la côte de Granit rose : première partie musicale autour du Bagad de Perros-Guirec', 'https://www.bit.ly/qehgth/', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', 'Spectacle',  'Gignac', now());
+-- insert into offre (titre, resume, "type", option, description, photo, prix_min, accessibilite, categorie, denomination, date_publication) values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.', 'Standard', 'À la Une', 'Venez découvrir la Magie des arbres dans ce site exceptionnel de la côte de Granit rose : première partie musicale autour du Bagad de Perros-Guirec', 'https://www.bit.ly/qehgth/', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', 'Spectacle',  'Gignac', now());   insérer lors de la création de la BDD 
 
 
 
