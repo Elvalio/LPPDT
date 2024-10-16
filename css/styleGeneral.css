@@ -25,7 +25,9 @@
     --blanc-bo: #FDEDF0;      /* Blanc Back-Office */
     --orange: #F07605;        /* Orange */
     --rouge: #DE022B;         /* Rouge */
-    --rouge-fonce: #A2021F;   /* Rouge foncé */
+    --rouge-fonce: #A2021F; /* Rouge foncé */
+    --gris-fonce: #767676; /*Gris foncé*/
+    --gris-clair : #E4E4E4;  /*Gris Clair*/
     --noir: #151515;          /* Noir */
 }
 
@@ -187,7 +189,7 @@ p {
 }
 
 .header > hr{
-    color: #767676;
+    color: var(--gris-fonce);
     margin: 0;
     padding: 0;
 }
@@ -195,27 +197,29 @@ p {
 .header > .logo_recherche > form{
     display: flex;
     align-items: center;
-    background-color: #E4E4E4;
+    background-color: var(--gris-clair);
     border-radius: 10px;
     margin-left: 5px;
 }
 
-.header > .logo_recherhce > form > #recherche{
+.header > .logo_recherche > form > #recherche{
     border-style: none;
     border-radius: 10px;
     margin-left: 5px;
-    background-color: #E4E4E4;
+    background-color: var(--gris-clair);
 }
 
-.header > .logo_recherhce > form > #image_recherche{
+.header > .logo_recherche > form > #image_recherche{
     margin: 5px;
+    width: 20px;
+    height: 20px;
 }
 
 .header > .liste_nav > li > button{
     display: block;
     border: none;
     background-color: white;
-    color: #767676;
+    color: var(--gris-fonce);
     line-height: 30px;
     width: 100%;
     height: 100%;
@@ -228,8 +232,8 @@ p {
 }
 
 .header > .liste_nav > li > button:hover{
-    background-color: #9EE7A0;
-    color: black;
+    background-color: var(--vert-clair);
+    color: var(--noir);
     border-radius: 5px;
 }
 
@@ -239,6 +243,7 @@ p {
 
 .footer{
     font-size: 14px;
+    margin: 8px;
 }
 
 .footer > .main_div_infos{
@@ -254,27 +259,33 @@ p {
     list-style: none;
     width: 100%;
     height: 100%;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    padding-right: 40px;
+    padding-left: 40px;
 }
 
-.footer > .autres_liens > a{
+.footer > .autres_liens{
     color: #0A142F;
     opacity: 70%;
 }
 
 #footer_titre_offre, #footer_titre_entreprise{
     opacity: 100%;
+    margin-top: 14px;
+    margin-bottom: 14px;
 }
 
 .footer > .main_div_infos > .listes_infos > .offres_suite {
     margin-top: 57px;
 }
 
-.footer > .main_div_infos > li{
+.footer > .main_div_infos > .listes_infos > ul > li{
     margin-bottom: 5px;
 }
 
 .footer > hr{
-    margin: 0 auto  ;
+    margin: 0 auto;
     padding: 0;
     width: 70%;
 }
