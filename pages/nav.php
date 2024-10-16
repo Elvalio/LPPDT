@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="../css/styleNavBar.css">
     </head>
     <body>
-        <div class="sidebar" id="sidebar">
+        <div class="TS-bold" id="sidebar">
             <nav>
                 
                 <a href="index.html" id="pact-item">
@@ -43,7 +43,7 @@
                     </div>
                     <div id="bottom-items">
                         <div id="top-of-bottom-items">
-                            <a href="#" class="nav-item">
+                            <a href="#" class="nav-item" data-icon="notification-avec-notif">
                                 <div class="notification-container">
                                     <img src="../images/IconNotificationGris.png" alt="Logo notification" class="logo-nav">
                                     <p>Notifications</p>
@@ -62,18 +62,17 @@
                         </div>
                         <a href="#" class="nav-item">
                             <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
+                            <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                             <div id="infoProfile">
-                                <p id="prenom">Michael Smith</p>
-                                <p id="email">michaelsmith12@gmail.com</p>
+                                <p id="prenom" class="TS">Michael Smith</p>
+                                <p id="email" class="TS">michaelsmith12@gmail.com</p>
                             </div>
                         </a>
                     </div>
                 </div>
-                
-                
-
             </nav>
         </div>
+        <script src="../nav.js"></script>
     </body>
 </html>
 

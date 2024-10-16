@@ -1,19 +1,19 @@
-body{
-    margin-left: 79px;
-    font-family: Arial, sans-serif;
-    font-size: 16px;
+.main-content{
+    margin-left: 78px;
+    padding: 0;
+}
+
+#form-container{
+    margin-top: 50px;
 }
 
 #left-part{
     border: 1px solid #D9D9D9;
     border-bottom: none;
-    border-radius: 8px;
-    padding: 10px;
-    padding-left: 20px;
-    height: 80vh;
+    border-top-right-radius: 8px;
+    padding: 20px 15px 20px 30px;
     width: 746px;
-    position: absolute;
-    bottom: 0;
+    height: 840px;;
     /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
 }
 
@@ -21,7 +21,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* height: 90%; */
+    height: 820px;
 }
 
 #title-categorie, #commune-type{
@@ -30,16 +30,10 @@ body{
     justify-content: space-between;
 }
 
-#publier-retour{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
 .container{
     display: flex;
     flex-direction: column;
-    height: 70px;
+    min-height: 70px;
     
     justify-content: space-between;
 }
@@ -53,16 +47,18 @@ body{
 }
 
 #resume-container, #description-container{
-    padding-right: 20px;
+    padding-right: 15px;
 }
 
-#decription-container{
-    height: 500px;
+#description-container{
+    height: 276px;
 }
 
 #type-container{
-    padding-top: 5px;
-    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 55px;
 }
 
 #standard-premium{
@@ -72,21 +68,95 @@ body{
     width: 190px;
 }
 
-input, select, textarea{
+#publier-retour{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 55%;
+}
+
+#tag-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: 15px;
+    height: 146px;
+}
+
+#tags-items-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: space-between;
+    height: 116px;
+}
+
+#tags-items-container input{
+    height: 32px;
+    margin-right: 10px;
+    color: rgba(117, 117, 117, 0.7);
+    cursor: pointer; /* Curseur en forme de main */
+}
+
+h1{
+    padding-left: 30px;
+    padding-top: 10px;
+}
+
+input, select{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     height: 40px;
     font-size: 16px;
     padding-left: 10px;
+    
+}
+
+select{
+    cursor: pointer;
 }
 
 textarea{
-    height: auto;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 10px;
+    height: 226px;
+}
+
+input[type="submit"]{
+    border: none;
+    background-color: var(--noir);
+    color: white;
+    padding: 0 100px;
+    cursor: pointer;
 }
 
 input[type="radio"]{
     height: 13px;
-    margin-right: 5px;
+    margin-right: 2px;
+    cursor: pointer;
+}
+
+input[type="button"]{
+    padding: 0 10px;
+}
+
+button {
+    display: flex; /* Utiliser flex pour aligner l'image et le texte */
+    align-items: center; /* Centre verticalement le contenu */
+    padding: 0 30px; /* Padding à droite et à gauche */
+    cursor: pointer; /* Curseur en forme de main */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--orange);
+    font-size: 16px;
+}
+
+button img {
+    height: 18px;
+    margin-right: 10px; /* Espace entre l'image et le texte */
+    width: auto; /* Largeur automatique pour garder le ratio */
 }
 
 /* CE TRUC FONCTIONNE PAS
