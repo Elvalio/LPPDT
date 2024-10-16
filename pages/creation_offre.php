@@ -162,9 +162,9 @@ include_once'nav.php';
                                 <input type="text" id="adresse" name="adresse" placeholder="Saisir" required />
                             </div>
                             <!-- Champ "Accesibilité" -->
-                            <div class="container" id="accesibilite-container">
-                                <label for="accesibilite">Accesibilité</label>
-                                <input type="text" id="accesibilite" name="accesibilite" placeholder="Saisir" required />
+                            <div class="container" id="accessibilite-container">
+                                <label for="accessibilite">Accessibilité</label>
+                                <input type="text" id="accessibilite" name="accessibilite" placeholder="Saisir" required />
                             </div>
                             <!-- Champ "prix minimum" -->
                             <div class="container" id="prix-container">
