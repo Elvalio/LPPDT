@@ -72,7 +72,7 @@ include_once'nav.php';
                             </div>
                             <!-- Champ "Tags" -->
                             <div id="tag-container">
-                                <label for="tags">Tags</label>
+                                <label>Tags</label>
                                 <div id="tags-items-container">
                                     <button class="tag" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
@@ -185,6 +185,12 @@ include_once'nav.php';
                                     </div>
                                 </div>
                             </div>
+                            <!---- Champs ajout image --->
+                            <label for="file-upload" class="custom-file-upload">
+                                <img src="../icons/plus.svg" alt="Bouton Image" width="15" height="15">
+                                Ajouter une image
+                            </label>
+                            <input type="file" id="file-upload" accept="image/*" style="display: none;" />
                         </div>
                     </div>
                 </div>      
