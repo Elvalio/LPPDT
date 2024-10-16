@@ -1,6 +1,5 @@
 (function () {
     "use strict"; // Correction de la faute de frappe
-
     const slideTimeout = 3500; // Temps d'affichage de chaque slide
     const prev = document.querySelector('#prev');
     const next = document.querySelector('#next');
@@ -9,7 +8,6 @@
     let intervalId;
     let currentSlide = 0; // Index de la première slide (commence à 0)
     const totalSlides = $slides.length; // Nombre total de slides
-
     // Fonction pour afficher un slide spécifique
     function slideTo(index) {
         currentSlide = (index + totalSlides) % totalSlides; // Gestion des dépassements
@@ -21,12 +19,10 @@
             $dot.classList.toggle('inactive', idx !== currentSlide);
         });
     }
-
     // Fonction pour passer au slide suivant
     function showSlide() {
         slideTo(currentSlide + 1);
     }
-
     // Création des "dots" (indicateurs de pagination) en fonction du nombre de slides
     for (let i = 0; i < totalSlides; i++) {
         let dotClass = i === currentSlide ? 'active' : 'inactive';
@@ -35,7 +31,6 @@
         $dot.className = `dot ${dotClass}`;
         document.querySelector('.carousel-dots').appendChild($dot);
     }
-
     $dots = document.querySelectorAll('.dot');
 
     // Ajout d'événements "click" sur les dots pour naviguer
@@ -46,31 +41,25 @@
             intervalId = setInterval(showSlide, slideTimeout); // Redémarre l'intervalle
         });
     });
-
     // Ajout d'événements sur les boutons "prev" et "next"
     prev.addEventListener('click', () => {
         clearInterval(intervalId);
         slideTo(currentSlide - 1);
         intervalId = setInterval(showSlide, slideTimeout);
     });
-
     next.addEventListener('click', () => {
         clearInterval(intervalId);
         slideTo(currentSlide + 1);
         intervalId = setInterval(showSlide, slideTimeout);
     });
-
     // Initialisation de l'intervalle de défilement automatique
     intervalId = setInterval(showSlide, slideTimeout);
-
     // Ajout de gestion des interactions par la souris et le toucher (swipe)
     $slides.forEach($slide => {
         let startX, endX;
-
         // Stop le défilement auto lors d'un survol
         $slide.addEventListener('mouseover', () => clearInterval(intervalId), false);
         $slide.addEventListener('mouseout', () => intervalId = setInterval(showSlide, slideTimeout), false);
-
         // Gestion du swipe
         $slide.addEventListener('touchstart', (event) => {
             startX = event.touches[0].clientX;

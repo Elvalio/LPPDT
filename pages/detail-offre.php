@@ -5,8 +5,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Balade à vélo</title>
-        <link rel="stylesheet" href="cssSam/samStyles.css">
-        <script src="detail-offre.js" async></script>
+        <link rel="stylesheet" href="../css/samStyles.css">
+        <script src="../detail-offre.js" async></script>
     </head>
     
     <body class="main-content">
@@ -23,31 +23,31 @@
                 <!-- Première diapositive -->
                 <div class="slide">
                     <!-- Image de la première diapositive -->
-                    <img src="./images/offre.webp"
+                    <img src="../images/offre.webp"
                         alt="Image 1">
                 </div>
                 <!-- Deuxième diapositive -->
                 <div class="slide">
                     <!-- Image de la deuxième diapositive -->
-                    <img src="./images/offre.webp"
+                    <img src="../images/offre.webp"
                         alt="Image 2">
                 </div>
                 <!-- Troisième diapositive -->
                 <div class="slide">
                     <!-- Image de la troisième diapositive -->
-                    <img src="./images/offre.webp"
+                    <img src="../images/offre.webp"
                         alt="Image 3">
                 </div>
                 <!-- Quatrième diapositive -->
                 <div class="slide">
                     <!-- Image de la quatrième diapositive -->
-                    <img src="./images/offre.webp"
+                    <img src="../images/offre.webp"
                         alt="Image 4">
                 </div>
                 <!-- Cinquième diapositive -->
                 <div class="slide">
                     <!-- Image de la cinquième diapositive -->
-                    <img src="./images/offre.webp"
+                    <img src="../images/offre.webp"
                         alt="Image 5">
                 </div>
             </div>
