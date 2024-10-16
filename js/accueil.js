@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const fleche = document.querySelector('.dropdown-toggle > img');
     const dropdownMenu = document.querySelector('.dropdown-menu'); // Sélectionner le menu déroulant
     const menuItems = dropdownMenu.querySelectorAll('li'); // Sélectionner les éléments du menu
+    const bouton_filtre = document.querySelector('.filtrer-bouton');
+    const filtres = document.querySelector('.all-filter');
+    const items_filters = document.querySelectorAll('.filter');
+    const fleche_filtre = document.querySelector('.filtrer-bouton > img');
 
     // Gestion des boutons "Nouveau" et "À la une"
     boutons.forEach(bouton => {
@@ -24,6 +28,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.querySelector('p').style.color = '#757575';
             }
         });
+    });
+
+    // Gestion du menu Filtres
+    bouton_filtre.addEventListener('click', function (event) {
+        event.preventDefault(); // Empêche le comportement par défaut du lien
+        filtres.classList.toggle('active'); // Bascule la classe 'active'
+
+        fleche_filtre.classList.toggle('rotate-180');
+        
+        // Gestion de l'animation sur le menu déroulant
+        if (filtres.classList.contains('active')) {
+
+            // Affiche chaque élément avec un délai
+            items_filters.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('show'); // Ajoute la classe 'show' à chaque élément
+                }, index * 100); // Délai de 100ms entre chaque élément
+            });
+        } else {
+            // Retire les animations des éléments lorsque le menu se ferme
+            items_filters.forEach((item) => {
+                item.classList.remove('show'); // Enlève la classe 'show'
+            });
+        }
+
     });
 
     // Gestion du menu déroulant "Trier par"
@@ -63,3 +92,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+

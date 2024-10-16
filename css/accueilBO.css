@@ -55,7 +55,11 @@ header + nav {
     flex-direction: row; /* Aligne les éléments horizontalement */
 }
 
-.filtrer, .trier {
+.filtrer-bouton {
+    cursor: pointer;
+}
+
+.filtrer-bouton, .trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
     justify-content: space-between; /* Espace entre les boutons */
@@ -83,6 +87,105 @@ header + nav {
     height: 12px;
     object-fit: contain;
 }
+
+/* ============================================= */
+/*           STYLES POUR LES FILTRES             */
+/* ============================================= */
+
+.all-filter {
+    display: none;
+}
+
+.all-filter.active {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #E6E6E6;
+    margin: 10px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.filter.show {
+
+    transform: translateY(0);
+    opacity: 1;
+}
+
+
+/* ============================================= */
+/*           STYLES POUR LES FILTRES DE TYPE     */
+/* ============================================= */
+
+
+.filtre-type {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 15px 50px 15px 15px;
+}
+
+.filtre-case label {
+    color: #595959;
+}
+
+/* ========================================= */
+/*         STYLES POUR LES CHECKBOXS         */
+/* ========================================= */
+
+.filtre-case input {
+    display: none; /* Masque le checkbox par défaut */
+}
+
+.filtre-case label {
+    position: relative;
+    padding-left: 30px; /* Espace pour le checkbox */
+    cursor: pointer; /* Change le curseur pour le label */
+}
+
+.filtre-case label::before {
+    content: ""; /* Nécessaire pour l'affichage */
+    width: 15px; /* Largeur du checkbox */
+    height: 15px; /* Hauteur du checkbox */
+    background-color: #FFFFFF; /* Couleur de fond par défaut */
+    border: 1px solid #bbb; /* Bordure du checkbox */
+    border-radius: 5px; /* Coins arrondis */
+    position: absolute; /* Positionnement absolu */
+    left: 0; /* Positionnement à gauche */
+    top: 50%; /* Centrage vertical */
+    transform: translateY(-50%); /* Ajuste le centrage */
+    transition: background-color 0.3s, border-color 0.3s; /* Transition douce */
+}
+
+/* Change la couleur de fond lorsque coché */
+.filtre-case input:checked + label::before {
+    background-color: var(--rouge-fonce); /* Couleur de fond lorsque coché */
+    border-color: var(--rouge-fonce); /* Couleur de bordure lorsque coché */
+}
+
+/* Affiche la coche lorsque le checkbox est coché */
+.filtre-case input:checked + label::after {
+    content: "✓"; /* Affiche une coche */
+    color: white; /* Couleur de la coche */
+    position: absolute; /* Positionnement absolu */
+    left: 3px; /* Ajustement de la position */
+    top: 50%; /* Centre verticalement */
+    transform: translateY(-50%); /* Ajuste le centrage */
+    font-size: 16px; /* Taille de la coche */
+}
+
+
 
 /* ========================================= */
 /*         STYLES POUR LE MENU DÉROULANT     */
@@ -218,6 +321,7 @@ header + nav {
 .carte_offre img {
     width: 100%;
     object-fit: contain;
+    padding-bottom: 16px;
 }
 
 .carte_offre .infoAnnonce {

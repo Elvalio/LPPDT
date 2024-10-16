@@ -24,8 +24,8 @@ include_once'nav.php';
                         <img src="../images/search_icon.png" alt="Search" title="Search">
                     </div>
 
-                    <div class="filtrer-trier">
-                        <div class="filtrer">
+                    <div class="filtrer-trier"> 
+                        <div class="filtrer-bouton NoSelect">
                             <p>Filtrer par</p>
                             <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                         </div>
@@ -56,6 +56,31 @@ include_once'nav.php';
                     </div>
                 </div>
             </nav>
+
+            <div class="all-filter">
+                <div class="filter filtre-type">
+                    <div class="filtre-case">
+                        <input type="checkbox" id="visite" name="visite" />
+                        <label for="visite">Visite</label>
+                    </div>
+                    <div class="filtre-case">
+                        <input type="checkbox" id="spectacle" name="spectacle" />
+                        <label for="spectacle">Spectacle</label>
+                    </div>
+                    <div class="filtre-case">
+                        <input type="checkbox" id="Pattractions" name="Pattractions" />
+                        <label for="Pattractions">Parc d'attractions</label>
+                    </div>
+                    <div class="filtre-case">
+                        <input type="checkbox" id="restauration" name="restauration" />
+                        <label for="restauration">Restauration</label>
+                    </div>
+                </div>
+                <div class="filter"></div>
+                <div class="filter"></div>
+                <div class="filter"></div>
+                <div class="filter"></div>
+            </div>
 
             <main>
 
