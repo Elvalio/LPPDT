@@ -73,17 +73,42 @@ header+nav {
     align-self: center;
 }
 
-.NouveauALaUne>p {
+.NouveauALaUne div {
+    display: inline-flex; /* Utilisation de inline-flex pour s'adapter à la largeur du contenu */
+    align-items: center; /* Centrer verticalement le texte et l'image */
+    gap: 8px; /* Espacement entre le texte et l'image */
+    
+    background-color: #F5F5F5;
+    border-radius: 8px;
+
     width: fit-content;
     height: fit-content;
-    
-    color: #757575;
-    background-color: #F5F5F5;
-    
-    border-radius: 8px;
-    
-    padding: 5px;
+
+    padding: 5px 8px; /* Espacement intérieur pour le texte */
     margin: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.NouveauALaUne div p {
+    margin: 0; /* Supprimer les marges par défaut du texte */
+    color: #757575;
+}
+
+.NouveauALaUne div img {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+    display: none;
+}
+
+.NouveauALaUne div img.show {
+    display: block;
+}
+
+.NouveauALaUne div.active {
+    background-color: #2C2C2C; /* Changer la couleur du fond lorsqu'actif */
+    color: #F5F5F5; /* Couleur du texte en mode actif */
 }
 
 
