@@ -9,56 +9,61 @@
         <title>Tableau de Bord</title>
         <link rel="stylesheet" href="../css/tableau_bord.css">
     </head>
-    <header>
-        <h1>Vos offres</h1>
-        <h2>Gérez vos offres ici</h2>
-    </header>
     <body>
-        <section>
-            <img src="../images/offre.webp" alt="offre" title="offre">
-            <div>
-                <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
-                <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+        <header>
+            <h1>Vos offres</h1>
+            <h2>Gérez vos offres ici</h2>
+        </header>
+        <main>
+            <section>
+                <img src="../images/offre.webp" alt="offre" title="offre">
                 <div>
-                    <button>Voir les détails</button>
-                    <button>Modifier les informations</button>
+                    <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
+                    <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+                    <div class="detail_modif">
+                        <button>Voir les détails</button>
+                        <button>Modifier les informations</button>
+                    </div>
+                    <div class="hors_ligne">
+                        <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
+                    </div>
                 </div>
-                <div class="hors_ligne">
-                    <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
-                </div>
-            </div>
-        </section>
-        <section>
-            <img src="../images/offre.webp" alt="offre" title="offre">
-            <div>
-                <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
-                <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+            </section>
+            <section>
+                <img src="../images/offre.webp" alt="offre" title="offre">
                 <div>
-                    <button>Voir les détails</button>
-                    <button>Modifier les informations</button>
+                    <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
+                    <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+                    <div class="detail_modif">
+                        <button>Voir les détails</button>
+                        <button>Modifier les informations</button>
+                    </div>
+                    <div class="hors_ligne">
+                        <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
+                    </div>
                 </div>
-                <div class="hors_ligne">
-                    <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
-                </div>
-            </div>
-        </section>
-        <section>
-            <img src="../images/offre.webp" alt="offre" title="offre">
-            <div>
-                <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
-                <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+            </section>
+            <section>
+                <img src="../images/offre.webp" alt="offre" title="offre">
                 <div>
-                    <button>Voir les détails</button>
-                    <button>Modifier les informations</button>
+                    <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
+                    <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+                    <div class="detail_modif">
+                        <button>Voir les détails</button>
+                        <button>Modifier les informations</button>
+                    </div>
+                    <div class="hors_ligne">
+                        <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
+                    </div>
                 </div>
-                <div class="hors_ligne">
-                    <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
-                </div>
-            </div>
-        </section>
-        <button>Créer une nouvelle offre</button>
+            </section>
+            <button id="creer_offre">Créer une nouvelle offre</button>
+            
+        </main>
+        <footer>
         <?php
-        include_once'footer.php';
+            include_once'footer.php';
         ?>
+        </fotter>
     </body>
 </html>
