@@ -10,6 +10,11 @@ h2{
     color: #757575;
 }
 
+p{
+    font-size: 20px;
+    margin: 5px;
+}
+
 
 section{
     display: flex;
@@ -37,12 +42,42 @@ section > div{
     align-items: flex-end;
 }
 
+.hors_ligne > button{
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    color: red;
+    border-color: red;
+    margin-right: 10px;
+}
+
 #icon_delete{
     width: 14px;
     height: 14px;
+    margin-right: 3px;
 }
 
 button{
     border-radius: 5px;
     border-width: 1px;
+    background-color: white;
+}
+
+.detail_modif > button{
+    padding: 8px;
+    font-size: 15px;
+    margin: 5px;
+}
+
+.detail_modif > button:hover{
+    background-color: #757575;
+}
+
+#creer_offre{
+    background-color: black;
+    color: white;
+}
+
+#creer_offre:hover{
+    background-color: black;
 }
