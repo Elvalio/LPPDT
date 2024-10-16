@@ -176,6 +176,8 @@ input[type="button"]{
     padding: 0 10px;
 }
 
+
+
 button {
     display: flex; /* Utiliser flex pour aligner l'image et le texte */
     align-items: center; /* Centre verticalement le contenu */
@@ -185,6 +187,13 @@ button {
     border-radius: 8px;
     background-color: var(--orange);
     font-size: 16px;
+}
+
+#tags-items-container button{
+    height: 32px;
+    margin-right: 10px;
+    color: rgba(117, 117, 117, 0.7);
+    cursor: pointer; /* Curseur en forme de main */
 }
 
 button img {
