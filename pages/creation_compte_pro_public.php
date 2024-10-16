@@ -10,7 +10,7 @@
 <body>
     <div class="bouton-retour-page-création">
         <button>
-            <img src="../css/icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
+            <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
             Retour
         </button>
     </div>
@@ -29,7 +29,7 @@
                 </a>
             </div>
 
-            <div class="pro-public">
+            <div class="pro-public-privee">
                 <a href="creation_compte_pro_privee.php" style="text-decoration: none;">
                     <div class="privee-page-public">
                         Privée
@@ -46,55 +46,55 @@
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom">Nom<span class="required">*</span></label>
-                        <input type="text" placeholder="Nom" id="nom" name="nom" required>
+                        <input type="text-pro" placeholder="Nom" id="nom" name="nom" required>
                         
                         <label for="prenom">Prénom<span class="required">*</span></label>
-                        <input type="text" placeholder="Prénom" id="prenom" name="prenom" required>
+                        <input type="text-pro" placeholder="Prénom" id="prenom" name="prenom" required>
 
                         <div class="row">
                             <div class="input-wrapper">
                                 <label for="pseudo">Pseudonyme<span class="required">*</span></label>
-                                <input type="text" placeholder="Pseudonyme" id="pseudo" name="pseudo" required>
+                                <input type="text-pro" placeholder="Pseudonyme" id="pseudo" name="pseudo" required>
                             </div>
 
                             <div class="input-wrapper">
                                 <label for="codepostal">Code postal<span class="required">*</span></label>
-                                <input type="text" placeholder="Code Postal" id="codepostal" name="codepostal" required>
+                                <input type="text-pro" placeholder="Code Postal" id="codepostal" name="codepostal" required>
                             </div>
                         </div>
                         
                         <label for="ville">Ville<span class="required">*</span></label>
-                        <input type="text" placeholder="Ville" id="ville" name="ville" required>
+                        <input type="text-pro" placeholder="Ville" id="ville" name="ville" required>
 
-                        <div class="spacer-left"></div>
+                        <div class="spacer"></div>
 
                         <label for="expiration">MM/AA</label>
-                        <input type="text" placeholder="MM/AA" id="expiration" name="expiration" required>
+                        <input type="text-pro" placeholder="MM/AA" id="expiration" name="expiration" required>
 
                         <label for="cvv">Code de sécurité (CVV)</label>
-                        <input type="text" placeholder="CVV" id="cvv" name="cvv" required>
+                        <input type="text-pro" placeholder="CVV" id="cvv" name="cvv" required>
                     </div>
 
                     <div class="right-column">
                         <label for="adresse">Adresse postale<span class="required">*</span></label>
-                        <input type="text" placeholder="Adresse postale" id="adresse" name="adresse" required>
+                        <input type="text-pro" placeholder="Adresse postale" id="adresse" name="adresse" required>
 
                         <label for="email">E-mail<span class="required">*</span></label>
-                        <input type="email" placeholder="E-mail" id="email" name="email" required>
+                        <input type="email-pro" placeholder="E-mail" id="email" name="email" required>
 
                         <label for="telephone">Téléphone<span class="required">*</span></label>
-                        <input type="tel" placeholder="Téléphone" id="telephone" name="telephone" required>
+                        <input type="tel-pro" placeholder="Téléphone" id="telephone" name="telephone" required>
 
                         <label for="password">Mot de passe<span class="required">*</span></label>
-                        <input type="password" placeholder="Mot de passe" id="password" name="password" required>
+                        <input type="password-pro" placeholder="Mot de passe" id="password" name="password" required>
 
                         <label for="confirm_password">Confirmer le Mot de passe<span class="required">*</span></label>
-                        <input type="password" placeholder="Confirmer le mot de passe" id="confirm_password" name="confirm_password" required>
+                        <input type="password-pro" placeholder="Confirmer le mot de passe" id="confirm_password" name="confirm_password" required>
 
-                        <div class="spacer-right"></div>
+                        <div class="spacer"></div>
 
                         <label for="cardholder_name">Prénom et Nom du titulaire de la carte</label>
-                        <input type="text" placeholder="Titulaire de la carte" id="cardholder_name" name="cardholder_name">
+                        <input type="text-pro" placeholder="Titulaire de la carte" id="cardholder_name" name="cardholder_name">
 
                         <div class="form-info">
                             <p>Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
@@ -108,10 +108,10 @@
                     <label for="terms">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
                 </div>
 
-                <button type="submit" class="bouton-envoi-formulaire-crea-compte">S'inscrire</button>
+                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro">S'inscrire</button>
             </form>
             <div class="login">
-                <button type="submit" class="connexion">Déjà inscrit ? Connectez-vous.</button>
+                <button type="submit" class="connexion-page-pro">Déjà inscrit ? Connectez-vous.</button>
             </div>
         </div>
     </div>
