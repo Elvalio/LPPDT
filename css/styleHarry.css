@@ -1,23 +1,39 @@
+
+:root {
+  --blanc-fo: #FFF7E1;      /* Blanc Front-Office */
+  --vert-clair: #9EE7A0;    /* Vert clair */
+  --turquoise: #3AD4AE;     /* Turquoise */
+  --bleu: #1DA2A7;          /* Bleu */
+  --bleu-fonce: #006B8F;    /* Bleu foncé */
+
+  --blanc-bo: #FDEDF0;      /* Blanc Back-Office */
+  --orange: #F07605;        /* Orange */
+  --rouge: #DE022B;         /* Rouge */
+  --rouge-fonce: #A2021F;   /* Rouge foncé */
+  --noir: #151515;          /* Noir */
+}
+
+
 @font-face {
   font-family: 'TripSansBold';
-  src: url('./TripSans-Bold.ttf') format('truetype');
+  src: url('../polices/TripSans-Bold.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'TripSansRegular';
-  src: url('./TripSans-Regular.ttf') format('truetype');
+  src: url('../polices/TripSans-Regular.ttf') format('truetype');
 }
 
 @font-face {
   font-family: 'TripSansUltra';
-  src: url('./TripSans-Ultra.ttf') format('truetype');
+  src: url('../polices/TripSans-Ultra.ttf') format('truetype');
 }
 
 body {
   background-color: #ffffff;
   font-family: 'TripSansRegular', sans-serif;
   margin: 0;
-  padding: 0;
+  padding: 0; 
 
   height: 100vh;
 }
@@ -90,7 +106,7 @@ body {
 }
 
 .submit-button {
-  background-color: #000000;
+  background-color: #3AD4AE;
   color: white;
   border: none;
   padding: 12px;
@@ -121,6 +137,7 @@ body {
 ===========================================================================================================
 */
 
+
 /* Styles supplémentaires pour la carte "Roméo et Juliette" avec grille */
 
 .card-container {
@@ -131,45 +148,48 @@ body {
       "title rating"
       "description image"
       "location image"; /* L'image prend aussi la place sous 'rating' */
-  gap: 10px;
+  gap: 5px; /* Réduction de l'espace entre les éléments */
   background-color: white;
-  border: 1px solid #dcdcdc;
+  border: 1px solid var(--bleu-fonce);
   border-radius: 8px;
-  padding: 20px;
-  max-width: 600px;
-  width: 80%;
-  margin: 20px auto;
+  padding: 25px; /* Augmentation du padding pour agrandir l'espace entre le contenu et la bordure */
+  max-width: 550px; /* Case légèrement plus grande */
+  width: 70%; /* Légère augmentation de la largeur pour équilibrer */
+  margin: 20px auto; /* Ajustement de la marge externe */
 }
 
 .card-title {
   grid-area: title;
-  font-size: 1.5rem;
-  color: #007bff;
+  font-size: 1.1rem; /* Taille de la police inchangée */
+  color: var(--bleu-fonce);
   font-family: 'TripSansBold';
+  margin-bottom: 3px; /* Moins d'espace en dessous */
 }
 
 .card-description {
   grid-area: description;
-  font-size: 1rem;
+  font-size: 0.8rem; /* Taille de la police inchangée */
   color: #333;
   font-family: 'TripSansRegular';
+  margin-bottom: 3px; /* Moins d'espace en dessous */
 }
 
 .card-location {
   grid-area: location;
-  font-size: 0.9rem;
+  font-size: 0.7rem; /* Taille de la police inchangée */
   color: #666;
   font-family: 'TripSansRegular';
+  margin-bottom: 0; /* Pas d'espace en dessous */
 }
 
 .card-rating {
   grid-area: rating;
-  font-size: 1.2rem;
-  color: #007bff;
+  font-size: 1rem; /* Taille des étoiles inchangée */
+  color: var(--bleu);
   font-family: 'TripSansBold';
   text-align: center;
   align-self: start;
-  margin-bottom: 5px; /* Réduit l'espace entre les étoiles et l'image */
+  margin-bottom: 2px; /* Réduction de l'espace entre les étoiles et l'image */
 }
 
 .card-thumbnail-container {
@@ -180,7 +200,7 @@ body {
 }
 
 .card-thumbnail {
-  width: 150px; /* Image légèrement agrandie */
+  width: 100px; /* Taille de l'image inchangée */
   height: auto;
   border-radius: 8px;
 }

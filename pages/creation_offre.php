@@ -74,7 +74,10 @@ include_once'nav.php';
                             <div id="tag-container">
                                 <label for="tags">Tags</label>
                                 <div id="tags-items-container">
-                                    <input type="button" id="tags" value="Culturel">
+                                <button id="myButton" class="custom-button">
+                                    <img src="../icons/check.svg" alt="Icone" class="button-icon">
+                                    <p>Mon Bouton</p>
+                                </button>
                                     <input type="button" id="tags" value="Patrimoine">
                                     <input type="button" id="tags" value="Histoire">
                                     <input type="button" id="tags" value="Urbain">
