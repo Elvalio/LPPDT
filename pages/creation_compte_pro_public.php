@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
-    <link rel="stylesheet" href="creation_compte_pro_public.css">
-    <link rel="stylesheet" href="styleGeneral.css">
-    <link rel="stylesheet" href="creation_compte.css">
+    <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="stylesheet" href="../css/creation_compte.css">
 </head>
 <body>
     <div class="bouton-retour-page-création">
         <button>
-            <img src="images/IconBoutonRetour.png" alt="Bouton Image" width="15" height="15">
+            <img src="../css/icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
             Retour
         </button>
     </div>
@@ -19,12 +18,12 @@
         <div class="form-container-page-creation-compte">
             <div class="form-header-page-creation-compte">
                 <a href="creation_compte_pro_public.php" style="text-decoration: none;">
-                    <div class="inscription-pro">
+                    <div class="inscription-pro-page-pro">
                         Inscription Professionnelle
                     </div>
                 </a>
                 <a href="creation_compte_membre.php" style="text-decoration: none;">
-                <div class="inscription-membre">
+                <div class="inscription-membre-page-pro">
                     Inscription Membre
                 </div>
                 </a>
@@ -32,12 +31,12 @@
 
             <div class="pro-public">
                 <a href="creation_compte_pro_privee.php" style="text-decoration: none;">
-                    <div class="privee">
+                    <div class="privee-page-public">
                         Privée
                     </div>
                 </a>
                 <a href="creation_compte_pro_public.php" style="text-decoration: none;">
-                <div class="public">
+                <div class="public-page-public">
                     Public
                 </div>
                 </a>

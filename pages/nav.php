@@ -9,35 +9,35 @@
         <div class="TS-bold" id="sidebar">
             <nav>
                 
-                <a href="index.html" id="pact-item">
-                    <img src="../images/logo reduit rouge.png" alt="Image par défaut" class="image image-default">
-                    <img src="../images/logo rouge.png" alt="Image au survol" class="image image-hover">        
+                <a href="accueil.php" id="pact-item">
+                    <img src="../images/logo_reduit_rouge.png" alt="Image par défaut" class="image image-default">
+                    <img src="../images/logo_rouge.png" alt="Image au survol" class="image image-hover">        
                 </a>
                 <div id="items">
                     <div id="top-items">
-                        <a href="index.html" class="nav-item actuel">
-                            <img src="../images/IconAccueilRouge.png" alt="Logo accueil" class="logo-nav">
+                        <a href="accueil.php" class="nav-item" data-icon="accueil">
+                            <img src="" alt="Logo accueil" class="logo-nav">
                             <p>Accueil</p>
                         </a>
-                        <a href="#" class="nav-item">
-                            <img src="../images/IconTableauDeBordGris.png" alt="Logo tableau de bord" class="logo-nav">
+                        <a href="#" class="nav-item" data-icon="tableau-de-bord">
+                            <img src="" alt="Logo tableau de bord" class="logo-nav">
                             <p>Tableau de bord</p>
                         </a>
                         
-                        <a href="#" class="nav-item">
-                            <img src="../images/IconFavorisGris.png" alt="Logo favoris" class="logo-nav">
+                        <a href="#" class="nav-item" data-icon="favoris">
+                            <img src="" alt="Logo favoris" class="logo-nav">
                             <p>Favoris</p>
                         </a>
-                        <a href="#" class="nav-item">
-                            <img src="../images/IconHistoriqueGris.png" alt="Logo historique" class="logo-nav">
+                        <a href="#" class="nav-item" data-icon="historique">
+                            <img src="" alt="Logo historique" class="logo-nav">
                             <p>Historique</p>
                         </a>
-                        <a href="#" class="nav-item">
-                            <img src="../images/IconFacturationGris.png" alt="Logo Facturation" class="logo-nav">
+                        <a href="#" class="nav-item" data-icon="facturation">
+                            <img src="" alt="Logo Facturation" class="logo-nav">
                             <p>Facturation</p>
                         </a>
-                        <a href="#" class="nav-item">
-                            <img src="../images/IconCreerGris.png" alt="Logo création offre" class="logo-nav">
+                        <a href="creation_offre.php" class="nav-item" data-icon="creation">
+                            <img src="" alt="Logo création offre" class="logo-nav">
                             <p>Créer une offre</p>
                         </a>
                     </div>
@@ -45,23 +45,22 @@
                         <div id="top-of-bottom-items">
                             <a href="#" class="nav-item" data-icon="notification-avec-notif">
                                 <div class="notification-container">
-                                    <img src="../images/IconNotificationGris.png" alt="Logo notification" class="logo-nav">
+                                    <img src="" alt="Logo notification" class="logo-nav">
                                     <p>Notifications</p>
                                     <div class="notification-badge">2</div>
                                 </div>
                                 
                             </a>
-                            <a href="#" class="nav-item">
-                                <img src="../images/IconPararmetreGris.png" alt="Logo paramètres" class="logo-nav">
+                            <a href="#" class="nav-item" data-icon="parametre">
+                                <img src="" alt="Logo paramètres" class="logo-nav">
                                 <p>Paramètres</p>
                             </a>
-                            <a href="#" class="nav-item">
-                                <img src="../images/IconDeconnecterGris.png" alt="Logo déconnecter" class="logo-nav">
+                            <a href="#" class="nav-item" data-icon="deconnection">
+                                <img src="" alt="Logo déconnecter" class="logo-nav">
                                 <p>Se déconnecter</p>
                             </a>
                         </div>
                         <a href="#" class="nav-item">
-                            <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                             <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                             <div id="infoProfile">
                                 <p id="prenom" class="TS">Michael Smith</p>
