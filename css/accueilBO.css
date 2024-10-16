@@ -1,11 +1,14 @@
+/* ========================================= */
+/*                 STYLES GLOBAUX            */
+/* ========================================= */
+
 main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
-
-header+nav {
+header + nav {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -14,62 +17,132 @@ header+nav {
 .nav_space {
     display: flex;
     flex-direction: row;
+    align-items: center; /* Aligne verticalement le contenu */
 }
+
+/* ========================================= */
+/*          STYLES DE LA ZONE DE RECHERCHE   */
+/* ========================================= */
 
 .search {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-
     border: 1px solid #D9D9D9;
     border-radius: 20px;
-
     width: 300px;
     height: fit-content;
-
     padding: 15px;
     margin: 10px;
 }
 
-.search>img {
+.search > img {
     width: 16px;
     height: 16px;
     object-fit: contain;
 }
 
-.search>p {
+.search > p {
     color: #B3B3B3;
 }
 
+/* ========================================= */
+/*          STYLES POUR FILTRER ET TRIER     */
+/* ========================================= */
 
 .filtrer-trier {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: flex; /* Affiche les boutons dans une ligne */
+    flex-direction: row; /* Aligne les éléments horizontalement */
+}
 
+.filtrer, .trier {
+    display: flex; /* Affiche les boutons dans une ligne */
+    flex-direction: row; /* Aligne les éléments horizontalement */
+    justify-content: space-between; /* Espace entre les boutons */
+    align-items: center; /* Centre verticalement les éléments */
     border: 1px solid #E6E6E6;
-
     width: 220px;
     height: fit-content;
-
     padding: 15px;
     margin: 10px;
 }
 
-.filtrer-trier>p {
-    color: #737373;
+.filtrer-trier div {
+    display: flex; /* Pour les éléments internes */
+    align-items: center; /* Centre verticalement le texte et l'image */
+    gap: 8px; /* Espacement entre le texte et l'image */
 }
 
-.filtrer-trier>img {
+.filtrer-trier div p {
+    color: #737373;
+    margin: 0; /* Supprime les marges par défaut du texte */
+}
+
+.filtrer-trier div img {
     width: 12px;
     height: 12px;
     object-fit: contain;
 }
 
+/* ========================================= */
+/*         STYLES POUR LE MENU DÉROULANT     */
+/* ========================================= */
+
+.dropdown {
+    position: relative; /* Pour positionner le sous-menu */
+}
+
+.dropdown:hover {
+    cursor: pointer; /* Change le curseur au survol */
+}
+
+.dropdown-menu {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    top: 100%; /* Positionne juste en dessous du bouton */
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 80%;
+    padding: 0;
+    margin: 0 0 0 10%;
+    list-style: none;
+}
+
+.dropdown-menu li {
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-menu li:last-child {
+    border-bottom: none; /* Pas de bordure pour le dernier élément */
+}
+
+.dropdown-menu a {
+    text-decoration: none;
+    color: #737373;
+    display: block; /* S'étend sur toute la largeur */
+}
+
+.dropdown-menu li:hover {
+    background-color: #f0f0f0; /* Fond au survol */
+}
+
+/* Affiche le menu lorsque le parent a la classe 'active' */
+.dropdown.active .dropdown-menu {
+    display: block;
+}
+
+/* ========================================= */
+/*         STYLES POUR NOUVEAU ET À LA UNE   */
+/* ========================================= */
+
 .NouveauALaUne {
     display: flex;
     flex-direction: row;
-
     align-self: center;
 }
 
@@ -77,13 +150,10 @@ header+nav {
     display: inline-flex; /* Utilisation de inline-flex pour s'adapter à la largeur du contenu */
     align-items: center; /* Centrer verticalement le texte et l'image */
     gap: 8px; /* Espacement entre le texte et l'image */
-    
     background-color: #F5F5F5;
     border-radius: 8px;
-
     width: fit-content;
     height: fit-content;
-
     padding: 5px 8px; /* Espacement intérieur pour le texte */
     margin: 2px;
     cursor: pointer;
@@ -99,11 +169,11 @@ header+nav {
     width: 12px;
     height: 12px;
     object-fit: contain;
-    display: none;
+    display: none; /* Masqué par défaut */
 }
 
 .NouveauALaUne div img.show {
-    display: block;
+    display: block; /* Affiche l'image lorsque la classe 'show' est ajoutée */
 }
 
 .NouveauALaUne div.active {
@@ -111,22 +181,21 @@ header+nav {
     color: #F5F5F5; /* Couleur du texte en mode actif */
 }
 
+/* ============================================= */
+/*           STYLES POUR CHACUNE DES OFFRES      */
+/* ============================================= */
 
 .carte_offre {
     padding: 16px;
     margin: 24px;
-
     width: 240px;
     height: fit-content;
     min-width: 240px;
-
     border: 1px solid #D9D9D9;
-    
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
-    
 }
 
 .carte_offre img {
@@ -147,11 +216,9 @@ header+nav {
     font-weight: bold;
 }
 
-
 .carte_offre .infoAnnonce .etoileNote {
     display: flex;
     flex-direction: row;
-    
 }
 
 .carte_offre .infoAnnonce .etoileNote img {
