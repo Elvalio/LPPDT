@@ -21,9 +21,9 @@ document.addEventListener("DOMContentLoaded", function() {
         if (iconName) {
             if (page === currentPage) {
                 item.classList.add('actuel');
-                img.src = `../css/icons/icons-rouge/icon-${iconName}-rouge.svg`;  // Chemin pour l'icône actif
+                img.src = `../icons/icons-rouge/icon-${iconName}-rouge.svg`;  // Chemin pour l'icône actif
             } else {
-                img.src = `../css/icons/icons-gris/icon-${iconName}-gris.svg`;   // Chemin pour l'icône inactif
+                img.src = `../icons/icons-gris/icon-${iconName}-gris.svg`;   // Chemin pour l'icône inactif
             }
         }
     });

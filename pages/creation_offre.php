@@ -97,7 +97,7 @@ include_once'nav.php';
                             <div id="publier-retour">
                                 <input type="submit" value="Publier" />
                                 <button>
-                                    <img src="../css/icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
+                                    <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
                                     Retour
                                 </button>
                             </div>

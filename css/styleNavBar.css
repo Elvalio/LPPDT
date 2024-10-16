@@ -64,21 +64,18 @@ body {
 /***************************CONTROLE ICON NOTIFICATION***************************************/
 /* Si le conteneur principal est survolé, l'image de notification change */
 #sidebar:hover .notification-container .logo-nav {
-    content: url('../css/icons/icons-gris/icon-notification-sans-notif-gris.svg'); 
+    content: url('../icons/icons-gris/icon-notification-sans-notif-gris.svg'); 
 }
 
 /* Si notification est "actuel", l'image doit être celle en rouge */
 .actuel .notification-container .logo-nav {
-    content: url('../css/icons/icons-rouge/icon-notification-avec-notif-rouge.svg');
+    content: url('../icons/icons-rouge/icon-notification-avec-notif-rouge.svg');
 }
 
 /* Si notification est "actuel" et le conteneur principal est survolé, l'image change aussi */
 #sidebar:hover .actuel .notification-container .logo-nav {
-    content: url('../css/icons/icons-rouge/icon-notification-sans-notif-rouge.svg');
+    content: url('../icons/icons-rouge/icon-notification-sans-notif-rouge.svg');
 }
-/* #sidebar:hover .notification-container .logo-nav {
-    content: url('../css/icons/icons-gris/icon-notification-sans-notif-gris.svg'); 
-} */
 
 /*************************************************************************************************/
 
