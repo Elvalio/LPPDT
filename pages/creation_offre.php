@@ -15,9 +15,9 @@ include_once'nav.php';
     </head>
     <body>
         <div class="main-content"> 
-            <h1 class="TS-bold">Créez votre offre</h1>
-            <div id="form-container" class="FS">
-                <form action="#" method="post" enctype="multipart/form-data">
+            <h1 class="TS-bold">Créez votre offre</h1>            
+            <form action="#" method="post" enctype="multipart/form-data">
+                <div id="form-content" class="FS">
                     <div id="left-part">
                         <div id="left-part-content">
                             <div id="title-categorie">
@@ -103,8 +103,41 @@ include_once'nav.php';
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
+                    <div id="right-part">
+                        <div id="right-part-content">
+                            <!-- Champ "Adresse" -->
+                            <div class="container" id="adresse-container">
+                                <label for="adresse">Adresse</label>
+                                <input type="text" id="adresse" name="adresse" placeholder="Saisir" required />
+                            </div>
+                            <!-- Champ "Accesibilité" -->
+                            <div class="container" id="accesibilite-container">
+                                <label for="accesibilite">Accesibilité</label>
+                                <input type="text" id="accesibilite" name="accesibilite" placeholder="Saisir" required />
+                            </div>
+                            <!-- Champ "prix minimum" -->
+                            <div class="container" id="prix-container">
+                                <label for="prix">Prix minimum (€)</label>
+                                <input type="text" id="prix" name="prix" placeholder="Saisir" required />
+                            </div>
+                            <!-- Champ "Options" -->
+                            <div id="option-container">
+                                <label>Options</label>
+                                <div id="une-relief">
+                                    <div id="une">
+                                        <input type="radio" id="une" name="option" value="une" />
+                                        <label for="une">À la Une </label>
+                                    </div>
+                                    <div id="relief">
+                                        <input type="radio" id="relief" name="option" value="relief" />
+                                        <label for="relief">En relief</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+            </form>
         </div>
     </body>
 </html>
