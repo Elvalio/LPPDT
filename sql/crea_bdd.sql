@@ -17,13 +17,13 @@ create table _compte
   idC serial,
   nom varchar(20),
   prenom varchar(20),
-  email varchar(20),
+  email varchar(50),
   telephone varchar(10),
-  mdp varchar(20),
+  mdp varchar(25),
   
   -- FK
   ville varchar(20),
-  lieu varchar(30),
+  lieu varchar(50),
   
   constraint _compte_pk 
   primary key (idC),
@@ -422,8 +422,8 @@ instead of insert on membre
   for each row execute procedure insert_membre();
 
 
-insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
-insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
 
 
 -- update _membre set pseudo = 'azza' where idC = 1;
@@ -474,7 +474,7 @@ instead of insert on secteur_public
   for each row execute procedure insert_secteur_public();
   
   
-insert into secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1002, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+insert into secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1002, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
 
 -- professionnel secteur prive
 
@@ -497,7 +497,7 @@ instead of insert on secteur_prive
   for each row execute procedure insert_secteur_prive();
   
   
-insert into secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1003,'65151656516 44', '125475842', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+insert into secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1003,'65151656516 44', '125475842', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22300', 22300);
 
 --- Tags
 
