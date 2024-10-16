@@ -156,3 +156,172 @@ p {
 .NoSelect {
     user-select: none;
 }
+
+
+
+/*============================*/
+/*           HEADER           */
+/*============================*/
+
+
+.header{
+    margin: 0px;
+}
+
+.header > .logo_recherche{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.header > .liste_nav{
+    list-style-type: none;
+    display:flex;
+    justify-content: flex-start;
+    padding: 0px;
+    margin: 0;
+    width: 100%;
+    height: 30px;
+}
+
+.header > hr{
+    color: #767676;
+    margin: 0;
+    padding: 0;
+}
+
+.header > .logo_recherche > form{
+    display: flex;
+    align-items: center;
+    background-color: #E4E4E4;
+    border-radius: 10px;
+    margin-left: 5px;
+}
+
+.header > .logo_recherhce > form > #recherche{
+    border-style: none;
+    border-radius: 10px;
+    margin-left: 5px;
+    background-color: #E4E4E4;
+}
+
+.header > .logo_recherhce > form > #image_recherche{
+    margin: 5px;
+}
+
+.header > .liste_nav > li > button{
+    display: block;
+    border: none;
+    background-color: white;
+    color: #767676;
+    line-height: 30px;
+    width: 100%;
+    height: 100%;
+}
+
+.header > .liste_nav > li{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.header > .liste_nav > li > button:hover{
+    background-color: #9EE7A0;
+    color: black;
+    border-radius: 5px;
+}
+
+/*============================*/
+/*           FOOTER           */
+/*============================*/
+
+.footer{
+    font-size: 14px;
+}
+
+.footer > .main_div_infos{
+    display: flex;
+}
+
+.footer > .main_div_infos > .listes_infos{
+    display: flex;
+    width: 100%;
+}
+
+.footer > .main_div_infos > .listes_infos > ul{
+    list-style: none;
+    width: 100%;
+    height: 100%;
+}
+
+.footer > .autres_liens > a{
+    color: #0A142F;
+    opacity: 70%;
+}
+
+#footer_titre_offre, #footer_titre_entreprise{
+    opacity: 100%;
+}
+
+.footer > .main_div_infos > .listes_infos > .offres_suite {
+    margin-top: 57px;
+}
+
+.footer > .main_div_infos > li{
+    margin-bottom: 5px;
+}
+
+.footer > hr{
+    margin: 0 auto  ;
+    padding: 0;
+    width: 70%;
+}
+
+.footer > .autres_liens{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.footer > .main_div_infos > #image_reduit{
+    display: none;
+}
+
+@media screen and (max-width:360px){
+    .footer > .main_div_infos > #image_full{
+        display: none;
+    }
+
+    .footer > .main_div_infos > #image_reduit{
+        display: block;
+        width: 80px;
+        height: 90px;
+
+    }
+
+    .footer > .main_div_infos > .listes_infos{
+        margin-right: 10px;
+    }
+
+    .footer{
+        font-size: 10px;
+    }
+
+    .footer > .main_div_infos > .listes_infos > .offres_suite {
+        margin-top: 40px;
+    }
+
+    .footer > .autres_liens > a{
+        margin: 5px;
+    }
+
+    .footer > .main_div_infos > .listes_infos > ul{
+        padding-left: 20px;
+    }
+}
