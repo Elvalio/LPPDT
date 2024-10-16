@@ -25,21 +25,38 @@ include_once'nav.php';
                     </div>
 
                     <div class="filtrer-trier">
-                        <p>Filtrer par</p>
-                        <img src="../images/fleche.png" alt="Fleche" title="Fleche">
-                    </div>
+                        <div class="filtrer">
+                            <p>Filtrer par</p>
+                            <img src="../images/fleche.png" alt="Fleche" title="Fleche">
+                        </div>
 
-                    <div class="filtrer-trier">
-                        <p>Trier par</p>
-                        <img src="../images/fleche.png" alt="Fleche" title="Fleche">
+                        <div class="dropdown NoSelect">
+                            <div class="dropdown-toggle trier">
+                                <p>Trier par</p>
+                                <img src="../images/fleche.png" alt="Fleche" title="Fleche">
+                            </div>
+                            <ul class="dropdown-menu">
+                                <li><a href="#0">Prix croissant</a></li>
+                                <li><a href="#0">Prix décroissant</a></li>
+                                <li><a href="#0">Notes croissantes</a></li>
+                                <li><a href="#0">Notes décroissantes</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
 
                 <div class="NouveauALaUne">
-                    <p>Nouveau</p>
-                    <p>A la une</p>
+                    <div class="boutonNouveau NoSelect">
+                        <p>Nouveau</p>
+                        <img src="../images/croix.png" alt="croix" title="croix">
+                    </div>
+                    <div class="boutonALaUne NoSelect">
+                        <p>A la une</p>
+                        <img src="../images/croix.png" alt="croix" title="croix">
+                    </div>
                 </div>
             </nav>
+
             <main>
 
                 <div class="carte_offre">

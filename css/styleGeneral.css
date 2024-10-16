@@ -133,7 +133,7 @@ p {
 }
 
 /* ============================== */
-/*          CLASSES DE ROTATION    */
+/*          CLASSES DE ROTATION   */
 /* ============================== */
 
 .rotate-90 {
@@ -146,4 +146,13 @@ p {
 
 .rotate--90 {
     transform: rotate(-90deg);
+}
+
+
+/* ============================== */
+/*          CLASSES UTILITAIRE    */
+/* ============================== */
+
+.NoSelect {
+    user-select: none;
 }

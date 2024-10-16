@@ -1,0 +1,48 @@
+body {
+    margin-left: 100px;
+}
+
+h1{
+    color: red;
+}
+
+h2{
+    color: #757575;
+}
+
+
+section{
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: black;
+    border-style: solid;
+    margin: 20px;
+}
+
+section > img{
+    width: 160px;
+    height: 160px;
+    margin: 10px;
+}
+
+section > div{
+    width: 100%;
+}
+
+.hors_ligne{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#icon_delete{
+    width: 14px;
+    height: 14px;
+}
+
+button{
+    border-radius: 5px;
+    border-width: 1px;
+}

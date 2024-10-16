@@ -1,3 +1,8 @@
+/*
+Ceci est le CSS pour la page de création de compte : membre ou professionnel
+*/
+
+/* Style pour que tout les éléments de la page soient bien affichés en tant que box et sans marge ou padding */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,10 +10,14 @@
     font-family: Arial, sans-serif;
 }
 
+
+/* Je n'ai pas mis de couleur de fond pour l'instant à voir plus tard si cela change */
 body {
     background-color: white;
 }
 
+
+/* Ce conteneur permet de pouvoir ranger tout les éléments du formulaire à l'intérieur : toute la page sauf le bouton retour */
 .container-page-creation-compte {
     width: 100%;
     max-width: 1200px;
@@ -16,18 +25,17 @@ body {
     padding: 20px;
 }
 
+/* C'est la classe qui me permet de mettre en rouge les étoiles dans les labels du formulaire */
 .required {
     color: red;
 }
 
-.bouton-retour-page-création {
+/* Le bouton retour en haut à gauche de la page */
+.bouton-retour-page-création button {
     margin-bottom: 20px;
     position: fixed;
 	top: 30px;
     left: 30px;
-}
-
-.bouton-retour-page-création button {
     background-color: #48c9b0;
     border: none;
     color: black;
@@ -37,6 +45,7 @@ body {
     font-size: 16px;
 }
 
+/* Permet de bien définir la zone du formulaire */
 .form-container-page-creation-compte {
     background-color: white;
     padding: 30px;
@@ -44,6 +53,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Le conteneur qui sert de header au formulaire du formulaire */
 .form-header-page-creation-compte {
     display: flex;
     margin-bottom: 20px;
@@ -53,7 +63,9 @@ body {
 }
 
 
-.inscription-pro {
+/* LES STYLES QUI VONT SUIVRE CONCERNENT TOUS LES MEMES ELEMENTS */
+/* Les boutons en haut de la page qui vont servir pour passer de la création d'un compte membre à un compte pro */
+.inscription-pro-page-membre {
     background-color: #FFF7E1;
     color: red;
     font-size: 24px;
@@ -65,8 +77,24 @@ body {
     
 }
 
+.inscription-pro-page-pro {
+    background-color: #A2021F;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
+                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
+                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    
+}
 
-.inscription-membre {
+.inscription-membre-page-membre {
     background-color: #006B8F;
     z-index: +1;
     color: white;
@@ -83,21 +111,42 @@ body {
     align-content: center;
 }
 
+
+.inscription-membre-page-pro {
+    background-color: #FFF7E1;
+    z-index: +1;
+    color: #006B8F;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 30px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+}
+
+
+/* Sert à espacer les éléments à l'intérieur du formulaire */
 .form-group {
     display: flex;
     justify-content: space-between;
 }
 
+
+/* Sert à définir une largeur pour les colonnes du formulaire */
 .left-column, .right-column {
     width: 48%;
 }
 
+/* Sert à rajouter un espace entre le label et la zone de texte du formulaire */
 label {
     display: block;
     margin-bottom: 5px;
 }
 
-input[type="text"], input[type="email"], input[type="password"], input[type="tel"] {
+/* La couleur des bordures pour les éléments du formulaires de la page membre */
+input[type="text-membre"], input[type="email-membre"], input[type="password-membre"], input[type="tel-membre"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
@@ -105,6 +154,16 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     border-radius: 5px;
 }
 
+/* La couleur des bordures pour les éléments du formulaires de la page pro */
+input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], input[type="tel-pro"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 2px solid #F07605;
+    border-radius: 5px;
+}
+
+/* Le style de la checkbox pour la validation des conditions d'utilisation */
 .checkbox {
     display: flex;
     align-items: center;
@@ -112,11 +171,14 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     font-weight: bold;
 }
 
+/* Définir l'espace entre la case à cocher et le texte qui suit */
 .checkbox input {
     margin-right: 10px;
 }
 
-.bouton-envoi-formulaire-crea-compte {
+
+/* Style du bouton d'envoi du formulaire pour la page membre */
+.bouton-envoi-formulaire-crea-compte-page-membre {
     background-color: #006B8F;
     color: white;
     padding: 15px;
@@ -128,22 +190,27 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     margin-top: 20px;
 }
 
+/* Style du bouton d'envoi du formulaire pour la page pro */
+.bouton-envoi-formulaire-crea-compte-page-pro {
+    background-color: #A2021F;
+    color: white;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+/* Style pour le bouton de login si l'utilisateur a déjà un compte */
 .login {
     text-align: center;
     margin-top: 20px;
 }
 
-.login a {
-    color: #48c9b0;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.login a:hover {
-    text-decoration: underline;
-}
-
-.connexion {
+/* Style pour le bouton de connexion dans la page membre */
+.connexion-page-membre {
     background-color: #3AD4AE;
     color: white;
     padding: 15px;
@@ -155,10 +222,86 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
     margin-top: 20px;
 }
 
-.spacer-left {
+
+/* Style pour le bouton de connexion dans la page pro */
+.connexion-page-pro {
+    background-color: #F07605;
+    color: white;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+/* Section qui me permet d'espacer la partie haute et basse du formulaire dans la page pro */
+.spacer {
     height: 130px;
 }
 
-.spacer-right {
-    height: 130px;
+/* Permet de mettre en forme les 2 boutons pour choisir entre un compte pro public ou privé */
+.pro-public-privee {
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 30px;
+    justify-content: center;
+}
+
+/* LES CODES CSS QUI SUIVENT SERVENT A DEFINIR LE STYLE DES BOUTON PUBLIC ET PRIVEE 
+    DANS LES 2 VERSIONS DIFFERENTES : UNE PAR PAGE (PUBLIC, PRIVEE) */
+.public-page-public {
+    background-color: #F07605;
+    z-index: +1;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
+                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
+                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
+    text-align: center;
+    width: 100%;
+}
+
+.public-page-privee {
+    background-color: #FFF7E1;
+    z-index: +1;
+    color: #A2021F;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+.privee-page-public {
+    background-color: #FFF7E1;
+    z-index: +1;
+    color: #A2021F;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+
+.privee-page-privee {
+    background-color: #F07605;
+    z-index: +1;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
+                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
+                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
+    text-align: center;
+    width: 100%;
 }
