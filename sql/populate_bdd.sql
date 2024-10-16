@@ -4,10 +4,10 @@ SET SCHEMA 'pact';
 -- MEMBRES --
 -- insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('jonnnie', 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);   insérer lors de la création de la BDD 
 -- insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('bobbie', 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);   insérer lors de la création de la BDD 
-insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Zirconium', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieux', '11 rue de la gare', 22000);
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Zirconium', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', '11 rue de la gare', 22000);
 insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('HolyCannolee', 'La Vedette', 'Hugo', 'hugo.lavedette@orange', '0652637537', 'hugolemeilleur!', 'Guingamp', '5 boulevard clémenceau', 22200);
 insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Kabibabie', 'Aquecouccou', 'Lillie', 'kabibaie@gmail.com', '0772368545', 'IDontLikeMakingPasswords', 'Lannion', '1 rue édouard branly', 22300);
-insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Aberrington', 'Lacèsvash', 'Guillaume', 'lacesvash.guillaume@wanadoo.fr', '0687783861', 'g7YZk?D:2*q2', 'Saint-Brieux', '7 rue piet mondrian', 22000);
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Aberrington', 'Lacèsvash', 'Guillaume', 'lacesvash.guillaume@wanadoo.fr', '0687783861', 'g7YZk?D:2*q2', 'Saint-Brieuc', '7 rue piet mondrian', 22000);
 
 
 
@@ -20,7 +20,7 @@ insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, cod
 
 -- PROFESSIONNEL SECTEUR PUBLIC --
 -- insert into secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1002, 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);   insérer lors de la création de la BDD 
-insert into secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (728, 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieux', '11 rue de la gare', 22000);
+insert into secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (728, 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', '11 rue de la gare', 22000);
 insert into secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (5642, 'Glichton', 'Carter', 'theglitchton@gmail.com', '0610254122', 'exTraSpiCYhitBox', 'Dinan', '1 résidence la conninais', 22100);
 
 
@@ -36,7 +36,10 @@ insert into secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, 
 
 -- OFFRES -- 
 -- insert into offre (titre, resume, "type", option, description, photo, prix_min, accessibilite, categorie, denomination, date_publication) values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.', 'Standard', 'À la Une', 'Venez découvrir la Magie des arbres dans ce site exceptionnel de la côte de Granit rose : première partie musicale autour du Bagad de Perros-Guirec', 'https://www.bit.ly/qehgth/', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', 'Spectacle',  'Gignac', now());   insérer lors de la création de la BDD 
-
+insert into offre (titre, resume, "type", option, description, photo, prix_min, accessibilite, categorie, denomination, date_publication) values ('Archipel de Bréhat en kayak', "Montrer que l'on peut réaliser localement de belles balades à vélo, en empruntant de petites routes tranquilles et sans trop montées", 'Standart', 'A la Une', "Les sorties sont volontairement limitées entre 15km et 20km pour permettre à un large public familial de se joindre à nous.", 'https://www.bit.ly/dfghvf/', 0.00, "Le public en situation de handicap est le bienvenu", 'Activite', 'Planète Kayak', now());
+insert into offre (titre, resume, "type", option, description, photo, prix_min, accessibilite, categorie, denomination, date_publication) values ('Excursion vers les 7 îles', "Découvrer l'archipel des Sept-Îles, la plus grande réserve ornithologique de France", 'Premium', 'A la une', "Les vedettes des 7 Îles proposent des excusrions et des visites commentées vers l'archipel des Sept-Îles, au départ de Perros-Guirrec. Le site est protégé et l'accès aux îles réglementé, mais vous pourrez néanmoins fouler le sol de l'Île-aux-Moines.", 'https://www.bit.ly/jkxfdc/', 8.50, 'Accueil du public en situation de handicap avec fauteuil roulant manuel', 'Visite', 'Armor Navigation', now());
+insert into offre (titre, resume, "type", option, description, photo, prix_min, accessibilite, categorie, denomination, date_publication) values ('La ville blanche', "La Ville Blanche, en plein cœur du Trégor, non loin de la côte de Granit Rose vous accueille pour le plaisir des papilles.", 'Standart', 'A la Une', "Ce petit corps de ferme repris par la famille Jaguin est devenu au fil du temps une Maison de renom. D’aventures en aventures, la passion de cette cuisine s’est maintenant transmise, des souvenirs et des moments se sont déroulés dans cette Maison symbolique de Bretagne.", 'https://www.bit.ly/xddjgi/', 20.00, 'Non', now());
+insert into offre (titre, resume, "type", option, description, photo, prix_min, accessibilite, categorie, denomination, date_publication) values ('Le village Gaulois',  "Explorer le village Gaulois de Pleumeur-Boudou reconstitué 2500 ans plus tard", 'Gratuit', 'A la une', "L'association un village gaulois pour l'Afrique vous accueille pour une visite guidée du village gaulois reconstitué suite aux découverte archéologique. Découvrer le style de vie de nos ancestre il y a 2500 ans  ainsi que leur sublime culture.", 'https://www.bit.ly/kuedbh/', 5.00, 'Le public en situation de handicap est accueillit à main ouverte', now());
 
 
 
