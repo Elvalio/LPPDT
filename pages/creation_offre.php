@@ -24,12 +24,12 @@ include_once'nav.php';
                                 <!-- Champ "Titre" -->
                                 <div class="container" id="titre-container">
                                     <label for="titre">Titre de l'offre*</label>
-                                    <input type="text" id="titre" name="titre" placeholder="Saisir" required />
+                                    <input type="text" id="titre" class="FS" name="titre" placeholder="Saisir" required />
                                 </div>
                                 <!-- Champ "Catégorie" -->
                                 <div class="container" id="categorie-container">
                                     <label for="categorie">Catégorie de l'offre*</label>
-                                    <select id="categorie" name="categorie" required>
+                                    <select id="categorie" name="categorie" required class="FS">
                                         <option value="" disabled selected hidden id="first-option">Catégorie de l'offre</option>
                                         <option value="activite">Activité</option>
                                         <option value="visite">Visite</option>
@@ -43,7 +43,7 @@ include_once'nav.php';
                                 <!-- Champ "Commune" -->
                                 <div class="container" id="commune-container">
                                     <label for="commune">Commune*</label>
-                                    <input type="text" id="commune" name="commune" placeholder="Saisir" required />
+                                    <input type="text" id="commune" class="FS" name="commune" placeholder="Saisir" required />
                                 </div>
                                 <!-- Champ "Type" -->
                                 <div id="type-container">
@@ -63,82 +63,82 @@ include_once'nav.php';
                             <!-- Champ "Résumé" -->
                             <div class="container" id="resume-container">
                                 <label for="resume">Résumé*</label>
-                                <input type="text" id="resume" name="resume" placeholder="Saisir" required />
+                                <input type="text" id="resume" class="FS" name="resume" placeholder="Saisir" required />
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container" id="description-container">
                                 <label for="description">Description</label>
-                                <textarea id="description" name="description" rows="12" cols="60"></textarea>
+                                <textarea id="description" class="FS" name="description" rows="12" cols="60"></textarea>
                             </div>
                             <!-- Champ "Tags" -->
                             <div id="tag-container">
                                 <label>Tags</label>
                                 <div id="tags-items-container">
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button" >
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Culturel</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Patrimoine</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Histoire</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Urbain</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Nature</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Plein air</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Sport</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Nautique</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Gastronomie</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Musée</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Atelier</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Musique</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Famille</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Cinéma</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Cirque</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Son et lumière</p>
                                     </button>
-                                    <button class="tag" type="button">
+                                    <button class="tag FS" type="button">
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Humour</p>
                                     </button>
@@ -146,8 +146,8 @@ include_once'nav.php';
                             </div>
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
-                                <input type="submit" value="Publier" />
-                                <button>
+                                <input type="submit" class="FS" value="Publier" />
+                                <button class="FS">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
                                 </button>
@@ -159,17 +159,17 @@ include_once'nav.php';
                             <!-- Champ "Adresse" -->
                             <div class="container" id="adresse-container">
                                 <label for="adresse">Adresse</label>
-                                <input type="text" id="adresse" name="adresse" placeholder="Saisir" required />
+                                <input type="text" id="adresse" class="FS" name="adresse" placeholder="Saisir" required />
                             </div>
                             <!-- Champ "Accesibilité" -->
                             <div class="container" id="accessibilite-container">
                                 <label for="accessibilite">Accessibilité</label>
-                                <input type="text" id="accessibilite" name="accessibilite" placeholder="Saisir" required />
+                                <input type="text" id="accessibilite" class="FS" name="accessibilite" placeholder="Saisir" required />
                             </div>
                             <!-- Champ "prix minimum" -->
                             <div class="container" id="prix-container">
                                 <label for="prix">Prix minimum (€)</label>
-                                <input type="text" id="prix" name="prix" placeholder="Saisir" required />
+                                <input type="text" id="prix" class="FS" name="prix" placeholder="Saisir" required />
                             </div>
                             <!-- Champ "Options" -->
                             <div id="option-container">
