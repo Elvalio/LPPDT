@@ -52,8 +52,7 @@ body {
     justify-content: center;
 }
 
-
-.inscription-pro {
+.inscription-pro-page-membre {
     background-color: #FFF7E1;
     color: red;
     font-size: 24px;
@@ -65,8 +64,24 @@ body {
     
 }
 
+.inscription-pro-page-pro {
+    background-color: #A2021F;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
+                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
+                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    
+}
 
-.inscription-membre {
+.inscription-membre-page-membre {
     background-color: #006B8F;
     z-index: +1;
     color: white;
@@ -77,6 +92,21 @@ body {
     box-shadow: 5px 0 10px rgba(0, 107, 143, 0.5),  /* Ombre à droite */
                 0 5px 10px rgba(0, 107, 143, 0.5), /* Ombre en bas */
                 0 -5px 10px rgba(0, 107, 143, 0.5); /* Ombre en haut */
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    align-content: center;
+}
+
+
+.inscription-membre-page-pro {
+    background-color: #FFF7E1;
+    z-index: +1;
+    color: #006B8F;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 20px;
+    border-radius: 30px;
     text-align: center;
     width: 100%;
     height: 100%;
@@ -161,4 +191,65 @@ input[type="text"], input[type="email"], input[type="password"], input[type="tel
 
 .spacer-right {
     height: 130px;
+}
+
+.pro-public {
+    display: flex;
+    margin-bottom: 20px;
+    border-radius: 30px;
+    justify-content: center;
+}
+
+.public-page-public {
+    background-color: #F07605;
+    z-index: +1;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
+                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
+                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
+    text-align: center;
+    width: 100%;
+}
+
+.privee-page-public {
+    background-color: #FFF7E1;
+    z-index: +1;
+    color: #A2021F;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+.public-page-privee {
+    background-color: #FFF7E1;
+    z-index: +1;
+    color: #A2021F;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+.privee-page-privee {
+    background-color: #F07605;
+    z-index: +1;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
+                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
+                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
+    text-align: center;
+    width: 100%;
 }
