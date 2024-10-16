@@ -35,12 +35,14 @@ body {
 .container {
   overflow: hidden;
   /* Cache les éléments qui dépassent du container */
-  height: 50vh;
+  height: 40vh;
   /* Hauteur égale à 50% de la hauteur de la vue */
   flex-wrap: nowrap;
   /* Empêche les éléments de se placer sur plusieurs lignes */
-  width: 80%;
+  width: 70%;
+  min-width: 375px;
   /* Largeur égale à 80% de la largeur de la vue */
+  margin-top: 10px;
 }
 /* Définition du carousel */
 .carousel {
@@ -53,7 +55,7 @@ body {
   /* Affiche les éléments en ligne */
   overflow: hidden;
   /* Cache les éléments qui dépassent */
-  height: 50vh;
+  height: 40vh;
   /* Hauteur égale à 50% de la hauteur de la vue */
   flex-wrap: nowrap;
   /* Empêche les éléments de se placer sur plusieurs lignes */
@@ -85,11 +87,11 @@ body {
   /* Les boutons sont absolument positionnés */
   z-index: 5;
   /* Ils sont placés au-dessus des autres éléments */
-  left: 10%;
+  left: 5%;
   /* La distance à gauche est de 10% */
-  right: 10%;
+  right: 5%;
   /* La distance à droite est de 10% */
-  top: 50%;
+  top: 42%;
   /* La distance du haut est de 50% */
   display: flex;
   /* Affiche les boutons en ligne */
@@ -100,8 +102,9 @@ body {
 .carousel-controls button {
   padding: 10px;
   /* Ajout de padding pour un meilleur contrôle */
-  background-color: aquamarine;
+  background-color:transparent;
   /* Arrière-plan en aquamarine */
+  border: transparent !important;
 }
 /* Définition des points de contrôle */
 .carousel-dots {
@@ -132,10 +135,80 @@ body {
 /* Styles pour les points de navigation du carrousel */
 .carousel-dots .active {
   /* Border de 10px pour le point actif */
-  border: 10px solid #761530 !important;
+  border: 10px solid #353435 !important;
   /* !important permet de surcharger les autres styles éventuels */
 }
 .carousel-dots .inactive {
   /* Border de 10px pour les points inactifs */
-  border: 10px solid #2596be;
+  border: 10px solid #acafb0;
+}
+
+/* Retourner la fleche précédent dans le bon sens */
+
+#prev {
+  transform: rotate(90deg);
+}
+
+/* Retourner la fleche suivante dans le bon sens */
+
+#next {
+  transform: rotate(-90deg);
+}
+
+/* Définition du container pour gérer l'affichage de la description */
+.description-offre {
+    font-size: 1vw;
+    color: black;
+    font-family: 'TripSansRegular';
+    width: 100%;
+    margin: 0;
+}
+
+/* Définition du container pour gérer l'affichage de l'annonce */
+.part-annonce {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    padding: 20px;
+}
+
+/* Définition du container pour gérer l'affichage des avis */
+.part-avis {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+}
+
+/* Définition du container pour gérer l'affichage des infos de l'offre */
+.infos-offre {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.etoiles {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.etoiles img {
+    width: 20px;
+    height: 20px;
+}
+
+.infos-offre img {
+    width: 20px;
+    height: 20px;
+}
+
+.infos-offre p {
+    font-size: 1vw;
+    color: black;
+    font-family: 'TripSansRegular';
+    margin: 0;
 }
