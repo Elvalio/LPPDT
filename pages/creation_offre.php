@@ -74,26 +74,74 @@ include_once'nav.php';
                             <div id="tag-container">
                                 <label for="tags">Tags</label>
                                 <div id="tags-items-container">
-                                <button id="myButton" class="custom-button">
-                                    <img src="../icons/check.svg" alt="Icone" class="button-icon">
-                                    <p>Mon Bouton</p>
-                                </button>
-                                    <input type="button" id="tags" value="Patrimoine">
-                                    <input type="button" id="tags" value="Histoire">
-                                    <input type="button" id="tags" value="Urbain">
-                                    <input type="button" id="tags" value="Nature">
-                                    <input type="button" id="tags" value="Plein air">
-                                    <input type="button" id="tags" value="Sport">
-                                    <input type="button" id="tags" value="Nautique">
-                                    <input type="button" id="tags" value="Gastronomie">
-                                    <input type="button" id="tags" value="Musée">
-                                    <input type="button" id="tags" value="Atelier">
-                                    <input type="button" id="tags" value="Musique">
-                                    <input type="button" id="tags" value="Famille">
-                                    <input type="button" id="tags" value="Cinéma">
-                                    <input type="button" id="tags" value="Cirque">
-                                    <input type="button" id="tags" value="Son et lumière">
-                                    <input type="button" id="tags" value="Humour">
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Culturel</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Patrimoine</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Histoire</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Urbain</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Nature</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Plein air</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Sport</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Nautique</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Gastronomie</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Musée</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Atelier</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Musique</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Famille</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Cinéma</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Cirque</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Son et lumière</p>
+                                    </button>
+                                    <button class="tag" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Humour</p>
+                                    </button>
                                 </div>
                             </div>
                             <!-- Bouton de soumission -->
@@ -142,5 +190,18 @@ include_once'nav.php';
                 </div>      
             </form>
         </div>
+
+        <script>
+            // Récupérer tous les éléments avec la classe 'tag'
+            const tags = document.getElementsByClassName('tag');
+
+            // Transformer la collection en tableau et ajouter un écouteur d'événements à chaque élément
+            Array.from(tags).forEach(tag => {
+                tag.addEventListener('click', function() {
+                    this.classList.toggle('selectionne');  // Ajoute/enlève la classe 'selectionne'
+                });
+            });
+
+        </script>
     </body>
 </html>
