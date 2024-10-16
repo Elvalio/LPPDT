@@ -36,8 +36,14 @@ include_once'nav.php';
                 </div>
 
                 <div class="NouveauALaUne">
-                    <p>Nouveau</p>
-                    <p>A la une</p>
+                    <div class="boutonNouveau">
+                        <p>Nouveau</p>
+                        <img src="../images/croix.png" alt="croix" title="croix">
+                    </div>
+                    <div class="boutonALaUne">
+                        <p>A la une</p>
+                        <img src="../images/croix.png" alt="croix" title="croix">
+                    </div>
                 </div>
             </nav>
             <main>
