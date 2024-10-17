@@ -168,23 +168,25 @@
 .selected-image {
     max-width: 525px; /* Limiter la largeur de l'image */
     max-height: 220px; /* Garder le ratio de l'image */
-    margin-bottom: 10px; /* Espacement entre les images */
+    margin-bottom: 20px; /* Espacement entre les images */
     /* Assurer que l'image ne soit pas agrandie au-delà de sa taille d'origine */
     object-fit: contain; /* Contient l'image dans le conteneur sans la déformer */
-    display: none;
+    /* display: none; */
     
     background-image: 
-        linear-gradient(45deg, #e6e6e6 25%, transparent 25%, transparent 75%, #e6e6e6 75%, #e6e6e6),
-        linear-gradient(45deg, #e6e6e6 25%, transparent 25%, transparent 75%, #e6e6e6 75%, #e6e6e6);
+        linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef),
+        linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef);
     background-position: 0 0, 25px 25px; /* Pour aligner les deux gradients */
     background-size: 50px 50px; /* Taille des carrés */
 }
 
 .selected {
-    border: 2px solid var(--noir); /* Bordure pour indiquer l'image sélectionnée */
+    border: 4px dashed var(--noir); /* Bordure pour indiquer l'image sélectionnée */
 }
 
-
+#upload-text{
+    color: var(--blanc-bo);
+}
 
 /************************ gérer les tags items ******************/
 

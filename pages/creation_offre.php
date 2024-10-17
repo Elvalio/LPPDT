@@ -192,7 +192,7 @@ include_once'nav.php';
                                 <div id="file-container">
                                     <label for="file-upload" id="custom-file-upload">
                                         <img src="../icons/plus.svg" alt="Bouton Image">
-                                        Ajouter une image
+                                        <p id="upload-text">Ajouter une image </p>
                                     </label>
                                     <input type="file" id="file-upload" accept=".png"/>
                                     <button id="file-delete" type="button">
@@ -200,12 +200,12 @@ include_once'nav.php';
                                         Supprimer une image
                                     </button>
                                 </div>
-                                <p id="error-message" style="color: red; display: none;">Aucune image sélectionnée pour suppression !</p>
+                                <p id="error-message" style="color: red; display: none;">Aucune image sélectionnée à supprimer !</p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
-                                    <img class="selected-image" src="" alt="Image sélectionnée" />
-                                    <img class="selected-image" src="" alt="Image sélectionnée" />
-                                    <img class="selected-image" src="" alt="Image sélectionnée" />
+                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
                                 </div>
                             </div>
                             
@@ -221,9 +221,10 @@ include_once'nav.php';
             // Sélectionne les éléments nécessaires
             const fileInput = document.getElementById('file-upload');
             const deleteButton = document.getElementById('file-delete');
-            const imageContainer = document.getElementById('image-container');
+            const customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
+            const customFileUploadIcon = document.querySelector('#custom-file-upload img'); // Sélectionne l'image dans le label
             const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
-
+            const uploadText = document.getElementById('upload-text'); // Le texte du bouton
             const errorMessage = document.getElementById('error-message');
 
             let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
@@ -237,6 +238,27 @@ include_once'nav.php';
                 });
             });
 
+            // Fonction pour afficher/masquer le bouton d'ajout d'image
+            function toggleFileUpload() {
+                if (selectedImageIndex !== -1) {
+                    // Si une image est sélectionnée, afficher le bouton "Modifier l'image"
+                    customFileUpload.style.display = 'flex';
+                } else {
+                    if (currentImageCount >= 3) {
+                        // Masquer le bouton si le nombre d'images est >= 3 et aucune image n'est sélectionnée
+                        customFileUpload.style.display = 'none';
+                    } else {
+                        // Sinon, afficher le bouton d'ajout d'image
+                        customFileUpload.style.display = 'flex';
+                    }
+                }
+            }
+
+            // Fonction pour mettre à jour le texte de la balise <p> et changer l'icône
+            function updateLabel(text, iconSrc) {
+                uploadText.textContent = text; // Mettre à jour le texte de la balise <p>
+                customFileUploadIcon.src = iconSrc; // Mettre à jour la source de l'image
+            }
 
             // Fonction pour afficher une image dans la première case vide
             fileInput.addEventListener('change', function() {
@@ -246,25 +268,40 @@ include_once'nav.php';
                     const reader = new FileReader(); // Créer un nouvel objet FileReader
 
                     reader.onload = function(e) {
-                        let foundEmptySlot = false;
-                
-                        // Trouver la première case vide et y insérer l'image
-                        
-
-                        for (let i = 0; i < selectedImages.length; i++) {
-                            if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '') {
-                                selectedImages[i].src = e.target.result; // Mettre à jour la source de l'image
-                                selectedImages[i].style.display = 'block'; // Afficher l'image
-                                foundEmptySlot = true;
+                        if (selectedImageIndex >= 0) {
+                            // Si une image est sélectionnée, remplacer cette image
+                            if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
                                 currentImageCount++;
+                                deleteButton.style.display = 'block';
+                            }
+                            selectedImages[selectedImageIndex].src = e.target.result;
+                            
+                            
+                        }else{
+
+                    
+                            let foundEmptySlot = false;
+                    
+                            // Trouver la première case vide et y insérer l'image
+                            for (let i = 0; i < selectedImages.length; i++) {
+                                if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
+                                    selectedImages[i].src = e.target.result; // Mettre à jour la source de l'image
+                                    selectedImages[i].style.display = 'block'; // Afficher l'image
+                                    foundEmptySlot = true;
+                                    currentImageCount++;
+                                }
+                            }
+
+                            // Afficher le bouton de suppression si une image est présente
+                            if (foundEmptySlot) {
+                                deleteButton.style.display = 'block';
                             }
                         }
-
-                        // Afficher le bouton de suppression si une image est présente
-                        if (foundEmptySlot) {
-                            deleteButton.style.display = 'block';
-                        }
+                        console.log(currentImageCount >=3 + currentImageCount);
+                        console.log(currentImageCount);
+                        toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout
                     };
+                
 
                     reader.readAsDataURL(file); // Lire l'image sous forme de base64
                     fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image plus tard
@@ -280,13 +317,18 @@ include_once'nav.php';
                         // Désélectionner l'image si elle est déjà sélectionnée
                         e.target.classList.remove('selected');
                         selectedImageIndex = -1;
+                        updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre "Ajouter une image"
                     } else {
                         // Désélectionner toutes les images et sélectionner la nouvelle
                         selectedImages.forEach(img => img.classList.remove('selected'));
                         e.target.classList.add('selected');
                         selectedImageIndex = clickedIndex;
+                        updateLabel('Modifier l\'image', '../icons/changer.svg'); // Changer le texte du bouton
                         errorMessage.style.display = 'none'; // Cacher le message d'erreur
                     }
+
+                    // Appeler toggleFileUpload() après la sélection/désélection
+                    toggleFileUpload();
                 }
             });
 
@@ -297,8 +339,7 @@ include_once'nav.php';
                 } else {
                     // Supprimer l'image sélectionnée
                     let img = selectedImages[selectedImageIndex];
-                    img.src = ''; // Effacer la source de l'image
-                    img.style.display = 'none'; // Masquer l'image
+                    img.src = '../images/rien.png'; // Effacer la source de l'image
                     img.classList.remove('selected'); // Désélectionner l'image
                     selectedImageIndex = -1;
                     currentImageCount--;
@@ -307,6 +348,8 @@ include_once'nav.php';
                     if (currentImageCount === 0) {
                         deleteButton.style.display = 'none';
                     }
+                    updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre le texte à "Ajouter une image"
+                    toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
 
                     errorMessage.style.display = 'none'; // Cacher le message d'erreur
                 }
