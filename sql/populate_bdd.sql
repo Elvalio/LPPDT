@@ -7,7 +7,8 @@ SET SCHEMA 'pact';
 insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Zirconium', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', '11 rue de la gare', 22000);
 insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('HolyCannolee', 'La Vedette', 'Hugo', 'hugo.lavedette@orange', '0652637537', 'hugolemeilleur!', 'Guingamp', '5 boulevard clémenceau', 22200);
 insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Kabibabie', 'Aquecouccou', 'Lillie', 'kabibaie@gmail.com', '0772368545', 'IDontLikeMakingPasswords', 'Lannion', '1 rue édouard branly', 22300);
-insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Aberrington', 'Lacèsvash', 'Guillaume', 'lacesvash.guillaume@wanadoo.fr', '0687783861', 'g7YZk?D:2*q2', 'Saint-Brieuc', '7 rue piet mondrian', 22000);
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('Aberrington', 'Lacèsvash', 'Guillaume', 'guillaume.lacesvash@wanadoo.fr', '0687783861', 'g7YZk?D:2*q2', 'Saint-Brieuc', '7 rue piet mondrian', 22000);
+insert into membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('IcyTerra', 'Chram', 'Ambre', 'ambre.chram@wanadoo.fr', '0754552861', 'LeMDPEstRéel', 'Plouaret', "4 rue de l'armorique", 22420);
 
 
 
