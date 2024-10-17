@@ -266,7 +266,7 @@ p {
 }
 
 .footer > .autres_liens{
-    color: #0A142F;
+    color: var(--noir);
     opacity: 70%;
 }
 
