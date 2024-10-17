@@ -96,8 +96,18 @@
     width: 440px;
 }
 
-#prix-container{
-    width: 250px;
+#duree-prix-age{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#duree-container, #prix-container, #age-container{
+    width: 175px;
+}
+
+#duree-container, #age-container{
+    display: none;
 }
 
 #accesibilite-container{

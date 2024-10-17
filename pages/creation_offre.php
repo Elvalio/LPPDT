@@ -168,9 +168,19 @@ include_once'nav.php';
                                     <input type="text" id="accessibilite" class="FS" name="accessibilite" placeholder="Saisir" required />
                                 </div>
                                 <!-- Champ "prix minimum" -->
-                                <div class="container" id="prix-container">
-                                    <label for="prix">Prix minimum (€)</label>
-                                    <input type="text" id="prix" class="FS" name="prix" placeholder="Saisir" required />
+                                <div id="duree-prix-age">
+                                    <div class="container" id="duree-container">
+                                        <label for="duree">Durée</label>
+                                        <input type="text" id="duree" class="FS" name="duree" placeholder="Saisir" required />
+                                    </div>
+                                    <div class="container" id="prix-container">
+                                        <label for="prix">Prix minimum (€)</label>
+                                        <input type="text" id="prix" class="FS" name="prix" placeholder="Saisir" required />
+                                    </div>
+                                    <div class="container" id="age-container">
+                                        <label for="age">Âge minimum</label>
+                                        <input type="text" id="age" class="FS" name="age" placeholder="Saisir" required />
+                                    </div>
                                 </div>
                                 <!-- Champ "Options" -->
                                 <div id="option-container">
@@ -216,143 +226,183 @@ include_once'nav.php';
         </div>
 
         <script>
-            // Récupérer tous les éléments avec la classe 'tag'
-            const tags = document.getElementsByClassName('tag');
-            // Sélectionne les éléments nécessaires
-            const fileInput = document.getElementById('file-upload');
-            const deleteButton = document.getElementById('file-delete');
-            const customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
-            const customFileUploadIcon = document.querySelector('#custom-file-upload img'); // Sélectionne l'image dans le label
-            const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
-            const uploadText = document.getElementById('upload-text'); // Le texte du bouton
-            const errorMessage = document.getElementById('error-message');
+            document.addEventListener('DOMContentLoaded', function() {
+                // Gestion de la catégorie et de l'affichage des champs "Durée" et "Âge"
+                const categorieSelect = document.getElementById('categorie');
+                const dureeContainer = document.getElementById('duree-container');
+                const ageContainer = document.getElementById('age-container');
 
-            let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
-            let selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression
-            
+                // Récupérer tous les éléments avec la classe 'tag'
+                const tags = document.getElementsByClassName('tag');
 
-            // Transformer la collection en tableau et ajouter un écouteur d'événements à chaque élément
-            Array.from(tags).forEach(tag => {
-                tag.addEventListener('click', function() {
-                    this.classList.toggle('selectionne');  // Ajoute/enlève la classe 'selectionne'
-                });
-            });
+                // Sélectionne les éléments nécessaires pour les images
+                const fileInput = document.getElementById('file-upload');
+                const deleteButton = document.getElementById('file-delete');
+                const customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
+                const customFileUploadIcon = document.querySelector('#custom-file-upload img'); // Sélectionne l'image dans le label
+                const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
+                const uploadText = document.getElementById('upload-text'); // Le texte du bouton
+                const errorMessage = document.getElementById('error-message');
 
-            // Fonction pour afficher/masquer le bouton d'ajout d'image
-            function toggleFileUpload() {
-                if (selectedImageIndex !== -1) {
-                    // Si une image est sélectionnée, afficher le bouton "Modifier l'image"
-                    customFileUpload.style.display = 'flex';
-                } else {
-                    if (currentImageCount >= 3) {
-                        // Masquer le bouton si le nombre d'images est >= 3 et aucune image n'est sélectionnée
-                        customFileUpload.style.display = 'none';
+                let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
+                let selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression
+                
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////// GESTION DES CHAMPS DUREE ET AGE //////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                // Fonction pour gérer l'affichage des champs
+                function handleCategorieChange() {
+                    const selectedCategorie = categorieSelect.value;
+
+                    if (selectedCategorie === 'activite') {
+                        // Afficher les champs "Durée" et "Âge minimum" si "Activité" est sélectionné
+                        dureeContainer.style.display = 'flex';
+                        ageContainer.style.display = 'flex';
                     } else {
-                        // Sinon, afficher le bouton d'ajout d'image
-                        customFileUpload.style.display = 'flex';
+                        // Masquer les champs sinon
+                        dureeContainer.style.display = 'none';
+                        ageContainer.style.display = 'none';
                     }
                 }
-            }
 
-            // Fonction pour mettre à jour le texte de la balise <p> et changer l'icône
-            function updateLabel(text, iconSrc) {
-                uploadText.textContent = text; // Mettre à jour le texte de la balise <p>
-                customFileUploadIcon.src = iconSrc; // Mettre à jour la source de l'image
-            }
+                // Attacher l'événement 'change' à la sélection de catégorie
+                categorieSelect.addEventListener('change', handleCategorieChange);
 
-            // Fonction pour afficher une image dans la première case vide
-            fileInput.addEventListener('change', function() {
-                if (fileInput.files.length > 0) {
-                    
-                    const file = fileInput.files[0]; // Prendre le premier fichier
-                    const reader = new FileReader(); // Créer un nouvel objet FileReader
+                // Appeler la fonction au chargement initial pour gérer l'état par défaut
+                handleCategorieChange();
 
-                    reader.onload = function(e) {
-                        if (selectedImageIndex >= 0) {
-                            // Si une image est sélectionnée, remplacer cette image
-                            if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
-                                currentImageCount++;
-                                deleteButton.style.display = 'block';
-                            }
-                            selectedImages[selectedImageIndex].src = e.target.result;
-                            
-                            
-                        }else{
+                ////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////// GESTION DES TAGS /////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////
 
-                    
-                            let foundEmptySlot = false;
-                    
-                            // Trouver la première case vide et y insérer l'image
-                            for (let i = 0; i < selectedImages.length; i++) {
-                                if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
-                                    selectedImages[i].src = e.target.result; // Mettre à jour la source de l'image
-                                    selectedImages[i].style.display = 'block'; // Afficher l'image
-                                    foundEmptySlot = true;
+                // Transformer la collection en tableau et ajouter un écouteur d'événements à chaque élément
+                Array.from(tags).forEach(tag => {
+                    tag.addEventListener('click', function() {
+                        this.classList.toggle('selectionne');  // Ajoute/enlève la classe 'selectionne'
+                    });
+                });
+
+                //////////////////////////////////////////////////////////////////////////////////
+                //////////////////////////// GESTION DES IMAGES //////////////////////////////////
+                //////////////////////////////////////////////////////////////////////////////////
+
+                // Fonction pour afficher/masquer le bouton d'ajout d'image
+                function toggleFileUpload() {
+                    if (selectedImageIndex !== -1) {
+                        // Si une image est sélectionnée, afficher le bouton "Modifier l'image"
+                        customFileUpload.style.display = 'flex';
+                    } else {
+                        if (currentImageCount >= 3) {
+                            // Masquer le bouton si le nombre d'images est >= 3 et aucune image n'est sélectionnée
+                            customFileUpload.style.display = 'none';
+                        } else {
+                            // Sinon, afficher le bouton d'ajout d'image
+                            customFileUpload.style.display = 'flex';
+                        }
+                    }
+                }
+
+                // Fonction pour mettre à jour le texte de la balise <p> et changer l'icône
+                function updateLabel(text, iconSrc) {
+                    uploadText.textContent = text; // Mettre à jour le texte de la balise <p>
+                    customFileUploadIcon.src = iconSrc; // Mettre à jour la source de l'image
+                }
+
+                // Fonction pour afficher une image dans la première case vide
+                fileInput.addEventListener('change', function() {
+                    if (fileInput.files.length > 0) {
+                        
+                        const file = fileInput.files[0]; // Prendre le premier fichier
+                        const reader = new FileReader(); // Créer un nouvel objet FileReader
+
+                        reader.onload = function(e) {
+                            if (selectedImageIndex >= 0) {
+                                // Si une image est sélectionnée, remplacer cette image
+                                if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
                                     currentImageCount++;
+                                    deleteButton.style.display = 'block';
+                                }
+                                selectedImages[selectedImageIndex].src = e.target.result;
+                                
+                                
+                            }else{
+
+                        
+                                let foundEmptySlot = false;
+                        
+                                // Trouver la première case vide et y insérer l'image
+                                for (let i = 0; i < selectedImages.length; i++) {
+                                    if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
+                                        selectedImages[i].src = e.target.result; // Mettre à jour la source de l'image
+                                        selectedImages[i].style.display = 'block'; // Afficher l'image
+                                        foundEmptySlot = true;
+                                        currentImageCount++;
+                                    }
+                                }
+
+                                // Afficher le bouton de suppression si une image est présente
+                                if (foundEmptySlot) {
+                                    deleteButton.style.display = 'block';
                                 }
                             }
+                            console.log(currentImageCount >=3 + currentImageCount);
+                            console.log(currentImageCount);
+                            toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout
+                        };
+                    
 
-                            // Afficher le bouton de suppression si une image est présente
-                            if (foundEmptySlot) {
-                                deleteButton.style.display = 'block';
-                            }
+                        reader.readAsDataURL(file); // Lire l'image sous forme de base64
+                        fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image plus tard
+                    }
+                });
+
+                // Gérer la sélection des images en cliquant dessus
+                document.getElementById('image-container').addEventListener('click', function(e) {
+                    if (e.target.classList.contains('selected-image')) {
+                        const clickedIndex = Array.from(selectedImages).indexOf(e.target);
+
+                        if (clickedIndex === selectedImageIndex) {
+                            // Désélectionner l'image si elle est déjà sélectionnée
+                            e.target.classList.remove('selected');
+                            selectedImageIndex = -1;
+                            updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre "Ajouter une image"
+                        } else {
+                            // Désélectionner toutes les images et sélectionner la nouvelle
+                            selectedImages.forEach(img => img.classList.remove('selected'));
+                            e.target.classList.add('selected');
+                            selectedImageIndex = clickedIndex;
+                            updateLabel('Modifier l\'image', '../icons/changer.svg'); // Changer le texte du bouton
+                            errorMessage.style.display = 'none'; // Cacher le message d'erreur
                         }
-                        console.log(currentImageCount >=3 + currentImageCount);
-                        console.log(currentImageCount);
-                        toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout
-                    };
-                
 
-                    reader.readAsDataURL(file); // Lire l'image sous forme de base64
-                    fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image plus tard
-                }
-            });
+                        // Appeler toggleFileUpload() après la sélection/désélection
+                        toggleFileUpload();
+                    }
+                });
 
-            // Gérer la sélection des images en cliquant dessus
-            document.getElementById('image-container').addEventListener('click', function(e) {
-                if (e.target.classList.contains('selected-image')) {
-                    const clickedIndex = Array.from(selectedImages).indexOf(e.target);
-
-                    if (clickedIndex === selectedImageIndex) {
-                        // Désélectionner l'image si elle est déjà sélectionnée
-                        e.target.classList.remove('selected');
-                        selectedImageIndex = -1;
-                        updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre "Ajouter une image"
+                // Gérer la suppression des images
+                deleteButton.addEventListener('click', function() {
+                    if (selectedImageIndex === -1) {
+                        errorMessage.style.display = 'block'; // Afficher un message d'erreur si aucune image n'est sélectionnée
                     } else {
-                        // Désélectionner toutes les images et sélectionner la nouvelle
-                        selectedImages.forEach(img => img.classList.remove('selected'));
-                        e.target.classList.add('selected');
-                        selectedImageIndex = clickedIndex;
-                        updateLabel('Modifier l\'image', '../icons/changer.svg'); // Changer le texte du bouton
+                        // Supprimer l'image sélectionnée
+                        let img = selectedImages[selectedImageIndex];
+                        img.src = '../images/rien.png'; // Effacer la source de l'image
+                        img.classList.remove('selected'); // Désélectionner l'image
+                        selectedImageIndex = -1;
+                        currentImageCount--;
+                        
+                        // Masquer le bouton de suppression s'il n'y a plus d'images
+                        if (currentImageCount === 0) {
+                            deleteButton.style.display = 'none';
+                        }
+                        updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre le texte à "Ajouter une image"
+                        toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
+
                         errorMessage.style.display = 'none'; // Cacher le message d'erreur
                     }
-
-                    // Appeler toggleFileUpload() après la sélection/désélection
-                    toggleFileUpload();
-                }
-            });
-
-            // Gérer la suppression des images
-            deleteButton.addEventListener('click', function() {
-                if (selectedImageIndex === -1) {
-                    errorMessage.style.display = 'block'; // Afficher un message d'erreur si aucune image n'est sélectionnée
-                } else {
-                    // Supprimer l'image sélectionnée
-                    let img = selectedImages[selectedImageIndex];
-                    img.src = '../images/rien.png'; // Effacer la source de l'image
-                    img.classList.remove('selected'); // Désélectionner l'image
-                    selectedImageIndex = -1;
-                    currentImageCount--;
-                    
-                    // Masquer le bouton de suppression s'il n'y a plus d'images
-                    if (currentImageCount === 0) {
-                        deleteButton.style.display = 'none';
-                    }
-                    updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre le texte à "Ajouter une image"
-                    toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
-
-                    errorMessage.style.display = 'none'; // Cacher le message d'erreur
-                }
+                });
             });
         </script>
     </body>
