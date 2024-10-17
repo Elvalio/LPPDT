@@ -3,8 +3,8 @@ CREATE SCHEMA pact;
 SET SCHEMA 'pact';
 
 create table pact._adresse(
-  ville varchar(20),
-  lieu varchar(30),
+  ville varchar(30),
+  lieu varchar(50),
   code_postal integer,
 
   constraint _adresse_pk primary key (ville, lieu)
@@ -19,10 +19,10 @@ create table pact._compte
   prenom varchar(20),
   email varchar(50),
   telephone varchar(10),
-  mdp varchar(25),
+  mdp varchar(30),
   
   -- FK
-  ville varchar(20),
+  ville varchar(30),
   lieu varchar(50),
   
   constraint _compte_pk 
@@ -80,7 +80,7 @@ create table pact._avis(
   idA serial,
   note integer,
   titre varchar(30),
-  corps varchar(200),
+  corps varchar(500),
   date_publication date,
   date_visite date,
   contexte varchar(20),
@@ -127,11 +127,11 @@ create table pact._tag_resto(
 
 create table pact._offre(
   idO serial,
-  titre varchar(20),
-  resume varchar(100),
+  titre varchar(30),
+  resume varchar(150),
   "type" varchar(20),
   option varchar(20),
-  description varchar(200),
+  description varchar(500),
   photo varchar(60),
   prix_min float,
   --/moy_note
@@ -142,8 +142,8 @@ create table pact._offre(
   date_publication date,
   
   -- FK
-  ville varchar(20),
-  lieu varchar(30),
+  ville varchar(30),
+  lieu varchar(50),
   
   idC integer,
 
@@ -300,7 +300,7 @@ create table pact._reponse(
   --unsure beacuse of multiplicities
   idMembre integer,
   idPro integer,
-  corps varchar(200),
+  corps varchar(500),
   
   constraint _reponse_pk primary key(idMembre),
   
@@ -422,8 +422,8 @@ instead of insert on pact.membre
   for each row execute procedure pact.insert_membre();
 
 
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('jonnnie', 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values ('bobbie', 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
 
 
 -- update _membre set pseudo = 'azza' where idC = 1;
@@ -451,7 +451,7 @@ create or replace trigger tg_insert_professionnel
 instead of insert on pact.professionnel
   for each row execute procedure pact.insert_professionnel();
   
-insert into pact.professionnel (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1001, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22780', 22780);
+insert into pact.professionnel (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1001, 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
 
 -- professionnel secteur public
 
@@ -474,7 +474,7 @@ instead of insert on pact.secteur_public
   for each row execute procedure pact.insert_secteur_public();
   
   
-insert into pact.secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1002, 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
+insert into pact.secteur_public (codePro, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1002, 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
 
 -- professionnel secteur prive
 
@@ -497,7 +497,7 @@ instead of insert on pact.secteur_prive
   for each row execute procedure pact.insert_secteur_prive();
   
   
-insert into pact.secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1003,'65151656516 44', '125475842', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal 22300', 22300);
+insert into pact.secteur_prive (codePro, coord_banquaire, siren, nom, prenom, email, telephone, mdp, ville, lieu, code_postal) values (1003,'65151656516 44', '125475842', 'Jon', 'Halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', '4 place du marchal', 22300);
 
 --- Tags
 
@@ -521,7 +521,7 @@ instead of insert on pact.tag_default
   
 insert into pact.tag_default (libelle) values ('Son et lumière');
 
--- Tags default
+-- Tags resto
 
 create or replace view pact.tag_resto as
   select * from pact._tag_resto natural join pact._tag;
