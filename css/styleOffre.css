@@ -12,31 +12,33 @@
 
 #left-part,  #right-part{
     border: 1px solid #D9D9D9;
-    border-bottom: none;
     border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
     padding: 20px 15px 20px 30px;
     width: 746px;
-    height: 840px;;
+    min-height: 840px;
+    height: fit-content;
     /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
 }
 
 #right-part{
-    
+    border-bottom: none;
     width: 590px;
     border-top-left-radius: 8px;
     border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     border-right: none;
 }
 
-#left-part-content, #right-part-content{
+#left-part-content, #top-right-part-content{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 820px;
 }
 
-#right-part-content{
-    /* height: 500px; */
+#top-right-part-content{
+    height: 355px;
 }
 
 #title-categorie, #commune-type{
@@ -119,7 +121,7 @@
 }
 
 #file-container{
-    margin-top: 30px;
+    margin-top: 50px;
     height: 32px;
     display: flex;
     flex-direction: row;
@@ -156,38 +158,24 @@
     vertical-align: middle;
 }
 
-.image-wrapper {
-    display: inline-block; /* Pour que les images soient sur la même ligne */
-    margin-right: 10px; /* Espace entre les images */
-    cursor: pointer; /* Changer le curseur pour indiquer que l'image est cliquable */
-    border: 2px solid transparent; /* Bordure transparente par défaut */
-}
-
-.image-wrapper.selected {
-    border: 2px solid var(--noir); /* Bordure noir pour indiquer la sélection */
-}
-
 #image-container {
     display: flex;
     flex-direction: column;
     gap: 10px; /* Espacement entre les images */
+    margin-top: 10px;
 }
 
 .selected-image {
     max-width: 530px; /* Limiter la largeur de l'image */
-    height: auto; /* Garder le ratio de l'image */
-    display: none; /* Cacher par défaut */
+    max-height: 220px; /* Garder le ratio de l'image */
+    margin-bottom: 10px; /* Espacement entre les images */
+    /* Assurer que l'image ne soit pas agrandie au-delà de sa taille d'origine */
+    object-fit: contain; /* Contient l'image dans le conteneur sans la déformer */
+    display: none;  
 }
 
 .selected {
     border: 2px solid var(--noir); /* Bordure pour indiquer l'image sélectionnée */
-}
-
-#image-container img {
-    max-width: 100%; /* Limiter la largeur de l'image */
-    height: auto; /* Garder le ratio de l'image */
-    margin-bottom: 10px; /* Espacement entre les images */
-    display: none; /* Cacher les images par défaut */
 }
 
 
