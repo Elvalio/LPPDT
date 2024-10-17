@@ -3,8 +3,8 @@ CREATE SCHEMA pact;
 SET SCHEMA 'pact';
 
 create table pact._adresse(
-  ville varchar(20),
-  lieu varchar(30),
+  ville varchar(30),
+  lieu varchar(50),
   code_postal integer,
 
   constraint _adresse_pk primary key (ville, lieu)
@@ -19,10 +19,10 @@ create table pact._compte
   prenom varchar(20),
   email varchar(50),
   telephone varchar(10),
-  mdp varchar(25),
+  mdp varchar(30),
   
   -- FK
-  ville varchar(20),
+  ville varchar(30),
   lieu varchar(50),
   
   constraint _compte_pk 
@@ -80,7 +80,7 @@ create table pact._avis(
   idA serial,
   note integer,
   titre varchar(30),
-  corps varchar(200),
+  corps varchar(500),
   date_publication date,
   date_visite date,
   contexte varchar(20),
@@ -127,11 +127,11 @@ create table pact._tag_resto(
 
 create table pact._offre(
   idO serial,
-  titre varchar(20),
-  resume varchar(100),
+  titre varchar(30),
+  resume varchar(150),
   "type" varchar(20),
   option varchar(20),
-  description varchar(200),
+  description varchar(500),
   photo varchar(60),
   prix_min float,
   --/moy_note
@@ -142,8 +142,8 @@ create table pact._offre(
   date_publication date,
   
   -- FK
-  ville varchar(20),
-  lieu varchar(30),
+  ville varchar(30),
+  lieu varchar(50),
   
   idC integer,
 
@@ -300,7 +300,7 @@ create table pact._reponse(
   --unsure beacuse of multiplicities
   idMembre integer,
   idPro integer,
-  corps varchar(200),
+  corps varchar(500),
   
   constraint _reponse_pk primary key(idMembre),
   
