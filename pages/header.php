@@ -9,7 +9,7 @@
     <header class = "header">
         <div class="logo_recherche">
             <img src="../images/logo_vert.png" alt="logo_vert" title="logo_vert" width="122px" height="80px">
-            <form action="header.html">
+            <form action="header.php">
                 <input type="search" name="recherche" id="recherche" placeholder="Recherche">
                 <input type="image" src="../images/search_icon.png" alt="Submit Form" id="image_recherche"/>
             </form>
