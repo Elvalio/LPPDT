@@ -2,6 +2,8 @@
 <html lang="fr">
     <?php
     include_once'nav.php';
+
+    //$dbh = new PDO("$driver:host=$server;dbname=$dbname", $user, $pass);
     ?>
     <head>
         <meta charset="UTF-8">
@@ -17,7 +19,7 @@
         <main>
             <section>
                 <?php
-                foreach($tablo as $val){
+                foreach($dbh->query("SELECT * from forum1._user") as $row){
                 ?>
                 <img src="../images/<?php?>offre.webp" alt="offre" title="offre">
                 <div>
@@ -32,7 +34,7 @@
                         </form>
                     </div>
                     <div class="hors_ligne">
-                        <button id="button_hors_ligne"><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
+                        <button id="button_hors_ligne"><img src="../icons/<?php?>slash.svg" id="icon_delete"> Mise hors ligne</button>
                     </div>
                 </div>
                 <?php
