@@ -8,6 +8,23 @@ include_once'nav.php';
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
     <script src="../js/accueil.js"></script>
+<script>
+window.addEventListener("resize", getTemplate);
+
+CurrentPage = 'DesktopPage';
+
+function getTemplate() {
+    if (screen.width >= 800 && CurrentPage != 'DesktopPage') {
+        return window.location.replace("accueil.php");
+    }
+
+    if (screen.width < 800 && CurrentPage != 'MobilePage') {
+        return window.location.replace("listeOffre.php");
+    }
+}
+
+getTemplate();
+</script>
 </head>
 
 <html>

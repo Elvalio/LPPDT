@@ -8,7 +8,23 @@
     <?php
     include 'header.php';
     ?>
+<script>
+    window.addEventListener("resize", getTemplate);
 
+CurrentPage = 'MobilePage';
+
+function getTemplate() {
+    if (screen.width >= 800 && CurrentPage != 'DesktopPage') {
+        return window.location.replace("accueil.php");
+    }
+
+    if (screen.width < 800 && CurrentPage != 'MobilePage') {
+        return window.location.replace("listeOffre.php");
+    }
+}
+
+getTemplate();
+</script>
 </head>
 <body>
     <div class="card-container">
