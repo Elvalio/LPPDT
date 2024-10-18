@@ -477,8 +477,8 @@ instead of insert on pact.membre
   for each row execute procedure pact.insert_membre();
 
 
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 
 
 -- update _membre set pseudo = 'azza' where idC = 1;
@@ -508,7 +508,7 @@ create or replace trigger tg_insert_professionnel
 instead of insert on pact.professionnel
   for each row execute procedure pact.insert_professionnel();
   
-insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1001, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22780, '');
+insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1001, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 
 -- professionnel secteur public
 
@@ -532,7 +532,7 @@ instead of insert on pact.secteur_public
   for each row execute procedure pact.insert_secteur_public();
   
   
-insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22780, '');
+insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 
 -- professionnel secteur prive
 
@@ -556,7 +556,7 @@ instead of insert on pact.secteur_prive
   for each row execute procedure pact.insert_secteur_prive();
   
   
-insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'denom', 'iban', 'bic', '125475842', 'Raison sociale', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'denom', 'iban', 'bic', '125475842', 'Raison sociale', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 
 --- Tags
 
@@ -734,7 +734,7 @@ insert into pact.activite(titre, resume, "type", option, description, prix_min, 
 values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
  2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
   interval '7 days', 4, 'Nada', 'rein', 
-  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
+  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
 
 -- visite
 
@@ -767,7 +767,7 @@ insert into pact.visite(titre, resume, "type", option, description, prix_min, ac
 values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
  2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
   interval '7 days', 'français, Breton', 
-  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
+  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
   
 -- spectacle
 
@@ -801,7 +801,7 @@ insert into pact.spectacle(titre, resume, "type", option, description, prix_min,
 values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
  2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
   interval '7 days', 200, 
-  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
+  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
 
 
 --- TODO image stuff
@@ -840,7 +840,7 @@ insert into pact.parc_d_attraction(titre, resume, "type", option, description, p
 values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
  2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
   '/photos/images/5/carte.png', 30, 13, 
-  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
+  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
   
 -- restauration
 
@@ -881,7 +881,7 @@ insert into pact.restauration(titre, resume, "type", option, description, prix_m
 values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
  2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
   '/photos/images/5/menu.png', '€€', true, true, false, false, true, 
-  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
+  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
 
 --- experience ---
 

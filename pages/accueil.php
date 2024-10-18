@@ -8,6 +8,27 @@ include_once'nav.php';
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
     <script src="../js/accueil.js"></script>
+    <script>
+    window.addEventListener("resize", getTemplate);
+
+    function getTemplate() {
+        const screenWidth = window.innerWidth;  // Utilisez window.innerWidth au lieu de screen.width
+        if (screenWidth >= 800) {
+            // Si l'écran est large et que vous êtes sur la page mobile, redirigez vers la page desktop
+            if (window.location.pathname.includes("listeOffre.php")) {
+                window.location.replace("accueil.php");
+            }
+        } else {
+            // Si l'écran est étroit et que vous êtes sur la page desktop, redirigez vers la page mobile
+            if (!window.location.pathname.includes("listeOffre.php")) {
+                window.location.replace("listeOffre.php");
+            }
+        }
+    }
+
+    getTemplate();  // Vérifiez la taille de l'écran lors du chargement initial
+    </script>
+
 </head>
 
 <html>
