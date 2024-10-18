@@ -57,7 +57,7 @@ body {
 .form-header-page-creation-compte {
     display: flex;
     margin-bottom: 20px;
-    background-color: #FFF7E1;
+    background-color: white;
     border-radius: 30px;
     justify-content: center;
 }
@@ -241,6 +241,10 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
     height: 130px;
 }
 
+.spacer-pro-public {
+    height: 212px;
+}
+
 /* Permet de mettre en forme les 2 boutons pour choisir entre un compte pro public ou privé */
 .pro-public-privee {
     display: flex;
@@ -304,4 +308,21 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
                 0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
     text-align: center;
     width: 100%;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between; /* Espacement entre les éléments */
+    align-items: center; /* Aligne les éléments verticalement au centre */
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si l'espace est insuffisant */
+}
+
+.input-wrapper {
+    flex: 1; /* Permet de répartir les éléments de façon égale */
+    margin-right: 10px; /* Ajoute un espacement entre les éléments */
+    min-width: 200px; /* Largeur minimale pour éviter que les champs soient trop petits */
+}
+
+.input-wrapper:last-child {
+    margin-right: 0; /* Supprime la marge pour le dernier élément */
 }

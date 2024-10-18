@@ -40,11 +40,17 @@
                         <label for="pseudo">Pseudonyme<span class="required">*</span></label>
                         <input type="text-membre" placeholder="Pseudonyme" id="pseudo" name="pseudo" required>
 
-                        <label for="codepostal">Code postal<span class="required">*</span></label>
-                        <input type="text-membre" placeholder="Code Postal" id="codepostal" name="codepostal" required>
+                        <div class="row">
+                            <div class="input-wrapper">
+                            <label for="codepostal">Code postal<span class="required">*</span></label>
+                            <input type="text-membre" placeholder="Code Postal" id="codepostal" name="codepostal" required>
+                            </div>
 
-                        <label for="ville">Ville<span class="required">*</span></label>
-                        <input type="text-membre" placeholder="Ville" id="ville" name="ville" required>
+                            <div class="input-wrapper">
+                                <label for="ville">Ville<span class="required">*</span></label>
+                                <input type="text-membre" placeholder="Ville" id="ville" name="ville" required>
+                            </div>
+                        </div>
 
                         <label for="adresse">Adresse postale<span class="required">*</span></label>
                         <input type="text-membre" placeholder="Adressse postale" id="adresse" name="adresse" required>

@@ -16,16 +16,44 @@
         </header>
         <main>
             <section>
+                <?php
+                foreach($tablo as $val){
+                ?>
+                <img src="../images/<?php?>offre.webp" alt="offre" title="offre">
+                <div>
+                    <p><strong><?php?>Balade à vélo de Tonquédec à Pluzunet</strong></p>
+                    <p><?php?>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+                    <div class="detail_modif">
+                        <form action="http://localhost:8888/pages/detail-offre.php">
+                            <input type="submit" value="Voir les détails"/>
+                        </form>
+                        <form>
+                            <input type="submit" value="Modifier les informations"/>
+                        </form>
+                    </div>
+                    <div class="hors_ligne">
+                        <button id="button_hors_ligne"><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
+                    </div>
+                </div>
+                <?php
+                }
+                ?>
+            </section>
+            <section>
                 <img src="../images/offre.webp" alt="offre" title="offre">
                 <div>
                     <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
                     <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
                     <div class="detail_modif">
-                        <button>Voir les détails</button>
-                        <button>Modifier les informations</button>
+                        <form action="http://localhost:8888/pages/detail-offre.php">
+                            <input type="submit" value="Voir les détails"/>
+                        </form>
+                        <form>
+                            <input type="submit" value="Modifier les informations"/>
+                        </form>
                     </div>
                     <div class="hors_ligne">
-                        <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
+                        <button id="button_hors_ligne"><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
                     </div>
                 </div>
             </section>
@@ -35,29 +63,21 @@
                     <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
                     <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
                     <div class="detail_modif">
-                        <button>Voir les détails</button>
-                        <button>Modifier les informations</button>
+                        <form action="http://localhost:8888/pages/detail-offre.php">
+                            <input type="submit" value="Voir les détails"/>
+                        </form>
+                        <form>
+                            <input type="submit" value="Modifier les informations"/>
+                        </form>
                     </div>
                     <div class="hors_ligne">
-                        <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
+                        <button id="button_hors_ligne"><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
                     </div>
                 </div>
             </section>
-            <section>
-                <img src="../images/offre.webp" alt="offre" title="offre">
-                <div>
-                    <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
-                    <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
-                    <div class="detail_modif">
-                        <button>Voir les détails</button>
-                        <button>Modifier les informations</button>
-                    </div>
-                    <div class="hors_ligne">
-                        <button><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
-                    </div>
-                </div>
-            </section>
-            <button id="creer_offre">Créer une nouvelle offre</button>
+            <form action="http://localhost:8888/pages/creation_offre.php">
+                <input type="submit" value="Créer une nouvelle offre" id="creer_offre"/>
+            </form>
             
         </main>
         <footer>

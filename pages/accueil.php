@@ -76,7 +76,24 @@ include_once'nav.php';
                         <label for="restauration">Restauration</label>
                     </div>
                 </div>
-                <div class="filter"></div>
+                <div class="filter filtre-lieu">
+                    <div class="search-filter">
+                        <p>Search</p>
+                        <img src="../images/search_icon.png" alt="Search" title="Search">
+                    </div>
+                    <div class="filtre-case">
+                        <input type="checkbox" id="sb" name="sb" />
+                        <label for="sb">Saint-Brieuc</label>
+                    </div>
+                    <div class="filtre-case">
+                        <input type="checkbox" id="lannion" name="lannion" />
+                        <label for="lannion">Lannion</label>
+                    </div>
+                    <div class="filtre-case">
+                        <input type="checkbox" id="plérin" name="plérin" />
+                        <label for="plérin">Plérin</label>
+                    </div>
+                </div>
                 <div class="filter"></div>
                 <div class="filter"></div>
                 <div class="filter"></div>

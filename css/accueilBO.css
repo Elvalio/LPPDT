@@ -92,14 +92,27 @@ header + nav {
 /*           STYLES POUR LES FILTRES             */
 /* ============================================= */
 
+/* Styles pour l'animation de descente de la page */
+main {
+    transform: translateY(0);
+}
+
+main.active_filter {
+    transform: translateY(150px);
+    transition: all 0.3s ease-in-out;
+}
+
 .all-filter {
     display: none;
+    height: 150px;
 }
 
 .all-filter.active {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
 }
 
 .filter {
@@ -111,7 +124,7 @@ header + nav {
     background-color: #FFFFFF;
     border-radius: 10px;
 
-    transform: translateY(-10px);
+    transform: translateY(-20px);
     opacity: 0;
     transition: all 0.2s ease;
 }
@@ -119,6 +132,7 @@ header + nav {
 .filter.show {
 
     transform: translateY(0);
+    transition: translateY 0.15s ease;
     opacity: 1;
 }
 
@@ -138,6 +152,45 @@ header + nav {
 
 .filtre-case label {
     color: #595959;
+}
+
+
+/* ============================================= */
+/*           STYLES POUR LES FILTRES DE LIEU     */
+/* ============================================= */
+
+
+.search-filter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+    width: 150px;
+    height: fit-content;
+    padding: 10px 15px;
+    margin: 2px;
+}
+
+.search-filter > img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.search-filter > p {
+    color: #B3B3B3;
+}
+
+.filtre-lieu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    height: fit-content;
+
+    padding: 15px 50px 15px 15px;
 }
 
 /* ========================================= */
@@ -179,7 +232,7 @@ header + nav {
     content: "✓"; /* Affiche une coche */
     color: white; /* Couleur de la coche */
     position: absolute; /* Positionnement absolu */
-    left: 3px; /* Ajustement de la position */
+    left: 2.5px; /* Ajustement de la position */
     top: 50%; /* Centre verticalement */
     transform: translateY(-50%); /* Ajuste le centrage */
     font-size: 16px; /* Taille de la coche */

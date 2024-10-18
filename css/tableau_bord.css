@@ -4,15 +4,21 @@ body {
 
 h1{
     color: red;
+    margin-top: 10px;
 }
 
 h2{
     color: #757575;
+    margin-left: 1.5em;
 }
 
 p{
     font-size: 20px;
     margin: 5px;
+}
+
+#button_hors_ligne{
+    padding: 5px;
 }
 
 
@@ -49,6 +55,9 @@ section > div{
     color: red;
     border-color: red;
     margin-right: 10px;
+    background-color: white;
+    border-radius: 5px;
+    cursor:pointer;
 }
 
 #icon_delete{
@@ -57,27 +66,36 @@ section > div{
     margin-right: 3px;
 }
 
-button{
+input{
     border-radius: 5px;
     border-width: 1px;
     background-color: white;
 }
 
-.detail_modif > button{
+.detail_modif > form > input{
     padding: 8px;
     font-size: 15px;
     margin: 5px;
 }
 
-.detail_modif > button:hover{
+.detail_modif > form > input:hover{
     background-color: #757575;
+    cursor:pointer;
+}
+
+.detail_modif{
+    display: flex;
 }
 
 #creer_offre{
     background-color: black;
     color: white;
+    margin-left: 20px;
+    padding: 5px;
+    font-size: 16px;
 }
 
 #creer_offre:hover{
     background-color: black;
+    cursor:pointer;
 }

@@ -200,7 +200,7 @@ p {
     background-color: var(--gris-clair);
     border-radius: 10px;
     margin-left: 5px;
-}
+}tableau_de_bord
 
 .header > .logo_recherche > form > #recherche{
     border-style: none;
@@ -266,14 +266,8 @@ p {
 }
 
 .footer > .autres_liens{
-    color: #0A142F;
+    color: var(--noir);
     opacity: 70%;
-}
-
-#footer_titre_offre, #footer_titre_entreprise{
-    opacity: 100%;
-    margin-top: 14px;
-    margin-bottom: 14px;
 }
 
 .footer > .main_div_infos > .listes_infos > .offres_suite {
@@ -282,6 +276,16 @@ p {
 
 .footer > .main_div_infos > .listes_infos > ul > li{
     margin-bottom: 5px;
+}
+
+.footer > .main_div_infos > .listes_infos > ul > li > a{
+    opacity: 70%;
+}
+
+.footer > .main_div_infos > .listes_infos > ul > li > #footer_titre_offre, #footer_titre_entreprise{
+    margin-top: 14px;
+    margin-bottom: 14px;
+    opacity: 100%;
 }
 
 .footer > hr{
