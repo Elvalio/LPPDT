@@ -16,10 +16,13 @@
         </header>
         <main>
             <section>
-                <img src="../images/offre.webp" alt="offre" title="offre">
+                <?php
+                foreach($tablo as $val){
+                ?>
+                <img src="../images/<?php?>offre.webp" alt="offre" title="offre">
                 <div>
-                    <p><strong>Balade à vélo de Tonquédec à Pluzunet</strong></p>
-                    <p>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
+                    <p><strong><?php?>Balade à vélo de Tonquédec à Pluzunet</strong></p>
+                    <p><?php?>Balade à vélo pour toute la famille d'une distance d'environ 15 km</p>
                     <div class="detail_modif">
                         <form action="http://localhost:8888/pages/detail-offre.php">
                             <input type="submit" value="Voir les détails"/>
@@ -32,6 +35,9 @@
                         <button id="button_hors_ligne"><img src="../icons/slash.svg" id="icon_delete"> Mise hors ligne</button>
                     </div>
                 </div>
+                <?php
+                }
+                ?>
             </section>
             <section>
                 <img src="../images/offre.webp" alt="offre" title="offre">
