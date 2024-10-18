@@ -38,13 +38,8 @@
 #left-part-content, #top-right-part-content{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 820px;
 }
 
-#top-right-part-content{
-    height: 355px;
-}
 
 #title-categorie, #commune-type{
     display: flex;
@@ -55,9 +50,10 @@
 .container{
     display: flex;
     flex-direction: column;
-    min-height: 70px;
-    
     justify-content: space-between;
+    min-height: 70px;
+    margin-bottom: 30px;
+    
 }
 
 #titre-container, #commune-container{
@@ -107,21 +103,17 @@
     width: 100%;
 }
 
-#duree-container, #prix-container, #age-container{
+#duree-container, #prix-container, #age-container, #capacite-container, #nbattraction-container{
     margin-right: 20px;
     flex-grow: 1;
     max-width: 160px;
-}
-
-#prix-container{
-    max-width: 220px;
 }
 
 #age-container{
     margin-right: 0;
 }
 
-#duree-container, #age-container{
+#duree-container, #age-container, #langue-container, #capacite-container, #nbattraction-container{
     display: none;
 }
 
@@ -135,6 +127,7 @@
     justify-content: space-between;
     padding-right: 15px;
     height: 146px;
+    margin-bottom: 40px;
 }
 
 #tags-items-container {
