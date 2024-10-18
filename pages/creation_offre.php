@@ -50,7 +50,7 @@ include_once'nav.php';
                                     <label>Type d'offre</label>
                                     <div id="standard-premium">
                                         <div id="standard">
-                                            <input type="radio" id="standard" name="offre" value="standard" />
+                                            <input type="radio" id="standard" name="offre" value="standard" checked/>
                                             <label for="standard">Standard</label>
                                         </div>
                                         <div id="premium">
@@ -174,7 +174,7 @@ include_once'nav.php';
                                         <input type="text" id="duree" class="FS" name="duree" placeholder="Saisir" required />
                                     </div>
                                     <div class="container" id="nbattraction-container">
-                                        <label for="nbattraction">Durée</label>
+                                        <label for="nbattraction">Nombre d'attractions</label>
                                         <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="Saisir" required />
                                     </div>
                                     <div class="container" id="prix-container">
@@ -246,7 +246,7 @@ include_once'nav.php';
                 const ageContainer = document.getElementById('age-container');
                 const langueContainer = document.getElementById('langue-container');
                 const capaciteContainer = document.getElementById('capacite-container');
-                
+                const nbattractionContainer = document.getElementById('nbattraction-container');
 
                 // Récupérer tous les éléments avec la classe 'tag'
                 const tags = document.getElementsByClassName('tag');
@@ -272,28 +272,35 @@ include_once'nav.php';
                     const selectedCategorie = categorieSelect.value;
 
                     if (selectedCategorie === 'activite') {
-                        // Afficher les champs "Durée" et "Âge minimum" si "Activité" est sélectionné
                         dureeContainer.style.display = 'flex';
+                        nbattractionContainer.style.display = 'none';
                         ageContainer.style.display = 'flex';
+                        capaciteContainer.style.display = 'none';
                         langueContainer.style.display = 'none';
-                    } else {
-                        // Masquer les champs sinon
+                    }
+
+                    if (selectedCategorie === 'visite') {
+                        dureeContainer.style.display = 'flex';
+                        nbattractionContainer.style.display = 'none';
                         ageContainer.style.display = 'none';
+                        capaciteContainer.style.display = 'none';
+                        langueContainer.style.display = 'flex';
+                    }
 
-                        if (selectedCategorie === 'visite'){
-                            dureeContainer.style.display = 'flex';
-                            langueContainer.style.display = 'flex';
-                        } else {
-                            langueContainer.style.display = 'none';
+                    if (selectedCategorie === 'spectacle') {
+                        dureeContainer.style.display = 'flex';
+                        nbattractionContainer.style.display = 'none';
+                        ageContainer.style.display = 'none';
+                        capaciteContainer.style.display = 'flex';
+                        langueContainer.style.display = 'none';
+                    }
 
-                            if (selectedCategorie === 'spectacle'){
-                                capaciteContainer.style.display = 'flex';
-                                dureeContainer.style.display = 'flex';
-                            } else {
-                                capaciteContainer.style.display = 'none';
-                                dureeContainer.style.display = 'none';
-                            }
-                        }
+                    if (selectedCategorie === 'parcAttraction') {
+                        dureeContainer.style.display = 'none';
+                        nbattractionContainer.style.display = 'flex';
+                        ageContainer.style.display = 'flex';
+                        capaciteContainer.style.display = 'none';
+                        langueContainer.style.display = 'none';
                     }
 
                     
@@ -381,8 +388,6 @@ include_once'nav.php';
                                     deleteButton.style.display = 'block';
                                 }
                             }
-                            console.log(currentImageCount >=3 + currentImageCount);
-                            console.log(currentImageCount);
                             toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout
                         };
                     
@@ -423,19 +428,26 @@ include_once'nav.php';
                     } else {
                         // Supprimer l'image sélectionnée
                         let img = selectedImages[selectedImageIndex];
-                        img.src = '../images/rien.png'; // Effacer la source de l'image
-                        img.classList.remove('selected'); // Désélectionner l'image
-                        selectedImageIndex = -1;
-                        currentImageCount--;
-                        
+                        if(img.getAttribute('src') !== '../images/rien.png'){
+                            img.src = '../images/rien.png'; // Effacer la source de l'image
+                            img.classList.remove('selected'); // Désélectionner l'image
+                            selectedImageIndex = -1;
+                            currentImageCount--;
+                        } else {
+                            img.classList.remove('selected'); // Désélectionner l'image
+                            selectedImageIndex = -1;
+                            errorMessage.style.display = 'block';
+                            errorMessage.textContent = 'Vous ne pouvez pas supprimer une image inexistante !';
+                            
+                            
+                        }
+                            
                         // Masquer le bouton de suppression s'il n'y a plus d'images
                         if (currentImageCount === 0) {
                             deleteButton.style.display = 'none';
                         }
                         updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre le texte à "Ajouter une image"
                         toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
-
-                        errorMessage.style.display = 'none'; // Cacher le message d'erreur
                     }
                 });
             });
