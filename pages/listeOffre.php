@@ -169,8 +169,11 @@
             <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
         </div>
     </div>
-    
+
 
     
 </body>
+<?php
+    include 'footer.php';
+    ?>
 </html>
