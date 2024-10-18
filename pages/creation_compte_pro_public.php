@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="bouton-retour-page-création">
-        <button>
+        <button class="TS">
             <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
             Retour
         </button>
@@ -106,7 +106,7 @@
 
 
                         <div class="form-info">
-                            <p>Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                            <p class="TS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
                         </div>
 
                         

@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="bouton-retour-page-création">
-        <button>
+        <button class="TS">
             <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
             Retour
         </button>

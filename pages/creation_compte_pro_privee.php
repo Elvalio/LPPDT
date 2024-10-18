@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="bouton-retour-page-création">
-        <button>
+        <button class="TS">
             <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15">
             Retour
         </button>
@@ -18,12 +18,12 @@
         <div class="form-container-page-creation-compte">
             <div class="form-header-page-creation-compte">
                 <a href="creation_compte_pro_public.php" style="text-decoration: none;">
-                    <div class="inscription-pro-page-pro">
+                    <div class="inscription-pro-page-pro FS-bold">
                         Inscription Professionnelle
                     </div>
                 </a>
                 <a href="creation_compte_membre.php" style="text-decoration: none;">
-                    <div class="inscription-membre-page-pro">
+                    <div class="inscription-membre-page-pro FS-bold">
                         Inscription Membre
                     </div>
                 </a>
@@ -31,12 +31,12 @@
 
             <div class="pro-public-privee">
                 <a href="creation_compte_pro_privee.php" style="text-decoration: none;">
-                    <div class="privee-page-privee">
+                    <div class="privee-page-privee FS-bold">
                         Privée
                     </div>
                 </a>
                 <a href="creation_compte_pro_public.php" style="text-decoration: none;">
-                <div class="public-page-privee">
+                <div class="public-page-privee FS-bold">
                     Public
                 </div>
                 </a>
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="form-info">
-                            <p>Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                            <p class="TS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
                         </div>
 
                         
@@ -121,12 +121,12 @@
                     <label for="terms">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
                 </div>
 
-                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro">S'inscrire</button>
+                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS">S'inscrire</button>
             </form>
             
             <a href="connexion.php" style="text-decoration: none;">
                 <div class="login">
-                    <button type="submit" class="connexion-page-pro">Déjà inscrit ? Connectez-vous.</button>
+                    <button type="submit" class="connexion-page-pro TS">Déjà inscrit ? Connectez-vous.</button>
                 </div>
             </a>
         </div>
