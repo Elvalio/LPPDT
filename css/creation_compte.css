@@ -259,8 +259,6 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
     background-color: #F07605;
     z-index: +1;
     color: white;
-    font-size: 12px;
-    font-weight: bold;
     padding: 10px 20px 10px 20px;
     border-radius: 30px;
     box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
@@ -274,8 +272,6 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
     background-color: #FFF7E1;
     z-index: +1;
     color: #A2021F;
-    font-size: 12px;
-    font-weight: bold;
     padding: 10px 20px 10px 20px;
     border-radius: 30px;
     text-align: center;
@@ -286,8 +282,6 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
     background-color: #FFF7E1;
     z-index: +1;
     color: #A2021F;
-    font-size: 12px;
-    font-weight: bold;
     padding: 10px 20px 10px 20px;
     border-radius: 30px;
     text-align: center;
@@ -299,8 +293,6 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
     background-color: #F07605;
     z-index: +1;
     color: white;
-    font-size: 12px;
-    font-weight: bold;
     padding: 10px 20px 10px 20px;
     border-radius: 30px;
     box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
@@ -310,19 +302,20 @@ input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], inp
     width: 100%;
 }
 
+/* Les styles ci-dessous correspondent au éléments du formulaire qui se trouvent sur une même ligne : Code postal et ville par exemple */
 .row {
     display: flex;
-    justify-content: space-between; /* Espacement entre les éléments */
-    align-items: center; /* Aligne les éléments verticalement au centre */
-    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne si l'espace est insuffisant */
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .input-wrapper {
-    flex: 1; /* Permet de répartir les éléments de façon égale */
-    margin-right: 10px; /* Ajoute un espacement entre les éléments */
-    min-width: 200px; /* Largeur minimale pour éviter que les champs soient trop petits */
+    flex: 1;
+    margin-right: 10px;
+    min-width: 200px;
 }
 
 .input-wrapper:last-child {
-    margin-right: 0; /* Supprime la marge pour le dernier élément */
+    margin-right: 0;
 }
