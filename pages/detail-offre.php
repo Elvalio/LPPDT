@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Balade à vélo</title>
     <link rel="stylesheet" href="../css/samStyles.css">
+    <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../detail-offre.js" async></script>
 </head>
 
@@ -84,60 +85,71 @@
                 des charmes de la campagne trégorroise en circulant sur de petites routes secondaires et traverserez
                 notamment le bourg de Pluzunet.
             </p>
+            <br>
             <p>
                 Le parcours vous entraîne ensuite sur les hauteurs de la vallée du Léguer qui se dissimule dans les
                 bois. Vous découvrirez la charmante chapelle de Kerrivoalan avant que l’imposant château médiéval de
                 Tonquédec ne se dévoile à vous, surplombant la vallée du Léguer, au cœur d’une forêt merveilleuse.
             </p>
+            <br>
             <p>
                 Le parcours est balisé dans le sens horaire par de gros panneaux vélos verts et blancs ainsi que
                 quelques stickers de plus petite taille qui complètent le jalonnement.
             </p>
         </article>
-        <article>
-            <div>
+        <article class="part-contact">
+            <div class="side-contact">
                 <div>
                     <h3>Contact :</h3>
-                    <a href="">
-                        <img src="" alt="icon maison (localisation)">
+                    <div>
+                        
+                    <a href="https://g.co/kgs/YaDbwRa">
+                        <img src="../images/maison.png" alt="icon maison (localisation)">
                         <p>Place de l'Église 22140 Tonquédec</p>
                     </a>
-                    <a href="">
-                        <img src="" alt="icon telephone">
+                    </div>
+                    <div>
+                        <a href="">
+                        <img src="../images/telephone.png" alt="icon telephone">
                         <p>+33 7 65 84 65 96</p>
                     </a>
-                    <a href="">
-                        <img src="" alt="icon pc (lien vers le site)">
+                    </div>
+                    <div>
+                        <a href="">
+                        <img src="../images/pc.png" alt="icon pc (lien vers le site)">
                         <p>Côtes d’Amor Les plus belles balades à vélo</p>
                     </a>
+                    </div>
+                    
                 </div>
-                <div>
+                <div class="horaires">
                     <h3>Horaires et tarifs :</h3>
                     <div>
-                        <img src="" alt="icon heure">
+                        <img src="../images/Delivery Time.png" alt="icon heure">
                         <p>8h - 13h et 14h30 - 18h du lundi au vendredi</p>
                     </div>
                     <div>
-                        <img src="" alt="icon argent">
+                        <img src="../images/Stack of Coins.png" alt="icon argent">
                         <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
                     </div>
                 </div>
             </div>
             <div>
-                <img src="" alt="carte géolocalisation">
+                <img class="carte" src="../images/carte.png" alt="carte géolocalisation">
             </div>
         </article>
-        <button>
+        <button class="bouton-retour">
+            <img src="../icons/arrow-left-o.svg" alt="">
             Retour
         </button>
     </section>
     <section class="section-page part-avis">
-        <div>
+        <header class="header-avis">
             <h3>Avis : 4</h3>
             <h3>Non Consultés : 2</h3>
             <h3>Non répondus : 4</h3>
-        </div>
-        <article>
+        </header>
+        <article class="article-avis">
             <div>
                 <div>
                     <div>

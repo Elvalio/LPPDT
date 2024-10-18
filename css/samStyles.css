@@ -1,3 +1,17 @@
+/*
+@media (min-width: 1440px) and (min-height: 1024px) {
+  Styles spécifiques pour PC 
+}
+
+@media (max-width: 360px) and (max-height: 800px) {
+  Styles spécifiques pour téléphone 
+}
+
+@media (min-width: 1440px) and (max-height: 960px) {
+  Styles spécifiques pour tablette 
+}
+*/
+
 @font-face {
     font-family: 'TripSansBold';
     src: url('./TripSans-Bold.ttf') format('truetype');
@@ -97,6 +111,7 @@ body {
   /* Affiche les boutons en ligne */
   justify-content: space-between;
   /* Espacement égal entre les boutons */
+  z-index: 0;
 }
 /* Style des boutons de contrôle */
 .carousel-controls button {
@@ -162,13 +177,14 @@ body {
     font-family: 'TripSansRegular';
     width: 100%;
     margin: 0;
+    margin-top: 10px;
 }
 
 /* Définition du container pour gérer l'affichage de l'annonce */
 .part-annonce {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 55%;
     padding: 20px;
 }
 
@@ -176,7 +192,9 @@ body {
 .part-avis {
     display: flex;
     flex-direction: column;
-    width: 40%;
+    width: 45%;
+    margin: 50px 20px;
+    border: 2px solid black;
 }
 
 /* Définition du container pour gérer l'affichage des infos de l'offre */
@@ -189,6 +207,7 @@ body {
     justify-content: flex-start;
 }
 
+/* Définition du comportement des étoiles */
 .etoiles {
     display: flex;
     flex-direction: row;
@@ -201,6 +220,7 @@ body {
     height: 20px;
 }
 
+/* Définition du container pour gérer l'alignement des infos de l'offre */
 .infos-offre img {
     width: 20px;
     height: 20px;
@@ -211,4 +231,84 @@ body {
     color: black;
     font-family: 'TripSansRegular';
     margin: 0;
+}
+
+/* Définition du container contact */
+.part-contact {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 20px;
+}
+
+.carte {
+    width: 20vw;
+    border-radius: 15px;
+}
+
+.side-contact {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.side-contact div img {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.side-contact div div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.side-contact div div a  {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+}
+
+.horaires {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+/* Style du bouton retour */
+.bouton-retour {
+  display: flex; /* Utiliser flex pour aligner l'image et le texte */
+  align-items: center; /* Centre verticalement le contenu */
+  padding: 10px 30px; /* Padding à droite et à gauche */
+  cursor: pointer; /* Curseur en forme de main */
+  border: none;
+  border-radius: 8px;
+  background-color: var(--orange);
+  font-size: 16px;
+  width: fit-content;
+}
+
+.bouton-retour img{
+  height: 18px;
+  margin-right: 10px; /* Espace entre l'image et le texte */
+  width: auto; /* Largeur automatique pour garder le ratio */
+}
+
+.header-avis {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid black;
+}
+
+.article-avis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
