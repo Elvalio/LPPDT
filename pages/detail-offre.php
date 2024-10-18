@@ -153,7 +153,7 @@
             <div>
                 <div>
                     <div>
-                        <img src="" alt="photo de profil">
+                        <img src="../images/image 4.png" alt="photo de profil">
                         <p>Nicolas Dupuie</p>
                     </div>
                     <div>
@@ -171,7 +171,7 @@
             <div>
                 <div>
                     <div>
-                        <img src="" alt="photo de profil">
+                        <img src="../images/image 4.png" alt="photo de profil">
                         <p>Archibald Delacroix</p>
                     </div>
                     <div>
@@ -189,7 +189,7 @@
             <div>
                 <div>
                     <div>
-                        <img src="" alt="photo de profil">
+                        <img src="../images/image 4.png" alt="photo de profil">
                         <p>Corélie delavegas</p>
                     </div>
                     <div>
@@ -207,7 +207,7 @@
             <div>
                 <div>
                     <div>
-                        <img src="" alt="photo de profil">
+                        <img src="../images/image 4.png" alt="photo de profil">
                         <p>Michel Palareff</p>
                     </div>
                     <div>
