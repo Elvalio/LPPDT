@@ -6,10 +6,10 @@ SET SCHEMA 'pact';
 
 create table pact._adresse(
   idAdresse serial,
-  ville varchar(20),
-  numero_voie integer,
-  voie varchar(30),
-  code_postal integer,
+  ville varchar(20) not null,
+  numero_voie integer not null,
+  voie varchar(30) not null,
+  code_postal integer not null,
   complement varchar(30),
 
   constraint _adresse_pk primary key (idAdresse)
@@ -18,7 +18,7 @@ create table pact._adresse(
 ----------- IMAGES -----------
 create table pact._image(
   idImage serial,
-  src_image varchar(60),
+  src_image varchar(60) not null unique,
 
   constraint _image_pk primary key (idImage)
 );
@@ -28,14 +28,14 @@ create table pact._image(
 create table pact._compte
 (
   idC serial,
-  nom varchar(20),
-  prenom varchar(20),
-  email varchar(50),
-  telephone varchar(10),
-  mdp varchar(25),
+  nom varchar(20) not null,
+  prenom varchar(20) not null,
+  email varchar(50) not null,
+  telephone varchar(10) not null,
+  mdp varchar(25) not null,
   
   -- FK
-  idAdresse integer,
+  idAdresse integer not null,
   image_compte integer,
   
   constraint _compte_pk 
@@ -51,8 +51,8 @@ create table pact._compte
 create table pact._professionnel(
 
   idC integer,
-  codePro integer unique, -- need trigger so that this is frozen or see if you can make it an id
-  denomination_sociale varchar(30),
+  codePro integer unique not null, -- need trigger so that this is frozen or see if you can make it an id
+  denomination_sociale varchar(30) not null,
 
   constraint _professionnel_pk primary key (idC),
   constraint _professionnel_fk_inherit foreign key
@@ -73,8 +73,8 @@ create table pact._secteur_prive(
   idC integer,
   iban varchar(34),
   bic varchar(11),
-  siren varchar(9),
-  raison_sociale varchar(30),
+  siren varchar(9) not null,
+  raison_sociale varchar(30) not null,
     
   constraint _secteur_prive_pk primary key (idC),
   constraint _secteur_prive_fk_inherit foreign key
@@ -86,7 +86,7 @@ create table pact._secteur_prive(
 create table pact._membre(
 
   idC integer,
-  pseudo varchar(20) unique,-- need trigger so that this is frozen or see if you can make it an id
+  pseudo varchar(20) unique not null,-- need trigger so that this is frozen or see if you can make it an id
     
   constraint _membre_pk primary key (idC),
   constraint _membre_fk_inherit foreign key
@@ -133,7 +133,7 @@ create table pact._photo_avis(
 
 create table pact._tag(
   idTag serial,
-  libelle varchar(20),
+  libelle varchar(20) not null,
   
   constraint _tag_pk primary key (idTag)
 );
@@ -157,8 +157,8 @@ create table pact._tag_resto(
 ----------- Type_offre -----------
 create table pact._type_offre(
   idT serial,
-  nom_type varchar(20),
-  cout float,
+  nom_type varchar(20) not null,
+  cout float not null,
 
   constraint _type_offre_pk primary key (idT)
 );
@@ -556,7 +556,7 @@ instead of insert on pact.secteur_prive
   for each row execute procedure pact.insert_secteur_prive();
   
   
-insert into pact.secteur_prive (codePro, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003,'iban', 'bic', '125475842', 'Raison sociale', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'denom', 'iban', 'bic', '125475842', 'Raison sociale', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 
 --- Tags
 
@@ -659,18 +659,19 @@ begin
 end;
 $$ language 'plpgsql';
 
---TODO ajouter adresse et créateur de l'offre
+--TODO décomposer en plus petites vues
 
 create or replace view offre as
   select idO, titre, resume, "type", nom_type, cout, option, description, prix_min, pact.moy_notes(idO) as moy_note, pact.count_avis(idO) as nbrAvis, 
-  accessibilite, categorie, date_creation, date_publication, o.idAdresse, ville, numero_voie, voie, code_postal, complement, idC from _offre o 
-  inner join _type_offre on "type" = idT 
-  inner join _adresse a on a.idAdresse = o.idAdresse;
+  accessibilite, categorie, date_creation, date_publication, o.idAdresse, ville, numero_voie, voie, code_postal, complement, idC from pact._offre o 
+  inner join pact._type_offre on "type" = idT 
+  inner join pact._adresse a on a.idAdresse = o.idAdresse;
   
 create or replace function pact.insert_offre()
   returns trigger as $$
 begin
-  -- test adresse
+
+ -- test adresse
   if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
@@ -679,7 +680,7 @@ begin
 
   insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, idAdresse, idC)
   values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, new.categorie, new.date_creation, new.date_publication, new.idAdresse, new.idC);
-  RETURN OLD;
+  RETURN NEW;
 end;
 $$ language 'plpgsql';
 
@@ -688,6 +689,7 @@ instead of insert on pact.offre
   for each row execute procedure pact.insert_offre();
 
 --
+/*
 insert into pact.offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, ville, numero_voie, voie, code_postal, complement, idC) values
 ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
   2, 'À la Une', 'Venez découvrir la Magie des arbres dans ce site exceptionnel de la côte de Granit rose : première partie musicale autour du Bagad de Perros-Guirec',
@@ -697,20 +699,27 @@ insert into pact.avis (note, titre, corps, date_publication, date_visite, contex
 
 insert into pact._experience (idC, idO, idA) values (2,1,1);
 insert into pact._experience (idC, idO, idA) values (1,1,2);
+*/
 
-select * from pact.offre;
 
+-- TODO adresses pour chaque fils offre
 -- activite
 
 create or replace view pact.activite as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse
+  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._activite natural join pact.offre;
   
 create or replace function pact.insert_activite()
   returns trigger as $$
 begin
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, new.categorie, new.date_creation, new.date_publication) returning idO into new.idO;
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Activite', new.date_creation, new.date_publication, new.idAdresse, new.idC) returning idO into new.idO;
+  
   insert into pact._activite (idO, duree, age_min, prestation_incluse, prestation_excluse) values (new.idO, new.duree, new.age_min, new.prestation_incluse, new.prestation_excluse);
   RETURN OLD;
 end;
@@ -721,26 +730,31 @@ instead of insert on pact.activite
   for each row execute procedure pact.insert_activite();
 
 --  
-insert into pact.activite(titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse)
+insert into pact.activite(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC)
 values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
- 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', 'Activite', now(), now(),
-  interval '7 days', 4, 'Nada', 'rein');
-
--- select * from activite;
-
+ 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
+  interval '7 days', 4, 'Nada', 'rein', 
+  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
 
 -- visite
 
 create or replace view pact.visite as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, langues
+  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, langues, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from _visite natural join offre;
   
 create or replace function pact.insert_visite()
   returns trigger as $$
 begin
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, denomination, date_publication) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, new.categorie, new.date_publication) returning idO into new.idO;
-  insert into pact._visite (idO, duree, langues) values (new.idO, new.duree, new.langues);
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  
+  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Visite', new.date_creation, new.date_publication, new.idAdresse, new.idC) returning idO into new.idO;
+  
+insert into pact._visite (idO, duree, langues) values (new.idO, new.duree, new.langues);
   RETURN OLD;
 end;
 $$ language 'plpgsql';
@@ -748,18 +762,32 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_visite
 instead of insert on pact.visite
   for each row execute procedure pact.insert_visite();
+
+insert into pact.visite(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC)
+values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
+ 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
+  interval '7 days', 'français, Breton', 
+  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
   
 -- spectacle
 
 create or replace view pact.spectacle as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, capacite
+  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, capacite, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._spectacle natural join pact.offre;
   
 create or replace function pact.insert_spectacle()
   returns trigger as $$
 begin
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, denomination, date_publication) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, new.categorie, new.date_publication) returning idO into new.idO;
+
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  
+  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Spectacle', new.date_creation, new.date_publication, new.idAdresse, new.idC) returning idO into new.idO;
+  
   insert into pact._spectacle (idO, duree, capacite) values (new.idO, new.duree, new.capacite);
   RETURN OLD;
 end;
@@ -768,18 +796,37 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_spectacle
 instead of insert on pact.spectacle
   for each row execute procedure pact.insert_spectacle();
-  
+
+insert into pact.spectacle(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, duree, capacite, ville, numero_voie, voie, code_postal, complement, idC)
+values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
+ 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
+  interval '7 days', 200, 
+  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
+
+
+--- TODO image stuff
 -- parc_d_attraction
 
 create or replace view pact.parc_d_attraction as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, "plan", nbr_attractions, age_min
-   from pact._parc_d_attraction natural join pact.offre;
+  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, "plan", src_image, nbr_attractions, age_min, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+   from pact._parc_d_attraction 
+   natural join pact.offre
+   inner join pact._image on "plan"=idImage;
   
 create or replace function pact.insert_parc_d_attraction()
   returns trigger as $$
 begin
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorien, date_publication) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, new.categorie, new.denomination, new.date_publication) returning idO into new.idO;
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  
+  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Parc d''attraction', new.date_creation, new.date_publication, new.idAdresse, new.idC) returning idO into new.idO;
+  
+
+  insert into pact._image(src_image) values (new.src_image) returning idImage into new."plan";
   insert into pact._parc_d_attraction (idO, "plan", nbr_attractions, age_min) values (new.idO, new."plan", new.nbr_attractions, new.age_min);
   RETURN OLD;
 end;
@@ -788,19 +835,35 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_parc_d_attraction
 instead of insert on pact.parc_d_attraction
   for each row execute procedure pact.insert_parc_d_attraction();
+
+insert into pact.parc_d_attraction(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC)
+values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
+ 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
+  '/photos/images/5/carte.png', 30, 13, 
+  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
   
 -- restauration
 
 create or replace view pact.restauration as
   select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, 
-  carte_restaurant, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons
-   from pact._restauration natural join pact.offre;
+  carte_restaurant, src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+   from pact._restauration 
+    natural join pact.offre
+    inner join pact._image on carte_restaurant=idImage;
   
 create or replace function pact.insert_restauration()
   returns trigger as $$
 begin
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_publication) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.photo, new.prix_min, new.accessibilite, new.categorie, new.denomination, new.date_publication) returning idO into new.idO;
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  
+  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Restauration', new.date_creation, new.date_publication, new.idAdresse, new.idC) returning idO into new.idO;
+  
+  insert into pact._image(src_image) values (new.src_image) returning idImage into new.carte_restaurant;
   insert into pact._restauration (idO, carte_restaurant, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons) 
   values (new.idO, new.carte_restaurant, new.gamme_prix, new.petit_dejeuner, new.brunch, new.dejeuner, new.diner, new.boissons);
   RETURN OLD;
@@ -812,6 +875,14 @@ instead of insert on pact.restauration
   for each row execute procedure pact.insert_restauration();
   
 
+insert into pact.restauration(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, 
+  src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, 
+    ville, numero_voie, voie, code_postal, complement, idC)
+values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
+ 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
+  '/photos/images/5/menu.png', '€€', true, true, false, false, true, 
+  'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
+
 --- experience ---
 
 create or replace view pact.experience as
@@ -819,5 +890,8 @@ create or replace view pact.experience as
   inner join membre on e.idC = membre.idC 
   inner join avis on e.idA = avis.idA
   inner join offre on e.idO = offre.idO;
+
+
+insert into pact._experience (idC, idO, idA) values (2,1,1);
   
 select * from pact.experience;

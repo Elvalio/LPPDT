@@ -94,7 +94,21 @@ include_once'nav.php';
                         <label for="plérin">Plérin</label>
                     </div>
                 </div>
-                <div class="filter"></div>
+                <div class="filter filtre-temps">
+                    <div id="calendar-start">
+                        <label for="calendar-start">
+                            Date de début
+                        </label>
+                        <input type="date" name="date-start" id="date-start">
+                    </div>
+                    
+                    <div id="calendar-end">
+                        <label for="calendar-end">
+                            Date de Fin
+                        </label>
+                        <input type="date" name="date-end" id="date-end">
+                    </div>
+                </div>
                 <div class="filter"></div>
                 <div class="filter"></div>
             </div>
