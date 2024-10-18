@@ -8,23 +8,27 @@
     <?php
     include 'header.php';
     ?>
-<script>
+    <script>
     window.addEventListener("resize", getTemplate);
 
-CurrentPage = 'MobilePage';
-
-function getTemplate() {
-    if (screen.width >= 800 && CurrentPage != 'DesktopPage') {
-        return window.location.replace("accueil.php");
+    function getTemplate() {
+        const screenWidth = window.innerWidth;  // Utilisez window.innerWidth au lieu de screen.width
+        if (screenWidth >= 800) {
+            // Si l'écran est large et que vous êtes sur la page mobile, redirigez vers la page desktop
+            if (window.location.pathname.includes("listeOffre.php")) {
+                window.location.replace("accueil.php");
+            }
+        } else {
+            // Si l'écran est étroit et que vous êtes sur la page desktop, redirigez vers la page mobile
+            if (!window.location.pathname.includes("listeOffre.php")) {
+                window.location.replace("listeOffre.php");
+            }
+        }
     }
 
-    if (screen.width < 800 && CurrentPage != 'MobilePage') {
-        return window.location.replace("listeOffre.php");
-    }
-}
+    getTemplate();  // Vérifiez la taille de l'écran lors du chargement initial
+    </script>
 
-getTemplate();
-</script>
 </head>
 <body>
     <div class="card-container">
