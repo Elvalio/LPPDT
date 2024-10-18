@@ -173,6 +173,10 @@ include_once'nav.php';
                                         <label for="duree">Durée</label>
                                         <input type="text" id="duree" class="FS" name="duree" placeholder="Saisir" required />
                                     </div>
+                                    <div class="container" id="nbattraction-container">
+                                        <label for="nbattraction">Durée</label>
+                                        <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="Saisir" required />
+                                    </div>
                                     <div class="container" id="prix-container">
                                         <label for="prix">Prix minimum (€)</label>
                                         <input type="text" id="prix" class="FS" name="prix" placeholder="Saisir" required />
@@ -181,7 +185,16 @@ include_once'nav.php';
                                         <label for="age">Âge minimum</label>
                                         <input type="text" id="age" class="FS" name="age" placeholder="Saisir" required />
                                     </div>
+                                    <div class="container" id="capacite-container">
+                                        <label for="capacite">Capacité</label>
+                                        <input type="text" id="capacite" class="FS" name="capacite" placeholder="Saisir" required />
+                                    </div>
                                 </div>
+                                <div class="container" id="langue-container">
+                                    <label for="langue">Langue</label>
+                                    <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required />
+                                </div>
+                                
                                 <!-- Champ "Options" -->
                                 <div id="option-container">
                                     <label>Options</label>
@@ -231,6 +244,9 @@ include_once'nav.php';
                 const categorieSelect = document.getElementById('categorie');
                 const dureeContainer = document.getElementById('duree-container');
                 const ageContainer = document.getElementById('age-container');
+                const langueContainer = document.getElementById('langue-container');
+                const capaciteContainer = document.getElementById('capacite-container');
+                
 
                 // Récupérer tous les éléments avec la classe 'tag'
                 const tags = document.getElementsByClassName('tag');
@@ -259,11 +275,30 @@ include_once'nav.php';
                         // Afficher les champs "Durée" et "Âge minimum" si "Activité" est sélectionné
                         dureeContainer.style.display = 'flex';
                         ageContainer.style.display = 'flex';
+                        langueContainer.style.display = 'none';
                     } else {
                         // Masquer les champs sinon
-                        dureeContainer.style.display = 'none';
                         ageContainer.style.display = 'none';
+
+                        if (selectedCategorie === 'visite'){
+                            dureeContainer.style.display = 'flex';
+                            langueContainer.style.display = 'flex';
+                        } else {
+                            langueContainer.style.display = 'none';
+
+                            if (selectedCategorie === 'spectacle'){
+                                capaciteContainer.style.display = 'flex';
+                                dureeContainer.style.display = 'flex';
+                            } else {
+                                capaciteContainer.style.display = 'none';
+                                dureeContainer.style.display = 'none';
+                            }
+                        }
                     }
+
+                    
+
+                    
                 }
 
                 // Attacher l'événement 'change' à la sélection de catégorie
