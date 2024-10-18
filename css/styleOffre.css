@@ -21,13 +21,14 @@
 }
 
 #left-part{
-    width: 52%;
+    width: 780px;
     margin-right: 20px;
 }
 
 #right-part{
     border-bottom: none;
     flex-grow: 1;
+    max-width: 550px;
     border-top-left-radius: 8px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
@@ -103,13 +104,21 @@
 #duree-prix-age{
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
     width: 100%;
 }
 
 #duree-container, #prix-container, #age-container{
-    margin-right: 30px;
+    margin-right: 20px;
     flex-grow: 1;
+    max-width: 160px;
+}
+
+#prix-container{
+    max-width: 220px;
+}
+
+#age-container{
+    margin-right: 0;
 }
 
 #duree-container, #age-container{
