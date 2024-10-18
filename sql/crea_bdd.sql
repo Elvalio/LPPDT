@@ -508,7 +508,7 @@ create or replace trigger tg_insert_professionnel
 instead of insert on pact.professionnel
   for each row execute procedure pact.insert_professionnel();
   
-insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1001, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22780, '');
+insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1001, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 
 -- professionnel secteur public
 
@@ -532,7 +532,7 @@ instead of insert on pact.secteur_public
   for each row execute procedure pact.insert_secteur_public();
   
   
-insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22780, '');
+insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '065110126', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 
 -- professionnel secteur prive
 
