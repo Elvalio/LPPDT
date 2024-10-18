@@ -168,13 +168,13 @@ create table pact._type_offre(
 create table pact._offre(
   idO serial,
   titre varchar(50),
-  resume varchar(100),
+  resume varchar(250),
   option varchar(20),
-  description varchar(200),
+  description varchar(2000),
   prix_min float,
   --/moy_note
   --/nbrAvis
-  accessibilite varchar(100),
+  accessibilite varchar(200),
   categorie varchar(30), -- need to be frozen
   date_creation date default now(),
   date_publication date,
