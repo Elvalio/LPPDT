@@ -109,7 +109,7 @@
 
 #duree-container, #prix-container, #age-container{
     margin-right: 30px;
-    /* width: 180px; */
+    flex-grow: 1;
 }
 
 #duree-container, #age-container{
