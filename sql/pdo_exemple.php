@@ -1,5 +1,5 @@
 <?php
-include('connect_params_perso.php');
+include('connect_params_lppdt.php');
 try{
     $dbh = new PDO("$driver:host=$server;dbname=$dbname",
         $user, $pass);
