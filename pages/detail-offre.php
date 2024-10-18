@@ -214,7 +214,7 @@
                         <p>★★★★★</p>
                     </div>
                 </div>
-                <div class="">
+                <div>
                     <p>Je n'ai pas la référence des vélos, mais la balade était absolument parfaite, avec une
                         organisation fluide et des paysages magnifiques !</p>
                 </div>
