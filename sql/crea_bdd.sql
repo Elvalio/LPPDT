@@ -201,8 +201,8 @@ create table pact._activite(
   idO integer,
   duree interval not null,
   age_min integer  not null,
-  prestation_incluse varchar(30), -- not null ?
-  prestation_excluse varchar(30), -- not null ?
+  prestation_incluse varchar(100), -- not null ?
+  prestation_excluse varchar(100), -- not null ?
   
   constraint _activite_pk primary key(idO),
   constraint _activite_fk_inherit foreign key
