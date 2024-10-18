@@ -6,7 +6,7 @@
 #form-content{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    width: 100%;
     margin-top: 50px;
 }
 
@@ -15,15 +15,19 @@
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     padding: 20px 15px 20px 30px;
-    width: 746px;
     min-height: 840px;
     height: fit-content;
     /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
 }
 
+#left-part{
+    width: 52%;
+    margin-right: 20px;
+}
+
 #right-part{
     border-bottom: none;
-    width: 590px;
+    flex-grow: 1;
     border-top-left-radius: 8px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
