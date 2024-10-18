@@ -167,7 +167,7 @@ create table pact._type_offre(
 
 create table pact._offre(
   idO serial,
-  titre varchar(20),
+  titre varchar(50),
   resume varchar(100),
   option varchar(20),
   description varchar(200),
