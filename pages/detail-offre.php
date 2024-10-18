@@ -72,7 +72,7 @@
                 <p>
                     4 Avis |
                 </p>
-                <img src="../images/wheelchair.png" alt="fauteil roulant">
+                <img src="../images/Wheelchair.png" alt="fauteil roulant">
                 <p>
                     Non accessible
                 </p>
@@ -151,9 +151,9 @@
         </header>
         <article class="article-avis">
             <div>
-                <div>
-                    <div>
-                        <img src="../images/image 4.png" alt="photo de profil">
+                <div class="header-avis-profil">
+                    <div class="profil">
+                            <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
                         <p>Nicolas Dupuie</p>
                     </div>
                     <div>
@@ -169,9 +169,9 @@
                 </div>
             </div>
             <div>
-                <div>
-                    <div>
-                        <img src="../images/image 4.png" alt="photo de profil">
+                <div class="header-avis-profil">
+                    <div class="profil">
+                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
                         <p>Archibald Delacroix</p>
                     </div>
                     <div>
@@ -187,9 +187,9 @@
                 </div>
             </div>
             <div>
-                <div>
-                    <div>
-                        <img src="../images/image 4.png" alt="photo de profil">
+                <div class="header-avis-profil">
+                    <div class="profil">
+                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
                         <p>Corélie delavegas</p>
                     </div>
                     <div>
@@ -205,16 +205,16 @@
                 </div>
             </div>
             <div>
-                <div>
-                    <div>
-                        <img src="../images/image 4.png" alt="photo de profil">
+                <div class="header-avis-profil">
+                    <div class="profil">
+                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
                         <p>Michel Palareff</p>
                     </div>
                     <div>
                         <p>★★★★★</p>
                     </div>
                 </div>
-                <div>
+                <div class="">
                     <p>Je n'ai pas la référence des vélos, mais la balade était absolument parfaite, avec une
                         organisation fluide et des paysages magnifiques !</p>
                 </div>

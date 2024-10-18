@@ -311,4 +311,26 @@ body {
   flex-direction: column;
   align-items: center;
   padding: 20px;
+  height: fit-content;
+}
+
+.profil {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: baseline;
+  margin-top: 20px;
+}
+
+.profil p {
+  padding-left: 10px;
+}
+
+.header-avis-profil {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  margin-bottom: 10px;
 }
