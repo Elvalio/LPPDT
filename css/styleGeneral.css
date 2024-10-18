@@ -178,6 +178,8 @@ p {
     margin-right: 10px;
 }
 
+/* Bouton de navigations "À la une ..."*/
+
 .header > .liste_nav{
     list-style-type: none;
     display:flex;
@@ -200,7 +202,7 @@ p {
     background-color: var(--gris-clair);
     border-radius: 10px;
     margin-left: 5px;
-}tableau_de_bord
+}
 
 .header > .logo_recherche > form > #recherche{
     border-style: none;
@@ -308,7 +310,7 @@ p {
     display: none;
 }
 
-@media screen and (max-width:360px){
+@media screen and (max-width:730px){
     .footer > .main_div_infos > #image_full{
         display: none;
     }

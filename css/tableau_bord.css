@@ -1,5 +1,13 @@
-body {
-    margin-left: 100px;
+@font-face {
+    font-family: 'FiraSansBold';
+    src: url('../polices/FiraSans-Bold.ttf')
+    format('truetype');
+}
+
+h1{
+    font-family: 'TripSansBold';
+    src: url('../polices/TripSans-Bold.ttf')
+    format('truetype');
 }
 
 h1{
@@ -13,8 +21,15 @@ h2{
 }
 
 p{
+    font-family: 'FiraSansBold';
     font-size: 20px;
     margin: 5px;
+    color: #757575;
+}
+
+strong{
+    font-family: 'FiraSansBold';
+    color: black;
 }
 
 #button_hors_ligne{
