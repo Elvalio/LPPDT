@@ -184,7 +184,7 @@ body {
 .part-annonce {
     display: flex;
     flex-direction: column;
-    width: 55%;
+    width: 65%;
     padding: 20px;
 }
 
@@ -192,9 +192,10 @@ body {
 .part-avis {
     display: flex;
     flex-direction: column;
-    width: 45%;
+    width: 35%;
     margin: 50px 20px;
     border: 2px solid black;
+    height: fit-content;
 }
 
 /* Définition du container pour gérer l'affichage des infos de l'offre */
@@ -306,14 +307,6 @@ body {
   border-bottom: 2px solid black;
 }
 
-.article-avis {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  height: fit-content;
-}
-
 .profil {
   display: flex;
   flex-direction: row;
@@ -333,4 +326,30 @@ body {
   align-items: center;
   width: 70%;
   margin-bottom: 10px;
+}
+
+.commentaire-consulte {
+  display: flex;
+  background-color: orange;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.commentaire-non-consulte {
+  display: flex;
+  background-color: lightgrey;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.article-avis {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  height: fit-content;
 }

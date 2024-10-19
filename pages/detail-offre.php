@@ -160,7 +160,7 @@
                         <p>★★★★☆</p>
                     </div>
                 </div>
-                <div>
+                <div class="commentaire-consulte">
                     <p>La balade à vélo était très agréable, avec de beaux paysages à découvrir. Quelques petits détails
                         pourraient être améliorés, mais dans l'ensemble, c'était une belle expérience.</p>
                 </div>
@@ -178,7 +178,7 @@
                         <p>★☆☆☆☆</p>
                     </div>
                 </div>
-                <div>
+                <div class="commentaire-consulte">
                     <p>L'organisation de la balade était chaotique et le matériel fourni de mauvaise qualité.
                         L'expérience n'a pas du tout été à la hauteur de ce qui était promis dans l'offre.</p>
                 </div>
@@ -196,7 +196,7 @@
                         <p>★★★☆☆</p>
                     </div>
                 </div>
-                <div>
+                <div class="commentaire-non-consulte">
                     <p>La balade était sympathique, mais certains aspects manquaient d'organisation. Le parcours était
                         intéressant, mais le matériel et le service pourraient être mieux.</p>
                 </div>
@@ -214,7 +214,7 @@
                         <p>★★★★★</p>
                     </div>
                 </div>
-                <div>
+                <div class="commentaire-non-consulte">
                     <p>Je n'ai pas la référence des vélos, mais la balade était absolument parfaite, avec une
                         organisation fluide et des paysages magnifiques !</p>
                 </div>
