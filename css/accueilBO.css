@@ -246,51 +246,152 @@ input#date-end, input#date-start {
     border-radius: 8px;
 }
 
+
+
 /* ========================================= */
-/*         STYLES POUR LES CHECKBOXS         */
+/*       STYLES POUR LES FILTRES DE PRIX     */
 /* ========================================= */
 
-.filtre-case input {
-    display: none; /* Masque le checkbox par défaut */
+.filtre-prix {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+
+    width: 260px;
+    height: fit-content;
+
 }
 
-.filtre-case label {
+.slider-container {
+    width: 200px;
     position: relative;
-    padding-left: 30px; /* Espace pour le checkbox */
-    cursor: pointer; /* Change le curseur pour le label */
+    margin: 20px 15px 30px 15px;
 }
 
-.filtre-case label::before {
-    content: ""; /* Nécessaire pour l'affichage */
-    width: 15px; /* Largeur du checkbox */
-    height: 15px; /* Hauteur du checkbox */
-    background-color: #FFFFFF; /* Couleur de fond par défaut */
-    border: 1px solid #bbb; /* Bordure du checkbox */
-    border-radius: 5px; /* Coins arrondis */
-    position: absolute; /* Positionnement absolu */
-    left: 0; /* Positionnement à gauche */
-    top: 50%; /* Centrage vertical */
-    transform: translateY(-50%); /* Ajuste le centrage */
-    transition: background-color 0.3s, border-color 0.3s; /* Transition douce */
+input[type="range"] {
+    position: absolute;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    pointer-events: none; /* Empêche les événements sur la barre */
 }
 
-/* Change la couleur de fond lorsque coché */
-.filtre-case input:checked + label::before {
-    background-color: var(--rouge-fonce); /* Couleur de fond lorsque coché */
-    border-color: var(--rouge-fonce); /* Couleur de bordure lorsque coché */
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: #ddd;
+    border-radius: 3px;
 }
 
-/* Affiche la coche lorsque le checkbox est coché */
-.filtre-case input:checked + label::after {
-    content: "✓"; /* Affiche une coche */
-    color: white; /* Couleur de la coche */
-    position: absolute; /* Positionnement absolu */
-    left: 2.5px; /* Ajustement de la position */
-    top: 50%; /* Centre verticalement */
-    transform: translateY(-50%); /* Ajuste le centrage */
-    font-size: 16px; /* Taille de la coche */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    pointer-events: all; /* Autorise les interactions uniquement sur le bouton */
+    z-index: 3;
 }
 
+#slider-right::-webkit-slider-thumb {
+    z-index: 4; /* Le slider droit reste au-dessus */
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    pointer-events: all;
+    z-index: 3;
+}
+
+input[type="range"]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    pointer-events: all;
+    z-index: 3;
+}
+
+/* Style pour montrer la plage active entre les deux curseurs */
+/* .range-active {
+    position: absolute;
+    height: 6px;
+    background-color: #2196F3;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 3px;
+} */
+
+/* Position des valeurs sous les curseurs */
+.value-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+#value-left, #value-right {
+    font-size: 14px;
+    background-color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    position: absolute;
+    top: 20px;
+    width: fit-content;
+}
+
+#value-left {
+    left: 0;
+}
+
+#value-right {
+    right: 0;
+}
+
+#valider-prix {
+    display: none;
+}
+
+#valider-prix:hover {
+    transition: all 0.15s ease; /* Transition pour l'animation */
+    background-color: #2C2C2C;
+    color: #F5F5F5;
+}
+
+#valider-prix.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #2C2C2C;
+    border: 1px solid #2C2C2C;
+    background-color: white;
+
+    font-size: 1.1em;
+    
+    border-radius: 30px;
+    
+    width: fit-content;
+    height: fit-content;
+    
+    margin: 10px;
+    padding: 8px 12px;
+    
+    cursor: pointer;
+}
 
 
 /* ========================================= */

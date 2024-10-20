@@ -130,7 +130,17 @@ include_once'nav.php';
                         <input type="date" name="date-end" id="date-end">
                     </div>
                 </div>
-                <div class="filter"></div>
+                <div class="filter filtre-prix">
+                    <div class="slider-container">
+                        <input type="range" id="slider-left" min="0" max="1000" value="0" step="10">
+                        <input type="range" id="slider-right" min="0" max="1000" value="1000" step="10">
+                        <div class="value-container">
+                            <span id="value-left">0€</span>
+                            <span id="value-right">1000€</span>
+                        </div>
+                    </div>
+                    <button type="submit" id="valider-prix" class="NoSelect">Valider</button>
+                </div>
                 <div class="filter"></div>
             </div>
 
