@@ -196,6 +196,7 @@ body {
     margin: 50px 20px;
     border: 2px solid black;
     height: fit-content;
+    max-height: 100%;
 }
 
 /* Définition du container pour gérer l'affichage des infos de l'offre */
@@ -352,4 +353,9 @@ body {
   align-items: center;
   padding: 20px;
   height: fit-content;
+}
+
+.reponse {
+  color: rgb(128, 128, 128);
+  font-style: bold;
 }

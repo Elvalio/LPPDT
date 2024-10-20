@@ -109,7 +109,7 @@
                     </a>
                     </div>
                     <div>
-                        <a href="">
+                        <a href="tel:+33 7 65 84 65 96">
                         <img src="../images/telephone.png" alt="icon telephone">
                         <p>+33 7 65 84 65 96</p>
                     </a>
@@ -165,7 +165,7 @@
                         pourraient être améliorés, mais dans l'ensemble, c'était une belle expérience.</p>
                 </div>
                 <div>
-                    <p>Ajouter une réponse</p>
+                    <p class="reponse">Ajouter une réponse</p>
                 </div>
             </div>
             <div>
@@ -183,7 +183,7 @@
                         L'expérience n'a pas du tout été à la hauteur de ce qui était promis dans l'offre.</p>
                 </div>
                 <div>
-                    <p>Ajouter une réponse</p>
+                    <p class="reponse">Ajouter une réponse</p>
                 </div>
             </div>
             <div>
@@ -201,7 +201,7 @@
                         intéressant, mais le matériel et le service pourraient être mieux.</p>
                 </div>
                 <div>
-                    <p>Ajouter une réponse</p>
+                    <p class="reponse">Ajouter une réponse</p>
                 </div>
             </div>
             <div>
@@ -219,7 +219,7 @@
                         organisation fluide et des paysages magnifiques !</p>
                 </div>
                 <div>
-                    <p>Ajouter une réponse</p>
+                    <p class="reponse">Ajouter une réponse</p>
                 </div>
             </div>
         </article>
