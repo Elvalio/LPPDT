@@ -28,5 +28,76 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    
+    // Sélectionner les éléments div à l'intérieur des liens
+    const proLink = document.querySelector('.inscription-pro-page-pro');
+    const membreLink = document.querySelector('.inscription-membre-page-pro');
+    const membrePageMembreLink = document.querySelector('.inscription-membre-page-membre');
+    const proPageMembreLink = document.querySelector('.inscription-pro-page-membre');
+
+    // Vérification si les éléments existent
+    if (proLink) {
+        // Modifier les styles du lien "Inscription Professionnelle"
+        proLink.style.backgroundColor = '#A2021F';
+        proLink.style.color = 'white';
+        proLink.style.fontSize = '24px';
+        proLink.style.fontWeight = 'bold';
+        proLink.style.padding = '20px';
+        proLink.style.borderRadius = '30px';
+        proLink.style.boxShadow = '-5px 0 10px rgba(255, 99, 71, 0.5), 0 5px 10px rgba(255, 99, 71, 0.5), 0 -5px 10px rgba(255, 99, 71, 0.5)';
+        proLink.style.textAlign = 'center';
+        proLink.style.width = '100%';
+        proLink.style.height = '100%';
+        proLink.style.alignContent = 'center';
+    } else {
+        console.error("Élément '.inscription-pro-page-pro' introuvable");
+    }
+
+    if (membreLink) {
+        membreLink.style.backgroundColor = '#FFF7E1';
+        membreLink.style.zIndex = '1';
+        membreLink.style.color = '#006B8F';
+        membreLink.style.fontSize = '24px';
+        membreLink.style.fontWeight = 'bold';
+        membreLink.style.padding = '20px';
+        membreLink.style.borderRadius = '30px';
+        membreLink.style.textAlign = 'center';
+        membreLink.style.width = '100%';
+        membreLink.style.height = '100%';
+        membreLink.style.alignContent = 'center';
+    } else {
+        console.error("Élément '.inscription-membre-page-pro' introuvable");
+    }
+
+    if (membrePageMembreLink) {
+        // Modifier les styles du lien "Inscription Membre (page membre)"
+        membrePageMembreLink.style.backgroundColor = '#006B8F';
+        membrePageMembreLink.style.zIndex = '1';
+        membrePageMembreLink.style.color = 'white';
+        membrePageMembreLink.style.fontSize = '24px';
+        membrePageMembreLink.style.fontWeight = 'bold';
+        membrePageMembreLink.style.padding = '20px';
+        membrePageMembreLink.style.borderRadius = '30px';
+        membrePageMembreLink.style.boxShadow = '5px 0 10px rgba(0, 107, 143, 0.5), 0 5px 10px rgba(0, 107, 143, 0.5), 0 -5px 10px rgba(0, 107, 143, 0.5)';
+        membrePageMembreLink.style.textAlign = 'center';
+        membrePageMembreLink.style.width = '100%';
+        membrePageMembreLink.style.height = '100%';
+        membrePageMembreLink.style.alignContent = 'center';
+    } else {
+        console.error("Élément '.inscription-membre-page-membre' introuvable");
+    }
+
+    if (proPageMembreLink) {
+        // Modifier les styles du lien "Inscription Professionnelle (page membre)"
+        proPageMembreLink.style.backgroundColor = '#FFF7E1';
+        proPageMembreLink.style.color = 'red';
+        proPageMembreLink.style.fontSize = '24px';
+        proPageMembreLink.style.fontWeight = 'bold';
+        proPageMembreLink.style.padding = '20px';
+        proPageMembreLink.style.borderRadius = '30px';
+        proPageMembreLink.style.textAlign = 'center';
+        proPageMembreLink.style.width = '100%';
+    } else {
+        console.error("Élément '.inscription-pro-page-membre' introuvable");
+    }
+
 });
