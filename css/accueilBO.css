@@ -20,6 +20,11 @@ header + nav {
     align-items: center; /* Aligne verticalement le contenu */
 }
 
+p {
+    font-family: 'TripSansRegular', 'Arial';
+}
+
+
 /* ========================================= */
 /*          STYLES DE LA ZONE DE RECHERCHE   */
 /* ========================================= */
@@ -558,12 +563,12 @@ input[type="range"]::-ms-thumb {
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
+    gap: 8px;
 }
 
 .carte_offre img {
     width: 100%;
     object-fit: contain;
-    padding-bottom: 16px;
 }
 
 .carte_offre .infoAnnonce {
@@ -571,7 +576,7 @@ input[type="range"]::-ms-thumb {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 160px;
+    width: 150px;
 }
 
 .carte_offre .infoAnnonce p {
@@ -589,4 +594,9 @@ input[type="range"]::-ms-thumb {
     height: 18px;
     object-fit: cover;
     margin: 0 2px;
+}
+
+
+.carte_offre a {
+    text-decoration: none;
 }

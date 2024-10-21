@@ -2,6 +2,28 @@
 
 include_once'nav.php';
 
+include('../sql/connect_params.php');
+
+try{
+    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
+        $user, $pass);
+        
+    $stmt = $dbh->prepare(
+        "SELECT titre, prix_min, moy_note, nbravis FROM pact.offre"
+    );
+    
+    
+    $stmt->execute();
+    
+    $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// ido, titre, resume, type, nom_type, cout, description, prix_min, moy_note, nbravis, accessibilitev, categorie, date_creation, date_publication, idadresse, ville, numero_voie, voie, code_postal, complement, idc
+
+
+} catch (PDOException $e) {
+    print "Erreur !: " . $e->getMessage() . "<br/>";
+    die();
+}
+
 
 ?>
 <head>
@@ -36,24 +58,24 @@ include_once'nav.php';
         <div class="main-content">
             <!-- Contenu principal de la page -->
             <header>
-                <h1>Accueil</h1>
+                <h1 class="TS">Accueil</h1>
             </header>
             <nav>
                 <div class="nav_space">
                     <div class="search">
-                        <input type="text" name="search" id="search" placeholder="Search">
+                        <input type="text" name="search" id="search" placeholder="Search" class="FS">
                         <img src="../images/search_icon.png" alt="Search" title="Search">
                     </div>
 
                     <div class="filtrer-trier"> 
                         <div class="filtrer-bouton NoSelect">
-                            <p>Filtrer par</p>
+                            <p class="FS">Filtrer par</p>
                             <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                         </div>
 
                         <div class="dropdown NoSelect">
                             <div class="dropdown-toggle trier">
-                                <p>Trier par</p>
+                                <p class="FS">Trier par</p>
                                 <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                             </div>
                             <ul class="dropdown-menu">
@@ -68,11 +90,11 @@ include_once'nav.php';
 
                 <div class="NouveauALaUne">
                     <div class="boutonNouveau NoSelect">
-                        <p>Nouveau</p>
+                        <p class="FS">Nouveau</p>
                         <img src="../images/croix.png" alt="croix" title="croix">
                     </div>
                     <div class="boutonALaUne NoSelect">
-                        <p>A la une</p>
+                        <p class="FS">A la une</p>
                         <img src="../images/croix.png" alt="croix" title="croix">
                     </div>
                 </div>
@@ -142,204 +164,67 @@ include_once'nav.php';
                     <button type="submit" id="valider-prix" class="NoSelect">Valider</button>
                 </div>
                 <div class="filter filtre-note">
-                    <div class="note">
-                        <input type="checkbox" id="lannion" name="lannion" />
-                        <div class="etoileNoteFiltre">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                        </div>
-                    </div>
+                    <?php
+                    $notes = [
+                        5 => [true, true, true, true, true],
+                        4 => [true, true, true, true, false],
+                        3 => [true, true, true, false, false],
+                        2 => [true, true, false, false, false],
+                        1 => [true, false, false, false, false],
+                    ];
 
-                    <div class="note">
-                        <input type="checkbox" id="lannion" name="lannion" />
-                        <div class="etoileNoteFiltre">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                    foreach ($notes as $note => $stars) { ?>
+                        <div class="note">
+                            <input type="checkbox" id="note-<?php echo $note; ?>" name="note-<?php echo $note; ?>" />
+                            <div class="etoileNoteFiltre">
+                                <?php foreach ($stars as $star) { ?>
+                                    <img src="../images/<?php echo $star ? 'etoile' : 'etoile_vide'; ?>.png" alt="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>" title="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>">
+                                <?php } ?>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="note">
-                        <input type="checkbox" id="lannion" name="lannion" />
-                        <div class="etoileNoteFiltre">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                        </div>
-                    </div>
-
-                    <div class="note">
-                        <input type="checkbox" id="lannion" name="lannion" />
-                        <div class="etoileNoteFiltre">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                        </div>
-                    </div>
-
-                    <div class="note">
-                        <input type="checkbox" id="lannion" name="lannion" />
-                        <div class="etoileNoteFiltre">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
 
             <main>
-
+            <?php
+            foreach ($stmt as $key => $value) { ?>
                 <div class="carte_offre">
-
-                    <img src="../images/offre.webp" alt="Photo offre" title="Photo offre">
-                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
+                    <a href="https://google.com" target="_blank">
+                    
+                    <img src="../images/<?php echo 'offre' ?>.webp" alt="Photo offre">
+                    <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
                     
                     <div class="infoAnnonce">
-                        <p>79€</p>
-                    
+                        <p><?php echo $value["prix_min"] ?>€</p>
+                        
                         <div class="etoileNote">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-        
+                            <?php 
+                        if ($value["moy_note"] != null && $value["nbravis"] != 0) {
+                            for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                                <img src="../images/etoile.png" alt="Etoile">
+                            <?php }
+                            for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                <img src="../images/etoile_vide.png" alt="Etoile Vide">
+                            <?php }} ?>
                         </div>
+
+                        <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
+                            <p>(<?php echo $value["nbravis"] ?>)</p>
+
+                        <?php } ?>
                     </div>
+                </a>
                 </div>
-
-
-
-                <div class="carte_offre">
-
-                    <img src="../images/offre.webp" alt="Photo offre" title="Photo offre">
-                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
-                    
-                    <div class="infoAnnonce">
-                        <p>79€</p>
-                    
-                        <div class="etoileNote">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                    
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="carte_offre">
-
-                    <img src="../images/offre.webp" alt="Photo offre" title="Photo offre">
-                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
-                    
-                    <div class="infoAnnonce">
-                        <p>79€</p>
-                    
-                        <div class="etoileNote">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                    
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carte_offre">
-
-                    <img src="../images/offre.webp" alt="Photo offre" title="Photo offre">
-                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
-                    
-                    <div class="infoAnnonce">
-                        <p>79€</p>
-                    
-                        <div class="etoileNote">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                    
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carte_offre">
-
-                    <img src="../images/offre.webp" alt="Photo offre" title="Photo offre">
-                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
-                    
-                    <div class="infoAnnonce">
-                        <p>79€</p>
-                    
-                        <div class="etoileNote">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                    
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carte_offre">
-
-                    <img src="../images/offre.webp" alt="Photo offre" title="Photo offre">
-                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
-                    
-                    <div class="infoAnnonce">
-                        <p>79€</p>
-                    
-                        <div class="etoileNote">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                    
-                        </div>
-                    </div>
-                </div>
-
-                <div class="carte_offre">
-
-                    <img src="../images/offre.webp" alt="Photo offre" title="Photo offre">
-                    <p class="titreAnnonce">Ibis Hotel Lannion</p>
-                    
-                    <div class="infoAnnonce">
-                        <p>79€</p>
-                    
-                        <div class="etoileNote">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
-                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
-                    
-                        </div>
-                    </div>
-                </div>
-
+            <?php } ?>
             </main>
+            <footer>
+                <?php include_once'footer.php'; ?>
+            </footer>
         </div>
-
     </body>
 </html>
+
+<?php 
+$dbh = null;
+?>
