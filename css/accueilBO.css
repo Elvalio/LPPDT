@@ -62,10 +62,6 @@ input:focus {
     flex-direction: row; /* Aligne les éléments horizontalement */
 }
 
-.filtrer-bouton {
-    cursor: pointer;
-}
-
 .filtrer-bouton, .trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
@@ -252,6 +248,8 @@ input#date-end, input#date-start {
     padding: 5px;
 
     border-radius: 8px;
+
+    cursor: pointer;
 }
 
 
@@ -397,8 +395,6 @@ input[type="range"]::-ms-thumb {
     
     margin: 10px;
     padding: 8px 12px;
-    
-    cursor: pointer;
 }
 
 
@@ -445,9 +441,6 @@ input[type="range"]::-ms-thumb {
     position: relative; /* Pour positionner le sous-menu */
 }
 
-.dropdown:hover {
-    cursor: pointer; /* Change le curseur au survol */
-}
 
 .dropdown-menu {
     display: none; /* Masqué par défaut */
@@ -526,7 +519,6 @@ input[type="range"]::-ms-thumb {
     height: fit-content;
     padding: 5px 8px; /* Espacement intérieur pour le texte */
     margin: 2px;
-    cursor: pointer;
     transition: background-color 0.3s, color 0.3s;
 }
 

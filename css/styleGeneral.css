@@ -157,6 +157,7 @@ p {
 
 .NoSelect {
     user-select: none;
+    cursor: pointer;
 }
 
 
