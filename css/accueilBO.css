@@ -37,13 +37,20 @@ header + nav {
 }
 
 .search > img {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
 }
 
-.search > p {
-    color: #B3B3B3;
+.search > input {
+    color: var(--noir);
+    border: none;
+    font-size: 1.2em;
+}
+
+input:focus {
+    border: none;
+    outline: none;
 }
 
 /* ========================================= */
@@ -110,7 +117,7 @@ main.active_filter {
 .all-filter.active {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     transform: translateY(0);
     transition: all 0.3s ease-in-out;
 }
@@ -167,7 +174,7 @@ main.active_filter {
     justify-content: space-between;
     border: 1px solid #D9D9D9;
     border-radius: 20px;
-    width: 150px;
+    width: 170px;
     height: fit-content;
     padding: 10px 15px;
     margin: 2px;
@@ -179,8 +186,9 @@ main.active_filter {
     object-fit: contain;
 }
 
-.search-filter > p {
-    color: #B3B3B3;
+.search-filter > input {
+    color: var(--noir);
+    border: none;
 }
 
 .filtre-lieu {
@@ -190,7 +198,7 @@ main.active_filter {
 
     height: fit-content;
 
-    padding: 15px 50px 15px 15px;
+    padding: 15px;
 }
 
 
@@ -365,7 +373,7 @@ input[type="range"]::-ms-thumb {
     display: none;
 }
 
-#valider-prix:hover {
+#valider-prix.active:hover {
     transition: all 0.15s ease; /* Transition pour l'animation */
     background-color: #2C2C2C;
     color: #F5F5F5;
@@ -393,6 +401,41 @@ input[type="range"]::-ms-thumb {
     cursor: pointer;
 }
 
+
+/* ========================================= */
+/*         STYLES POUR LES FILTRES DE NOTE   */
+/* ========================================= */
+
+.filtre-note {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    width: fit-content;
+    height: fit-content;
+
+    padding: 20px;
+}
+
+.note {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.etoileNoteFiltre {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+}
+
+.etoileNoteFiltre img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+}
 
 /* ========================================= */
 /*         STYLES POUR LE MENU DÉROULANT     */

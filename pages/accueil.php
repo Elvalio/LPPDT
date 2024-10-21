@@ -41,7 +41,7 @@ include_once'nav.php';
             <nav>
                 <div class="nav_space">
                     <div class="search">
-                        <p>Search</p>
+                        <input type="text" name="search" id="search" placeholder="Search">
                         <img src="../images/search_icon.png" alt="Search" title="Search">
                     </div>
 
@@ -99,7 +99,7 @@ include_once'nav.php';
                 </div>
                 <div class="filter filtre-lieu">
                     <div class="search-filter">
-                        <p>Search</p>
+                        <input type="text" name="search" id="search" placeholder="Search">
                         <img src="../images/search_icon.png" alt="Search" title="Search">
                     </div>
                     <div class="filtre-case">
@@ -141,7 +141,62 @@ include_once'nav.php';
                     </div>
                     <button type="submit" id="valider-prix" class="NoSelect">Valider</button>
                 </div>
-                <div class="filter"></div>
+                <div class="filter filtre-note">
+                    <div class="note">
+                        <input type="checkbox" id="lannion" name="lannion" />
+                        <div class="etoileNoteFiltre">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <input type="checkbox" id="lannion" name="lannion" />
+                        <div class="etoileNoteFiltre">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <input type="checkbox" id="lannion" name="lannion" />
+                        <div class="etoileNoteFiltre">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <input type="checkbox" id="lannion" name="lannion" />
+                        <div class="etoileNoteFiltre">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                        </div>
+                    </div>
+
+                    <div class="note">
+                        <input type="checkbox" id="lannion" name="lannion" />
+                        <div class="etoileNoteFiltre">
+                            <img src="../images/etoile.png" alt="Etoile" title="Etoile">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                            <img src="../images/etoile_vide.png" alt="Etoile Vide" title="Etoile Vide">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <main>

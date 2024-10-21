@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.classList.remove('show');
             });
             fleche_filtre.classList.remove('rotate-180');
-            main.classList.toggle('active_filter');
+            main.classList.remove('active_filter');
         }
     }
 
@@ -112,9 +112,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!dropdown.contains(event.target) && event.target !== dropdownToggle) {
             closeDropdown();
         }
-        if (!filtres.contains(event.target) && event.target !== bouton_filtre) {
-            closeFilterMenu();
-        }
+        // if (!filtres.contains(event.target) && event.target !== bouton_filtre) {
+        //     closeFilterMenu();
+        // }
     });
 
     // Code du slider double
