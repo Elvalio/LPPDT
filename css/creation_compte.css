@@ -145,22 +145,24 @@ label {
     margin-bottom: 5px;
 }
 
-/* La couleur des bordures pour les éléments du formulaires de la page membre */
-input[type="text-membre"], input[type="email-membre"], input[type="password-membre"], input[type="tel-membre"] {
+
+/* Style général des inputs */ 
+
+input {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
-    border: 2px solid #006B8F;
     border-radius: 5px;
+}
+
+/* La couleur des bordures pour les éléments du formulaires de la page membre */
+input[type="text-membre"], input[type="email-membre"], input[type="password-membre"], input[type="tel-membre"] {
+    border: 2px solid #006B8F;
 }
 
 /* La couleur des bordures pour les éléments du formulaires de la page pro */
 input[type="text-pro"], input[type="email-pro"], input[type="password-pro"], input[type="tel-pro"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
     border: 2px solid #F07605;
-    border-radius: 5px;
 }
 
 /* Le style de la checkbox pour la validation des conditions d'utilisation */
