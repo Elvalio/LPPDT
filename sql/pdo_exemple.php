@@ -1,7 +1,7 @@
 <?php
 include('connect_params_lppdt.php');
 try{
-    $dbh = new PDO("$driver:host=$server;dbname=$dbname",
+    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
         $user, $pass);
 
     $stmt = $dbh->prepare(
@@ -9,7 +9,7 @@ try{
         VALUES(:codePro, :denomination_sociale,  :nom, :prenom, :email, :telephone, :mdp, :ville, :numero_voie, :voie, :code_postal, :complement)"
     );
 
-    $stmt->bindParam("s:codePro", $codePro);
+    $stmt->bindParam(":codePro", $codePro);
     $stmt->bindParam(":denomination_sociale", $denomination_sociale);
     $stmt->bindParam(":nom", $nom);
     $stmt->bindParam(":prenom", $prenom);
