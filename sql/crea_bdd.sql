@@ -476,14 +476,6 @@ create or replace trigger tg_insert_membre
 instead of insert on pact.membre
   for each row execute procedure pact.insert_membre();
 
-
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('jonnnie', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('bobbie', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
-
-
--- update _membre set pseudo = 'azza' where idC = 1;
-
-
 -- professionnel
 create or replace view pact.professionnel as
   select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
@@ -507,8 +499,7 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_professionnel
 instead of insert on pact.professionnel
   for each row execute procedure pact.insert_professionnel();
-  
-insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1001, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+
 
 -- professionnel secteur public
 
@@ -530,9 +521,7 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_secteur_public
 instead of insert on pact.secteur_public
   for each row execute procedure pact.insert_secteur_public();
-  
-  
-insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+
 
 -- professionnel secteur prive
 
@@ -555,9 +544,6 @@ create or replace trigger tg_insert_secteur_prive
 instead of insert on pact.secteur_prive
   for each row execute procedure pact.insert_secteur_prive();
   
-  
-insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'denom', 'iban', 'bic', '125475842', 'Raison sociale', 'jon', 'halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
-
 --- Tags
 
 -- Tags default
@@ -577,8 +563,7 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_tag_default
 instead of insert on pact.tag_default
   for each row execute procedure pact.insert_tag_default();
-  
-insert into pact.tag_default (libelle) values ('Son et lumière');
+
 
 -- Tags default
 
@@ -597,9 +582,6 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_tag_resto
 instead of insert on pact.tag_resto
   for each row execute procedure pact.insert_tag_resto();
-  
-insert into pact.tag_resto (libelle) values ('Français');
-
 
 --- Avis
 
@@ -626,16 +608,13 @@ $$ language 'plpgsql';
 create or replace view pact.avis as 
   select idA, note, titre, corps, date_publication, date_visite, contexte, pact.count_likes(idA) as nbr_likes, pact.count_dislikes(idA) as nbr_dislikes, consulte, blackliste from _avis;
 
--- needs member id
-insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'hahah', 'This place sucked', now(), now(), 'seul');
-
-insert into pact._recommande (idA, idC) values (1, 1);
 
 --- type_offre
-
+/*
 insert into _type_offre (nom_type, cout) values ('Gratuit', 0);
 insert into _type_offre (nom_type, cout) values ('Standard', 10);
 insert into _type_offre (nom_type, cout) values ('Premium', 20);
+*/
 
 --- Offres
 
@@ -688,21 +667,7 @@ create or replace trigger tg_offre
 instead of insert on pact.offre
   for each row execute procedure pact.insert_offre();
 
---
-/*
-insert into pact.offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, ville, numero_voie, voie, code_postal, complement, idC) values
-('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
-  2, 'À la Une', 'Venez découvrir la Magie des arbres dans ce site exceptionnel de la côte de Granit rose : première partie musicale autour du Bagad de Perros-Guirec',
-   5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', 'Spectacle', now(), now(), 'Lannion', 5, 'rue des cordiers', 22854, 'complement', 5);
 
-insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (2, 'Loser', 'This place was cool', now(), now(), 'Famille');
-
-insert into pact._experience (idC, idO, idA) values (2,1,1);
-insert into pact._experience (idC, idO, idA) values (1,1,2);
-*/
-
-
--- TODO adresses pour chaque fils offre
 -- activite
 
 create or replace view pact.activite as
@@ -730,11 +695,6 @@ instead of insert on pact.activite
   for each row execute procedure pact.insert_activite();
 
 --  
-insert into pact.activite(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC)
-values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
- 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
-  interval '7 days', 4, 'Nada', 'rein', 
-  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
 
 -- visite
 
@@ -763,11 +723,6 @@ create or replace trigger tg_insert_visite
 instead of insert on pact.visite
   for each row execute procedure pact.insert_visite();
 
-insert into pact.visite(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC)
-values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
- 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
-  interval '7 days', 'français, Breton', 
-  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
   
 -- spectacle
 
@@ -797,14 +752,7 @@ create or replace trigger tg_insert_spectacle
 instead of insert on pact.spectacle
   for each row execute procedure pact.insert_spectacle();
 
-insert into pact.spectacle(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, duree, capacite, ville, numero_voie, voie, code_postal, complement, idC)
-values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
- 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
-  interval '7 days', 200, 
-  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
 
-
---- TODO image stuff
 -- parc_d_attraction
 
 create or replace view pact.parc_d_attraction as
@@ -835,12 +783,6 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_parc_d_attraction
 instead of insert on pact.parc_d_attraction
   for each row execute procedure pact.insert_parc_d_attraction();
-
-insert into pact.parc_d_attraction(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC)
-values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
- 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
-  '/photos/images/5/carte.png', 30, 13, 
-  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
   
 -- restauration
 
@@ -875,14 +817,6 @@ instead of insert on pact.restauration
   for each row execute procedure pact.insert_restauration();
   
 
-insert into pact.restauration(titre, resume, "type", option, description, prix_min, accessibilite, date_creation, date_publication, 
-  src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, 
-    ville, numero_voie, voie, code_postal, complement, idC)
-values ('La Magie des arbres', 'Sur le site exceptionnel de la plage de Tourony, au cœur de la côte de Granit rose.',
- 2, 'À la Une', 'Lorem impum not too long', 5.00, 'Accessible pour personnes en situation de handicap par un ascenseur', now(), now(),
-  '/photos/images/5/menu.png', '€€', true, true, false, false, true, 
-  'Lannion', 5, 'rue des cordiers', 22300, 'complement', 5);
-
 --- experience ---
 
 create or replace view pact.experience as
@@ -890,8 +824,3 @@ create or replace view pact.experience as
   inner join membre on e.idC = membre.idC 
   inner join avis on e.idA = avis.idA
   inner join offre on e.idO = offre.idO;
-
-
-insert into pact._experience (idC, idO, idA) values (2,1,1);
-  
-select * from pact.experience;
