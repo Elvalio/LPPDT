@@ -366,17 +366,19 @@ body {
   }
 
   .titre-rouge {
-    font-size: 5vw;
+    font-size: 7vw;
     width: 100%;
   }
 
   .sous-titre {
-    font-size: 2vw;
+    font-size: 4vw;
     width: 100%;
   }
 
   .part-annonce {
     width: 100%;
+    margin: 20px;
+    padding: 0;
   }
 
   #sidebar {
@@ -384,8 +386,9 @@ body {
   }
 
   .main-content {
-    margin-left: 0;
+    margin: 0;
     padding: 0;
+
   }
 
   .container {
@@ -395,5 +398,22 @@ body {
 
   .carousel-inner {
     height: 50vw;
+  }
+
+  .description-offre {
+    font-size: 4vw;
+  }
+
+  .infos-offre p {
+    font-size: 4vw;
+  }
+
+  .infos-offre {
+    width: 100%;
+  }
+
+  .part-avis {
+    width: 100%;
+    margin: 20px;
   }
 }
