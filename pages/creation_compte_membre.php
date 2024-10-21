@@ -28,7 +28,7 @@
                     </div>
                 </a>
             </div>
-            <form>
+            <form action="../sql/traitement_inscription.php" method="POST">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
