@@ -587,6 +587,7 @@ input[type="range"]::-ms-thumb {
     margin: 24px;
     width: 240px;
     height: fit-content;
+    /* max-height: 360px;    */
     min-width: 240px;
     border: 1px solid #D9D9D9;
     display: flex;
@@ -598,7 +599,10 @@ input[type="range"]::-ms-thumb {
 
 .carte_offre img {
     width: 100%;
-    object-fit: contain;
+    height: fit-content;
+    /* max-height: 250px; */
+    object-fit: cover;
+    overflow: hidden;
 }
 
 .carte_offre .infoAnnonce {
@@ -631,7 +635,7 @@ input[type="range"]::-ms-thumb {
     text-decoration: none;
 }
 
-
+}
 
 
 @media screen and (max-width: 768px) {

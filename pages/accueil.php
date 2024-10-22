@@ -8,18 +8,18 @@ try{
     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
         $user, $pass);
         
-    $stmt = $dbh->prepare(
-        "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, a.ville
-            FROM pact.offre o
-            JOIN pact._adresse a ON o.idAdresse = a.idAdresse"
-    );
-    
+        $stmt = $dbh->prepare(
+            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, a.ville, p.src_image
+             FROM pact.offre o
+             JOIN pact._adresse a ON o.idAdresse = a.idAdresse
+             LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
+        );
     
     $stmt->execute();
-    
-    $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// ido, titre, resume, type, nom_type, cout, description, prix_min, moy_note, nbravis, accessibilitev, categorie, date_creation, date_publication, idadresse, ville, numero_voie, voie, code_postal, complement, idc
 
+    
+    $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// ido, titre, resume, type, nom_type, cout, description, prix_min, moy_note, nbravis, accessibilitev, categorie, date_creation, date_publication, idadresse, ville, numero_voie, voie, code_postal, complement, idc
 
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -180,83 +180,26 @@ try{
 
             <main>
             <?php
-            foreach ($stmt as $key => $value) { 
+            foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
-                <div class="carte_offre desktop-element">
-                    <a href="https://google.com" target="_blank">
-                        <?php
-                        $stmt = $dbh->prepare(
-                            "SELECT src_image from pact.photo_offre where ido = :ido"
-                        );
-                        
-                        
-                        $stmt->execute();
-                        
-                        $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                        print_r($stmt);
-
-                        ?>
-                    
-                    <img src="../images/images_offre/<?php echo 'offre' ?>.webp" alt="Photo offre">
-                    <p class="titreAnnonce"><?php echo $value["o.titre"] ?></p>
-                    
-                    <div class="infoAnnonce">
-                        <p><?php echo $value["o.prix_min"] ?>€</p>
-                        
-                        <div class="etoileNote">
-                            <?php 
-                        if ($value["o.moy_note"] != null && $value["o.nbravis"] != 0) {
-                            for ($i=0; $i < $value["o.moy_note"]; $i++) { ?>
-                                <img src="../images/etoile.png" alt="Etoile">
-                            <?php }
-                            for ($i=0; $i < 5-$value["o.moy_note"]; $i++) { ?>
-                                <img src="../images/etoile_vide.png" alt="Etoile Vide">
-                            <?php }} ?>
-                        </div>
-
-                        <?php if ($value["o.moy_note"] != null && $value["o.nbravis"] != 0) { ?>
-                            <p>(<?php echo $value["o.nbravis"] ?>)</p>
-
-                        <?php } ?>
+                    <div class="carte_offre desktop-element">
+                        <a href="https://google.com" target="_blank">
+                            <?php if ($value['src_image']) { ?>
+                                <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
+                            <?php } else { ?>
+                                <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
+                            <?php } ?>
+                            
+                            <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
+                            <div class="infoAnnonce">
+                                <p><?php echo $value["prix_min"] ?>€</p>
+                                <!-- Autres informations... -->
+                            </div>
+                        </a>
                     </div>
-                </a>
+                <?php } } ?>
 
-
-                </div>
-                <div class="carte_offre phone-element">
-                    <a href="https://google.com" target="_blank">
-                
-                    <p class="titreAnnonce"><?php echo $value["o.titre"] ?></p>
-                    
-                    <p class="descriptionAnnonce"><?php echo $value["o.resume"] ?></p>
-
-                    <p class="localisationAnnonce"> <?php echo $value["a.ville"] ?></p>
-
-                    <div class="infoAnnonce">
-                        <div class="etoileNote">
-                            <?php 
-                        if ($value["moy_note"] != null && $value["o.nbravis"] != 0) {
-                            for ($i=0; $i < $value["o.moy_note"]; $i++) { ?>
-                                <img src="../images/etoile.png" alt="Etoile">
-                            <?php }
-                            for ($i=0; $i < 5-$value["o.moy_note"]; $i++) { ?>
-                                <img src="../images/etoile_vide.png" alt="Etoile Vide">
-                            <?php }} ?>
-                        </div>
-
-                        <?php if ($value["o.moy_note"] != null && $value["o.nbravis"] != 0) { ?>
-                            <p>(<?php echo $value["o.nbravis"] ?>)</p>
-
-                        <?php } ?>
-                    </div>
-
-                    <div class="card-thumbnail-container">
-                        <img src="../images/<?php echo 'offre' ?>.webp" alt="Photo offre">
-                    </div>
-                </a>
-                </div>
-            <?php } } ?>
+                                
             </main>
             <footer>
                 <?php include_once'footer.php'; ?>

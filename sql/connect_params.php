@@ -1,8 +1,8 @@
 <?php
-$server = 'servbdd.iutlan.etu.univ-rennes1.fr';
+$server = 'lppdt.ventsdouest.dev';
 $driver = 'pgsql';
-$dbname = 'pg_<login>';
+$dbname = 'sae';
 $port = '5432';
-$user   = '<login>';
-$pass	= '<password_iut>';
+$user   = 'sae';
+$pass    = 'brute-quint3-jOUrnaux';
 ?>
