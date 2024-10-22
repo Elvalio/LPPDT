@@ -108,9 +108,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const confirmPassword = document.getElementById('confirm_password-membre');
 
     form.addEventListener('submit', function(event) {
-        // Vérifier si les mots de passe sont identiques
         if (password.value !== confirmPassword.value) {
-            event.preventDefault(); // Empêche la soumission du formulaire
+            event.preventDefault();
             alert('Les mots de passe ne correspondent pas. Veuillez les vérifier.');
         }
     });
