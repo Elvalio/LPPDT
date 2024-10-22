@@ -129,6 +129,7 @@ create table pact._photo_avis(
 );
 
 
+
 ----------- TAGS -----------
 
 create table pact._tag(
@@ -326,6 +327,21 @@ create table pact._tags_restauration(
   constraint _tags_restauration_fk_tag_resto foreign key
   (idTag) references pact._tag_resto(idTag)
 );
+
+create table pact._photo_offre(
+  idImage integer,
+  idO integer,
+
+  constraint _photo_offre_pk primary key (idImage, idO),
+
+  constraint _photo_offre_fk_image foreign key
+  (idImage) references pact._image(idImage),
+
+  constraint _photo_offre_fk_offre foreign key
+  (idO) references pact._offre(idO)
+
+);
+
 
 ----------- Exprience ----------- 
 
