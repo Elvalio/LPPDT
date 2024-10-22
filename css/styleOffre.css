@@ -15,9 +15,7 @@
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     padding: 20px 15px 20px 30px;
-    min-height: 840px;
     height: fit-content;
-    /* box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); */
 }
 
 #left-part{
@@ -60,7 +58,7 @@
     width: 440px;
 }
 
-#categorie-container, #type-container{
+.categorie-container, #type-container{
     width: 220px;
 }
 
@@ -81,6 +79,7 @@
 
 #option-container{
     display: none;
+    margin-bottom: 10px;
 }
 
 #standard-premium, #une-relief{
@@ -95,6 +94,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: 55%;
+    margin-bottom: 20px;
 }
 
 #adresse-container{
@@ -107,17 +107,13 @@
     width: 100%;
 }
 
-#duree-container, #prix-container, #age-container, #capacite-container, #nbattraction-container{
+#duree-container, #prix-container, #age-container, #capacite-container, #nbattraction-container, #categorie-prix-container{
     margin-right: 20px;
     flex-grow: 1;
     max-width: 160px;
 }
 
-#age-container{
-    margin-right: 0;
-}
-
-#duree-container, #age-container, #langue-container, #capacite-container, #nbattraction-container{
+#duree-container, #age-container, #langue-container, #capacite-container, #nbattraction-container, #categorie-prix-container{
     display: none;
 }
 
@@ -142,6 +138,26 @@
 }
 
 
+#repas-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+    width: fit-content;
+}
+
+#repas-items-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 145px;
+}
+
+#repas-items-container div, #standard-premium div, #une-relief div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 #file-container, #map-file-container{
     margin-top: 30px;
@@ -155,7 +171,6 @@
 #map-file-container{
     margin-top: 10px;
     max-width: 305px;
-    margin-bottom: 30px;
 }
 
 #custom-file-upload, #file-delete, #map-custom-file-upload, #map-file-delete {
@@ -191,9 +206,16 @@
     vertical-align: middle;
 }
 
+#repas-map{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 #map-image{
     display: none;
     flex-direction: column;
+    width: 320px;
 }
 
 #image-container, #map-image-container{
@@ -333,8 +355,9 @@ input[type="submit"]{
 }
 
 input[type="checkbox"], input[type="radio"]{
-    height: 13px;
-    margin-right: 2px;
+    height: 15px;
+    width: 15px;
+    margin-right: 5px;
     cursor: pointer;
 }
 
