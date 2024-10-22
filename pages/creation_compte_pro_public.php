@@ -53,7 +53,7 @@
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Entrez votre prénom" id="prenom-pro" name="prenom" required>
 
-                        <label for="pseudo" class="FS">Dénomination Sociale<span class="required">*</span></label>
+                        <label for="denomination-sociale-pro" class="FS">Dénomination Sociale<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Le nom de votre entreprise" id="denomination-sociale-pro" name="denomination" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
