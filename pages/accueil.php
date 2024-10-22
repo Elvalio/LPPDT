@@ -9,7 +9,7 @@ try{
         $user, $pass);
         
     $stmt = $dbh->prepare(
-        "SELECT titre, prix_min, moy_note, nbravis FROM pact.offre"
+        "SELECT en_ligne, titre, prix_min, moy_note, nbravis FROM pact.offre"
     );
     
     
@@ -188,7 +188,8 @@ try{
 
             <main>
             <?php
-            foreach ($stmt as $key => $value) { ?>
+            foreach ($stmt as $key => $value) { 
+                if ($value["en_ligne"]) { ?>
                 <div class="carte_offre">
                     <a href="https://google.com" target="_blank">
                     
@@ -216,7 +217,7 @@ try{
                     </div>
                 </a>
                 </div>
-            <?php } ?>
+            <?php } } ?>
             </main>
             <footer>
                 <?php include_once'footer.php'; ?>
