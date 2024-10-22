@@ -71,8 +71,8 @@ if ($_POST!=[]) {
 }
 ?>
 <body class="login-page">
-    <?php if (!empty($error_message)) { ?>
-        <p class="message-erreur"><?php echo $error_message; ?></p>
+    <?php if (true) { ?>
+        <p class="message-erreur"><?php echo $message_erreur; ?></p>
     <?php } ?>
     <div class="container">
         <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
