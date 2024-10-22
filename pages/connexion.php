@@ -20,6 +20,7 @@ if (isset($_COOKIE['user'])){
 
 if ($_POST!=[]) {
     $identifiant = $_POST['identifiant'];
+    $message_erreur = '';
     try{
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
             $user, $pass);
@@ -36,6 +37,9 @@ if ($_POST!=[]) {
                 $idC = strval($stmt[0]['idc']);
                 setcookie("user", $idC);
                 //header('Location:accueil.php');
+            }
+            else {
+                $message_erreur = "Nom d'utilisateur ou mot de pass incorrecte, veuillez réessayer";
             }
         }
 
@@ -54,6 +58,9 @@ if ($_POST!=[]) {
                 setcookie("user", $idC);
                 header('Location:tableau_de_bord.php');
             }
+            else {
+                $message_erreur = "Nom d'utilisateur ou mot de pass incorrecte, veuillez réessayer";
+            }
         }
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -64,6 +71,9 @@ if ($_POST!=[]) {
 }
 ?>
 <body class="login-page">
+    <?php if (!empty($error_message)) { ?>
+        <p class="message-erreur"><?php echo $error_message; ?></p>
+    <?php } ?>
     <div class="container">
         <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
 
