@@ -162,6 +162,10 @@ label {
     height: 212px;
 }
 
+.spacer-privee {
+    height: 212px;
+}
+
 /* Permet de mettre en forme les 2 boutons pour choisir entre un compte pro public ou privé */
 .pro-public-privee {
     display: flex;

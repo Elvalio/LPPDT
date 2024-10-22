@@ -43,64 +43,65 @@
                 </a>
             </div>
 
-            <form>
+            <form action="creation_compte.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="pro_public">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Nom" id="nom-pro" name="nom" required>
+                        <input type="text" class="FS" placeholder="Entrez votre nom" id="nom-pro" name="nom" required>
                         
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Prénom" id="prenom-pro" name="prenom" required>
+                        <input type="text" class="FS" placeholder="Entrez votre prénom" id="prenom-pro" name="prenom" required>
 
-                        <label for="pseudo" class="FS">Pseudonyme<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Pseudonyme" id="pseudo-pro" name="pseudo" required>
+                        <label for="pseudo" class="FS">Dénomination Sociale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="Le nom de votre entreprise" id="denomination-sociale-pro" name="denomination" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
-                        <input type="email" class="FS" placeholder="E-mail" id="email-pro" name="email" required>
+                        <input type="email" class="FS" placeholder="Entrez votre email" id="email-pro" name="email" required>
 
 
 
                         <div class="spacer-pro-public"></div>
 
-                        <label for="cardholder_name" class="FS">Prénom et Nom du titulaire de la carte</label>
-                        <input type="text" class="FS" placeholder="Titulaire de la carte" id="cardholder_name-pro" name="cardholder_name">
+                        <label for="cardholder_name" class="FS">Titulaire de la carte</label>
+                        <input type="text" class="FS" placeholder="Prénom et nom du propriétaire" id="cardholder_name-pro" name="cardholder_name">
 
                     </div>
 
                     <div class="right-column">
                         <label for="telephone" class="FS">Téléphone<span class="required">*</span></label>
-                        <input type="tel" class="FS" placeholder="Téléphone" id="telephone-pro" name="telephone" required> 
+                        <input type="tel" class="FS" placeholder="Entrez votre téléphone" id="telephone-pro" name="telephone" required> 
 
                         <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Adresse postale" id="adresse-pro" name="adresse" required>
+                        <input type="text" class="FS" placeholder="5 rue de l'exemple" id="adresse-pro" name="adresse" required>
                         
                         <div class="row">
                             <div class="input-wrapper">
                                 <label for="codepostal" class="FS">Code postal<span class="required">*</span></label>
-                                <input type="text" class="FS" placeholder="Code Postal" id="codepostal-pro" name="codepostal" required>
+                                <input type="text" class="FS" placeholder="22300" id="codepostal-pro" name="codepostal" required>
                             </div>
 
                             <div class="input-wrapper">
                                 <label for="ville" class="FS">Ville<span class="required">*</span></label>
-                                <input type="text" class="FS" placeholder="Ville" id="ville-pro" name="ville" required>
+                                <input type="text" class="FS" placeholder="Lannion" id="ville-pro" name="ville" required>
                             </div>
                         </div>
 
                         <label for="password" class="FS">Mot de passe<span class="required">*</span></label>
-                        <input type="password" class="FS" placeholder="Mot de passe" id="password-pro" name="password" required>
+                        <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-pro" name="password" required>
 
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
-                        <input type="password" class="FS" placeholder="Confirmer le mot de passe" id="confirm_password-pro" name="confirm_password" required>
+                        <input type="password" class="FS" placeholder="Confirmez votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
                         <div class="spacer"></div>
 
                         <div class="row">
                             <div class="input-wrapper">
-                                <label for="cvv" class="FS">Code de sécurité (CVV)</label>
+                                <label for="cvv" class="FS">Code de sécurité</label>
                                 <input type="text" class="FS" placeholder="CVV" id="cvv-pro" name="cvv">
                             </div>
                             <div class="input-wrapper">
-                                <label for="expiration" class="FS">MM/AA</label>
+                                <label for="expiration" class="FS">Date d'expiration</label>
                                 <input type="text" class="FS" placeholder="MM/AA" id="expiration-pro" name="expiration">
                             </div>
                         </div>

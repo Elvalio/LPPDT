@@ -1,3 +1,32 @@
+/* ========================================================= */
+/*                 CHANGEMENT PAGE DESKTOP/MOBILE            */
+/* ========================================================= */
+
+/* Pour les écrans de 800px ou moins (version mobile) */
+@media (max-width: 800px) {
+    .phone-element {
+      display: block; /* Si tu veux les afficher, ou garde "none" si tu veux les cacher */
+    }
+  
+    .desktop-element {
+      display: none;
+    }
+  }
+  
+  /* Pour les écrans de plus de 800px (version desktop) */
+  @media (min-width: 801px) {
+    .desktop-element {
+      display: block; /* Affiche les éléments desktop */
+    }
+  
+    .phone-element {    
+      display: none;
+    }
+  }
+  
+
+
+
 /* ========================================= */
 /*                 STYLES GLOBAUX            */
 /* ========================================= */
@@ -547,9 +576,11 @@ input[type="range"]::-ms-thumb {
     color: #F5F5F5; /* Couleur du texte en mode actif */
 }
 
-/* ============================================= */
-/*           STYLES POUR CHACUNE DES OFFRES      */
-/* ============================================= */
+/* =========================================================== */
+/*           STYLES POUR CHACUNE DES OFFRES (DESKTOP)          */
+/* =========================================================== */
+
+@media (min-width: 801px) {
 
 .carte_offre {
     padding: 16px;
