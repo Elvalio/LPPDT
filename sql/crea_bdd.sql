@@ -171,7 +171,7 @@ create table pact._offre(
   titre varchar(50),
   resume varchar(250),
   option varchar(20),
-  description varchar(2000),
+  description varchar(5000),
   prix_min float,
   --/moy_note
   --/nbrAvis
