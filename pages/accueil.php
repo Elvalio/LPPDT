@@ -1,6 +1,6 @@
 <?php
 
-include_once'nav.php';
+
 
 include('../sql/connect_params.php');
 
@@ -9,7 +9,9 @@ try{
         $user, $pass);
         
     $stmt = $dbh->prepare(
-        "SELECT titre, prix_min, moy_note, nbravis FROM pact.offre"
+        "SELECT o.titre, o.prix_min, o.moy_note, o.nbravis, a.ville
+            FROM pact.offre o
+            JOIN pact._adresse a ON o.idAdresse = a.idAdresse"
     );
     
     
@@ -29,38 +31,28 @@ try{
 <head>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
+    <link rel="stylesheet" type="text/css" href="../css/styleHarry.css">
     <script src="../js/accueil.js"></script>
-    <script>
-    window.addEventListener("resize", getTemplate);
 
-    function getTemplate() {
-        const screenWidth = window.innerWidth;  // Utilisez window.innerWidth au lieu de screen.width
-        if (screenWidth >= 800) {
-            // Si l'écran est large et que vous êtes sur la page mobile, redirigez vers la page desktop
-            if (window.location.pathname.includes("listeOffre.php")) {
-                window.location.replace("accueil.php");
-            }
-        } else {
-            // Si l'écran est étroit et que vous êtes sur la page desktop, redirigez vers la page mobile
-            if (!window.location.pathname.includes("listeOffre.php")) {
-                window.location.replace("listeOffre.php");
-            }
-        }
-    }
-
-    getTemplate();  // Vérifiez la taille de l'écran lors du chargement initial
-    </script>
 
 </head>
 
 <html>
     <body>
+        <nav class="desktop-element">
+         <?php include_once'nav.php'; ?>
+        </nav>
+        <header class="phone-element">
+        <?php
+            include 'header.php';
+        ?>
+        </header>
         <div class="main-content">
             <!-- Contenu principal de la page -->
-            <header>
+            <header class="desktop-element">
                 <h1 class="TS">Accueil</h1>
             </header>
-            <nav>
+            <nav class="desktop-element">
                 <div class="nav_space">
                     <div class="search">
                         <input type="text" name="search" id="search" placeholder="Search" class="FS">
@@ -189,30 +181,64 @@ try{
             <main>
             <?php
             foreach ($stmt as $key => $value) { ?>
-                <div class="carte_offre">
+                <div class="carte_offre desktop-element">
                     <a href="https://google.com" target="_blank">
                     
                     <img src="../images/<?php echo 'offre' ?>.webp" alt="Photo offre">
-                    <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
+                    <p class="titreAnnonce"><?php echo $value["o.titre"] ?></p>
                     
                     <div class="infoAnnonce">
-                        <p><?php echo $value["prix_min"] ?>€</p>
+                        <p><?php echo $value["o.prix_min"] ?>€</p>
                         
                         <div class="etoileNote">
                             <?php 
-                        if ($value["moy_note"] != null && $value["nbravis"] != 0) {
-                            for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                        if ($value["o.moy_note"] != null && $value["o.nbravis"] != 0) {
+                            for ($i=0; $i < $value["o.moy_note"]; $i++) { ?>
                                 <img src="../images/etoile.png" alt="Etoile">
                             <?php }
-                            for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                            for ($i=0; $i < 5-$value["o.moy_note"]; $i++) { ?>
                                 <img src="../images/etoile_vide.png" alt="Etoile Vide">
                             <?php }} ?>
                         </div>
 
-                        <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
-                            <p>(<?php echo $value["nbravis"] ?>)</p>
+                        <?php if ($value["o.moy_note"] != null && $value["o.nbravis"] != 0) { ?>
+                            <p>(<?php echo $value["o.nbravis"] ?>)</p>
 
                         <?php } ?>
+                    </div>
+                </a>
+
+
+                </div>
+                <div class="carte_offre phone-element">
+                    <a href="https://google.com" target="_blank">
+                
+                    <p class="titreAnnonce"><?php echo $value["o.titre"] ?></p>
+                    
+                    <p class="descriptionAnnonce"><?php echo $value["o.resume"] ?></p>
+
+                    <p class="localisationAnnonce"> <?php echo $value["a.ville"] ?></p>
+
+                    <div class="infoAnnonce">
+                        <div class="etoileNote">
+                            <?php 
+                        if ($value["moy_note"] != null && $value["o.nbravis"] != 0) {
+                            for ($i=0; $i < $value["o.moy_note"]; $i++) { ?>
+                                <img src="../images/etoile.png" alt="Etoile">
+                            <?php }
+                            for ($i=0; $i < 5-$value["o.moy_note"]; $i++) { ?>
+                                <img src="../images/etoile_vide.png" alt="Etoile Vide">
+                            <?php }} ?>
+                        </div>
+
+                        <?php if ($value["o.moy_note"] != null && $value["o.nbravis"] != 0) { ?>
+                            <p>(<?php echo $value["o.nbravis"] ?>)</p>
+
+                        <?php } ?>
+                    </div>
+
+                    <div class="card-thumbnail-container">
+                        <img src="../images/<?php echo 'offre' ?>.webp" alt="Photo offre">
                     </div>
                 </a>
                 </div>

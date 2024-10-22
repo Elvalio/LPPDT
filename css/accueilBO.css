@@ -1,3 +1,32 @@
+/* ========================================================= */
+/*                 CHANGEMENT PAGE DESKTOP/MOBILE            */
+/* ========================================================= */
+
+/* Pour les écrans de 800px ou moins (version mobile) */
+@media (max-width: 800px) {
+    .phone-element {
+      display: block; /* Si tu veux les afficher, ou garde "none" si tu veux les cacher */
+    }
+  
+    .desktop-element {
+      display: none;
+    }
+  }
+  
+  /* Pour les écrans de plus de 800px (version desktop) */
+  @media (min-width: 801px) {
+    .desktop-element {
+      display: block; /* Affiche les éléments desktop */
+    }
+  
+    .phone-element {    
+      display: none;
+    }
+  }
+  
+
+
+
 /* ========================================= */
 /*                 STYLES GLOBAUX            */
 /* ========================================= */
@@ -548,55 +577,67 @@ input[type="range"]::-ms-thumb {
     color: #F5F5F5; /* Couleur du texte en mode actif */
 }
 
-/* ============================================= */
-/*           STYLES POUR CHACUNE DES OFFRES      */
-/* ============================================= */
+/* =========================================================== */
+/*           STYLES POUR CHACUNE DES OFFRES (DESKTOP)          */
+/* =========================================================== */
 
-.carte_offre {
-    padding: 16px;
-    margin: 24px;
-    width: 240px;
-    height: fit-content;
-    min-width: 240px;
-    border: 1px solid #D9D9D9;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    gap: 8px;
+@media (min-width: 801px) {
+
+    .carte_offre {
+        padding: 16px;
+        margin: 24px;
+        width: 240px;
+        height: fit-content;
+        min-width: 240px;
+        border: 1px solid #D9D9D9;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+        gap: 8px;
+    }
+    
+    .carte_offre img {
+        width: 100%;
+        object-fit: contain;
+    }
+    
+    .carte_offre .infoAnnonce {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 150px;
+    }
+    
+    .carte_offre .infoAnnonce p {
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+    
+    .carte_offre .infoAnnonce .etoileNote {
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .carte_offre .infoAnnonce .etoileNote img {
+        width: 18px;
+        height: 18px;
+        object-fit: cover;
+        margin: 0 2px;
+    }
+    
+    
+    .carte_offre a {
+        text-decoration: none;
+    }
+
 }
 
-.carte_offre img {
-    width: 100%;
-    object-fit: contain;
-}
+/* ========================================================== */
+/*           STYLES POUR CHACUNE DES OFFRES (MOBILE)          */
+/* ========================================================== */
 
-.carte_offre .infoAnnonce {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 150px;
-}
+@media (max-width: 800px) {
 
-.carte_offre .infoAnnonce p {
-    font-size: 1.1em;
-    font-weight: bold;
-}
-
-.carte_offre .infoAnnonce .etoileNote {
-    display: flex;
-    flex-direction: row;
-}
-
-.carte_offre .infoAnnonce .etoileNote img {
-    width: 18px;
-    height: 18px;
-    object-fit: cover;
-    margin: 0 2px;
-}
-
-
-.carte_offre a {
-    text-decoration: none;
 }
