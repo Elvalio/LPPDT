@@ -840,3 +840,23 @@ create or replace view pact.experience as
   inner join membre on e.idC = membre.idC 
   inner join avis on e.idA = avis.idA
   inner join offre on e.idO = offre.idO;
+  
+--- photo_offre ---
+
+create or replace view pact.photo_offre as
+  select * from _photo_offre natural join _image;
+  
+create or replace function pact.insert_photo_offre()
+  returns trigger as $$
+begin
+  insert into pact._image (src_image) values (new.src_image) returning idImage into new.idImage;
+  insert into pact._photo_offre (idImage, idO) values (new.idImage, new.idO);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_photo_offre
+instead of insert on pact.photo_offre
+  for each row execute procedure pact.insert_photo_offre();
+  
+
