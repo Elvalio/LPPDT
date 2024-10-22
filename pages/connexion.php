@@ -21,6 +21,7 @@ if (isset($_COOKIE['user'])){
 if ($_POST!=[]) {
     $identifiant = $_POST['identifiant'];
     $message_erreur = '';
+    $trouve = false;
     try{
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
             $user, $pass);
@@ -36,10 +37,8 @@ if ($_POST!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
                 setcookie("user", $idC);
-                //header('Location:accueil.php');
-            }
-            else {
-                $message_erreur = "Nom d'utilisateur ou mot de pass incorrecte, veuillez réessayer";
+                header('Location:accueil.php');
+                $trouve = true;
             }
         }
 
@@ -57,11 +56,14 @@ if ($_POST!=[]) {
                 $idC = strval($stmt[0]['idc']);
                 setcookie("user", $idC);
                 header('Location:tableau_de_bord.php');
-            }
-            else {
-                $message_erreur = "Nom d'utilisateur ou mot de pass incorrecte, veuillez réessayer";
+                $trouve = true;
             }
         }
+
+        if (!$trouve){
+            $message_erreur = "Nom d'utilisateur ou mot de pass incorrecte, veuillez réessayer";
+        }
+
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
@@ -71,16 +73,16 @@ if ($_POST!=[]) {
 }
 ?>
 <body class="login-page">
-    <?php if (true) { ?>
-        <p class="message-erreur"><?php echo $message_erreur; ?></p>
-    <?php } ?>
+    
     <div class="container">
         <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
 
         <div class="logo-container">
             <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo">
         </div>
-
+        <?php if (!empty($message_erreur)) { ?>
+        <p class="message-erreur"><?php echo $message_erreur; ?></p>
+        <?php } ?>
         <form action="connexion.php" method="post" class="login-form">
             <div class="form-group">
                 <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
