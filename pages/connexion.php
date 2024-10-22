@@ -9,14 +9,7 @@
 
 </head>
 <?php
-include('../../test/connect_params.php'); // must be changed
-//include('../sql/connect_params.php');
-
-/*
-if (isset($_COOKIE['user'])){
-    print_r($_COOKIE['user']);
-}
-*/
+include('../sql/connect_params.php');
 
 if ($_POST!=[]) {
     $identifiant = $_POST['identifiant'];
@@ -26,6 +19,8 @@ if ($_POST!=[]) {
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
             $user, $pass);
 
+        //verifie si membre
+
         $stmt = $dbh->prepare(
             "SELECT idC, pseudo, mdp FROM pact.membre where pseudo = '$identifiant';"
         );
@@ -33,6 +28,7 @@ if ($_POST!=[]) {
         $stmt->execute();
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
@@ -41,6 +37,8 @@ if ($_POST!=[]) {
                 $trouve = true;
             }
         }
+        
+        //verifie si professionnel
 
         $identifiant = (int)$identifiant;
 
