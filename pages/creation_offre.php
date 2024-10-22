@@ -173,7 +173,7 @@ include_once'nav.php';
                                 <!-- Champ "Accesibilité" -->
                                 <div class="container" id="accessibilite-container">
                                     <label for="accessibilite">Accessibilité</label>
-                                    <input type="text" id="accessibilite" class="FS" name="accessibilite" placeholder="Saisir" required />
+                                    <input type="text" id="accessibilite" class="FS" name="accessibilite" placeholder="Accessible pour personnes en situation de handicap par un ascenseur" required />
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">

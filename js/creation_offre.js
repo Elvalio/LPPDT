@@ -132,7 +132,7 @@
                             capaciteContainer.style.display = 'none';
                             langueContainer.style.display = 'none';
                             carteImageContainer.style.display = 'flex';
-                            labelElement.textContent = 'Carte restaurant';
+                            labelElement.textContent = 'Menu du restaurant';
                             repasContainer.style.display = 'flex';
                             repasMapContainer.style.marginBottom = '40px';
                         } else {
