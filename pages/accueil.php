@@ -197,6 +197,29 @@ try{
                             </div>
                         </a>
                     </div>
+
+                    <div class="carte_offre phone-element">
+                        <a href="https://google.com" target="_blank">
+
+                            <?php if ($value['src_image']) { ?>
+                                <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
+
+                                <?php echo '<p class="localisationAnnonce">' . htmlspecialchars($offre['ville']) . '</p>';?>
+
+
+                            <?php } else { ?>
+                                <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
+                            <?php } ?>
+                            
+                            <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
+
+                            <div class="infoAnnonce">
+                                <p><?php echo $value["prix_min"] ?>€</p>
+                                <!-- Autres informations... -->
+                            </div>
+
+                        </a>
+                    </div>
                 <?php } } ?>
 
                                 
