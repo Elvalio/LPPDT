@@ -48,19 +48,19 @@
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Entrez votre nom" id="nom-pro" name="nom" required>
+                        <input type="text" class="FS" placeholder="Polo" id="nom-pro" name="nom" required>
                         
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Entrez votre prénom" id="prenom-pro" name="prenom" required>
+                        <input type="text" class="FS" placeholder="Marco" id="prenom-pro" name="prenom" required>
 
                         <label for="denomination-sociale-pro" class="FS">Dénomination Sociale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Nom de votre entreprise" id="denomination-sociale-pro" name="denomination" required>
+                        <input type="text" class="FS" placeholder="Les voyages de Marco Polo" id="denomination-sociale-pro" name="denomination" required>
 
                         <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Entrez la raison sociale de votre entreprise" id="raison-sociale-pro" name="raison" required>
+                        <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
-                        <input type="email" placeholder="Entrez votre email" id="email-pro" name="email" required>
+                        <input type="email" placeholder="marco.polo@gmail.com" id="email-pro" name="email" required>
                         
                         <label for="num_SIREN" class="FS">Numéro de SIREN<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="ex : 362 521 879" id="num_SIREN-pro" name="num_SIREN" required>
@@ -74,10 +74,10 @@
 
                     <div class="right-column">
                         <label for="telephone-pro" class="FS">Téléphone<span class="required">*</span></label>
-                        <input type="tel" class="FS" placeholder="Entrez votre téléphone" id="telephone-pro" name="telephone" required>
+                        <input type="tel" class="FS" placeholder="0637816458" id="telephone-pro" name="telephone" required>
 
                         <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="5 rue de l'exemple" id="adresse-pro" name="adresse" required>
+                        <input type="text" class="FS" placeholder="5 rue de la gare" id="adresse-pro" name="adresse" required>
 
                         <div class="row">
                             <div class="input-wrapper">

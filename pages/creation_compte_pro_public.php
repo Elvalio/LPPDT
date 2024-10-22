@@ -48,16 +48,16 @@
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Entrez votre nom" id="nom-pro" name="nom" required>
+                        <input type="text" class="FS" placeholder="Polo" id="nom-pro" name="nom" required>
                         
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Entrez votre prénom" id="prenom-pro" name="prenom" required>
+                        <input type="text" class="FS" placeholder="Marco" id="prenom-pro" name="prenom" required>
 
                         <label for="denomination-sociale-pro" class="FS">Dénomination Sociale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Le nom de votre entreprise" id="denomination-sociale-pro" name="denomination" required>
+                        <input type="text" class="FS" placeholder="Les voyages de Marco Polo" id="denomination-sociale-pro" name="denomination" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
-                        <input type="email" class="FS" placeholder="Entrez votre email" id="email-pro" name="email" required>
+                        <input type="email" class="FS" placeholder="marco.polo@gmail.com" id="email-pro" name="email" required>
 
                         <div class="checkbox">
                             <input type="checkbox" id="terms" name="terms" required>
@@ -68,10 +68,10 @@
 
                     <div class="right-column">
                         <label for="telephone" class="FS">Téléphone<span class="required">*</span></label>
-                        <input type="tel" class="FS" placeholder="Entrez votre téléphone" id="telephone-pro" name="telephone" required> 
+                        <input type="tel" class="FS" placeholder="0637816458" id="telephone-pro" name="telephone" required> 
 
                         <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="5 rue de l'exemple" id="adresse-pro" name="adresse" required>
+                        <input type="text" class="FS" placeholder="5 rue de la gare" id="adresse-pro" name="adresse" required>
                         
                         <div class="row">
                             <div class="input-wrapper">
