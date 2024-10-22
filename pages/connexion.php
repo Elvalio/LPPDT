@@ -9,20 +9,17 @@
 
 </head>
 <?php
-include('../../test/connect_params.php'); // must be changed
-//include('../sql/connect_params.php');
-
-/*
-if (isset($_COOKIE['user'])){
-    print_r($_COOKIE['user']);
-}
-*/
+include('../sql/connect_params.php');
 
 if ($_POST!=[]) {
     $identifiant = $_POST['identifiant'];
+    $message_erreur = '';
+    $trouve = false;
     try{
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
             $user, $pass);
+
+        //verifie si membre
 
         $stmt = $dbh->prepare(
             "SELECT idC, pseudo, mdp FROM pact.membre where pseudo = '$identifiant';"
@@ -31,13 +28,17 @@ if ($_POST!=[]) {
         $stmt->execute();
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+        
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
                 setcookie("user", $idC);
-                //header('Location:accueil.php');
+                header('Location:accueil.php');
+                $trouve = true;
             }
         }
+        
+        //verifie si professionnel
 
         $identifiant = (int)$identifiant;
 
@@ -53,8 +54,14 @@ if ($_POST!=[]) {
                 $idC = strval($stmt[0]['idc']);
                 setcookie("user", $idC);
                 header('Location:tableau_de_bord.php');
+                $trouve = true;
             }
         }
+
+        if (!$trouve){
+            $message_erreur = "Nom d'utilisateur ou mot de pass incorrecte, veuillez réessayer";
+        }
+
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
@@ -64,13 +71,16 @@ if ($_POST!=[]) {
 }
 ?>
 <body class="login-page">
+    
     <div class="container">
         <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
 
         <div class="logo-container">
             <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo">
         </div>
-
+        <?php if (!empty($message_erreur)) { ?>
+        <p class="message-erreur"><?php echo $message_erreur; ?></p>
+        <?php } ?>
         <form action="connexion.php" method="post" class="login-form">
             <div class="form-group">
                 <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
