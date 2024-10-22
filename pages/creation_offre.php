@@ -27,9 +27,9 @@ include_once'nav.php';
                                     <input type="text" id="titre" class="FS" name="titre" placeholder="Saisir" required />
                                 </div>
                                 <!-- Champ "Catégorie" -->
-                                <div class="container" id="categorie-container">
-                                    <label for="categorie">Catégorie de l'offre*</label>
-                                    <select id="categorie" name="categorie" required class="FS">
+                                <div class="container categorie-container">
+                                    <label for="categorie-offre">Catégorie de l'offre*</label>
+                                    <select id="categorie-offre" name="categorie" required class="FS">
                                         <option value="" disabled selected hidden id="first-option">Catégorie de l'offre</option>
                                         <option value="activite">Activité</option>
                                         <option value="visite">Visite</option>
@@ -233,31 +233,69 @@ include_once'nav.php';
                                         <label for="capacite">Capacité</label>
                                         <input type="text" id="capacite" class="FS" name="capacite" placeholder="Saisir" required />
                                     </div>
+                                    <div class="container categorie-container" id="categorie-prix-container">
+                                        <label for="categorie-prix">Gamme de prix*</label>
+                                        <select id="categorie-prix" name="categorie" required class="FS">
+                                            <option value="" disabled selected hidden id="first-option">Gamme de prix</option>
+                                            <option value="€">€</option>
+                                            <option value="€€">€€</option>
+                                            <option value="€€€">€€€</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="container" id="langue-container">
                                     <label for="langue">Langue</label>
                                     <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required />
                                 </div>
 
-                                <!---- Champs ajout carte --->
-                                <div id="map-image">
-                                    <label>Plan du parc</label>
-                                    <!-- Éléments pour afficher les images importées -->
-                                    <div id="map-image-container">
-                                        <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                <div id="repas-map">
+                                    <div id="repas-container">
+                                        <label>Repas servis</label>
+                                        <div id="repas-items-container">
+                                            <div id="petit-dejeuner">
+                                                <input type="checkbox" id="petit-dejeuner" name="option" value="petit-dejeuner"/>
+                                                <label for="petit-dejeuner">Petit-déjeuner</label>
+                                            </div>
+                                            <div id="brunch">
+                                                <input type="checkbox" id="brunch" name="option" value="brunch"/>
+                                                <label for="brunch">Brunch</label>
+                                            </div>
+                                            <div id="dejeuner">
+                                                <input type="checkbox" id="dejeuner" name="option" value="dejeuner"/>
+                                                <label for="dejeuner">Déjeuner</label>
+                                            </div>
+                                            <div id="dinner">
+                                                <input type="checkbox" id="dinner" name="option" value="dinner"/>
+                                                <label for="dinner">Dîner</label>
+                                            </div>
+                                            <div id="boissons">
+                                                <input type="checkbox" id="boissons" name="option" value="boissons"/>
+                                                <label for="boissons">Boissons</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div id="map-file-container">
-                                        <label for="map-file-upload" id="map-custom-file-upload">
-                                            <img src="../icons/plus.svg" alt="Bouton Image">
-                                            <p id="map-upload-text">Ajouter</p>
-                                        </label>
-                                        <input type="file" id="map-file-upload" accept=".png"/>
-                                        <button id="map-file-delete" type="button">
-                                            <img src="../icons/moins.svg" alt="Bouton Image">
-                                            Supprimer
-                                        </button>
+
+                                    <!---- Champs ajout carte --->
+                                    <div id="map-image">
+                                        <label>Plan du parc</label>
+                                        <!-- Éléments pour afficher les images importées -->
+                                        <div id="map-image-container">
+                                            <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                        </div>
+                                        <div id="map-file-container">
+                                            <label for="map-file-upload" id="map-custom-file-upload">
+                                                <img src="../icons/plus.svg" alt="Bouton Image">
+                                                <p id="map-upload-text">Ajouter</p>
+                                            </label>
+                                            <input type="file" id="map-file-upload" accept=".png"/>
+                                            <button id="map-file-delete" type="button">
+                                                <img src="../icons/moins.svg" alt="Bouton Image">
+                                                Supprimer
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
+                                
                                 
                                 <!-- Champ "Options" -->
                                 <div id="option-container">
@@ -327,31 +365,39 @@ include_once'nav.php';
             ////////////////////////////////////////////////////////////////////////////////////////////
 
             document.addEventListener('DOMContentLoaded', function() {
-                const typeContainer = document.getElementById('type-container');
-                const optionContainer = document.getElementById('option-container');
+                var typeContainer = document.getElementById('type-container');
+                var optionContainer = document.getElementById('option-container');
                 // Gestion de la catégorie et de l'affichage des champs en fonction des catégories
-                const categorieSelect = document.getElementById('categorie');
-                const dureeContainer = document.getElementById('duree-container');
-                const ageContainer = document.getElementById('age-container');
-                const langueContainer = document.getElementById('langue-container');
-                const capaciteContainer = document.getElementById('capacite-container');
-                const nbattractionContainer = document.getElementById('nbattraction-container');
-                const carteImageContainer = document.getElementById('map-image');
+                var categorieSelect = document.getElementById('categorie-offre');
+                var dureeContainer = document.getElementById('duree-container');
+                var ageContainer = document.getElementById('age-container');
+                var langueContainer = document.getElementById('langue-container');
+                var capaciteContainer = document.getElementById('capacite-container');
+                var nbattractionContainer = document.getElementById('nbattraction-container');
+                var carteImageContainer = document.getElementById('map-image');
+                var categoriePrixContainer = document.getElementById('categorie-prix-container');
+                var repasContainer = document.getElementById('repas-container');
+                var labelElement = document.querySelector('#map-image label');
+                var repasMapContainer = document.getElementById('repas-map');
 
                 // Récupérer tous les éléments avec la classe 'tag'
-                const tags = document.getElementsByClassName('tag');
+                var tags = document.getElementsByClassName('tag');
+                var tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Plein air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
+                var tagsToHideOther = ['Française', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
+                var tagsItemsContainer = document.getElementById('tags-items-container');
+                var tagContainer = document.getElementById('tag-container');
 
                 // Sélectionne les éléments nécessaires pour les 3 images
-                const fileInput = document.getElementById('file-upload');
-                const deleteButton = document.getElementById('file-delete');
-                const customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
-                const customFileUploadIcon = document.querySelector('#custom-file-upload img'); // Sélectionne l'image dans le label
-                const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
-                const uploadText = document.getElementById('upload-text'); // Le texte du bouton
-                const errorMessage = document.getElementById('error-message');
+                var fileInput = document.getElementById('file-upload');
+                var deleteButton = document.getElementById('file-delete');
+                var customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
+                var customFileUploadIcon = document.querySelector('#custom-file-upload img'); // Sélectionne l'image dans le label
+                var selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
+                var uploadText = document.getElementById('upload-text'); // Le texte du bouton
+                var errorMessage = document.getElementById('error-message');
 
-                let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
-                let selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression
+                var currentImageCount = 0; // Compte le nombre d'images actuellement affichées
+                var selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression
 
                 ////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////// GESTION DES CHAMPS PAR TYPE OFFRE ////////////////////
@@ -382,6 +428,7 @@ include_once'nav.php';
                         capaciteContainer.style.display = 'none';
                         langueContainer.style.display = 'none';
                         carteImageContainer.style.display = 'none';
+                        repasContainer.style.display = 'none';
                     }
 
                     if (selectedCategorie === 'visite') {
@@ -391,6 +438,7 @@ include_once'nav.php';
                         capaciteContainer.style.display = 'none';
                         langueContainer.style.display = 'flex';
                         carteImageContainer.style.display = 'none';
+                        repasContainer.style.display = 'none';
                     }
 
                     if (selectedCategorie === 'spectacle') {
@@ -400,6 +448,7 @@ include_once'nav.php';
                         capaciteContainer.style.display = 'flex';
                         langueContainer.style.display = 'none';
                         carteImageContainer.style.display = 'none';
+                        repasContainer.style.display = 'none';
                     }
 
                     if (selectedCategorie === 'parcAttraction') {
@@ -409,7 +458,45 @@ include_once'nav.php';
                         capaciteContainer.style.display = 'none';
                         langueContainer.style.display = 'none';
                         carteImageContainer.style.display = 'flex';
+                        labelElement.textContent = 'Plan du parc';
+                        repasContainer.style.display = 'none';
                     }
+
+                    //pour la restauration, gestion des tags
+                    Array.from(tags).forEach(tag => {
+                        let tagText = tag.querySelector('p').textContent;
+
+                        if (selectedCategorie === 'restauration') {
+                            if (tagsToHideRestauration.includes(tagText)) {
+                                tag.style.display = 'none';
+                                
+                            } else {
+                                tag.style.display = 'inline-block';
+                            }
+                            tagsItemsContainer.style.height = '77.3px';
+                            tagContainer.style.height = '107.3px';
+                            categoriePrixContainer.style.display = 'flex';
+                            dureeContainer.style.display = 'none';
+                            nbattractionContainer.style.display = 'none';
+                            ageContainer.style.display = 'none';
+                            capaciteContainer.style.display = 'none';
+                            langueContainer.style.display = 'none';
+                            carteImageContainer.style.display = 'flex';
+                            labelElement.textContent = 'Carte restaurant';
+                            repasContainer.style.display = 'flex';
+                            repasMapContainer.style.marginBottom = '40px';
+                        } else {
+                            if (tagsToHideOther.includes(tagText)) {
+                                tag.style.display = 'none';
+                            } else {
+                                tag.style.display = 'inline-block';
+                            }
+                            tagsItemsContainer.style.height = '116px';
+                            tagContainer.style.height = '146px';
+                            categoriePrixContainer.style.display = 'none';
+                            repasContainer.style.display = 'none';
+                        }
+                    });
 
                     
 
@@ -586,42 +673,6 @@ include_once'nav.php';
                         mapFileDelete.style.display = 'none';
                     }
                 });
-
-
-    const tagsL = document.querySelectorAll('#tags-items-container .tag');
-    const tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Plein air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
-    const tagsToHideOther = ['Française', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
-    const tagsItemsContainer = document.getElementById('tags-items-container');
-    const tagContainer = document.getElementById('tag-container');
-                
-    categorieSelect.addEventListener('change', function() {
-        const selectedCategory = categorieSelect.value;
-
-        tagsL.forEach(tag => {
-            const tagText = tag.querySelector('p').textContent;
-
-            if (selectedCategory === 'restauration') {
-                if (tagsToHideRestauration.includes(tagText)) {
-                    tag.style.display = 'none';
-                } else {
-                    tag.style.display = 'inline-block';
-                }
-                tagsItemsContainer.style.height = '77.3px';
-                tagContainer.style.height = '107.3px';
-            } else {
-                if (tagsToHideOther.includes(tagText)) {
-                    tag.style.display = 'none';
-                } else {
-                    tag.style.display = 'inline-block';
-                }
-                tagsItemsContainer.style.height = '116px';
-                tagContainer.style.height = '146px';
-            }
-        });
-    });
-
-
-
             });
         </script>
     </body>

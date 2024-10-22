@@ -53,18 +53,16 @@
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Entrez votre prénom" id="prenom-pro" name="prenom" required>
 
-                        <label for="pseudo" class="FS">Dénomination Sociale<span class="required">*</span></label>
+                        <label for="denomination-sociale-pro" class="FS">Dénomination Sociale<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Le nom de votre entreprise" id="denomination-sociale-pro" name="denomination" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
                         <input type="email" class="FS" placeholder="Entrez votre email" id="email-pro" name="email" required>
 
-
-
-                        <div class="spacer-pro-public"></div>
-
-                        <label for="cardholder_name" class="FS">Titulaire de la carte</label>
-                        <input type="text" class="FS" placeholder="Prénom et nom du propriétaire" id="cardholder_name-pro" name="cardholder_name">
+                        <div class="checkbox">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms" class="FS">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
+                        </div>
 
                     </div>
 
@@ -93,30 +91,8 @@
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Confirmez votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
-                        <div class="spacer"></div>
-
-                        <div class="row">
-                            <div class="input-wrapper">
-                                <label for="cvv" class="FS">Code de sécurité</label>
-                                <input type="text" class="FS" placeholder="CVV" id="cvv-pro" name="cvv">
-                            </div>
-                            <div class="input-wrapper">
-                                <label for="expiration" class="FS">Date d'expiration</label>
-                                <input type="text" class="FS" placeholder="MM/AA" id="expiration-pro" name="expiration">
-                            </div>
-                        </div>
-
-
-                        <div class="form-info">
-                            <p class="FS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
-                        </div>
-
                         
                     </div>
-                </div>
-                <div class="checkbox">
-                    <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms" class="FS">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
                 </div>
 
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">S'inscrire</button>
