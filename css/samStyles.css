@@ -121,6 +121,13 @@ body {
   /* Arrière-plan en aquamarine */
   border: transparent !important;
 }
+/* Définition des flèches de contrôle */
+.carousel-controls button img {
+  width: 8vh;
+  /* Largeur de l'image est de 30px */
+  height: 8vh;
+  /* Hauteur de l'image est de 30px */
+}
 /* Définition des points de contrôle */
 .carousel-dots {
   position: absolute;
@@ -359,6 +366,7 @@ body {
   color: rgb(128, 128, 128);
   font-style: bold;
 }
+
 @media (max-width: 700px) and (max-height: 1024px) {
   body {
     display: flex;
@@ -415,5 +423,19 @@ body {
   .part-avis {
     width: 100%;
     margin: 20px;
+  }
+
+  .main-content {
+    margin: 0;
+    padding: 0;
+  }
+
+  .carousel-controls {
+    top: 30%;
+  }
+
+  .carousel-controls button img {
+    width: 15vw;
+    height: 15vw;
   }
 }

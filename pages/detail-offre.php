@@ -1,4 +1,21 @@
-<?php include_once 'nav.php'; ?>
+<?php 
+    include_once 'nav.php'; 
+
+    include('../sql/connect_params.php');
+    try {
+        $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", 
+        $user, $pass);
+
+        $stmt = $bdh->prepare("SELECT * FROM pact.offre");
+        $stmt->execute();
+
+        $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
+        die();
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -15,8 +32,27 @@
 
     <section class="section-page part-annonce">
         <header>
-            <h1 class="titre-rouge">Balade à vélo de Tonquédec à Pluzunet</h1>
-            <h2 class="sous-titre">Place de l'Église 22140 Tonquédec | +33 7 65 84 65 96 | Durée : 2h - 3h | Âge : +8
+            <h1 class="titre-rouge">
+                <?php 
+                echo $stmt[0]['titre'];
+                ?>
+                </h1>
+            <h2 class="sous-titre">
+                <?php 
+                echo $stmt[0]['ville'];
+                ?> | 
+                <?php 
+                var_dump($stmt[0]['idC']);
+                if ($stmt[0]['idC'] == 10) {
+                    $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel WHERE idC = :idC");
+                    $stmt2->bindParam(':idC', $stmt[0]['idC'], PDO::PARAM_INT);
+                    $stmt2->execute();
+                    $result = $stmt2->fetch(PDO::FETCH_ASSOC);
+                    echo $result['telephone'];
+                } else {
+                    echo "ID not found";
+                }
+                ?> | Durée : 2h - 3h | Âge : +8
                 ans</h2>
             <div class="container">
                 <!-- Élément carrousel -->
@@ -227,3 +263,7 @@
 </body>
 
 </html>
+
+<?php 
+$dbh = null;
+?>
