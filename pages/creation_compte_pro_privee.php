@@ -67,14 +67,13 @@
 
                         <div class="spacer"></div>
 
-                        <label for="cardholder_name" class="FS">Titulaire de la carte</label>
-                        <input type="text" class="FS" placeholder="Prénom et nom du titulaire de la carte" id="cardholder_name-pro" name="cardholder_name">
-
+                        <label for="iban" class="FS">IBAN :</label>
+                        <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required>
 
                     </div>
 
                     <div class="right-column">
-                        <label for="telephone" class="FS">Téléphone<span class="required">*</span></label>
+                        <label for="telephone-pro" class="FS">Téléphone<span class="required">*</span></label>
                         <input type="tel" class="FS" placeholder="Entrez votre téléphone" id="telephone-pro" name="telephone" required>
 
                         <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
@@ -102,16 +101,10 @@
 
                         <div class="spacer-privee"></div>                        
                         
-                        <div class="row">
-                            <div class="input-wrapper">
-                                <label for="cvv" class="FS">Code de sécurité</label>
-                                <input type="text" class="FS" placeholder="CVV" id="cvv-pro" name="cvv">
-                            </div>
-                            <div class="input-wrapper">
-                                <label for="expiration" class="FS">Date d'expiration</label>
-                                <input type="text" class="FS" placeholder="MM/AA" id="expiration-pro" name="expiration">
-                            </div>
-                        </div>
+
+                        <label for="bic" class="FS">BIC :</label>
+                        <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" required>
+
                         <div class="form-info">
                             <p class="FS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
                         </div>
