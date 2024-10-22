@@ -34,7 +34,7 @@
                 <a>Contactez-nous</a>
                 <a>Politique de Confidentialité</a>
                 <a>Conditions Générales d'Utilisation</a>
-                <a>RGPI</a>
+                <a>RGPD</a>
             </div>
         </footer>
     </body>
