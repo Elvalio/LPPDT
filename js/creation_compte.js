@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     const inputs_pro = document.querySelectorAll(
-        'input[id="nom-pro"], input[id="prenom-pro"], input[id="pseudo-pro"], input[id="codepostal-pro"], input[id="ville-pro"], input[id="adresse-pro"], input[id="email-pro"], input[id="telephone-pro"], input[id="password-pro"], input[id="confirm_password-pro"], input[id="cvv-pro"], input[id="expiration-pro"], input[id="num_SIREN-pro"], input[id="cardholder_name-pro"]'
+        'input[id="nom-pro"], input[id="prenom-pro"], input[id="denomination-sociale-pro"], input[id="raison-sociale-pro"], input[id="codepostal-pro"], input[id="ville-pro"], input[id="adresse-pro"], input[id="email-pro"], input[id="telephone-pro"], input[id="password-pro"], input[id="confirm_password-pro"], input[id="cvv-pro"], input[id="expiration-pro"], input[id="num_SIREN-pro"], input[id="cardholder_name-pro"]'
     );
 
     inputs_pro.forEach(input => {

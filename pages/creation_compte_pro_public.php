@@ -43,7 +43,7 @@
                 </a>
             </div>
 
-            <form>
+            <form action="process.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
@@ -52,8 +52,8 @@
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Prénom" id="prenom-pro" name="prenom" required>
 
-                        <label for="pseudo" class="FS">Pseudonyme<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Pseudonyme" id="pseudo-pro" name="pseudo" required>
+                        <label for="pseudo" class="FS">Dénomination Sociale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="Dénomination Sociale" id="denomination-sociale-pro" name="denomination" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
                         <input type="email" class="FS" placeholder="E-mail" id="email-pro" name="email" required>

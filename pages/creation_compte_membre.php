@@ -29,7 +29,7 @@
                     </div>
                 </a>
             </div>
-            <form action="../sql/traitement_inscription.php" method="POST">
+            <form action="process.php" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
