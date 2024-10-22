@@ -180,7 +180,8 @@ try{
 
             <main>
             <?php
-            foreach ($stmt as $key => $value) { ?>
+            foreach ($stmt as $key => $value) { 
+                if ($value["en_ligne"]) { ?>
                 <div class="carte_offre desktop-element">
                     <a href="https://google.com" target="_blank">
                     
@@ -242,7 +243,7 @@ try{
                     </div>
                 </a>
                 </div>
-            <?php } ?>
+            <?php } } ?>
             </main>
             <footer>
                 <?php include_once'footer.php'; ?>
