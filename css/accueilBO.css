@@ -24,7 +24,6 @@ p {
     font-family: 'TripSansRegular', 'Arial';
 }
 
-
 /* ========================================= */
 /*          STYLES DE LA ZONE DE RECHERCHE   */
 /* ========================================= */
@@ -599,4 +598,33 @@ input[type="range"]::-ms-thumb {
 
 .carte_offre a {
     text-decoration: none;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    .nav_space {
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+    }
+
+    .filtrer-trier {
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+    }
+
+
+    .all-filter {
+        height: fit-content;
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+        flex-wrap: wrap;
+        
+    }
+}
+
+@media screen and (max-width: 1180px) {
+
+    .NouveauALaUne {
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+    }
 }
