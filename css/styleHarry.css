@@ -134,7 +134,10 @@ body {
 }
 
 .message-erreur {
+  text-align: center;
   color: lightcoral;
+  border: 1px solid lightcoral;
+  border-radius: 5px;
 }
 
 /*
