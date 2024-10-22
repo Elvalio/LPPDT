@@ -29,45 +29,46 @@
                     </div>
                 </a>
             </div>
-            <form action="process.php" method="post" enctype="multipart/form-data">
+            <form action="creation_compte.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="membre">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Nom" id="nom-membre" name="nom" required>
+                        <input type="text" class="FS" placeholder="Colomb" id="nom-membre" name="nom" required>
                         
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Prénom" id="prenom-membre" name="prenom" required>
+                        <input type="text" class="FS" placeholder="Christophe" id="prenom-membre" name="prenom" required>
 
                         <label for="pseudo" class="FS">Pseudonyme<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Pseudonyme" id="pseudo-membre" name="pseudo" required>
+                        <input type="text" class="FS" placeholder="Christophorus" id="pseudo-membre" name="pseudo" required>
 
                         <div class="row">
                             <div class="input-wrapper">
                             <label for="codepostal" class="FS">Code postal<span class="required">*</span></label>
-                            <input type="text" class="FS" placeholder="Code Postal" id="codepostal-membre" name="codepostal" required>
+                            <input type="text" class="FS" placeholder="22300" id="codepostal-membre" name="codepostal" required>
                             </div>
 
                             <div class="input-wrapper">
                                 <label for="ville" class="FS">Ville<span class="required">*</span></label>
-                                <input type="text" class="FS" placeholder="Ville" id="ville-membre" name="ville" required>
+                                <input type="text" class="FS" placeholder="Lannion" id="ville-membre" name="ville" required>
                             </div>
                         </div>
 
                         <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Adressse postale" id="adresse-membre" name="adresse" required>
+                        <input type="text" class="FS" placeholder="5 rue de  la gare" id="adresse-membre" name="adresse" required>
                     </div>
                     <div class="right-column">
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
-                        <input type="email" class="FS" placeholder="E-mail" id="email-membre" name="email" required>
+                        <input type="email" class="FS" placeholder="christophe.colomb@gmail.com" id="email-membre" name="email" required>
 
                         <label for="telephone" class="FS">Téléphone<span class="required">*</span></label>
-                        <input type="tel" class="FS" placeholder="Téléphone" id="telephone-membre" name="telephone" required>
+                        <input type="tel" class="FS" placeholder="0641379428" id="telephone-membre" name="telephone" required>
 
                         <label for="password" class="FS">Mot de passe<span class="required">*</span></label>
-                        <input type="password" class="FS" placeholder="Mot de passe" id="password-membre" name="password" required>
+                        <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-membre" name="password" required>
 
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
-                        <input type="password" class="FS" placeholder="Confirmer le mot de passe" id="confirm_password-membre" name="confirm_password" required>
+                        <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-membre" name="confirm_password" required>
                         
                         <div class="checkbox">
                             <input type="checkbox" id="terms" name="terms" required>

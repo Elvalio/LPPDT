@@ -27,9 +27,9 @@ include_once'nav.php';
                                     <input type="text" id="titre" class="FS" name="titre" placeholder="Saisir" required />
                                 </div>
                                 <!-- Champ "Catégorie" -->
-                                <div class="container" id="categorie-container">
-                                    <label for="categorie">Catégorie de l'offre*</label>
-                                    <select id="categorie" name="categorie" required class="FS">
+                                <div class="container categorie-container">
+                                    <label for="categorie-offre">Catégorie de l'offre*</label>
+                                    <select id="categorie-offre" name="categorie" required class="FS">
                                         <option value="" disabled selected hidden id="first-option">Catégorie de l'offre</option>
                                         <option value="activite">Activité</option>
                                         <option value="visite">Visite</option>
@@ -37,27 +37,6 @@ include_once'nav.php';
                                         <option value="parcAttraction">Parc d'attraction</option>
                                         <option value="restauration">Restauration</option>
                                     </select>
-                                </div>
-                            </div>
-                            <div id="commune-type">
-                                <!-- Champ "Commune" -->
-                                <div class="container" id="commune-container">
-                                    <label for="commune">Commune*</label>
-                                    <input type="text" id="commune" class="FS" name="commune" placeholder="Saisir" required />
-                                </div>
-                                <!-- Champ "Type" -->
-                                <div id="type-container">
-                                    <label>Type d'offre</label>
-                                    <div id="standard-premium">
-                                        <div id="standard">
-                                            <input type="radio" id="standard" name="offre" value="standard" checked/>
-                                            <label for="standard">Standard</label>
-                                        </div>
-                                        <div id="premium">
-                                            <input type="radio" id="premium" name="offre" value="premium" />
-                                            <label for="premium">Premium</label>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <!-- Champ "Résumé" -->
@@ -75,72 +54,88 @@ include_once'nav.php';
                                 <label>Tags</label>
                                 <div id="tags-items-container">
                                     <button class="tag FS" type="button" >
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Culturel</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Patrimoine</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Histoire</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Urbain</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Nature</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Plein air</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Sport</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Nautique</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Gastronomie</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Musée</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Atelier</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Musique</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Famille</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Cinéma</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Cirque</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Son et lumière</p>
                                     </button>
                                     <button class="tag FS" type="button">
-                                        <img src="../icons/check.svg" alt="Icone">
                                         <p>Humour</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Française</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Fruit de mer</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Asiatique</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Indienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Italienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Gastronomique</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Restauration rapide</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Crêperie</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Végétarienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Végétalienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <p>Kebab</p>
                                     </button>
                                 </div>
                             </div>
@@ -162,10 +157,23 @@ include_once'nav.php';
                                     <label for="adresse">Adresse</label>
                                     <input type="text" id="adresse" class="FS" name="adresse" placeholder="Saisir" required />
                                 </div>
+                                <div id="codeP-ville">
+                                    <!-- Champ Code postal -->
+                                    <div class="container" id="codeP-container">
+                                        <label for="codeP">Code Postal*</label>
+                                        <input type="text" id="codeP" class="FS" name="codeP" placeholder="22100" required />
+                                    </div>
+                                    <!-- Champ "ville" -->
+                                    <div class="container" id="ville-container">
+                                        <label for="ville">Ville*</label>
+                                        <input type="text" id="ville" class="FS" name="ville" placeholder="Lannion" required />
+                                    </div>
+                                </div>
+                                
                                 <!-- Champ "Accesibilité" -->
                                 <div class="container" id="accessibilite-container">
                                     <label for="accessibilite">Accessibilité</label>
-                                    <input type="text" id="accessibilite" class="FS" name="accessibilite" placeholder="Saisir" required />
+                                    <input type="text" id="accessibilite" class="FS" name="accessibilite" placeholder="Accessible pour personnes en situation de handicap par un ascenseur" required />
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">
@@ -189,29 +197,104 @@ include_once'nav.php';
                                         <label for="capacite">Capacité</label>
                                         <input type="text" id="capacite" class="FS" name="capacite" placeholder="Saisir" required />
                                     </div>
+                                    <div class="container categorie-container" id="categorie-prix-container">
+                                        <label for="categorie-prix">Gamme de prix*</label>
+                                        <select id="categorie-prix" name="categorie" required class="FS">
+                                            <option value="" disabled selected hidden id="first-option">Gamme de prix</option>
+                                            <option value="€">€</option>
+                                            <option value="€€">€€</option>
+                                            <option value="€€€">€€€</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="container" id="langue-container">
                                     <label for="langue">Langue</label>
                                     <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required />
                                 </div>
-                                
-                                <!-- Champ "Options" -->
-                                <div id="option-container">
-                                    <label>Options</label>
-                                    <div id="une-relief">
-                                        <div id="une">
-                                            <input type="radio" id="une" name="option" value="une" />
-                                            <label for="une">À la Une </label>
+
+                                <div id="repas-map">
+                                    <div id="repas-container">
+                                        <label>Repas servis</label>
+                                        <div id="repas-items-container">
+                                            <div id="petit-dejeuner">
+                                                <input type="checkbox" id="petit-dejeuner" name="option" value="petit-dejeuner"/>
+                                                <label for="petit-dejeuner">Petit-déjeuner</label>
+                                            </div>
+                                            <div id="brunch">
+                                                <input type="checkbox" id="brunch" name="option" value="brunch"/>
+                                                <label for="brunch">Brunch</label>
+                                            </div>
+                                            <div id="dejeuner">
+                                                <input type="checkbox" id="dejeuner" name="option" value="dejeuner"/>
+                                                <label for="dejeuner">Déjeuner</label>
+                                            </div>
+                                            <div id="dinner">
+                                                <input type="checkbox" id="dinner" name="option" value="dinner"/>
+                                                <label for="dinner">Dîner</label>
+                                            </div>
+                                            <div id="boissons">
+                                                <input type="checkbox" id="boissons" name="option" value="boissons"/>
+                                                <label for="boissons">Boissons</label>
+                                            </div>
                                         </div>
-                                        <div id="relief">
-                                            <input type="radio" id="relief" name="option" value="relief" />
-                                            <label for="relief">En relief</label>
+                                    </div>
+
+                                    <!---- Champs ajout carte --->
+                                    <div id="map-image">
+                                        <label>Plan du parc</label>
+                                        <!-- Éléments pour afficher les images importées -->
+                                        <div id="map-image-container">
+                                            <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                        </div>
+                                        <div id="map-file-container">
+                                            <label for="map-file-upload" id="map-custom-file-upload">
+                                                <img src="../icons/plus.svg" alt="Bouton Image">
+                                                <p id="map-upload-text">Ajouter</p>
+                                            </label>
+                                            <input type="file" id="map-file-upload" accept=".png"/>
+                                            <button id="map-file-delete" type="button">
+                                                <img src="../icons/moins.svg" alt="Bouton Image">
+                                                Supprimer
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
+                                <div id="type-option">
+                                    <!-- Champ "Type" -->
+                                    <div id="type-container">
+                                        <label>Type d'offre</label>
+                                        <div id="standard-premium">
+                                            <div id="standard">
+                                                <input type="radio" id="standard" name="offre" value="standard" checked/>
+                                                <label for="standard">Standard</label>
+                                            </div>
+                                            <div id="premium">
+                                                <input type="radio" id="premium" name="offre" value="premium" />
+                                                <label for="premium">Premium</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Champ "Options" -->
+                                    <div id="option-container">
+                                        <label>Options</label>
+                                        <div id="une-relief">
+                                            <div id="une">
+                                                <input type="checkbox" id="une" name="option" value="une" onclick="checkOnlyOne(this)"/>
+                                                <label for="une">À la Une </label>
+                                            </div>
+                                            <div id="relief">
+                                                <input type="checkbox" id="relief" name="option" value="relief" onclick="checkOnlyOne(this)"/>
+                                                <label for="relief">En relief</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                             </div>
                             <div id="bottom-right-part-content">
-                                <!---- Champs ajout image --->
+                                
+                                
+                                <!---- Champs ajout 3 images --->
                                 <div id="file-container">
                                     <label for="file-upload" id="custom-file-upload">
                                         <img src="../icons/plus.svg" alt="Bouton Image">
@@ -238,219 +321,6 @@ include_once'nav.php';
             </form>
         </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // Gestion de la catégorie et de l'affichage des champs "Durée" et "Âge"
-                const categorieSelect = document.getElementById('categorie');
-                const dureeContainer = document.getElementById('duree-container');
-                const ageContainer = document.getElementById('age-container');
-                const langueContainer = document.getElementById('langue-container');
-                const capaciteContainer = document.getElementById('capacite-container');
-                const nbattractionContainer = document.getElementById('nbattraction-container');
-
-                // Récupérer tous les éléments avec la classe 'tag'
-                const tags = document.getElementsByClassName('tag');
-
-                // Sélectionne les éléments nécessaires pour les images
-                const fileInput = document.getElementById('file-upload');
-                const deleteButton = document.getElementById('file-delete');
-                const customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
-                const customFileUploadIcon = document.querySelector('#custom-file-upload img'); // Sélectionne l'image dans le label
-                const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
-                const uploadText = document.getElementById('upload-text'); // Le texte du bouton
-                const errorMessage = document.getElementById('error-message');
-
-                let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
-                let selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression
-                
-                ////////////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////// GESTION DES CHAMPS DUREE ET AGE //////////////////////
-                ////////////////////////////////////////////////////////////////////////////////////////
-
-                // Fonction pour gérer l'affichage des champs
-                function handleCategorieChange() {
-                    const selectedCategorie = categorieSelect.value;
-
-                    if (selectedCategorie === 'activite') {
-                        dureeContainer.style.display = 'flex';
-                        nbattractionContainer.style.display = 'none';
-                        ageContainer.style.display = 'flex';
-                        capaciteContainer.style.display = 'none';
-                        langueContainer.style.display = 'none';
-                    }
-
-                    if (selectedCategorie === 'visite') {
-                        dureeContainer.style.display = 'flex';
-                        nbattractionContainer.style.display = 'none';
-                        ageContainer.style.display = 'none';
-                        capaciteContainer.style.display = 'none';
-                        langueContainer.style.display = 'flex';
-                    }
-
-                    if (selectedCategorie === 'spectacle') {
-                        dureeContainer.style.display = 'flex';
-                        nbattractionContainer.style.display = 'none';
-                        ageContainer.style.display = 'none';
-                        capaciteContainer.style.display = 'flex';
-                        langueContainer.style.display = 'none';
-                    }
-
-                    if (selectedCategorie === 'parcAttraction') {
-                        dureeContainer.style.display = 'none';
-                        nbattractionContainer.style.display = 'flex';
-                        ageContainer.style.display = 'flex';
-                        capaciteContainer.style.display = 'none';
-                        langueContainer.style.display = 'none';
-                    }
-
-                    
-
-                    
-                }
-
-                // Attacher l'événement 'change' à la sélection de catégorie
-                categorieSelect.addEventListener('change', handleCategorieChange);
-
-                // Appeler la fonction au chargement initial pour gérer l'état par défaut
-                handleCategorieChange();
-
-                ////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////// GESTION DES TAGS /////////////////////////////////////
-                ////////////////////////////////////////////////////////////////////////////////
-
-                // Transformer la collection en tableau et ajouter un écouteur d'événements à chaque élément
-                Array.from(tags).forEach(tag => {
-                    tag.addEventListener('click', function() {
-                        this.classList.toggle('selectionne');  // Ajoute/enlève la classe 'selectionne'
-                    });
-                });
-
-                //////////////////////////////////////////////////////////////////////////////////
-                //////////////////////////// GESTION DES IMAGES //////////////////////////////////
-                //////////////////////////////////////////////////////////////////////////////////
-
-                // Fonction pour afficher/masquer le bouton d'ajout d'image
-                function toggleFileUpload() {
-                    if (selectedImageIndex !== -1) {
-                        // Si une image est sélectionnée, afficher le bouton "Modifier l'image"
-                        customFileUpload.style.display = 'flex';
-                    } else {
-                        if (currentImageCount >= 3) {
-                            // Masquer le bouton si le nombre d'images est >= 3 et aucune image n'est sélectionnée
-                            customFileUpload.style.display = 'none';
-                        } else {
-                            // Sinon, afficher le bouton d'ajout d'image
-                            customFileUpload.style.display = 'flex';
-                        }
-                    }
-                }
-
-                // Fonction pour mettre à jour le texte de la balise <p> et changer l'icône
-                function updateLabel(text, iconSrc) {
-                    uploadText.textContent = text; // Mettre à jour le texte de la balise <p>
-                    customFileUploadIcon.src = iconSrc; // Mettre à jour la source de l'image
-                }
-
-                // Fonction pour afficher une image dans la première case vide
-                fileInput.addEventListener('change', function() {
-                    if (fileInput.files.length > 0) {
-                        
-                        const file = fileInput.files[0]; // Prendre le premier fichier
-                        const reader = new FileReader(); // Créer un nouvel objet FileReader
-
-                        reader.onload = function(e) {
-                            if (selectedImageIndex >= 0) {
-                                // Si une image est sélectionnée, remplacer cette image
-                                if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
-                                    currentImageCount++;
-                                    deleteButton.style.display = 'block';
-                                }
-                                selectedImages[selectedImageIndex].src = e.target.result;
-                                
-                                
-                            }else{
-
-                        
-                                let foundEmptySlot = false;
-                        
-                                // Trouver la première case vide et y insérer l'image
-                                for (let i = 0; i < selectedImages.length; i++) {
-                                    if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
-                                        selectedImages[i].src = e.target.result; // Mettre à jour la source de l'image
-                                        selectedImages[i].style.display = 'block'; // Afficher l'image
-                                        foundEmptySlot = true;
-                                        currentImageCount++;
-                                    }
-                                }
-
-                                // Afficher le bouton de suppression si une image est présente
-                                if (foundEmptySlot) {
-                                    deleteButton.style.display = 'block';
-                                }
-                            }
-                            toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout
-                        };
-                    
-
-                        reader.readAsDataURL(file); // Lire l'image sous forme de base64
-                        fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image plus tard
-                    }
-                });
-
-                // Gérer la sélection des images en cliquant dessus
-                document.getElementById('image-container').addEventListener('click', function(e) {
-                    if (e.target.classList.contains('selected-image')) {
-                        const clickedIndex = Array.from(selectedImages).indexOf(e.target);
-
-                        if (clickedIndex === selectedImageIndex) {
-                            // Désélectionner l'image si elle est déjà sélectionnée
-                            e.target.classList.remove('selected');
-                            selectedImageIndex = -1;
-                            updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre "Ajouter une image"
-                        } else {
-                            // Désélectionner toutes les images et sélectionner la nouvelle
-                            selectedImages.forEach(img => img.classList.remove('selected'));
-                            e.target.classList.add('selected');
-                            selectedImageIndex = clickedIndex;
-                            updateLabel('Modifier l\'image', '../icons/changer.svg'); // Changer le texte du bouton
-                            errorMessage.style.display = 'none'; // Cacher le message d'erreur
-                        }
-
-                        // Appeler toggleFileUpload() après la sélection/désélection
-                        toggleFileUpload();
-                    }
-                });
-
-                // Gérer la suppression des images
-                deleteButton.addEventListener('click', function() {
-                    if (selectedImageIndex === -1) {
-                        errorMessage.style.display = 'block'; // Afficher un message d'erreur si aucune image n'est sélectionnée
-                    } else {
-                        // Supprimer l'image sélectionnée
-                        let img = selectedImages[selectedImageIndex];
-                        if(img.getAttribute('src') !== '../images/rien.png'){
-                            img.src = '../images/rien.png'; // Effacer la source de l'image
-                            img.classList.remove('selected'); // Désélectionner l'image
-                            selectedImageIndex = -1;
-                            currentImageCount--;
-                        } else {
-                            img.classList.remove('selected'); // Désélectionner l'image
-                            selectedImageIndex = -1;
-                            errorMessage.style.display = 'block';
-                            errorMessage.textContent = 'Vous ne pouvez pas supprimer une image inexistante !';
-                            
-                            
-                        }
-                            
-                        // Masquer le bouton de suppression s'il n'y a plus d'images
-                        if (currentImageCount === 0) {
-                            deleteButton.style.display = 'none';
-                        }
-                        updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre le texte à "Ajouter une image"
-                        toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
-                    }
-                });
-            });
-        </script>
+        <script src="../js/creation_offre.js"></script>
     </body>
 </html>

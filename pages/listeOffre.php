@@ -5,175 +5,157 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../css/styleHarry.css">
     <title>Document</title>
-    <?php
-    include 'header.php';
-    ?>
-    <script>
-    window.addEventListener("resize", getTemplate);
-
-    function getTemplate() {
-        const screenWidth = window.innerWidth;  // Utilisez window.innerWidth au lieu de screen.width
-        if (screenWidth >= 800) {
-            // Si l'écran est large et que vous êtes sur la page mobile, redirigez vers la page desktop
-            if (window.location.pathname.includes("listeOffre.php")) {
-                window.location.replace("accueil.php");
-            }
-        } else {
-            // Si l'écran est étroit et que vous êtes sur la page desktop, redirigez vers la page mobile
-            if (!window.location.pathname.includes("listeOffre.php")) {
-                window.location.replace("listeOffre.php");
-            }
-        }
-    }
-
-    getTemplate();  // Vérifiez la taille de l'écran lors du chargement initial
-    </script>
-
 </head>
-<body>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg  " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
 
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg  " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg  " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-    <div class="card-container">
-        <div class="card-title">Roméo et Juliette</div>
-        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
-        <div class="card-location">Brelevenez</div>
-        <div class="card-rating">★★★★☆</div>
-        <div class="card-thumbnail-container">
-            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
-        </div>
-    </div>
-
-
-    
-</body>
-<?php
-    include 'footer.php';
+<body class="phone-element">
+    <header>
+    <?php
+        include 'header.php';
     ?>
+    </header>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg  " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg  " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg  " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <div class="card-container">
+        <div class="card-title">Roméo et Juliette</div>
+        <div class="card-description">Représentation de la pièce de Roméo et Juliette - Sh...</div>
+        <div class="card-location">Brelevenez</div>
+        <div class="card-rating">★★★★☆</div>
+        <div class="card-thumbnail-container">
+            <img src="../images/imagesReferences/RomeoEtJuliette.jpg " alt="Roméo et Juliette" class="card-thumbnail">
+        </div>
+    </div>
+    <footer>
+    <?php
+        include 'footer.php';
+    ?>
+    </footer>
+</body>
+
 </html>

@@ -171,7 +171,7 @@ create table pact._offre(
   titre varchar(50),
   resume varchar(250),
   option varchar(20),
-  description varchar(2000),
+  description varchar(5000),
   prix_min float,
   --/moy_note
   --/nbrAvis
@@ -654,11 +654,9 @@ begin
 end;
 $$ language 'plpgsql';
 
---TODO décomposer en plus petites vues
-
 create or replace view offre as
   select idO, titre, resume, "type", nom_type, cout, option, description, prix_min, pact.moy_notes(idO) as moy_note, pact.count_avis(idO) as nbrAvis, 
-  accessibilite, categorie, date_creation, date_publication, o.idAdresse, ville, numero_voie, voie, code_postal, complement, idC from pact._offre o 
+  accessibilite, categorie, date_creation, date_publication, o.idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC from pact._offre o 
   inner join pact._type_offre on "type" = idT 
   inner join pact._adresse a on a.idAdresse = o.idAdresse;
   

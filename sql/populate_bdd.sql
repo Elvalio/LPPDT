@@ -18,6 +18,7 @@ SET SCHEMA 'pact';
 
 
 
+
 -- PROFESSIONNEL SECTEUR PUBLIC --
 insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (728, 'MyBuisiness', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', 11, 'rue de la gare', 22000, '');
@@ -66,9 +67,6 @@ insert into pact.tag_default (libelle) values ('Cirque');
 insert into pact.tag_default (libelle) values ('Son et lumière');
 insert into pact.tag_default (libelle) values ('Humour');
 
-
-
-
 -- TAGS RESTO --
 insert into pact.tag_resto (libelle) values ('Français');
 insert into pact.tag_resto (libelle) values ('Fruit de mer');
@@ -78,3 +76,48 @@ insert into pact.tag_resto (libelle) values ('Italienne');
 insert into tag_resto (libelle) values ('Gastronomique');
 insert into tag_resto (libelle) values ('Restauration rapide');
 insert into tag_resto (libelle) values ('Crêperie');
+
+-- TAGS OFFRES --
+
+-- spectacle
+insert into _tags_spectacle(idO, idTag) values (1,5);
+insert into _tags_spectacle(idO, idTag) values (1,6);
+
+-- activite
+insert into _tags_activite(idO, idTag) values (2,5);
+insert into _tags_activite(idO, idTag) values (2,6);
+insert into _tags_activite(idO, idTag) values (2,7);
+insert into _tags_activite(idO, idTag) values (2,13);
+
+insert into _tags_activite(idO, idTag) values (6,6);
+insert into _tags_activite(idO, idTag) values (6,7);
+insert into _tags_activite(idO, idTag) values (6,8);
+insert into _tags_activite(idO, idTag) values (6,13);
+
+-- visite
+insert into _tags_visite(idO, idTag) values (3,5);
+insert into _tags_visite(idO, idTag) values (3,6);
+insert into _tags_visite(idO, idTag) values (3,8);
+
+insert into _tags_visite(idO, idTag) values (7,1);
+insert into _tags_visite(idO, idTag) values (7,2);
+insert into _tags_visite(idO, idTag) values (7,3);
+
+-- restauration
+insert into _tags_restauration(idO, idTag) values (4,18);
+insert into _tags_restauration(idO, idTag) values (4,25);
+
+-- parc_d_attraction
+insert into _tags_parc_d_attraction(idO, idTag) values (5,6);
+insert into _tags_parc_d_attraction(idO, idTag) values (5,13);
+insert into _tags_parc_d_attraction(idO, idTag) values (5,17);
+
+-- IMAGES --
+
+insert into pact.photo_offre (src_image, idO) values ('image_offre/11-1-1.webp', 1);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/8-2-1.jpg', 2);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/8-3-1.jpg', 3);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/13-4-1.jpg', 4);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/10-5-1.webp', 5);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/8-6-1.jpg', 6);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/10-7-1.jpg', 7);
