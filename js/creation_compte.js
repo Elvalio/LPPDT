@@ -100,4 +100,19 @@ document.addEventListener("DOMContentLoaded", function() {
         console.error("Élément '.inscription-pro-page-membre' introuvable");
     }
 
+
+
+
+    const form = document.querySelector('form');
+    const password = document.getElementById('password-membre');
+    const confirmPassword = document.getElementById('confirm_password-membre');
+
+    form.addEventListener('submit', function(event) {
+        // Vérifier si les mots de passe sont identiques
+        if (password.value !== confirmPassword.value) {
+            event.preventDefault(); // Empêche la soumission du formulaire
+            alert('Les mots de passe ne correspondent pas. Veuillez les vérifier.');
+        }
+    });
+
 });

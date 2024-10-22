@@ -43,7 +43,8 @@
                 </a>
             </div>
 
-            <form action="process.php" method="post" enctype="multipart/form-data">
+            <form action="creation_compte.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="pro_public">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
