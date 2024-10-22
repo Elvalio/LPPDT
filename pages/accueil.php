@@ -9,7 +9,7 @@ try{
         $user, $pass);
         
     $stmt = $dbh->prepare(
-        "SELECT o.titre, o.prix_min, o.moy_note, o.nbravis, a.ville
+        "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, a.ville
             FROM pact.offre o
             JOIN pact._adresse a ON o.idAdresse = a.idAdresse"
     );
@@ -184,8 +184,21 @@ try{
                 if ($value["en_ligne"]) { ?>
                 <div class="carte_offre desktop-element">
                     <a href="https://google.com" target="_blank">
+                        <?php
+                        $stmt = $dbh->prepare(
+                            "SELECT src_image from pact.photo_offre where ido = :ido"
+                        );
+                        
+                        
+                        $stmt->execute();
+                        
+                        $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                        print_r($stmt);
+
+                        ?>
                     
-                    <img src="../images/<?php echo 'offre' ?>.webp" alt="Photo offre">
+                    <img src="../images/images_offre/<?php echo 'offre' ?>.webp" alt="Photo offre">
                     <p class="titreAnnonce"><?php echo $value["o.titre"] ?></p>
                     
                     <div class="infoAnnonce">
