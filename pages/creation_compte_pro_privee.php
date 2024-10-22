@@ -43,7 +43,8 @@
                 </a>
             </div>
 
-            <form>
+            <form action="creation_compte.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="pro_prive">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
@@ -52,10 +53,11 @@
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Prénom" id="prenom-pro" name="prenom" required>
 
-                        <label for="pseudo" class="FS">Pseudonyme<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Pseudonyme" id="pseudo-pro" name="pseudo" required>
+                        <label for="denomination-sociale-pro" class="FS">Dénomination Sociale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="Dénomination Sociale" id="denomination-sociale-pro" name="denomination" required>
 
-
+                        <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="Raison Sociale" id="raison-sociale-pro" name="raison" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
                         <input type="email" placeholder="E-mail" id="email-pro" name="email" required>
@@ -98,7 +100,7 @@
 
 
 
-                        <div class="spacer"></div>                        
+                        <div class="spacer-privee"></div>                        
                         
                         <div class="row">
                             <div class="input-wrapper">

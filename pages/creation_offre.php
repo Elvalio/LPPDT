@@ -142,6 +142,50 @@ include_once'nav.php';
                                         <img src="../icons/check.svg" alt="Icone">
                                         <p>Humour</p>
                                     </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Française</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Fruit de mer</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Asiatique</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Indienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Italienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Gastronomique</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Restauration rapide</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Crêperie</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Végétarienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Végétalienne</p>
+                                    </button>
+                                    <button class="tag FS hidden" type="button">
+                                        <img src="../icons/check.svg" alt="Icone">
+                                        <p>Kebab</p>
+                                    </button>
                                 </div>
                             </div>
                             <!-- Bouton de soumission -->
@@ -194,24 +238,46 @@ include_once'nav.php';
                                     <label for="langue">Langue</label>
                                     <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required />
                                 </div>
+
+                                <!---- Champs ajout carte --->
+                                <div id="map-image">
+                                    <label>Plan du parc</label>
+                                    <!-- Éléments pour afficher les images importées -->
+                                    <div id="map-image-container">
+                                        <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                    </div>
+                                    <div id="map-file-container">
+                                        <label for="map-file-upload" id="map-custom-file-upload">
+                                            <img src="../icons/plus.svg" alt="Bouton Image">
+                                            <p id="map-upload-text">Ajouter</p>
+                                        </label>
+                                        <input type="file" id="map-file-upload" accept=".png"/>
+                                        <button id="map-file-delete" type="button">
+                                            <img src="../icons/moins.svg" alt="Bouton Image">
+                                            Supprimer
+                                        </button>
+                                    </div>
+                                </div>
                                 
                                 <!-- Champ "Options" -->
                                 <div id="option-container">
                                     <label>Options</label>
                                     <div id="une-relief">
                                         <div id="une">
-                                            <input type="radio" id="une" name="option" value="une" />
+                                            <input type="checkbox" id="une" name="option" value="une" onclick="checkOnlyOne(this)"/>
                                             <label for="une">À la Une </label>
                                         </div>
                                         <div id="relief">
-                                            <input type="radio" id="relief" name="option" value="relief" />
+                                            <input type="checkbox" id="relief" name="option" value="relief" onclick="checkOnlyOne(this)"/>
                                             <label for="relief">En relief</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div id="bottom-right-part-content">
-                                <!---- Champs ajout image --->
+                                
+                                
+                                <!---- Champs ajout 3 images --->
                                 <div id="file-container">
                                     <label for="file-upload" id="custom-file-upload">
                                         <img src="../icons/plus.svg" alt="Bouton Image">
@@ -239,19 +305,43 @@ include_once'nav.php';
         </div>
 
         <script>
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
+            ///////////////////////////////// GESTION CHECKBOX //////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            function checkOnlyOne(checkbox) {
+                // Sélectionner toutes les cases à cocher dans le formulaire
+                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                
+                // Parcourir chaque case à cocher
+                checkboxes.forEach(function(item) {
+                    if (item !== checkbox) {
+                        // Désélectionner les autres cases à cocher
+                        item.checked = false;
+                    }
+                });
+            }
+
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////
+
             document.addEventListener('DOMContentLoaded', function() {
-                // Gestion de la catégorie et de l'affichage des champs "Durée" et "Âge"
+                const typeContainer = document.getElementById('type-container');
+                const optionContainer = document.getElementById('option-container');
+                // Gestion de la catégorie et de l'affichage des champs en fonction des catégories
                 const categorieSelect = document.getElementById('categorie');
                 const dureeContainer = document.getElementById('duree-container');
                 const ageContainer = document.getElementById('age-container');
                 const langueContainer = document.getElementById('langue-container');
                 const capaciteContainer = document.getElementById('capacite-container');
                 const nbattractionContainer = document.getElementById('nbattraction-container');
+                const carteImageContainer = document.getElementById('map-image');
 
                 // Récupérer tous les éléments avec la classe 'tag'
                 const tags = document.getElementsByClassName('tag');
 
-                // Sélectionne les éléments nécessaires pour les images
+                // Sélectionne les éléments nécessaires pour les 3 images
                 const fileInput = document.getElementById('file-upload');
                 const deleteButton = document.getElementById('file-delete');
                 const customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
@@ -262,14 +352,28 @@ include_once'nav.php';
 
                 let currentImageCount = 0; // Compte le nombre d'images actuellement affichées
                 let selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression
+
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////// GESTION DES CHAMPS PAR TYPE OFFRE ////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+
+                typeContainer.addEventListener('change', function(event) {
+                    if (event.target.name === 'offre') {
+                        if (event.target.value === 'standard') {
+                            optionContainer.style.display = 'none';
+                        } else if (event.target.value === 'premium') {
+                            optionContainer.style.display = 'flex';
+                        }
+                    }
+                });
                 
                 ////////////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////// GESTION DES CHAMPS DUREE ET AGE //////////////////////
+                ///////////////////////////////// GESTION DES CHAMPS PAR CATEGORIE /////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////////
 
                 // Fonction pour gérer l'affichage des champs
                 function handleCategorieChange() {
-                    const selectedCategorie = categorieSelect.value;
+                    let selectedCategorie = categorieSelect.value;
 
                     if (selectedCategorie === 'activite') {
                         dureeContainer.style.display = 'flex';
@@ -277,6 +381,7 @@ include_once'nav.php';
                         ageContainer.style.display = 'flex';
                         capaciteContainer.style.display = 'none';
                         langueContainer.style.display = 'none';
+                        carteImageContainer.style.display = 'none';
                     }
 
                     if (selectedCategorie === 'visite') {
@@ -285,6 +390,7 @@ include_once'nav.php';
                         ageContainer.style.display = 'none';
                         capaciteContainer.style.display = 'none';
                         langueContainer.style.display = 'flex';
+                        carteImageContainer.style.display = 'none';
                     }
 
                     if (selectedCategorie === 'spectacle') {
@@ -293,6 +399,7 @@ include_once'nav.php';
                         ageContainer.style.display = 'none';
                         capaciteContainer.style.display = 'flex';
                         langueContainer.style.display = 'none';
+                        carteImageContainer.style.display = 'none';
                     }
 
                     if (selectedCategorie === 'parcAttraction') {
@@ -301,6 +408,7 @@ include_once'nav.php';
                         ageContainer.style.display = 'flex';
                         capaciteContainer.style.display = 'none';
                         langueContainer.style.display = 'none';
+                        carteImageContainer.style.display = 'flex';
                     }
 
                     
@@ -366,13 +474,8 @@ include_once'nav.php';
                                     deleteButton.style.display = 'block';
                                 }
                                 selectedImages[selectedImageIndex].src = e.target.result;
-                                
-                                
                             }else{
-
-                        
                                 let foundEmptySlot = false;
-                        
                                 // Trouver la première case vide et y insérer l'image
                                 for (let i = 0; i < selectedImages.length; i++) {
                                     if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
@@ -437,9 +540,7 @@ include_once'nav.php';
                             img.classList.remove('selected'); // Désélectionner l'image
                             selectedImageIndex = -1;
                             errorMessage.style.display = 'block';
-                            errorMessage.textContent = 'Vous ne pouvez pas supprimer une image inexistante !';
-                            
-                            
+                            errorMessage.textContent = 'Vous ne pouvez pas supprimer une image inexistante !';     
                         }
                             
                         // Masquer le bouton de suppression s'il n'y a plus d'images
@@ -450,6 +551,77 @@ include_once'nav.php';
                         toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
                     }
                 });
+
+                ////////////////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////// GESTION MAP /////////////////////////////////////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////////
+
+                const mapFileUpload = document.getElementById('map-file-upload');
+                const mapFileDelete = document.getElementById('map-file-delete');
+                const mapImageContainer = document.getElementById('map-image-container').querySelector('img');
+
+                // Fonction pour ajouter une image
+                mapFileUpload.addEventListener('change', function() {
+                    
+                    if (mapFileUpload.files.length > 0) {
+                        const file = mapFileUpload.files[0];
+                        const reader = new FileReader();
+                        mapFileDelete.style.display = 'block';
+                        
+
+                        reader.onload = function(e) {
+                            mapImageContainer.src = e.target.result;
+                        };
+
+                        reader.readAsDataURL(file);
+                        mapFileUpload.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image plus tard
+                    }
+                });
+
+                // Fonction pour supprimer une image
+                mapFileDelete.addEventListener('click', function() {
+                    if (mapImageContainer.src.includes('rien.png')) {
+                    } else {
+                        mapImageContainer.src = '../images/rien.png'; // Réinitialiser l'image
+                        mapFileDelete.style.display = 'none';
+                    }
+                });
+
+
+    const tagsL = document.querySelectorAll('#tags-items-container .tag');
+    const tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Plein air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
+    const tagsToHideOther = ['Française', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
+    const tagsItemsContainer = document.getElementById('tags-items-container');
+    const tagContainer = document.getElementById('tag-container');
+                
+    categorieSelect.addEventListener('change', function() {
+        const selectedCategory = categorieSelect.value;
+
+        tagsL.forEach(tag => {
+            const tagText = tag.querySelector('p').textContent;
+
+            if (selectedCategory === 'restauration') {
+                if (tagsToHideRestauration.includes(tagText)) {
+                    tag.style.display = 'none';
+                } else {
+                    tag.style.display = 'inline-block';
+                }
+                tagsItemsContainer.style.height = '77.3px';
+                tagContainer.style.height = '107.3px';
+            } else {
+                if (tagsToHideOther.includes(tagText)) {
+                    tag.style.display = 'none';
+                } else {
+                    tag.style.display = 'inline-block';
+                }
+                tagsItemsContainer.style.height = '116px';
+                tagContainer.style.height = '146px';
+            }
+        });
+    });
+
+
+
             });
         </script>
     </body>

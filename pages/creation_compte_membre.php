@@ -29,7 +29,8 @@
                     </div>
                 </a>
             </div>
-            <form action="../sql/traitement_inscription.php" method="POST">
+            <form action="creation_compte.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="membre">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
