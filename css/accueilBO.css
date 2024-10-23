@@ -47,6 +47,14 @@ header + nav {
     display: flex;
     flex-direction: row;
     align-items: center; /* Aligne verticalement le contenu */
+    justify-content: space-between; /* Espace entre les éléments */
+}
+
+.space-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 p {
@@ -136,11 +144,13 @@ main {
 main.active_filter {
     transform: translateY(150px);
     transition: all 0.3s ease-in-out;
+    
 }
 
 .all-filter {
     display: none;
     height: 150px;
+    margin-bottom: 20px;
 }
 
 .all-filter.active {
@@ -633,10 +643,17 @@ input[type="range"]::-ms-thumb {
     text-decoration: none;
 }
 
+.phone-element {
+    display: none;
 }
 
+}
 
-@media screen and (max-width: 768px) {
+/* =========================================================== */
+/*           STYLES POUR CHACUNE DES OFFRES (MOBILE)           */
+/* =========================================================== */
+
+@media screen and (max-width: 800px) {
 
     .carte_offre {
         margin: 24px auto; /* Centre les cartes horizontalement */
@@ -668,11 +685,36 @@ input[type="range"]::-ms-thumb {
         object-fit: cover;
         overflow: hidden;
     }
-}
 
-@media screen and (max-width: 1180px) {
-
-    .NouveauALaUne {
-        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+    .desktop-element {
+        display: none;
     }
-}
+
+
+    .carte_offre a {
+        text-decoration: none;
+    }
+
+    .noteAnnonce > img {
+        width: 12px;
+        height: 12px;
+        object-fit: cover;
+    }
+
+    .carte_offre.phone-element {
+        display: grid;
+        grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image */
+        grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière */
+        grid-template-areas: 
+            "title rating"
+            "description image"
+            "location image"; /* L'image prend aussi la place sous 'rating' */
+        gap: 5px; /* Réduction de l'espace entre les éléments */
+        background-color: white;
+        border: 1px solid var(--bleu-fonce);
+        border-radius: 8px;
+        padding: 25px; /* Augmentation du padding pour agrandir l'espace entre le contenu et la bordure */
+        max-width: 550px; /* Case légèrement plus grande */
+        width: 70%; /* Légère augmentation de la largeur pour équilibrer */
+        margin: 20px auto; /* Ajustement de la marge externe */
+    }

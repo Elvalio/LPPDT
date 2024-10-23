@@ -9,7 +9,7 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, a.ville, p.src_image
+            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image
              FROM pact.offre o
              JOIN pact._adresse a ON o.idAdresse = a.idAdresse
              LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
@@ -54,42 +54,44 @@ try{
             </header>
             <nav class="desktop-element">
                 <div class="nav_space">
-                    <div class="search">
-                        <input type="text" name="search" id="search" placeholder="Search" class="FS">
-                        <img src="../images/search_icon.png" alt="Search" title="Search">
-                    </div>
-
-                    <div class="filtrer-trier"> 
-                        <div class="filtrer-bouton NoSelect">
-                            <p class="FS">Filtrer par</p>
-                            <img src="../images/fleche.png" alt="Fleche" title="Fleche">
+                    <div class="space-button">
+                        <div class="search">
+                            <input type="text" name="search" id="search" placeholder="Search" class="FS">
+                            <img src="../images/search_icon.png" alt="Search" title="Search">
                         </div>
 
-                        <div class="dropdown NoSelect">
-                            <div class="dropdown-toggle trier">
-                                <p class="FS">Trier par</p>
+                        <div class="filtrer-trier"> 
+                            <div class="filtrer-bouton NoSelect">
+                                <p class="FS">Filtrer par</p>
                                 <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                             </div>
-                            <ul class="dropdown-menu">
-                                <li><a href="#0">Prix croissant</a></li>
-                                <li><a href="#0">Prix décroissant</a></li>
-                                <li><a href="#0">Notes croissantes</a></li>
-                                <li><a href="#0">Notes décroissantes</a></li>
-                            </ul>
+
+                            <div class="dropdown NoSelect">
+                                <div class="dropdown-toggle trier">
+                                    <p class="FS">Trier par</p>
+                                    <img src="../images/fleche.png" alt="Fleche" title="Fleche">
+                                </div>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#0">Prix croissant</a></li>
+                                    <li><a href="#0">Prix décroissant</a></li>
+                                    <li><a href="#0">Notes croissantes</a></li>
+                                    <li><a href="#0">Notes décroissantes</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="NouveauALaUne">
+                        <div class="boutonNouveau NoSelect">
+                            <p class="FS">Nouveau</p>
+                            <img src="../images/croix.png" alt="croix" title="croix">
+                        </div>
+                        <div class="boutonALaUne NoSelect">
+                            <p class="FS">A la une</p>
+                            <img src="../images/croix.png" alt="croix" title="croix">
                         </div>
                     </div>
                 </div>
 
-                <div class="NouveauALaUne">
-                    <div class="boutonNouveau NoSelect">
-                        <p class="FS">Nouveau</p>
-                        <img src="../images/croix.png" alt="croix" title="croix">
-                    </div>
-                    <div class="boutonALaUne NoSelect">
-                        <p class="FS">A la une</p>
-                        <img src="../images/croix.png" alt="croix" title="croix">
-                    </div>
-                </div>
             </nav>
 
             <div class="all-filter">
@@ -193,6 +195,7 @@ try{
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
                             <div class="infoAnnonce">
                                 <p><?php echo $value["prix_min"] ?>€</p>
+                                
                                 <!-- Autres informations... -->
                             </div>
                         </a>
@@ -201,21 +204,30 @@ try{
                     <div class="carte_offre phone-element">
                         <a href="https://google.com" target="_blank">
 
-                            <?php if ($value['src_image']) { ?>
-                                <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
 
-                                <?php echo '<p class="localisationAnnonce">' . htmlspecialchars($offre['ville']) . '</p>';?>
-
-
-                            <?php } else { ?>
-                                <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
-                            <?php } ?>
-                            
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
 
-                            <div class="infoAnnonce">
-                                <p><?php echo $value["prix_min"] ?>€</p>
-                                <!-- Autres informations... -->
+                            <p class="resumeAnnonce"><?php echo $value["resume"] ?></p>
+
+                            <p class="villeAnnonce"><?php echo $value["ville"] ?></p>
+                        
+                            <div class="noteAnnonce">
+                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
+                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
+                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
+                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
+                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
+                            </div>
+
+
+                            <div class="conteneurImage">
+                                <?php if ($value['src_image']) { ?>
+                                    <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
+
+
+                                <?php } else { ?>
+                                    <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
+                                <?php } ?>
                             </div>
 
                         </a>
