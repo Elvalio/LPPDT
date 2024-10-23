@@ -121,3 +121,27 @@ insert into pact.photo_offre (src_image, idO) values ('image_offre/13-4-1.jpg', 
 insert into pact.photo_offre (src_image, idO) values ('image_offre/10-5-1.webp', 5);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/8-6-1.jpg', 6);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/10-7-1.jpg', 7);
+
+
+-- AVIS  TODO next sprint--
+
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)
+values (4, 'Test', 'Test', now(), now(), 'Test');
+
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)
+values (2, 'Test', 'Test', now(), now(), 'Test');
+
+-- not final
+
+insert into _experience(idA, idC, idO) values (1, 1, 1);
+insert into _experience(idA, idC, idO) values (1, 2, 2);
+insert into _experience(idA, idC, idO) values (1, 3, 3);
+insert into _experience(idA, idC, idO) values (1, 4, 4);
+insert into _experience(idA, idC, idO) values (1, 5, 5);
+insert into _experience(idA, idC, idO) values (1, 6, 6);
+insert into _experience(idA, idC, idO) values (1, 7, 7);
+
+insert into _experience(idA, idC, idO) values (2, 1, 3);
+insert into _experience(idA, idC, idO) values (2, 2, 4);
+insert into _experience(idA, idC, idO) values (2, 3, 5);
+insert into _experience(idA, idC, idO) values (2, 4, 6);

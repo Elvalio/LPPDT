@@ -650,6 +650,9 @@ declare
   comp float;
 begin
   select avg(a.note) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre  into comp;
+  if (comp is null) then
+    comp = 0;
+  end if;
   RETURN comp;
 end;
 $$ language 'plpgsql';

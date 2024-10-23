@@ -216,23 +216,24 @@ try{
                     <div class="carte_offre phone-element">
                         <a href="https://google.com" target="_blank">
 
+                        <div class="InfoOffreMobile">
+                            <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
 
-                            <div class="titreAnnonce"><?php echo $value["titre"] ?></div>
+                            <p class="resumeAnnonce"><?php echo $value["resume"] ?></p>
 
-                            <div class="resumeAnnonce"><?php echo $value["resume"] ?></div>
-
-                            <div class="villeAnnonce"><?php echo $value["ville"] ?></div>
-
+                            <p class="villeAnnonce"><?php echo $value["ville"] ?></p>
+                        </div>
+                        <div class="NoteImageOffreMobile">
                             <div class="etoileNote">
-                                    <?php 
-                                    if ($value["moy_note"] != null && $value["nbravis"] != 0) {
-                                        for ($i=0; $i < $value["moy_note"]; $i++) { ?>
-                                            <img src="../icons/etoile_rouge.png" alt="Etoile">
-                                        <?php }
-                                        for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
-                                            <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
-                                    <?php }} ?>
-                                </div>
+                                <?php 
+                                if ($value["moy_note"] != null && $value["nbravis"] != 0) {
+                                    for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                                        <img src="../icons/etoile_rouge.png" alt="Etoile">
+                                    <?php }
+                                    for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                        <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
+                                <?php }} ?>
+                            </div>
                         
                             <div class="conteneurImage">
                                 <?php if ($value['src_image']) { ?>
@@ -243,7 +244,7 @@ try{
                                     <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
                                 <?php } ?>
                             </div>
-
+                        </div>
                         </a>
                     </div>
                 <?php } } ?>
