@@ -80,37 +80,37 @@ insert into tag_resto (libelle) values ('Crêperie');
 -- TAGS OFFRES --
 
 -- spectacle
-insert into _tags_spectacle(idO, idTag) values (1,5);
-insert into _tags_spectacle(idO, idTag) values (1,6);
+insert into pact._tags_spectacle(idO, idTag) values (1,5);
+insert into pact._tags_spectacle(idO, idTag) values (1,6);
 
 -- activite
-insert into _tags_activite(idO, idTag) values (2,5);
-insert into _tags_activite(idO, idTag) values (2,6);
-insert into _tags_activite(idO, idTag) values (2,7);
-insert into _tags_activite(idO, idTag) values (2,13);
+insert into pact._tags_activite(idO, idTag) values (2,5);
+insert into pact._tags_activite(idO, idTag) values (2,6);
+insert into pact._tags_activite(idO, idTag) values (2,7);
+insert into pact._tags_activite(idO, idTag) values (2,13);
 
-insert into _tags_activite(idO, idTag) values (6,6);
-insert into _tags_activite(idO, idTag) values (6,7);
-insert into _tags_activite(idO, idTag) values (6,8);
-insert into _tags_activite(idO, idTag) values (6,13);
+insert into pact._tags_activite(idO, idTag) values (6,6);
+insert into pact._tags_activite(idO, idTag) values (6,7);
+insert into pact._tags_activite(idO, idTag) values (6,8);
+insert into pact._tags_activite(idO, idTag) values (6,13);
 
 -- visite
-insert into _tags_visite(idO, idTag) values (3,5);
-insert into _tags_visite(idO, idTag) values (3,6);
-insert into _tags_visite(idO, idTag) values (3,8);
+insert into pact._tags_visite(idO, idTag) values (3,5);
+insert into pact._tags_visite(idO, idTag) values (3,6);
+insert into pact._tags_visite(idO, idTag) values (3,8);
 
 insert into _tags_visite(idO, idTag) values (7,1);
 insert into _tags_visite(idO, idTag) values (7,2);
 insert into _tags_visite(idO, idTag) values (7,3);
 
 -- restauration
-insert into _tags_restauration(idO, idTag) values (4,18);
-insert into _tags_restauration(idO, idTag) values (4,25);
+insert into pact._tags_restauration(idO, idTag) values (4,18);
+insert into pact._tags_restauration(idO, idTag) values (4,25);
 
 -- parc_d_attraction
-insert into _tags_parc_d_attraction(idO, idTag) values (5,6);
-insert into _tags_parc_d_attraction(idO, idTag) values (5,13);
-insert into _tags_parc_d_attraction(idO, idTag) values (5,17);
+insert into pact._tags_parc_d_attraction(idO, idTag) values (5,6);
+insert into pact._tags_parc_d_attraction(idO, idTag) values (5,13);
+insert into pact._tags_parc_d_attraction(idO, idTag) values (5,17);
 
 -- IMAGES --
 
