@@ -45,7 +45,7 @@
     justify-content: space-between;
 }
 #codeP-container{
-    width: 100px;
+    width: 150px;
 }
 
 #codeP-ville{
@@ -128,12 +128,17 @@
     height: 100px;
 }
 
-#accessibilite-container textarea{
+#accessibilite-container textarea, #pinclus-container textarea, #pexclus-container textarea{
     width: 510px;
 }
 
 #accessibilite-container, #resume-container{
     height: 150px;
+}
+
+#pinclus-container, #pexclus-container{
+    height: 75px;
+    display: none;
 }
 
 
@@ -334,7 +339,7 @@ input, select{
 
 /* Style du select */
 select {
-    color: gray; /* "categorie de l'offre" en gris */
+    color: rgb(150, 150, 150); /* "categorie de l'offre" en gris */
     font-size: 16px;
     padding: 5px;
     cursor: pointer;
@@ -396,4 +401,23 @@ input[type="file"]{
     height: 18px;
     margin-right: 10px; /* Espace entre l'image et le texte */
     width: auto; /* Largeur automatique pour garder le ratio */
+}
+
+input::placeholder, textarea::placeholder{
+    color: rgb(150, 150, 150);
+}
+
+
+
+/* gestion erreur */
+.error-message {
+    color: red;
+    font-size: 0.9em;
+}
+
+input:disabled {
+    background-color: #d4d4d4; /* Couleur de fond gris clair */
+    color: #8a8a8a;
+    cursor: not-allowed;       /* Change le curseur pour indiquer que c'est désactivé */
+    opacity: 0.7;              /* Réduit l'opacité pour un effet visuel atténué */
 }
