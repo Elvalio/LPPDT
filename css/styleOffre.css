@@ -275,7 +275,7 @@
 }
 
 #upload-text, #map-upload-text{
-    color: var(--blanc-bo);
+    color: var(--blanc);
 }
 
 /************************ gérer les tags items ******************/
@@ -393,7 +393,7 @@ input[type="file"]{
     cursor: pointer; /* Curseur en forme de main */
     border: none;
     border-radius: 8px;
-    background-color: var(--orange);
+    background-color: var(--turquoise-orange);
     font-size: 16px;
 }
 
