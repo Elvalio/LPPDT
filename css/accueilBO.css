@@ -655,6 +655,7 @@ input[type="range"]::-ms-thumb {
 
 @media screen and (max-width: 800px) {
 
+
     .nav_space {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
@@ -689,6 +690,11 @@ input[type="range"]::-ms-thumb {
 
     .carte_offre a {
         text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px; /* Réduction de l'espace entre les éléments */
     }
 
     .noteAnnonce > img {
@@ -698,14 +704,6 @@ input[type="range"]::-ms-thumb {
     }
 
     .carte_offre.phone-element {
-        display: grid;
-        grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image */
-        grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière */
-        grid-template-areas: 
-            "title rating"
-            "description image"
-            "location image"; /* L'image prend aussi la place sous 'rating' */
-        gap: 5px; /* Réduction de l'espace entre les éléments */
         background-color: white;
         border: 1px solid var(--bleu-fonce);
         border-radius: 8px;
@@ -716,7 +714,7 @@ input[type="range"]::-ms-thumb {
       }
       
       .titreAnnonce {
-        grid-area: title;
+        /* grid-area: title; */
         font-size: 1.1rem; /* Taille de la police inchangée */
         color: var(--bleu-fonce);
         font-family: 'TripSansBold';
@@ -724,7 +722,7 @@ input[type="range"]::-ms-thumb {
       }
       
       .resumeAnnonce {
-        grid-area: description;
+        /* grid-area: description; */
         font-size: 0.8rem; /* Taille de la police inchangée */
         color: #333;
         font-family: 'TripSansRegular';
@@ -732,7 +730,7 @@ input[type="range"]::-ms-thumb {
       }
       
       .villeAnnonce {
-        grid-area: location;
+        /* grid-area: location; */
         font-size: 0.7rem; /* Taille de la police inchangée */
         color: #666;
         font-family: 'TripSansRegular';
@@ -750,16 +748,19 @@ input[type="range"]::-ms-thumb {
       }
       
       .conteneurImage {
-        grid-area: image;
+        /* grid-area: image; */
         display: flex;
         justify-content: center;
         align-items: center;
+        width: fit-content;
       }
       
       .conteneurImage > img {
         width: 100px; /* Taille de l'image inchangée */
         height: auto;
         border-radius: 8px;
+        padding: 0;
+        margin: 0;
 
 
       }
@@ -768,4 +769,41 @@ input[type="range"]::-ms-thumb {
         margin-left: 0 !important;
     }
 
+    .InfoOffreMobile {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .NoteImageOffreMobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .etoileNote {
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
+        margin-left: 6px;
+    }
+
+    .etoileNote img {
+        width: 15px;
+        height: 15px;
+        object-fit: cover;
+    }
+
 }
+
+/* display: grid;
+        grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image 
+        grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière 
+        grid-template-areas: 
+            "title rating"
+            "description image"
+            "location image"; L'image prend aussi la place sous 'rating' */
