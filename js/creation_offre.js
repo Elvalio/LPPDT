@@ -248,11 +248,14 @@
                                 var foundEmptySlot = false;
                                 // Trouver la première case vide et y insérer l'image
                                 for (var i = 0; i < selectedImages.length; i++) {
-                                    if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
+                                    var currentSrc = selectedImages[i].getAttribute('src') || ''; // Récupérer la source actuelle de l'image
+                                    console.log(currentSrc);
+                                    if (!foundEmptySlot && (currentSrc === '' || currentSrc.includes('rien.png'))) {
                                         selectedImages[i].src = e.target.result; // Mettre à jour la source de l'image
                                         selectedImages[i].style.display = 'block'; // Afficher l'image
                                         foundEmptySlot = true;
                                         currentImageCount++;
+                                        console.log(currentSrc);
                                     }
                                 }
 
