@@ -52,7 +52,7 @@
                     echo $stmt2[0]['telephone'];
                 ?>
                 <?php 
-                if (isset($stmt[0]['duree'])) {
+                if ($stmt[0]['duree']) {
                     echo " | Durée : ";
                     echo $stmt[0]['duree'];
                 }
