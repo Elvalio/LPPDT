@@ -660,11 +660,7 @@ input[type="range"]::-ms-thumb {
     .nav_space {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
-
-    .mobile-footer {
-        width: 100%;
-    }
-
+    
     .filtrer-trier {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
