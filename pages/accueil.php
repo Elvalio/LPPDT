@@ -203,7 +203,7 @@ try{
                                             <img src="../icons/etoile_rouge.png" alt="Etoile">
                                         <?php }
                                         for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
-                                            <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
+                                            <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
                                     <?php }} ?>
                                     <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
                                         <p>(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
