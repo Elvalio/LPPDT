@@ -7,6 +7,7 @@
     </head>
     <body>
     <?php
+        error_reporting(0);
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
             <div class="TS-bold BO" id="sidebar"> <?php
         } else { ?>

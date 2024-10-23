@@ -526,7 +526,7 @@
                 }
 
                 // 5. Vérification des caractères autorisés (alphanumérique + certains caractères courants dans les adresses)
-                const allowedCharacters = /^[A-Za-z0-9\s\,\.\-\#\/]*$/;  // Inclut les alphanumériques, espaces, et les caractères , . - # /
+                const allowedCharacters = /^[A-Za-zÀ-ú0-9\s\,\.\-\#\/]*$/;  // Inclut les alphanumériques, espaces, et les caractères , . - # /
                 if (!allowedCharacters.test(adresse)) {
                     errors.push("L'adresse contient des caractères non autorisés (seuls les alphanumériques, espaces, , . - # / sont permis).");
                 }
