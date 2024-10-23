@@ -125,9 +125,9 @@
     width: 40%;
   }
 
-  nav {
+  .phone-element, .mobile-footer{
     display: none;
-  }
+}
 
   .login-page {
     display: flex;
@@ -148,6 +148,10 @@
     border: 1px solid #ccc;
     border-radius: 5px;
   }
+
+  .navigation-mobile {
+    display: none;
+  }
 }
 
 /* ==================================== */
@@ -159,6 +163,15 @@
   .liste_nav{
     display: none;
   }
+
+  .navigationMobile {
+    position: sticky; /* This makes the navbar stick to its position */
+    bottom: 0;        /* Attach it to the bottom */
+    left: 0;
+    right: 0;
+    z-index: 5;       /* Ensure it's above other elements */
+    background-color: white; /* Add background color for clarity */
+}
 
   body {
     width: 100%;
@@ -251,6 +264,8 @@
   .links a:hover {
       text-decoration: underline;
   }
+
+  
 }
 
 
