@@ -9,7 +9,7 @@
 
     <body>
         <?php
-
+        error_reporting(0);
         include("../sql/connect_params.php");
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
