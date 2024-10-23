@@ -1,6 +1,9 @@
 <?php
 //include_once 'nav.php';
-
+echo  "<h1>";
+print_r((string)$_COOKIE['type_compte']);
+print_r($_COOKIE['user']);
+echo  "</h1>";
 include('../sql/connect_params.php');
 
 function type_offre($str){
@@ -128,7 +131,7 @@ if ($_POST['categorie'] != '') {
 
                 $src_image = 'todo'; // need image source
                 $gamme_prix = $_POST['categorie-prix'];
-                $petit_dejeuner = ($_POST['petit-dejeuner'] = 'petit-dejeuner') ? 'true' : 'false';
+                $petit_dejeuner = ($_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
                 $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
                 $dejeuner = ($_POST['dejeuner'] == 'dejeuner') ? 'true' : 'false';
                 $diner = ($_POST['diner'] == 'diner') ? 'true' : 'false';
@@ -435,7 +438,7 @@ if (isset($_FILES['image'])) {
                                     </div>
                                     <div class="container categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>
-                                        <select id="categorie-prix" name="categorie-prix" required class="FS">
+                                        <select id="categorie-prix" name="categorie-prix" class="FS">
                                             <option value="" disabled selected hidden id="first-option">Gamme de prix</option>
                                             <option value="€">€</option>
                                             <option value="€€">€€</option>
@@ -510,9 +513,15 @@ if (isset($_FILES['image'])) {
                                     <!-- Champ "Type" -->
                                     <div id="type-container">
                                         <label>Type d'offre</label>
-                                        <div id="standard-premium">
+                                        
+                                        <div id="gratuit"<?php echo  ((string)$_COOKIE['type_compte'] == 'pro_public') ?  '' : 'style="display: none;"';?>>
+                                            <input type="radio" id="gratuit" name="offre" value="gratuit" <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_public') ?  'checked' : '';?>/>
+                                            <label for="gratuit">Gratuit</label>
+                                        </div>
+
+                                        <div id="standard-premium" hidden <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
                                             <div id="standard">
-                                                <input type="radio" id="standard" name="offre" value="standard" checked/>
+                                                <input type="radio" id="standard" name="offre" value="standard" <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  'checked' : '';?>/>
                                                 <label for="standard">Standard</label>
                                             </div>
                                             <div id="premium">

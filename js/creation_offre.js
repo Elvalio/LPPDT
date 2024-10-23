@@ -150,7 +150,7 @@
                             tagsItemsContainer.style.height = '77.3px';
                             tagContainer.style.height = '107.3px';
                             categoriePrixContainer.style.display = 'flex';
-                            document.getElementById('categorie-prix').required = true;
+                            //document.getElementById('categorie-prix').required = true;
                             dureeContainer.style.display = 'none';
                             document.getElementById('duree').required = false;
                             nbattractionContainer.style.display = 'none';
@@ -175,7 +175,7 @@
                             tagsItemsContainer.style.height = '116px';
                             tagContainer.style.height = '146px';
                             categoriePrixContainer.style.display = 'none';
-                            document.getElementById('categorie-prix').required = false;
+                            //document.getElementById('categorie-prix').required = false;
                             repasContainer.style.display = 'none';
                             
                         }
@@ -391,8 +391,8 @@
             ////////////////////////////////////////////////////////////////////////////////////////////
             const submitButton = document.getElementById('submit-button');
             submitButton.disabled = true; // Désactive le bouton de soumission
-            const forbiddenCodeKeywords = /(function|var|let|const|if|else|while|for|return|console|document|window|alert|eval|script|import|export|async|await|try|catch|finally|class|this|super|new|void|typeof|instanceof|throw|debugger|with|case|switch|default|break|continue|do|try|finally|yield|static|print|def|in|as|from|lambda|class|self|__init__|require|module|exports|package|import|public|private|protected|implements|extends|new|enum|throw|catch|finally|toString|JSON|Promise|Map|Set|WeakMap|WeakSet|Symbol|Math|parseInt|parseFloat|push|pop|shift|unshift|splice|slice|filter|map|reduce|forEach|every|some|indexOf|includes|lastIndexOf|join|sort|reverse|fill|flat|flatMap|Object|Array|Function|Boolean|Number|String|RegExp|Date|Error|Promise|Set|Map|WeakMap|WeakSet|Proxy|Reflect|Intl|eval|setTimeout|setInterval|clearTimeout|clearInterval|requestAnimationFrame|fetch|XMLHttpRequest|localStorage|sessionStorage|documentElement|createElement|createTextNode|getElementById|getElementsByClassName|getElementsByTagName|querySelector|querySelectorAll|print|include|require|namespace|do|try|catch|finally|yield|void|define|global|using|class|interface|method|static|delegate|event|addEventListener|prompt|file|input|document.createElement|document.write|document.getElementById|document.getElementsByClassName|document.getElementsByTagName)/i;
-
+            //const forbiddenCodeKeywords = /(function|var|let|const|if|else|while|for|return|console|document|window|alert|eval|script|import|export|async|await|try|catch|finally|class|this|super|new|void|typeof|instanceof|throw|debugger|with|case|switch|default|break|continue|do|try|finally|yield|static|print|def|in|as|from|lambda|class|self|__init__|require|module|exports|package|import|public|private|protected|implements|extends|new|enum|throw|catch|finally|toString|JSON|Promise|Map|Set|WeakMap|WeakSet|Symbol|Math|parseInt|parseFloat|push|pop|shift|unshift|splice|slice|filter|map|reduce|forEach|every|some|indexOf|includes|lastIndexOf|join|sort|reverse|fill|flat|flatMap|Object|Array|Function|Boolean|Number|String|RegExp|Date|Error|Promise|Set|Map|WeakMap|WeakSet|Proxy|Reflect|Intl|eval|setTimeout|setInterval|clearTimeout|clearInterval|requestAnimationFrame|fetch|XMLHttpRequest|localStorage|sessionStorage|documentElement|createElement|createTextNode|getElementById|getElementsByClassName|getElementsByTagName|querySelector|querySelectorAll|print|include|require|namespace|do|try|catch|finally|yield|void|define|global|using|class|interface|method|static|delegate|event|addEventListener|prompt|file|input|document.createElement|document.write|document.getElementById|document.getElementsByClassName|document.getElementsByTagName)/i;
+            const forbiddenCodeKeywords = /(<br>)/i;
             function validateTitle() {
                 const titreInput = document.getElementById('titre');
                 const errorMessageElement = document.getElementById('error-message-titre');

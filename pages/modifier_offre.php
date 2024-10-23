@@ -1,6 +1,8 @@
 <?php
 //include_once 'nav.php';
 
+use function PHPSTORM_META\type;
+
 include('../sql/connect_params.php');
 
 var_dump($_POST);
@@ -106,7 +108,6 @@ try{
     // echo '<pre>';
     // print_r($tags_offre);
     // echo '</pre>';
-
 
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -348,11 +349,11 @@ try{
                                     </div>
                                     <div class="container categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>
-                                        <select id="categorie-prix" name="categorie-prix" required class="FS">
-                                            <option value="" disabled selected hidden id="first-option">Gamme de prix</option>
-                                            <option value="€">€</option>
-                                            <option value="€€">€€</option>
-                                            <option value="€€€">€€€</option>
+                                        <select id="categorie-prix" name="categorie-prix" class="FS">
+                                            <option value="" disabled <?php echo  ((string)$resultat[0]['gamme_prix'] == '') ?  'selected' : '';?> hidden id="first-option">Gamme de prix</option>
+                                            <option value="€" <?php echo  ((string)$resultat[0]['gamme_prix'] == '€') ?  'selected' : '';?> >€</option>
+                                            <option value="€€" <?php echo  ((string)$resultat[0]['gamme_prix'] == '€€') ?  'selected' : '';?>>€€</option>
+                                            <option value="€€€" <?php echo  ((string)$resultat[0]['gamme_prix'] == '€€€') ?  'selected' : '';?>>€€€</option>
                                         </select>
                                     </div>
                                 </div>
@@ -377,23 +378,23 @@ try{
                                         <label>Repas servis</label>
                                         <div id="repas-items-container">
                                             <div id="petit-dejeuner">
-                                                <input type="checkbox" id="petit-dejeuner" name="petit-dejeuner" value="petit-dejeuner"/>
+                                                <input type="checkbox" id="petit-dejeuner" name="petit-dejeuner" value="petit-dejeuner" <?php echo  ($resultat[0]['petit_dejeuner']) ?  'checked' : '';?>/>
                                                 <label for="petit-dejeuner">Petit-déjeuner</label>
                                             </div>
                                             <div id="brunch">
-                                                <input type="checkbox" id="brunch" name="brunch" value="brunch"/>
+                                                <input type="checkbox" id="brunch" name="brunch" value="brunch" <?php echo  ($resultat[0]['brunch']) ?  'checked' : '';?>/>
                                                 <label for="brunch">Brunch</label>
                                             </div>
                                             <div id="dejeuner">
-                                                <input type="checkbox" id="dejeuner" name="dejeuner" value="dejeuner"/>
+                                                <input type="checkbox" id="dejeuner" name="dejeuner" value="dejeuner" <?php echo  ($resultat[0]['dejeuner']) ?  'checked' : '';?>/>
                                                 <label for="dejeuner">Déjeuner</label>
                                             </div>
                                             <div id="dinner">
-                                                <input type="checkbox" id="diner" name="diner" value="diner"/>
+                                                <input type="checkbox" id="diner" name="diner" value="diner" <?php echo  ($resultat[0]['diner']) ?  'checked' : '';?>/>
                                                 <label for="diner">Dîner</label>
                                             </div>
                                             <div id="boissons">
-                                                <input type="checkbox" id="boissons" name="boissons" value="boissons"/>
+                                                <input type="checkbox" id="boissons" name="boissons" value="boissons" <?php echo  ($resultat[0]['boissons']) ?  'checked' : '';?>/>
                                                 <label for="boissons">Boissons</label>
                                             </div>
                                         </div>
@@ -423,13 +424,19 @@ try{
                                     <!-- Champ "Type" -->
                                     <div id="type-container">
                                         <label>Type d'offre</label>
-                                        <div id="standard-premium">
+                                        
+                                        <div id="gratuit" <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_public') ?  '' : 'style="display: none;"';?>>
+                                            <input type="radio" id="gratuit" name="offre" value="gratuit" <?php echo  ($resultat[0]['type'] == 1) ?  'checked' : '';?>/>
+                                            <label for="gratuit">Gratuit</label>
+                                        </div>
+                                        
+                                        <div id="standard-premium" <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
                                             <div id="standard">
-                                                <input type="radio" id="standard" name="offre" value="standard" checked/>
+                                                <input type="radio" id="standard" name="offre" value="standard" <?php echo  ($resultat[0]['type'] == 2) ?  'checked' : '';?>/>
                                                 <label for="standard">Standard</label>
                                             </div>
                                             <div id="premium">
-                                                <input type="radio" id="premium" name="offre" value="premium" />
+                                                <input type="radio" id="premium" name="offre" value="premium" <?php echo  ($resultat[0]['type'] == 3) ?  'checked' : '';?>/>
                                                 <label for="premium">Premium</label>
                                             </div>
                                         </div>
