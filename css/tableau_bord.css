@@ -56,18 +56,7 @@ section > div{
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-}
-
-.hors_ligne > button{
-    font-size: 15px;
-    display: flex;
-    align-items: center;
-    color: var(--rouge);
-    border-color: var(--rouge);
     margin-right: 10px;
-    background-color: white;
-    border-radius: 5px;
-    cursor:pointer;
 }
 
 #icon_delete{
@@ -109,3 +98,89 @@ input{
     background-color: var(--noir);
     cursor:pointer;
 }
+
+.titre_switch{
+    display: flex;
+    align-items: center;
+}
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    height: 34px; /* Maintain height, but width is flexible */
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: relative;
+    cursor: pointer;
+    display: inline-flex; /* Flexbox for content adjustment */
+    align-items: center;
+    padding: 0 40px; /* Space for text and button */
+    background-color: green;
+    transition: background-color 0.4s; /* Smooth background color transition */
+    border-radius: 34px; /* Rounded shape */
+    height: 100%; /* Match the height of the switch */
+    font-size: 16px; /* Default font size */
+    color: white;
+    font-family: Arial, sans-serif;
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+  
+  /* The round button */
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%; /* Make the button round */
+    transition: transform 0.4s, left 0.4s; /* Smooth transitions */
+  }
+  
+  /* Default slider text (when unchecked) */
+  .slider::after {
+    content: "En ligne"; /* Default text */
+    position: relative;
+    transition: content 0.4s, margin-left 0.4s, margin-right 0.4s;
+  }
+  
+  /* When the checkbox is checked */
+  input:checked + .slider {
+    background-color: red; /* Change background to red when checked */
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 5px red; /* Add focus shadow */
+  }
+  
+  /* Change the text when checked */
+  input:checked + .slider::after {
+    content: "Hors ligne"; /* Text when checked */
+  }
+  
+  /* Move the round button when checked */
+  input:checked + .slider:before {
+    transform: translateX(120px); /* Slide the button to the right */
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px; /* Keep the slider rounded */
+  }
+  
+  .slider.round:before {
+    border-radius: 50%; /* Keep the button round */
+  }
+  

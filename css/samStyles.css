@@ -33,7 +33,7 @@ body {
 
 .titre-rouge {
     font-size: 3vw;
-    color: brown;
+    color: var(--bleuFonce-rougeFonce);
     font-family: 'TripSansBold';
     width: 85%;
     margin: 0;
@@ -210,7 +210,7 @@ body {
 .infos-offre {
     display: flex;
     flex-direction: row;
-    width: 75%;
+    width: 80%;
     margin-top: 10px;
     align-items: center;
     justify-content: flex-start;
@@ -296,7 +296,7 @@ body {
   cursor: pointer; /* Curseur en forme de main */
   border: none;
   border-radius: 8px;
-  background-color: var(--orange);
+  background-color: var(--turquoise-orange);
   font-size: 16px;
   width: fit-content;
 }
