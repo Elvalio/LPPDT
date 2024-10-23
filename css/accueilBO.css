@@ -644,7 +644,7 @@ input[type="range"]::-ms-thumb {
     text-decoration: none;
 }
 
-.phone-element, .navigationMobile {
+.phone-element, .mobile-footer{
     display: none;
 }
 
@@ -661,7 +661,7 @@ input[type="range"]::-ms-thumb {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
 
-    .navigationMobile {
+    .mobile-footer {
         bottom: 0;
         left: 0;
         right: 0;

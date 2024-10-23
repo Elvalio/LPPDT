@@ -121,9 +121,7 @@ if ($_POST!=[]) {
             </div>
         </form>
     </div>
-    <div class="navigationMobile">
             <?php include_once'footerNav.php' ?>
-    </div>
 </body>
 
 </html>

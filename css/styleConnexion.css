@@ -125,9 +125,9 @@
     width: 40%;
   }
 
-  nav {
+  .phone-element, .mobile-footer{
     display: none;
-  }
+}
 
   .login-page {
     display: flex;
