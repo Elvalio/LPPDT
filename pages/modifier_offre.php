@@ -3,7 +3,7 @@
 
 include('../sql/connect_params.php');
 
-print_r($_POST);
+var_dump($_POST);
 //TODO prestations
 $idO = 4;
 $isResto = false; // to see what tags to set
