@@ -360,11 +360,11 @@ p {
 
     .footer > .autres_liens > a{
         margin: 5px;
-        font-size: 18px;
+        font-size: 14px;
     }
 
     .footer > .main_div_infos > .listes_infos > ul{
         padding-left: 15px;
-        font-size: 18px;
+        font-size: 14px;
     }
 }
