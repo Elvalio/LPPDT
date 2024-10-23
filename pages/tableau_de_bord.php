@@ -10,7 +10,7 @@
 
     try{
 
-    $stmt=$dbh->prepare("SELECT titre, resume FROM pact.offre");
+    $stmt=$dbh->prepare("SELECT idO, titre, resume FROM pact.offre");
     
     $stmt->execute();
 
