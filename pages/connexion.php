@@ -87,11 +87,15 @@ if ($_POST!=[]) {
 }
 ?>
 
+<header class="navigation-mobile">
     <?php 
     include('../pages/header.php');
     ?>
+</header>
 
 <body class="login-page"
+
+
     
     <div class="container">
         <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
