@@ -882,8 +882,8 @@ begin
   update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
    accessibilite = new.accessibilite, date_publication = new.date_publication, idAdresse = new.idAdresse where idO = old.idO;
   
-  update pact._image set src_image = new.src_image where idImage = "plan";
-  update pact._parc_d_attraction set "plan" = new."plan", nbr_attractions = new.nbr_attractions, age_min = new.age_min  where idO = old.idO;
+  update pact._image set src_image = new.src_image where idImage = old."plan";
+  update pact._parc_d_attraction set "plan" = old."plan", nbr_attractions = new.nbr_attractions, age_min = new.age_min  where idO = old.idO;
   
   RETURN NEW;
 end;
@@ -938,10 +938,9 @@ begin
   update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
    accessibilite = new.accessibilite, date_publication = new.date_publication, idAdresse = new.idAdresse where idO = old.idO;
   
-  update pact._image set src_image = new.src_image where idImage = carte_restaurant;
-  update pact._restauration set carte_restaurant = new.carte_restaurant, 
+  update pact._image set src_image = new.src_image where idImage = old.carte_restaurant;
+  update pact._restauration set carte_restaurant = old.carte_restaurant, 
     gamme_prix = new.gamme_prix, 
-    age_min = new.age_min,
     petit_dejeuner = new.petit_dejeuner, 
     brunch = new.brunch, 
     dejeuner = new.dejeuner, 
