@@ -10,9 +10,9 @@
     <body>
         <?php
 
-        // include("../sql/connect_params.php");
+        include("../sql/connect_params.php");
 
-        // $dbh = new PDO("$driver:host=$server;dbname=$dbname", $user, $pass);
+        $dbh = new PDO("$driver:host=$server;dbname=$dbname", $user, $pass);
 
         print_r($_POST);
         if($_POST["type"]=="membre"){
