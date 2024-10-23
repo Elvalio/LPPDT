@@ -651,7 +651,7 @@ input[type="range"]::-ms-thumb {
 }
 
 /* =========================================================== */
-/*           STYLES POUR CHACUNE DES OFFRES (MOBILE)           */
+/*           STYLES POUR LA PAGE ACCUEIL MOBILE                */
 /* =========================================================== */
 
 @media screen and (max-width: 800px) {
