@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Modifier l'image uniquement si l'élément a un data-icon
         if (iconName) {
-            if (page === currentPage) {
+            if (page === currentPage && page != "en-construction.php") {
                 item.classList.add('actuel');
                 img.src = `../icons/icons-rouge/icon-${iconName}-rouge.svg`;  // Chemin pour l'icône actif
             } else {
