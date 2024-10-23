@@ -6,10 +6,9 @@ use function PHPSTORM_META\type;
 include('../sql/connect_params.php');
 
 var_dump($_POST);
-//TODO prestations
 $idO = 4;
-$isResto = false; // to see what tags to set
-$tags_location =''; // to check activated tags
+// $isResto = false; // to see what tags to set
+// $tags_location =''; // to check activated tags
 try{
     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
         $user, $pass);
@@ -108,11 +107,7 @@ try{
     // echo '<pre>';
     // print_r($tags_offre);
     // echo '</pre>';
-
-} catch (PDOException $e) {
-    print "Erreur !: " . $e->getMessage() . "<br/>";
-    die();
-}
+    
 ?>
 
 <!DOCTYPE html>
@@ -496,132 +491,235 @@ try{
 </html>
 
 <?php
-if (true){
-    switch ($_POST['categorie']) {
-        case 'activite':
-            $stmt = $dbh->prepare(
-                "update pact.activite set 
-                    titre = '$titre', 
-                    resume = '$resume', 
-                    \"type\" = $type, 
-                    option = '$option', 
-                    description = '$description',
-                    prix_min = $prix_min, 
-                    accessibilite = '$accaccessibilite', 
-                    date_publication = now(), 
-                    duree = interval '$duree', 
-                    age_min = $age_min,
-                    prestation_incluse = '$prestation_incluse', 
-                    prestation_excluse = '$prestation_excluse', 
-                    ville = '$ville', 
-                    numero_voie = $numero_voie , 
-                    voie = '$voie', 
-                    code_postal = $code_postal, 
-                    complement =''
-                where idO = $idC;"
-            );
-            break;
-        case 'spectacle':
-            $stmt = $dbh->prepare(
-                "update pact.spectacle set 
-                    titre = '$titre', 
-                    resume = '$resume', 
-                    \"type\" = $type, 
-                    option = '$option', 
-                    description = '$description',
-                    prix_min = $prix_min, 
-                    accessibilite = '$accaccessibilite', 
-                    date_publication = now(), 
-                    duree = interval '$duree', 
-                    capacite = $capacite,
-                    ville = '$ville', 
-                    numero_voie = $numero_voie , 
-                    voie = '$voie', 
-                    code_postal = $code_postal, 
-                    complement =''
-                where idO = $idC;"
-            );
-            break;
+    if ($_POST != []){
+        switch ($_POST['categorie']) {
+            case 'activite':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $age_min = $_POST['age'];
+                $prestation_incluse = $_POST['pinclus'];
+                $prestation_excluse = $_POST['pexclus'];
+                $ville = $_POST['ville'];
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+                $code_postal= $_POST['codeP'];
 
-        case 'visite':
-            $stmt = $dbh->prepare(
-                "update pact.visite set 
-                    titre = '$titre', 
-                    resume = '$resume', 
-                    \"type\" = $type, 
-                    option = '$option', 
-                    description = '$description',
-                    prix_min = $prix_min, 
-                    accessibilite = '$accaccessibilite', 
-                    date_publication = now(), 
-                    duree = interval '$duree', 
-                    langues = '$langues',
-                    ville = '$ville', 
-                    numero_voie = $numero_voie , 
-                    voie = '$voie', 
-                    code_postal = $code_postal, 
-                    complement =''
-                where idO = $idC;"
-            );
-            break;
+                $stmt = $dbh->prepare(
+                    "update pact.activite set 
+                        titre = '$titre', 
+                        resume = '$resume', 
+                        \"type\" = $type, 
+                        option = '$option', 
+                        description = '$description',
+                        prix_min = $prix_min, 
+                        accessibilite = '$accessibilite', 
+                        date_publication = now(), 
+                        duree = interval '$duree', 
+                        age_min = $age_min,
+                        prestation_incluse = '$prestation_incluse', 
+                        prestation_excluse = '$prestation_excluse', 
+                        ville = '$ville', 
+                        numero_voie = $numero_voie , 
+                        voie = '$voie', 
+                        code_postal = $code_postal, 
+                        complement =''
+                    where idO = $idC;"
+                );
+                break;
+            case 'spectacle':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $capacite = $_POST['capacite'];
 
-        // don't know if image works for update
-        case 'restauration':
-            $stmt = $dbh->prepare(
-                "update pact.restauration set 
-                    titre = '$titre', 
-                    resume = '$resume', 
-                    \"type\" = $type, 
-                    option = '$option', 
-                    description = '$description',
-                    prix_min = $prix_min, 
-                    accessibilite = '$accaccessibilite', 
-                    date_publication = now(),
-                    src_image = '$src_image',
-                    gamme_prix = '$gamme_prix',
-                    petit_dejeuner = $petit_dejeuner,
-                    brunch = $brunch, 
-                    dejeuner = $dejeuner, 
-                    diner = $diner, 
-                    boissons = $boissons,
-                    ville = '$ville', 
-                    numero_voie = $numero_voie , 
-                    voie = '$voie', 
-                    code_postal = $code_postal, 
-                    complement =''
-                where idO = $idC;"
-            );
-            break;
-        case 'parcAttraction':
-            $stmt = $dbh->prepare(
-                "update pact.parc_d_attraction set 
-                    titre = '$titre', 
-                    resume = '$resume', 
-                    \"type\" = $type, 
-                    option = '$option', 
-                    description = '$description',
-                    prix_min = $prix_min, 
-                    accessibilite = '$accaccessibilite', 
-                    date_publication = now(), 
-                    duree = interval '$duree', 
-                    langues = '$langues',
-                    ville = '$ville', 
-                    numero_voie = $numero_voie , 
-                    voie = '$voie', 
-                    code_postal = $code_postal, 
-                    complement =''
-                where idO = $idC;"
-            );
-            break;
+                $ville = $_POST['ville'];
 
-        default:
-            # code...
-            break;
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+
+                $stmt = $dbh->prepare(
+                    "update pact.spectacle set 
+                        titre = '$titre', 
+                        resume = '$resume', 
+                        \"type\" = $type, 
+                        option = '$option', 
+                        description = '$description',
+                        prix_min = $prix_min, 
+                        accessibilite = '$accessibilite', 
+                        date_publication = now(), 
+                        duree = interval '$duree', 
+                        capacite = $capacite,
+                        ville = '$ville', 
+                        numero_voie = $numero_voie , 
+                        voie = '$voie', 
+                        code_postal = $code_postal, 
+                        complement =''
+                    where idO = $idC;"
+                );
+                break;
+
+            case 'visite':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $langues = $_POST['langue'];
+
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+                $stmt = $dbh->prepare(
+                    "update pact.visite set 
+                        titre = '$titre', 
+                        resume = '$resume', 
+                        \"type\" = $type, 
+                        option = '$option', 
+                        description = '$description',
+                        prix_min = $prix_min, 
+                        accessibilite = '$accessibilite', 
+                        date_publication = now(), 
+                        duree = interval '$duree', 
+                        langues = '$langues',
+                        ville = '$ville', 
+                        numero_voie = $numero_voie , 
+                        voie = '$voie', 
+                        code_postal = $code_postal, 
+                        complement =''
+                    where idO = $idC;"
+                );
+                break;
+
+            // don't know if image works for update
+            case 'restauration':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+
+                $src_image = 'todo'; // need image source
+                $gamme_prix = $_POST['categorie-prix'];
+                $petit_dejeuner = ($_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
+                $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
+                $dejeuner = ($_POST['dejeuner'] == 'dejeuner') ? 'true' : 'false';
+                $diner = ($_POST['diner'] == 'diner') ? 'true' : 'false';
+                $boissons = ($_POST['boissons'] == 'boissons') ? 'true' : 'false';
+
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+                $stmt = $dbh->prepare(
+                    "update pact.restauration set 
+                        titre = '$titre', 
+                        resume = '$resume', 
+                        \"type\" = $type, 
+                        option = '$option', 
+                        description = '$description',
+                        prix_min = $prix_min, 
+                        accessibilite = '$accessibilite', 
+                        date_publication = now(),
+                        src_image = '$src_image',
+                        gamme_prix = '$gamme_prix',
+                        petit_dejeuner = $petit_dejeuner,
+                        brunch = $brunch, 
+                        dejeuner = $dejeuner, 
+                        diner = $diner, 
+                        boissons = $boissons,
+                        ville = '$ville', 
+                        numero_voie = $numero_voie , 
+                        voie = '$voie', 
+                        code_postal = $code_postal, 
+                        complement =''
+                    where idO = $idC;"
+                );
+                break;
+            case 'parcAttraction':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $src_image = 'todo'; // need image source
+                $nbr_attractions = $_POST['nbattraction'];
+                $age_min = $_POST['age'];
+
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+                $stmt = $dbh->prepare(
+                    "update pact.parc_d_attraction set 
+                        titre = '$titre', 
+                        resume = '$resume', 
+                        \"type\" = $type, 
+                        option = '$option', 
+                        description = '$description',
+                        prix_min = $prix_min, 
+                        accessibilite = '$accessibilite', 
+                        date_publication = now(), 
+                        duree = interval '$duree', 
+                        langues = '$langues',
+                        ville = '$ville', 
+                        numero_voie = $numero_voie , 
+                        voie = '$voie', 
+                        code_postal = $code_postal, 
+                        complement =''
+                    where idO = $idC;"
+                );
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        $stmt->execute();
+
+        // $duree = '06:00'
+        
     }
-
-    $stmt->execute();
-
-    // $duree = '06:00'
-    
+    $dbh = null;
+} catch (PDOException $e) {
+    print "Erreur !: " . $e->getMessage() . "<br/>";
+    die();
 }
 ?>
