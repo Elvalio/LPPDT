@@ -27,7 +27,7 @@ function option_offre($arr){
     return $res;
 }
 
-$idO = 4;
+$idO = $_GET['idO'];
 $isResto = false; // to see what tags to set
 $tags_location =''; // to check activated tags
 try{    

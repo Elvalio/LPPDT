@@ -325,6 +325,7 @@ WHERE o.ido = $idAnnonce;
             ?>
         </article>
     </section>
+    <?php include_once 'footer.php'; ?>
 </body>
 
 </html>
