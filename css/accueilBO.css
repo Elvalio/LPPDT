@@ -706,7 +706,7 @@ input[type="range"]::-ms-thumb {
 
     .carte_offre.phone-element {
         background-color: white;
-        border: 1px solid var(--bleu-fonce);
+        border: 1px solid var(--bleuFonce-rougeFonce);
         border-radius: 8px;
         padding: 25px; /* Augmentation du padding pour agrandir l'espace entre le contenu et la bordure */
         max-width: 550px; /* Case légèrement plus grande */
@@ -716,7 +716,7 @@ input[type="range"]::-ms-thumb {
       
       .titreAnnonce {
         font-size: 1.1rem; /* Taille de la police inchangée */
-        color: var(--bleu-fonce);
+        color: var(--bleuFonce-rougeFonce);
         font-family: 'TripSansBold';
         margin-bottom: 3px; /* Moins d'espace en dessous */
       }
@@ -737,7 +737,7 @@ input[type="range"]::-ms-thumb {
       
       .etoileNote {
         font-size: 1rem; /* Taille des étoiles inchangée */
-        color: var(--bleu);
+        color: var(--bleu-rouge);
         font-family: 'TripSansBold';
         text-align: center;
         align-self: start;

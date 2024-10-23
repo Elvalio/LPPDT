@@ -2,7 +2,7 @@
     include_once 'nav.php'; 
 
     include('../sql/connect_params.php');
-    $idAnnonce = 7;
+    $idAnnonce = $_GET['value'];
     try {
         $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", 
         $user, $pass);
@@ -75,7 +75,7 @@
                 echo $stmt[0]['gamme_prix']
                 ?>
             </h2>
-            <div class="container">
+            <div class="container NoSelect">
                 <!-- Élément carrousel -->
                 <div class="carousel">
                     <!-- Conteneur interne pour les diapositives -->
@@ -95,14 +95,14 @@
                         ?>
                     </div>
                     <!-- Conteneur pour les boutons de navigation -->
-                    <div class="carousel-controls">
+                    <div class="carousel-controls NoSelect">
                         <!-- Bouton pour passer à la diapositive précédente -->
-                        <button id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
+                        <button class="NoSelect" id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
                         <!-- Bouton pour passer à la diapositive suivante -->
-                        <button id="next"><img src="../images/fleche.png" alt="Suivant"></button>
+                        <button class="NoSelect" id="next"><img src="../images/fleche.png" alt="Suivant"></button>
                     </div>
                     <!-- Conteneur pour les points de navigation -->
-                    <div class="carousel-dots"></div>
+                    <div class="carousel-dots NoSelect"></div>
                 </div>
 
             </div>
@@ -111,25 +111,24 @@
                     <?php 
                         $i;
                         for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
-                            echo '<img src="../icons/etoile_rouge.png" alt="étoile">';
+                            echo '<img class="NoSelect" src="../icons/etoile_rouge.png" alt="étoile">';
                         }
                         foreach (range($i, 4) as $j) {
-                            echo '<img src="../icons/etoile_rouge_vide.png" alt="étoile">';
+                            echo '<img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="étoile">';
                         }
                     ?>
                 </div>
                 <p class="nb-avis-info-offre">
                     <?php 
                     if ($stmt[0]['nbravis'] == 0) {
-                        echo "0 Avis";
+                        echo "0" ." " . "Avis" . " " . "|";
                     }
                     else {
                         echo $stmt[0]['nbravis'];
-                        echo "Avis";
+                        echo " " . "Avis" . " |";
                     }
                     ?>
                 </p>
-                <p>|</p>
                 <img src="../images/Wheelchair.png" alt="fauteil roulant">
                 <p>
                     <?php 
@@ -240,8 +239,8 @@
                 ?>
                 
         </article>
-        <button class="bouton-retour">
-            <img src="../icons/arrow-left-o.svg" alt="">
+        <button class="bouton-retour NoSelect">
+            <img class="NoSelect" src="../icons/arrow-left-o.svg" alt="">
             Retour
         </button>
     </section>
@@ -249,11 +248,11 @@
         <header class="header-avis">
             <h3>Avis : <?php 
                     if ($stmt[0]['nbravis'] == 0) {
-                        echo "0 Avis";
+                        echo "0" . " " . "Avis";
                     }
                     else {
                         echo $stmt[0]['nbravis'];
-                        echo "Avis";
+                        echo " " . "Avis";
                     }
                     ?></h3>
                     <?php 

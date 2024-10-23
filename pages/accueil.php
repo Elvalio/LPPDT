@@ -9,7 +9,7 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image
+            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image, o.ido
              FROM pact.offre o
              JOIN pact._adresse a ON o.idAdresse = a.idAdresse
              LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
@@ -39,7 +39,7 @@ try{
 
 <html>
     <?php 
-    if ($_COOKIE['user'] != "professionnel") { ?>
+    if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
         <body class="BO"> <?php   
     } else { ?>
         <body class="FO"> <?php
@@ -190,7 +190,7 @@ try{
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
                     <div class="carte_offre desktop-element">
-                        <a href="detail-offre.php?value=<?php echo $value["idO"]; ?>">
+                        <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
                             <?php } else { ?>
@@ -219,7 +219,7 @@ try{
                     </div>
 
                     <div class="carte_offre phone-element">
-                        <a href="detail-offre.php?value=<?php echo $value["idO"]; ?>">
+                        <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
 
                         <div class="InfoOffreMobile">
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
@@ -230,12 +230,13 @@ try{
                         </div>
                         <div class="NoteImageOffreMobile">
                             <div class="etoileNote">
-                                <?php 
+                                <?php
                                 if ($value["moy_note"] != null && $value["nbravis"] != 0) {
                                     for ($i=0; $i < $value["moy_note"]; $i++) { ?>
                                         <img src="../icons/etoile_rouge.png" alt="Etoile">
                                     <?php }
                                     for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                    
                                         <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
                                 <?php }} ?>
                             </div>
@@ -246,7 +247,7 @@ try{
 
 
                                 <?php } else { ?>
-                                    <img src="../images/imagesReferences/placeholderRomeoEtJuliette.jpg" alt="Image par défaut">
+                                    <img src="../images/imagesReferences/placeholder.jpg" alt="Image par défaut">
                                 <?php } ?>
                             </div>
                         </div>
