@@ -197,18 +197,18 @@ try{
                                 <p><?php echo $value["prix_min"] ?>€</p>
                                 
                                 <div class="etoileNote">
-                                <?php 
-                                if ($value["moy_note"] != null && $value["nbravis"] != 0) {
-                                    for ($i=0; $i < $value["moy_note"]; $i++) { ?>
-                                        <img src="../icons/etoile_rouge.png" alt="Etoile">
-                                    <?php }
-                                    for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
-                                        <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
-                                <?php }} ?>
-                            </div>
+                                    <?php 
+                                    if ($value["moy_note"] != null && $value["nbravis"] != 0) {
+                                        for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                                            <img src="../icons/etoile_rouge.png" alt="Etoile">
+                                        <?php }
+                                        for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                            <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
+                                    <?php }} ?>
+                                </div>
 
-                            <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
-                                <p>(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
+                                <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
+                                    <p>(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
                             </div>
                         </a>
                     </div>
@@ -217,21 +217,23 @@ try{
                         <a href="https://google.com" target="_blank">
 
 
-                            <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
+                            <div class="titreAnnonce"><?php echo $value["titre"] ?></div>
 
-                            <p class="resumeAnnonce"><?php echo $value["resume"] ?></p>
+                            <div class="resumeAnnonce"><?php echo $value["resume"] ?></div>
 
-                            <p class="villeAnnonce"><?php echo $value["ville"] ?></p>
+                            <div class="villeAnnonce"><?php echo $value["ville"] ?></div>
+
+                            <div class="etoileNote">
+                                    <?php 
+                                    if ($value["moy_note"] != null && $value["nbravis"] != 0) {
+                                        for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                                            <img src="../icons/etoile_rouge.png" alt="Etoile">
+                                        <?php }
+                                        for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                            <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
+                                    <?php }} ?>
+                                </div>
                         
-                            <div class="noteAnnonce">
-                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
-                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
-                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
-                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
-                                <img src="../icons/etoile_bleue.png" alt="Étoile bleue remplie">
-                            </div>
-
-
                             <div class="conteneurImage">
                                 <?php if ($value['src_image']) { ?>
                                     <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
