@@ -149,7 +149,7 @@
     border-radius: 5px;
   }
 
-  .navigation-mobile {
+  .phone-element{
     display: none;
   }
 }
@@ -162,6 +162,10 @@
 
   .liste_nav{
     display: none;
+  }
+
+  .phone-element {
+    width: 100%;
   }
 
   body {
