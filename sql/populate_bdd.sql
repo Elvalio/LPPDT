@@ -138,7 +138,6 @@ values (2, 'Test', 'Test', now(), now(), 'Test');
 -- not final
 
 insert into _experience(idA, idC, idO) values (1, 1, 1);
-insert into _experience(idA, idC, idO) values (1, 2, 2);
 insert into _experience(idA, idC, idO) values (1, 3, 3);
 insert into _experience(idA, idC, idO) values (1, 4, 4);
 insert into _experience(idA, idC, idO) values (1, 5, 5);
