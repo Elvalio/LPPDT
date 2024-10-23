@@ -311,7 +311,7 @@
             $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
             array_shift($temp);                         //On supprime le numéro de la voie
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-            $siren = $POST["num_SIREN"];
+            $siren = $_POST["num_SIREN"];
             $mdp = $_POST["password"];
             $iban = $_POST["iban"];
             $bic = $_POST["bic"];
