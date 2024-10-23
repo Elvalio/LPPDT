@@ -84,13 +84,8 @@
                 include_once'footer.php';
 
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    print_r($_POST);
                     
                     if (isset($_POST['offre_id']) && isset($_POST['status'])) {
-                        
-                        
-                        echo "<p>Chef, c'est bon, pourquoi tu pleures ?</p>";
-                
                         
                         try{
                         $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
@@ -100,14 +95,9 @@
                         $status = $_POST['status'] === 'checked' ? 'false' : 'true';
                 
                         
-                        echo "<p>Offre ID: $offre_id</p>";
-                        echo "<p>Status: $status</p>";
-                
-                        
                         $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
                         $stmt->execute();
 
-                        print "insertion réussie";
                         
                         } catch (PDOException $e) {
                             print "Erreur !: " . $e->getMessage() . "<br/>";
