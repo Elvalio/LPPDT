@@ -177,7 +177,7 @@ try{
                             <input type="checkbox" id="note-<?php echo $note; ?>" name="note-<?php echo $note; ?>" />
                             <div class="etoileNoteFiltre">
                                 <?php foreach ($stars as $star) { ?>
-                                    <img src="../icons/<?php echo $star ? 'etoile_rouge' : 'etoile_vide_rouge'; ?>.png" alt="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>" title="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>">
+                                    <img src="../icons/<?php echo $star ? 'etoile_rouge' : 'etoile_rouge_vide'; ?>.png" alt="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>" title="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>">
                                 <?php } ?>
                             </div>
                         </div>

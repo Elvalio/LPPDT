@@ -7,41 +7,17 @@
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/creation_compte.css">
     <script src="../js/creation_compte.js" defer></script>
-    <style>
-        /* CSS pour la gestion de l'affichage/masquage des formulaires */
-        .form-container-page-creation-compte {
-            display: none;
-        }
-        .form-container-page-creation-compte.active {
-            display: block;
-        }
-        .menu-links div {
-            cursor: pointer;
-        }
-        .button-link {
-            margin-top: 20px;
-            display: inline-block;
-            background-color: #007bff; /* couleur de fond */
-            color: #ffffff; /* couleur du texte */
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none; /* retirer le soulignement */
-            text-align: center; /* centrer le texte */
-        }
-        .button-link:hover {
-            background-color: #0056b3; /* couleur au survol */
-        }
-    </style>
 </head>
 
 <body>
     <!-- Bouton de retour -->
-    <div class="bouton-retour-page-création">
-        <button class="FS">
-            <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
-        </button>
-    </div>
+    <a href="connexion.php" style="text-decoration: none;">
+        <div class="bouton-retour-page-création">
+            <button class="FS">
+                <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
+            </button>
+        </div>
+    </a>
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
@@ -281,9 +257,9 @@
 
         <?php
 
-        // include("/sql/connect_params.php");
+        include("../sql/connect_params.php");
 
-        // $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
         if($_POST["type"]=="membre"){
 
@@ -300,7 +276,7 @@
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
             $mdp = $_POST["password"];
 
-            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($pseudo, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
 
 
 
@@ -319,7 +295,7 @@
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
             $mdp = $_POST["password"];
 
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, $denomination, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
 
         } else if($_POST["type"]=="pro_prive"){
 
@@ -341,10 +317,10 @@
             $bic = $_POST["bic"];
 
             if (!empty($POST["iban"])) {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, $denomination, $iban, $bic, $siren, $raison_sociale, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
             }
             else {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, $denomination, '', '', $siren, $raison_sociale, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
             }
         }
         $stmt->execute();

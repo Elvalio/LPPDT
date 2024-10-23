@@ -7,7 +7,13 @@
         $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", 
         $user, $pass);
 
-        $stmt = $bdh->prepare("SELECT * FROM pact.offre WHERE ido = $idAnnonce;");
+        $stmt = $bdh->prepare("SELECT * FROM pact.offre
+        INNER JOIN pact.spectacle ON ido = ido
+        INNER JOIN pact.visite ON ido = ido
+        INNER JOIN pact.activite a ON ido = ido
+        INNER JOIN pact.restauration r ON ido = ido
+        INNER JOIN pact.parc_d_attraction p ON ido = ido
+        WHERE ido = $idAnnonce;");
         $stmt->execute();
 
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,8 +37,7 @@
     <script src="../detail-offre.js" async></script>
 </head>
 
-<body class="main-content">
-
+<body class="main-content BO">
     <section class="section-page part-annonce">
         <header>
             <h1 class="titre-rouge">
@@ -58,11 +63,11 @@
                 }
                 ?>
                 <?php 
-                if ($stmt[0]['age']) {
+
                     echo "| Âge :";
                     echo $stmt[0]['age_min'];
                     echo " ans";
-                }
+
                 ?>
                 <?php 
                 if ($stmt[0]['prix_min']) {
@@ -110,12 +115,15 @@
                 <div class="etoiles">
                     <?php 
                         $i;
-                        for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
+                        if ($stmt[0]['nbravis'] > 0) {
+                            for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
                             echo '<img class="NoSelect" src="../icons/etoile_rouge.png" alt="étoile">';
                         }
                         foreach (range($i, 4) as $j) {
                             echo '<img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="étoile">';
                         }
+                        }
+                        
                     ?>
                 </div>
                 <p class="nb-avis-info-offre">

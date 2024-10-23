@@ -6,7 +6,13 @@
         <link rel="stylesheet" href="../css/styleNavBar.css">
     </head>
     <body>
-        <div class="TS-bold" id="sidebar">
+    <?php
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <div class="TS-bold BO" id="sidebar"> <?php
+        } else { ?>
+            <div class="TS-bold FO" id="sidebar"> <?php
+            
+        } ?>
             <nav>
                 
                 <a href="accueil.php" id="pact-item">
@@ -14,16 +20,17 @@
                     <img src="../images/logo_rouge.png" alt="Image au survol" class="image image-hover">        
                 </a>
                 <div id="items">
-                    <div id="top-items">
+                    <div id="top-items" class=" <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>">
                         <a href="accueil.php" class="nav-item" data-icon="accueil">
                             <img src="../icons/icons-gris/icon-accueil-gris.svg" alt="Logo accueil" class="logo-nav">
                             <p>Accueil</p>
                         </a>
-                        <a href="tableau_de_bord.php" class="nav-item" data-icon="tableau-de-bord">
+
+                        <a href="tableau_de_bord.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="tableau-de-bord">
                             <img src="../icons/icons-gris/icon-tableau-de-bord-gris.svg" alt="Logo tableau de bord" class="logo-nav">
                             <p>Tableau de bord</p>
                         </a>
-                        
+                                                
                         <a href="en-construction.php" class="nav-item" data-icon="favoris">
                             <img src="../icons/icons-gris/icon-favoris-gris.svg" alt="Logo favoris" class="logo-nav">
                             <p>Favoris</p>
@@ -32,33 +39,39 @@
                             <img src="../icons/icons-gris/icon-historique-gris.svg" alt="Logo historique" class="logo-nav">
                             <p>Historique</p>
                         </a>
-                        <a href="en-construction.php" class="nav-item" data-icon="facturation">
-                            <img src="../icons/icons-gris/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
-                            <p>Facturation</p>
+
+                            <a href="en-construction.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="facturation">
+                                <img src="../icons/icons-gris/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
+                                <p>Facturation</p>
+                            </a>
+
+                            <a href="creation_offre.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="creation">
+                                <img src="../icons/icons-gris/icon-creation-gris.svg" alt="Logo création offre" class="logo-nav">
+                                <p>Créer une offre</p>
+                            </a>
                         </a>
-                        <a href="creation_offre.php" class="nav-item" data-icon="creation">
-                            <img src="../icons/icons-gris/icon-creation-gris.svg" alt="Logo création offre" class="logo-nav">
-                            <p>Créer une offre</p>
-                        </a>
+
                     </div>
                     <div id="bottom-items">
-                        <div id="top-of-bottom-items">
-                            <a href="en-construction.php" class="nav-item" data-icon="notification-avec-notif">
-                                <div class="notification-container">
-                                    <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
-                                    <p>Notifications</p>
-                                    <div class="notification-badge">2</div>
-                                </div>
+                            <a href="tableau_de_bord.php" class="nav-item" data-icon="tableau-de-bord">
+                             
                                 
-                            </a>
-                            <a href="en-construction.php" class="nav-item" data-icon="parametre">
-                                <img src="../icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
-                                <p>Paramètres</p>
-                            </a>
-                            <a href="#" class="nav-item" data-icon="deconnection">
-                                <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo déconnecter" class="logo-nav">
-                                <p>Se déconnecter</p>
-                            </a>
+                                <div id="top-of-bottom-items">
+                                    <a href="en-construction.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="notification-avec-notif">
+                                        <div class="notification-container">
+                                            <p>Notifications</p>
+                                            <div class="notification-badge">2</div>
+                                        </div>
+                                        
+                                    </a>
+                                    <a href="en-construction.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="parametre">
+                                        <img src="../icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
+                                        <p>Paramètres</p>
+                                    </a>
+                                    <a href="#" class="nav-item" data-icon="deconnection">
+                                        <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo déconnecter" class="logo-nav">
+                                        <p>Se déconnecter</p>
+                                    </a>
                         </div>
                         <a href="en-construction.php" class="nav-item">
                             <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
