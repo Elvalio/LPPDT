@@ -70,7 +70,15 @@
                                         <p>Paramètres</p>
                                     </a>
                                     <?php if (isset($_COOKIE['type_compte'])) { ?>
-                                        <a href="#" class="nav-item" data-icon="deconnection">
+                                        <script>
+                                            function func() {
+                                                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                                                document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                                                location.assign("accueil.php");
+                                            }
+                                        </script>
+                                        <a href="#" class="nav-item" data-icon="deconnection" onclick="func();">
+
                                             <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo déconnecter" class="logo-nav">
                                             <p>Se déconnecter</p>
                                         </a>
