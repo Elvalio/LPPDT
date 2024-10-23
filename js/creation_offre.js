@@ -320,6 +320,36 @@
                     }
                 });
 
+                document.getElementById('upload-form').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Empêche le comportement par défaut du formulaire
+                
+                    var fileInput = document.getElementById('fileInput');
+                    if (fileInput.files.length > 0) {
+                        var formData = new FormData();
+                        formData.append('image', fileInput.files[0]); // Ajouter l'image au FormData
+                
+                        // Envoyer l'image via Fetch API
+                        fetch('creation_offre.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Traitement en cas de succès
+                                console.log('Image importée avec succès:', data.imageName);
+                                updateLabel(`Image importée : ${data.imageName}`, '../icons/check.svg'); // Mettre à jour le label
+                            } else {
+                                // Traitement en cas d'erreur
+                                console.error('Erreur lors de l\'importation de l\'image:', data.message);
+                            }
+                        })
+                        .catch(error => console.error('Erreur de réseau:', error));
+                    } else {
+                        console.error('Aucune image sélectionnée.');
+                    }
+                });
+
                 ////////////////////////////////////////////////////////////////////////////////////////////
                 ////////////////////////// GESTION MAP /////////////////////////////////////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -909,3 +939,9 @@
             document.getElementById('pinclus').addEventListener('blur', validatePrestationIncluse);
             document.getElementById('pexclus').addEventListener('blur', validatePrestationExcluse);
             document.getElementById('langue').addEventListener('blur', validateLangue);
+
+
+
+
+
+            

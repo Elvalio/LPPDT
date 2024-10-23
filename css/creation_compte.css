@@ -302,3 +302,8 @@ label {
     font-size: 24px;
     font-weight: bold;
 }
+
+.erreur {
+    font-size: 12px;
+    color: red;
+}
