@@ -114,7 +114,7 @@
                             echo '<img src="../icons/etoile_rouge.png" alt="étoile">';
                         }
                         foreach (range($i, 4) as $j) {
-                            echo '<img src="../icons/etoile_vide_rouge.png" alt="étoile">';
+                            echo '<img src="../icons/etoile_rouge_vide.png" alt="étoile">';
                         }
                     ?>
                 </div>
@@ -151,8 +151,10 @@
                 <div>
                     <h3>Contact :</h3>
                     <div>
-
-                        <a href="https://g.co/kgs/YaDbwRa">
+                        <?php 
+                        $address = $stmt[0]['numero_voie'] . $stmt[0]['voie'] . $stmt[0]['ville'] . $stmt[0]['code_postal'];
+                        ?>
+                        <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
                             <img src="../images/maison.png" alt="icon maison (localisation)">
                             <p>
                                 <?php
@@ -225,6 +227,11 @@
                             <img class="carte" src="../images/ <?php $stmt[0]['carte'] ?>" alt="carte géolocalisation">
                         </div>
                         <?php
+                    } elseif ($stmt[0]['src_image']) { ?>
+                        <div>
+                            <img class="carte" src="../images/ <?php $stmt[0]['src_image'] ?>" alt="carte">
+                        </div>
+                        <?php
                     }
                     else { ?>
                         </div>
@@ -253,7 +260,7 @@
                     $stmt3 = $bdh->prepare("SELECT * FROM pact.avis WHERE ido = $idAnnonce;");
                     $stmt3->execute();
                     $stmt3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($stmt[0]['nbravis'] as $avis) {
+                    foreach ($stmt3 as $avis) {
                         if ($avis['consulte'] == False) {
                             $nonConsultes++;
                         }
