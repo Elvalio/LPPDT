@@ -1,11 +1,13 @@
 <?php
-include_once 'nav.php';
+//include_once 'nav.php';
 
 include('../sql/connect_params.php');
 
-//print_r($_POST['idO']);
+print_r($_POST);
 //TODO prestations
-$idO = 2;
+$idO = 4;
+$isResto = false; // to see what tags to set
+$tags_location =''; // to check activated tags
 try{
     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
         $user, $pass);
@@ -18,7 +20,6 @@ try{
 
         $stmt->execute();
     
-    
         $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $categorie = trim($resultat[0]["categorie"]);
 
@@ -29,6 +30,7 @@ try{
                      FROM pact.activite
                      WHERE ido = $idO;"
                 );
+                $tags_location = '_tags_activite';
                 break;
             case 'Visite':
                 $stmt = $dbh->prepare(
@@ -36,6 +38,7 @@ try{
                      FROM pact.visite
                      WHERE ido = $idO;"
                 );
+                $tags_location = '_tags_visite';
                 break;
             case 'Spectacle':
                 $stmt = $dbh->prepare(
@@ -43,6 +46,7 @@ try{
                      FROM pact.spectacle
                      WHERE ido = $idO;"
                 );
+                $tags_location = '_tags_spectacle';
                 break;
             case "Parc d'attraction":
                 $stmt = $dbh->prepare(
@@ -50,27 +54,60 @@ try{
                      FROM pact.parc_d_attraction
                      WHERE ido = $idO;"
                 );
+                $tags_location = '_tags_parc_d_attraction';
                 break;
             case "Restauration":
                 $stmt = $dbh->prepare(
                     "SELECT *
                      FROM pact.restauration
-                     WHERE ido = $idO;"
+                     WHERE ido = $idO;" 
                 );
+                $tags_location = '_tags_restauration';
+                $isResto = true;
                 break;
         }
 
         $stmt->execute();
         $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
+
     $stmt->execute();
     
     
     $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $categorie = trim($resultat[0]["categorie"]);
 
-    print_r($resultat[0]);
+    if ($isResto) {
+        $stmt = $dbh->prepare(
+            "SELECT *
+             FROM pact.tag_resto" 
+        );
+    }else{
+        $stmt = $dbh->prepare(
+            "SELECT *
+             FROM pact.tag_default;" 
+        );
+    }
     
+    $stmt->execute();
+    $tag_names = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // echo '<pre>';
+    // print_r($tag_names);
+    // echo '</pre>';
+
+    $stmt = $dbh->prepare(
+        "SELECT *
+         FROM pact.$tags_location natural join pact._tag where idO = $idO ;" 
+    );
+
+
+    $stmt->execute();
+    $tags_offre = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // echo '<pre>';
+    // print_r($tags_offre);
+    // echo '</pre>';
+
+
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
     die();
@@ -91,7 +128,7 @@ try{
     <body>
         <div class="main-content"> 
             <h1 class="TS-bold">Modifiez votre offre</h1>            
-            <form action="#" method="post" enctype="multipart/form-data">
+            <form action="modifier_offre.php" method="post" enctype="multipart/form-data">
                 <div id="form-content" class="FS">
                     <div id="left-part">
                         <div id="left-part-content">
