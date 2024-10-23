@@ -1,5 +1,5 @@
 <?php
-// include_once 'nav.php';
+include_once 'nav.php';
 
 include('../sql/connect_params.php');
 
@@ -30,6 +30,31 @@ try{
 
 
 ?>
+
+
+<!-- <?php
+$targetDir = '../test/'; // Dossier de destination
+
+// Créer le dossier s'il n'existe pas
+if (!file_exists($targetDir)) {
+    mkdir($targetDir, 0777, true);
+}
+
+if (isset($_FILES['image'])) {
+    $fileName = basename($_FILES['image']['name']);
+    $targetFilePath = $targetDir . $fileName;
+
+    // Vérifier si le fichier peut être téléchargé
+    if (move_uploaded_file($_FILES['image']['tmp_name'], $targetFilePath)) {
+        // Renvoie une réponse JSON avec le nom du fichier
+        echo json_encode(['success' => true, 'imageName' => $fileName]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Erreur lors de l\'importation de l\'image.']);
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Aucun fichier reçu.']);
+}
+?> -->
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -367,6 +392,8 @@ try{
                                     <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
                                 </div>
                             </div>
+
+                            <!-- Formulaire caché pour le téléchargement d'images -->
                             
                         </div>
                     </div>
