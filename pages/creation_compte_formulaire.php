@@ -7,41 +7,17 @@
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/creation_compte.css">
     <script src="../js/creation_compte.js" defer></script>
-    <style>
-        /* CSS pour la gestion de l'affichage/masquage des formulaires */
-        .form-container-page-creation-compte {
-            display: none;
-        }
-        .form-container-page-creation-compte.active {
-            display: block;
-        }
-        .menu-links div {
-            cursor: pointer;
-        }
-        .button-link {
-            margin-top: 20px;
-            display: inline-block;
-            background-color: #007bff; /* couleur de fond */
-            color: #ffffff; /* couleur du texte */
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            text-decoration: none; /* retirer le soulignement */
-            text-align: center; /* centrer le texte */
-        }
-        .button-link:hover {
-            background-color: #0056b3; /* couleur au survol */
-        }
-    </style>
 </head>
 
 <body>
     <!-- Bouton de retour -->
-    <div class="bouton-retour-page-création">
-        <button class="FS">
-            <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
-        </button>
-    </div>
+    <a href="connexion.php" style="text-decoration: none;">
+        <div class="bouton-retour-page-création">
+            <button class="FS">
+                <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
+            </button>
+        </div>
+    </a>
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
