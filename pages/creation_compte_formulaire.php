@@ -384,7 +384,7 @@
                 checkPrenom = true;
             }
             if (!/^[a-z]{2,20}$/i.test(document.forms["membre"]["pseudo"].value)) { 
-                document.getElementById('erreurpseudo').innerHTML="Minimum 2 caractère et max 20 caractère";
+                document.getElementById('erreurpseudo').innerHTML="Minimum 2 caractère et max 20 caractère et pas de caractères spéciaux";
                 checkPseudo = false;
             }
             else {
