@@ -508,21 +508,10 @@ if (isset($_FILES['image'])) {
                                 </div>
                                 <div id="type-option">
                                     <!-- Champ "Type" -->
-                                    <?php
-if(isset($_COOKIE['type_compte'])) {
-    echo "Le type de compte est : " . htmlspecialchars($_COOKIE['type_compte']);
-} else {
-    echo "Le cookie 'type_compte' n'est pas défini.";
-}
-?>
-
-<!-- Pk le cookie type_compte n'est pas défini ? --->
-
-
                                     <div id="type-container"  <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
                                         <label>Type d'offre</label>
                                         
-                                        <div id="gratuit"<?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
+                                        <div id="gratuit" hidden<?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
                                             <input type="radio" id="gratuit" name="offre" value="gratuit" <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_public') ?  'checked' : '';?>/>
                                             <label for="gratuit">Gratuit</label>
                                         </div>
