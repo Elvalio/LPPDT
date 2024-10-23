@@ -9,7 +9,6 @@
         <footer class="footer">
             <div class="main_div_infos">
                 <img src="../images/logo_noir.png" alt="logo_noir" title="logo_noir" widht="300" id="image_full"height="160">
-                <img src="../images/logo_noir_reduit.png" alt="logo_noir_reduit" title="logo_noir_reduit" id="image_reduit">
                 <div class="listes_infos">
                     <ul class="entreprise">
                         <li><p id="footer_titre_entreprise">Entreprise</p></li>
@@ -35,6 +34,7 @@
                 <a>Politique de Confidentialité</a>
                 <a>Conditions Générales d'Utilisation</a>
                 <a>RGPD</a>
+                <img src="../images/logo_noir_reduit.png" alt="logo_noir_reduit" title="logo_noir_reduit" id="image_reduit">
             </div>
         </footer>
     </body>

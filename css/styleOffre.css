@@ -124,9 +124,18 @@
     display: none;
 }
 
-#accesibilite-container{
+#accessibilite-container textarea, #resume-container textarea{
+    height: 100px;
+}
+
+#accessibilite-container textarea{
     width: 510px;
 }
+
+#accessibilite-container, #resume-container{
+    height: 150px;
+}
+
 
 #tag-container{
     display: flex;

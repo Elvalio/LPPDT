@@ -1,5 +1,28 @@
 <?php
-include_once'nav.php';
+include_once 'nav.php';
+
+include('../sql/connect_params.php');
+
+try{
+    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
+        $user, $pass);
+        
+        $stmt = $dbh->prepare(
+            "SELECT *
+             FROM pact.offre
+             WHERE ido = 8;"
+        );
+    
+    $stmt->execute();
+
+    
+    $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+} catch (PDOException $e) {
+    print "Erreur !: " . $e->getMessage() . "<br/>";
+    die();
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +47,7 @@ include_once'nav.php';
                                 <!-- Champ "Titre" -->
                                 <div class="container" id="titre-container">
                                     <label for="titre">Titre de l'offre*</label>
-                                    <input type="text" id="titre" class="FS" name="titre" placeholder="Saisir" required />
+                                    <input type="text" id="titre" class="FS" name="titre" placeholder="Roméo et Juliette" required />
                                 </div>
                                 <!-- Champ "Catégorie" -->
                                 <div class="container categorie-container">
@@ -42,12 +65,12 @@ include_once'nav.php';
                             <!-- Champ "Résumé" -->
                             <div class="container" id="resume-container">
                                 <label for="resume">Résumé*</label>
-                                <input type="text" id="resume" class="FS" name="resume" placeholder="Saisir" required />
+                                <textarea id="resume" class="FS" name="resume" placeholder="L'histoire d'amour et tragique de..." required></textarea>
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container" id="description-container">
                                 <label for="description">Description</label>
-                                <textarea id="description" class="FS" name="description" rows="12" cols="60"></textarea>
+                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..."></textarea>
                             </div>
                             <!-- Champ "Tags" -->
                             <div id="tag-container">
@@ -154,8 +177,8 @@ include_once'nav.php';
                             <div id="top-right-part-content">
                                 <!-- Champ "Adresse" -->
                                 <div class="container" id="adresse-container">
-                                    <label for="adresse">Adresse</label>
-                                    <input type="text" id="adresse" class="FS" name="adresse" placeholder="Saisir" required />
+                                    <label for="adresse">Adresse*</label>
+                                    <input type="text" id="adresse" class="FS" name="adresse" placeholder="5 rue de l'exemple" required />
                                 </div>
                                 <div id="codeP-ville">
                                     <!-- Champ Code postal -->
@@ -172,30 +195,30 @@ include_once'nav.php';
                                 
                                 <!-- Champ "Accesibilité" -->
                                 <div class="container" id="accessibilite-container">
-                                    <label for="accessibilite">Accessibilité</label>
-                                    <input type="text" id="accessibilite" class="FS" name="accessibilite" placeholder="Accessible pour personnes en situation de handicap par un ascenseur" required />
+                                    <label for="accessibilite">Accessibilité*</label>
+                                    <textarea id="accessibilite" class="FS" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required></textarea>
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">
                                     <div class="container" id="duree-container">
                                         <label for="duree">Durée</label>
-                                        <input type="text" id="duree" class="FS" name="duree" placeholder="Saisir" required />
+                                        <input type="text" id="duree" class="FS" name="duree" placeholder="80" required />
                                     </div>
                                     <div class="container" id="nbattraction-container">
                                         <label for="nbattraction">Nombre d'attractions</label>
-                                        <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="Saisir" required />
+                                        <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="25" required />
                                     </div>
                                     <div class="container" id="prix-container">
                                         <label for="prix">Prix minimum (€)</label>
-                                        <input type="text" id="prix" class="FS" name="prix" placeholder="Saisir" required />
+                                        <input type="text" id="prix" class="FS" name="prix" placeholder="25" required />
                                     </div>
                                     <div class="container" id="age-container">
                                         <label for="age">Âge minimum</label>
-                                        <input type="text" id="age" class="FS" name="age" placeholder="Saisir" required />
+                                        <input type="text" id="age" class="FS" name="age" placeholder="8" required />
                                     </div>
                                     <div class="container" id="capacite-container">
                                         <label for="capacite">Capacité</label>
-                                        <input type="text" id="capacite" class="FS" name="capacite" placeholder="Saisir" required />
+                                        <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required />
                                     </div>
                                     <div class="container categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>

@@ -12,7 +12,9 @@
 
         include("../sql/connect_params.php");
 
+        $dbh = new PDO("$driver:host=$server;dbname=$dbname", $user, $pass);
 
+        print_r($_POST);
         if($_POST["type"]=="membre"){
 
             $nom = $_POST["nom"];
@@ -22,8 +24,17 @@
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
             $ville = $_POST["ville"];
-            $adresse = $_POST["adresse"];
+            $temp = explode(" ",$_POST["adresse"]);
+            $num_adresse = $temp[0];
+            array_shift($temp);
+            $adresse = implode(" ", $temp);
             $mdp = $_POST["password"];
+
+            print_r($num_adresse, $adresse);
+
+            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($pseudo, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+
+
 
         }else if($_POST["type"]=="pro_public"){
 
@@ -34,8 +45,13 @@
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
             $ville = $_POST["ville"];
-            $adresse = $_POST["adresse"];
+            $temp = explode(" ",$_POST["adresse"]);
+            $num_adresse = $temp[0];
+            array_shift($temp);
+            $adresse = implode(" ", $temp);
             $mdp = $_POST["password"];
+
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, $denomination, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
 
         }else if($_POST["type"]=="pro_prive"){
 
@@ -47,13 +63,24 @@
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
             $ville = $_POST["ville"];
-            $adresse = $_POST["adresse"];
+            $temp = explode(" ",$_POST["adresse"]);
+            $num_adresse = $temp[0];
+            array_shift($temp);
+            $adresse = implode(" ", $temp);
+            $siren = $POST["num_SIREN"];
             $mdp = $_POST["password"];
-            $propietaire_carte = $_POST["cardholder_name"];
-            $code_securite = $_POST["cvv"];
-            $expiration = $_POST["expiration"];
+            $iban = $_POST["iban"];
+            $bic = $_POST["bic"];
 
+            if (!empty($POST["iban"])) {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, $denomination, $iban, $bic, $siren, $raison_sociale, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+            }
+            else {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, $denomination, '', '', $siren, $raison_sociale, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+            }
         }
+        $stmt->execute();
+        $dbh = null;
         ?>
     </body>
 </html>

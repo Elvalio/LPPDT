@@ -28,77 +28,65 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-    // Sélectionner les éléments div à l'intérieur des liens
-    const proLink = document.querySelector('.inscription-pro-page-pro');
-    const membreLink = document.querySelector('.inscription-membre-page-pro');
-    const membrePageMembreLink = document.querySelector('.inscription-membre-page-membre');
-    const proPageMembreLink = document.querySelector('.inscription-pro-page-membre');
+// Sélectionner les éléments des liens
+const proPublicLink = document.getElementById('link-pro-public');
+const proPriveeLink = document.getElementById('link-pro-privee');
+const membreLink = document.getElementById('link-membre');
 
-    // Vérification si les éléments existent
-    if (proLink) {
-        // Modifier les styles du lien "Inscription Professionnelle"
-        proLink.style.backgroundColor = '#A2021F';
-        proLink.style.color = 'white';
-        proLink.style.fontSize = '24px';
-        proLink.style.fontWeight = 'bold';
-        proLink.style.padding = '20px';
-        proLink.style.borderRadius = '30px';
-        proLink.style.boxShadow = '-5px 0 10px rgba(255, 99, 71, 0.5), 0 5px 10px rgba(255, 99, 71, 0.5), 0 -5px 10px rgba(255, 99, 71, 0.5)';
-        proLink.style.textAlign = 'center';
-        proLink.style.width = '100%';
-        proLink.style.height = '100%';
-        proLink.style.alignContent = 'center';
+// Couleurs personnalisées
+const membreLinkColor = '#006B8F'; // Couleur de fond pour le lien "Inscription Membre"
+const boxShadowColor = 'rgba(0, 107, 143, 0.5)'; // Couleur d'ombre correspondante
+const defaultBackgroundColor = '#FFF7E1'; // Couleur de fond par défaut
+const defaultTextColor = '#006B8F'; // Couleur de texte par défaut
+const activeTextColor = 'white'; // Couleur de texte pour les liens actifs
+const activeFontSize = '24px'; // Taille de police personnalisée
+const activeFontWeight = 'bold'; // Poids de police personnalisé
+const activePadding = '20px'; // Rembourrage personnalisé
+const activeBorderRadius = '30px'; // Rayon de bord personnalisé
+const fixedWidth = '350px'; // Largeur fixe pour tous les liens
+const fixedHeight = '100px'; // Hauteur fixe pour tous les liens (augmenté)
+
+// Fonction pour réinitialiser le style de tous les liens
+function resetStyles() {
+    const links = [proPublicLink, proPriveeLink, membreLink];
+    links.forEach(link => {
+        link.style.backgroundColor = defaultBackgroundColor; // Rétablir la couleur de fond par défaut
+        link.style.color = defaultTextColor; // Couleur de texte par défaut
+        link.style.fontSize = activeFontSize; // Taille de police par défaut
+        link.style.fontWeight = activeFontWeight; // Poids de police par défaut
+        link.style.padding = activePadding; // Rétablir le rembourrage
+        link.style.borderRadius = activeBorderRadius; // Rétablir le rayon de bord
+        link.style.boxShadow = ''; // Rétablir l'ombre par défaut
+        link.style.width = fixedWidth; // Appliquer la largeur fixe
+        link.style.height = fixedHeight; // Appliquer la hauteur fixe
+    });
+}
+
+// Fonction pour activer le lien cliqué
+function activateLink(link) {
+    resetStyles(); // Réinitialiser les styles
+
+    if (link === membreLink) {
+        link.style.backgroundColor = membreLinkColor; // Couleur de fond personnalisée pour Inscription Membre
+        link.style.color = activeTextColor; // Couleur de texte personnalisée
+        link.style.boxShadow = `0 5px 10px ${boxShadowColor}, 0 -5px 10px ${boxShadowColor}`; // Ombre pour le lien "Inscription Membre"
     } else {
-        console.error("Élément '.inscription-pro-page-pro' introuvable");
+        link.style.backgroundColor = '#A2021F'; // Couleur de fond personnalisée pour les autres
+        link.style.color = activeTextColor; // Couleur de texte personnalisée
+        link.style.boxShadow = '-5px 0 10px rgba(255, 99, 71, 0.5), 0 5px 10px rgba(255, 99, 71, 0.5), 0 -5px 10px rgba(255, 99, 71, 0.5)'; // Ombre personnalisée pour les autres
     }
 
-    if (membreLink) {
-        membreLink.style.backgroundColor = '#FFF7E1';
-        membreLink.style.zIndex = '1';
-        membreLink.style.color = '#006B8F';
-        membreLink.style.fontSize = '24px';
-        membreLink.style.fontWeight = 'bold';
-        membreLink.style.padding = '20px';
-        membreLink.style.borderRadius = '30px';
-        membreLink.style.textAlign = 'center';
-        membreLink.style.width = '100%';
-        membreLink.style.height = '100%';
-        membreLink.style.alignContent = 'center';
-    } else {
-        console.error("Élément '.inscription-membre-page-pro' introuvable");
-    }
+    link.style.textAlign = 'center'; // Alignement du texte
+}
 
-    if (membrePageMembreLink) {
-        // Modifier les styles du lien "Inscription Membre (page membre)"
-        membrePageMembreLink.style.backgroundColor = '#006B8F';
-        membrePageMembreLink.style.zIndex = '1';
-        membrePageMembreLink.style.color = 'white';
-        membrePageMembreLink.style.fontSize = '24px';
-        membrePageMembreLink.style.fontWeight = 'bold';
-        membrePageMembreLink.style.padding = '20px';
-        membrePageMembreLink.style.borderRadius = '30px';
-        membrePageMembreLink.style.boxShadow = '5px 0 10px rgba(0, 107, 143, 0.5), 0 5px 10px rgba(0, 107, 143, 0.5), 0 -5px 10px rgba(0, 107, 143, 0.5)';
-        membrePageMembreLink.style.textAlign = 'center';
-        membrePageMembreLink.style.width = '100%';
-        membrePageMembreLink.style.height = '100%';
-        membrePageMembreLink.style.alignContent = 'center';
-    } else {
-        console.error("Élément '.inscription-membre-page-membre' introuvable");
-    }
+// Ajouter des événements de clic à chaque lien
+proPublicLink.addEventListener('click', () => activateLink(proPublicLink));
+proPriveeLink.addEventListener('click', () => activateLink(proPriveeLink));
+membreLink.addEventListener('click', () => activateLink(membreLink));
 
-    if (proPageMembreLink) {
-        // Modifier les styles du lien "Inscription Professionnelle (page membre)"
-        proPageMembreLink.style.backgroundColor = '#FFF7E1';
-        proPageMembreLink.style.color = 'red';
-        proPageMembreLink.style.fontSize = '24px';
-        proPageMembreLink.style.fontWeight = 'bold';
-        proPageMembreLink.style.padding = '20px';
-        proPageMembreLink.style.borderRadius = '30px';
-        proPageMembreLink.style.textAlign = 'center';
-        proPageMembreLink.style.width = '100%';
-    } else {
-        console.error("Élément '.inscription-pro-page-membre' introuvable");
-    }
+// Optionnel : Activer le premier lien par défaut
+activateLink(proPublicLink); // Exemple pour activer "Inscription Professionnelle - Public" par défaut
+
 
     const form = document.querySelector('form');
     const password = document.getElementById('password-membre');
