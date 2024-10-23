@@ -97,7 +97,7 @@ if ($_POST!=[]) {
 
             <div class="links">
                 <a href="#">Mot de passe oublié ?</a>
-                <a href="creation_compte_membre.php">S'inscrire</a>
+                <a href="creation_compte_formulaire.php">S'inscrire</a>
             </div>
         </form>
     </div>
