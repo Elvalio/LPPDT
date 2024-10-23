@@ -39,7 +39,7 @@ try{
 
 <html>
     <?php 
-    if ($_COOKIE['user'] != "professionnel") { ?>
+    if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
         <body class="BO"> <?php   
     } else { ?>
         <body class="FO"> <?php
@@ -230,12 +230,13 @@ try{
                         </div>
                         <div class="NoteImageOffreMobile">
                             <div class="etoileNote">
-                                <?php 
+                                <?php
                                 if ($value["moy_note"] != null && $value["nbravis"] != 0) {
                                     for ($i=0; $i < $value["moy_note"]; $i++) { ?>
                                         <img src="../icons/etoile_rouge.png" alt="Etoile">
                                     <?php }
                                     for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                    
                                         <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
                                 <?php }} ?>
                             </div>
@@ -246,7 +247,7 @@ try{
 
 
                                 <?php } else { ?>
-                                    <img src="../images/imagesReferences/placeholderRomeoEtJuliette.jpg" alt="Image par défaut">
+                                    <img src="../images/imagesReferences/placeholder.jpg" alt="Image par défaut">
                                 <?php } ?>
                             </div>
                         </div>
