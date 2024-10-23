@@ -284,7 +284,7 @@
 
             $nom = $_POST["nom"];
             $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination-sociale-pro"];
+            $denomination = $_POST["denomination"];
             $email = $_POST["email"];
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
@@ -301,8 +301,8 @@
 
             $nom = $_POST["nom"];
             $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination-sociale-pro"];
-            $raison_sociale = $_POST["raison-sociale-pro"];
+            $denomination = $_POST["denomination"];
+            $raison_sociale = $_POST["raison"];
             $email = $_POST["email"];
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
