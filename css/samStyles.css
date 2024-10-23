@@ -368,6 +368,11 @@ body {
   font-style: bold;
 }
 
+.detail-offre-footer {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 700px) and (max-height: 1024px) {
   body {
     display: flex;
