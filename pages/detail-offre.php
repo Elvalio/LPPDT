@@ -50,7 +50,7 @@
                     $stmt2->execute();
                     $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                     echo $stmt2[0]['telephone'];
-                ?> 
+                ?>
                 <?php 
                 if ($stmt[0]['duree']) {
                     echo " | Durée : ";
@@ -121,17 +121,27 @@
             <div class="infos-offre">
                 <div class="etoiles">
                     <?php 
+                        $i;
                         for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
                             echo '<img src="../images/etoile.png" alt="étoile">';
                         }
-                        /* A NE PAS OUBLIER */
-                    ?> 
-                    
-                    <img src="../images/etoile_vide.png" alt="étoile">
+                        foreach (range($i, 4) as $j) {
+                            echo '<img src="../images/etoile_vide.png" alt="étoile">';
+                        }
+                    ?>
                 </div>
                 <p class="nb-avis-info-offre">
-                    <?php echo $stmt[0]['nbrAvis'] ?> Avis |
+                    <?php 
+                    if ($stmt[0]['nbrAvis'] = 0) {
+                        echo "0 Avis";
+                    }
+                    else {
+                        echo $stmt[0]['nbrAvis'];
+                        echo "Avis";
+                    }
+                    ?>
                 </p>
+                <p>|</p>
                 <img src="../images/Wheelchair.png" alt="fauteil roulant">
                 <p>
                     <?php 
@@ -156,7 +166,8 @@
 
                         <a href="https://g.co/kgs/YaDbwRa">
                             <img src="../images/maison.png" alt="icon maison (localisation)">
-                            <p><?php
+                            <p>
+                                <?php
                                 echo $stmt[0]['numero_voie'];
                                 echo " ";
                                 echo $stmt[0]['voie'];
@@ -172,49 +183,57 @@
                     <div>
                         <a href="tel:<?php 
                     $idC = (int)$stmt[0]['idc'];
-                    $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON p.idC = o.idC WHERE o.idC = $idC;");
-                    $stmt2->execute();
-                    $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                    echo $stmt2[0]['telephone'];
-                ?> ">
+                    $stmt2 = $bdh->prepare(" SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON
+                            p.idC=o.idC WHERE o.idC=$idC;"); $stmt2->execute();
+                            $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                            echo $stmt2[0]['telephone'];
+                            ?> ">
                             <img src="../images/telephone.png" alt="icon telephone">
-                            <p><?php 
+                            <p>
+                                <?php 
                     $idC = (int)$stmt[0]['idc'];
                     $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON p.idC = o.idC WHERE o.idC = $idC;");
                     $stmt2->execute();
                     $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
                     echo $stmt2[0]['telephone'];
-                ?> </p>
+                ?>
+                            </p>
                         </a>
                     </div>
+                    
                     <?php
-                        if ($stmt[0]['site_web']) {
-                            echo '<div>
-                            <a href="';
-                            echo $stmt[0]['site_web'];
-                            echo '">
+                        if ($stmt[0]['site_web']) { ?>
+                            <div>
+                            <a href=" <?php echo $stmt[0]['site_web']; ?>">
                                 <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                                <p>';
-                            echo $stmt[0]['site_web'];
-                            echo '</p>
-                            </a>';
+                                <p>
+                                    <?php
+                            echo $stmt[0]['site_web']; ?>
+                            </p>
+                            </a>
+                            </div>
+                            </div><?php
+
+                        } else { ?>
+                            </div>
+                            <?php
                         }
                     ?>
-                <div class="horaires">
-                    <h3>Horaires et tarifs :</h3>
-                    <div>
-                        <img src="../images/Delivery Time.png" alt="icon heure">
-                        <p>8h - 13h et 14h30 - 18h du lundi au vendredi</p>
-                    </div>
-                    <div>
-                        <img src="../images/Stack of Coins.png" alt="icon argent">
-                        <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
-                    </div>
+                    <!--<div class="horaires">
+                        <h3>Horaires et tarifs :</h3>
+                        <div>
+                            <img src="../images/Delivery Time.png" alt="icon heure">
+                            <p>8h - 13h et 14h30 - 18h du lundi au vendredi</p>
+                        </div>
+                        <div>
+                            <img src="../images/Stack of Coins.png" alt="icon argent">
+                            <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
+                        </div>
+                    </div>-->
                 </div>
-            </div>
-            <div>
-                <img class="carte" src="../images/carte.png" alt="carte géolocalisation">
-            </div>
+                <div>
+                    <img class="carte" src="../images/carte.png" alt="carte géolocalisation">
+                </div>
         </article>
         <button class="bouton-retour">
             <img src="../icons/arrow-left-o.svg" alt="">
@@ -223,83 +242,77 @@
     </section>
     <section class="section-page part-avis">
         <header class="header-avis">
-            <h3>Avis : 4</h3>
-            <h3>Non Consultés : 2</h3>
-            <h3>Non répondus : 4</h3>
+            <h3>Avis : <?php 
+                    if ($stmt[0]['nbrAvis'] = 0) {
+                        echo "0 Avis";
+                    }
+                    else {
+                        echo $stmt[0]['nbrAvis'];
+                        echo "Avis";
+                    }
+                    ?></h3>
+                    <?php 
+                    $stmt3 = $bdh->prepare("SELECT * FROM pact.avis WHERE ido = $idAnnonce;");
+                    $stmt3->execute();
+                    $stmt3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($stmt[0]['nbrAvis'] as $avis) {
+                        if ($avis['consulte'] == False) {
+                            $nonConsultes++;
+                        }
+                        if ($avis['consulte'] == False) {
+                            $nonRepondus++;
+                        }
+                    }
+                    if ( $nonConsultes > 0) { ?>
+                        <h3>Non Consultés :
+                        <?php echo $nonConsultes; ?>
+                        </h3>
+                        
+                    <?php }
+                    $nonRepondus = 0;
+                    $nonRepondus++;
+                    if ($nonRepondus > 0) { ?>
+                        <h3>Non répondus :
+                        <?php echo $nonRepondus;?>
+                        </h3>;
+                    <?php }
+                    ?>
         </header>
         <article class="article-avis">
-            <div>
-                <div class="header-avis-profil">
-                    <div class="profil">
-                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
-                        <p>Nicolas Dupuie</p>
+            <?php 
+                $stmt = $bdh->prepare("SELECT * FROM pact.avis WHERE ido = $idAnnonce;");
+                $stmt->execute();
+                $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($stmt as $avis) { ?>
+                    <div>
+                    <div class="header-avis-profil">
+                        <div class="profil">
+                            <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
+                            <p>
+                                <?php
+                    echo $avis['nom']; ?>
+                    </p>
+                        </div>
+                        <div>
+                            <p>
+                                <?php
+                    echo $avis['note']; ?>
+                    </p>
+                        </div>
+                    </div>
+                    <div class="commentaire-consulte">
+                        <p>
+                            <?php
+                    echo $avis['commentaire']; ?>
+                    </p>
                     </div>
                     <div>
-                        <p>★★★★☆</p>
+                        <p class="reponse">Ajouter une réponse</p>
                     </div>
                 </div>
-                <div class="commentaire-consulte">
-                    <p>La balade à vélo était très agréable, avec de beaux paysages à découvrir. Quelques petits détails
-                        pourraient être améliorés, mais dans l'ensemble, c'était une belle expérience.</p>
-                </div>
-                <div>
-                    <p class="reponse">Ajouter une réponse</p>
-                </div>
-            </div>
-            <div>
-                <div class="header-avis-profil">
-                    <div class="profil">
-                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
-                        <p>Archibald Delacroix</p>
-                    </div>
-                    <div>
-                        <p>★☆☆☆☆</p>
-                    </div>
-                </div>
-                <div class="commentaire-consulte">
-                    <p>L'organisation de la balade était chaotique et le matériel fourni de mauvaise qualité.
-                        L'expérience n'a pas du tout été à la hauteur de ce qui était promis dans l'offre.</p>
-                </div>
-                <div>
-                    <p class="reponse">Ajouter une réponse</p>
-                </div>
-            </div>
-            <div>
-                <div class="header-avis-profil">
-                    <div class="profil">
-                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
-                        <p>Corélie delavegas</p>
-                    </div>
-                    <div>
-                        <p>★★★☆☆</p>
-                    </div>
-                </div>
-                <div class="commentaire-non-consulte">
-                    <p>La balade était sympathique, mais certains aspects manquaient d'organisation. Le parcours était
-                        intéressant, mais le matériel et le service pourraient être mieux.</p>
-                </div>
-                <div>
-                    <p class="reponse">Ajouter une réponse</p>
-                </div>
-            </div>
-            <div>
-                <div class="header-avis-profil">
-                    <div class="profil">
-                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
-                        <p>Michel Palareff</p>
-                    </div>
-                    <div>
-                        <p>★★★★★</p>
-                    </div>
-                </div>
-                <div class="commentaire-non-consulte">
-                    <p>Je n'ai pas la référence des vélos, mais la balade était absolument parfaite, avec une
-                        organisation fluide et des paysages magnifiques !</p>
-                </div>
-                <div>
-                    <p class="reponse">Ajouter une réponse</p>
-                </div>
-            </div>
+                <?php
+                }            
+            ?>
         </article>
     </section>
 </body>
