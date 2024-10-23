@@ -17,13 +17,13 @@ function type_offre($str){
     return $res;
 }
 
-function option_offre($str){
+function option_offre($arr){
     $res = '';
 
-    if ($str == "une"){
-        $res = 'À la Une';
-    }else if ($str == "relief"){
-        $res = 'En relief';
+    if ($arr['une'] != ''){
+        $res = $arr['une'];
+    }else if ($arr['relief'] != ''){
+        $res = $arr['relief'];
     }
     return $res;
 }
@@ -43,7 +43,7 @@ if ($_POST['categorie'] != '') {
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
+                $option = option_offre($_POST);
                 $description = $_POST['description'];
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -70,7 +70,7 @@ if ($_POST['categorie'] != '') {
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
+                $option = option_offre($_POST);
                 $description = $_POST['description'];
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -97,7 +97,7 @@ if ($_POST['categorie'] != '') {
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
+                $option = option_offre($_POST);
                 $description = $_POST['description'];
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -124,12 +124,12 @@ if ($_POST['categorie'] != '') {
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
+                $option = option_offre($_POST);
                 $description = $_POST['description'];
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
 
-                $src_image = 'todo'; // need image source
+                $src_image = random_int(1, 1000); // need image source
                 $gamme_prix = $_POST['categorie-prix'];
                 $petit_dejeuner = ($_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
                 $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
@@ -157,11 +157,11 @@ if ($_POST['categorie'] != '') {
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
+                $option = option_offre($_POST);
                 $description = $_POST['description'];
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
-                $src_image = 'todo'; // need image source
+                $src_image = random_int(1, 1000); // need image source
                 $nbr_attractions = $_POST['nbattraction'];
                 $age_min = $_POST['age'];
 

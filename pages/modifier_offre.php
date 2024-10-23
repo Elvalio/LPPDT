@@ -5,11 +5,32 @@ use function PHPSTORM_META\type;
 
 include('../sql/connect_params.php');
 
-var_dump($_POST);
+function type_offre($str){
+    $res = 1;
+
+    if ($str == "standard"){
+        $res = 2;
+    }else if ($str == "premium"){
+        $res = 3;
+    }
+    return $res;
+}
+
+function option_offre($arr){
+    $res = '';
+
+    if ($arr['une'] != ''){
+        $res = $arr['une'];
+    }else if ($arr['relief'] != ''){
+        $res = $arr['relief'];
+    }
+    return $res;
+}
+
 $idO = 4;
-// $isResto = false; // to see what tags to set
-// $tags_location =''; // to check activated tags
-try{
+$isResto = false; // to see what tags to set
+$tags_location =''; // to check activated tags
+try{    
     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
         $user, $pass);
         
@@ -107,7 +128,8 @@ try{
     // echo '<pre>';
     // print_r($tags_offre);
     // echo '</pre>';
-    
+
+if ($_POST == []){
 ?>
 
 <!DOCTYPE html>
@@ -491,14 +513,15 @@ try{
 </html>
 
 <?php
+}
     if ($_POST != []){
-        switch ($_POST['categorie']) {
-            case 'activite':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
+        switch ($categorie) {
+            case 'Activite':
+                $titre = str_replace("'", "''",$_POST['titre']);
+                $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
-                $description = $_POST['description'];
+                $option = option_offre($_POST);
+                $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
@@ -531,15 +554,15 @@ try{
                         voie = '$voie', 
                         code_postal = $code_postal, 
                         complement =''
-                    where idO = $idC;"
+                    where idO = $idO;"
                 );
                 break;
-            case 'spectacle':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
+            case 'Spectacle':
+                $titre = str_replace("'", "''",$_POST['titre']);
+                $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
-                $description = $_POST['description'];
+                $option = option_offre($_POST);
+                $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
@@ -571,16 +594,16 @@ try{
                         voie = '$voie', 
                         code_postal = $code_postal, 
                         complement =''
-                    where idO = $idC;"
+                    where idO = $idO;"
                 );
                 break;
 
-            case 'visite':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
+            case 'Visite':
+                $titre = str_replace("'", "''",$_POST['titre']);
+                $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
-                $description = $_POST['description'];
+                $option = option_offre($_POST);
+                $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
@@ -611,21 +634,21 @@ try{
                         voie = '$voie', 
                         code_postal = $code_postal, 
                         complement =''
-                    where idO = $idC;"
+                    where idO = $idO;"
                 );
                 break;
 
             // don't know if image works for update
-            case 'restauration':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
+            case 'Restauration':
+                $titre = str_replace("'", "''",$_POST['titre']);
+                $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
-                $description = $_POST['description'];
+                $option = option_offre($_POST);
+                $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
 
-                $src_image = 'todo'; // need image source
+                $src_image = random_int(1, 1000); // need image source
                 $gamme_prix = $_POST['categorie-prix'];
                 $petit_dejeuner = ($_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
                 $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
@@ -663,18 +686,18 @@ try{
                         voie = '$voie', 
                         code_postal = $code_postal, 
                         complement =''
-                    where idO = $idC;"
+                    where idO = $idO;"
                 );
                 break;
-            case 'parcAttraction':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
+            case "Parc d'attraction":
+                $titre = str_replace("'", "''",$_POST['titre']);
+                $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST['option']);
-                $description = $_POST['description'];
+                $option = option_offre($_POST);
+                $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
-                $src_image = 'todo'; // need image source
+                $src_image = random_int(1, 1000); // need image source
                 $nbr_attractions = $_POST['nbattraction'];
                 $age_min = $_POST['age'];
 
@@ -703,7 +726,7 @@ try{
                         voie = '$voie', 
                         code_postal = $code_postal, 
                         complement =''
-                    where idO = $idC;"
+                    where idO = $idO;"
                 );
                 break;
 
@@ -713,8 +736,7 @@ try{
         }
 
         $stmt->execute();
-
-        // $duree = '06:00'
+        header('Location:tableau_de_bord.php');
         
     }
     $dbh = null;
