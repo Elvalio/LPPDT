@@ -5,7 +5,7 @@ include('../sql/connect_params.php');
 
 //print_r($_POST['idO']);
 //TODO prestations
-$idO = 5;
+$idO = 2;
 try{
     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
         $user, $pass);
