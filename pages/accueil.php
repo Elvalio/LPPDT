@@ -9,7 +9,7 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, a.ville, p.src_image
+            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image
              FROM pact.offre o
              JOIN pact._adresse a ON o.idAdresse = a.idAdresse
              LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
@@ -54,42 +54,44 @@ try{
             </header>
             <nav class="desktop-element">
                 <div class="nav_space">
-                    <div class="search">
-                        <input type="text" name="search" id="search" placeholder="Search" class="FS">
-                        <img src="../images/search_icon.png" alt="Search" title="Search">
-                    </div>
-
-                    <div class="filtrer-trier"> 
-                        <div class="filtrer-bouton NoSelect">
-                            <p class="FS">Filtrer par</p>
-                            <img src="../images/fleche.png" alt="Fleche" title="Fleche">
+                    <div class="space-button">
+                        <div class="search">
+                            <input type="text" name="search" id="search" placeholder="Search" class="FS">
+                            <img src="../images/search_icon.png" alt="Search" title="Search">
                         </div>
 
-                        <div class="dropdown NoSelect">
-                            <div class="dropdown-toggle trier">
-                                <p class="FS">Trier par</p>
+                        <div class="filtrer-trier"> 
+                            <div class="filtrer-bouton NoSelect">
+                                <p class="FS">Filtrer par</p>
                                 <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                             </div>
-                            <ul class="dropdown-menu">
-                                <li><a href="#0">Prix croissant</a></li>
-                                <li><a href="#0">Prix décroissant</a></li>
-                                <li><a href="#0">Notes croissantes</a></li>
-                                <li><a href="#0">Notes décroissantes</a></li>
-                            </ul>
+
+                            <div class="dropdown NoSelect">
+                                <div class="dropdown-toggle trier">
+                                    <p class="FS">Trier par</p>
+                                    <img src="../images/fleche.png" alt="Fleche" title="Fleche">
+                                </div>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#0">Prix croissant</a></li>
+                                    <li><a href="#0">Prix décroissant</a></li>
+                                    <li><a href="#0">Notes croissantes</a></li>
+                                    <li><a href="#0">Notes décroissantes</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="NouveauALaUne">
+                        <div class="boutonNouveau NoSelect">
+                            <p class="FS">Nouveau</p>
+                            <img src="../images/croix.png" alt="croix" title="croix">
+                        </div>
+                        <div class="boutonALaUne NoSelect">
+                            <p class="FS">A la une</p>
+                            <img src="../images/croix.png" alt="croix" title="croix">
                         </div>
                     </div>
                 </div>
 
-                <div class="NouveauALaUne">
-                    <div class="boutonNouveau NoSelect">
-                        <p class="FS">Nouveau</p>
-                        <img src="../images/croix.png" alt="croix" title="croix">
-                    </div>
-                    <div class="boutonALaUne NoSelect">
-                        <p class="FS">A la une</p>
-                        <img src="../images/croix.png" alt="croix" title="croix">
-                    </div>
-                </div>
             </nav>
 
             <div class="all-filter">
@@ -170,7 +172,7 @@ try{
                             <input type="checkbox" id="note-<?php echo $note; ?>" name="note-<?php echo $note; ?>" />
                             <div class="etoileNoteFiltre">
                                 <?php foreach ($stars as $star) { ?>
-                                    <img src="../images/<?php echo $star ? 'etoile' : 'etoile_vide'; ?>.png" alt="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>" title="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>">
+                                    <img src="../icons/<?php echo $star ? 'etoile_rouge' : 'etoile_vide_rouge'; ?>.png" alt="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>" title="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>">
                                 <?php } ?>
                             </div>
                         </div>
@@ -193,8 +195,56 @@ try{
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
                             <div class="infoAnnonce">
                                 <p><?php echo $value["prix_min"] ?>€</p>
-                                <!-- Autres informations... -->
+                                
+                                <div class="etoileNote">
+                                    <?php 
+                                    if ($value["moy_note"] != null && $value["nbravis"] != 0) {
+                                        for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                                            <img src="../icons/etoile_rouge.png" alt="Etoile">
+                                        <?php }
+                                        for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                            <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
+                                    <?php }} ?>
+                                </div>
+
+                                <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
+                                    <p>(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
                             </div>
+                        </a>
+                    </div>
+
+                    <div class="carte_offre phone-element">
+                        <a href="https://google.com" target="_blank">
+
+                        <div class="InfoOffreMobile">
+                            <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
+
+                            <p class="resumeAnnonce"><?php echo $value["resume"] ?></p>
+
+                            <p class="villeAnnonce"><?php echo $value["ville"] ?></p>
+                        </div>
+                        <div class="NoteImageOffreMobile">
+                            <div class="etoileNote">
+                                <?php 
+                                if ($value["moy_note"] != null && $value["nbravis"] != 0) {
+                                    for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                                        <img src="../icons/etoile_rouge.png" alt="Etoile">
+                                    <?php }
+                                    for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
+                                        <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
+                                <?php }} ?>
+                            </div>
+                        
+                            <div class="conteneurImage">
+                                <?php if ($value['src_image']) { ?>
+                                    <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
+
+
+                                <?php } else { ?>
+                                    <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
+                                <?php } ?>
+                            </div>
+                        </div>
                         </a>
                     </div>
                 <?php } } ?>

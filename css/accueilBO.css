@@ -47,6 +47,14 @@ header + nav {
     display: flex;
     flex-direction: row;
     align-items: center; /* Aligne verticalement le contenu */
+    justify-content: space-between; /* Espace entre les éléments */
+}
+
+.space-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
 p {
@@ -134,13 +142,15 @@ main {
 }
 
 main.active_filter {
-    transform: translateY(150px);
+    transform: translateY(170px);
     transition: all 0.3s ease-in-out;
+    
 }
 
 .all-filter {
     display: none;
     height: 150px;
+    margin-bottom: 20px;
 }
 
 .all-filter.active {
@@ -633,10 +643,18 @@ input[type="range"]::-ms-thumb {
     text-decoration: none;
 }
 
+.phone-element {
+    display: none;
 }
 
+}
 
-@media screen and (max-width: 768px) {
+/* =========================================================== */
+/*           STYLES POUR CHACUNE DES OFFRES (MOBILE)           */
+/* =========================================================== */
+
+@media screen and (max-width: 800px) {
+
 
     .nav_space {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
@@ -651,13 +669,141 @@ input[type="range"]::-ms-thumb {
         height: fit-content;
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
         flex-wrap: wrap;
-        
     }
+
+    div.phone-element  {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+    .carte_offre img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        overflow: hidden;
+    }
+
+    .desktop-element {
+        display: none;
+    }
+
+
+    .carte_offre a {
+        text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px; /* Réduction de l'espace entre les éléments */
+    }
+
+    .noteAnnonce > img {
+        width: 12px;
+        height: 12px;
+        object-fit: cover;
+    }
+
+    .carte_offre.phone-element {
+        background-color: white;
+        border: 1px solid var(--bleu-fonce);
+        border-radius: 8px;
+        padding: 25px; /* Augmentation du padding pour agrandir l'espace entre le contenu et la bordure */
+        max-width: 550px; /* Case légèrement plus grande */
+        width: 70%; /* Légère augmentation de la largeur pour équilibrer */
+        margin: 20px auto; /* Ajustement de la marge externe */
+      }
+      
+      .titreAnnonce {
+        /* grid-area: title; */
+        font-size: 1.1rem; /* Taille de la police inchangée */
+        color: var(--bleu-fonce);
+        font-family: 'TripSansBold';
+        margin-bottom: 3px; /* Moins d'espace en dessous */
+      }
+      
+      .resumeAnnonce {
+        /* grid-area: description; */
+        font-size: 0.8rem; /* Taille de la police inchangée */
+        color: #333;
+        font-family: 'TripSansRegular';
+        margin-bottom: 3px; /* Moins d'espace en dessous */
+      }
+      
+      .villeAnnonce {
+        /* grid-area: location; */
+        font-size: 0.7rem; /* Taille de la police inchangée */
+        color: #666;
+        font-family: 'TripSansRegular';
+        margin-bottom: 0; /* Pas d'espace en dessous */
+      }
+      
+      .etoileNote {
+        grid-area: rating;
+        font-size: 1rem; /* Taille des étoiles inchangée */
+        color: var(--bleu);
+        font-family: 'TripSansBold';
+        text-align: center;
+        align-self: start;
+        margin-bottom: 2px; /* Réduction de l'espace entre les étoiles et l'image */
+      }
+      
+      .conteneurImage {
+        /* grid-area: image; */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+      }
+      
+      .conteneurImage > img {
+        width: 100px; /* Taille de l'image inchangée */
+        height: auto;
+        border-radius: 8px;
+        padding: 0;
+        margin: 0;
+
+
+      }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .InfoOffreMobile {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .NoteImageOffreMobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .etoileNote {
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
+        margin-left: 6px;
+    }
+
+    .etoileNote img {
+        width: 15px;
+        height: 15px;
+        object-fit: cover;
+    }
+
 }
 
-@media screen and (max-width: 1180px) {
-
-    .NouveauALaUne {
-        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
-    }
-}
+/* display: grid;
+        grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image 
+        grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière 
+        grid-template-areas: 
+            "title rating"
+            "description image"
+            "location image"; L'image prend aussi la place sous 'rating' */

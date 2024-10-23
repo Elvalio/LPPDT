@@ -1,35 +1,29 @@
-@font-face {
-    font-family: 'FiraSansBold';
-    src: url('../polices/FiraSans-Bold.ttf')
-    format('truetype');
-}
-
 h1{
     font-family: 'TripSansBold';
     src: url('../polices/TripSans-Bold.ttf')
     format('truetype');
-}
-
-h1{
-    color: red;
+    color: var(--rouge-fonce);
     margin-top: 10px;
+    font-family: 'TripSansBold';
 }
 
 h2{
-    color: #757575;
+    color: var(--gris-fonce);
     margin-left: 1.5em;
+    font-family: 'TripSansBold';
 }
 
-p{
+.description{
     font-family: 'FiraSansBold';
-    font-size: 20px;
+    font-size: 16px;
     margin: 5px;
-    color: #757575;
+    color: var(--gris-fonce);
 }
 
-strong{
+.titre_offre{
     font-family: 'FiraSansBold';
-    color: black;
+    color: var(--noir);
+    font-size: 20px;
 }
 
 #button_hors_ligne{
@@ -51,6 +45,7 @@ section > img{
     width: 160px;
     height: 160px;
     margin: 10px;
+    object-fit: cover;
 }
 
 section > div{
@@ -67,8 +62,8 @@ section > div{
     font-size: 15px;
     display: flex;
     align-items: center;
-    color: red;
-    border-color: red;
+    color: var(--rouge);
+    border-color: var(--rouge);
     margin-right: 10px;
     background-color: white;
     border-radius: 5px;
@@ -94,7 +89,7 @@ input{
 }
 
 .detail_modif > form > input:hover{
-    background-color: #757575;
+    background-color: var(--gris-fonce);
     cursor:pointer;
 }
 
@@ -103,7 +98,7 @@ input{
 }
 
 #creer_offre{
-    background-color: black;
+    background-color: var(--noir);
     color: white;
     margin-left: 20px;
     padding: 5px;
@@ -111,6 +106,6 @@ input{
 }
 
 #creer_offre:hover{
-    background-color: black;
+    background-color: var(--noir);
     cursor:pointer;
 }

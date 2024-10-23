@@ -650,6 +650,9 @@ declare
   comp float;
 begin
   select avg(a.note) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre  into comp;
+  if (comp is null) then
+    comp = 0;
+  end if;
   RETURN comp;
 end;
 $$ language 'plpgsql';
@@ -677,18 +680,19 @@ begin
 end;
 $$ language 'plpgsql';
 
-create or replace trigger tg_offre
+create or replace trigger tg_insert_offre
 instead of insert on pact.offre
   for each row execute procedure pact.insert_offre();
 
 
 -- activite
 
+--insert
 create or replace view pact.activite as
   select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._activite natural join pact.offre;
   
-create or replace function pact.insert_activite()
+  create or replace function pact.insert_activite()
   returns trigger as $$
 begin
   if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
@@ -708,10 +712,34 @@ create or replace trigger tg_insert_activite
 instead of insert on pact.activite
   for each row execute procedure pact.insert_activite();
 
+--update
+create or replace function pact.update_activite()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+  end if;
+
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+   accessibilite = new.accessibilite, date_publication = new.date_publication, idAdresse = new.idAdresse where idO = old.idO;
+  
+  update pact._activite set duree = new.duree, age_min = new.age_min, prestation_incluse = new.prestation_incluse, prestation_excluse = new.prestation_excluse where idO = old.idO;
+  
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_activite
+instead of update on pact.activite
+  for each row execute procedure pact.update_activite();
+
+
 --  
 
 -- visite
-
+--insert
 create or replace view pact.visite as
   select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, langues, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from _visite natural join offre;
@@ -737,9 +765,31 @@ create or replace trigger tg_insert_visite
 instead of insert on pact.visite
   for each row execute procedure pact.insert_visite();
 
+--update
+create or replace function pact.update_visite()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+  end if;
+
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+   accessibilite = new.accessibilite, date_publication = new.date_publication, idAdresse = new.idAdresse where idO = old.idO;
+  
+  update pact._visite set duree = new.duree, langues = new.langues where idO = old.idO;
+  
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_visite
+instead of update on pact.visite
+  for each row execute procedure pact.update_visite();
   
 -- spectacle
-
+--insert
 create or replace view pact.spectacle as
   select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, duree, capacite, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._spectacle natural join pact.offre;
@@ -766,9 +816,31 @@ create or replace trigger tg_insert_spectacle
 instead of insert on pact.spectacle
   for each row execute procedure pact.insert_spectacle();
 
+--update
+create or replace function pact.update_spectacle()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+  end if;
+
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+   accessibilite = new.accessibilite, date_publication = new.date_publication, idAdresse = new.idAdresse where idO = old.idO;
+  
+  update pact._spectacle set duree = new.duree, capacite = new.capacite where idO = old.idO;
+  
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_spectacle
+instead of update on pact.spectacle
+  for each row execute procedure pact.update_spectacle();
 
 -- parc_d_attraction
-
+--insert
 create or replace view pact.parc_d_attraction as
   select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, "plan", src_image, nbr_attractions, age_min, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._parc_d_attraction 
@@ -797,9 +869,32 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_parc_d_attraction
 instead of insert on pact.parc_d_attraction
   for each row execute procedure pact.insert_parc_d_attraction();
-  
--- restauration
+--update
+create or replace function pact.update_parc_d_attraction()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+  end if;
 
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+   accessibilite = new.accessibilite, date_publication = new.date_publication, idAdresse = new.idAdresse where idO = old.idO;
+  
+  update pact._image set src_image = new.src_image where idImage = "plan";
+  update pact._parc_d_attraction set "plan" = new."plan", nbr_attractions = new.nbr_attractions, age_min = new.age_min  where idO = old.idO;
+  
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_parc_d_attraction
+instead of update on pact.parc_d_attraction
+  for each row execute procedure pact.update_parc_d_attraction();
+
+-- restauration
+--insert
 create or replace view pact.restauration as
   select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, 
   carte_restaurant, src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
@@ -829,7 +924,38 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_restauration
 instead of insert on pact.restauration
   for each row execute procedure pact.insert_restauration();
+
+--update
+create or replace function pact.update_restauration()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+  end if;
+
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+   accessibilite = new.accessibilite, date_publication = new.date_publication, idAdresse = new.idAdresse where idO = old.idO;
   
+  update pact._image set src_image = new.src_image where idImage = carte_restaurant;
+  update pact._restauration set carte_restaurant = new.carte_restaurant, 
+    gamme_prix = new.gamme_prix, 
+    age_min = new.age_min,
+    petit_dejeuner = new.petit_dejeuner, 
+    brunch = new.brunch, 
+    dejeuner = new.dejeuner, 
+    diner = new.diner, 
+    boissons = new.boissons
+  where idO = old.idO;
+  
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_restauration
+instead of update on pact.restauration
+  for each row execute procedure pact.update_restauration();
 
 --- experience ---
 
@@ -856,5 +982,3 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_photo_offre
 instead of insert on pact.photo_offre
   for each row execute procedure pact.insert_photo_offre();
-  
-
