@@ -1,9 +1,6 @@
 <?php
-//include_once 'nav.php';
-echo  "<h1>";
-print_r((string)$_COOKIE['type_compte']);
-print_r($_COOKIE['user']);
-echo  "</h1>";
+include_once 'nav.php';
+
 include('../sql/connect_params.php');
 
 function type_offre($str){
