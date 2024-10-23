@@ -655,10 +655,6 @@ input[type="range"]::-ms-thumb {
 
 @media screen and (max-width: 800px) {
 
-    .carte_offre {
-        margin: 24px auto; /* Centre les cartes horizontalement */
-    }
-
     .nav_space {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
@@ -701,7 +697,7 @@ input[type="range"]::-ms-thumb {
         object-fit: cover;
     }
 
-    .carte_offre.phone-element {
+    .card-container {
         display: grid;
         grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image */
         grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière */
@@ -717,4 +713,53 @@ input[type="range"]::-ms-thumb {
         max-width: 550px; /* Case légèrement plus grande */
         width: 70%; /* Légère augmentation de la largeur pour équilibrer */
         margin: 20px auto; /* Ajustement de la marge externe */
-    }
+      }
+      
+      .card-title {
+        grid-area: title;
+        font-size: 1.1rem; /* Taille de la police inchangée */
+        color: var(--bleu-fonce);
+        font-family: 'TripSansBold';
+        margin-bottom: 3px; /* Moins d'espace en dessous */
+      }
+      
+      .card-description {
+        grid-area: description;
+        font-size: 0.8rem; /* Taille de la police inchangée */
+        color: #333;
+        font-family: 'TripSansRegular';
+        margin-bottom: 3px; /* Moins d'espace en dessous */
+      }
+      
+      .card-location {
+        grid-area: location;
+        font-size: 0.7rem; /* Taille de la police inchangée */
+        color: #666;
+        font-family: 'TripSansRegular';
+        margin-bottom: 0; /* Pas d'espace en dessous */
+      }
+      
+      .card-rating {
+        grid-area: rating;
+        font-size: 1rem; /* Taille des étoiles inchangée */
+        color: var(--bleu);
+        font-family: 'TripSansBold';
+        text-align: center;
+        align-self: start;
+        margin-bottom: 2px; /* Réduction de l'espace entre les étoiles et l'image */
+      }
+      
+      .card-thumbnail-container {
+        grid-area: image;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      
+      .card-thumbnail {
+        width: 100px; /* Taille de l'image inchangée */
+        height: auto;
+        border-radius: 8px;
+      }
+
+}
