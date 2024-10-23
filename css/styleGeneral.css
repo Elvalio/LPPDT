@@ -344,7 +344,7 @@ p {
     }
 
     .footer > .main_div_infos > .listes_infos > .offres_suite {
-        margin-top: 55px;
+        margin-top: 63px;
     }
 
     .footer > .autres_liens{
@@ -355,10 +355,11 @@ p {
 
     .footer > .autres_liens > a{
         margin: 5px;
-        font-size: 15px;
+        font-size: 18px;
     }
 
     .footer > .main_div_infos > .listes_infos > ul{
-        padding-left: 20px;
+        padding-left: 15px;
+        font-size: 18px;
     }
 }

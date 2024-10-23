@@ -1,52 +1,29 @@
-:root {
-    --blanc-fo: #FFF7E1;      /* Blanc Front-Office */
-    --vert-clair: #9EE7A0;    /* Vert clair */
-    --turquoise: #3AD4AE;     /* Turquoise */
-    --bleu: #1DA2A7;          /* Bleu */
-    --bleu-fonce: #006B8F;    /* Bleu foncé */
-
-    --blanc-bo: #FDEDF0;      /* Blanc Back-Office */
-    --orange: #F07605;        /* Orange */
-    --rouge: #DE022B;         /* Rouge */
-    --rouge-fonce: #A2021F; /* Rouge foncé */
-    --gris-fonce: #767676; /*Gris foncé*/
-    --gris-clair : #E4E4E4;  /*Gris Clair*/
-    --noir: #151515;          /* Noir */
-}
-
-
-@font-face {
-    font-family: 'FiraSansBold';
-    src: url('../polices/FiraSans-Bold.ttf')
-    format('truetype');
-}
-
 h1{
     font-family: 'TripSansBold';
     src: url('../polices/TripSans-Bold.ttf')
     format('truetype');
-}
-
-h1{
     color: var(--rouge-fonce);
     margin-top: 10px;
+    font-family: 'TripSansBold';
 }
 
 h2{
     color: var(--gris-fonce);
     margin-left: 1.5em;
+    font-family: 'TripSansBold';
 }
 
-p{
+.description{
     font-family: 'FiraSansBold';
-    font-size: 20px;
+    font-size: 16px;
     margin: 5px;
     color: var(--gris-fonce);
 }
 
-strong{
+.titre_offre{
     font-family: 'FiraSansBold';
     color: var(--noir);
+    font-size: 20px;
 }
 
 #button_hors_ligne{
@@ -68,6 +45,7 @@ section > img{
     width: 160px;
     height: 160px;
     margin: 10px;
+    object-fit: cover;
 }
 
 section > div{

@@ -10,7 +10,10 @@
 
     try{
 
-    $stmt=$dbh->prepare("SELECT idO, titre, resume FROM pact.offre");
+    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, p.src_image FROM pact.offre o
+    JOIN pact.photo_offre p ON o.idO = p.idO");
+
+    /*LEFT JOIN pact._secteur_pro s ON o.idC = s.idC*/
     
     $stmt->execute();
 
@@ -27,6 +30,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
         <link rel="stylesheet" href="../css/tableau_bord.css">
+        <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body class="main-content">
         <header>
@@ -38,15 +42,15 @@
             foreach($stmt as $key => $valeur){
             ?>
             <section>
-                <img src="../images/<?php?>offre.webp" alt="offre" title="offre">
-                <div>
-                    <p><strong><?php echo $valeur["titre"] ?></strong></p>
-                    <p><?php echo $valeur["resume"] ?></p>
+                <img src="../images/<?php echo $valeur["src_image"]; ?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>">
+                <div class="infos_offre">
+                    <p class="titre_offre"><strong><?php echo $valeur["titre"]; ?></strong></p>
+                    <p class="description"><?php echo $valeur["resume"]; ?></p>
                     <div class="detail_modif">
-                        <form action="http://localhost:8888/pages/detail-offre.php">
+                        <form action="http://localhost:8888/pages/detail-offre.php?idO=<?php echo $valeur["idO"]; ?>">
                             <input type="submit" value="Voir les détails"/>
                         </form>
-                        <form>
+                        <form action="http://localhost:8888/pages/modifier_offre.php?idO=<?php echo $valeur["idO"]; ?>">
                             <input type="submit" value="Modifier les informations"/>
                         </form>
                     </div>
