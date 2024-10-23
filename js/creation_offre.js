@@ -4,7 +4,7 @@
 
             function checkOnlyOne(checkbox) {
                 // Sélectionner toutes les cases à cocher dans le formulaire
-                var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                var checkboxes = document.querySelectorAll('#une-relief input[type="checkbox"]');
                 
                 // Parcourir chaque case à cocher
                 checkboxes.forEach(function(item) {
