@@ -31,7 +31,7 @@
     <script src="../detail-offre.js" async></script>
 </head>
 
-<body class="main-content">
+<body class="main-content BO">
 
     <section class="section-page part-annonce">
         <header>
@@ -52,7 +52,7 @@
                     echo $stmt2[0]['telephone'];
                 ?>
                 <?php 
-                if ($stmt[0]['duree']) {
+                if (isset($stmt[0]['duree'])) {
                     echo " | Durée : ";
                     echo $stmt[0]['duree'];
                 }
@@ -110,12 +110,15 @@
                 <div class="etoiles">
                     <?php 
                         $i;
-                        for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
+                        if ($stmt[0]['nbravis'] > 0) {
+                            for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
                             echo '<img class="NoSelect" src="../icons/etoile_rouge.png" alt="étoile">';
                         }
                         foreach (range($i, 4) as $j) {
                             echo '<img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="étoile">';
                         }
+                        }
+                        
                     ?>
                 </div>
                 <p class="nb-avis-info-offre">
