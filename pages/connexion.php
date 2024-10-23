@@ -70,7 +70,10 @@ if ($_POST!=[]) {
     
 }
 ?>
-<body class="login-page">
+
+
+
+<body class="login-page"
     
     <div class="container">
         <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>

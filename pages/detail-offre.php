@@ -80,31 +80,19 @@
                 <div class="carousel">
                     <!-- Conteneur interne pour les diapositives -->
                     <div class="carousel-inner">
-                        <!-- Première diapositive -->
-                        <div class="slide">
-                            <!-- Image de la première diapositive -->
-                            <img src="../images/offre.webp" alt="Image 1">
-                        </div>
-                        <!-- Deuxième diapositive -->
-                        <div class="slide">
-                            <!-- Image de la deuxième diapositive -->
-                            <img src="../images/offre.webp" alt="Image 2">
-                        </div>
-                        <!-- Troisième diapositive -->
-                        <div class="slide">
-                            <!-- Image de la troisième diapositive -->
-                            <img src="../images/offre.webp" alt="Image 3">
-                        </div>
-                        <!-- Quatrième diapositive -->
-                        <div class="slide">
-                            <!-- Image de la quatrième diapositive -->
-                            <img src="../images/offre.webp" alt="Image 4">
-                        </div>
-                        <!-- Cinquième diapositive -->
-                        <div class="slide">
-                            <!-- Image de la cinquième diapositive -->
-                            <img src="../images/offre.webp" alt="Image 5">
-                        </div>
+                        <?php 
+                            $stmt4 = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = $idAnnonce;");
+                            $stmt4->execute();
+                            $stmt4 = $stmt4->fetchAll(PDO::FETCH_ASSOC);
+                            $num_image = 1;
+                            foreach ($stmt4 as $photo) { ?>
+                                <div class="slide">
+                                <img src="../images/<?php echo $photo['src_image']; ?>" alt="Image <?php echo $num_image ?> ">
+                                </div>
+                                
+                                <?php $num_image++;
+                            }
+                        ?>
                     </div>
                     <!-- Conteneur pour les boutons de navigation -->
                     <div class="carousel-controls">
@@ -123,20 +111,20 @@
                     <?php 
                         $i;
                         for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
-                            echo '<img src="../images/etoile.png" alt="étoile">';
+                            echo '<img src="../icons/etoile_rouge.png" alt="étoile">';
                         }
                         foreach (range($i, 4) as $j) {
-                            echo '<img src="../images/etoile_vide.png" alt="étoile">';
+                            echo '<img src="../icons/etoile_vide_rouge.png" alt="étoile">';
                         }
                     ?>
                 </div>
                 <p class="nb-avis-info-offre">
                     <?php 
-                    if ($stmt[0]['nbrAvis'] = 0) {
+                    if ($stmt[0]['nbravis'] == 0) {
                         echo "0 Avis";
                     }
                     else {
-                        echo $stmt[0]['nbrAvis'];
+                        echo $stmt[0]['nbravis'];
                         echo "Avis";
                     }
                     ?>
@@ -231,9 +219,19 @@
                         </div>
                     </div>-->
                 </div>
-                <div>
-                    <img class="carte" src="../images/carte.png" alt="carte géolocalisation">
-                </div>
+                <?php 
+                    if ($stmt[0]['carte']) { ?>
+                        <div>
+                            <img class="carte" src="../images/ <?php $stmt[0]['carte'] ?>" alt="carte géolocalisation">
+                        </div>
+                        <?php
+                    }
+                    else { ?>
+                        </div>
+                        <?php
+                    }
+                ?>
+                
         </article>
         <button class="bouton-retour">
             <img src="../icons/arrow-left-o.svg" alt="">
@@ -243,11 +241,11 @@
     <section class="section-page part-avis">
         <header class="header-avis">
             <h3>Avis : <?php 
-                    if ($stmt[0]['nbrAvis'] = 0) {
+                    if ($stmt[0]['nbravis'] == 0) {
                         echo "0 Avis";
                     }
                     else {
-                        echo $stmt[0]['nbrAvis'];
+                        echo $stmt[0]['nbravis'];
                         echo "Avis";
                     }
                     ?></h3>
@@ -255,7 +253,7 @@
                     $stmt3 = $bdh->prepare("SELECT * FROM pact.avis WHERE ido = $idAnnonce;");
                     $stmt3->execute();
                     $stmt3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($stmt[0]['nbrAvis'] as $avis) {
+                    foreach ($stmt[0]['nbravis'] as $avis) {
                         if ($avis['consulte'] == False) {
                             $nonConsultes++;
                         }
