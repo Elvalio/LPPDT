@@ -109,6 +109,10 @@ body {
     height: 36vh;
 }
 
+#top-items.BO {
+    height: 16vh;
+}
+
 #bottom-items{
     height: 26vh;
 }
@@ -128,7 +132,7 @@ body {
 .notification-badge {
     position: absolute;
     right: 5px;
-    background-color: var(--orange);
+    background-color: var(--turquoise-orange);
     color: white;
     border-radius: 50%;
     padding: 2px 6px;
@@ -147,13 +151,17 @@ body {
     text-decoration: none;
 }
 
+.nav-item.BO {
+    display: none;
+}
+
 .nav-item:hover {
     background-color: rgba(117, 117, 117, 0.1);
     
 }
 
 .actuel p{/*conteneur du logo actuel*/
-    color: var(--rouge);
+    color: var(--bleu-rouge);
 }
 
 .actuel .logo-nav{ /*image du logo actuel*/
