@@ -697,7 +697,7 @@ input[type="range"]::-ms-thumb {
         object-fit: cover;
     }
 
-    .card-container {
+    .carte_offre.phone-element {
         display: grid;
         grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image */
         grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière */
@@ -715,7 +715,7 @@ input[type="range"]::-ms-thumb {
         margin: 20px auto; /* Ajustement de la marge externe */
       }
       
-      .card-title {
+      .titreAnnonce {
         grid-area: title;
         font-size: 1.1rem; /* Taille de la police inchangée */
         color: var(--bleu-fonce);
@@ -723,7 +723,7 @@ input[type="range"]::-ms-thumb {
         margin-bottom: 3px; /* Moins d'espace en dessous */
       }
       
-      .card-description {
+      .resumeAnnonce {
         grid-area: description;
         font-size: 0.8rem; /* Taille de la police inchangée */
         color: #333;
@@ -731,7 +731,7 @@ input[type="range"]::-ms-thumb {
         margin-bottom: 3px; /* Moins d'espace en dessous */
       }
       
-      .card-location {
+      .villeAnnonce {
         grid-area: location;
         font-size: 0.7rem; /* Taille de la police inchangée */
         color: #666;
@@ -739,7 +739,7 @@ input[type="range"]::-ms-thumb {
         margin-bottom: 0; /* Pas d'espace en dessous */
       }
       
-      .card-rating {
+      .etoileNote {
         grid-area: rating;
         font-size: 1rem; /* Taille des étoiles inchangée */
         color: var(--bleu);
@@ -749,17 +749,23 @@ input[type="range"]::-ms-thumb {
         margin-bottom: 2px; /* Réduction de l'espace entre les étoiles et l'image */
       }
       
-      .card-thumbnail-container {
+      .conteneurImage {
         grid-area: image;
         display: flex;
         justify-content: center;
         align-items: center;
       }
       
-      .card-thumbnail {
+      .conteneurImage > img {
         width: 100px; /* Taille de l'image inchangée */
         height: auto;
         border-radius: 8px;
+
+
       }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
 
 }

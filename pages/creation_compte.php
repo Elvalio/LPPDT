@@ -50,7 +50,7 @@
             $adresse = implode(" ", $temp);
             $mdp = $_POST["password"];
 
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, $denomination, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
 
         }else if($_POST["type"]=="pro_prive"){
 
@@ -72,10 +72,10 @@
             $bic = $_POST["bic"];
 
             if (!empty($POST["iban"])) {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, $denomination, $iban, $bic, $siren, $raison_sociale, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
             }
             else {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, $denomination, '', '', $siren, $raison_sociale, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1003, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
             }
         }
         $stmt->execute();
