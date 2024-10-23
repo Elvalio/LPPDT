@@ -189,7 +189,7 @@ try{
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
                             <?php } else { ?>
-                                <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
+                                <img src="../images/imagesReferences/placeholder.jpg" alt="Image par défaut">
                             <?php } ?>
                             
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
@@ -205,10 +205,10 @@ try{
                                         for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
                                             <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
                                     <?php }} ?>
+                                    <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
+                                        <p>(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
                                 </div>
 
-                                <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
-                                    <p>(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
                             </div>
                         </a>
                     </div>
@@ -231,7 +231,7 @@ try{
                                         <img src="../icons/etoile_rouge.png" alt="Etoile">
                                     <?php }
                                     for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
-                                        <img src="../icons/etoile_vide_rouge.png" alt="Etoile Vide">
+                                        <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
                                 <?php }} ?>
                             </div>
                         
@@ -241,7 +241,7 @@ try{
 
 
                                 <?php } else { ?>
-                                    <img src="../images/imagesReferences/RomeoEtJuliette.jpg" alt="Image par défaut">
+                                    <img src="../images/imagesReferences/placeholderRomeoEtJuliette.jpg" alt="Image par défaut">
                                 <?php } ?>
                             </div>
                         </div>
