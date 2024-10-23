@@ -281,7 +281,7 @@
 
         <?php
 
-        include("/sql/connect_params.php");
+        include("../sql/connect_params.php");
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
