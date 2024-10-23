@@ -125,19 +125,23 @@ WHERE o.ido = $idAnnonce;
                         if ($stmt[0]['nbravis'] > 0) {
                             for ($i = 0; $i < $stmt[0]['moy_note']; $i++) { 
                                 if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-                        <img class="NoSelect" src="../icons/etoile_rouge.png" alt="Etoile">
-                        <?php } 
-                    } 
-                } else { ?>
-                        <img class="NoSelect" src="../icons/etoile_bleue.png" alt="Etoile">
-                        <?php } 
-                        foreach (range($i, 4) as $j) { 
-                            if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-                        <img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
-                        <?php } else { ?>
-                        <img class="NoSelect" src="../icons/etoile_bleue_vide.png" alt="Etoile Vide">
-                        <?php } }
-                         
+                                    <img class="NoSelect" src="../icons/etoile_rouge.png" alt="Etoile">
+                                <?php } 
+                             
+                                else { ?>
+                                    <img class="NoSelect" src="../icons/etoile_bleue.png" alt="Etoile">
+                                <?php } 
+                            }
+                            foreach (range($i, 4) as $j) { 
+                                if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+                                    <img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
+                                <?php } 
+                                
+                                else { ?>
+                                    <img class="NoSelect" src="../icons/etoile_bleue_vide.png" alt="Etoile Vide">
+                                <?php } 
+                            }
+                        }
                         
                     ?>
                     </div>
