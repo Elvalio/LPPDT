@@ -506,9 +506,9 @@ if (isset($_FILES['image'])) {
                                         </div>
                                     </div>
                                 </div>
-                                <div id="type-option">
+                                <div id="type-option"  <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
                                     <!-- Champ "Type" -->
-                                    <div id="type-container"  <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
+                                    <div id="type-container">
                                         <label>Type d'offre</label>
                                         
                                         <div id="gratuit" hidden<?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
