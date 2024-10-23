@@ -1,27 +1,196 @@
 <?php
-include_once 'nav.php';
+//include_once 'nav.php';
 
 include('../sql/connect_params.php');
 
-try{
-    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
-        $user, $pass);
-        
-        $stmt = $dbh->prepare(
-            "SELECT *
-             FROM pact.offre
-             WHERE ido = 8;"
-        );
-    
-    $stmt->execute();
+function type_offre($str){
+    $res = 1;
 
-    
-    $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if ($str == "standard"){
+        $res = 2;
+    }else if ($str == "premium"){
+        $res = 3;
+    }
+    return $res;
+}
+
+function option_offre($str){
+    $res = '';
+
+    if ($str == "une"){
+        $res = 'À la Une';
+    }else if ($str == "relief"){
+        $res = 'En relief';
+    }
+    return $res;
+}
+
+//PDO BDD
+$idC = $_COOKIE['user'];
+if ($_POST['categorie'] != '') {
+    try{
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
+            $user, $pass);
+
+        var_dump($_POST);
+        $categorie = $_POST['categorie'];
+
+        switch ($categorie) {
+            case 'activite':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $age_min = $_POST['age'];
+                $prestation_incluse = $_POST['pinclus'];
+                $prestation_excluse = $_POST['pexclus'];
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+                $stmt = $dbh->prepare(
+                    "insert into pact.activite 
+                    (titre, resume, \"type\", option, description, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$option', '$description', $prix_min, '$accessibilite', now(), now(), interval '$duree', $age_min, '$prestation_incluse', '$prestation_excluse', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+
+            case 'spectacle':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $capacite = $_POST['capacite'];
+
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+
+                $stmt = $dbh->prepare(
+                    "insert into pact.spectacle 
+                    (titre, resume, \"type\", option, description, prix_min, accessibilite, date_creation, date_publication, duree, capacite, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$option', '$description', $prix_min, '$accessibilite', now(), now(), interval '$duree', $capacite, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+                
+            case 'visite':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $langues = $_POST['langue'];
+
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+                
+                $stmt = $dbh->prepare(
+                    "insert into pact.visite 
+                    (titre, resume, \"type\", option, description, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$option', '$description', $prix_min, '$accessibilite', now(), now(), interval '$duree', '$langues', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+
+            case 'restauration':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+
+                $src_image = 'todo'; // need image source
+                $gamme_prix = $_POST['categorie-prix'];
+                $petit_dejeuner = ($_POST['petit-dejeuner'] = 'petit-dejeuner') ? 'true' : 'false';
+                $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
+                $dejeuner = ($_POST['dejeuner'] == 'dejeuner') ? 'true' : 'false';
+                $diner = ($_POST['diner'] == 'diner') ? 'true' : 'false';
+                $boissons = ($_POST['boissons'] == 'boissons') ? 'true' : 'false';
+
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+                
+                $stmt = $dbh->prepare(
+                    "insert into pact.restauration 
+                    (titre, resume, \"type\", option, description, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, ville, petit_dejeuner, brunch, dejeuner, diner, boissons, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$option', '$description', $prix_min, '$accessibilite', now(), now(), '$src_image', '$gamme_prix', '$ville', $petit_dejeuner, $brunch, $dejeuner, $diner, $boissons, $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+
+            case 'parcAttraction':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $option = option_offre($_POST['option']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $src_image = 'todo'; // need image source
+                $nbr_attractions = $_POST['nbattraction'];
+                $age_min = $_POST['age'];
+
+                $ville = $_POST['ville'];
+
+                $temp = explode(' ',trim($_POST["adresse"]));
+                $numero_voie = $temp[0];
+                array_shift($temp);
+                $voie = implode(' ', $temp);
+
+                $code_postal= $_POST['codeP'];
+                
+                $stmt = $dbh->prepare(
+                    "insert into pact.parc_d_attraction 
+                    (titre, resume, \"type\", option, description, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$option', '$description', $prix_min, '$accessibilite', now(), now(), '$src_image', $nbr_attractions, $age_min, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+
+            default:
+                # code...
+                break;
+        } 
+        $stmt->execute();
 
 
-} catch (PDOException $e) {
-    print "Erreur !: " . $e->getMessage() . "<br/>";
-    die();
+    } catch (PDOException $e) {
+        echo "<pre>";
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        echo "</pre>";
+        die();
+    }
 }
 
 
@@ -85,7 +254,7 @@ if (isset($_FILES['image'])) {
                                 <!-- Champ "Catégorie" -->
                                 <div class="container categorie-container">
                                     <label for="categorie-offre">Catégorie de l'offre*</label>
-                                    <select id="categorie-offre" name="categorie" required class="FS">
+                                    <select id="categorie-offre" name="categorie" class="FS" required>
                                         <option value="" disabled selected hidden id="first-option">Catégorie de l'offre</option>
                                         <option value="activite">Activité</option>
                                         <option value="visite">Visite</option>
@@ -266,7 +435,7 @@ if (isset($_FILES['image'])) {
                                     </div>
                                     <div class="container categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>
-                                        <select id="categorie-prix" name="categorie" required class="FS">
+                                        <select id="categorie-prix" name="categorie-prix" required class="FS">
                                             <option value="" disabled selected hidden id="first-option">Gamme de prix</option>
                                             <option value="€">€</option>
                                             <option value="€€">€€</option>
@@ -277,17 +446,17 @@ if (isset($_FILES['image'])) {
                                 <div class="container" id="pinclus-container">
                                     <label for="pinclus">Prestation incluse</label>
                                     <p id="pinclus-error-message" class="error-message"></p>
-                                    <textarea id="pinclus" class="FS" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.." required></textarea>
+                                    <textarea id="pinclus" class="FS" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."></textarea>
                                 </div>
                                 <div class="container" id="pexclus-container">
                                     <label for="pexclus">Prestation excluse</label>
                                     <p id="pexclus-error-message" class="error-message"></p>
-                                    <textarea id="pexclus" class="FS" name="pexclus" placeholder="Casque,.." required></textarea>
+                                    <textarea id="pexclus" class="FS" name="pexclus" placeholder="Casque,.."></textarea>
                                 </div>
                                 <div class="container" id="langue-container">
                                     <label for="langue">Langue</label>
                                     <p id="langue-error-message" class="error-message"></p>
-                                    <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required />
+                                    <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir"/>
                                 </div>
 
                                 <div id="repas-map">
@@ -295,23 +464,23 @@ if (isset($_FILES['image'])) {
                                         <label>Repas servis</label>
                                         <div id="repas-items-container">
                                             <div id="petit-dejeuner">
-                                                <input type="checkbox" id="petit-dejeuner" name="option" value="petit-dejeuner"/>
+                                                <input type="checkbox" id="petit-dejeuner" name="petit-dejeuner" value="petit-dejeuner"/>
                                                 <label for="petit-dejeuner">Petit-déjeuner</label>
                                             </div>
                                             <div id="brunch">
-                                                <input type="checkbox" id="brunch" name="option" value="brunch"/>
+                                                <input type="checkbox" id="brunch" name="brunch" value="brunch"/>
                                                 <label for="brunch">Brunch</label>
                                             </div>
                                             <div id="dejeuner">
-                                                <input type="checkbox" id="dejeuner" name="option" value="dejeuner"/>
+                                                <input type="checkbox" id="dejeuner" name="dejeuner" value="dejeuner"/>
                                                 <label for="dejeuner">Déjeuner</label>
                                             </div>
                                             <div id="dinner">
-                                                <input type="checkbox" id="dinner" name="option" value="dinner"/>
-                                                <label for="dinner">Dîner</label>
+                                                <input type="checkbox" id="diner" name="diner" value="diner"/>
+                                                <label for="diner">Dîner</label>
                                             </div>
                                             <div id="boissons">
-                                                <input type="checkbox" id="boissons" name="option" value="boissons"/>
+                                                <input type="checkbox" id="boissons" name="boissons" value="boissons"/>
                                                 <label for="boissons">Boissons</label>
                                             </div>
                                         </div>
@@ -357,11 +526,11 @@ if (isset($_FILES['image'])) {
                                         <label>Options</label>
                                         <div id="une-relief">
                                             <div id="une">
-                                                <input type="checkbox" id="une" name="option" value="une" onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="une" name="une" value="À la Une" onclick="checkOnlyOne(this)"/>
                                                 <label for="une">À la Une </label>
                                             </div>
                                             <div id="relief">
-                                                <input type="checkbox" id="relief" name="option" value="relief" onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="relief" name="relief" value="En relief" onclick="checkOnlyOne(this)"/>
                                                 <label for="relief">En relief</label>
                                             </div>
                                         </div>

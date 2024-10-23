@@ -5,13 +5,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="../css/styleNavBar.css">
     </head>
-    <?php 
-    if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-        <body class="BO"> <?php   
-    } else { ?>
-        <body class="FO"> <?php
-    } ?>
-        <div class="TS-bold" id="sidebar">
+    <body>
+    <?php
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <div class="TS-bold BO" id="sidebar"> <?php
+        } else { ?>
+            <div class="TS-bold FO" id="sidebar"> <?php
+            
+        } ?>
             <nav>
                 
                 <a href="accueil.php" id="pact-item">

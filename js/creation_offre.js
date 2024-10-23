@@ -150,8 +150,9 @@
                             tagsItemsContainer.style.height = '77.3px';
                             tagContainer.style.height = '107.3px';
                             categoriePrixContainer.style.display = 'flex';
+                            document.getElementById('categorie-prix').required = true;
                             dureeContainer.style.display = 'none';
-                            document.getElementById('duree').required = true;
+                            document.getElementById('duree').required = false;
                             nbattractionContainer.style.display = 'none';
                             document.getElementById('nbattraction').required = false;
                             ageContainer.style.display = 'none';
@@ -174,6 +175,7 @@
                             tagsItemsContainer.style.height = '116px';
                             tagContainer.style.height = '146px';
                             categoriePrixContainer.style.display = 'none';
+                            document.getElementById('categorie-prix').required = false;
                             repasContainer.style.display = 'none';
                             
                         }

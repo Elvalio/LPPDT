@@ -1,5 +1,6 @@
 <?php 
     include_once 'nav.php'; 
+    error_reporting(0);
 
     include('../sql/connect_params.php');
     $idAnnonce = $_GET['value'];
@@ -7,7 +8,10 @@
         $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", 
         $user, $pass);
 
-        $stmt = $bdh->prepare("SELECT * FROM pact.offre WHERE ido = $idAnnonce;");
+        $stmt = $bdh->prepare("SELECT * 
+FROM pact.offre o
+WHERE o.ido = $idAnnonce;
+");
         $stmt->execute();
 
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -15,7 +19,7 @@
         echo "Erreur : " . $e->getMessage();
         die();
     }    
-
+    
     
 ?>
 
@@ -32,7 +36,6 @@
 </head>
 
 <body class="main-content BO">
-
     <section class="section-page part-annonce">
         <header>
             <h1 class="titre-rouge">
@@ -58,7 +61,7 @@
                 }
                 ?>
                 <?php 
-                if ($stmt[0]['age']) {
+                if ($stmt[0]['age_min']) {
                     echo "| Âge :";
                     echo $stmt[0]['age_min'];
                     echo " ans";
