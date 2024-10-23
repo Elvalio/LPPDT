@@ -33,4 +33,8 @@ function appuieToggle(event) {
 // Ajoute l'événement au clic sur le toggle
 toggles.forEach(toggle => {
     toggle.addEventListener("click", appuieToggle);
+    let idO = this.getAttribute('data-id'); // Récupère l'id de l'offre
+            let etat = this.checked ? 'en_ligne' : 'hors_ligne'; // Détermine l'état
+            // Redirige vers la même page avec les paramètres idO et etat
+            window.location.href = `?idO=${idO}&etat=${etat}`;
 });

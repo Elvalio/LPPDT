@@ -51,10 +51,10 @@
                     </div>
                     <p class="description"><?php echo $valeur["resume"]; ?></p>
                     <div class="detail_modif">
-                        <form action="http://localhost:8888/pages/detail-offre.php?idO=<?php echo $valeur["idO"]; ?>">
+                        <form action="detail-offre.php?idO=<?php echo $valeur["idO"]; ?>">
                             <input type="submit" value="Voir les détails"/>
                         </form>
-                        <form action="http://localhost:8888/pages/modifier_offre.php?idO=<?php echo $valeur["idO"]; ?>">
+                        <form action="modifier_offre.php?idO=<?php echo $valeur["idO"]; ?>">
                             <input type="submit" value="Modifier les informations"/>
                         </form>
                     </div>
