@@ -52,12 +52,8 @@
                         </div>
                         <p class="description"><?php echo $valeur["resume"]; ?></p>
                         <div class="detail_modif">
-                            <form action="detail-offre.php?idO=<?php echo $valeur["ido"]; ?>">
-                                <input type="submit" value="Voir les détails"/>
-                            </form>
-                            <form action="modifier_offre.php?idO=<?php echo $valeur["ido"]; ?>">
-                                <input type="submit" value="Modifier les informations"/>
-                            </form>
+                            <a href="detail-offre.php?value=<?php echo $valeur["ido"];?>">Voir les détails</a>
+                            <a href="modifier_offre.php?value=<?php echo $valeur["ido"];?>">Modifier les informations</a>
                         </div>
                         <div class="hors_ligne">
                             <form method="POST" action="tableau_de_bord.php" onsubmit="setCheckboxValue(this);">
@@ -84,13 +80,8 @@
                 include_once'footer.php';
 
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    print_r($_POST);
                     
                     if (isset($_POST['offre_id']) && isset($_POST['status'])) {
-                        
-                        
-                        echo "<p>Chef, c'est bon, pourquoi tu pleures ?</p>";
-                
                         
                         try{
                         $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
@@ -100,14 +91,9 @@
                         $status = $_POST['status'] === 'checked' ? 'false' : 'true';
                 
                         
-                        echo "<p>Offre ID: $offre_id</p>";
-                        echo "<p>Status: $status</p>";
-                
-                        
                         $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
                         $stmt->execute();
 
-                        print "insertion réussie";
                         
                         } catch (PDOException $e) {
                             print "Erreur !: " . $e->getMessage() . "<br/>";

@@ -76,3 +76,21 @@
         });
     });
 })();
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Code pour changer les images en fonction de la taille de l'écran
+    function updateImageSources() {
+        const etoiles = document.querySelectorAll('img[alt="Etoile"], img[alt="Etoile Vide"]');
+        const body = document.querySelector('body');
+        console.log(etoiles);
+        etoiles.forEach(etoile => {
+            if (body.classList.contains('BO')) {
+                etoile.src = etoile.src.replace("etoile_bleue", "etoile_rouge");
+            } else {
+                etoile.src = etoile.src.replace("etoile_rouge", "etoile_bleue");
+            }
+        });
+    }
+
+    updateImageSources();
+});

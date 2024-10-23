@@ -69,18 +69,45 @@
                                         <img src="../icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
                                         <p>Paramètres</p>
                                     </a>
-                                    <a href="#" class="nav-item" data-icon="deconnection">
-                                        <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo déconnecter" class="logo-nav">
-                                        <p>Se déconnecter</p>
-                                    </a>
+                                    <?php if (isset($_COOKIE['type_compte'])) { ?>
+                                        <script>
+                                            function deconnexion() {
+                                                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                                                document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                                                location.assign("accueil.php");
+                                            }
+                                        </script>
+                                        <a href="#" class="nav-item" data-icon="deconnection" onclick="deconnexion();">
+
+                                            <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo déconnecter" class="logo-nav">
+                                            <p>Se déconnecter</p>
+                                        </a>
+                                    <?php } else { ?>
+                                        <a href="creation_compte_formulaire.php" class="nav-item" data-icon="connection">
+                                            <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo Inscription" class="logo-nav">
+                                            <p>S'inscrire</p>
+                                        </a>
+                                    <?php } ?>
                         </div>
-                        <a href="en-construction.php" class="nav-item">
-                            <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
-                            <div id="infoProfile">
-                                <p id="prenom" class="TS">Michael Smith</p>
-                                <p id="email" class="TS">michaelsmith12@gmail.com</p>
-                            </div>
-                        </a>
+
+                        <?php if (isset($_COOKIE['type_compte'])) {?>
+                            
+                            <a href="en-construction.php" class="nav-item">
+                                <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
+                                <div id="infoProfile">
+                                    <p id="prenom" class="TS">Michael Smith</p>
+                                    <p id="email" class="TS">michaelsmith12@gmail.com</p>
+                                </div>
+                            </a>
+                        <?php } else { ?>
+                            <a href="connexion.php" class="nav-item">
+                                <img src="../icons/utilisateur.png" alt="Logo connexion" class="logo-nav" id="img-profile">
+                                <div id="infoProfile">
+                                    <p id="connexion" class="TS">Se connecter</p>
+                                </div>
+                            </a>
+                        <?php } ?>
+
                     </div>
                 </div>
             </nav>

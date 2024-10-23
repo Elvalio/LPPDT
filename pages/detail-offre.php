@@ -34,8 +34,12 @@ WHERE o.ido = $idAnnonce;
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../detail-offre.js" async></script>
 </head>
-
-<body class="main-content BO">
+<?php 
+    if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+        <body class="main-content BO"> <?php   
+    } else { ?>
+        <body class="main-content FO"> <?php
+    } ?>
     <section class="section-page part-annonce">
         <header>
             <h1 class="titre-rouge">
@@ -114,13 +118,13 @@ WHERE o.ido = $idAnnonce;
                     <?php 
                         $i;
                         if ($stmt[0]['nbravis'] > 0) {
-                            for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
-                            echo '<img class="NoSelect" src="../icons/etoile_rouge.png" alt="étoile">';
-                        }
-                        foreach (range($i, 4) as $j) {
-                            echo '<img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="étoile">';
-                        }
-                        }
+                            for ($i = 0; $i < $stmt[0]['moy_note']; $i++) { ?>
+                                <img class="NoSelect" src="../icons/etoile_rouge.png" alt="Etoile">
+                        <?php }
+                        foreach (range($i, 4) as $j) { ?>
+                            <img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
+                        <?php }
+                        } 
                         
                     ?>
                 </div>

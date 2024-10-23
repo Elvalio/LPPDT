@@ -87,11 +87,14 @@ if ($_POST!=[]) {
 }
 ?>
 
-    <?php 
-    include('../pages/header.php');
-    ?>
+<div class="phone-element">
+        <?php include_once 'header.php' ?>
+    </div>
+    
 
 <body class="login-page"
+
+
     
     <div class="container">
         <button class="back-button"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>

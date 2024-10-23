@@ -83,6 +83,10 @@ body {
      height: 35px;
 }
 
+#sidebar #img-profile{
+    height: 35px;
+}
+
 #sidebar .nav {
     display: flex;
     flex-direction: column;

@@ -660,11 +660,7 @@ input[type="range"]::-ms-thumb {
     .nav_space {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
-
-    .mobile-footer {
-        width: 100%;
-    }
-
+    
     .filtrer-trier {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
@@ -700,6 +696,8 @@ input[type="range"]::-ms-thumb {
         justify-content: space-between;
         align-items: center;
         gap: 5px; /* Réduction de l'espace entre les éléments */
+        max-height: 150px; /* Ajuste selon la taille que tu souhaites */
+        overflow: hidden; /* Cache le texte qui dépasse */
     }
 
     .noteAnnonce > img {
@@ -714,7 +712,7 @@ input[type="range"]::-ms-thumb {
         border-radius: 8px;
         padding: 25px; /* Augmentation du padding pour agrandir l'espace entre le contenu et la bordure */
         max-width: 550px; /* Case légèrement plus grande */
-        width: 70%; /* Légère augmentation de la largeur pour équilibrer */
+        width: 80%; /* Légère augmentation de la largeur pour équilibrer */
         margin: 20px auto; /* Ajustement de la marge externe */
       }
       
@@ -730,6 +728,11 @@ input[type="range"]::-ms-thumb {
         color: #333;
         font-family: 'TripSansRegular';
         margin-bottom: 3px; /* Moins d'espace en dessous */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Ajoute "..." à la fin du texte qui dépasse */
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limite le texte à 3 lignes */
+        -webkit-box-orient: vertical;
       }
       
       .villeAnnonce {

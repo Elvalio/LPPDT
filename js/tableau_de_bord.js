@@ -24,6 +24,7 @@ function appuieToggle(event) {
             form.submit();  // Soumettre le formulaire si confirmé
         } else {
             toggle.checked = false;
+            section.style.opacity = "1";
         }
     } else {
         let confirmation = confirm("Êtes-vous sûr de vouloir passer cette offre en ligne ?");
@@ -33,6 +34,7 @@ function appuieToggle(event) {
             form.submit();  // Soumettre le formulaire si confirmé
         } else {
             toggle.checked = true;
+            section.style.opacity = "0.5";
         }
     }
 }
