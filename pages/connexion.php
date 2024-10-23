@@ -29,12 +29,13 @@ if ($_POST!=[]) {
         $stmt->execute();
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        
+        $domain = ($_SERVER['HTTP_HOST'] != 'localhost') ? $_SERVER['HTTP_HOST'] : false;
+
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600);
-                setcookie("type_compte", 'membre', time() + 3600);
+                setcookie("user", $idC, time() + 3600, '/', $domain, false);
+                setcookie("type_compte", 'membre', time() + 3600, '/', $domain, false);
                 header('Location:accueil.php');
                 $trouve = true;
             }
@@ -54,7 +55,7 @@ if ($_POST!=[]) {
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600);
+                setcookie("user", $idC, time() + 3600, '/', $domain, false);
 
                 $stmt = $dbh->prepare(
                     "select * from pact.professionnel where idC in (select idC from pact.secteur_prive where idC = $idC);"
@@ -64,9 +65,9 @@ if ($_POST!=[]) {
                 $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if ($stmt!=[]) {
-                    setcookie("type_compte", 'pro_prive', time() + 3600);
+                    setcookie("type_compte", 'pro_prive', time() + 3600, '/', $domain, false);
                 }else{
-                    setcookie("type_compte", 'pro_public', time() + 3600);
+                    setcookie("type_compte", 'pro_public', time() + 3600, '/', $domain, false);
                 }
                 header('Location:tableau_de_bord.php');
                 
