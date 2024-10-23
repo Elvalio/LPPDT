@@ -1,27 +1,27 @@
 h1{
-    font-family: 'TripSansBold';
-    src: url('../polices/TripSans-Bold.ttf')
+    font-family: 'TripSansRegular';
+    src: url('../polices/TripSans-Regular.ttf')
     format('truetype');
     color: var(--rouge-fonce);
     margin-top: 10px;
-    font-family: 'TripSansBold';
+    font-family: 'TripSansREgular';
 }
 
 h2{
     color: var(--gris-fonce);
     margin-left: 1.5em;
-    font-family: 'TripSansBold';
+    font-family: 'TripSansRegular';
 }
 
 .description{
-    font-family: 'FiraSansBold';
+    font-family: 'TripSansRegular';
     font-size: 16px;
     margin: 5px;
     color: var(--gris-fonce);
 }
 
 .titre_offre{
-    font-family: 'FiraSansBold';
+    font-family: 'TripSansRegular';
     color: var(--noir);
     font-size: 20px;
 }

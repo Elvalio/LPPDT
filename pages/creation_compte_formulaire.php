@@ -284,7 +284,7 @@
 
             $nom = $_POST["nom"];
             $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination-sociale-pro"];
+            $denomination = $_POST["denomination"];
             $email = $_POST["email"];
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
@@ -301,8 +301,8 @@
 
             $nom = $_POST["nom"];
             $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination-sociale-pro"];
-            $raison_sociale = $_POST["raison-sociale-pro"];
+            $denomination = $_POST["denomination"];
+            $raison_sociale = $_POST["raison"];
             $email = $_POST["email"];
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
@@ -311,7 +311,7 @@
             $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
             array_shift($temp);                         //On supprime le numéro de la voie
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-            $siren = $POST["num_SIREN"];
+            $siren = $_POST["num_SIREN"];
             $mdp = $_POST["password"];
             $iban = $_POST["iban"];
             $bic = $_POST["bic"];

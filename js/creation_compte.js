@@ -86,16 +86,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Optionnel : Activer le premier lien par défaut
     activateLink(proPublicLink); // Exemple pour activer "Inscription Professionnelle - Public" par défaut
-
-
-    const form = document.querySelector('form');
-    const password = document.getElementById('password-membre');
-    const confirmPassword = document.getElementById('confirm_password-membre');
-
-    form.addEventListener('submit', function(event) {
-        if (password-membre.value !== confirmPassword-membre.value) {
-            event.preventDefault();
-            alert('Les mots de passe ne correspondent pas. Veuillez les vérifier.');
-        }
-    });
 });
