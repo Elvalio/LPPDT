@@ -651,7 +651,7 @@ input[type="range"]::-ms-thumb {
 }
 
 /* =========================================================== */
-/*           STYLES POUR CHACUNE DES OFFRES (MOBILE)           */
+/*           STYLES POUR LA PAGE ACCUEIL MOBILE                */
 /* =========================================================== */
 
 @media screen and (max-width: 800px) {
@@ -662,11 +662,7 @@ input[type="range"]::-ms-thumb {
     }
 
     .mobile-footer {
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 5;
-        position: fixed;
+        width: 100%;
     }
 
     .filtrer-trier {

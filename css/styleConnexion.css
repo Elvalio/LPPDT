@@ -164,15 +164,6 @@
     display: none;
   }
 
-  .navigationMobile {
-    position: sticky; /* This makes the navbar stick to its position */
-    bottom: 0;        /* Attach it to the bottom */
-    left: 0;
-    right: 0;
-    z-index: 5;       /* Ensure it's above other elements */
-    background-color: white; /* Add background color for clarity */
-}
-
   body {
     width: 100%;
   }

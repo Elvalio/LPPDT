@@ -261,9 +261,9 @@ try{
                 <?php include_once'footer.php'; ?>
             </footer>
         </div>
-        <div class="phone-element">
+
         <?php include_once'footerNav.php' ?>
-        </div>
+
             
     </body>
 </html>
