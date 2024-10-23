@@ -12,6 +12,8 @@
 error_reporting(0);
 include('../sql/connect_params.php');
 
+print_r($_POST);
+
 if ($_POST!=[]) {
     $identifiant = $_POST['identifiant'];
     $message_erreur = '';
