@@ -43,7 +43,7 @@ if ($_POST!=[]) {
         $identifiant = (int)$identifiant;
 
         $stmt = $dbh->prepare(
-            "SELECT codePro, mdp FROM pact.professionnel where codePro = $identifiant;"
+            "SELECT idC, codePro, mdp FROM pact.professionnel where codePro = $identifiant;"
         );
 
         $stmt->execute();
