@@ -245,7 +245,7 @@ WHERE o.ido = $idAnnonce;
                 ?>
                 
         </article>
-        <button class="bouton-retour NoSelect">
+        <button href="./accueil.php" class="bouton-retour NoSelect">
             <img class="NoSelect" src="../icons/arrow-left-o.svg" alt="">
             Retour
         </button>
@@ -325,9 +325,7 @@ WHERE o.ido = $idAnnonce;
             ?>
         </article>
     </section>
-    <?php include_once 'footer.php'; ?>
 </body>
-
 </html>
 
 <?php 
