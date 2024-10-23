@@ -142,7 +142,7 @@ main {
 }
 
 main.active_filter {
-    transform: translateY(150px);
+    transform: translateY(170px);
     transition: all 0.3s ease-in-out;
     
 }
@@ -718,3 +718,4 @@ input[type="range"]::-ms-thumb {
         width: 70%; /* Légère augmentation de la largeur pour équilibrer */
         margin: 20px auto; /* Ajustement de la marge externe */
     }
+}
