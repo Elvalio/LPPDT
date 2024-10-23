@@ -54,7 +54,6 @@ body {
   flex-wrap: nowrap;
   /* Empêche les éléments de se placer sur plusieurs lignes */
   width: 85%;
-  min-width: 375px;
   /* Largeur égale à 80% de la largeur de la vue */
   margin-top: 10px;
 }
@@ -299,12 +298,18 @@ body {
   background-color: var(--turquoise-orange);
   font-size: 16px;
   width: fit-content;
+  justify-content: center;
 }
 
 .bouton-retour img{
   height: 18px;
   margin-right: 10px; /* Espace entre l'image et le texte */
   width: auto; /* Largeur automatique pour garder le ratio */
+}
+
+.bouton-retour a {
+  text-decoration: none;
+  color: black;
 }
 
 .header-avis {
