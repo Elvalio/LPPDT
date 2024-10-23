@@ -4,7 +4,8 @@ include_once 'nav.php';
 include('../sql/connect_params.php');
 
 //print_r($_POST['idO']);
-
+//TODO prestations
+$idO = 5;
 try{
     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
         $user, $pass);
@@ -12,14 +13,63 @@ try{
         $stmt = $dbh->prepare(
             "SELECT *
              FROM pact.offre
-             WHERE ido = 4;"
+             WHERE ido = $idO;"
         );
+
+        $stmt->execute();
+    
+    
+        $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $categorie = trim($resultat[0]["categorie"]);
+
+        switch ($categorie) {
+            case 'Activite':
+                $stmt = $dbh->prepare(
+                    "SELECT *
+                     FROM pact.activite
+                     WHERE ido = $idO;"
+                );
+                break;
+            case 'Visite':
+                $stmt = $dbh->prepare(
+                    "SELECT *
+                     FROM pact.visite
+                     WHERE ido = $idO;"
+                );
+                break;
+            case 'Spectacle':
+                $stmt = $dbh->prepare(
+                    "SELECT *
+                     FROM pact.spectacle
+                     WHERE ido = $idO;"
+                );
+                break;
+            case "Parc d'attraction":
+                $stmt = $dbh->prepare(
+                    "SELECT *
+                     FROM pact.parc_d_attraction
+                     WHERE ido = $idO;"
+                );
+                break;
+            case "Restauration":
+                $stmt = $dbh->prepare(
+                    "SELECT *
+                     FROM pact.restauration
+                     WHERE ido = $idO;"
+                );
+                break;
+        }
+
+        $stmt->execute();
+        $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     $stmt->execute();
     
     
     $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
     $categorie = trim($resultat[0]["categorie"]);
+
+    print_r($resultat[0]);
     
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -228,23 +278,23 @@ try{
                                 <div id="duree-prix-age">
                                     <div class="container" id="duree-container">
                                         <label for="duree">Durée</label>
-                                        <input type="text" id="duree" class="FS" name="duree" placeholder="80" required />
+                                        <input type="text" id="duree" class="FS" name="duree" placeholder="80" required value="<?php echo $resultat[0]["duree"] ?>"/>
                                     </div>
                                     <div class="container" id="nbattraction-container">
                                         <label for="nbattraction">Nombre d'attractions</label>
-                                        <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="25" required />
+                                        <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="25" required value="<?php echo $resultat[0]["nbr_attractions"] ?>" />
                                     </div>
                                     <div class="container" id="prix-container">
                                         <label for="prix">Prix minimum (€)</label>
-                                        <input type="text" id="prix" class="FS" name="prix" placeholder="25" required />
+                                        <input type="text" id="prix" class="FS" name="prix" placeholder="25" required value="<?php echo $resultat[0]["prix_min"] ?>"/>
                                     </div>
                                     <div class="container" id="age-container">
                                         <label for="age">Âge minimum</label>
-                                        <input type="text" id="age" class="FS" name="age" placeholder="8" required />
+                                        <input type="text" id="age" class="FS" name="age" placeholder="8" required value="<?php echo $resultat[0]["age_min"] ?>"/>
                                     </div>
                                     <div class="container" id="capacite-container">
                                         <label for="capacite">Capacité</label>
-                                        <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required />
+                                        <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required value="<?php echo $resultat[0]["capacite"] ?>"/>
                                     </div>
                                     <div class="container categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>
@@ -258,7 +308,7 @@ try{
                                 </div>
                                 <div class="container" id="langue-container">
                                     <label for="langue">Langue</label>
-                                    <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required />
+                                    <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required value="<?php echo $resultat[0]["langues"] ?>"/>
                                 </div>
 
                                 <div id="repas-map">
@@ -328,11 +378,11 @@ try{
                                         <label>Options</label>
                                         <div id="une-relief">
                                             <div id="une">
-                                                <input type="checkbox" id="une" name="option" value="une" onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="une" name="option" value="une" onclick="checkOnlyOne(this)" <?php echo ($resultat[0]["option"] == 'À la Une') ? "checked" : ""?>/>
                                                 <label for="une">À la Une </label>
                                             </div>
                                             <div id="relief">
-                                                <input type="checkbox" id="relief" name="option" value="relief" onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="relief" name="option" value="relief" onclick="checkOnlyOne(this)" <?php echo ($resultat[0]["option"] == 'En relief') ? "checked" : ""?>/>
                                                 <label for="relief">En relief</label>
                                             </div>
                                         </div>
