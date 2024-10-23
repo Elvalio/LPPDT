@@ -314,6 +314,7 @@
             array_shift($temp);                         //On supprime le numéro de la voie
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
             $siren = $_POST["num_SIREN"];
+            $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
             $mdp = $_POST["password"];
             $iban = $_POST["iban"];
             $bic = $_POST["bic"];
