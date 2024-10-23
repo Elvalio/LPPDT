@@ -7,18 +7,14 @@
         $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", 
         $user, $pass);
 
-        $stmt = $bdh->prepare("SELECT * FROM pact.offre
-        INNER JOIN pact.spectacle ON ido = ido
-        INNER JOIN pact.visite ON ido = ido
-        INNER JOIN pact.activite a ON ido = ido
-        INNER JOIN pact.restauration r ON ido = ido
-        INNER JOIN pact.parc_d_attraction p ON ido = ido
-        WHERE ido = $idAnnonce;");
+        $stmt = $bdh->prepare("SELECT * 
+FROM pact.offre o
+WHERE o.ido = $idAnnonce;
+");
         $stmt->execute();
 
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-        echo "Erreur : " . $e->getMessage();
         die();
     }    
 
@@ -63,11 +59,11 @@
                 }
                 ?>
                 <?php 
-
+                if ($stmt[0]['age_min']) {
                     echo "| Âge :";
                     echo $stmt[0]['age_min'];
                     echo " ans";
-
+                }
                 ?>
                 <?php 
                 if ($stmt[0]['prix_min']) {
