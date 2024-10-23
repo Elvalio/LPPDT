@@ -31,7 +31,7 @@
             $mdp = $_POST["password"];
             print_r($code_postal);
 
-            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($pseudo, $nom, $prenom, $email, $telephone, $mdp, $ville, $num_adresse, $adresse, $code_postal, '')");
+            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
 
 
 
