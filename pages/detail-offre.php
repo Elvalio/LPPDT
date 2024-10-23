@@ -2,18 +2,21 @@
     include_once 'nav.php'; 
 
     include('../sql/connect_params.php');
+    $idAnnonce = 7;
     try {
         $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", 
         $user, $pass);
 
-        $stmt = $bdh->prepare("SELECT * FROM pact.offre");
+        $stmt = $bdh->prepare("SELECT * FROM pact.offre WHERE ido = $idAnnonce;");
         $stmt->execute();
 
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         echo "Erreur : " . $e->getMessage();
         die();
-    }
+    }    
+
+    
 ?>
 
 <!DOCTYPE html>
@@ -36,24 +39,42 @@
                 <?php 
                 echo $stmt[0]['titre'];
                 ?>
-                </h1>
+            </h1>
             <h2 class="sous-titre">
                 <?php 
                 echo $stmt[0]['ville'];
-                ?> | 
+                ?> |
                 <?php 
-                var_dump($stmt[0]['idC']);
-                if ($stmt[0]['idC'] == 10) {
-                    $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel WHERE idC = :idC");
-                    $stmt2->bindParam(':idC', $stmt[0]['idC'], PDO::PARAM_INT);
+                    $idC = (int)$stmt[0]['idc'];
+                    $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON p.idC = o.idC WHERE o.idC = $idC;");
                     $stmt2->execute();
-                    $result = $stmt2->fetch(PDO::FETCH_ASSOC);
-                    echo $result['telephone'];
-                } else {
-                    echo "ID not found";
+                    $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                    echo $stmt2[0]['telephone'];
+                ?> 
+                <?php 
+                if ($stmt[0]['duree']) {
+                    echo " | Durée : ";
+                    echo $stmt[0]['duree'];
                 }
-                ?> | Durée : 2h - 3h | Âge : +8
-                ans</h2>
+                ?>
+                <?php 
+                if ($stmt[0]['age']) {
+                    echo "| Âge :";
+                    echo $stmt[0]['age_min'];
+                    echo " ans";
+                }
+                ?>
+                <?php 
+                if ($stmt[0]['prix_min']) {
+                    echo "| Prix : ";
+                    echo $stmt[0]['prix_min'];
+                    echo " €";
+                }
+                ?>
+                <?php 
+                echo $stmt[0]['gamme_prix']
+                ?>
+            </h2>
             <div class="container">
                 <!-- Élément carrousel -->
                 <div class="carousel">
@@ -99,38 +120,32 @@
             </div>
             <div class="infos-offre">
                 <div class="etoiles">
-                    <img src="../images/etoile.png" alt="étoile">
-                    <img src="../images/etoile.png" alt="étoile">
-                    <img src="../images/etoile.png" alt="étoile">
-                    <img src="../images/etoile.png" alt="étoile">
+                    <?php 
+                        for ($i = 0; $i < $stmt[0]['moy_note']; $i++) {
+                            echo '<img src="../images/etoile.png" alt="étoile">';
+                        }
+                        /* A NE PAS OUBLIER */
+                    ?> 
+                    
                     <img src="../images/etoile_vide.png" alt="étoile">
                 </div>
-                <p>
-                    4 Avis |
+                <p class="nb-avis-info-offre">
+                    <?php echo $stmt[0]['nbrAvis'] ?> Avis |
                 </p>
                 <img src="../images/Wheelchair.png" alt="fauteil roulant">
                 <p>
-                    Non accessible
+                    <?php 
+                        echo $stmt[0]['accessibilite'];
+                    ?>
                 </p>
             </div>
         </header>
         <article class="description-offre">
             <h3>Description :</h3>
             <p>
-                Au départ de l’Église collégiale Saint Pierre, au cœur du bourg de Tonquédec, vous profiterez d’abord
-                des charmes de la campagne trégorroise en circulant sur de petites routes secondaires et traverserez
-                notamment le bourg de Pluzunet.
-            </p>
-            <br>
-            <p>
-                Le parcours vous entraîne ensuite sur les hauteurs de la vallée du Léguer qui se dissimule dans les
-                bois. Vous découvrirez la charmante chapelle de Kerrivoalan avant que l’imposant château médiéval de
-                Tonquédec ne se dévoile à vous, surplombant la vallée du Léguer, au cœur d’une forêt merveilleuse.
-            </p>
-            <br>
-            <p>
-                Le parcours est balisé dans le sens horaire par de gros panneaux vélos verts et blancs ainsi que
-                quelques stickers de plus petite taille qui complètent le jalonnement.
+                <?php 
+                    echo $stmt[0]['description'];
+                ?>
             </p>
         </article>
         <article class="part-contact">
@@ -138,26 +153,53 @@
                 <div>
                     <h3>Contact :</h3>
                     <div>
-                        
-                    <a href="https://g.co/kgs/YaDbwRa">
-                        <img src="../images/maison.png" alt="icon maison (localisation)">
-                        <p>Place de l'Église 22140 Tonquédec</p>
-                    </a>
+
+                        <a href="https://g.co/kgs/YaDbwRa">
+                            <img src="../images/maison.png" alt="icon maison (localisation)">
+                            <p><?php
+                                echo $stmt[0]['numero_voie'];
+                                echo " ";
+                                echo $stmt[0]['voie'];
+                                echo " ";
+                                echo $stmt[0]['ville'];
+                                echo " ";
+                                echo $stmt[0]['code_postal'];
+
+                            ?>
+                            </p>
+                        </a>
                     </div>
                     <div>
-                        <a href="tel:+33 7 65 84 65 96">
-                        <img src="../images/telephone.png" alt="icon telephone">
-                        <p>+33 7 65 84 65 96</p>
-                    </a>
+                        <a href="tel:<?php 
+                    $idC = (int)$stmt[0]['idc'];
+                    $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON p.idC = o.idC WHERE o.idC = $idC;");
+                    $stmt2->execute();
+                    $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                    echo $stmt2[0]['telephone'];
+                ?> ">
+                            <img src="../images/telephone.png" alt="icon telephone">
+                            <p><?php 
+                    $idC = (int)$stmt[0]['idc'];
+                    $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON p.idC = o.idC WHERE o.idC = $idC;");
+                    $stmt2->execute();
+                    $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+                    echo $stmt2[0]['telephone'];
+                ?> </p>
+                        </a>
                     </div>
-                    <div>
-                        <a href="">
-                        <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                        <p>Côtes d’Amor Les plus belles balades à vélo</p>
-                    </a>
-                    </div>
-                    
-                </div>
+                    <?php
+                        if ($stmt[0]['site_web']) {
+                            echo '<div>
+                            <a href="';
+                            echo $stmt[0]['site_web'];
+                            echo '">
+                                <img src="../images/pc.png" alt="icon pc (lien vers le site)">
+                                <p>';
+                            echo $stmt[0]['site_web'];
+                            echo '</p>
+                            </a>';
+                        }
+                    ?>
                 <div class="horaires">
                     <h3>Horaires et tarifs :</h3>
                     <div>
@@ -189,7 +231,7 @@
             <div>
                 <div class="header-avis-profil">
                     <div class="profil">
-                            <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
+                        <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
                         <p>Nicolas Dupuie</p>
                     </div>
                     <div>
