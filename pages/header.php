@@ -14,14 +14,17 @@
                     <input type="image" src="../images/search_icon.png" alt="Submit Form" id="image_recherche"/>
                 </form>
             </div>
-            <ul class="liste_nav">
-                <li>
-                    <button>À la une</button>
-                </li>
-                <li>
-                    <button>Nouveautés</button>
-                </li>
-            </ul>
+            <?php
+            if ($_SERVER['SCRIPT_NAME'] != '/pages/connexion.php') { ?>
+                <ul class="liste_nav">
+                    <li>
+                        <button>À la une</button>
+                    </li>
+                    <li>
+                        <button>Nouveautés</button>
+                    </li>
+                </ul>
+            <?php } ?>
             <hr>
         </header>
         <script src="../js/header.js">
