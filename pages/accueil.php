@@ -261,8 +261,10 @@ try{
                 <?php include_once'footer.php'; ?>
             </footer>
         </div>
-        
+        <div>
         <?php include_once'footerNav.php' ?>
+        </div>
+            
     </body>
 </html>
 
