@@ -1,26 +1,20 @@
 .mobile-footer {
-    background-color: #000; /* Fond noir */
-    padding: 10px 0; /* Ajoute du padding en haut et en bas */
-    position: fixed; /* Fixe le menu en bas de l'écran */
+    background-color: #000;
+    padding: 10px 0;
+    position: fixed;
     bottom: 0;
     left: 0;
-    width: 100%; /* Prend toute la largeur de l'écran */
-    z-index: 1000; /* S'assure que le menu est au-dessus des autres éléments */
+    width: 100%;
+    z-index: 1000;
 }
 
 .menu-footer {
-    display: flex; /* Affiche les éléments en ligne */
-    justify-content: space-around; /* Espacement égal entre les éléments */
-    align-items: center; /* Aligne verticalement les icônes */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .menu-item img {
-    width: 30px; /* Largeur des icônes */
-    height: auto; /* Garde les proportions */
-    filter: invert(1); /* Inversion pour les icônes blanches si elles sont noires */
+    width: 30px;
+    height: auto;
 }
-
-.menu-item:hover img {
-    filter: invert(0) hue-rotate(120deg); /* Change la couleur à vert au hover, ou ajuste comme nécessaire */
-}
-

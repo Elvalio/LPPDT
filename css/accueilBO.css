@@ -618,7 +618,8 @@ input[type="range"]::-ms-thumb {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    width: 150px;
+    width: max-content;
+    gap: 15px;
 }
 
 .carte_offre .infoAnnonce p {
@@ -635,7 +636,7 @@ input[type="range"]::-ms-thumb {
     width: 18px;
     height: 18px;
     object-fit: cover;
-    margin: 0 2px;
+    margin: 1px 2px;
 }
 
 
@@ -714,7 +715,6 @@ input[type="range"]::-ms-thumb {
       }
       
       .titreAnnonce {
-        /* grid-area: title; */
         font-size: 1.1rem; /* Taille de la police inchangée */
         color: var(--bleu-fonce);
         font-family: 'TripSansBold';
@@ -722,7 +722,6 @@ input[type="range"]::-ms-thumb {
       }
       
       .resumeAnnonce {
-        /* grid-area: description; */
         font-size: 0.8rem; /* Taille de la police inchangée */
         color: #333;
         font-family: 'TripSansRegular';
@@ -730,7 +729,6 @@ input[type="range"]::-ms-thumb {
       }
       
       .villeAnnonce {
-        /* grid-area: location; */
         font-size: 0.7rem; /* Taille de la police inchangée */
         color: #666;
         font-family: 'TripSansRegular';
@@ -738,7 +736,6 @@ input[type="range"]::-ms-thumb {
       }
       
       .etoileNote {
-        grid-area: rating;
         font-size: 1rem; /* Taille des étoiles inchangée */
         color: var(--bleu);
         font-family: 'TripSansBold';
@@ -748,7 +745,6 @@ input[type="range"]::-ms-thumb {
       }
       
       .conteneurImage {
-        /* grid-area: image; */
         display: flex;
         justify-content: center;
         align-items: center;
@@ -799,11 +795,3 @@ input[type="range"]::-ms-thumb {
     }
 
 }
-
-/* display: grid;
-        grid-template-columns: 1fr auto; /* Colonne 1 pour le texte, Colonne 2 pour l'image 
-        grid-template-rows: auto auto; /* Deux lignes, l'image occupe la dernière 
-        grid-template-areas: 
-            "title rating"
-            "description image"
-            "location image"; L'image prend aussi la place sous 'rating' */

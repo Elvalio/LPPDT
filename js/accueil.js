@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const SCREEN_MOBILE = 801; // Taille de l'écran pour le changement d'images
+    
     // Variables existantes
     const boutons = document.querySelectorAll('.NouveauALaUne > div');
     const dropdownToggle = document.querySelector('.dropdown-toggle');
@@ -112,10 +114,28 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!dropdown.contains(event.target) && event.target !== dropdownToggle) {
             closeDropdown();
         }
-        // if (!filtres.contains(event.target) && event.target !== bouton_filtre) {
-        //     closeFilterMenu();
-        // }
     });
+
+    // Code pour changer les images en fonction de la taille de l'écran
+    function updateImageSources() {
+
+        const etoiles = document.querySelectorAll('img[alt="Etoile"], img[alt="Etoile Vide"]');
+        etoiles.forEach(etoile => {
+            if (window.innerWidth <= SCREEN_MOBILE) {
+            if (etoile.src.includes('etoile_rouge.png') || etoile.src.includes('etoile_rouge_vide.png')) {
+                etoile.src = etoile.src.replace("etoile_rouge", "etoile_bleue");
+            }
+            } else {
+            if (etoile.src.includes('etoile_bleue.png') || etoile.src.includes('etoile_bleue_vide.png')) {
+                etoile.src = etoile.src.replace("etoile_bleue", "etoile_rouge");
+            }
+            }
+        });
+    }
+
+    // Appelle la fonction au chargement et au redimensionnement de la fenêtre
+    window.addEventListener('resize', updateImageSources);
+    updateImageSources();
 
     // Code du slider double
     const sliderLeft = document.getElementById('slider-left');
