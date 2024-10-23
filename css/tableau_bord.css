@@ -65,19 +65,22 @@ section > div{
     margin-right: 3px;
 }
 
-input{
-    border-radius: 5px;
-    border-width: 1px;
-    background-color: white;
-}
 
-.detail_modif > form > input{
+.detail_modif > a{
     padding: 8px;
     font-size: 15px;
     margin: 5px;
+    border: solid 1px;
+    text-decoration: none;
+    color: black;
+    font-family: 'TripSansRegular';
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: white;
+
 }
 
-.detail_modif > form > input:hover{
+.detail_modif > a:hover{
     background-color: var(--gris-fonce);
     cursor:pointer;
 }

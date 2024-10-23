@@ -52,12 +52,8 @@
                         </div>
                         <p class="description"><?php echo $valeur["resume"]; ?></p>
                         <div class="detail_modif">
-                            <form action="detail-offre.php?idO=<?php echo $valeur["ido"]; ?>">
-                                <input type="submit" value="Voir les détails"/>
-                            </form>
-                            <form action="modifier_offre.php?idO=<?php echo $valeur["ido"]; ?>">
-                                <input type="submit" value="Modifier les informations"/>
-                            </form>
+                            <a href="detail-offre.php?value=<?php echo $valeur["ido"];?>">Voir les détails</a>
+                            <a href="modifier_offre.php?value=<?php echo $valeur["ido"];?>">Modifier les informations</a>
                         </div>
                         <div class="hors_ligne">
                             <form method="POST" action="tableau_de_bord.php" onsubmit="setCheckboxValue(this);">
