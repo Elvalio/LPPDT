@@ -9,7 +9,7 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image
+            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image, o.ido
              FROM pact.offre o
              JOIN pact._adresse a ON o.idAdresse = a.idAdresse
              LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
@@ -190,7 +190,7 @@ try{
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
                     <div class="carte_offre desktop-element">
-                        <a href="detail-offre.php?value=<?php echo $value["idO"]; ?>">
+                        <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
                             <?php } else { ?>
@@ -219,7 +219,7 @@ try{
                     </div>
 
                     <div class="carte_offre phone-element">
-                        <a href="detail-offre.php?value=<?php echo $value["idO"]; ?>">
+                        <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
 
                         <div class="InfoOffreMobile">
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
