@@ -87,11 +87,10 @@ if ($_POST!=[]) {
 }
 ?>
 
-<header class="navigation-mobile">
-    <?php 
-    include('../pages/header.php');
-    ?>
-</header>
+<div class="phone-element">
+        <?php include_once 'header.php' ?>
+    </div>
+    
 
 <body class="login-page"
 
