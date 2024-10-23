@@ -120,15 +120,20 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateImageSources() {
 
         const etoiles = document.querySelectorAll('img[alt="Etoile"], img[alt="Etoile Vide"]');
+        const body = document.querySelector('body');
         etoiles.forEach(etoile => {
-            if (window.innerWidth <= SCREEN_MOBILE) {
-            if (etoile.src.includes('etoile_rouge.png') || etoile.src.includes('etoile_rouge_vide.png')) {
-                etoile.src = etoile.src.replace("etoile_rouge", "etoile_bleue");
-            }
+            if (body.classList.contains('BO')) {
+                if (window.innerWidth <= SCREEN_MOBILE) {
+                    if (etoile.src.includes('etoile_rouge.png') || etoile.src.includes('etoile_rouge_vide.png')) {
+                        etoile.src = etoile.src.replace("etoile_rouge", "etoile_bleue");
+                    }
+                } else {
+                    if (etoile.src.includes('etoile_bleue.png') || etoile.src.includes('etoile_bleue_vide.png')) {
+                        etoile.src = etoile.src.replace("etoile_bleue", "etoile_rouge");
+                    }
+                }
             } else {
-            if (etoile.src.includes('etoile_bleue.png') || etoile.src.includes('etoile_bleue_vide.png')) {
-                etoile.src = etoile.src.replace("etoile_bleue", "etoile_rouge");
-            }
+                etoile.src = etoile.src.replace("etoile_rouge", "etoile_bleue");
             }
         });
     }

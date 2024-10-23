@@ -15,17 +15,21 @@
 /*           VARIABLES CSS        */
 /* ============================== */
 
-:root {
-    --blanc-fo: #FFF7E1;      /* Blanc Front-Office */
+body.FO {
     --vert-clair: #9EE7A0;    /* Vert clair */
-    --turquoise: #3AD4AE;     /* Turquoise */
-    --bleu: #1DA2A7;          /* Bleu */
-    --bleu-fonce: #006B8F;    /* Bleu foncé */
+    --turquoise-orange: #3AD4AE;     /* Turquoise */
+    --bleu-rouge: #1DA2A7;          /* Bleu */
+    --bleuFonce-rougeFonce: #006B8F;    /* Bleu foncé */
+}
 
-    --blanc-bo: #FDEDF0;      /* Blanc Back-Office */
-    --orange: #F07605;        /* Orange */
-    --rouge: #DE022B;         /* Rouge */
-    --rouge-fonce: #A2021F; /* Rouge foncé */
+body.BO {
+    --turquoise-orange: #F07605;        /* Orange */
+    --bleu-rouge: #DE022B;         /* Rouge */
+    --bleuFonce-rougeFonce: #A2021F; /* Rouge foncé */
+}
+
+body {
+    --blanc: #FDEDF0;      /* Blanc */
     --gris-fonce: #767676; /*Gris foncé*/
     --gris-clair : #E4E4E4;  /*Gris Clair*/
     --noir: #151515;          /* Noir */
@@ -111,7 +115,7 @@
 }
 
 h1 {
-    color: var(--rouge-fonce);
+    color: var(--bleuFonce-rougeFonce);
     font-size: 3.5em;
     margin-left: 0.5em;
 }
