@@ -7,11 +7,13 @@
 
     $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
 
+    $user = $_COOKIE['user'];
 
     try{
 
-    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, p.src_image FROM pact.offre o
-    JOIN pact.photo_offre p ON o.idO = p.idO");
+    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, p.src_image FROM pact.offre o
+    JOIN pact.photo_offre p ON o.idO = p.idO
+    WHERE o.idC = $user");
 
     /*LEFT JOIN pact._secteur_pro s ON o.idC = s.idC*/
     
@@ -41,10 +43,12 @@
             <?php
             foreach($stmt as $key => $valeur){
             ?>
-            <section>
+            <section class="section_offre">
                 <img src="../images/<?php echo $valeur["src_image"]; ?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>">
                 <div class="infos_offre">
-                    <p class="titre_offre"><strong><?php echo $valeur["titre"]; ?></strong></p>
+                    <div class="titre_switch">
+                        <p class="titre_offre"><strong><?php echo $valeur["titre"]; ?></strong></p>
+                    </div>
                     <p class="description"><?php echo $valeur["resume"]; ?></p>
                     <div class="detail_modif">
                         <form action="http://localhost:8888/pages/detail-offre.php?idO=<?php echo $valeur["idO"]; ?>">
@@ -55,7 +59,10 @@
                         </form>
                     </div>
                     <div class="hors_ligne">
-                        <button id="button_hors_ligne"><img src="../icons/interdit_rouge.png" id="icon_delete"> Mise hors ligne</button>
+                        <label class="switch">
+                            <input type="checkbox" id="toggle" name="toggle">
+                            <span class="slider round"></span>
+                        </label>
                     </div>
                 </div>
             </section>
@@ -71,5 +78,7 @@
             include_once'footer.php';
         ?>
         </footer>
+        <script src="../js/tableau_de_bord.js">
+        </script>
     </body>
 </html>
