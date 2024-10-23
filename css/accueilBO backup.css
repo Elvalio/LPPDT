@@ -1,0 +1,662 @@
+/* ========================================================= */
+/*                 CHANGEMENT PAGE DESKTOP/MOBILE            */
+/* ========================================================= */
+
+/* Pour les écrans de 800px ou moins (version mobile) */
+@media (max-width: 800px) {
+    .phone-element {
+      display: block; /* Si tu veux les afficher, ou garde "none" si tu veux les cacher */
+    }
+  
+    .desktop-element {
+      display: none;
+    }
+  }
+  
+  /* Pour les écrans de plus de 800px (version desktop) */
+  @media (min-width: 801px) {
+    .desktop-element {
+      display: block; /* Affiche les éléments desktop */
+    }
+  
+    .phone-element {    
+      display: none;
+    }
+  }
+  
+
+
+
+/* ========================================= */
+/*                 STYLES GLOBAUX            */
+/* ========================================= */
+
+main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+header + nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.nav_space {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* Aligne verticalement le contenu */
+}
+
+p {
+    font-family: 'TripSansRegular', 'Arial';
+}
+
+/* ========================================= */
+/*          STYLES DE LA ZONE DE RECHERCHE   */
+/* ========================================= */
+
+.search {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+    width: 300px;
+    height: fit-content;
+    padding: 15px;
+    margin: 10px;
+}
+
+.search > img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+.search > input {
+    color: var(--noir);
+    border: none;
+    font-size: 1.2em;
+}
+
+input:focus {
+    border: none;
+    outline: none;
+}
+
+/* ========================================= */
+/*          STYLES POUR FILTRER ET TRIER     */
+/* ========================================= */
+
+.filtrer-trier {
+    display: flex; /* Affiche les boutons dans une ligne */
+    flex-direction: row; /* Aligne les éléments horizontalement */
+}
+
+.filtrer-bouton, .trier {
+    display: flex; /* Affiche les boutons dans une ligne */
+    flex-direction: row; /* Aligne les éléments horizontalement */
+    justify-content: space-between; /* Espace entre les boutons */
+    align-items: center; /* Centre verticalement les éléments */
+    border: 1px solid #E6E6E6;
+    width: 220px;
+    height: fit-content;
+    padding: 15px;
+    margin: 10px;
+}
+
+.filtrer-trier div {
+    display: flex; /* Pour les éléments internes */
+    align-items: center; /* Centre verticalement le texte et l'image */
+    gap: 8px; /* Espacement entre le texte et l'image */
+}
+
+.filtrer-trier div p {
+    color: #737373;
+    margin: 0; /* Supprime les marges par défaut du texte */
+}
+
+.filtrer-trier div img {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+}
+
+/* ============================================= */
+/*           STYLES POUR LES FILTRES             */
+/* ============================================= */
+
+/* Styles pour l'animation de descente de la page */
+main {
+    transform: translateY(0);
+}
+
+main.active_filter {
+    transform: translateY(150px);
+    transition: all 0.3s ease-in-out;
+}
+
+.all-filter {
+    display: none;
+    height: 150px;
+}
+
+.all-filter.active {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    transform: translateY(0);
+    transition: all 0.3s ease-in-out;
+}
+
+.filter {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #E6E6E6;
+    margin: 10px;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+
+    transform: translateY(-20px);
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+.filter.show {
+
+    transform: translateY(0);
+    transition: translateY 0.15s ease;
+    opacity: 1;
+}
+
+
+/* ============================================= */
+/*           STYLES POUR LES FILTRES DE TYPE     */
+/* ============================================= */
+
+
+.filtre-type {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 15px 50px 15px 15px;
+}
+
+.filtre-case label {
+    color: #595959;
+}
+
+
+/* ============================================= */
+/*           STYLES POUR LES FILTRES DE LIEU     */
+/* ============================================= */
+
+
+.search-filter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+    width: 170px;
+    height: fit-content;
+    padding: 10px 15px;
+    margin: 2px;
+}
+
+.search-filter > img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+.search-filter > input {
+    color: var(--noir);
+    border: none;
+}
+
+.filtre-lieu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    height: fit-content;
+
+    padding: 15px;
+}
+
+
+/* ========================================= */
+/*       STYLES POUR LES FILTRES DE TEMPS    */
+/* ========================================= */
+
+.filtre-temps {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+
+    border: 1px solid #D9D9D9;
+    border-radius: 20px;
+
+    width: fit-content;
+    height: fit-content;
+
+    padding: 10px 15px;
+
+}
+
+#calendar-start, #calendar-end {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 5px;
+    
+    border-radius: 5px;
+    
+    padding: 10px;
+}
+
+#calendar-start label, #calendar-end label {
+    border-bottom: 1px solid var(--gris-clair);
+    width: fit-content;
+    color: #595959;
+    font-size: 0.8em;
+    padding-bottom: 7px;
+
+}
+
+input#date-end, input#date-start {
+    border: none;
+    background-color: rgba(118, 118, 118, 0.04);
+    
+    width: 100%;
+
+    padding: 5px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+
+
+/* ========================================= */
+/*       STYLES POUR LES FILTRES DE PRIX     */
+/* ========================================= */
+
+.filtre-prix {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+
+    width: 260px;
+    height: fit-content;
+
+}
+
+.slider-container {
+    width: 200px;
+    position: relative;
+    margin: 20px 15px 30px 15px;
+}
+
+input[type="range"] {
+    position: absolute;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    pointer-events: none; /* Empêche les événements sur la barre */
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: #ddd;
+    border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    pointer-events: all; /* Autorise les interactions uniquement sur le bouton */
+    z-index: 3;
+}
+
+#slider-right::-webkit-slider-thumb {
+    z-index: 4; /* Le slider droit reste au-dessus */
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    pointer-events: all;
+    z-index: 3;
+}
+
+input[type="range"]::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+    position: relative;
+    pointer-events: all;
+    z-index: 3;
+}
+
+/* Style pour montrer la plage active entre les deux curseurs */
+/* .range-active {
+    position: absolute;
+    height: 6px;
+    background-color: #2196F3;
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 3px;
+} */
+
+/* Position des valeurs sous les curseurs */
+.value-container {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+#value-left, #value-right {
+    font-size: 14px;
+    background-color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    position: absolute;
+    top: 20px;
+    width: fit-content;
+}
+
+#value-left {
+    left: 0;
+}
+
+#value-right {
+    right: 0;
+}
+
+#valider-prix {
+    display: none;
+}
+
+#valider-prix.active:hover {
+    transition: all 0.15s ease; /* Transition pour l'animation */
+    background-color: #2C2C2C;
+    color: #F5F5F5;
+}
+
+#valider-prix.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #2C2C2C;
+    border: 1px solid #2C2C2C;
+    background-color: white;
+
+    font-size: 1.1em;
+    
+    border-radius: 30px;
+    
+    width: fit-content;
+    height: fit-content;
+    
+    margin: 10px;
+    padding: 8px 12px;
+}
+
+
+/* ========================================= */
+/*         STYLES POUR LES FILTRES DE NOTE   */
+/* ========================================= */
+
+.filtre-note {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+    width: fit-content;
+    height: fit-content;
+
+    padding: 20px;
+}
+
+.note {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.etoileNoteFiltre {
+    display: flex;
+    flex-direction: row;
+    gap: 3px;
+}
+
+.etoileNoteFiltre img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+}
+
+/* ========================================= */
+/*         STYLES POUR LE MENU DÉROULANT     */
+/* ========================================= */
+
+.dropdown {
+    position: relative; /* Pour positionner le sous-menu */
+}
+
+
+.dropdown-menu {
+    display: none; /* Masqué par défaut */
+    position: absolute;
+    top: 100%; /* Positionne juste en dessous du bouton */
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    width: 80%;
+    padding: 0;
+    margin: 0 0 0 10%;
+    list-style: none;
+    opacity: 0; /* Masqué par défaut */
+    transition: opacity 3s ease; /* Transition pour l'animation de la boîte */
+}
+
+.dropdown-menu.show {
+    display: block; /* Montre le menu lorsqu'il est actif */
+    opacity: 1; /* Rendre visible */
+}
+
+/* Styles pour les éléments de la liste */
+.dropdown-menu li {
+    opacity: 0; /* Masqué par défaut */
+    transform: translateY(-10px); /* Déplace légèrement vers le haut */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transition pour l'animation des éléments */
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+}
+
+.dropdown-menu li.show {
+    opacity: 1; /* Rendre visible */
+    transform: translateY(0); /* Remet à la position normale */
+}
+
+.dropdown-menu li:last-child {
+    border-bottom: none; /* Pas de bordure pour le dernier élément */
+}
+
+.dropdown-menu a {
+    text-decoration: none;
+    color: #737373;
+    display: block; /* S'étend sur toute la largeur */
+}
+
+.dropdown-menu li:hover {
+    background-color: #f0f0f0; /* Fond au survol */
+}
+
+
+/* Affiche le menu lorsque le parent a la classe 'active' */
+.dropdown.active .dropdown-menu {
+    display: block;
+}
+
+/* ========================================= */
+/*         STYLES POUR NOUVEAU ET À LA UNE   */
+/* ========================================= */
+
+.NouveauALaUne {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+}
+
+.NouveauALaUne div {
+    display: inline-flex; /* Utilisation de inline-flex pour s'adapter à la largeur du contenu */
+    align-items: center; /* Centrer verticalement le texte et l'image */
+    gap: 8px; /* Espacement entre le texte et l'image */
+    background-color: #F5F5F5;
+    border-radius: 8px;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 8px; /* Espacement intérieur pour le texte */
+    margin: 2px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.NouveauALaUne div p {
+    margin: 0; /* Supprimer les marges par défaut du texte */
+    color: #757575;
+}
+
+.NouveauALaUne div img {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+    display: none; /* Masqué par défaut */
+}
+
+.NouveauALaUne div img.show {
+    display: block; /* Affiche l'image lorsque la classe 'show' est ajoutée */
+}
+
+.NouveauALaUne div.active {
+    background-color: #2C2C2C; /* Changer la couleur du fond lorsqu'actif */
+    color: #F5F5F5; /* Couleur du texte en mode actif */
+}
+
+/* =========================================================== */
+/*           STYLES POUR CHACUNE DES OFFRES (DESKTOP)          */
+/* =========================================================== */
+
+@media (min-width: 801px) {
+
+.carte_offre {
+    padding: 16px;
+    margin: 24px;
+    width: 240px;
+    height: fit-content;
+    min-width: 240px;
+    border: 1px solid #D9D9D9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    gap: 8px;
+}
+
+.carte_offre img {
+    width: 100%;
+    object-fit: contain;
+}
+
+.carte_offre .infoAnnonce {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 150px;
+}
+
+.carte_offre .infoAnnonce p {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.carte_offre .infoAnnonce .etoileNote {
+    display: flex;
+    flex-direction: row;
+}
+
+.carte_offre .infoAnnonce .etoileNote img {
+    width: 18px;
+    height: 18px;
+    object-fit: cover;
+    margin: 0 2px;
+}
+
+
+.carte_offre a {
+    text-decoration: none;
+}
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+
+    .nav_space {
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+    }
+
+    .filtrer-trier {
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+    }
+
+
+    .all-filter {
+        height: fit-content;
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+        flex-wrap: wrap;
+        
+    }
+}
+
+@media screen and (max-width: 1180px) {
+
+    .NouveauALaUne {
+        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
+    }
+}
