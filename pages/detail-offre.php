@@ -1,5 +1,6 @@
 <?php 
     include_once 'nav.php'; 
+    error_reporting(0);
 
     include('../sql/connect_params.php');
     $idAnnonce = $_GET['value'];
@@ -15,9 +16,10 @@ WHERE o.ido = $idAnnonce;
 
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
+        echo "Erreur : " . $e->getMessage();
         die();
     }    
-
+    
     
 ?>
 
