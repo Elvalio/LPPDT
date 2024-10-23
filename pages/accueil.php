@@ -38,7 +38,12 @@ try{
 </head>
 
 <html>
-    <body>
+    <?php 
+    if ($_COOKIE['user'] != "professionnel") { ?>
+        <body class="BO"> <?php   
+    } else { ?>
+        <body class="FO"> <?php
+    } ?>
         <nav class="desktop-element">
          <?php include_once'nav.php'; ?>
         </nav>
@@ -185,7 +190,7 @@ try{
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
                     <div class="carte_offre desktop-element">
-                        <a href="https://google.com" target="_blank">
+                        <a href="detail-offre.php?value=<?php echo $value["idO"]; ?>">
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
                             <?php } else { ?>
@@ -214,7 +219,7 @@ try{
                     </div>
 
                     <div class="carte_offre phone-element">
-                        <a href="https://google.com" target="_blank">
+                        <a href="detail-offre.php?value=<?php echo $value["idO"]; ?>">
 
                         <div class="InfoOffreMobile">
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
