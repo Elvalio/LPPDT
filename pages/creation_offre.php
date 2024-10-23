@@ -144,9 +144,9 @@ if ($_POST['categorie'] != '') {
                 $code_postal= $_POST['codeP'];
                 
                 $stmt = $dbh->prepare(
-                    "insert into pact.visite 
-                    (titre, resume, \"type\", option, description, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, ville, petit_dejeuner, brunch, dejeuner, diner, boissons voie, code_postal, complement, idC) values 
-                    ('$titre', '$resume', '$type', '$option', '$description', $prix_min, '$accessibilite', now(), now(), interval '$src_image', '$gamme_prix', '$ville', $petit_dejeuner, $brunch, $dejeuner, $diner, $boissons, '$voie', $code_postal, '', $idC);"
+                    "insert into pact.restauration 
+                    (titre, resume, \"type\", option, description, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, ville, petit_dejeuner, brunch, dejeuner, diner, boissons, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$option', '$description', $prix_min, '$accessibilite', now(), now(), '$src_image', '$gamme_prix', '$ville', $petit_dejeuner, $brunch, $dejeuner, $diner, $boissons, $numero_voie, '$voie', $code_postal, '', $idC);"
                 );
                 break;
 

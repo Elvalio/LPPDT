@@ -136,7 +136,9 @@ try{
                                 <!-- Champ "Titre" -->
                                 <div class="container" id="titre-container">
                                     <label for="titre">Titre de l'offre*</label>
-                                    <input type="text" id="titre" class="FS" name="titre" placeholder="Roméo et Juliette" required  value="<?php echo $resultat[0]["titre"];?>"/>
+                                    <p id="error-message-titre" class="error-message"></p>
+                                    <input type="text" id="titre" class="FS" name="titre" placeholder="Roméo et Juliette" required value="<?php echo $resultat[0]["titre"];?>"/>
+                                    
                                 </div>
                                 <!-- Champ "Catégorie" -->
                                 <div class="container categorie-container">
@@ -178,11 +180,13 @@ try{
                             <!-- Champ "Résumé" -->
                             <div class="container" id="resume-container">
                                 <label for="resume">Résumé*</label>
+                                <p id="resume-error-message" class="error-message"></p>
                                 <textarea id="resume" class="FS" name="resume" placeholder="L'histoire d'amour et tragique de..." required><?php echo $resultat[0]["resume"];?></textarea>
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container" id="description-container">
                                 <label for="description">Description</label>
+                                <p id="description-error-message" class="error-message"></p>
                                 <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..."><?php echo $resultat[0]["description"];?></textarea>
                             </div>
                             <!-- Champ "Tags" -->
@@ -277,7 +281,7 @@ try{
                             </div>
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
-                                <input type="submit" class="FS" value="Publier" />
+                                <input id="submit-button" type="submit" class="FS" value="Publier" />
                                 <button class="FS">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
@@ -291,51 +295,60 @@ try{
                                 <!-- Champ "Adresse" -->
                                 <div class="container" id="adresse-container">
                                     <label for="adresse">Adresse*</label>
-                                    <input type="text" id="adresse" class="FS" name="adresse" placeholder="5 rue de l'exemple" required value="<?php echo $resultat[0]["numero_voie"] . " " . $resultat[0]["voie"];?>" />
+                                    <p id="adresse-error-message" class="error-message"></p>
+                                    <input type="text" id="adresse" class="FS" name="adresse" placeholder="5 rue de l'exemple" required value="<?php echo $resultat[0]["numero_voie"] . " " . $resultat[0]["voie"];?>"/>
                                 </div>
                                 <div id="codeP-ville">
                                     <!-- Champ Code postal -->
                                     <div class="container" id="codeP-container">
                                         <label for="codeP">Code Postal*</label>
+                                        <p id="postal-code-error-message" class="error-message"></p>
                                         <input type="text" id="codeP" class="FS" name="codeP" placeholder="22100" required value="<?php echo $resultat[0]["code_postal"] ?>"/>
                                     </div>
                                     <!-- Champ "ville" -->
                                     <div class="container" id="ville-container">
                                         <label for="ville">Ville*</label>
-                                        <input type="text" id="ville" class="FS" name="ville" placeholder="Lannion" required value="<?php echo $resultat[0]["ville"] ?>"/>
+                                        <p id="city-error-message" class="error-message"></p>
+                                        <input type="text" id="ville" class="FS" name="ville" placeholder="Lannion" required value="<?php echo $resultat[0]["ville"] ?>" />
                                     </div>
                                 </div>
                                 
                                 <!-- Champ "Accesibilité" -->
                                 <div class="container" id="accessibilite-container">
                                     <label for="accessibilite">Accessibilité*</label>
+                                    <p id="accessibility-error-message" class="error-message"></p>
                                     <textarea id="accessibilite" class="FS" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo $resultat[0]["accessibilite"] ?></textarea>
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">
                                     <div class="container" id="duree-container">
-                                        <label for="duree">Durée</label>
-                                        <input type="text" id="duree" class="FS" name="duree" placeholder="80" required value="<?php echo $resultat[0]["duree"] ?>"/>
+                                        <label for="duree">Durée*</label>
+                                        <p id="duree-error-message" class="error-message"></p>
+                                        <input type="text" id="duree" class="FS" name="duree" placeholder="01:10:55" required value="<?php echo $resultat[0]["duree"] ?>"/>
                                     </div>
                                     <div class="container" id="nbattraction-container">
-                                        <label for="nbattraction">Nombre d'attractions</label>
-                                        <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="25" required value="<?php echo $resultat[0]["nbr_attractions"] ?>" />
+                                        <label for="nbattraction">Nombre d'attractions*</label>
+                                        <p id="nbr_attractions-error-message" class="error-message"></p>
+                                        <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="25" required value="<?php echo $resultat[0]["nbr_attractions"] ?>"/>
                                     </div>
                                     <div class="container" id="prix-container">
-                                        <label for="prix">Prix minimum (€)</label>
+                                        <label for="prix">Prix minimum (€)*</label>
+                                        <p id="prix-error-message" class="error-message"></p>
                                         <input type="text" id="prix" class="FS" name="prix" placeholder="25" required value="<?php echo $resultat[0]["prix_min"] ?>"/>
                                     </div>
                                     <div class="container" id="age-container">
-                                        <label for="age">Âge minimum</label>
+                                        <label for="age">Âge minimum*</label>
+                                        <p id="age_min-error-message" class="error-message"></p>
                                         <input type="text" id="age" class="FS" name="age" placeholder="8" required value="<?php echo $resultat[0]["age_min"] ?>"/>
                                     </div>
                                     <div class="container" id="capacite-container">
-                                        <label for="capacite">Capacité</label>
+                                        <label for="capacite">Capacité*</label>
+                                        <p id="capacite-error-message" class="error-message"></p>
                                         <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required value="<?php echo $resultat[0]["capacite"] ?>"/>
                                     </div>
                                     <div class="container categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>
-                                        <select id="categorie-prix" name="categorie" required class="FS">
+                                        <select id="categorie-prix" name="categorie-prix" required class="FS">
                                             <option value="" disabled selected hidden id="first-option">Gamme de prix</option>
                                             <option value="€">€</option>
                                             <option value="€€">€€</option>
@@ -343,9 +356,20 @@ try{
                                         </select>
                                     </div>
                                 </div>
+                                <div class="container" id="pinclus-container">
+                                    <label for="pinclus">Prestation incluse</label>
+                                    <p id="pinclus-error-message" class="error-message"></p>
+                                    <textarea id="pinclus" class="FS" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo $resultat[0]["prestation_incluse"] ?></textarea>
+                                </div>
+                                <div class="container" id="pexclus-container">
+                                    <label for="pexclus">Prestation excluse</label>
+                                    <p id="pexclus-error-message" class="error-message"></p>
+                                    <textarea id="pexclus" class="FS" name="pexclus" placeholder="Casque,.."><?php echo $resultat[0]["prestation_excluse"] ?></textarea>
+                                </div>
                                 <div class="container" id="langue-container">
                                     <label for="langue">Langue</label>
-                                    <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" required value="<?php echo $resultat[0]["langues"] ?>"/>
+                                    <p id="langue-error-message" class="error-message"></p>
+                                    <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" value="<?php echo $resultat[0]["langues"] ?>"/>
                                 </div>
 
                                 <div id="repas-map">
@@ -353,23 +377,23 @@ try{
                                         <label>Repas servis</label>
                                         <div id="repas-items-container">
                                             <div id="petit-dejeuner">
-                                                <input type="checkbox" id="petit-dejeuner" name="option" value="petit-dejeuner"/>
+                                                <input type="checkbox" id="petit-dejeuner" name="petit-dejeuner" value="petit-dejeuner"/>
                                                 <label for="petit-dejeuner">Petit-déjeuner</label>
                                             </div>
                                             <div id="brunch">
-                                                <input type="checkbox" id="brunch" name="option" value="brunch"/>
+                                                <input type="checkbox" id="brunch" name="brunch" value="brunch"/>
                                                 <label for="brunch">Brunch</label>
                                             </div>
                                             <div id="dejeuner">
-                                                <input type="checkbox" id="dejeuner" name="option" value="dejeuner"/>
+                                                <input type="checkbox" id="dejeuner" name="dejeuner" value="dejeuner"/>
                                                 <label for="dejeuner">Déjeuner</label>
                                             </div>
                                             <div id="dinner">
-                                                <input type="checkbox" id="dinner" name="option" value="dinner"/>
-                                                <label for="dinner">Dîner</label>
+                                                <input type="checkbox" id="diner" name="diner" value="diner"/>
+                                                <label for="diner">Dîner</label>
                                             </div>
                                             <div id="boissons">
-                                                <input type="checkbox" id="boissons" name="option" value="boissons"/>
+                                                <input type="checkbox" id="boissons" name="boissons" value="boissons"/>
                                                 <label for="boissons">Boissons</label>
                                             </div>
                                         </div>
@@ -415,11 +439,11 @@ try{
                                         <label>Options</label>
                                         <div id="une-relief">
                                             <div id="une">
-                                                <input type="checkbox" id="une" name="option" value="une" onclick="checkOnlyOne(this)" <?php echo ($resultat[0]["option"] == 'À la Une') ? "checked" : ""?>/>
+                                                <input type="checkbox" id="une" name="une" value="À la Une" onclick="checkOnlyOne(this)"/>
                                                 <label for="une">À la Une </label>
                                             </div>
                                             <div id="relief">
-                                                <input type="checkbox" id="relief" name="option" value="relief" onclick="checkOnlyOne(this)" <?php echo ($resultat[0]["option"] == 'En relief') ? "checked" : ""?>/>
+                                                <input type="checkbox" id="relief" name="relief" value="En relief" onclick="checkOnlyOne(this)"/>
                                                 <label for="relief">En relief</label>
                                             </div>
                                         </div>
@@ -450,6 +474,8 @@ try{
                                     <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
                                 </div>
                             </div>
+
+                            <!-- Formulaire caché pour le téléchargement d'images -->
                             
                         </div>
                     </div>
@@ -457,7 +483,8 @@ try{
             </form>
         </div>
 
-        <script src="../js/creation_offre.js"></script>
+        <script src="../js/creation_offre.js">
+        </script>
     </body>
 </html>
 
