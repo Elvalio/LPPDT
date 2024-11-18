@@ -129,6 +129,11 @@ insert into pact.photo_offre (src_image, idO) values ('image_offre/7-1.jpg', 7);
 
 -- AVIS  TODO next sprint--
 
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'Excellent mais', 'Le spectacle était incroyable, que ce soit la partie musicale ou la projection sur les voiles la nuit, mais les réceptionneur et assistants ont été peu fiable lorsque nous avons demander de l''aide', now(), now(), 'famille');
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)
+
+
+
 insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)
 values (4, 'Test', 'Test', now(), now(), 'Test');
 
