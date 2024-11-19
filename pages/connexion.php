@@ -36,6 +36,7 @@ if ($_POST!=[]) {
                 setcookie("user", $idC, time() + 3600);
                 setcookie("type_compte", 'membre', time() + 3600);
                 header('Location:accueil.php');
+                exit;
                 $trouve = true;
             }
         }
@@ -69,7 +70,7 @@ if ($_POST!=[]) {
                     setcookie("type_compte", 'pro_public', time() + 3600);
                 }
                 header('Location:tableau_de_bord.php');
-                
+                exit;
                 $trouve = true;
             }
         }
