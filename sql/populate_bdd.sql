@@ -129,16 +129,21 @@ insert into pact.photo_offre (src_image, idO) values ('image_offre/7-1.jpg', 7);
 
 -- AVIS  TODO next sprint--
 
-insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'Excellent mais', 'Le spectacle était incroyable, que ce soit la partie musicale ou la projection sur les voiles la nuit, mais les réceptionneur et assistants ont été peu fiable lorsque nous avons demander de l''aide', now(), now(), 'famille');
-/*insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'Excellent mais', 'Le spectacle était incroyable, que ce soit la partie musicale ou la projection sur les voiles la nuit, mais les réceptionneur et assistants ont été peu fiable lorsque nous avons demander de l''aide', now(), now(), 'famille');     /*offre 1*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (2, 'Décu de la visite', 'Je suis allé visité le village Gaulois après avoir ettendu de multiple recommendation de mes proches, cependant il ne semble pas que j''ai eu la même expériene qu''eux puisque j''ai trouvé les attractions très médiocre', now(), now(), 'vacance seul');     /*offre 5*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (5, 'Rien a repproché', 'Nous avons repéré cette visite depuis un petit moment avond avons enfin eu le temps de visité les sept-îles avec ma famille. La visite était incroyable, les îles étaient magnifique et notre guide était très sympathique, nous recommendons fortement', now(), now(), 'vacance en famille');     /*offre 3*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'Très agréable pour les enfants', 'Mes enfants ont adorés les attraction proposées et se sont divertit pour de bonne deux heures. Il manque peut être quelques attractions pour les plus grands', now(), now(), 'week-end en famille');     /*offre 5*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (5, 'Balade très appaisante', 'Les multiples routes sont très tranquilles et effectivement sans trop de montés et il n''y a pas un nombre énorme de personne, rendant la visite plus agréable. J''espers que plus de routes seront disponivle dans le futur', now(), now(), 'après-midi libre');     /*offre 2*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (3, 'Correcte', 'Les plats proposés était correcte, mais trop chère à mon goût', now(), now(), 'soirée avec amis');     /*offre 4*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'Parc d''attraction original', 'Parc d''attraction très sympathique avec un thème unique et des attractions mémorable. J''aurai espéré voir plus d''attraction à sensation forte cependant', now(), now(), 'famille');     /*offre 5*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'Agréable', 'Etant tous des kayakiste depuis plusieurs année, nous avons apprécié l''activité ainsi que ses paysages divers offert', now(), now(), 'week-end entre ami');     /*offre 6*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (5, 'Délicieux', 'Cela fait plusieurs fois que nous revenons ici avec mes amis donc voici mon avis; la sélection des entrées, plats principale et dessert est variée et sont tous délicieux. Le service est aussi très rapide et les employés sont tous très amicale. Je ne peux pas plus recommandé ce restaurant.', now(), now(), 'repas entre amis');     /*offre 4*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (1, 'Inacceptable', 'temp', now(), now(), 'temp');     /*offre 3*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (3, 'temp', 'temp', now(), now(), 'temp');     /*offre 4*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (4, 'temp', 'temp', now(), now(), 'temp');     /*offre 2*/
+insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte) values (2, 'temp', 'temp', now(), now(), 'temp');     /*offre jsp*/
 
 
-
-insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)
-values (4, 'Test', 'Test', now(), now(), 'Test');
-
-insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)
-values (2, 'Test', 'Test', now(), now(), 'Test');
 
 -- not final
 
