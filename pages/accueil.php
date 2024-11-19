@@ -20,10 +20,39 @@ try{
     $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // ido, titre, resume, type, nom_type, cout, description, prix_min, moy_note, nbravis, accessibilitev, categorie, date_creation, date_publication, idadresse, ville, numero_voie, voie, code_postal, complement, idc
 
+    function trie($type_tri, $liste) {
+        if ($type_tri == "prixC") {
+            usort($liste, function($a, $b) {
+                return $a["prix_min"] - $b["prix_min"];
+            });
+        } else if ($type_tri == "prixD") {
+            usort($liste, function($a, $b) {
+                return $b["prix_min"] - $a["prix_min"];
+            });
+        } else if ($type_tri == "notesC") {
+            usort($liste, function($a, $b) {
+                return $a["moy_note"] - $b["moy_note"];
+            });
+        } else if ($type_tri == "notesD") {
+            usort($liste, function($a, $b) {
+                return $b["moy_note"] - $a["moy_note"];
+            });
+        }
+        return $liste;
+    }
+
+    if (isset($_GET['trie'])) {
+        $resultat = trie($_GET['trie'], $resultat);
+    }
+
+    
+
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
     die();
 }
+
+
 
 
 ?>
@@ -78,10 +107,10 @@ try{
                                     <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                                 </div>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#0">Prix croissant</a></li>
-                                    <li><a href="#0">Prix décroissant</a></li>
-                                    <li><a href="#0">Notes croissantes</a></li>
-                                    <li><a href="#0">Notes décroissantes</a></li>
+                                    <li><a href="?trie=prixC">Prix croissant</a></li>
+                                    <li><a href="?trie=prixD">Prix décroissant</a></li>
+                                    <li><a href="?trie=notesC">Notes croissantes</a></li>
+                                    <li><a href="?trie=prixD">Notes décroissantes</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -275,6 +304,7 @@ try{
     </body>
 </html>
 
-<?php 
+<?php
+
 $dbh = null;
 ?>
