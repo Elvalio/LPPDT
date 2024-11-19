@@ -129,7 +129,7 @@ section > div{
     display: inline-flex; /* Flexbox for content adjustment */
     align-items: center;
     padding: 0 40px; /* Space for text and button */
-    background-color: green;
+    background-color: red;
     transition: background-color 0.4s; /* Smooth background color transition */
     border-radius: 34px; /* Rounded shape */
     height: 100%; /* Match the height of the switch */
@@ -154,28 +154,28 @@ section > div{
   
   /* Default slider text (when unchecked) */
   .slider::after {
-    content: "En ligne"; /* Default text */
+    content: "Hors Ligne"; /* Default text */
     position: relative;
     transition: content 0.4s, margin-left 0.4s, margin-right 0.4s;
   }
   
   /* When the checkbox is checked */
   input:checked + .slider {
-    background-color: red; /* Change background to red when checked */
+    background-color: green; /* Change background to red when checked */
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 5px red; /* Add focus shadow */
+    box-shadow: 0 0 5px green; /* Add focus shadow */
   }
   
   /* Change the text when checked */
   input:checked + .slider::after {
-    content: "Hors ligne"; /* Text when checked */
+    content: "En Ligne"; /* Text when checked */
   }
   
   /* Move the round button when checked */
   input:checked + .slider:before {
-    transform: translateX(120px); /* Slide the button to the right */
+    transform: translateX(110px); /* Slide the button to the right */
   }
   
   /* Rounded sliders */
