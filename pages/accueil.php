@@ -256,7 +256,10 @@ try{
             </main>
             <div id="popup" class="popup">
                 <img src="../images/croix.png" alt="" class="close-popup">
-                <p>Vous aussi, postez votre offre dès maintenant</p>
+                <div class="popup-text">
+                    <p>Vous aussi, postez votre offre dès maintenant !</p>
+                    <p>Devenez professionnel en 1 minute</p>
+                </div>
                 <a href="creation_compte.php" class="join-button">Nous rejoindre</a>
             </div>
             <footer>

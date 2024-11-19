@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Se connecter</title>
-    <link rel="stylesheet" type="text/css" href="../css/styleConnexion.css">
-
-</head>
 <?php
-
 include('../sql/connect_params.php');
 
 if ($_POST!=[]) {
@@ -33,8 +22,8 @@ if ($_POST!=[]) {
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600, '/');
-                setcookie("type_compte", 'membre', time() + 3600, '/');
+                setcookie("user", $idC, time() + 3600);
+                setcookie("type_compte", 'membre', time() + 3600);
                 header('Location:accueil.php');
                 $trouve = true;
             }
@@ -54,7 +43,7 @@ if ($_POST!=[]) {
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600, '/');
+                setcookie("user", $idC, time() + 3600);
 
                 $stmt = $dbh->prepare(
                     "select * from pact.professionnel where idC in (select idC from pact.secteur_prive where idC = $idC);"
@@ -66,7 +55,7 @@ if ($_POST!=[]) {
                 if ($stmt!=[]) {
                     setcookie("type_compte", 'pro_prive', time() + 3600, '/');
                 }else{
-                    //setcookie("type_compte", 'pro_public', time() + 3600, '/');
+                    setcookie("type_compte", 'pro_public', time() + 3600, '/');
                 }
                 header('Location:tableau_de_bord.php');   
                 $trouve = true;
@@ -85,6 +74,15 @@ if ($_POST!=[]) {
     
 }
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se connecter</title>
+    <link rel="stylesheet" type="text/css" href="../css/styleConnexion.css">
+
+</head>
 
 <div class="phone-element">
         <?php include_once 'header.php' ?>
@@ -126,5 +124,4 @@ if ($_POST!=[]) {
     </div>
             <?php include_once'footerNav.php' ?>
 </body>
-
 </html>

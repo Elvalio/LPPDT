@@ -181,8 +181,6 @@
             showForm('form-membre');
         });
 
-        
-
         function showForm(formId) {
             // Masquer tous les formulaires
             const forms = document.querySelectorAll('.form-container-page-creation-compte');

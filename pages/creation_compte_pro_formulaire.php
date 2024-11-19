@@ -21,6 +21,14 @@
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
+        <div class="menu-links">
+            <div class="inscription-pro-prive TS-bold" id="link-pro-privee">
+                Inscription professionnelle privée
+            </div>
+            <div class="inscription-pro-public TS-bold" id="link-pro-public">
+                Inscription professionnelle publique
+            </div>
+        </div>
 
         <?php error_reporting(0); if (empty($_POST)) { ?>
         <!-- Formulaire pour l'inscription professionnelle publique -->
@@ -260,9 +268,6 @@
         document.getElementById('link-pro-privee').addEventListener('click', function () {
             showForm('form-pro-privee');
         });
-        document.getElementById('link-membre').addEventListener('click', function () {
-            showForm('form-membre');
-        });
 
         function showForm(formId) {
             // Masquer tous les formulaires
@@ -377,7 +382,7 @@
         }
 
         //Empêche l'envoie des données si le form possède des erreurs
-        document.forms["membre"].addEventListener('submit', function (event) {
+        document.forms["pro-public"].addEventListener('submit', function (event) {
             if (!validateFormMembre()) {
                 event.preventDefault();
             }
