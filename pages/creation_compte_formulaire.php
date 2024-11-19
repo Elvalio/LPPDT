@@ -123,47 +123,6 @@
             $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
 
 
-
-        } else if($_POST["type"]=="pro_public"){
-
-
-            $nom = $_POST["nom"];
-            $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination"];
-            $email = $_POST["email"];
-            $telephone = $_POST["telephone"];
-            $code_postal = $_POST["codepostal"];
-            $ville = $_POST["ville"];
-            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
-            array_shift($temp);                         //On supprime le numéro de la voie
-            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-            $mdp = $_POST["password"];
-            $codePro = time();
-
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-
-        } else if($_POST["type"]=="pro_prive"){
-
-            $nom = $_POST["nom"];
-            $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination"];
-            $raison_sociale = $_POST["raison"];
-            $email = $_POST["email"];
-            $telephone = $_POST["telephone"];
-            $code_postal = $_POST["codepostal"];
-            $ville = $_POST["ville"];
-            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
-            array_shift($temp);                         //On supprime le numéro de la voie
-            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-            $siren = $_POST["num_SIREN"];
-            $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
-            $mdp = $_POST["password"];
-            $iban = $_POST["iban"];
-            $bic = $_POST["bic"];
-            $codePro = time();
-
             if (!empty($POST["iban"])) {
                 $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
             }
