@@ -22,10 +22,10 @@
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
         <div class="menu-links">
-            <div class="inscription-membre TS-bold" id="link-pro-privee">
+            <div class="inscription-pro-prive TS-bold" id="link-pro-privee">
                 Inscription professionnelle privée
             </div>
-            <div class="inscription-membre TS-bold" id="link-pro-public">
+            <div class="inscription-pro-public TS-bold" id="link-pro-public">
                 Inscription professionnelle publique
             </div>
         </div>

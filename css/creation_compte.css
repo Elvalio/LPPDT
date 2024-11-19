@@ -184,63 +184,6 @@ label {
     height: 212px;
 }
 
-/* Permet de mettre en forme les 2 boutons pour choisir entre un compte pro public ou privé */
-.pro-public-privee {
-    display: flex;
-    margin-bottom: 20px;
-    border-radius: 30px;
-    justify-content: center;
-}
-
-/* LES CODES CSS QUI SUIVENT SERVENT A DEFINIR LE STYLE DES BOUTON PUBLIC ET PRIVEE 
-    DANS LES 2 VERSIONS DIFFERENTES : UNE PAR PAGE (PUBLIC, PRIVEE) */
-.public-page-public {
-    background-color: #F07605;
-    z-index: +1;
-    color: white;
-    padding: 10px 20px 10px 20px;
-    border-radius: 30px;
-    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
-                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
-                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
-    text-align: center;
-    width: 100%;
-}
-
-.public-page-privee {
-    background-color: #FFF7E1;
-    z-index: +1;
-    color: #A2021F;
-    padding: 10px 20px 10px 20px;
-    border-radius: 30px;
-    text-align: center;
-    width: 100%;
-}
-
-.privee-page-public {
-    background-color: #FFF7E1;
-    z-index: +1;
-    color: #A2021F;
-    padding: 10px 20px 10px 20px;
-    border-radius: 30px;
-    text-align: center;
-    width: 100%;
-}
-
-
-.privee-page-privee {
-    background-color: #F07605;
-    z-index: +1;
-    color: white;
-    padding: 10px 20px 10px 20px;
-    border-radius: 30px;
-    box-shadow: -5px 0 10px rgba(255, 99, 71, 0.5), /* Ombre à gauche */
-                0 5px 10px rgba(255, 99, 71, 0.5),  /* Ombre en bas */
-                0 -5px 10px rgba(255, 99, 71, 0.5); /* Ombre en haut */
-    text-align: center;
-    width: 100%;
-}
-
 /* Les styles ci-dessous correspondent au éléments du formulaire qui se trouvent sur une même ligne : Code postal et ville par exemple */
 .row {
     display: flex;
