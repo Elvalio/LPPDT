@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="fr">
 
 <head>
@@ -9,7 +9,6 @@
 
 </head>
 <?php
-
 include('../sql/connect_params.php');
 
 if ($_POST!=[]) {
@@ -127,4 +126,4 @@ if ($_POST!=[]) {
             <?php include_once'footerNav.php' ?>
 </body>
 
-</html>
+
