@@ -44,7 +44,6 @@
                 foreach($stmt as $key => $valeur){
                 ?>
                 <section class="section_offre">
-                    <p><?php echo $valeur["en_ligne"]; ?></p>
                     <img src="../images/<?php echo $valeur["src_image"]; ?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>">
                     <div class="infos_offre">
                         <div class="titre_switch">

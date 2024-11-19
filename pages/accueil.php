@@ -87,11 +87,9 @@ try{
                     <div class="NouveauALaUne">
                         <div class="boutonNouveau NoSelect">
                             <p class="FS">Nouveau</p>
-                            <img src="../images/croix.png" alt="croix" title="croix">
                         </div>
                         <div class="boutonALaUne NoSelect">
                             <p class="FS">A la une</p>
-                            <img src="../images/croix.png" alt="croix" title="croix">
                         </div>
                     </div>
                 </div>
@@ -256,6 +254,14 @@ try{
 
                                 
             </main>
+            <div id="popup" class="popup">
+                <img src="../images/croix.png" alt="" class="close-popup">
+                <div class="popup-text">
+                    <p>Vous aussi, postez votre offre dès maintenant !</p>
+                    <p>Devenez professionnel en 1 minute</p>
+                </div>
+                <a href="creation_compte.php" class="join-button">Nous rejoindre</a>
+            </div>
             <footer>
                 <?php include_once'footer.php'; ?>
             </footer>
