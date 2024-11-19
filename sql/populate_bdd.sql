@@ -153,3 +153,5 @@ insert into _experience(idA, idC, idO) values (2, 1, 3);
 insert into _experience(idA, idC, idO) values (2, 2, 4);
 insert into _experience(idA, idC, idO) values (2, 3, 5);
 insert into _experience(idA, idC, idO) values (2, 4, 6);
+
+insert into experience(idC, idO, titre_avis, note, corps, date_visite, contexte) values (1, 1, 'Titre', 2, 'Corps', now(), 'Contexte');
