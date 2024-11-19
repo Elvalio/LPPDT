@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Se connecter</title>
-    <link rel="stylesheet" type="text/css" href="../css/styleConnexion.css">
-
-</head>
 <?php
-
 include('../sql/connect_params.php');
 
 if ($_POST!=[]) {
@@ -64,9 +53,9 @@ if ($_POST!=[]) {
                 $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if ($stmt!=[]) {
-                    setcookie("type_compte", 'pro_prive', time() + 3600);
+                    setcookie("type_compte", 'pro_prive', time() + 3600, '/');
                 }else{
-                    setcookie("type_compte", 'pro_public', time() + 3600);
+                    setcookie("type_compte", 'pro_public', time() + 3600, '/');
                 }
                 header('Location:tableau_de_bord.php');   
                 $trouve = true;
@@ -85,6 +74,15 @@ if ($_POST!=[]) {
     
 }
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Se connecter</title>
+    <link rel="stylesheet" type="text/css" href="../css/styleConnexion.css">
+
+</head>
 
 <div class="phone-element">
         <?php include_once 'header.php' ?>
@@ -126,5 +124,4 @@ if ($_POST!=[]) {
     </div>
             <?php include_once'footerNav.php' ?>
 </body>
-
 </html>
