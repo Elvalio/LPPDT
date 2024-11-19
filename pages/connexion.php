@@ -33,10 +33,9 @@ if ($_POST!=[]) {
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600);
-                setcookie("type_compte", 'membre', time() + 3600);
+                setcookie("user", $idC, time() + 3600, '/');
+                setcookie("type_compte", 'membre', time() + 3600, '/');
                 header('Location:accueil.php');
-                exit;
                 $trouve = true;
             }
         }
@@ -55,7 +54,7 @@ if ($_POST!=[]) {
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600);
+                //setcookie("user", $idC, time() + 3600, '/');
 
                 $stmt = $dbh->prepare(
                     "select * from pact.professionnel where idC in (select idC from pact.secteur_prive where idC = $idC);"
@@ -65,12 +64,11 @@ if ($_POST!=[]) {
                 $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                 if ($stmt!=[]) {
-                    setcookie("type_compte", 'pro_prive', time() + 3600);
+                    setcookie("type_compte", 'pro_prive', time() + 3600, '/');
                 }else{
-                    setcookie("type_compte", 'pro_public', time() + 3600);
+                    //setcookie("type_compte", 'pro_public', time() + 3600, '/');
                 }
-                header('Location:tableau_de_bord.php');
-                exit;
+                header('Location:tableau_de_bord.php');   
                 $trouve = true;
             }
         }

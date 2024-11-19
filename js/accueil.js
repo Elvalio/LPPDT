@@ -195,4 +195,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialisation
     updateSliderValues();
+
+    
+
+    function showPopup() {
+        const popup = document.getElementById('popup');
+        const croix = document.querySelector('.close-popup');
+    
+        // Afficher la pop-up
+        popup.classList.add('show');
+    
+        // Ajouter un événement pour fermer la pop-up
+        croix.addEventListener('click', function closePopup() {
+            popup.classList.remove('show');
+            
+            // Supprimer l'écouteur pour éviter les doublons
+            croix.removeEventListener('click', closePopup);
+        });
+    }
+    
+    // Afficher la pop-up après 30 secondes (une seule fois)
+    setTimeout(showPopup, 30000);
+    
 });
