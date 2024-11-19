@@ -38,11 +38,12 @@ try{
 
 <html>
     <?php 
+    if(isset($_COOKIE['type_compte'])){
     if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
         <body class="BO"> <?php   
     } else { ?>
         <body class="FO"> <?php
-    } ?>
+    } }?>
         <nav class="desktop-element">
          <?php include_once'nav.php'; ?>
         </nav>
