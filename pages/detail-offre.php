@@ -64,7 +64,7 @@ WHERE o.ido = $idAnnonce;
                     <?php 
                 if ($stmt[0]['duree']) {
                     echo " | Durée : ";
-                    echo $stmt[0]['duree'];
+                    echo str($stmt[0]['duree']);
                 }
                 ?>
                     <?php 
