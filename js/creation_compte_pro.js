@@ -31,10 +31,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // Sélectionner les éléments des liens
     const proPublicLink = document.getElementById('link-pro-public');
     const proPriveeLink = document.getElementById('link-pro-privee');
-    const membreLink = document.getElementById('link-membre');
 
     // Couleurs personnalisées
-    const membreLinkColor = '#006B8F'; // Couleur de fond pour le lien "Inscription Membre"
     const boxShadowColor = 'rgba(0, 107, 143, 0.5)'; // Couleur d'ombre correspondante
     const defaultBackgroundColor = '#FFF7E1'; // Couleur de fond par défaut
     const defaultTextColor = '#006B8F'; // Couleur de texte par défaut
@@ -48,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Fonction pour réinitialiser le style de tous les liens
     function resetStyles() {
-        const links = [proPublicLink, proPriveeLink, membreLink];
+        const links = [proPublicLink, proPriveeLink];
         links.forEach(link => {
             link.style.backgroundColor = defaultBackgroundColor; // Rétablir la couleur de fond par défaut
             link.style.color = defaultTextColor; // Couleur de texte par défaut
@@ -66,23 +64,15 @@ document.addEventListener("DOMContentLoaded", function() {
     function activateLink(link) {
         resetStyles(); // Réinitialiser les styles
 
-        if (link === membreLink) {
-            link.style.backgroundColor = membreLinkColor; // Couleur de fond personnalisée pour Inscription Membre
-            link.style.color = activeTextColor; // Couleur de texte personnalisée
-            link.style.boxShadow = `0 5px 10px ${boxShadowColor}, 0 -5px 10px ${boxShadowColor}`; // Ombre pour le lien "Inscription Membre"
-        } else {
-            link.style.backgroundColor = '#A2021F'; // Couleur de fond personnalisée pour les autres
-            link.style.color = activeTextColor; // Couleur de texte personnalisée
-            link.style.boxShadow = '-5px 0 10px rgba(255, 99, 71, 0.5), 0 5px 10px rgba(255, 99, 71, 0.5), 0 -5px 10px rgba(255, 99, 71, 0.5)'; // Ombre personnalisée pour les autres
-        }
-
+        link.style.backgroundColor = '#A2021F'; // Couleur de fond personnalisée pour les autres
+        link.style.color = activeTextColor; // Couleur de texte personnalisée
+        link.style.boxShadow = '-5px 0 10px rgba(255, 99, 71, 0.5), 0 5px 10px rgba(255, 99, 71, 0.5), 0 -5px 10px rgba(255, 99, 71, 0.5)'; // Ombre personnalisée pour les autres
         link.style.textAlign = 'center'; // Alignement du texte
     }
 
     // Ajouter des événements de clic à chaque lien
     proPublicLink.addEventListener('click', () => activateLink(proPublicLink));
     proPriveeLink.addEventListener('click', () => activateLink(proPriveeLink));
-    membreLink.addEventListener('click', () => activateLink(membreLink));
 
     // Optionnel : Activer le premier lien par défaut
     activateLink(proPublicLink); // Exemple pour activer "Inscription Professionnelle - Public" par défaut
