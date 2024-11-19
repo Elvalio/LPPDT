@@ -20,21 +20,21 @@ function appuieToggle(event) {
         let confirmation = confirm("Êtes-vous sûr de vouloir passer cette offre hors ligne ?");
         if (confirmation) {
             toggle.checked = true;
-            section.style.opacity = "0.5";
+            section.style.setProperty("opacity", 0.5);
             form.submit();  // Soumettre le formulaire si confirmé
         } else {
             toggle.checked = false;
-            section.style.opacity = "1";
+            section.style.setProperty("opacity", 1);
         }
     } else {
         let confirmation = confirm("Êtes-vous sûr de vouloir passer cette offre en ligne ?");
         if (confirmation) {
             toggle.checked = false;
-            section.style.opacity = "1";
+            section.style.setProperty("opacity", 1);
             form.submit();  // Soumettre le formulaire si confirmé
         } else {
             toggle.checked = true;
-            section.style.opacity = "0.5";
+            section.style.setProperty("opacity", 0.5);
         }
     }
 }

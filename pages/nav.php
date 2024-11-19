@@ -72,12 +72,12 @@
                                     <?php if (isset($_COOKIE['type_compte'])) { ?>
                                         <script>
                                             function deconnexion() {
-                                                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-                                                document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+                                                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+                                                document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
                                                 location.assign("accueil.php");
                                             }
                                         </script>
-                                        <a href="#" class="nav-item" data-icon="deconnection" onclick="deconnexion();">
+                                        <a href="#" class="nav-item" data-icon="deconnection" onclick="deconnexion()">
 
                                             <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo déconnecter" class="logo-nav">
                                             <p>Se déconnecter</p>
