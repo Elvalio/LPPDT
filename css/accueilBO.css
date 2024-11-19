@@ -35,6 +35,7 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+
 }
 
 header + nav {
@@ -48,6 +49,8 @@ header + nav {
     flex-direction: row;
     align-items: center; /* Aligne verticalement le contenu */
     justify-content: space-between; /* Espace entre les éléments */
+
+    padding: 0 18px 0 16px;
 }
 
 .space-button {
@@ -55,6 +58,7 @@ header + nav {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
 }
 
 p {
@@ -570,19 +574,14 @@ input[type="range"]::-ms-thumb {
     color: #757575;
 }
 
-.NouveauALaUne div img {
-    width: 12px;
-    height: 12px;
-    object-fit: contain;
-    display: none; /* Masqué par défaut */
-}
-
 .NouveauALaUne div img.show {
     display: block; /* Affiche l'image lorsque la classe 'show' est ajoutée */
 }
 
 .NouveauALaUne div.active {
     background-color: #2C2C2C; /* Changer la couleur du fond lorsqu'actif */
+}
+.NouveauALaUne div.active p {
     color: #F5F5F5; /* Couleur du texte en mode actif */
 }
 
@@ -799,4 +798,79 @@ input[type="range"]::-ms-thumb {
         object-fit: cover;
     }
 
+}
+
+
+/* =========================================================== */
+/*                     STYLES POUR LA POP-UP                   */
+/* =========================================================== */
+
+
+.popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background-color: var(--bleu-rouge);
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    
+    padding: 10px 20px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.4s, transform 0.4s;
+    z-index: 1000;
+}
+
+.popup p {
+    color: var(--blanc);
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    
+}
+
+.popup a {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+
+    background-color: var(--blanc);
+    color: var(--noir);
+    
+    text-decoration: none;
+
+    padding: 10px 35px;
+
+    border-radius: 5px;
+}
+
+.popup a:hover {
+    background-color: var(--gris-clair);
+}
+
+.popup img {
+    width: 10px;
+    height: 10px;
+    object-fit: cover;
+
+    cursor: pointer;
+
+    position: absolute;
+    top: 3px;
+    right: 3px;
+
+    border: 1px solid var(--blanc);
+    border-radius: 25px;
+}
+
+/* Lorsque la pop-up est visible */
+.popup.show {
+    opacity: 1;
+    transform: translateX(0);
 }

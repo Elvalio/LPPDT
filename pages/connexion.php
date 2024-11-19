@@ -68,8 +68,7 @@ if ($_POST!=[]) {
                 }else{
                     setcookie("type_compte", 'pro_public', time() + 3600);
                 }
-                header('Location:tableau_de_bord.php');
-                
+                header('Location:tableau_de_bord.php');   
                 $trouve = true;
             }
         }
