@@ -320,14 +320,14 @@ WHERE o.ido = $idAnnonce;
                 $stmt = $bdh->prepare("SELECT * FROM pact.avis WHERE ido = $idAnnonce;");
                 $stmt->execute();
                 $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($stmt as $avis) { ?>
+                foreach ($stmt as $key => $avis) { ?>
                 <div>
                     <div class="header-avis-profil">
                         <div class="profil">
                             <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
                             <p>
                                 <?php
-                    echo $avis['nom']; ?>
+                    echo $avis['titre']; ?>
                             </p>
                         </div>
                         <div>
@@ -340,7 +340,7 @@ WHERE o.ido = $idAnnonce;
                     <div class="commentaire-consulte">
                         <p>
                             <?php
-                    echo $avis['commentaire']; ?>
+                    echo $avis['corps']; ?>
                         </p>
                     </div>
                     <div>
