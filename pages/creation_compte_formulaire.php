@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <?php error_reporting(0); if (empty($_POST)) { ?>
+        <?php  if (empty($_POST)) { ?>
         <!-- Formulaire pour l'inscription professionnelle publique -->
         <div class="form-container-page-creation-compte" id="form-pro-public">
             <form name="publique" action="creation_compte_formulaire.php" method="post" enctype="multipart/form-data">
