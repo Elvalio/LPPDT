@@ -959,10 +959,25 @@ instead of update on pact.restauration
 --- experience ---
 
 create or replace view pact.experience as
-  select e.idC, pseudo, e.idA, avis.titre as titre_avis, e.idO, offre.titre as titre_offre from _experience e
+  select e.idC, pseudo, e.idA, avis.titre as titre_avis, note, corps, avis.date_publication, date_visite, contexte, e.idO, offre.titre as titre_offre from _experience e
   inner join membre on e.idC = membre.idC 
   inner join avis on e.idA = avis.idA
   inner join offre on e.idO = offre.idO;
+
+
+create or replace function pact.insert_experience()
+  returns trigger as $$
+begin
+  insert into pact.avis (note, titre, corps, date_publication, date_visite, contexte)
+  values (new.note, new.titre_avis, new.corps, now(), new.date_visite, new.contexte) returning idA into new.idA;
+  insert into _experience(idA, idC, idO) values (new.idA, new.idC, new.idO);
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_insert_experience
+instead of insert on pact.experience
+  for each row execute procedure pact.insert_experience();
   
 --- photo_offre ---
 
