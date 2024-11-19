@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
         'input[id="nom-membre"], input[id="prenom-membre"], input[id="pseudo-membre"], input[id="codepostal-membre"], input[id="ville-membre"], input[id="adresse-membre"], input[id="email-membre"], input[id="telephone-membre"], input[id="password-membre"], input[id="confirm_password-membre"]'
     );
 
+
     inputs_membre.forEach(input => {
         // Ajouter les styles personnalisés directement aux inputs de la page membre
         input.style.width = '100%';
@@ -12,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function() {
         input.style.borderRadius = '5px';
         input.style.border = '2px solid #006B8F';
     });
+
+
+
 
 
 
@@ -25,13 +29,15 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
+
+
     // Sélectionner les éléments des liens
     const membreLink = document.getElementById('link-membre');
+
 
     // Couleurs personnalisées
     const membreLinkColor = '#006B8F'; // Couleur de fond pour le lien "Inscription Membre"
     const boxShadowColor = 'rgba(0, 107, 143, 0.5)'; // Couleur d'ombre correspondante
-    const defaultBackgroundColor = '#FFF7E1'; // Couleur de fond par défaut
     const defaultTextColor = '#006B8F'; // Couleur de texte par défaut
     const activeTextColor = 'white'; // Couleur de texte pour les liens actifs
     const activeFontSize = '24px'; // Taille de police personnalisée
@@ -40,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const activeBorderRadius = '30px'; // Rayon de bord personnalisé
     const fixedWidth = '350px'; // Largeur fixe pour tous les liens
     const fixedHeight = '100px'; // Hauteur fixe pour tous les liens (augmenté)
+
 
     // Fonction pour réinitialiser le style de tous les liens
     function resetStyles() {
@@ -56,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
             link.style.height = fixedHeight; // Appliquer la hauteur fixe
         });
     }
+
 
     // Fonction pour activer le lien cliqué
     function activateLink(link) {
