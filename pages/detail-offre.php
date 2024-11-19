@@ -1,6 +1,5 @@
 <?php 
     include_once 'nav.php'; 
-    error_reporting(0);
 
     include('../sql/connect_params.php');
     $idAnnonce = $_GET['value'];

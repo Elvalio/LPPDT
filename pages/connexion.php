@@ -9,7 +9,7 @@
 
 </head>
 <?php
-error_reporting(0);
+
 include('../sql/connect_params.php');
 
 if ($_POST!=[]) {

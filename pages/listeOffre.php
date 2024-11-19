@@ -10,7 +10,7 @@
 <body class="phone-element">
     <header>
     <?php
-    error_reporting(0);
+    
         include 'header.php';
     ?>
     </header>
