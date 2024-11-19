@@ -54,7 +54,7 @@ if ($_POST!=[]) {
         if ($stmt!=[]) {
             if ($stmt[0]['mdp'] == $_POST['password']) {
                 $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600, '/');
+                //setcookie("user", $idC, time() + 3600, '/');
 
                 $stmt = $dbh->prepare(
                     "select * from pact.professionnel where idC in (select idC from pact.secteur_prive where idC = $idC);"
