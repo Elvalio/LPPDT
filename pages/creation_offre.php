@@ -1,5 +1,5 @@
 <?php
-// include_once 'nav.php';
+include_once 'nav.php';
 
 include('../sql/connect_params.php');
 
