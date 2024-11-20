@@ -100,8 +100,8 @@ try {
             <div class="infos-offre">
                 <div class="etoiles">
                     <?php 
-                    $nbrAvis = $offre['nbravis'] ?? 0;
-                    $moyNote = $offre['moy_note'] ?? 0;
+                    $nbrAvis = $offre['nbravis'];
+                    $moyNote = $offre['moy_note'];
                     $fullStars = (int) $moyNote;
                     $emptyStars = 5 - $fullStars;
 
@@ -124,6 +124,88 @@ try {
             <p><?php echo nl2br(htmlspecialchars($offre['description'])); ?></p>
         </article>
 
+        <article class="part-contact">
+                <div class="side-contact">
+                    <div>
+                        <h3>Contact :</h3>
+                        <div>
+                            <?php 
+                        $address = $offre['numero_voie'] . $offre['voie'] . $offre['ville'] . $offre['code_postal'];
+                        ?>
+                            <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
+                                <img src="../images/maison.png" alt="icon maison (localisation)">
+                                <p>
+                                    <?php
+                                echo $offre['numero_voie'];
+                                echo " ";
+                                echo $offre['voie'];
+                                echo " ";
+                                echo $offre['ville'];
+                                echo " ";
+                                echo $offre['code_postal'];
+
+                            ?>
+                                </p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="tel:<?php 
+                            echo htmlspecialchars($telephone);
+                                ?> ">
+                                <img src="../images/telephone.png" alt="icon telephone">
+                                <p>
+                                    <?php 
+                                        echo htmlspecialchars($telephone);
+                                    ?>
+                                </p>
+                            </a>
+                        </div>
+
+                        <?php
+                        if (!empty($offre['site_web'])) { ?>
+                        <div>
+                            <a href=" <?php echo $offre['site_web']; ?>">
+                                <img src="../images/pc.png" alt="icon pc (lien vers le site)">
+                                <p>
+                                    <?php
+                            echo $offre['site_web']; ?>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <?php
+
+                        } ?>
+                </div>
+                <!--<div class="horaires">
+                        <h3>Horaires et tarifs :</h3>
+                        <div>
+                            <img src="../images/Delivery Time.png" alt="icon heure">
+                            <p>8h - 13h et 14h30 - 18h du lundi au vendredi</p>
+                        </div>
+                        <div>
+                            <img src="../images/Stack of Coins.png" alt="icon argent">
+                            <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
+                        </div>
+                    </div>-->
+                </div>
+                <?php 
+                    if (!empty($offre['carte'])) { ?>
+                <div>
+                    <img class="carte" src="../images/ <?php $offre['carte'] ?>" alt="carte géolocalisation">
+                </div>
+                <?php
+                    } elseif (!empty($offre['src_image'])) { ?>
+                <div>
+                    <img class="carte" src="../images/ <?php $offre['src_image'] ?>" alt="carte">
+                </div>
+                <?php
+                    }
+                ?>
+                </div>
+
+            </article>
+
         <!-- Bouton de retour -->
         <button class="bouton-retour NoSelect">
         <a href="./accueil.php">
@@ -139,22 +221,25 @@ try {
             <h3>Avis : <?php echo $nbrAvis; ?></h3>
         </header>
         <article class="article-avis">
-            <?php foreach ($avis as $avisIndividuel): ?>
-                <div>
-                    <div class="header-avis-profil">
-                        <div class="profil">
-                            <img src="../images/image4.png" alt="Photo de profil" width="40" height="40">
-                            <p><?php echo htmlspecialchars($avisIndividuel['nom']); ?></p>
-                        </div>
-                        <div>
-                            <p><?php echo htmlspecialchars($avisIndividuel['note']); ?></p>
-                        </div>
+        
+        <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
+            <div>
+                <div class="header-avis-profil">
+                    <div class="profil">
+                        <img src="../images/image4.png" alt="Photo de profil" width="40" height="40">
+                        <p><?php echo htmlspecialchars($avisIndividuel['titre']); ?></p>
                     </div>
-                    <div class="commentaire-consulte">
-                        <p><?php echo nl2br(htmlspecialchars($avisIndividuel['commentaire'])); ?></p>
+                    <div>
+                        <?php
+                        echo emptystars($avisIndividuel['note']); ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
+                <div class="commentaire-consulte">
+                    <p><?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?></p>
+                </div>
+            </div>
+        <?php endforeach; }?> <!-- Ensure this is properly placed -->
+
         </article>
     </section>
     
