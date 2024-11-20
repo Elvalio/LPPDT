@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////////
+            /////////////////////////////////////////////////////////////////////////////////////////////////////
             ///////////////////////////////// GESTION CHECKBOX //////////////////////////////////////////////////
             /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,26 +21,26 @@
             // document.addEventListener('DOMContentLoaded', function() {
 
                 // Gestion de la catégorie et de l'affichage des champs en fonction des catégories
-                var categorieSelect = document.getElementById('categorie-offre');
-                var dureeContainer = document.getElementById('duree-container');
-                var ageContainer = document.getElementById('age-container');
-                var langueContainer = document.getElementById('langue-container');
-                var capaciteContainer = document.getElementById('capacite-container');
-                var nbattractionContainer = document.getElementById('nbattraction-container');
-                var carteImageContainer = document.getElementById('map-image');
-                var categoriePrixContainer = document.getElementById('categorie-prix-container');
-                var repasContainer = document.getElementById('repas-container');
-                var labelElement = document.querySelector('#map-image label');
-                var repasMapContainer = document.getElementById('repas-map');
-                var prestationIncluseContainer = document.getElementById('pinclus-container');
-                var prestationExcluseContainer = document.getElementById('pexclus-container');
+                const categorieSelect = document.getElementById('categorie-offre');
+                const dureeContainer = document.getElementById('duree-container');
+                const ageContainer = document.getElementById('age-container');
+                const langueContainer = document.getElementById('langue-container');
+                const capaciteContainer = document.getElementById('capacite-container');
+                const nbattractionContainer = document.getElementById('nbattraction-container');
+                const carteImageContainer = document.getElementById('map-image');
+                const categoriePrixContainer = document.getElementById('categorie-prix-container');
+                const repasContainer = document.getElementById('repas-container');
+                const labelElement = document.querySelector('#map-image label');
+                const repasMapContainer = document.getElementById('repas-map');
+                const prestationIncluseContainer = document.getElementById('pinclus-container');
+                const prestationExcluseContainer = document.getElementById('pexclus-container');
 
                 // Récupérer tous les éléments avec la classe 'tag'
-                var tags = document.getElementsByClassName('tag');
-                var tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Plein air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
-                var tagsToHideOther = ['Française', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
-                var tagsItemsContainer = document.getElementById('tags-items-container');
-                var tagContainer = document.getElementById('tag-container');
+                const tags = document.getElementsByClassName('tag');
+                const tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Plein air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
+                const tagsToHideOther = ['Française', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
+                const tagsItemsContainer = document.getElementById('tags-items-container');
+                const tagContainer = document.getElementById('tag-container');
 
                 // Sélectionne les éléments nécessaires pour les 3 images
                 const boutonSuppression = document.getElementById('file-delete');
@@ -57,9 +57,11 @@
                 var nextIndex = 0;
 
                 // Sélectionne les éléments nécessaires pour la map
-                var mapFileUpload = document.getElementById('map-file-upload');
-                var mapFileDelete = document.getElementById('map-file-delete');
-                var mapImageContainer = document.getElementById('map-image-container').querySelector('img');
+                const mapFileUpload = document.getElementById('map-file-upload');
+                const mapFileDelete = document.getElementById('map-file-delete');
+                const mapImageContainer = document.getElementById('map-image-container').querySelector('img');
+                const mapTextBouton = document.getElementById("map-upload-text"); 
+                const mapIconBouton = document.querySelector('#map-custom-file-upload img');
                 
                 ////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////// GESTION DES CHAMPS PAR CATEGORIE /////////////////////
@@ -313,7 +315,7 @@
                                         selectedImageIndex = -1;
                                         // Trouver la première case vide pour nextIndex
                                         nextIndex = rechercheImageVide();
-                                        boutonSuppression.style.display = 'block';
+                                        boutonSuppression.style.display = 'flex';
                                     }                                
                                 }else{                                
                                     selectedImages[nextIndex].src = e.target.result;
@@ -323,7 +325,7 @@
                                     } else {
                                         nextIndex++;
                                     }
-                                    boutonSuppression.style.display = 'block';
+                                    boutonSuppression.style.display = 'flex';
                                 }
                                 toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout                       
                             };
@@ -387,7 +389,7 @@
                     if (mapFileUpload.files.length > 0) {
                         var file = mapFileUpload.files[0];
                         var reader = new FileReader();
-                        mapFileDelete.style.display = 'block';
+                        mapFileDelete.style.display = 'flex';
                         
 
                         reader.onload = function(e) {
@@ -395,17 +397,19 @@
                         };
 
                         reader.readAsDataURL(file);
-                        mapFileUpload.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image plus tard
+                        mapTextBouton.textContent = 'Modifier';
+                        mapIconBouton.src = '../icons/changer.svg';
                     }
                 });
 
                 // Fonction pour supprimer une image
                 mapFileDelete.addEventListener('click', function() {
-                    if (mapImageContainer.src.includes('rien.png')) {
-                    } else {
-                        mapImageContainer.src = '../images/rien.png'; // Réinitialiser l'image
-                        mapFileDelete.style.display = 'none';
-                    }
+                    mapTextBouton.textContent = 'Ajouter';
+                    mapIconBouton.src = '../icons/plus.svg';
+                    mapImageContainer.src = '../images/rien.png'; // Réinitialiser l'image
+                    mapFileDelete.style.display = 'none';
+                    mapFileUpload.value = '';
+                    
                 });
             // });
 

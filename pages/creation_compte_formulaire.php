@@ -11,13 +11,11 @@
 
 <body>
     <!-- Bouton de retour -->
-    <a href="connexion.php" style="text-decoration: none;">
-        <div class="bouton-retour-page-création">
-            <button class="FS">
-                <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
-            </button>
-        </div>
-    </a>
+    <div class="bouton-retour-page-création " onclick="history.back()">
+        <button class="FS">
+            <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
+        </button>
+     </div>
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
@@ -83,8 +81,9 @@
                         
                         <div class="checkbox">
                             <input type="checkbox" id="terms" name="terms" required>
-                            <label for="terms" class="FS-bold">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
+                            <span class="FS-bold">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></span>
                         </div>
+
                     </div>
                 </div>
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">S'inscrire</button>

@@ -44,8 +44,14 @@ try{
     if (isset($_GET['trie'])) {
         $resultat = trie($_GET['trie'], $resultat);
     }
+    $sorted_resultat = $resultat;
+    usort($sorted_resultat, function($a, $b) {
+        return $a["prix_min"] - $b["prix_min"];
+    });
 
-    
+    $prix_min = $sorted_resultat[0]["prix_min"];
+    $prix_max = $sorted_resultat[count($sorted_resultat)-1]["prix_min"];
+    $step = ($prix_max > 1000) ? 10 : 1;
 
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -70,9 +76,11 @@ try{
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
             <body class="BO"> <?php   
-        } else { ?>
+        }  else { ?>
             <body class="FO"> <?php
-        } 
+        }
+    } else { ?>
+        <body class="FO"> <?php
     }?>
         <nav class="desktop-element">
          <?php include_once'nav.php'; ?>
@@ -91,8 +99,8 @@ try{
                 <div class="nav_space">
                     <div class="space-button">
                         <div class="search">
-                            <input type="text" name="search" id="search" placeholder="Search" class="FS">
-                            <img src="../images/search_icon.png" alt="Search" title="Search">
+                            <input type="text" name="search" id="search" placeholder="Recherche" class="FS">
+                            <img src="../images/search_icon.png" alt="Recherche" title="Recherche">
                         </div>
 
                         <div class="filtrer-trier"> 
@@ -148,8 +156,8 @@ try{
                 </div>
                 <div class="filter filtre-lieu">
                     <div class="search-filter">
-                        <input type="text" name="search" id="search" placeholder="Search">
-                        <img src="../images/search_icon.png" alt="Search" title="Search">
+                        <input type="text" name="search" id="search" placeholder="Recherche">
+                        <img src="../images/search_icon.png" alt="Recherche" title="Recherche">
                     </div>
                     <div class="filtre-case">
                         <input type="checkbox" id="sb" name="sb" />
@@ -181,14 +189,13 @@ try{
                 </div>
                 <div class="filter filtre-prix">
                     <div class="slider-container">
-                        <input type="range" id="slider-left" min="0" max="1000" value="0" step="10">
-                        <input type="range" id="slider-right" min="0" max="1000" value="1000" step="10">
+                        <input type="range" id="slider-left" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>">
+                        <input type="range" id="slider-right" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>">
                         <div class="value-container">
-                            <span id="value-left">0€</span>
-                            <span id="value-right">1000€</span>
+                            <span id="value-left"><?php echo $prix_min ?>€</span>
+                            <span id="value-right"><?php echo $prix_max ?>€</span>
                         </div>
                     </div>
-                    <button type="submit" id="valider-prix" class="NoSelect">Valider</button>
                 </div>
                 <div class="filter filtre-note">
                     <?php
