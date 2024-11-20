@@ -2,7 +2,7 @@
 include('../sql/connect_params.php');
 
 if ($_POST!=[]) {
-    $identifiant = $_POST['identifiant'];
+    $identifiant = trim($_POST['identifiant']);
     $message_erreur = '';
     $trouve = false;
     try{
