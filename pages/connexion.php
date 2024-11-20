@@ -94,7 +94,7 @@ if ($_POST!=[]) {
 
     
     <div class="container">
-        <button class="back-button" onclick="history.back();"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
+        <button class="back-button" onclick="location.href='accueil.php';"> <img src="../icons/arrow-left-o.svg" alt="">Retour</button>
 
         <div class="logo-container">
             <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo">
