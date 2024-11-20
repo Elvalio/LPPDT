@@ -1,5 +1,5 @@
 <?php
-include_once 'nav.php';
+// include_once 'nav.php';
 
 include('../sql/connect_params.php');
 
@@ -491,7 +491,7 @@ if (isset($_FILES['image'])) {
                                         <label>Plan du parc</label>
                                         <!-- Éléments pour afficher les images importées -->
                                         <div id="map-image-container">
-                                            <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                            <img id="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
                                         </div>
                                         <div id="map-file-container">
                                             <label for="map-file-upload" id="map-custom-file-upload">
@@ -572,13 +572,12 @@ if (isset($_FILES['image'])) {
                                         Supprimer une image
                                     </button>
                                 </div>
-                                <p id="error-message-modifier" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
                                 <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
+                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée2" />
+                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée3" />
                                 </div>
                             </div>
 

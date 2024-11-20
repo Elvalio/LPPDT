@@ -18,7 +18,7 @@
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
-            document.addEventListener('DOMContentLoaded', function() {
+            // document.addEventListener('DOMContentLoaded', function() {
 
                 // Gestion de la catégorie et de l'affichage des champs en fonction des catégories
                 var categorieSelect = document.getElementById('categorie-offre');
@@ -50,7 +50,6 @@
                 const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
                 const texteBoutonAjout = document.querySelectorAll('.upload-text'); // Les textes des boutons d'ajout
                 const errorMessageSupprimer = document.getElementById('error-message-supprimer');
-                const errorMessageModifier = document.getElementById('error-message-modifier');
 
                 var currentImageCount = 0; // Nombre d'images actuellement affichées
                 var selectedImageIndex = -1; // Index de l'image sélectionnée pour la suppression
@@ -270,18 +269,11 @@
                         }
                         
                 }
-
-
-
-
-
-
                 
                 toggleFileUpload();
 
                 // Gérer la sélection des images en cliquant dessus
                 document.getElementById('image-container').addEventListener('click', function(e) {  
-                    errorMessageModifier.style.display = 'none';
                     if (e.target.classList.contains('selected-image')) {
                         currentImageSelectedIndex = Array.from(selectedImages).indexOf(e.target);
                         if (selectedImageIndex === currentImageSelectedIndex){ // vérifie si l'image était déja selectionné avant
@@ -306,11 +298,12 @@
                 // Fonction pour afficher une image dans la première case vide
                 fileInputs.forEach(fileInput => {
                     fileInput.addEventListener('change', function() {
-                        errorMessageModifier.style.display = 'none';
                         if (fileInput.files.length > 0) {
                             var file = fileInput.files[0]; // Prend le fichier unique
                             var reader = new FileReader(); // Crée un lecteur de fichier
                         
+                            reader.readAsDataURL(file); // Lire l'image sous forme de base64
+
                             reader.onload = function(e) {
                                 if (selectedImageIndex !== -1) { // si une image est selectionné
                                     if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
@@ -318,12 +311,10 @@
                                         selectedImages[selectedImageIndex].src = e.target.result;
                                         selectedImages[selectedImageIndex].classList.remove('selected');
                                         selectedImageIndex = -1;
-                                        foundEmptySlot = false;
                                         // Trouver la première case vide pour nextIndex
                                         nextIndex = rechercheImageVide();
                                         boutonSuppression.style.display = 'block';
                                     }                                
-                                    
                                 }else{                                
                                     selectedImages[nextIndex].src = e.target.result;
                                     currentImageCount++;
@@ -336,7 +327,8 @@
                                 }
                                 toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout                       
                             };
-                            reader.readAsDataURL(file); // Lire l'image sous forme de base64        
+                            
+   
                         }             
                     });
                 });
@@ -344,21 +336,20 @@
 
                 // Gérer la suppression des images
                 boutonSuppression.addEventListener('click', function() {
-                    errorMessageModifier.style.display = 'none';
                     if (selectedImageIndex === -1) {
-                        foundEmptySlot = false;
                         // Trouver la première case non-vide pour la supprimer (à partir de la fin)
                         let i = rechercheImagePleine();
                         selectedImages[i].src = '../images/rien.png';
                         fileInputs[i].value = '';
                         currentImageCount--;
-                        nextIndex--;
                         
                         if (currentImageCount === 0 ){
                             boutonSuppression.style.display = 'none';
                             errorMessageSupprimer.style.display = 'none';
                         }
+                        nextIndex = rechercheImageVide();
                         toggleFileUpload()
+                        
                     } else {
                         // Supprimer l'image sélectionnée
                         var img = selectedImages[selectedImageIndex];
@@ -367,7 +358,6 @@
                             fileInputs[selectedImageIndex].value = '';
                             img.classList.remove('selected');
                             currentImageCount--;
-                            nextIndex = rechercheImageVide();
                             selectedImageIndex = -1;
                         } else {
                             errorMessageSupprimer.style.display = 'block'; 
@@ -378,6 +368,7 @@
                             boutonSuppression.style.display = 'none';
                             errorMessageSupprimer.style.display = 'none';
                         }
+                        nextIndex = rechercheImageVide();
                         toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
                     }
                 });
@@ -416,7 +407,7 @@
                         mapFileDelete.style.display = 'none';
                     }
                 });
-            });
+            // });
 
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////// GESTION DES ERREURS//////////////////////////////////////////////

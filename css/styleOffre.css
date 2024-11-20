@@ -206,6 +206,10 @@
     font-size: 16px;
 }
 
+.custom-file-upload, #file-delete{
+    display: none;
+}
+
 #map-custom-file-upload, #map-file-delete{
     padding: 0 10px;
 }
@@ -249,7 +253,7 @@
     margin-top: 10px;
 }
 
-.selected-image {
+.selected-image, #selected-image {
     max-width: 525px; /* Limiter la largeur de l'image */
     max-height: 220px; /* Garder le ratio de l'image */
     margin-bottom: 20px; /* Espacement entre les images */
@@ -264,7 +268,7 @@
     background-size: 50px 50px; /* Taille des carrés */
 }
 
-#map-image-container .selected-image{
+#map-image-container .selected-image, #selecte{
     max-width: 305px; /* Limiter la largeur de l'image */
     max-height: 160px; /* Garder le ratio de l'image */
     margin-bottom: 0; /* Espacement entre les images */
