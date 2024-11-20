@@ -77,3 +77,12 @@ document.addEventListener("DOMContentLoaded", function() {
     // Optionnel : Activer le premier lien par défaut
     activateLink(proPublicLink); // Exemple pour activer "Inscription Professionnelle - Public" par défaut
 });
+
+
+document.querySelector('.bouton-retour-page-création').addEventListener('click', function () {
+    if (window.history.length > 1) {
+        history.back();
+    } else {
+        alert("Aucune page précédente n'est disponible.");
+    }
+});

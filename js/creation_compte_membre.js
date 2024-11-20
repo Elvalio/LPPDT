@@ -74,3 +74,12 @@ document.addEventListener("DOMContentLoaded", function() {
         link.style.textAlign = 'center'; // Alignement du texte
     }
 });
+
+
+document.querySelector('.bouton-retour-page-création').addEventListener('click', function () {
+    if (window.history.length > 1) {
+        history.back();
+    } else {
+        alert("Aucune page précédente n'est disponible.");
+    }
+});
