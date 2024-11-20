@@ -33,7 +33,7 @@
         <?php error_reporting(0); if (empty($_POST)) { ?>
         <!-- Formulaire pour l'inscription professionnelle publique -->
         <div class="form-container-page-creation-compte" id="form-pro-public">
-            <form name="publique" action="creation_compte_formulaire.php" method="post" enctype="multipart/form-data">
+            <form name="publique" action="creation_compte_pro_formulaire.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="pro_public">
                 <div class="form-group">
                     <div class="left-column">
@@ -97,7 +97,7 @@
 
         <!-- Formulaire pour l'inscription professionnelle privée -->
         <div class="form-container-page-creation-compte" id="form-pro-privee">
-            <form name="privee" action="creation_compte_formulaire.php" method="post" enctype="multipart/form-data">
+            <form name="privee" action="creation_compte_pro_formulaire.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="pro_prive">
                 <div class="form-group">
                     <div class="left-column">
@@ -202,7 +202,7 @@
             $code_postal = $_POST["codepostal"];
             $ville = $_POST["ville"];
             $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
+            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premiere valeur
             array_shift($temp);                         //On supprime le numéro de la voie
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
             $mdp = $_POST["password"];
@@ -221,7 +221,7 @@
             $code_postal = $_POST["codepostal"];
             $ville = $_POST["ville"];
             $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
+            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premiere valeur
             array_shift($temp);                         //On supprime le numéro de la voie
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
             $siren = $_POST["num_SIREN"];
@@ -251,6 +251,19 @@
             showForm('form-pro-privee');
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialisation : afficher le formulaire public par défaut
+            showForm('form-pro-public');
+
+            // Ajouter les événements de basculement
+            document.getElementById('link-pro-public').addEventListener('click', function () {
+                showForm('form-pro-public');
+            });
+            document.getElementById('link-pro-privee').addEventListener('click', function () {
+                showForm('form-pro-privee');
+            });
+        });
+
         function showForm(formId) {
             // Masquer tous les formulaires
             const forms = document.querySelectorAll('.form-container-page-creation-compte');
@@ -258,7 +271,9 @@
 
             // Afficher le formulaire correspondant
             const activeForm = document.getElementById(formId);
-            activeForm.classList.add('active');
+            if (activeForm) {
+                activeForm.classList.add('active');
+            }
         }
 
         //Vérification des données avec regex
