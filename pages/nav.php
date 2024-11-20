@@ -7,8 +7,8 @@
     </head>
     <body>
     <?php
-        
-        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+
+        if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")) { ?>
             <div class="TS-bold BO" id="sidebar"> <?php
         } else { ?>
             <div class="TS-bold FO" id="sidebar"> <?php
