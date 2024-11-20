@@ -190,26 +190,8 @@
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
-        if($_POST["type"]=="membre"){
 
-            $nom = $_POST["nom"];
-            $prenom = $_POST["prenom"];
-            $pseudo = $_POST["pseudo"];
-            $email = $_POST["email"];
-            $telephone = $_POST["telephone"];
-            $code_postal = $_POST["codepostal"];
-            $ville = $_POST["ville"];
-            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
-            array_shift($temp);                         //On supprime le numéro de la voie
-            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-            $mdp = $_POST["password"];
-
-            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-
-
-
-        } else if($_POST["type"]=="pro_public"){
+        if($_POST["type"]=="pro_public"){
 
 
             $nom = $_POST["nom"];
