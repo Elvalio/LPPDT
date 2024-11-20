@@ -15,10 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
-
-
-
-
     inputs_pro.forEach(input => {
         // Ajouter les styles personnalisés directement aux inputs de la page pro
         input.style.width = '100%';
@@ -27,8 +23,6 @@ document.addEventListener("DOMContentLoaded", function() {
         input.style.borderRadius = '5px';
         input.style.border = '2px solid #F07605';
     });
-
-
 
 
     // Sélectionner les éléments des liens
