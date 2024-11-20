@@ -17,7 +17,7 @@
             <nav>
                 <?php
                     $estMembre = false;
-                    if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive"){
+                    if (isset($_COOKIE['type_compte']) || ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive")){
                         $estMembre = true;
                     }
                 ?>
