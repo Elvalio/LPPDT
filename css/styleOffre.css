@@ -193,7 +193,7 @@
     max-width: 305px;
 }
 
-#custom-file-upload, #file-delete, #map-custom-file-upload, #map-file-delete {
+.custom-file-upload, #file-delete, #map-custom-file-upload, #map-file-delete {
     display: flex; /* Utiliser flex pour aligner l'image et le texte */
     align-items: center; /* Centre verticalement le contenu */
     padding: 0 30px; /* Padding à droite et à gauche */
@@ -206,11 +206,15 @@
     font-size: 16px;
 }
 
+.custom-file-upload, #file-delete{
+    display: none;
+}
+
 #map-custom-file-upload, #map-file-delete{
     padding: 0 10px;
 }
 
-#custom-file-upload img, #file-delete img, #map-custom-file-upload img, #map-file-delete img {
+.custom-file-upload img, #file-delete img, #map-custom-file-upload img, #map-file-delete img {
     height: 18px;
     margin-right: 10px; /* Espace entre l'image et le texte */
     width: auto; /* Largeur automatique pour garder le ratio */
@@ -249,14 +253,14 @@
     margin-top: 10px;
 }
 
-.selected-image {
+.selected-image, #selected-image {
     max-width: 525px; /* Limiter la largeur de l'image */
     max-height: 220px; /* Garder le ratio de l'image */
     margin-bottom: 20px; /* Espacement entre les images */
     /* Assurer que l'image ne soit pas agrandie au-delà de sa taille d'origine */
     object-fit: contain; /* Contient l'image dans le conteneur sans la déformer */
     /* display: none; */
-    
+    border: 4px solid white;
     background-image: 
         linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef),
         linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef);
@@ -264,7 +268,7 @@
     background-size: 50px 50px; /* Taille des carrés */
 }
 
-#map-image-container .selected-image{
+#map-image-container .selected-image, #selecte{
     max-width: 305px; /* Limiter la largeur de l'image */
     max-height: 160px; /* Garder le ratio de l'image */
     margin-bottom: 0; /* Espacement entre les images */
@@ -274,7 +278,7 @@
     border: 4px dashed var(--noir); /* Bordure pour indiquer l'image sélectionnée */
 }
 
-#upload-text, #map-upload-text{
+.upload-text, #map-upload-text{
     color: var(--blanc);
 }
 
