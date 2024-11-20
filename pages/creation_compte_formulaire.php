@@ -83,8 +83,9 @@
                         
                         <div class="checkbox">
                             <input type="checkbox" id="terms" name="terms" required>
-                            <label for="terms" class="FS-bold">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
+                            <span class="FS-bold">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></span>
                         </div>
+
                     </div>
                 </div>
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">S'inscrire</button>
