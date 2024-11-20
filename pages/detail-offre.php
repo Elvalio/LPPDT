@@ -232,10 +232,10 @@ try {
                         $full = (int) $avisIndividuel['note'];
                         $empty = 5 - $full;
     
-                        for ($i = 0; $i < $fullStars; $i++): ?>
+                        for ($i = 0; $i < $full; $i++): ?>
                             <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png" width="20px" height="20px" alt="Étoile">
                         <?php endfor; ?>
-                        <?php for ($i = 0; $i < $emptyStars; $i++): ?>
+                        <?php for ($i = 0; $i < $empty; $i++): ?>
                             <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png" width="20px" height="20px" alt="Étoile Vide">
                         <?php endfor;
                         ?>
