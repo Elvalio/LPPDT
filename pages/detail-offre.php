@@ -32,7 +32,7 @@ try {
     $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
 
     // Requête pour récupérer les avis associés à l'offre
-    $stmtAvis = $bdh->prepare("SELECT * FROM pact.avis WHERE ida = :idAnnonce");
+    $stmtAvis = $bdh->prepare("SELECT * FROM pact.experience WHERE idO = :idAnnonce");
     $stmtAvis->execute([':idAnnonce' => $idAnnonce]);
     $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
 
@@ -205,8 +205,6 @@ try {
                 </div>
 
             </article>
-
-        <!-- Bouton de retour -->
         <button class="bouton-retour NoSelect">
         <a href="./accueil.php">
             <img src="../icons/arrow-left-o.svg" alt="Retour">
@@ -227,11 +225,20 @@ try {
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/image4.png" alt="Photo de profil" width="40" height="40">
-                        <p><?php echo htmlspecialchars($avisIndividuel['titre']); ?></p>
+                        <p><?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?></p>
                     </div>
-                    <div>
+                    <div class = "etoile-avis-detail-offre">
                         <?php
-                        echo emptystars($avisIndividuel['note']); ?>
+                        $full = (int) $avisIndividuel['note'];
+                        $empty = 5 - $full;
+    
+                        for ($i = 0; $i < $fullStars; $i++): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png" width="20px" height="20px" alt="Étoile">
+                        <?php endfor; ?>
+                        <?php for ($i = 0; $i < $emptyStars; $i++): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png" width="20px" height="20px" alt="Étoile Vide">
+                        <?php endfor;
+                        ?>
                     </div>
                 </div>
                 <div class="commentaire-consulte">
