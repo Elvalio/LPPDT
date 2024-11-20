@@ -544,27 +544,41 @@ if (isset($_FILES['image'])) {
                                 </div>
                                 
                             </div>
-                            <div id="bottom-right-part-content">
-                                
-                                
+                            <div id="bottom-right-part-content">                        
                                 <!---- Champs ajout 3 images --->
                                 <div id="file-container">
-                                    <label for="file-upload" id="custom-file-upload">
-                                        <img src="../icons/plus.svg" alt="Bouton Image">
-                                        <p id="upload-text">Ajouter une image </p>
+                                    <!---- Bouton 1 --->
+                                    <label for="file-upload1" class="custom-file-upload">
+                                        <img src="plus.svg" alt="Bouton Image">
+                                        <p class="upload-text">Ajouter une image 1</p>
                                     </label>
-                                    <input type="file" id="file-upload" accept=".png"/>
+                                    <input type="file" id="file-upload1" class="file-upload" accept=".png"/>
+
+                                    <!---- Bouton 2 --->
+                                    <label for="file-upload2" class="custom-file-upload">
+                                        <img src="plus.svg" alt="Bouton Image">
+                                        <p class="upload-text">Ajouter une image 2</p>
+                                    </label>
+                                    <input type="file" id="file-upload2" class="file-upload" accept=".png"/>
+                                    <!---- Bouton 3 --->
+                                    <label for="file-upload3" class="custom-file-upload">
+                                        <img src="plus.svg" alt="Bouton Image">
+                                        <p class="upload-text">Ajouter une image 3</p>
+                                    </label>
+                                    <input type="file" id="file-upload3" class="file-upload" accept=".png"/>
+
                                     <button id="file-delete" type="button">
-                                        <img src="../icons/moins.svg" alt="Bouton Image">
+                                        <img src="moins.svg" alt="Bouton Image">
                                         Supprimer une image
                                     </button>
                                 </div>
-                                <p id="error-message" style="color: red; display: none;">Aucune image sélectionnée à supprimer !</p>
+                                <p id="error-message-modifier" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
+                                <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                    <img class="selected-image" src="rien.png" alt="Image sélectionnée" />
+                                    <img class="selected-image" src="rien.png" alt="Image sélectionnée" />
+                                    <img class="selected-image" src="rien.png" alt="Image sélectionnée" />
                                 </div>
                             </div>
 
