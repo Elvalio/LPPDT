@@ -228,7 +228,7 @@
                             texteBoutonAjout[selectedImageIndex],
                             iconsBoutonAjout[selectedImageIndex],
                             `Modifier l'image ${selectedImageIndex + 1}`,
-                            'changer.svg'
+                            '../icons/changer.svg'
                         );
                         labelsBoutonAjout[selectedImageIndex].style.display = 'flex';
                     } else {
@@ -238,7 +238,7 @@
                                 texteBoutonAjout[nextIndex],
                                 iconsBoutonAjout[nextIndex],
                                 `Ajouter une image ${nextIndex + 1}`,
-                                'plus.svg'
+                                '../icons/plus.svg'
                             );
                             labelsBoutonAjout[nextIndex].style.display = 'flex';
                         }
@@ -250,7 +250,7 @@
                     let foundEmptySlot = false;
                     // Trouver la première case vide pour nextIndex
                     for (var i = 0; i < selectedImages.length; i++) {
-                        if (!foundEmptySlot && selectedImages[i].getAttribute('src') === 'rien.png') {
+                        if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
                             foundEmptySlot = true;
                             return i;
                         }
@@ -263,7 +263,7 @@
                     let foundFullSlot = false;
                         // Trouver la première case non-vide pour la supprimer (à partir de la fin)
                         for (var i = 2; i > -1; i--) {
-                            if (!foundFullSlot && selectedImages[i].getAttribute('src') !== 'rien.png') {                             
+                            if (!foundFullSlot && selectedImages[i].getAttribute('src') !== '../images/rien.png') {                             
                                 foundFullSlot = true;
                                 return i;
                             }
@@ -313,7 +313,7 @@
                         
                             reader.onload = function(e) {
                                 if (selectedImageIndex !== -1) { // si une image est selectionné
-                                    if(selectedImages[selectedImageIndex].getAttribute('src') === 'rien.png'){
+                                    if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
                                         currentImageCount++;
                                         selectedImages[selectedImageIndex].src = e.target.result;
                                         selectedImages[selectedImageIndex].classList.remove('selected');
@@ -349,7 +349,7 @@
                         foundEmptySlot = false;
                         // Trouver la première case non-vide pour la supprimer (à partir de la fin)
                         let i = rechercheImagePleine();
-                        selectedImages[i].src = 'rien.png';
+                        selectedImages[i].src = '../images/rien.png';
                         fileInputs[i].value = '';
                         currentImageCount--;
                         nextIndex--;
@@ -362,8 +362,8 @@
                     } else {
                         // Supprimer l'image sélectionnée
                         var img = selectedImages[selectedImageIndex];
-                        if (img.getAttribute('src') !== 'rien.png'){
-                            img.src = 'rien.png';
+                        if (img.getAttribute('src') !== '../images/rien.png'){
+                            img.src = '../images/rien.png';
                             fileInputs[selectedImageIndex].value = '';
                             img.classList.remove('selected');
                             currentImageCount--;
