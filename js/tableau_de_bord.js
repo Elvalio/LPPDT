@@ -22,6 +22,7 @@ function appuieToggle(event) {
             toggle.checked = true;
             section.style.setProperty("opacity", 0.5);
             form.submit();  // Soumettre le formulaire si confirmé
+            window.location.reload();  // Recharger la page pour mettre à jour les données
         } else {
             toggle.checked = false;
             section.style.setProperty("opacity", 1);
@@ -32,6 +33,7 @@ function appuieToggle(event) {
             toggle.checked = false;
             section.style.setProperty("opacity", 1);
             form.submit();  // Soumettre le formulaire si confirmé
+            window.location.reload();  // Recharger la page pour mettre à jour les données
         } else {
             toggle.checked = true;
             section.style.setProperty("opacity", 0.5);
