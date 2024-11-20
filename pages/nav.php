@@ -7,8 +7,8 @@
     </head>
     <body>
     <?php
-        
-        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+
+        if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")) { ?>
             <div class="TS-bold BO" id="sidebar"> <?php
         } else { ?>
             <div class="TS-bold FO" id="sidebar"> <?php
@@ -21,13 +21,13 @@
                     <img src="../images/logo_rouge.png" alt="Image au survol" class="image image-hover">        
                 </a>
                 <div id="items">
-                    <div id="top-items" class=" <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>">
+                    <div id="top-items" class=" <?php if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>">
                         <a href="accueil.php" class="nav-item" data-icon="accueil">
                             <img src="../icons/icons-gris/icon-accueil-gris.svg" alt="Logo accueil" class="logo-nav">
                             <p>Accueil</p>
                         </a>
 
-                        <a href="tableau_de_bord.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="tableau-de-bord">
+                        <a href="tableau_de_bord.php" class="nav-item <?php if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="tableau-de-bord">
                             <img src="../icons/icons-gris/icon-tableau-de-bord-gris.svg" alt="Logo tableau de bord" class="logo-nav">
                             <p>Tableau de bord</p>
                         </a>
