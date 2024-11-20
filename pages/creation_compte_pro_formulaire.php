@@ -251,6 +251,19 @@
             showForm('form-pro-privee');
         });
 
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialisation : afficher le formulaire public par défaut
+            showForm('form-pro-public');
+
+            // Ajouter les événements de basculement
+            document.getElementById('link-pro-public').addEventListener('click', function () {
+                showForm('form-pro-public');
+            });
+            document.getElementById('link-pro-privee').addEventListener('click', function () {
+                showForm('form-pro-privee');
+            });
+        });
+
         function showForm(formId) {
             // Masquer tous les formulaires
             const forms = document.querySelectorAll('.form-container-page-creation-compte');
@@ -258,7 +271,9 @@
 
             // Afficher le formulaire correspondant
             const activeForm = document.getElementById(formId);
-            activeForm.classList.add('active');
+            if (activeForm) {
+                activeForm.classList.add('active');
+            }
         }
 
         //Vérification des données avec regex
