@@ -37,6 +37,7 @@ function appuieToggle(event) {
             section.style.setProperty("opacity", 0.5);
         }
     }
+    window.location.reload();  // Recharger la page pour mettre à jour les données
 }
 
 // Associer l'événement à chaque toggle
