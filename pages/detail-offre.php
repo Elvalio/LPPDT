@@ -100,8 +100,8 @@ try {
             <div class="infos-offre">
                 <div class="etoiles">
                     <?php 
-                    $nbrAvis = $offre['nbravis'] ?? 0;
-                    $moyNote = $offre['moy_note'] ?? 0;
+                    $nbrAvis = $offre['nbravis'];
+                    $moyNote = $offre['moy_note'];
                     $fullStars = (int) $moyNote;
                     $emptyStars = 5 - $fullStars;
 
@@ -124,6 +124,88 @@ try {
             <p><?php echo nl2br(htmlspecialchars($offre['description'])); ?></p>
         </article>
 
+        <article class="part-contact">
+                <div class="side-contact">
+                    <div>
+                        <h3>Contact :</h3>
+                        <div>
+                            <?php 
+                        $address = $offre['numero_voie'] . $offre['voie'] . $offre['ville'] . $offre['code_postal'];
+                        ?>
+                            <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
+                                <img src="../images/maison.png" alt="icon maison (localisation)">
+                                <p>
+                                    <?php
+                                echo $offre['numero_voie'];
+                                echo " ";
+                                echo $offre['voie'];
+                                echo " ";
+                                echo $offre['ville'];
+                                echo " ";
+                                echo $offre['code_postal'];
+
+                            ?>
+                                </p>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="tel:<?php 
+                            echo htmlspecialchars($telephone);
+                                ?> ">
+                                <img src="../images/telephone.png" alt="icon telephone">
+                                <p>
+                                    <?php 
+                                        echo htmlspecialchars($telephone);
+                                    ?>
+                                </p>
+                            </a>
+                        </div>
+
+                        <?php
+                        if (!empty($offre['site_web'])) { ?>
+                        <div>
+                            <a href=" <?php echo $offre['site_web']; ?>">
+                                <img src="../images/pc.png" alt="icon pc (lien vers le site)">
+                                <p>
+                                    <?php
+                            echo $offre['site_web']; ?>
+                                </p>
+                            </a>
+                        </div>
+                    </div>
+                    <?php
+
+                        } ?>
+                </div>
+                <!--<div class="horaires">
+                        <h3>Horaires et tarifs :</h3>
+                        <div>
+                            <img src="../images/Delivery Time.png" alt="icon heure">
+                            <p>8h - 13h et 14h30 - 18h du lundi au vendredi</p>
+                        </div>
+                        <div>
+                            <img src="../images/Stack of Coins.png" alt="icon argent">
+                            <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
+                        </div>
+                    </div>-->
+                </div>
+                <?php 
+                    if (!empty($offre['carte'])) { ?>
+                <div>
+                    <img class="carte" src="../images/ <?php $offre['carte'] ?>" alt="carte géolocalisation">
+                </div>
+                <?php
+                    } elseif (!empty($offre['src_image'])) { ?>
+                <div>
+                    <img class="carte" src="../images/ <?php $offre['src_image'] ?>" alt="carte">
+                </div>
+                <?php
+                    }
+                ?>
+                </div>
+
+            </article>
+
         <!-- Bouton de retour -->
         <button class="bouton-retour NoSelect">
         <a href="./accueil.php">
@@ -139,240 +221,27 @@ try {
             <h3>Avis : <?php echo $nbrAvis; ?></h3>
         </header>
         <article class="article-avis">
-            <?php foreach ($avis as $avisIndividuel): ?>
-                <div class="infos-offre">
-                    <div class="etoiles">
-                        <?php 
-                        $i;
-                        if ($stmt[0]['nbravis'] > 0) {
-                            for ($i = 0; $i < $stmt[0]['moy_note']; $i++) { 
-                                if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-                                    <img class="NoSelect" src="../icons/etoile_rouge.png" alt="Etoile">
-                                <?php } 
-                             
-                                else { ?>
-                                    <img class="NoSelect" src="../icons/etoile_bleue.png" alt="Etoile">
-                                <?php } 
-                            }
-                            foreach (range($i, 4) as $j) { 
-                                if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-                                    <img class="NoSelect" src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
-                                <?php } 
-                                
-                                else { ?>
-                                    <img class="NoSelect" src="../icons/etoile_bleue_vide.png" alt="Etoile Vide">
-                                <?php } 
-                            }
-                        }
-                        
-                    ?>
+        
+        <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
+            <div>
+                <div class="header-avis-profil">
+                    <div class="profil">
+                        <img src="../images/image4.png" alt="Photo de profil" width="40" height="40">
+                        <p><?php echo htmlspecialchars($avisIndividuel['titre']); ?></p>
                     </div>
-                    <p class="nb-avis-info-offre">
-                        <?php 
-                    if ($stmt[0]['nbravis'] == 0) {
-                        echo "0" ." " . "Avis" . " " . "|";
-                    }
-                    else {
-                        echo $stmt[0]['nbravis'];
-                        echo " " . "Avis" . " |";
-                    }
-                    ?>
-                    </p>
-                    <img src="../images/Wheelchair.png" alt="fauteil roulant">
-                    <p>
-                        <?php 
-                        echo $stmt[0]['accessibilite'];
-                    ?>
-                    </p>
-                </div>
-            </header>
-            <article class="description-offre">
-                <h3>Description :</h3>
-                <p>
-                    <?php 
-                    echo $stmt[0]['description'];
-                ?>
-                </p>
-            </article>
-            <article class="part-contact">
-                <div class="side-contact">
                     <div>
-                        <h3>Contact :</h3>
-                        <div>
-                            <?php 
-                        $address = $stmt[0]['numero_voie'] . $stmt[0]['voie'] . $stmt[0]['ville'] . $stmt[0]['code_postal'];
-                        ?>
-                            <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
-                                <img src="../images/maison.png" alt="icon maison (localisation)">
-                                <p>
-                                    <?php
-                                echo $stmt[0]['numero_voie'];
-                                echo " ";
-                                echo $stmt[0]['voie'];
-                                echo " ";
-                                echo $stmt[0]['ville'];
-                                echo " ";
-                                echo $stmt[0]['code_postal'];
-
-                            ?>
-                                </p>
-                            </a>
-                        </div>
-                        <div>
-                            <a href="tel:<?php 
-                    $idC = (int)$stmt[0]['idc'];
-                    $stmt2 = $bdh->prepare(" SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON
-                                p.idC=o.idC WHERE o.idC=$idC;"); $stmt2->execute();
-                                $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                                echo $stmt2[0]['telephone'];
-                                ?> ">
-                                <img src="../images/telephone.png" alt="icon telephone">
-                                <p>
-                                    <?php 
-                    $idC = (int)$stmt[0]['idc'];
-                    $stmt2 = $bdh->prepare("SELECT telephone FROM pact.professionnel p INNER JOIN pact.offre o ON p.idC = o.idC WHERE o.idC = $idC;");
-                    $stmt2->execute();
-                    $stmt2 = $stmt2->fetchAll(PDO::FETCH_ASSOC);
-                    echo $stmt2[0]['telephone'];
-                ?>
-                                </p>
-                            </a>
-                        </div>
-
                         <?php
-                        if ($stmt[0]['site_web']) { ?>
-                        <div>
-                            <a href=" <?php echo $stmt[0]['site_web']; ?>">
-                                <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                                <p>
-                                    <?php
-                            echo $stmt[0]['site_web']; ?>
-                                </p>
-                            </a>
-                        </div>
-                    </div>
-                    <?php
-
-                        } else { ?>
-                </div>
-                <?php
-                        }
-                    ?>
-                <!--<div class="horaires">
-                        <h3>Horaires et tarifs :</h3>
-                        <div>
-                            <img src="../images/Delivery Time.png" alt="icon heure">
-                            <p>8h - 13h et 14h30 - 18h du lundi au vendredi</p>
-                        </div>
-                        <div>
-                            <img src="../images/Stack of Coins.png" alt="icon argent">
-                            <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
-                        </div>
-                    </div>-->
-                </div>
-                <?php 
-                    if ($stmt[0]['carte']) { ?>
-                <div>
-                    <img class="carte" src="../images/ <?php $stmt[0]['carte'] ?>" alt="carte géolocalisation">
-                </div>
-                <?php
-                    } elseif ($stmt[0]['src_image']) { ?>
-                <div>
-                    <img class="carte" src="../images/ <?php $stmt[0]['src_image'] ?>" alt="carte">
-                </div>
-                <?php
-                    }
-                    else { ?>
-                </div>
-                <?php
-                    }
-                ?>
-
-            </article>
-            <button class="bouton-retour NoSelect">
-                <a href="./accueil.php">
-
-                    <img class="NoSelect" src="../icons/arrow-left-o.svg" alt="">
-                    Retour
-                </a>
-
-            </button>
-        </section>
-        <section class="section-page part-avis">
-            <header class="header-avis">
-                <h3>Avis :
-                    <?php 
-                    if ($stmt[0]['nbravis'] == 0) {
-                        echo "0" . " " . "Avis";
-                    }
-                    else {
-                        echo $stmt[0]['nbravis'];
-                        echo " " . "Avis";
-                    }
-                    ?>
-                </h3>
-                <?php 
-                    $stmt3 = $bdh->prepare("SELECT * FROM pact.avis WHERE ido = $idAnnonce;");
-                    $stmt3->execute();
-                    $stmt3 = $stmt3->fetchAll(PDO::FETCH_ASSOC);
-                    foreach ($stmt3 as $avis) {
-                        if ($avis['consulte'] == False) {
-                            $nonConsultes++;
-                        }
-                        if ($avis['consulte'] == False) {
-                            $nonRepondus++;
-                        }
-                    }
-                    if ( $nonConsultes > 0) { ?>
-                <h3>Non Consultés :
-                    <?php echo $nonConsultes; ?>
-                </h3>
-
-                <?php }
-                    $nonRepondus = 0;
-                    $nonRepondus++;
-                    if ($nonRepondus > 0) { ?>
-                <h3>Non répondus :
-                    <?php echo $nonRepondus;?>
-                </h3>;
-                <?php }
-                    ?>
-            </header>
-            <article class="article-avis">
-                <?php 
-                $stmt = $bdh->prepare("SELECT * FROM pact.avis WHERE ido = $idAnnonce;");
-                $stmt->execute();
-                $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                foreach ($stmt as $key => $avis) { ?>
-                <div>
-                    <div class="header-avis-profil">
-                        <div class="profil">
-                            <img src="../images/image4.png" alt="Photo de profil" width="40" height="40">
-                            <p><?php echo htmlspecialchars($avisIndividuel['nom']); ?></p>
-                            <img src="../images/image 4.png" alt="photo de profil" width="40px" height="40px">
-                            <p>
-                                <?php
-                    echo $avis['titre']; ?>
-                            </p>
-                        </div>
-                        <div>
-                            <p><?php echo htmlspecialchars($avisIndividuel['note']); ?></p>
-                        </div>
-                    </div>
-                    <div class="commentaire-consulte">
-                        <p><?php echo nl2br(htmlspecialchars($avisIndividuel['commentaire'])); ?></p>
-                        <p>
-                            <?php
-                    echo $avis['corps']; ?>
-                        </p>
-                    </div>
-                    <div>
-                        <p class="reponse">Ajouter une réponse</p>
+                        echo emptystars($avisIndividuel['note']); ?>
                     </div>
                 </div>
-            <?php endforeach; ?>
+                <div class="commentaire-consulte">
+                    <p><?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?></p>
+                </div>
+            </div>
+        <?php endforeach; }?> <!-- Ensure this is properly placed -->
+
         </article>
     </section>
-
+    
 </body>
 </html>

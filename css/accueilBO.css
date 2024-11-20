@@ -314,6 +314,7 @@ input#date-end, input#date-start {
 
     width: 260px;
     height: fit-content;
+    padding-bottom: 20px;
 
 }
 
@@ -413,37 +414,6 @@ input[type="range"]::-ms-thumb {
 #value-right {
     right: 0;
 }
-
-#valider-prix {
-    display: none;
-}
-
-#valider-prix.active:hover {
-    transition: all 0.15s ease; /* Transition pour l'animation */
-    background-color: #2C2C2C;
-    color: #F5F5F5;
-}
-
-#valider-prix.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: #2C2C2C;
-    border: 1px solid #2C2C2C;
-    background-color: white;
-
-    font-size: 1.1em;
-    
-    border-radius: 30px;
-    
-    width: fit-content;
-    height: fit-content;
-    
-    margin: 10px;
-    padding: 8px 12px;
-}
-
 
 /* ========================================= */
 /*         STYLES POUR LES FILTRES DE NOTE   */

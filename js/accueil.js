@@ -150,9 +150,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const rangeActive = document.createElement('div'); // Crée un élément pour la plage active
     rangeActive.classList.add('range-active');
     document.querySelector('.slider-container').appendChild(rangeActive);
-    const validerPrix = document.querySelector('#valider-prix');
 
-    const minGap = 50; // Espace minimum entre les deux sliders
+    // const minGap = 5; // Espace minimum entre les deux sliders
+    const maxSliderValue = Math.max(parseInt(sliderLeft.max), parseInt(sliderRight.max));
+    const minGap = maxSliderValue > 1000 ? 50 : 5;
 
     // Fonction pour mettre à jour la plage active et les positions des valeurs
     function updateSliderValues() {
@@ -182,7 +183,6 @@ document.addEventListener('DOMContentLoaded', function () {
             sliderLeft.value = parseInt(sliderRight.value) - minGap;
         }
         updateSliderValues();
-        validerPrix.classList.add('active');
     });
 
     sliderRight.addEventListener('input', function () {
@@ -190,7 +190,6 @@ document.addEventListener('DOMContentLoaded', function () {
             sliderRight.value = parseInt(sliderLeft.value) + minGap;
         }
         updateSliderValues();
-        validerPrix.classList.add('active');
     });
 
     // Initialisation

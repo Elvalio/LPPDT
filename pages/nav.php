@@ -7,27 +7,34 @@
     </head>
     <body>
     <?php
-        
-        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+
+        if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")) { ?>
             <div class="TS-bold BO" id="sidebar"> <?php
         } else { ?>
             <div class="TS-bold FO" id="sidebar"> <?php
             
         } ?>
             <nav>
-                
+                <?php
+                    $estMembre = true;
+                    if (isset($_COOKIE['type_compte'])) {
+                        if (($_COOKIE['type_compte'] != "membre")){
+                            $estMembre = false;
+                        }
+                    }
+                ?>
                 <a href="accueil.php" id="pact-item">
                     <img src="../images/logo_reduit_rouge.png" alt="Image par défaut" class="image image-default">
                     <img src="../images/logo_rouge.png" alt="Image au survol" class="image image-hover">        
                 </a>
                 <div id="items">
-                    <div id="top-items" class=" <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>">
+                    <div id="top-items" class=" <?php if ($estMembre) {?> BO <?php } ?>">
                         <a href="accueil.php" class="nav-item" data-icon="accueil">
                             <img src="../icons/icons-gris/icon-accueil-gris.svg" alt="Logo accueil" class="logo-nav">
                             <p>Accueil</p>
                         </a>
 
-                        <a href="tableau_de_bord.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="tableau-de-bord">
+                        <a href="tableau_de_bord.php" class="nav-item <?php if ($estMembre) {?> BO <?php } ?>" data-icon="tableau-de-bord">
                             <img src="../icons/icons-gris/icon-tableau-de-bord-gris.svg" alt="Logo tableau de bord" class="logo-nav">
                             <p>Tableau de bord</p>
                         </a>
@@ -41,12 +48,12 @@
                             <p>Historique</p>
                         </a>
 
-                            <a href="en-construction.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="facturation">
+                            <a href="en-construction.php" class="nav-item <?php if ($estMembre) {?> BO <?php } ?>" data-icon="facturation">
                                 <img src="../icons/icons-gris/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
                                 <p>Facturation</p>
                             </a>
 
-                            <a href="creation_offre.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="creation">
+                            <a href="creation_offre.php" class="nav-item <?php if ($estMembre) {?> BO <?php } ?>" data-icon="creation">
                                 <img src="../icons/icons-gris/icon-creation-gris.svg" alt="Logo création offre" class="logo-nav">
                                 <p>Créer une offre</p>
                             </a>
@@ -58,14 +65,14 @@
                              
                                 
                                 <div id="top-of-bottom-items">
-                                    <a href="en-construction.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="notification-avec-notif">
+                                    <a href="en-construction.php" class="nav-item <?php if ($estMembre) {?> BO <?php } ?>" data-icon="notification-avec-notif">
                                         <div class="notification-container">
                                             <p>Notifications</p>
                                             <div class="notification-badge">2</div>
                                         </div>
                                         
                                     </a>
-                                    <a href="en-construction.php" class="nav-item <?php if ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive") {?> BO <?php } ?>" data-icon="parametre">
+                                    <a href="en-construction.php" class="nav-item <?php if ($estMembre) {?> BO <?php } ?>" data-icon="parametre">
                                         <img src="../icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
                                         <p>Paramètres</p>
                                     </a>
