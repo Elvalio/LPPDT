@@ -227,7 +227,7 @@
                         updateLabel(
                             texteBoutonAjout[selectedImageIndex],
                             iconsBoutonAjout[selectedImageIndex],
-                            `Modifier l'image ${selectedImageIndex + 1}`,
+                            'Modifier l\'image' ,
                             '../icons/changer.svg'
                         );
                         labelsBoutonAjout[selectedImageIndex].style.display = 'flex';
@@ -237,7 +237,7 @@
                             updateLabel(
                                 texteBoutonAjout[nextIndex],
                                 iconsBoutonAjout[nextIndex],
-                                `Ajouter une image ${nextIndex + 1}`,
+                                'Ajouter une image' ,
                                 '../icons/plus.svg'
                             );
                             labelsBoutonAjout[nextIndex].style.display = 'flex';
