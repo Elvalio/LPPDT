@@ -16,9 +16,11 @@
         } ?>
             <nav>
                 <?php
-                    $estMembre = false;
-                    if (isset($_COOKIE['type_compte']) || ($_COOKIE['type_compte'] != "pro_public" && $_COOKIE['type_compte'] != "pro_prive")){
-                        $estMembre = true;
+                    $estMembre = true;
+                    if (isset($_COOKIE['type_compte'])) {
+                        if (($_COOKIE['type_compte'] != "membre")){
+                            $estMembre = false;
+                        }
                     }
                 ?>
                 <a href="accueil.php" id="pact-item">
