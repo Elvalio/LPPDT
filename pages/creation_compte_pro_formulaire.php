@@ -51,7 +51,7 @@
 
                         <div class="checkbox">
                             <input type="checkbox" id="terms" name="terms" required>
-                            <label for="terms" class="FS">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
+                            <span class="FS-bold">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></span>
                         </div>
 
                     </div>
@@ -168,7 +168,7 @@
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
-                    <label for="terms" class="FS">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></label>
+                    <span class="FS-bold">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></span>
                 </div>
 
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">S'inscrire</button>
