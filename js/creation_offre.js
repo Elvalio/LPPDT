@@ -43,16 +43,19 @@
                 var tagContainer = document.getElementById('tag-container');
 
                 // Sélectionne les éléments nécessaires pour les 3 images
-                var fileInput = document.getElementById('file-upload');
-                var deleteButton = document.getElementById('file-delete');
-                var customFileUpload = document.getElementById('custom-file-upload'); // Le label d'ajout d'image
-                var customFileUploadIcon = document.querySelector('#custom-file-upload img'); // Sélectionne l'image dans le label
-                var selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
-                var uploadText = document.getElementById('upload-text'); // Le texte du bouton
-                var errorMessage = document.getElementById('error-message');
+                const boutonSuppression = document.getElementById('file-delete');
+                const fileInputs = document.querySelectorAll('.file-upload');
+                const labelsBoutonAjout = document.querySelectorAll('.custom-file-upload'); // Les labels d'ajout d'image
+                const iconsBoutonAjout = document.querySelectorAll('.custom-file-upload img'); // Sélectionne l'image dans le label
+                const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
+                const texteBoutonAjout = document.querySelectorAll('.upload-text'); // Les textes des boutons d'ajout
+                const errorMessageSupprimer = document.getElementById('error-message-supprimer');
+                const errorMessageModifier = document.getElementById('error-message-modifier');
 
-                var currentImageCount = 0; // Compte le nombre d'images actuellement affichées
-                var selectedImageIndex = -1; // Index de l'image actuellement sélectionnée pour la suppression
+                var currentImageCount = 0; // Nombre d'images actuellement affichées
+                var selectedImageIndex = -1; // Index de l'image sélectionnée pour la suppression
+                var currentImageSelectedIndex;
+                var nextIndex = 0;
 
                 // Sélectionne les éléments nécessaires pour la map
                 var mapFileUpload = document.getElementById('map-file-upload');
@@ -207,120 +210,174 @@
                 //////////////////////////// GESTION DES IMAGES //////////////////////////////////
                 //////////////////////////////////////////////////////////////////////////////////
 
-                // Fonction pour afficher/masquer le bouton d'ajout d'image
+                // Fonction pour mettre à jour le texte de la balise <p> et changer l'icône
+                function updateLabel(bouton, iconBouton, text, iconSrc) {
+                    bouton.textContent = text; // Mettre à jour le texte de la balise <p>
+                    iconBouton.src = iconSrc; // Mettre à jour la source de l'image
+                }
+
+
+                // Fonction pour afficher/masquer les bons boutons
                 function toggleFileUpload() {
+                    // Réinitialisation : masquer tous les boutons
+                    labelsBoutonAjout.forEach(label => (label.style.display = 'none'));
+
                     if (selectedImageIndex !== -1) {
-                        // Si une image est sélectionnée, afficher le bouton "Modifier l'image"
-                        customFileUpload.style.display = 'flex';
+                        // Si une image est sélectionnée pour modification
+                        updateLabel(
+                            texteBoutonAjout[selectedImageIndex],
+                            iconsBoutonAjout[selectedImageIndex],
+                            `Modifier l'image ${selectedImageIndex + 1}`,
+                            'changer.svg'
+                        );
+                        labelsBoutonAjout[selectedImageIndex].style.display = 'flex';
                     } else {
-                        if (currentImageCount >= 3) {
-                            // Masquer le bouton si le nombre d'images est >= 3 et aucune image n'est sélectionnée
-                            customFileUpload.style.display = 'none';
-                        } else {
-                            // Sinon, afficher le bouton d'ajout d'image
-                            customFileUpload.style.display = 'flex';
+                        // Aucune image sélectionnée
+                        if (currentImageCount < 3) {
+                            updateLabel(
+                                texteBoutonAjout[nextIndex],
+                                iconsBoutonAjout[nextIndex],
+                                `Ajouter une image ${nextIndex + 1}`,
+                                'plus.svg'
+                            );
+                            labelsBoutonAjout[nextIndex].style.display = 'flex';
                         }
                     }
                 }
 
-                // Fonction pour mettre à jour le texte de la balise <p> et changer l'icône
-                function updateLabel(text, iconSrc) {
-                    uploadText.textContent = text; // Mettre à jour le texte de la balise <p>
-                    customFileUploadIcon.src = iconSrc; // Mettre à jour la source de l'image
+                //fonction pour rechercher une image vide (à partir de la première)
+                function rechercheImageVide(){
+                    let foundEmptySlot = false;
+                    // Trouver la première case vide pour nextIndex
+                    for (var i = 0; i < selectedImages.length; i++) {
+                        if (!foundEmptySlot && selectedImages[i].getAttribute('src') === 'rien.png') {
+                            foundEmptySlot = true;
+                            return i;
+                        }
+                    }
+                    
                 }
 
-                // Fonction pour afficher une image dans la première case vide
-                fileInput.addEventListener('change', function() {
-                    if (fileInput.files.length > 0) {
-                        
-                        var file = fileInput.files[0]; // Prendre le premier fichier
-                        var reader = new FileReader(); // Créer un nouvel objet FileReader
-
-                        reader.onload = function(e) {
-                            if (selectedImageIndex >= 0) {
-                                // Si une image est sélectionnée, remplacer cette image
-                                if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
-                                    currentImageCount++;
-                                    deleteButton.style.display = 'block';
-                                }
-                                selectedImages[selectedImageIndex].src = e.target.result;
-                            }else{
-                                var foundEmptySlot = false;
-                                // Trouver la première case vide et y insérer l'image
-                                for (var i = 0; i < selectedImages.length; i++) {
-                                    var currentSrc = selectedImages[i].getAttribute('src') || ''; // Récupérer la source actuelle de l'image
-                                    console.log(currentSrc);
-                                    if (!foundEmptySlot && (currentSrc === '' || currentSrc.includes('rien.png'))) {
-                                        selectedImages[i].src = e.target.result; // Mettre à jour la source de l'image
-                                        selectedImages[i].style.display = 'block'; // Afficher l'image
-                                        foundEmptySlot = true;
-                                        currentImageCount++;
-                                        console.log(currentSrc);
-                                    }
-                                }
-
-                                // Afficher le bouton de suppression si une image est présente
-                                if (foundEmptySlot) {
-                                    deleteButton.style.display = 'block';
-                                }
+                //focntion pour rechercher une image pleine (à partir de la dernière)
+                function rechercheImagePleine(){
+                    let foundFullSlot = false;
+                        // Trouver la première case non-vide pour la supprimer (à partir de la fin)
+                        for (var i = 2; i > -1; i--) {
+                            if (!foundFullSlot && selectedImages[i].getAttribute('src') !== 'rien.png') {                             
+                                foundFullSlot = true;
+                                return i;
                             }
-                            toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout
-                        };
-                    
+                        }
+                        
+                }
 
-                        reader.readAsDataURL(file); // Lire l'image sous forme de base64
-                        fileInput.value = ''; // Réinitialiser l'input pour permettre la sélection de la même image plus tard
-                    }
-                });
+
+
+
+
+
+                
+                toggleFileUpload();
 
                 // Gérer la sélection des images en cliquant dessus
-                document.getElementById('image-container').addEventListener('click', function(e) {
+                document.getElementById('image-container').addEventListener('click', function(e) {  
+                    errorMessageModifier.style.display = 'none';
                     if (e.target.classList.contains('selected-image')) {
-                        var clickedIndex = Array.from(selectedImages).indexOf(e.target);
-
-                        if (clickedIndex === selectedImageIndex) {
-                            // Désélectionner l'image si elle est déjà sélectionnée
+                        currentImageSelectedIndex = Array.from(selectedImages).indexOf(e.target);
+                        if (selectedImageIndex === currentImageSelectedIndex){ // vérifie si l'image était déja selectionné avant
                             e.target.classList.remove('selected');
                             selectedImageIndex = -1;
-                            updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre "Ajouter une image"
+                            errorMessageSupprimer.style.display = 'none';
                         } else {
-                            // Désélectionner toutes les images et sélectionner la nouvelle
+                            selectedImageIndex = currentImageSelectedIndex;
                             selectedImages.forEach(img => img.classList.remove('selected'));
                             e.target.classList.add('selected');
-                            selectedImageIndex = clickedIndex;
-                            updateLabel('Modifier l\'image', '../icons/changer.svg'); // Changer le texte du bouton
-                            errorMessage.style.display = 'none'; // Cacher le message d'erreur
+                            errorMessageSupprimer.style.display = 'none';
                         }
-
-                        // Appeler toggleFileUpload() après la sélection/désélection
-                        toggleFileUpload();
+                        
+                        toggleFileUpload()
                     }
                 });
 
+
+
+
+
+                // Fonction pour afficher une image dans la première case vide
+                fileInputs.forEach(fileInput => {
+                    fileInput.addEventListener('change', function() {
+                        errorMessageModifier.style.display = 'none';
+                        if (fileInput.files.length > 0) {
+                            var file = fileInput.files[0]; // Prend le fichier unique
+                            var reader = new FileReader(); // Crée un lecteur de fichier
+                        
+                            reader.onload = function(e) {
+                                if (selectedImageIndex !== -1) { // si une image est selectionné
+                                    if(selectedImages[selectedImageIndex].getAttribute('src') === 'rien.png'){
+                                        currentImageCount++;
+                                        selectedImages[selectedImageIndex].src = e.target.result;
+                                        selectedImages[selectedImageIndex].classList.remove('selected');
+                                        selectedImageIndex = -1;
+                                        foundEmptySlot = false;
+                                        // Trouver la première case vide pour nextIndex
+                                        nextIndex = rechercheImageVide();
+                                        boutonSuppression.style.display = 'block';
+                                    }                                
+                                    
+                                }else{                                
+                                    selectedImages[nextIndex].src = e.target.result;
+                                    currentImageCount++;
+                                    if (currentImageCount > nextIndex){
+                                        nextIndex = currentImageCount;
+                                    } else {
+                                        nextIndex++;
+                                    }
+                                    boutonSuppression.style.display = 'block';
+                                }
+                                toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout                       
+                            };
+                            reader.readAsDataURL(file); // Lire l'image sous forme de base64        
+                        }             
+                    });
+                });
+
+
                 // Gérer la suppression des images
-                deleteButton.addEventListener('click', function() {
+                boutonSuppression.addEventListener('click', function() {
+                    errorMessageModifier.style.display = 'none';
                     if (selectedImageIndex === -1) {
-                        errorMessage.style.display = 'block'; // Afficher un message d'erreur si aucune image n'est sélectionnée
+                        foundEmptySlot = false;
+                        // Trouver la première case non-vide pour la supprimer (à partir de la fin)
+                        let i = rechercheImagePleine();
+                        selectedImages[i].src = 'rien.png';
+                        fileInputs[i].value = '';
+                        currentImageCount--;
+                        nextIndex--;
+                        
+                        if (currentImageCount === 0 ){
+                            boutonSuppression.style.display = 'none';
+                            errorMessageSupprimer.style.display = 'none';
+                        }
+                        toggleFileUpload()
                     } else {
                         // Supprimer l'image sélectionnée
                         var img = selectedImages[selectedImageIndex];
-                        if(img.getAttribute('src') !== '../images/rien.png'){
-                            img.src = '../images/rien.png'; // Effacer la source de l'image
-                            img.classList.remove('selected'); // Désélectionner l'image
-                            selectedImageIndex = -1;
+                        if (img.getAttribute('src') !== 'rien.png'){
+                            img.src = 'rien.png';
+                            fileInputs[selectedImageIndex].value = '';
+                            img.classList.remove('selected');
                             currentImageCount--;
-                        } else {
-                            img.classList.remove('selected'); // Désélectionner l'image
+                            nextIndex = rechercheImageVide();
                             selectedImageIndex = -1;
-                            errorMessage.style.display = 'block';
-                            errorMessage.textContent = 'Vous ne pouvez pas supprimer une image inexistante !';     
+                        } else {
+                            errorMessageSupprimer.style.display = 'block'; 
                         }
                             
                         // Masquer le bouton de suppression s'il n'y a plus d'images
                         if (currentImageCount === 0) {
-                            deleteButton.style.display = 'none';
+                            boutonSuppression.style.display = 'none';
+                            errorMessageSupprimer.style.display = 'none';
                         }
-                        updateLabel('Ajouter une image', '../icons/plus.svg'); // Remettre le texte à "Ajouter une image"
                         toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
                     }
                 });
