@@ -194,11 +194,11 @@ label {
 
 /* Section qui me permet d'espacer la partie haute et basse du formulaire dans la page pro */
 .spacer {
-    height: 130px;
+    height: 67px;
 }
 
 .spacer-privee {
-    height: 212px;
+    height: 150px;
 }
 
 /* Les styles ci-dessous correspondent au éléments du formulaire qui se trouvent sur une même ligne : Code postal et ville par exemple */
@@ -236,4 +236,19 @@ label {
     align-items: center; /* Aligner verticalement au centre */
     justify-content: center;
     gap: 10px; /* Espacement entre les éléments */
+}
+
+label {
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
