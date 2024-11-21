@@ -36,9 +36,9 @@
                 const prestationExcluseContainer = document.getElementById('pexclus-container');
 
                 // Récupérer tous les éléments avec la classe 'tag'
-                const tags = document.getElementsByClassName('tag');
-                const tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Plein air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
-                const tagsToHideOther = ['Française', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
+                const tags = document.querySelectorAll('#tags-items-container label');
+                const tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Pleine air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
+                const tagsToHideOther = ['Français', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
                 const tagsItemsContainer = document.getElementById('tags-items-container');
                 const tagContainer = document.getElementById('tag-container');
 
@@ -142,12 +142,19 @@
 
                     //pour la restauration, gestion des tags
                     Array.from(tags).forEach(tag => {
-                        var tagText = tag.querySelector('p').textContent;
+                        var tagText = tag.textContent;
 
                         if (selectedCategorie === 'restauration') {
                             if (tagsToHideRestauration.includes(tagText)) {
                                 tag.style.display = 'none';
-                                
+                                // Récupérer l'attribut 'for' du label
+                                let inputId = tag.htmlFor; // équivalent à label.getAttribute('for')
+
+                                // Récupérer l'input correspondant via l'ID
+                                let checkbox = document.getElementById(inputId);
+                                checkbox.checked = false;
+
+
                             } else {
                                 tag.style.display = 'flex';
                             }
@@ -173,6 +180,12 @@
                         } else {
                             if (tagsToHideOther.includes(tagText)) {
                                 tag.style.display = 'none';
+                                // Récupérer l'attribut 'for' du label
+                                let inputId = tag.htmlFor; // équivalent à label.getAttribute('for')
+
+                                // Récupérer l'input correspondant via l'ID
+                                let checkbox = document.getElementById(inputId);
+                                checkbox.checked = false;
                             } else {
                                 tag.style.display = 'flex';
                             }

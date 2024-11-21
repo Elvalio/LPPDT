@@ -1,7 +1,10 @@
 <?php
-// include_once 'nav.php';
+include_once 'nav.php';
 
 include('../sql/connect_params.php');
+
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
 function type_offre($nom_type){
     $resultat = 1; //type offre gratuite par défaut
@@ -17,18 +20,115 @@ function type_offre($nom_type){
 function option_offre($arr){
     $resultat = ''; //aucune option par défaut
 
-    if ($arr['une'] != ''){
-        $resultat = $arr['une'];
-    }else if ($arr['relief'] != ''){
-        $resultat = $arr['relief'];
+    if (array_key_exists('une', $arr)){
+        if ($arr['une'] != ''){
+            $resultat = $arr['une'];
+        } 
+    }
+    if (array_key_exists('relief', $arr)){
+        if ($arr['relief'] != ''){
+            $resultat = $arr['relief'];
+        } 
+    }
+    return $resultat;
+}
+
+function tag_offre($arr){
+    echo '<pre>';
+    print_r($arr);
+    echo '</pre>';
+    $resultat = []; //aucun tag par défaut
+
+    if ($arr['culturel'] != ''){
+        $resultat[] = $arr['culturel'];
+    } 
+    if ($arr['patrimoine'] != ''){
+        $resultat[] = $arr['patrimoine'];
+    } 
+    if ($arr['histoire'] != ''){
+        $resultat[] = $arr['histoire'];
+    } 
+    if ($arr['urbain'] != ''){
+        $resultat[] = $arr['urbain'];
+    } 
+    if ($arr['nature'] != ''){
+        $resultat[] = $arr['nature'];
+    } 
+    if ($arr['plein-air'] != ''){
+        $resultat[] = $arr['plein-air'];
+    } 
+    if ($arr['sport'] != ''){
+        $resultat[] = $arr['sport'];
+    } 
+    if ($arr['nautique'] != ''){
+        $resultat[] = $arr['nautique'];
+    } 
+    if ($arr['gastronomie'] != ''){
+        $resultat[] = $arr['gastronomie'];
+    } 
+    if ($arr['musee'] != ''){
+        $resultat[] = $arr['musee'];
+    } 
+    if ($arr['atelier'] != ''){
+        $resultat[] = $arr['atelier'];
+    } 
+    if ($arr['musique'] != ''){
+        $resultat[] = $arr['musique'];
+    } 
+    if ($arr['famille'] != ''){
+        $resultat[] = $arr['famille'];
+    } 
+    if ($arr['cinema'] != ''){
+        $resultat[] = $arr['cinema'];
+    } 
+    if ($arr['cirque'] != ''){
+        $resultat[] = $arr['cirque'];
+    } 
+    if ($arr['son-et-lumiere'] != ''){
+        $resultat[] = $arr['son-et-lumiere'];
+    } 
+    if ($arr['humour'] != ''){
+        $resultat[] = $arr['humour'];
+    } 
+    if ($arr['francais'] != ''){
+        $resultat[] = $arr['francais'];
+    } 
+    if ($arr['fruit-de-mer'] != ''){
+        $resultat[] = $arr['fruit-de-mer'];
+    } 
+    if ($arr['asiatique'] != ''){
+        $resultat[] = $arr['asiatique'];
+    } 
+    if ($arr['indienne'] != ''){
+        $resultat[] = $arr['indienne'];
+    } 
+    if ($arr['italienne'] != ''){
+        $resultat[] = $arr['italienne'];
+    } 
+    if ($arr['gastronomique'] != ''){
+        $resultat[] = $arr['gastronomique'];
+    } 
+    if ($arr['restauration-rapide'] != ''){
+        $resultat[] = $arr['restauration-rapide'];
+    } 
+    if ($arr['creperie'] != ''){
+        $resultat[] = $arr['creperie'];
+    } 
+    if ($arr['vegetarienne'] != ''){
+        $resultat[] = $arr['vegetarienne'];
+    } 
+    if ($arr['vegetalienne'] != ''){
+        $resultat[] = $arr['vegetalienne'];
+    } 
+    if ($arr['kebab'] != ''){
+        $resultat[] = $arr['kebab'];
     }
     return $resultat;
 }
 
 //PDO BDD
 if ($_POST != null) {
-    // $idC = $_COOKIE['user'];
-    $idC = 13; //pour les tests
+    $idC = $_COOKIE['user'];
     if ($_POST['categorie'] != '') {
         try{
             $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
@@ -223,9 +323,61 @@ if ($_POST != null) {
             }
             $stmt->execute();
 
-            // // Redirection vers /accueil.php
-            // header('Location: tableau_de_bord.php');
-            // exit(); // Important : Terminer le script pour éviter des exécutions non voulues
+            //ajout des tags 
+
+            $tags = tag_offre($_POST);
+
+            for ($i=0; $i < sizeof($tags) ; $i++) { 
+                $t = $tags[$i];
+                $stmt = $dbh->prepare(
+                    //récupération de l'idTag
+                    "select idtag from pact._tag where libelle = '$t';"
+                );
+                $stmt->execute();
+                $idtag = $stmt->fetchColumn();
+
+
+                if ($categorie === 'parcAttraction'){
+                    //vérification que le tag n'a pas déjà été inséré
+                    $checkStmt = $dbh->prepare("
+                        SELECT COUNT(*) FROM pact._tags_parc_d_attraction
+                        WHERE idO = :idOffre AND idtag = :idtag;
+                    ");
+                    $checkStmt->execute([
+                        'idOffre' => $idOffre,
+                        'idtag' => $idtag
+                    ]);
+                    if ($checkStmt->fetchColumn() == 0) {
+                        $stmt = $dbh->prepare(
+                            //insertion    
+                            "insert into pact._tags_parc_d_attraction(idO, idtag) values ($idOffre,$idtag);"
+                        );
+
+                    }
+                } else {
+                    //vérification que le tag n'a pas déjà été inséré
+                    $checkStmt = $dbh->prepare("
+                        SELECT COUNT(*) FROM pact._tags_$categorie
+                        WHERE idO = :idOffre AND idtag = :idtag;
+                    ");
+                    $checkStmt->execute([
+                        'idOffre' => $idOffre,
+                        'idtag' => $idtag
+                    ]);
+                    if ($checkStmt->fetchColumn() == 0) {
+                        $stmt = $dbh->prepare(
+                            //insertion
+                            "insert into pact._tags_$categorie(idO, idtag) values ($idOffre,$idtag);"
+                        );
+                    }
+                }
+                
+                $stmt->execute();
+            }
+
+            // Redirection vers /accueil.php
+            header('Location: accueil.php');
+            exit(); // Important : Terminer le script pour éviter des exécutions non voulues
 
 
         } catch (PDOException $e) {
@@ -293,90 +445,89 @@ if ($_POST != null) {
                             <div id="tag-container">
                                 <label>Tags</label>
                                 <div id="tags-items-container">
-                                    <button class="tag FS" type="button" >
-                                        <p>Culturel</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Patrimoine</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Histoire</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Urbain</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Nature</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Plein air</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Sport</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Nautique</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Gastronomie</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Musée</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Atelier</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Musique</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Famille</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Cinéma</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Cirque</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Son et lumière</p>
-                                    </button>
-                                    <button class="tag FS" type="button">
-                                        <p>Humour</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Française</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Fruit de mer</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Asiatique</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Indienne</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Italienne</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Gastronomique</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Restauration rapide</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Crêperie</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Végétarienne</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Végétalienne</p>
-                                    </button>
-                                    <button class="tag FS hidden" type="button">
-                                        <p>Kebab</p>
-                                    </button>
+                                <input type="checkbox" class="hidden" name="culturel" id="culturel" value="Culturel">
+                                    <label for="culturel">Culturel</label>
+
+                                    <input type="checkbox" class="hidden" name="patrimoine" id="patrimoine" value="Patrimoine">
+                                    <label for="patrimoine">Patrimoine</label>
+
+                                    <input type="checkbox" class="hidden" name="histoire" id="histoire" value="Histoire">
+                                    <label for="histoire">Histoire</label>
+
+                                    <input type="checkbox" class="hidden" name="urbain" id="urbain" value="Urbain">
+                                    <label for="urbain">Urbain</label>
+
+                                    <input type="checkbox" class="hidden" name="nature" id="nature" value="Nature">
+                                    <label for="nature">Nature</label>
+
+                                    <input type="checkbox" class="hidden" name="plein-air" id="plein-air" value="Pleine air">
+                                    <label for="plein-air">Pleine air</label>
+
+                                    <input type="checkbox" class="hidden" name="sport" id="sport" value="Sport">
+                                    <label for="sport">Sport</label>
+
+                                    <input type="checkbox" class="hidden" name="nautique" id="nautique" value="Nautique">
+                                    <label for="nautique">Nautique</label>
+
+                                    <input type="checkbox" class="hidden" name="gastronomie" id="gastronomie" value="Gastronomie">
+                                    <label for="gastronomie">Gastronomie</label>
+
+                                    <input type="checkbox" class="hidden" name="musee" id="musee" value="Musée">
+                                    <label for="musee">Musée</label>
+
+                                    <input type="checkbox" class="hidden" name="atelier" id="atelier" value="Atelier">
+                                    <label for="atelier">Atelier</label>
+
+                                    <input type="checkbox" class="hidden" name="musique" id="musique" value="Musique">
+                                    <label for="musique">Musique</label>
+
+                                    <input type="checkbox" class="hidden" name="famille" id="famille" value="Famille">
+                                    <label for="famille">Famille</label>
+
+                                    <input type="checkbox" class="hidden" name="cinema" id="cinema" value="Cinéma">
+                                    <label for="cinema">Cinéma</label>
+
+                                    <input type="checkbox" class="hidden" name="cirque" id="cirque" value="Cirque">
+                                    <label for="cirque">Cirque</label>
+
+                                    <input type="checkbox" class="hidden" name="son-et-lumiere" id="son-et-lumiere" value="Son et lumière">
+                                    <label for="son-et-lumiere">Son et lumière</label>
+
+                                    <input type="checkbox" class="hidden" name="humour" id="humour" value="Humour">
+                                    <label for="humour">Humour</label>
+
+                                    <input type="checkbox" class="hidden" name="francais" id="francais" value="Français">
+                                    <label for="francais">Français</label>
+
+                                    <input type="checkbox" class="hidden" name="fruit-de-mer" id="fruit-de-mer" value="Fruit de mer">
+                                    <label for="fruit-de-mer">Fruit de mer</label>
+
+                                    <input type="checkbox" class="hidden" name="asiatique" id="asiatique" value="Asiatique">
+                                    <label for="asiatique">Asiatique</label>
+
+                                    <input type="checkbox" class="hidden" name="indienne" id="indienne" value="Indienne">
+                                    <label for="indienne">Indienne</label>
+
+                                    <input type="checkbox" class="hidden" name="italienne" id="italienne" value="Italienne">
+                                    <label for="italienne">Italienne</label>
+
+                                    <input type="checkbox" class="hidden" name="gastronomique" id="gastronomique" value="Gastronomique">
+                                    <label for="gastronomique">Gastronomique</label>
+
+                                    <input type="checkbox" class="hidden" name="restauration-rapide" id="restauration-rapide" value="Restauration rapide">
+                                    <label for="restauration-rapide">Restauration rapide</label>
+
+                                    <input type="checkbox" class="hidden" name="creperie" id="creperie" value="Crêperie">
+                                    <label for="creperie">Crêperie</label>
+
+                                    <input type="checkbox" class="hidden" name="vegetarienne" id="vegetarienne" value="Végétarienne">
+                                    <label for="vegetarienne">Végétarienne</label>
+
+                                    <input type="checkbox" class="hidden" name="vegetalienne" id="vegetalienne" value="Végétalienne">
+                                    <label for="vegetalienne">Végétalienne</label>
+
+                                    <input type="checkbox" class="hidden" name="kebab" id="kebab" value="Kebab">
+                                    <label for="kebab">Kebab</label>
                                 </div>
                             </div>
                             <!-- Bouton de soumission -->
