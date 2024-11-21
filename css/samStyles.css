@@ -260,6 +260,7 @@
   display: flex;
   flex-direction: column;
   width: 60%;
+  font-family: 'TripSansRegular';
 }
 
 .side-contact div img {
