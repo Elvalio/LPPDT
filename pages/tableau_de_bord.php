@@ -96,7 +96,7 @@
                 <?php
                 }
                 ?>
-                <form action="http://localhost:8888/pages/creation_offre.php">
+                <form action="creation_offre.php">
                     <input type="submit" value="Créer une nouvelle offre" id="creer_offre"/>
                 </form>
                 <script src="../js/tableau_de_bord.js">
