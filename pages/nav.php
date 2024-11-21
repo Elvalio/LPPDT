@@ -48,7 +48,7 @@
                             <p>Historique</p>
                         </a>
 
-                            <a href="en-construction.php" class="nav-item <?php if ($estMembre) {?> BO <?php } ?>" data-icon="facturation">
+                            <a href="facturation.php" class="nav-item <?php if ($estMembre) {?> BO <?php } ?>" data-icon="facturation">
                                 <img src="../icons/icons-gris/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
                                 <p>Facturation</p>
                             </a>
