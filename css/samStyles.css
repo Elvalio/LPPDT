@@ -282,10 +282,6 @@ f/*
   text-decoration: none;
 }
 
-.sidde-contact div h3 {
-  font-family: 'TripSansRegular';
-}
-
 .horaires {
   display: flex;
   flex-direction: column;
