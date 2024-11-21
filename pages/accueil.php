@@ -42,6 +42,8 @@ try{
     die();
 }
 
+    $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
+
 
 
 
@@ -85,15 +87,10 @@ try{
                     <div class="space-button">
                         <div class="search">
                             <input type="text" name="search" id="rechercheOffre" placeholder="Recherche" class="FS">
-                            <img src="../images/search_icon.png" alt="Recherche" title="Recherche">
+                            <img src="../images/search_icon.png" alt="Recherche" title="Recherche" id="rechercheOffreIMG">
                         </div>
 
                         <div class="filtrer-trier"> 
-                            <div class="filtrer-bouton NoSelect">
-                                <p class="FS">Filtrer par</p>
-                                <img src="../images/fleche.png" alt="Fleche" title="Fleche">
-                            </div>
-
                             <div class="dropdown NoSelect">
                                 <div class="dropdown-toggle trier">
                                     <p class="FS">Trier par</p>
@@ -105,6 +102,11 @@ try{
                                     <li><a>Notes croissantes</a></li>
                                     <li><a>Notes décroissantes</a></li>
                                 </ul>
+                            </div>
+
+                            <div class="filtrer-bouton NoSelect">
+                                <p class="FS">Filtrer</p>
+                                <img src="../images/filtre.png" alt="filtre" title="filtre">
                             </div>
                         </div>
                     </div>
@@ -121,69 +123,79 @@ try{
             </nav>
 
             <div class="all-filter">
-                <div class="filter filtre-type">
-                    <div class="filtre-case">
-                        <input type="checkbox" id="visite" name="Visite" />
-                        <label for="visite">Visite</label>
-                    </div>
-                    <div class="filtre-case">
-                        <input type="checkbox" id="spectacle" name="Spectacle" />
-                        <label for="spectacle">Spectacle</label>
-                    </div>
-                    <div class="filtre-case">
-                        <input type="checkbox" id="Activite" name="Activite" />
-                        <label for="Pattractions">Activité</label>
-                    </div>
-                    <div class="filtre-case">
-                        <input type="checkbox" id="restauration" name="Restauration" />
-                        <label for="restauration">Restauration</label>
-                    </div>
-                </div>
-                <div class="filter filtre-lieu">
-                    <div class="search-filter">
-                        <input type="text" name="search" id="search" placeholder="Recherche">
-                        <img src="../images/search_icon.png" alt="Recherche" title="Recherche">
-                    </div>
-                    <div class="filtre-case">
-                        <input type="checkbox" id="Perros-Guirec" name="Perros-Guirec" />
-                        <label for="Perros-Guirec">Perros-Guirec</label>
-                    </div>
-                    <div class="filtre-case">
-                        <input type="checkbox" id="Lannion" name="Lannion" />
-                        <label for="Lannion">Lannion</label>
-                    </div>
-                    <div class="filtre-case">
-                        <input type="checkbox" id="Plemeur-Boudou" name="Plemeur-Boudou" />
-                        <label for="Plemeur-Boudou">Plemeur-Boudou</label>
-                    </div>
-                </div>
-                <div class="filter filtre-temps">
-                    <div id="calendar-start">
-                        <label for="calendar-start">
-                            Date de début
-                        </label>
-                        <input type="date" name="date-start" id="date-start" class="filtre-temps-start">
-                    </div>
-                    
-                    <div id="calendar-end">
-                        <label for="calendar-end">
-                            Date de Fin
-                        </label>
-                        <input type="date" name="date-end" id="date-end" class="filtre-temps-end">
-                    </div>
-                </div>
-                <div class="filter filtre-prix">
-                    <div class="slider-container">
-                        <input type="range" id="slider-left" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>" class="filtre-prix-min">
-                        <input type="range" onchange="change()" id="slider-right" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>" class="filtre-prix-max">
-                        
-                        <div class="value-container">
-                            <span id="value-left"><?php echo $prix_min ?>€</span>
-                            <span id="value-right"><?php echo $prix_max ?>€</span>
+                <div class="filter">
+                    <p class="FS">Catégories</p>
+                    <div class="filtre-type">
+                        <div class="filtre-case">
+                            <input type="checkbox" id="visite" name="Visite" />
+                            <label for="visite">Visite</label>
+                        </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="spectacle" name="Spectacle" />
+                            <label for="spectacle">Spectacle</label>
+                        </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="Activite" name="Activite" />
+                            <label for="Pattractions">Activité</label>
+                        </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="restauration" name="Restauration" />
+                            <label for="restauration">Restauration</label>
                         </div>
                     </div>
                 </div>
-                <div class="filter filtre-note">
+                <div class="filter">
+                    <p class="FS">Lieux</p>
+                    <div class="filtre-lieu">
+                        <div class="search-filter">
+                            <input type="text" name="search" id="rechercheLieu" placeholder="Recherche">
+                            <img src="../images/search_icon.png" alt="Recherche" title="Recherche" id="rechercheLieuIMG">
+                        </div>
+                        <div class="filtre-lieu-case">
+                            <?php foreach ($lieux as $lieu) { ?>
+                                <div class="filtre-case lieu">
+                                    <input type="checkbox" id="<?php echo $lieu; ?>" name="<?php echo $lieu; ?>" />
+                                    <label for="<?php echo $lieu; ?>"><?php echo $lieu; ?></label>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <p class="FS">Date de publication</p>
+                    <div class="filtre-temps">
+                        <div id="calendar-start">
+                            <label for="calendar-start">
+                                Au plus tôt
+                            </label>
+                            <input type="date" name="date-start" id="date-start" class="filtre-temps-start">
+                        </div>
+                        
+                        <div id="calendar-end">
+                            <label for="calendar-end">
+                                Au plus tard
+                            </label>
+                            <input type="date" name="date-end" id="date-end" class="filtre-temps-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <p class="FS">Prix</p>
+                    <div class="filtre-prix">
+                        <div class="slider-container">
+                            <input type="range" id="slider-left" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>" class="filtre-prix-min">
+                            <input type="range" onchange="change()" id="slider-right" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>" class="filtre-prix-max">
+                            
+                            <div class="value-container">
+                                <span id="value-left"><?php echo $prix_min ?>€</span>
+                                <span id="value-right"><?php echo $prix_max ?>€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <p class="FS">Notes</p>
+                    <div class="filtre-note">
                     <?php
                     $notes = [
                         5 => [true, true, true, true, true],
@@ -203,6 +215,7 @@ try{
                             </div>
                         </div>
                     <?php } ?>
+                    </div>
                 </div>
             </div>
 
