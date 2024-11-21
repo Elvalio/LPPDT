@@ -214,6 +214,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     
     // Afficher la pop-up après 30 secondes (une seule fois)
-    setTimeout(showPopup, 30000);
+    if (document.body.classList.contains('FO')) {
+        setTimeout(showPopup, 30000);
+    }
     
 });
