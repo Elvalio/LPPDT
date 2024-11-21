@@ -242,14 +242,10 @@ try {
                     <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
                 <?php endfor;?>
             </div>
-            <div>
+            <form method ="POST" action="detail-offre-deyoyo.php?value=<?php echo $offre['ido']?>">
                 <textarea type="text" name="ecrire_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-            </div>
-            <div>
-                <form method ="POST" action="detail-offre-deyoyo.php?value=<?php echo $offre['ido']?>">
-                    <input type="button" id="bouton_publier" value="publier">
-                </form>
-            </div>
+                <input type="button" id="bouton_publier" value="publier">
+            </form>
         </article>
             <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
             <div class="alignement-conteneur-avis">

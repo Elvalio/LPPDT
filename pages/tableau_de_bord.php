@@ -16,10 +16,14 @@
             
             $offre_id = $_POST['offre_id'];
             $status = $_POST['status'] === 'checked' ? 'false' : 'true';
-    
-            
-            $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
-            $stmt->execute();
+
+            if($status){
+                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_publication = now()  WHERE idO = $offre_id");
+                $stmt->execute();
+            }else{
+                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
+                $stmt->execute();
+            }
 
             
             } catch (PDOException $e) {

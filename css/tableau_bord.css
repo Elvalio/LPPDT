@@ -42,10 +42,11 @@ section{
 }
 
 section > img{
-    width: 160px;
+    width: 20%;
     height: 160px;
     margin: 10px;
     object-fit: cover;
+
 }
 
 section > div{
