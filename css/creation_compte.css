@@ -11,7 +11,7 @@ Ceci est le CSS pour la page de création de compte : membre ou professionnel
 }
 
 
-/* Je n'ai pas mis de couleur de fond pour l'instant à voir plus tard si cela change */
+/* Couleur de fond de la page */
 body {
     background-color: white;
 }
@@ -27,9 +27,6 @@ body {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
-}
-.menu-link {
-    cursor: pointer;
     padding: 10px 20px;
     border-radius: 30px;
     text-align: center;
@@ -37,6 +34,26 @@ body {
     transition: all 0.3s;
     font-size: 24px;
     font-weight: bold;
+    gap: 10px; /* Espace entre les liens */
+}
+
+.menu-links div {
+    background-color: #FFF7E1; /* Fond par défaut */
+    font-size: 20px; /* Taille de police par défaut */
+    font-weight: normal; /* Poids de police par défaut */
+    padding: 20px; /* Rembourrage */
+    border-radius: 30px; /* Rayon de bord */
+    text-align: center; /* Alignement du texte */
+    width: 100%; /* Largeur complète */
+}
+
+/* Optionnel : Styles spécifiques pour le lien "Inscription Membre" lorsqu'il n'est pas cliqué */
+.inscription-membre {
+    color: #006B8F; /* Couleur de texte par défaut */
+}
+
+.inscription-pro {
+    color: #A2021F;
 }
 
 /* Ce conteneur permet de pouvoir ranger tout les éléments du formulaire à l'intérieur : toute la page sauf le bouton retour */
@@ -202,51 +219,21 @@ label {
     margin-right: 0;
 }
 
-.menu-links {
-    display: flex; /* Utilisation de flexbox pour aligner les liens horizontalement */
-    gap: 10px; /* Espace entre les liens */
-}
-
-.menu-links div {
-    background-color: #FFF7E1; /* Fond par défaut */
-    color: #006B8F; /* Couleur de texte par défaut */
-    font-size: 20px; /* Taille de police par défaut */
-    font-weight: normal; /* Poids de police par défaut */
-    padding: 20px; /* Rembourrage */
-    border-radius: 30px; /* Rayon de bord */
-    text-align: center; /* Alignement du texte */
-    width: 100%; /* Largeur complète */
-    transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease; /* Transition plus fluide */
-}
-
-/* Optionnel : Styles spécifiques pour le lien "Inscription Membre" lorsqu'il n'est pas cliqué */
-.menu-links .inscription-membre {
-    color: #006B8F; /* Couleur de texte par défaut */
-}
-
 .form-container-page-creation-compte {
     display: none;
 }
 .form-container-page-creation-compte.active {
     display: block;
 }
-.menu-links {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-}
-.menu-link {
-    cursor: pointer;
-    padding: 10px 20px;
-    border-radius: 30px;
-    text-align: center;
-    width: 100%;
-    transition: all 0.3s;
-    font-size: 24px;
-    font-weight: bold;
-}
 
 .erreur {
     font-size: 12px;
     color: red;
+}
+
+.container {
+    display: flex;
+    align-items: center; /* Aligner verticalement au centre */
+    justify-content: center;
+    gap: 10px; /* Espacement entre les éléments */
 }

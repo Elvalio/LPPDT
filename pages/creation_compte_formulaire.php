@@ -83,18 +83,30 @@
                         
                         <div class="checkbox">
                             <input type="checkbox" id="terms" name="terms" required>
-                            <span class="FS-bold">Accepter les conditions générales d'utilisations de PACT<span class="required">*</span></span>
+                            <span class="FS-bold">
+                                Accepter les conditions générales d'utilisation de 
+                                <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">PACT</a>
+                                <span class="required">*</span>
+                            </span>
                         </div>
 
                     </div>
                 </div>
-                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">S'inscrire</button>
+                    <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">S'inscrire</button>
             </form>
-            <a href="connexion.php" style="text-decoration: none;">
-                <div class="login">
-                    <button type="button" class="connexion-page-membre TS-bold">Déjà inscrit ? Connectez-vous.</button>
-                </div>
-            </a>
+            <div class="container">
+                <a href="connexion.php" style="text-decoration: none;">
+                    <div class="login">
+                        <button type="button" class="connexion-page-membre TS-bold">Déjà inscrit ? Connectez-vous.</button>
+                    </div>
+                </a>
+
+                <a href="creation_compte_pro_formulaire.php" style="text-decoration: none;">
+                    <div class="login">
+                        <button type="button" class="connexion-page-membre TS-bold">Vous êtes un professionnel ? Cliquez ici.</button>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 

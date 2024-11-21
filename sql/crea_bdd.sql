@@ -99,7 +99,7 @@ create table pact._avis(
   idA serial,
   note integer,
   titre varchar(30),
-  corps varchar(200),
+  corps varchar(500),
   date_publication date,
   date_visite date,
   contexte varchar(20),

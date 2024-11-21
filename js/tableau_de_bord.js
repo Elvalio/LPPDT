@@ -17,29 +17,32 @@ function appuieToggle(event) {
     let form = toggle.closest('form');  // Trouver le formulaire associé
 
     if (toggle.checked) {
-        let confirmation = confirm("Êtes-vous sûr de vouloir passer cette offre hors ligne ?");
-        if (confirmation) {
-            toggle.checked = true;
-            section.style.setProperty("opacity", 0.5);
-            form.submit();  // Soumettre le formulaire si confirmé
-        } else {
-            toggle.checked = false;
-            section.style.setProperty("opacity", 1);
-        }
-    } else {
         let confirmation = confirm("Êtes-vous sûr de vouloir passer cette offre en ligne ?");
         if (confirmation) {
-            toggle.checked = false;
+            toggle.checked = true;
             section.style.setProperty("opacity", 1);
             form.submit();  // Soumettre le formulaire si confirmé
         } else {
-            toggle.checked = true;
+            toggle.checked = false;
             section.style.setProperty("opacity", 0.5);
         }
-    }
+    } else {
+        let confirmation = confirm("Êtes-vous sûr de vouloir passer cette offre hors ligne ?");
+        if (confirmation) {
+            toggle.checked = false;
+            section.style.setProperty("opacity", 0.5);
+            form.submit();  // Soumettre le formulaire si confirmé
+        } else {
+            toggle.checked = true;
+            section.style.setProperty("opacity", 1);
+        }
+    }    
 }
 
 // Associer l'événement à chaque toggle
 toggles.forEach(toggle => {
+    if(!toggle.checked){
+        toggle.closest('section').style.setProperty("opacity", 0.5);
+    }
     toggle.addEventListener("click", appuieToggle);
 });
