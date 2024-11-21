@@ -285,6 +285,6 @@ try {
             <?php endforeach; }?> <!-- Ensure this is properly placed -->
         </article>
     </section>
+    <script src = "../js/detail_offre.js"></script>
 </body>
-
 </html>

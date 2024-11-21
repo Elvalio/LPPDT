@@ -6,6 +6,34 @@
 
     include('../sql/connect_params.php');
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        
+        if (isset($_POST['offre_id']) && isset($_POST['status'])) {
+            
+            try{
+            $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
+    
+            
+            $offre_id = $_POST['offre_id'];
+            $status = $_POST['status'] === 'checked' ? 'false' : 'true';
+    
+            
+            $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
+            $stmt->execute();
+
+            
+            } catch (PDOException $e) {
+                print "Erreur !: " . $e->getMessage() . "<br/>";
+                die();
+            }
+    
+            
+             
+        } else {
+            echo "<p>Erreur : les données du formulaire ne sont pas valides.</p>";
+        }
+    }
+
     $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
 
     $user_cookie = $_COOKIE['user'];
@@ -18,13 +46,12 @@
     
     $stmt->execute();
 
-    $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $dbh = null;
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
+    $dbh = null;
     ?>
     <head>
         <meta charset="UTF-8">
@@ -41,7 +68,7 @@
             </header>
             <main>
                 <?php
-                foreach($stmt as $key => $valeur){
+                foreach($result as $key => $valeur){
                 ?>
                 <section class="section_offre">
                     <img src="../images/<?php echo $valeur["src_image"]; ?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>">
@@ -78,37 +105,6 @@
 
                 include_once'footer.php';
 
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    
-                    if (isset($_POST['offre_id']) && isset($_POST['status'])) {
-                        
-                        try{
-                        $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
-                
-                        
-                        $offre_id = $_POST['offre_id'];
-                        $status = $_POST['status'] === 'checked' ? 'false' : 'true';
-                
-                        
-                        $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
-                        $stmt->execute();
-
-                        
-                        } catch (PDOException $e) {
-                            print "Erreur !: " . $e->getMessage() . "<br/>";
-                            die();
-                        }
-                
-                        
-                        header("Location: tableau_de_bord.php");
-                        exit(); 
-                
-                
-                        $dbh = null;
-                    } else {
-                        echo "<p>Erreur : les données du formulaire ne sont pas valides.</p>";
-                    }
-                }
                 ?>  
             </main>
         </div>
