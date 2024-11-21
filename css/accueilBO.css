@@ -35,7 +35,6 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-
 }
 
 header + nav {
@@ -50,7 +49,7 @@ header + nav {
     align-items: center; /* Aligne verticalement le contenu */
     justify-content: space-between; /* Espace entre les éléments */
 
-    padding: 0 18px 0 16px;
+    padding: 0 25px 0 14px;
 }
 
 .space-button {
@@ -500,6 +499,15 @@ input[type="range"]::-ms-thumb {
     border-bottom: none; /* Pas de bordure pour le dernier élément */
 }
 
+
+.dropdown-menu li:last-child.active {
+    border-bottom-left-radius: 8px;
+}
+
+.dropdown-menu li:first-child.active {
+    border-top-left-radius: 8px;
+}
+
 .dropdown-menu a {
     text-decoration: none;
     color: #737373;
@@ -524,6 +532,7 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: row;
     align-self: center;
+    gap: 4px;
 }
 
 .NouveauALaUne div {
@@ -535,7 +544,7 @@ input[type="range"]::-ms-thumb {
     width: fit-content;
     height: fit-content;
     padding: 5px 8px; /* Espacement intérieur pour le texte */
-    margin: 2px;
+    /* margin: 2px; */
     transition: background-color 0.3s, color 0.3s;
 }
 
