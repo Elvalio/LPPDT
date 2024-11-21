@@ -7,7 +7,6 @@ body {
     position: relative;
     top: 20px;
     left: 20px;
-    z-index: 1000;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -19,14 +18,11 @@ body {
 }
 
 #menuButton svg {
-    z-index: 999;
     width: 20px;
     height: 20px;
 }
 
-#filters.hide {
-    display: none;
-}
+
 
 #menu {
     position: fixed;
