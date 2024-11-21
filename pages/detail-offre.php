@@ -141,7 +141,7 @@ try {
         <article class="part-contact">
             <div class="side-contact">
                 <div>
-                    <h3 class="sous-titre">Contact :</h3>
+                    <h3>Contact :</h3>
                     <div>
                         <?php 
                         $address = $offre['numero_voie'] . $offre['voie'] . $offre['ville'] . $offre['code_postal'];
