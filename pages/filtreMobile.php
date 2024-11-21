@@ -38,6 +38,7 @@
             </section>
         </div>
     </div>
+
     <script src="../js/scriptFilter.js"></script>
 </body>
 </html>

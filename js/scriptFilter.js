@@ -5,7 +5,6 @@ const filters = document.getElementById('filters');
 
 menuButton.addEventListener('click', () => {
     menu.style.left = '0';
-    filters.classList.toggle('hide');
 
 });
 
