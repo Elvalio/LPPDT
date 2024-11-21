@@ -39,7 +39,6 @@ body {
 
 .menu-links div {
     background-color: #FFF7E1; /* Fond par défaut */
-    color: #006B8F; /* Couleur de texte par défaut */
     font-size: 20px; /* Taille de police par défaut */
     font-weight: normal; /* Poids de police par défaut */
     padding: 20px; /* Rembourrage */
@@ -49,8 +48,12 @@ body {
 }
 
 /* Optionnel : Styles spécifiques pour le lien "Inscription Membre" lorsqu'il n'est pas cliqué */
-.menu-links .inscription-membre {
+.inscription-membre {
     color: #006B8F; /* Couleur de texte par défaut */
+}
+
+.inscription-pro {
+    color: #A2021F;
 }
 
 /* Ce conteneur permet de pouvoir ranger tout les éléments du formulaire à l'intérieur : toute la page sauf le bouton retour */
