@@ -58,19 +58,24 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo htmlspecialchars($offre['titre'] ?? 'Détails de l\'offre'); ?></title>
+    <title>
+        <?php echo htmlspecialchars($offre['titre'] ?? 'Détails de l\'offre'); ?>
+    </title>
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../detail-offre.js" async></script>
 </head>
 
-<body class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
+<body
+    class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
 
     <section class="section-page part-annonce">
         <header>
-            <h1 class="titre-rouge"><?php echo htmlspecialchars($offre['titre']); ?></h1>
+            <h1 class="titre-rouge">
+                <?php echo htmlspecialchars($offre['titre']); ?>
+            </h1>
             <h2 class="sous-titre">
-                <?php echo htmlspecialchars($offre['ville']); ?> | 
+                <?php echo htmlspecialchars($offre['ville']); ?> |
                 <?php echo htmlspecialchars($telephone); ?>
                 <?php if (!empty($offre['duree'])) echo " | Durée : " . htmlspecialchars($offre['duree']); ?>
                 <?php if (!empty($offre['age_min'])) echo " | Âge : " . htmlspecialchars($offre['age_min']) . " ans"; ?>
@@ -83,9 +88,10 @@ try {
                 <div class="carousel">
                     <div class="carousel-inner">
                         <?php foreach ($photos as $index => $photo): ?>
-                            <div class="slide">
-                                <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>" alt="Image <?php echo $index + 1; ?>">
-                            </div>
+                        <div class="slide">
+                            <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
+                                alt="Image <?php echo $index + 1; ?>">
+                        </div>
                         <?php endforeach; ?>
                     </div>
                     <div class="carousel-controls NoSelect">
@@ -106,36 +112,44 @@ try {
                     $emptyStars = 5 - $fullStars;
 
                     for ($i = 0; $i < $fullStars; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png" alt="Étoile">
+                    <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
+                        alt="Étoile">
                     <?php endfor; ?>
                     <?php for ($i = 0; $i < $emptyStars; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png" alt="Étoile Vide">
+                    <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
+                        alt="Étoile Vide">
                     <?php endfor; ?>
                 </div>
-                <p class="nb-avis-info-offre"><?php echo $nbrAvis . " Avis |"; ?></p>
+                <p class="nb-avis-info-offre">
+                    <?php echo $nbrAvis . " Avis |"; ?>
+                </p>
                 <img src="../images/Wheelchair.png" alt="Accessibilité">
-                <p><?php echo htmlspecialchars($offre['accessibilite']); ?></p>
+                <p>
+                    <?php echo htmlspecialchars($offre['accessibilite']); ?>
+                </p>
             </div>
         </header>
 
         <!-- Description -->
         <article class="description-offre">
             <h3>Description :</h3>
-            <p><?php echo nl2br(htmlspecialchars($offre['description'])); ?></p>
+            <p>
+                <?php echo nl2br(htmlspecialchars($offre['description'])); ?>
+            </p>
         </article>
 
         <article class="part-contact">
-                <div class="side-contact">
+            <div class="side-contact">
+                <div>
+                    <h3 class="sous-titre">Contact :</h3>
                     <div>
-                        <h3>Contact :</h3>
-                        <div>
-                            <?php 
+                        <?php 
                         $address = $offre['numero_voie'] . $offre['voie'] . $offre['ville'] . $offre['code_postal'];
                         ?>
-                            <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
-                                <img src="../images/maison.png" alt="icon maison (localisation)">
-                                <p>
-                                    <?php
+                        <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
+                            <img src="../images/maison.png" alt="icon maison (localisation)">
+                            <p>
+                                <?php
                                 echo $offre['numero_voie'];
                                 echo " ";
                                 echo $offre['voie'];
@@ -145,39 +159,39 @@ try {
                                 echo $offre['code_postal'];
 
                             ?>
-                                </p>
-                            </a>
-                        </div>
-                        <div>
-                            <a href="tel:<?php 
+                            </p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="tel:<?php 
                             echo htmlspecialchars($telephone);
                                 ?> ">
-                                <img src="../images/telephone.png" alt="icon telephone">
-                                <p>
-                                    <?php 
+                            <img src="../images/telephone.png" alt="icon telephone">
+                            <p>
+                                <?php 
                                         echo htmlspecialchars($telephone);
                                     ?>
-                                </p>
-                            </a>
-                        </div>
-
-                        <?php
-                        if (!empty($offre['site_web'])) { ?>
-                        <div>
-                            <a href=" <?php echo $offre['site_web']; ?>">
-                                <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                                <p>
-                                    <?php
-                            echo $offre['site_web']; ?>
-                                </p>
-                            </a>
-                        </div>
+                            </p>
+                        </a>
                     </div>
+
                     <?php
+                        if (!empty($offre['site_web'])) { ?>
+                    <div>
+                        <a href=" <?php echo $offre['site_web']; ?>">
+                            <img src="../images/pc.png" alt="icon pc (lien vers le site)">
+                            <p>
+                                <?php
+                            echo $offre['site_web']; ?>
+                            </p>
+                        </a>
+                    </div>
+                </div>
+                <?php
 
                         } ?>
-                </div>
-                <!--<div class="horaires">
+            </div>
+            <!--<div class="horaires">
                         <h3>Horaires et tarifs :</h3>
                         <div>
                             <img src="../images/Delivery Time.png" alt="icon heure">
@@ -188,67 +202,89 @@ try {
                             <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
                         </div>
                     </div>-->
-                </div>
-                <?php 
+            </div>
+            <?php 
                     if (!empty($offre['carte'])) { ?>
-                <div>
-                    <img class="carte" src="../images/ <?php $offre['carte'] ?>" alt="carte géolocalisation">
-                </div>
-                <?php
+            <div>
+                <img class="carte" src="../images/ <?php $offre['carte'] ?>" alt="carte géolocalisation">
+            </div>
+            <?php
                     } elseif (!empty($offre['src_image'])) { ?>
-                <div>
-                    <img class="carte" src="../images/ <?php $offre['src_image'] ?>" alt="carte">
-                </div>
-                <?php
+            <div>
+                <img class="carte" src="../images/ <?php $offre['src_image'] ?>" alt="carte">
+            </div>
+            <?php
                     }
                 ?>
-                </div>
+            </div>
 
-            </article>
+        </article>
         <button class="bouton-retour NoSelect">
-        <a href="./accueil.php">
-            <img src="../icons/arrow-left-o.svg" alt="Retour">
-            Retour
-        </a>
-    </button>
+            <a href="./accueil.php">
+                <img src="../icons/arrow-left-o.svg" alt="Retour">
+                Retour
+            </a>
+        </button>
     </section>
 
     <!-- Avis -->
     <section class="section-page part-avis">
         <header class="header-avis">
-            <h3>Avis : <?php echo $nbrAvis; ?></h3>
+            <h3>Avis :
+                <?php echo $nbrAvis; ?>
+            </h3>
         </header>
         <article class="article-avis">
-        
-        <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
+        <article class="poster_avis">
+            <h3>Poster un avis :</h3>
             <div>
+                <?php for($i = 1; $i<6; $i++):?>
+                    <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
+                <?php endfor;?>
+            </div>
+            <div>
+                <textarea type="text" name="ecrire_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+            </div>
+            <div>
+                <form method ="POST" action="detail-offre-deyoyo.php?value=<?php echo $offre['ido']?>">
+                    <input type="button" id="bouton_publier" value="publier">
+                </form>
+            </div>
+        </article>
+            <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
+            <div class="alignement-conteneur-avis">
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/image4.png" alt="Photo de profil" width="40" height="40">
-                        <p><?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?></p>
+                        <p>
+                            <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
+                        </p>
                     </div>
-                    <div class = "etoile-avis-detail-offre">
+                    <div class="etoile-avis-detail-offre">
                         <?php
                         $full = (int) $avisIndividuel['note'];
                         $empty = 5 - $full;
     
                         for ($i = 0; $i < $full; $i++): ?>
-                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png" width="20px" height="20px" alt="Étoile">
+                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
+                            width="20px" height="20px" alt="Étoile">
                         <?php endfor; ?>
                         <?php for ($i = 0; $i < $empty; $i++): ?>
-                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png" width="20px" height="20px" alt="Étoile Vide">
+                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
+                            width="20px" height="20px" alt="Étoile Vide">
                         <?php endfor;
                         ?>
                     </div>
                 </div>
                 <div class="commentaire-consulte">
-                    <p><?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?></p>
+                    <p>
+                        <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                    </p>
                 </div>
             </div>
-        <?php endforeach; }?> <!-- Ensure this is properly placed -->
-
+            <?php endforeach; }?> <!-- Ensure this is properly placed -->
         </article>
     </section>
-    
+    <script src = "../js/detail_offre.js"></script>
 </body>
 </html>

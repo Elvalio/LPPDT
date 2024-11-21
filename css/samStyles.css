@@ -26,7 +26,8 @@
     font-family: 'TripSansUltra';
     src: url('./TripSans-Ultra.ttf') format('truetype');
   }
-body {
+  
+.body {
     display: flex;
     flex-direction: row;
 }
@@ -352,6 +353,10 @@ body {
   margin-bottom: 10px;
 }
 
+.alignement-conteneur-avis {
+  width: 100%;
+}
+
 .commentaire-non-consulte {
   display: flex;
   background-color: lightgrey;
@@ -463,3 +468,25 @@ body {
   }
 }
 
+
+
+.poster_avis{
+  margin : 10px;
+  width: 100%;
+}
+
+#ecrire_avis{
+  width : 99%;
+  height: 200px;
+}
+
+#bouton_publier {
+  padding: 10px 30px; /* Padding à droite et à gauche */
+  cursor: pointer; /* Curseur en forme de main */
+  border: none;
+  border-radius: 8px;
+  background-color: var(--turquoise-orange);
+  font-size: 16px;
+  width: fit-content;
+  margin-top: 30px;
+}
