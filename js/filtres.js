@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const trie_text = document.querySelector('.dropdown-toggle > p');
+    const rechercheOffre = document.getElementById('rechercheOffre');
 
     const categoriesFiltres = [
         'filtre-type',
@@ -145,11 +146,18 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    rechercheOffre.addEventListener('input', function () {
+        afficherResultats(filtrage());
+    });
+
     // Fonction pour afficher uniquement les offres filtrées
     function afficherResultats(offresVisibles) {
-        console.log(offresVisibles);
         trie(offresVisibles);
-        console.log(offresVisibles);
+        const rechercheTexte = rechercheOffre.value.toLowerCase();
+        offresVisibles = offresVisibles.filter(offre => {
+            const offreTexte = offre.textContent.toLowerCase();
+            return offreTexte.includes(rechercheTexte);
+        });
         Array.from(offres).forEach(offre => {
             offresVisibles.forEach((offreVisible, index) => {
                 offreVisible.style.order = index;

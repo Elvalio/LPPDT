@@ -20,26 +20,6 @@ try{
     $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // ido, titre, resume, type, nom_type, cout, description, prix_min, moy_note, nbravis, accessibilitev, categorie, date_creation, date_publication, idadresse, ville, numero_voie, voie, code_postal, complement, idc
 
-    function trie($type_tri, $liste) {
-        if ($type_tri == "prixC") {
-            usort($liste, function($a, $b) {
-                return $a["prix_min"] - $b["prix_min"];
-            });
-        } else if ($type_tri == "prixD") {
-            usort($liste, function($a, $b) {
-                return $b["prix_min"] - $a["prix_min"];
-            });
-        } else if ($type_tri == "notesC") {
-            usort($liste, function($a, $b) {
-                return $a["moy_note"] - $b["moy_note"];
-            });
-        } else if ($type_tri == "notesD") {
-            usort($liste, function($a, $b) {
-                return $b["moy_note"] - $a["moy_note"];
-            });
-        }
-        return $liste;
-    }
 
     function toInteger($value) {
         return intval($value);
@@ -104,7 +84,7 @@ try{
                 <div class="nav_space">
                     <div class="space-button">
                         <div class="search">
-                            <input type="text" name="search" id="search" placeholder="Recherche" class="FS">
+                            <input type="text" name="search" id="rechercheOffre" placeholder="Recherche" class="FS">
                             <img src="../images/search_icon.png" alt="Recherche" title="Recherche">
                         </div>
 
