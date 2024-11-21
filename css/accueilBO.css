@@ -571,7 +571,6 @@ input[type="range"]::-ms-thumb {
 @media (min-width: 801px) {
 
 .carte_offre {
-    padding: 16px;
     margin: 24px;
     width: 240px;
     height: 320px;
@@ -579,9 +578,10 @@ input[type="range"]::-ms-thumb {
     border: 1px solid #D9D9D9;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-grow: 1;
     gap: 200px;
+    border-radius: 15px;
 }
 
 .carte_offre img {
@@ -589,6 +589,12 @@ input[type="range"]::-ms-thumb {
     height: 250px;
     object-fit: cover;
     overflow: hidden;
+    border-radius: 15px 15px 0 0;
+    margin-bottom: 10px;
+}
+
+.carte_offre .infoAnnonce, .carte_offre .titreAnnonce {
+    margin-left: 8px;
 }
 
 .carte_offre .infoAnnonce {
@@ -850,15 +856,15 @@ input[type="range"]::-ms-thumb {
 }
 
 .popup img {
-    width: 10px;
-    height: 10px;
+    width: 15px;
+    height: 15px;
     object-fit: cover;
 
     cursor: pointer;
 
     position: absolute;
-    top: 3px;
-    right: 3px;
+    top: -5px;
+    right: -5px;
     
     padding: 1.5px;
 
