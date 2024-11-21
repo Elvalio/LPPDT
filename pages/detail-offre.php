@@ -219,6 +219,22 @@ try {
             <h3>Avis : <?php echo $nbrAvis; ?></h3>
         </header>
         <article class="article-avis">
+        <article class="poster_avis">
+            <h3>Poster un avis :</h3>
+            <div>
+                <?php for($i = 1; $i<6; $i++):?>
+                    <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
+                <?php endfor;?>
+            </div>
+            <div>
+                <textarea type="text" name="ecrire_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+            </div>
+            <div>
+                <form method ="POST" action="detail-offre-deyoyo.php?value=<?php echo $offre['ido']?>">
+                    <input type="button" id="bouton_publier" value="publier">
+                </form>
+            </div>
+        </article>
         
         <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
             <div>
@@ -249,6 +265,6 @@ try {
 
         </article>
     </section>
-    
+    <script src="../js/detail_offre.js"></script>
 </body>
 </html>
