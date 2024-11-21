@@ -26,7 +26,8 @@
     font-family: 'TripSansUltra';
     src: url('./TripSans-Ultra.ttf') format('truetype');
   }
-body {
+  
+.body {
     display: flex;
     flex-direction: row;
 }
@@ -350,6 +351,10 @@ body {
   border-radius: 10px;
   border: 1px solid black;
   margin-bottom: 10px;
+}
+
+.alignement-conteneur-avis {
+  width: 100%;
 }
 
 .commentaire-non-consulte {
