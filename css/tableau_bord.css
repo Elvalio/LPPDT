@@ -42,10 +42,11 @@ section{
 }
 
 section > img{
-    width: 160px;
+    width: 20%;
     height: 160px;
     margin: 10px;
     object-fit: cover;
+
 }
 
 section > div{
@@ -95,6 +96,7 @@ section > div{
     margin-left: 20px;
     padding: 5px;
     font-size: 16px;
+    border-radius: 5px;
 }
 
 #creer_offre:hover{
