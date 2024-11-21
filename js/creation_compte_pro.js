@@ -13,3 +13,29 @@ document.addEventListener("DOMContentLoaded", function() {
         input.style.border = '2px solid #F07605';
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Sélectionner les boutons radio
+    const radioButtons = document.querySelectorAll('input[name="type-entreprise"]');
+    const elementsPrivee = document.getElementById('elements-privee');
+
+    // Ajouter un événement pour basculer entre publique et privée
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (radio.value === 'privee') {
+                elementsPrivee.style.display = 'block'; // Afficher les éléments de l'entreprise privée
+            } else {
+                elementsPrivee.style.display = 'none'; // Masquer les éléments de l'entreprise privée
+            }
+        });
+    });
+
+    // Initialisation : masquer les éléments privés si "publique" est sélectionné
+    if (document.querySelector('input[name="type-entreprise"]:checked').value === 'privee') {
+        elementsPrivee.style.display = 'block';
+    } else {
+        elementsPrivee.style.display = 'none';
+    }
+});
+

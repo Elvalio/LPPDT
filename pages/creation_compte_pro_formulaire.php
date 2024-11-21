@@ -44,9 +44,6 @@
                         <label for="denomination-sociale-pro" class="FS">Dénomination Sociale<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Les voyages de Marco Polo" id="denomination-sociale-pro" name="denomination" required>
 
-                        <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required>
-
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
                         <input type="email" placeholder="marco.polo@gmail.com" id="email-pro" name="email" required>
                         
@@ -55,8 +52,11 @@
 
                         <div class="spacer"></div>
 
+                        <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
+
                         <label for="iban" class="FS">IBAN :</label>
-                        <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required>
+                        <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required style="width: 100%; margin-bottom: 15px;">
 
                     </div>
 
@@ -85,13 +85,24 @@
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
-
+                        <div>
+                            <label>
+                                <input type="radio" name="type-entreprise" value="publique" checked>
+                                Entreprise publique
+                            </label>
+                            <label>
+                                <input type="radio" name="type-entreprise" value="privee">
+                                Entreprise privée
+                            </label>
+                        </div>
 
                         <div class="spacer-privee"></div>                        
                         
+                        
                     
                         <label for="bic" class="FS">BIC :</label>
-                        <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" required>
+                        <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" required style="width: 100%; margin-bottom: 15px;">
+
 
                         <div class="form-info">
                             <p class="FS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
