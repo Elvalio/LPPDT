@@ -495,3 +495,68 @@
   width: fit-content;
   margin-top: 30px;
 }
+
+/* CSS FACTURATION */
+/*-----------------------------------------------------------------------------------*/
+
+/* Définition du composant de la facturation */
+.facture-liste-facture {
+  display: flex;
+  flex-direction: row;
+  width: 99%;
+  justify-content: space-between;
+  }
+
+.facture-liste-facture button {
+  background-color: var(--bleuFonce-rougeFonce);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'TripSansBold';
+  padding: 10px;
+  transition: background-color 0.3s ease-in-out;
+  align-self: center;
+}
+
+.facture-liste-facture button:hover {
+  background-color: #ff002f;
+}
+
+.facture-tri {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  font-family: 'TripSansBold';
+  padding: 10px;
+  border: 2px solid var(--bleuFonce-rougeFonce);
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.facture-details {
+  display: block; /* Pour gérer la transition correctement */
+  max-height: 0; /* Hauteur initiale masquée */
+  overflow: hidden; /* Cache le contenu débordant */
+  transition: max-height 0.3s ease-in-out; /* Transition pour une animation fluide */
+  background-color: #f9f9f9; /* Optionnel : une couleur d'arrière-plan */
+  padding: 0 10px; /* Optionnel : ajout de padding */
+  border-radius: 5px; /* Optionnel : bords arrondis */
+}
+.facture-details.active {
+  max-height: 500px; /* Ajustez selon la taille maximale nécessaire */
+  padding: 10px 10px; /* Restaurez le padding lorsque visible */
+}
+
+
+.facture-composant-liste {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  background-color: #f077055d;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: 'TripSansRegular';
+}

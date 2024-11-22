@@ -36,9 +36,9 @@
                 const prestationExcluseContainer = document.getElementById('pexclus-container');
 
                 // Récupérer tous les éléments avec la classe 'tag'
-                const tags = document.getElementsByClassName('tag');
-                const tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Plein air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
-                const tagsToHideOther = ['Française', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
+                const tags = document.querySelectorAll('#tags-items-container label');
+                const tagsToHideRestauration = ['Culturel', 'Patrimoine', 'Histoire', 'Urbain', 'Nature', 'Pleine air', 'Sport', 'Nautique', 'Gastronomie', 'Musée', 'Atelier', 'Musique', 'Famille', 'Cinéma', 'Cirque', 'Son et lumière', 'Humour'];
+                const tagsToHideOther = ['Français', 'Fruit de mer', 'Asiatique', 'Indienne', 'Italienne', 'Gastronomique', 'Restauration rapide', 'Crêperie', 'Végétarienne', 'Végétalienne', 'Kebab'];
                 const tagsItemsContainer = document.getElementById('tags-items-container');
                 const tagContainer = document.getElementById('tag-container');
 
@@ -142,12 +142,19 @@
 
                     //pour la restauration, gestion des tags
                     Array.from(tags).forEach(tag => {
-                        var tagText = tag.querySelector('p').textContent;
+                        var tagText = tag.textContent;
 
                         if (selectedCategorie === 'restauration') {
                             if (tagsToHideRestauration.includes(tagText)) {
                                 tag.style.display = 'none';
-                                
+                                // Récupérer l'attribut 'for' du label
+                                let inputId = tag.htmlFor; // équivalent à label.getAttribute('for')
+
+                                // Récupérer l'input correspondant via l'ID
+                                let checkbox = document.getElementById(inputId);
+                                checkbox.checked = false;
+
+
                             } else {
                                 tag.style.display = 'flex';
                             }
@@ -173,6 +180,12 @@
                         } else {
                             if (tagsToHideOther.includes(tagText)) {
                                 tag.style.display = 'none';
+                                // Récupérer l'attribut 'for' du label
+                                let inputId = tag.htmlFor; // équivalent à label.getAttribute('for')
+
+                                // Récupérer l'input correspondant via l'ID
+                                let checkbox = document.getElementById(inputId);
+                                checkbox.checked = false;
                             } else {
                                 tag.style.display = 'flex';
                             }
@@ -677,19 +690,22 @@
             function validatePrice() {
                 const priceInput = document.getElementById('prix');
                 const errorMessageElement = document.getElementById('prix-error-message');
-                const price = priceInput.value.trim();
+                let price = priceInput.value.trim();
                 let errors = [];
         
                 // 2. Vérification que c'est un nombre valide
-                const allowedCharacters = /^[0-9]+(,[0-9]{1,2})?$/; // Autorise les nombres avec une virgule pour les décimales
+                const allowedCharacters = /^[0-9]+([,.][0-9]{1,2})?$/; // Autorise les nombres avec une virgule pour les décimales
                 if (!allowedCharacters.test(price)) {
                     errors.push("Le prix minimum doit être un nombre valide (ex: 12,99).");
                 }
         
                 // 3. Vérification que le prix est positif
-                const priceValue = parseFloat(price.replace(',', '.')); // Remplace la virgule par un point pour la conversion
-                if (priceValue < 0) {
+                price = parseFloat(price.replace(',', '.')); // Remplace la virgule par un point pour la conversion
+                
+                if (price < 0) {
                     errors.push("Le prix minimum ne peut pas être négatif.");
+                } else if (!isNaN(price)){
+                    priceInput.value = price;
                 }
         
                 // Affichage des erreurs ou validation
@@ -710,9 +726,9 @@
                 let errors = [];
 
                 // 2. Vérification du format HH:MM:SS
-                const dureePattern = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+                const dureePattern = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
                 if (!dureePattern.test(duree)) {
-                    errors.push("Le format de la durée doit être HH:MM:SS.");
+                    errors.push("Le format de la durée doit être HH:MM.");
                 }
 
                 // 3. Vérification que la durée n'est pas "00:00:00"
