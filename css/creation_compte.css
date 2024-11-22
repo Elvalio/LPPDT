@@ -92,15 +92,6 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Le conteneur qui sert de header au formulaire du formulaire */
-.form-header-page-creation-compte {
-    display: flex;
-    margin-bottom: 20px;
-    background-color: white;
-    border-radius: 30px;
-    justify-content: center;
-}
-
 /* Sert à espacer les éléments à l'intérieur du formulaire */
 .form-group {
     display: flex;
@@ -135,7 +126,7 @@ label {
 
 /* Style du bouton d'envoi du formulaire pour la page membre */
 .bouton-envoi-formulaire-crea-compte-page-membre {
-    background-color: #006B8F;
+    background-color: #3AD4AE;
     color: white;
     padding: 15px;
     border: none;
@@ -237,6 +228,7 @@ label {
 label {
     font-size: 16px;
     margin-right: 10px;
+    font-weight: bold;
 }
 
 input[type="radio"] {
@@ -277,3 +269,21 @@ input[type="text"] {
     cursor: default; /* Désactive le clic sur le texte */
     margin-right: 20px;
 }
+
+
+.redirection-links {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between; /* Positionne les liens aux extrémités */
+    align-items: center; /* Aligne verticalement les liens au centre */
+    width: 100%; /* Prend toute la largeur du parent */
+    padding: 10px; /* Ajoute un peu de marge interne */
+}
+.redirection-links a {
+    font-family: 'TripSansRegular';
+    color: #000000;
+}
+
+.redirection-links a:hover {
+    text-decoration: underline;
+  }

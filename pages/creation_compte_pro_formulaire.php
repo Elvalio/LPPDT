@@ -67,7 +67,7 @@
 
                         <div class="spacer"></div>
 
-                        <div id="elements-privee1" style="display: none; margin-top: 25px;">
+                        <div id="elements-privee1" style="display: none; margin-top: 30px;">
                             <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
                             <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
                         </div>
@@ -120,8 +120,8 @@
                 <div class="checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="FS-bold">
-                        Accepter les conditions générales d'utilisation de PACT en cliquant 
-                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">ici.</a>
+                        Accepter les 
+                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">conditions générales d'utilisation de PACT</a>
                         <span class="required">*</span>
                     </span>
                 </div>
