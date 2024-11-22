@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <title>Facturation</title>
+
 </head>
 
 <body class="BO">
@@ -22,60 +23,95 @@
             <article class="facture-composant-liste">
                 <div class="facture-liste-facture">
                     <div>
-                    <p>Date :</p>
-                    <p>10/11/2024</p>
+                        <p>Date :</p>
+                        <p>10/11/2024</p>
+                    </div>
+                    <div>
+                        <p>Numéro de facture :</p>
+                        <p>123456</p>
+                    </div>
+                    <div>
+                        <p>Total à payer :</p>
+                        <p>100€</p>
+                    </div>
+                    <div>
+                        <p>Nombre d'offres :</p>
+                        <p>2</p>
+                    </div>
+                    <button class="voir-plus" aria-expanded="false">Voir plus +</button>
                 </div>
-                <div>
-                    <p>Numéro de facture :</p>
-                    <p>123456</p>
-                </div>
-                <div>
-                    <p>Total à payer :</p>
-                    <p>100€</p>
-                </div>
-                <div>
-                    <p>Nombre d'offres :</p>
-                    <p>2</p>
-                </div>
-                <button class="voir-plus">Voir plus +</button>
+                <div class="facture-details">
+                    <div class="facture-offre">
+                        <img src="../images/image_offre/2-1.jpg" alt="">
+                        <p>Qui m'aime me suive</p>
+                        <p>Pas d'option</p>
+                        <p>50€</p>
+                    </div>
+                    <div class="facture-offre">
+                        <img src="../images/image_offre/2-1.jpg" alt="">
+                        <p>Qui m'aime me suive</p>
+                        <p>Pas d'option</p>
+                        <p>50€</p>
+                    </div>
                 </div>
                 
-                <div class="facture-details" style="display: none;">
-                    <p>Détails supplémentaires :</p>
-                    <ul>
-                        <li>Produit 1 : 50€</li>
-                        <li>Produit 2 : 50€</li>
-                    </ul>
-                </div>
-                <script>
-                // Sélectionner tous les boutons "Voir plus"
-const buttons = document.querySelectorAll('.voir-plus');
-
-// Ajouter un gestionnaire d'événement pour chaque bouton
-buttons.forEach(button => {
-    button.addEventListener('click', () => {
-        // Trouver la section des détails correspondante
-        const details = button.parentElement.nextElementSibling;
-
-        // Basculer l'affichage avec une transition fluide
-        if (details.classList.contains('active')) {
-            details.classList.remove('active'); // Masquer les détails
-            button.textContent = 'Voir plus +'; // Restaurer le texte du bouton
-        } else {
-            details.classList.add('active'); // Afficher les détails
-            button.textContent = 'Voir moins -'; // Changer le texte du bouton
-        }
-    });
-});
 
 
-            </script>
             </article>
-            
+            <article class="facture-composant-liste">
+                <div class="facture-liste-facture">
+                    <div>
+                        <p>Date :</p>
+                        <p>10/11/2024</p>
+                    </div>
+                    <div>
+                        <p>Numéro de facture :</p>
+                        <p>123456</p>
+                    </div>
+                    <div>
+                        <p>Total à payer :</p>
+                        <p>100€</p>
+                    </div>
+                    <div>
+                        <p>Nombre d'offres :</p>
+                        <p>2</p>
+                    </div>
+                    <button class="voir-plus" aria-expanded="false">Voir plus +</button>
+                </div>
+                <div class="facture-details">
+                    <div class="facture-offre">
+                        <img src="../images/image_offre/2-1.jpg" alt="">
+                        <p>Qui m'aime me suive</p>
+                        <p>Pas d'option</p>
+                        <p>50€</p>
+                    </div>
+                </div>
+            </article>
 
         </div>
     </div>
+    <script>
+    // Sélectionner tous les boutons "Voir plus"
+    const buttons = document.querySelectorAll('.voir-plus');
 
+    // Ajouter un gestionnaire d'événement pour chaque bouton
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Trouver la section des détails correspondante
+            const details = button.parentElement.nextElementSibling;
+
+            // Basculer la classe active
+            details.classList.toggle('active');
+
+            // Mettre à jour le texte du bouton en fonction de l'état actif
+            const isActive = details.classList.contains('active');
+            button.textContent = isActive ? 'Voir moins -' : 'Voir plus +';
+
+            // Mettre à jour l'attribut ARIA pour l'accessibilité
+            button.setAttribute('aria-expanded', isActive);
+        });
+    });
+    </script>
 </body>
 
 </html>
