@@ -8,7 +8,7 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image, o.ido, o.categorie, o.date_publication
+            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image, o.ido, o.categorie, o.date_publication, o.option
              FROM pact.offre o
              JOIN pact._adresse a ON o.idAdresse = a.idAdresse
              LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
@@ -42,7 +42,7 @@ try{
     die();
 }
 
-    $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
+$lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
 
 
 
@@ -131,16 +131,20 @@ try{
                             <label for="visite">Visite</label>
                         </div>
                         <div class="filtre-case">
-                            <input type="checkbox" id="spectacle" name="Spectacle" />
-                            <label for="spectacle">Spectacle</label>
+                            <input type="checkbox" id="Spectacle" name="Spectacle" />
+                            <label for="Spectacle">Spectacle</label>
                         </div>
                         <div class="filtre-case">
                             <input type="checkbox" id="Activite" name="Activite" />
-                            <label for="Pattractions">Activité</label>
+                            <label for="Activite">Activité</label>
                         </div>
                         <div class="filtre-case">
-                            <input type="checkbox" id="restauration" name="Restauration" />
-                            <label for="restauration">Restauration</label>
+                            <input type="checkbox" id="Restauration" name="Restauration" />
+                            <label for="Restauration">Restauration</label>
+                        </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="Parc d'attraction" name="Parc d'attraction" />
+                            <label for="Parc d'attraction">Parc d'attraction</label>
                         </div>
                     </div>
                 </div>
@@ -223,7 +227,8 @@ try{
             <?php
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
-                    <div class="carte_offre desktop-element <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>">
+                    <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "A la une") {echo "aLaUne";}?>
+                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>">
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
@@ -245,7 +250,7 @@ try{
                                             <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
                                     <?php }} ?>
                                     <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
-                                        <p>(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
+                                        <p class="textAvis">(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
                                 </div>
 
                             </div>

@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
         input.style.padding = '10px';
         input.style.marginBottom = '20px';
         input.style.borderRadius = '5px';
-        input.style.border = '2px solid #F07605';
+        input.style.border = '1px solid #ccc';
     });
 });
 
@@ -18,24 +18,29 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', () => {
     // Sélectionner les boutons radio
     const radioButtons = document.querySelectorAll('input[name="type-entreprise"]');
-    const elementsPrivee = document.getElementById('elements-privee');
+    const elementsPrivee1 = document.getElementById('elements-privee1');
+    const elementsPrivee2 = document.getElementById('elements-privee2');
 
     // Ajouter un événement pour basculer entre publique et privée
     radioButtons.forEach(radio => {
         radio.addEventListener('change', () => {
             if (radio.value === 'privee') {
-                elementsPrivee.style.display = 'block'; // Afficher les éléments de l'entreprise privée
+                elementsPrivee1.style.display = 'block'; // Afficher les éléments de l'entreprise privée
+                elementsPrivee2.style.display = 'block';
             } else {
-                elementsPrivee.style.display = 'none'; // Masquer les éléments de l'entreprise privée
+                elementsPrivee1.style.display = 'none'; // Masquer les éléments de l'entreprise privée
+                elementsPrivee2.style.display = 'none';
             }
         });
     });
 
     // Initialisation : masquer les éléments privés si "publique" est sélectionné
     if (document.querySelector('input[name="type-entreprise"]:checked').value === 'privee') {
-        elementsPrivee.style.display = 'block';
+        elementsPrivee1.style.display = 'block';
+        elementsPrivee2.style.display = 'block';
     } else {
-        elementsPrivee.style.display = 'none';
+        elementsPrivee1.style.display = 'none';
+        elementsPrivee2.style.display = 'none';
     }
 });
 

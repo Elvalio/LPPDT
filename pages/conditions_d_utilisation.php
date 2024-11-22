@@ -6,8 +6,6 @@
     <title>Conditions d'Utilisation</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <style>
-        /* Intégration des styles pour la page des CGU */
-
         * {
             box-sizing: border-box;
             margin: 0;

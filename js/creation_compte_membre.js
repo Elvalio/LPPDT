@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
         input.style.padding = '10px';
         input.style.marginBottom = '20px';
         input.style.borderRadius = '5px';
-        input.style.border = '2px solid #006B8F';
+        input.style.border = '1px solid #ccc';
     });
 
 
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         input.style.padding = '10px';
         input.style.marginBottom = '20px';
         input.style.borderRadius = '5px';
-        input.style.border = '2px solid #F07605';
+        input.style.border = '1px solid #ccc';
     });
 
 

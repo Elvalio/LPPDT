@@ -23,7 +23,7 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-pro TS-bold" id="link-pro">
-                Inscription professionnelle
+                <h1 class="TS-bold">Inscription pro</h1>
             </div>
         </div>
 
@@ -50,14 +50,27 @@
                         <label for="num_SIREN" class="FS">Numéro de SIREN<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="ex : 362 521 879" id="num_SIREN-pro" name="num_SIREN" required>
 
+                        <div>
+                            <label for="type-entreprise" style="display: block;">
+                                Type d'entreprise :
+                            </label>
+                            <div id="type-entreprise" class="radio-group">
+                                    <input type="radio" name="type-entreprise" value="publique" class="radio-button">
+                                    <span class="radio-label">Entreprise publique</span>
+
+                                    <input type="radio" name="type-entreprise" value="privee" checked class="radio-button">
+                                    <span class="radio-label">Entreprise privée
+
+                                
+                            </div>
+                        </div>
+
                         <div class="spacer"></div>
 
-                        <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
-
-                        <label for="iban" class="FS">IBAN :</label>
-                        <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required style="width: 100%; margin-bottom: 15px;">
-
+                        <div id="elements-privee1" style="display: none; margin-top: 29px;">
+                            <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
+                            <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
+                        </div>
                     </div>
 
                     <div class="right-column">
@@ -79,33 +92,25 @@
                             </div>
                         </div>
 
+                        
+                   
+                        
                         <label for="password" class="FS">Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-pro" name="password" required>
 
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
-                        <div>
-                            <label>
-                                <input type="radio" name="type-entreprise" value="publique" checked>
-                                Entreprise publique
-                            </label>
-                            <label>
-                                <input type="radio" name="type-entreprise" value="privee">
-                                Entreprise privée
-                            </label>
-                        </div>
+                        <div id="elements-privee2" style="display: none; margin-top: 20px;">
+                            <label for="bic" class="FS">BIC :</label>
+                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" required style="width: 100%; margin-bottom: 15px;">
 
-                        <div class="spacer-privee"></div>                        
-                        
-                        
-                    
-                        <label for="bic" class="FS">BIC :</label>
-                        <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" required style="width: 100%; margin-bottom: 15px;">
+                            <label for="iban" class="FS">IBAN :</label>
+                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required style="width: 100%; margin-bottom: 15px;">
 
-
-                        <div class="form-info">
-                            <p class="FS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                            <div class="form-info">
+                                <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                            </div>
                         </div>
 
                         
@@ -115,8 +120,8 @@
                 <div class="checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="FS-bold">
-                        Accepter les conditions générales d'utilisation de 
-                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">PACT</a>
+                        Accepter les 
+                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">conditions générales d'utilisation de PACT</a>
                         <span class="required">*</span>
                     </span>
                 </div>
@@ -125,11 +130,9 @@
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">S'inscrire</button>
             </form>
             
-            <a href="connexion.php" style="text-decoration: none;">
-                <div class="login">
-                    <button type="button" class="connexion-page-pro TS-bold">Déjà inscrit ? Connectez-vous.</button>
-                </div>
-            </a>
+            <div class="redirection-links">
+                <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
+            </div>
         </div>
     </div>
 

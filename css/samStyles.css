@@ -481,6 +481,10 @@
   height: 200px;
 }
 
+#titre_avis{
+  width : 99%;
+}
+
 #bouton_publier {
   padding: 10px 30px; /* Padding à droite et à gauche */
   cursor: pointer; /* Curseur en forme de main */
