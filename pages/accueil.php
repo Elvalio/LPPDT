@@ -54,6 +54,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <link rel="stylesheet" type="text/css" href="../css/styleHarry.css">
     <script src="../js/accueil.js"></script>
     <script type="module" src="../js/filtres.js"></script>
+    <title>Accueil</title>
 
 
 </head>
@@ -227,7 +228,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             <?php
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
-                    <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "A la une") {echo "aLaUne";}?>
+                    <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "A la une") {echo "aLaUne enRelief";}?>
                     <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>">
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value['src_image']) { ?>
