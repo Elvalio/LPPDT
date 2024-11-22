@@ -519,10 +519,11 @@
   padding: 10px;
   transition: background-color 0.3s ease-in-out;
   align-self: center;
+  width: 100px;
 }
 
 .facture-liste-facture button:hover {
-  background-color: #ff002f;
+  background-color: #d30027;
 }
 
 .facture-tri {
@@ -537,17 +538,19 @@
 }
 
 .facture-details {
-  display: block; /* Pour gérer la transition correctement */
-  max-height: 0; /* Hauteur initiale masquée */
-  overflow: hidden; /* Cache le contenu débordant */
-  transition: max-height 0.3s ease-in-out; /* Transition pour une animation fluide */
-  background-color: #f9f9f9; /* Optionnel : une couleur d'arrière-plan */
-  padding: 0 10px; /* Optionnel : ajout de padding */
-  border-radius: 5px; /* Optionnel : bords arrondis */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s ease-in-out, 
+              padding 0.3s ease-in-out;
+  padding: 0 10px;
 }
+
 .facture-details.active {
-  max-height: 500px; /* Ajustez selon la taille maximale nécessaire */
-  padding: 10px 10px; /* Restaurez le padding lorsque visible */
+  max-height: 1000px; /* Toujours une valeur élevée pour éviter de couper le contenu */
+  opacity: 1;
+  padding: 10px 10px;
 }
 
 
@@ -559,4 +562,18 @@
   padding: 10px;
   border-radius: 10px;
   font-family: 'TripSansRegular';
+}
+
+.facture-offre {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+  font-family: 'TripSansBold';
+}
+
+.facture-offre img {
+  height: 120px;
+  border-radius: 10px;
 }

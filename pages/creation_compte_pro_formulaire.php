@@ -23,7 +23,7 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-pro TS-bold" id="link-pro">
-                Inscription professionnelle
+                <h1 class="TS-bold">Inscription pro</h1>
             </div>
         </div>
 
@@ -67,7 +67,7 @@
 
                         <div class="spacer"></div>
 
-                        <div id="elements-privee1" style="display: none; margin-top: 25px;">
+                        <div id="elements-privee1" style="display: none; margin-top: 29px;">
                             <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
                             <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
                         </div>
@@ -109,7 +109,7 @@
                             <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required style="width: 100%; margin-bottom: 15px;">
 
                             <div class="form-info">
-                                <p class="FS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                                <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
                             </div>
                         </div>
 
@@ -120,8 +120,8 @@
                 <div class="checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="FS-bold">
-                        Accepter les conditions générales d'utilisation de PACT en cliquant 
-                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">ici.</a>
+                        Accepter les 
+                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">conditions générales d'utilisation de PACT</a>
                         <span class="required">*</span>
                     </span>
                 </div>
@@ -130,11 +130,9 @@
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">S'inscrire</button>
             </form>
             
-            <a href="connexion.php" style="text-decoration: none;">
-                <div class="login">
-                    <button type="button" class="connexion-page-pro TS-bold">Déjà inscrit ? Connectez-vous.</button>
-                </div>
-            </a>
+            <div class="redirection-links">
+                <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
+            </div>
         </div>
     </div>
 
