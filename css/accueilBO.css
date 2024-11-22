@@ -252,7 +252,7 @@ main.active_filter {
     display: flex;
     flex-direction: column;
     align-self: center;
-    gap: 8px;
+    gap: 5px;
 }
 
 .filtre-case label {
@@ -651,8 +651,8 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    width: max-content;
+    justify-content: flex-start;
+    width: 100%;
     gap: 15px;
 }
 
@@ -661,16 +661,22 @@ input[type="range"]::-ms-thumb {
     font-weight: bold;
 }
 
+.carte_offre .infoAnnonce .textAvis {
+    font-weight: normal;
+}
+
 .carte_offre .infoAnnonce .etoileNote {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 3px;
 }
 
 .carte_offre .infoAnnonce .etoileNote img {
     width: 18px;
     height: 18px;
     object-fit: cover;
-    margin: 1px 2px;
+    margin: 1px 0;
 }
 
 
@@ -680,6 +686,17 @@ input[type="range"]::-ms-thumb {
 
 .phone-element, .mobile-footer{
     display: none;
+}
+
+.enRelief {
+    border: 4px solid var(--bleu-rouge);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.carte_offre:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1.5px);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 }

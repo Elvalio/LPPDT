@@ -2,6 +2,26 @@
 include_once 'nav.php';
 include('../sql/connect_params.php');
 
+if($_SERVER['REQUEST_METHOD']==='POST'){
+
+
+    try{
+
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+        $note = $_POST['nbr_etoile'];
+        $titre = $_POST['titre_avis'];
+        $com = $_POST['zone_avis'];
+        $img = $_POST['image_avis'];
+
+        //stmt = $dbh->prepare("INSERT INTO pact._avis(idA, note, titre, corps, date_publication, date_visite) VALUES (64, $note, $com)");
+
+    }catch(PDOException $e){
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+}
+
+
 // Sécurisation de l'ID d'annonce
 $idAnnonce = isset($_GET['value']) ? (int)$_GET['value'] : 0;
 if ($idAnnonce === 0) {
@@ -242,9 +262,12 @@ try {
                     <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
                 <?php endfor;?>
             </div>
-            <form method ="POST" action="detail-offre-deyoyo.php?value=<?php echo $offre['ido']?>">
-                <textarea type="text" name="ecrire_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                <input type="button" id="bouton_publier" value="publier">
+            <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
+                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                <textarea type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
+                <input type="submit" id="bouton_publier" value="publier">
             </form>
         </article>
             <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>

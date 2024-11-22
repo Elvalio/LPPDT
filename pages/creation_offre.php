@@ -1,5 +1,5 @@
 <?php
-include_once 'nav.php';
+
 
 include('../sql/connect_params.php');
 
@@ -20,107 +20,100 @@ function type_offre($nom_type){
 function option_offre($arr){
     $resultat = ''; //aucune option par défaut
 
-    if (array_key_exists('une', $arr)){
-        if ($arr['une'] != ''){
-            $resultat = $arr['une'];
-        } 
+    if (isset($_POST['une'])){
+        $resultat = $arr['une']; 
     }
-    if (array_key_exists('relief', $arr)){
-        if ($arr['relief'] != ''){
-            $resultat = $arr['relief'];
-        } 
+    if (isset($_POST['relief'])){
+        $resultat = $arr['relief'];
     }
     return $resultat;
 }
 
 function tag_offre($arr){
-    echo '<pre>';
-    print_r($arr);
-    echo '</pre>';
     $resultat = []; //aucun tag par défaut
 
-    if ($arr['culturel'] != ''){
+    if (isset($_POST['culturel'])){
         $resultat[] = $arr['culturel'];
     } 
-    if ($arr['patrimoine'] != ''){
+    if (isset($_POST['patrimoine'])){
         $resultat[] = $arr['patrimoine'];
     } 
-    if ($arr['histoire'] != ''){
+    if (isset($_POST['histoire'])){
         $resultat[] = $arr['histoire'];
     } 
-    if ($arr['urbain'] != ''){
+    if (isset($_POST['urbain'])){
         $resultat[] = $arr['urbain'];
     } 
-    if ($arr['nature'] != ''){
+    if (isset($_POST['nature'])){
         $resultat[] = $arr['nature'];
     } 
-    if ($arr['plein-air'] != ''){
+    if (isset($_POST['plein-air'])){
         $resultat[] = $arr['plein-air'];
     } 
-    if ($arr['sport'] != ''){
+    if (isset($_POST['sport'])){
         $resultat[] = $arr['sport'];
     } 
-    if ($arr['nautique'] != ''){
+    if (isset($_POST['nautique'])){
         $resultat[] = $arr['nautique'];
     } 
-    if ($arr['gastronomie'] != ''){
+    if (isset($_POST['gastronomie'])){
         $resultat[] = $arr['gastronomie'];
     } 
-    if ($arr['musee'] != ''){
+    if (isset($_POST['musee'])){
         $resultat[] = $arr['musee'];
     } 
-    if ($arr['atelier'] != ''){
+    if (isset($_POST['atelier'])){
         $resultat[] = $arr['atelier'];
     } 
-    if ($arr['musique'] != ''){
+    if (isset($_POST['musique'])){
         $resultat[] = $arr['musique'];
     } 
-    if ($arr['famille'] != ''){
+    if (isset($_POST['famille'])){
         $resultat[] = $arr['famille'];
     } 
-    if ($arr['cinema'] != ''){
+    if (isset($_POST['cinema'])){
         $resultat[] = $arr['cinema'];
     } 
-    if ($arr['cirque'] != ''){
+    if (isset($_POST['cirque'])){
         $resultat[] = $arr['cirque'];
     } 
-    if ($arr['son-et-lumiere'] != ''){
+    if (isset($_POST['son-et-lumiere'])){
         $resultat[] = $arr['son-et-lumiere'];
     } 
-    if ($arr['humour'] != ''){
+    if (isset($_POST['humour'])){
         $resultat[] = $arr['humour'];
     } 
-    if ($arr['francais'] != ''){
+    if (isset($_POST['francais'])){
         $resultat[] = $arr['francais'];
     } 
-    if ($arr['fruit-de-mer'] != ''){
+    if (isset($_POST['fruit-de-mer'])){
         $resultat[] = $arr['fruit-de-mer'];
     } 
-    if ($arr['asiatique'] != ''){
+    if (isset($_POST['asiatique'])){
         $resultat[] = $arr['asiatique'];
     } 
-    if ($arr['indienne'] != ''){
+    if (isset($_POST['indienne'])){
         $resultat[] = $arr['indienne'];
     } 
-    if ($arr['italienne'] != ''){
+    if (isset($_POST['italienne'])){
         $resultat[] = $arr['italienne'];
     } 
-    if ($arr['gastronomique'] != ''){
+    if (isset($_POST['gastronomique'])){
         $resultat[] = $arr['gastronomique'];
     } 
-    if ($arr['restauration-rapide'] != ''){
+    if (isset($_POST['restauration-rapide'])){
         $resultat[] = $arr['restauration-rapide'];
     } 
-    if ($arr['creperie'] != ''){
+    if (isset($_POST['creperie'])){
         $resultat[] = $arr['creperie'];
     } 
-    if ($arr['vegetarienne'] != ''){
+    if (isset($_POST['vegetarienne'])){
         $resultat[] = $arr['vegetarienne'];
     } 
-    if ($arr['vegetalienne'] != ''){
+    if (isset($_POST['vegetalienne'])){
         $resultat[] = $arr['vegetalienne'];
     } 
-    if ($arr['kebab'] != ''){
+    if (isset($_POST['kebab'])){
         $resultat[] = $arr['kebab'];
     }
     return $resultat;
@@ -226,7 +219,7 @@ if ($_POST != null) {
                     $description = $_POST['description'];
                     $prix_min = $_POST['prix'];
                     $accessibilite = $_POST['accessibilite'];
-                    $src_image = '';
+                    $src_image = time();
                     $gamme_prix = $_POST['categorie-prix'];
                     $petit_dejeuner = ($_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
                     $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
@@ -257,8 +250,9 @@ if ($_POST != null) {
                     $option = option_offre($_POST);
                     $description = $_POST['description'];
                     $prix_min = $_POST['prix'];
+
                     $accessibilite = $_POST['accessibilite'];
-                    $src_image = '';
+                    $src_image = time();
                     $nbr_attractions = $_POST['nbattraction'];
                     $age_min = $_POST['age'];
 
@@ -291,38 +285,40 @@ if ($_POST != null) {
             );
             
             $stmt->execute();
-            
+
             $idOffre = $stmt->fetchColumn(); //id de l'offre qui vient d'être crée (ici offre n°8)
             for ($i = 1; $i < 4; $i++) { //pour chaque images
                 if (!empty($_FILES['file-upload'.$i]['name'])){
                     $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
-                    move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
-                    $stmt = $dbh->prepare(
-                        "insert into pact.photo_offre 
-                        (src_image, idO) values 
-                        ('image_offre/$idOffre-$i.$extention', '$idOffre');"
-                    );
+                        move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
+                        $stmt = $dbh->prepare(
+                            "insert into pact.photo_offre 
+                            (src_image, idO) values 
+                            ('image_offre/$idOffre-$i.$extention', '$idOffre');"
+                        );
+                    
                     
                     $stmt->execute();
                 }    
             }
-            
-            $extention = pathinfo($_FILES['map-file-upload']['name'])['extension'];
-            if ($categorie === 'parcAttraction'){
-                move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-plan.'.$extention);
-                $stmt = $dbh->prepare(
-                    "UPDATE pact.parc_d_attraction SET src_image = 'image_offre/$idOffre-plan.$extention'
-                    WHERE ido = $idOffre;"
-                );
-            } else if ($categorie === 'restauration'){
-                move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-menu.'.$extention);
-                $stmt = $dbh->prepare(
-                    "UPDATE pact.restauration SET src_image = 'image_offre/$idOffre-menu.$extention'
-                    WHERE ido = $idOffre;"
-                );
+            $fileInfo = pathinfo($_FILES['map-file-upload']['name']);
+            if (isset($fileInfo['extension'])){
+                $extention = $fileInfo['extension'];
+                if ($categorie === 'parcAttraction'){
+                    move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-plan.'.$extention);
+                    $stmt = $dbh->prepare(
+                        "UPDATE pact.parc_d_attraction SET src_image = 'image_offre/$idOffre-plan.$extention'
+                        WHERE ido = $idOffre;"
+                    );
+                } else if ($categorie === 'restauration'){
+                    move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-menu.'.$extention);
+                    $stmt = $dbh->prepare(
+                        "UPDATE pact.restauration SET src_image = 'image_offre/$idOffre-menu.$extention'
+                        WHERE ido = $idOffre;"
+                    );
+                }
+                $stmt->execute();
             }
-            $stmt->execute();
-
             //ajout des tags 
 
             $tags = tag_offre($_POST);
@@ -376,7 +372,7 @@ if ($_POST != null) {
             }
 
             // Redirection vers /accueil.php
-            header('Location: accueil.php');
+            header('Location: tableau_de_bord.php');
             exit(); // Important : Terminer le script pour éviter des exécutions non voulues
 
 
@@ -388,6 +384,7 @@ if ($_POST != null) {
         }
     }
 }
+include_once('nav.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -533,7 +530,7 @@ if ($_POST != null) {
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
                                 <input id="submit-button" type="submit" class="FS" value="Valider" />
-                                <button class="FS">
+                                <button class="FS" onclick="history.go(-1)">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
                                 </button>
@@ -575,7 +572,7 @@ if ($_POST != null) {
                                     <div class="container" id="duree-container">
                                         <label for="duree">Durée*</label>
                                         <p id="duree-error-message" class="error-message"></p>
-                                        <input type="text" id="duree" class="FS" name="duree" placeholder="01:10:55" required />
+                                        <input type="text" id="duree" class="FS" name="duree" placeholder="01:15" required />
                                     </div>
                                     <div class="container" id="nbattraction-container">
                                         <label for="nbattraction">Nombre d'attractions*</label>

@@ -690,19 +690,22 @@
             function validatePrice() {
                 const priceInput = document.getElementById('prix');
                 const errorMessageElement = document.getElementById('prix-error-message');
-                const price = priceInput.value.trim();
+                let price = priceInput.value.trim();
                 let errors = [];
         
                 // 2. Vérification que c'est un nombre valide
-                const allowedCharacters = /^[0-9]+(,[0-9]{1,2})?$/; // Autorise les nombres avec une virgule pour les décimales
+                const allowedCharacters = /^[0-9]+([,.][0-9]{1,2})?$/; // Autorise les nombres avec une virgule pour les décimales
                 if (!allowedCharacters.test(price)) {
                     errors.push("Le prix minimum doit être un nombre valide (ex: 12,99).");
                 }
         
                 // 3. Vérification que le prix est positif
-                const priceValue = parseFloat(price.replace(',', '.')); // Remplace la virgule par un point pour la conversion
-                if (priceValue < 0) {
+                price = parseFloat(price.replace(',', '.')); // Remplace la virgule par un point pour la conversion
+                
+                if (price < 0) {
                     errors.push("Le prix minimum ne peut pas être négatif.");
+                } else if (!isNaN(price)){
+                    priceInput.value = price;
                 }
         
                 // Affichage des erreurs ou validation
@@ -723,9 +726,9 @@
                 let errors = [];
 
                 // 2. Vérification du format HH:MM:SS
-                const dureePattern = /^([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9])$/;
+                const dureePattern = /^([0-1][0-9]|2[0-3]):([0-5][0-9])$/;
                 if (!dureePattern.test(duree)) {
-                    errors.push("Le format de la durée doit être HH:MM:SS.");
+                    errors.push("Le format de la durée doit être HH:MM.");
                 }
 
                 // 3. Vérification que la durée n'est pas "00:00:00"
