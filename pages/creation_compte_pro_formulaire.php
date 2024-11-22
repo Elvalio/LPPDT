@@ -130,11 +130,9 @@
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">S'inscrire</button>
             </form>
             
-            <a href="connexion.php" style="text-decoration: none;">
-                <div class="login">
-                    <button type="button" class="connexion-page-pro TS-bold">Déjà inscrit ? Connectez-vous.</button>
-                </div>
-            </a>
+            <div class="redirection-links">
+                <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
+            </div>
         </div>
     </div>
 
