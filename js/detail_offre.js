@@ -3,6 +3,7 @@ let etoile2 = document.getElementById("etoile_note2");
 let etoile3 = document.getElementById("etoile_note3");
 let etoile4 = document.getElementById("etoile_note4");
 let etoile5 = document.getElementById("etoile_note5");
+let nbr_etoile = document.getElementById("nbr_etoile");
 
 etoile1.addEventListener("mouseover", modif_etoile);
 etoile2.addEventListener("mouseover", modif_etoile);
@@ -78,30 +79,35 @@ function modif_etoile(event){
             etoile3.src=(etoile_vide);
             etoile4.src=(etoile_vide);
             etoile5.src=(etoile_vide);
+            nbr_etoile.value = 1;
         }else if(etoileid === "etoile_note2"){
             etoile1.src=(etoile_plein);
             etoile2.src=(etoile_plein);
             etoile3.src=(etoile_vide);
             etoile4.src=(etoile_vide);
             etoile5.src=(etoile_vide);
+            nbr_etoile.value = 2;
         }else if(etoileid === "etoile_note3"){
             etoile1.src=(etoile_plein);
             etoile2.src=(etoile_plein);
             etoile3.src=(etoile_plein);
             etoile4.src=(etoile_vide);
             etoile5.src=(etoile_vide);
+            nbr_etoile.value = 3;
         }else if(etoileid === "etoile_note4"){
             etoile1.src=(etoile_plein);
             etoile2.src=(etoile_plein);
             etoile3.src=(etoile_plein);
             etoile4.src=(etoile_plein);
             etoile5.src=(etoile_vide);
+            nbr_etoile.value = 4;
         }else{
             etoile1.src=(etoile_plein);
             etoile2.src=(etoile_plein);
             etoile3.src=(etoile_plein);
             etoile4.src=(etoile_plein);
             etoile5.src=(etoile_plein);
+            nbr_etoile.value = 5;
         }
 
         etoile1.removeEventListener("mouseover", modif_etoile);

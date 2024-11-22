@@ -194,11 +194,7 @@ label {
 
 /* Section qui me permet d'espacer la partie haute et basse du formulaire dans la page pro */
 .spacer {
-    height: 67px;
-}
-
-.spacer-privee {
-    height: 150px;
+    height: 20px;
 }
 
 /* Les styles ci-dessous correspondent au éléments du formulaire qui se trouvent sur une même ligne : Code postal et ville par exemple */
@@ -244,11 +240,40 @@ label {
 }
 
 input[type="radio"] {
-    margin-right: 5px;
+    margin: 5px;
 }
 
 input[type="text"] {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+/* Conteneur des boutons radio */
+.radio-group {
+    display: flex;
+    align-items: center;
+}
+
+/* Style des options radio */
+.radio-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 10px;
+}
+
+/* Boutons radio */
+.radio-button {
+    width: 20px;
+    height: 20px;
+    accent-color: #006B8F; /* Couleur personnalisée pour les boutons radio */
+    cursor: pointer;
+}
+
+.radio-label {
+    font-size: 16px;
+    cursor: default; /* Désactive le clic sur le texte */
+    margin-right: 20px;
 }

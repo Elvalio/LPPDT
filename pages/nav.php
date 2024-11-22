@@ -7,7 +7,7 @@
     </head>
     <body>
     <?php
-
+        
         if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")) { ?>
             <div class="TS-bold BO" id="sidebar"> <?php
         } else { ?>
@@ -76,7 +76,9 @@
                                         <img src="../icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
                                         <p>Paramètres</p>
                                     </a>
+                                    
                                     <?php if (isset($_COOKIE['type_compte'])) { ?>
+                                        
                                         <script>
                                             function deconnexion() {
                                                 document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";

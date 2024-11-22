@@ -127,7 +127,7 @@ insert into pact.photo_offre (src_image, idO) values ('image_offre/6-1.jpg', 6);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/7-1.jpg', 7);
 
 
--- AVIS  TODO --
+-- AVIS --
 
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (1, 1, 'Excellent mais', 4, 'Le spectacle était incroyable, que ce soit la partie musicale ou la projection sur les voiles la nuit, mais les réceptionneurs et assistants ont été peu fiables lorsque nous avons demandé de l''aide.', now(), 'famille');
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (3, 2, 'Balade très appaisante', 5, 'Les multiples routes sont très tranquilles et effectivement sans trop de montées et il n''y a pas un nombre énorme de personnes, rendant la visite plus agréable. J''espère que plus de routes seront disponibles dans le futur.', now(), 'après-midi libre');
@@ -142,3 +142,14 @@ insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, con
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (6, 5, 'Parc d''attraction original', 4, 'Parc d''attraction très sympathique avec un thème unique et des attractions mémorables. J''aurai espéré voir plus d''attractions à sensation forte cependant.', now(), 'famille');
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (1, 6, 'Agréable', 4, 'Étant tous des kayakistes depuis plusieurs années, nous avons apprécié l''activité ainsi que ses paysages divers offerts.', now(), 'week-end entre ami');
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (3, 6, 'Inacceptable', 1, 'Lorsque nous sommes arrivés sur place, il manquait de l''équipement qui était censé être mis à disposition, ce qui a énormément retardé notre départ.', now(), 'voyage en famille.');
+
+
+-- FACTURE --
+
+-- insert into pact.facture(numFacture) values (NULL);
+-- insert into pact.facture(numFacture) values (09782326747);
+-- insert into pact.facture(numFacture) values (09782367648);
+-- insert into pact.facture(numFacture) values (09782361252);
+-- insert into pact.facture(numFacture) values (09782365144);
+-- insert into pact.facture(numFacture) values (09782367564);
+-- insert into pact.facture(numFacture) values (09782361449);
