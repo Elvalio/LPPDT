@@ -1,44 +1,161 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu Filtre</title>
+    <title>Menu Filtre et Tri</title>
     <link rel="stylesheet" href="../css/styleFilter.css">
 </head>
+
 <body>
-    <button id="menuButton">
-        <span>filtrer</span>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-            <path d="M10 18h4v-2h-4v2zm-7-7v2h14v-2h-14zm17-5h-20v2h20v-2z" />
-        </svg>
-    </button>
-    <div id="menu">
-        <div class="menu-header">
+    <!-- Conteneur des boutons -->
+    <div class="button-container">
+        <!-- Bouton Filtrer -->
+        <button id="filterButton">
             <span>filtrer</span>
-            <button id="closeButton">×</button>
-        </div>
-        <div class="menu-content">
-            <section>
-                <h3>Catégorie</h3>
-                <label><input type="checkbox"> Visite</label>
-                <label><input type="checkbox"> Spectacle</label>
-                <label><input type="checkbox"> Parc d'attractions</label>
-                <label><input type="checkbox"> Restauration</label>
-            </section>
-            <section>
-                <h3>Lieu</h3>
-                <label><input type="checkbox"> Paris</label>
-                <label><input type="checkbox"> Brest</label>
-                <label><input type="checkbox"> Nantes</label>
-            </section>
-            <section>
-                <h3>Calendrier</h3>
-                <input type="text" placeholder="06/24/2021 - 06/24/2021">
-            </section>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M10 18h4v-2h-4v2zm-7-7v2h14v-2h-14zm17-5h-20v2h20v-2z" />
+            </svg>
+        </button>
+
+        <button id="sortButton">
+            <span>trier</span>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M3 18h6v-2H3v2zm0-5h12v-2H3v2zm0-7v2h18V6H3z" />
+            </svg>
+        </button>
+
+
+
+    </div>
+
+    <!-- Menu Filtrer -->
+    <div id="overlay-filtre">
+        <div id="menu">
+            <div class="menu-header">
+                <span>filtrer</span>
+                <button id="closeButton">×</button>
+            </div>
+            <div class="all-filter">
+                <p>TEST</p>
+                <div class="filter">
+                    <p class="FS">Catégories</p>
+                    <div class="filtre-type">
+                        <div class="filtre-case">
+                            <input type="checkbox" id="visite" name="Visite" />
+                            <label for="visite">Visite</label>
+                        </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="spectacle" name="Spectacle" />
+                            <label for="spectacle">Spectacle</label>
+                        </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="Activite" name="Activite" />
+                            <label for="Pattractions">Activité</label>
+                        </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="restauration" name="Restauration" />
+                            <label for="restauration">Restauration</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <p class="FS">Lieux</p>
+                    <div class="filtre-lieu">
+                        <div class="search-filter">
+                            <input type="text" name="search" id="rechercheLieu" placeholder="Recherche">
+                            <img src="../images/search_icon.png" alt="Recherche" title="Recherche"
+                                id="rechercheLieuIMG">
+                        </div>
+                        <div class="filtre-lieu-case">
+                            <?php foreach ($lieux as $lieu) { ?>
+                            <div class="filtre-case lieu">
+                                <input type="checkbox" id="<?php echo $lieu; ?>" name="<?php echo $lieu; ?>" />
+                                <label for="<?php echo $lieu; ?>"><?php echo $lieu; ?></label>
+                            </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <p class="FS">Date de publication</p>
+                    <div class="filtre-temps">
+                        <div id="calendar-start">
+                            <label for="calendar-start">
+                                Au plus tôt
+                            </label>
+                            <input type="date" name="date-start" id="date-start" class="filtre-temps-start">
+                        </div>
+
+                        <div id="calendar-end">
+                            <label for="calendar-end">
+                                Au plus tard
+                            </label>
+                            <input type="date" name="date-end" id="date-end" class="filtre-temps-end">
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <p class="FS">Prix</p>
+                    <div class="filtre-prix">
+                        <div class="slider-container">
+                            <input type="range" id="slider-left" min="<?php echo $prix_min ?>"
+                                max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>"
+                                class="filtre-prix-min">
+                            <input type="range" onchange="change()" id="slider-right" min="<?php echo $prix_min ?>"
+                                max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>"
+                                class="filtre-prix-max">
+
+                            <div class="value-container">
+                                <span id="value-left"><?php echo $prix_min ?>€</span>
+                                <span id="value-right"><?php echo $prix_max ?>€</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter">
+                    <p class="FS">Notes</p>
+                    <div class="filtre-note">
+                        <?php
+                    $notes = [
+                        5 => [true, true, true, true, true],
+                        4 => [true, true, true, true, false],
+                        3 => [true, true, true, false, false],
+                        2 => [true, true, false, false, false],
+                        1 => [true, false, false, false, false],
+                    ];
+
+                    foreach ($notes as $note => $stars) { ?>
+                        <div class="note">
+                            <input type="checkbox" id="note-<?php echo $note; ?>" name="note-<?php echo $note; ?>" />
+                            <div class="etoileNoteFiltre">
+                                <?php foreach ($stars as $star) { ?>
+                                <img src="../icons/<?php echo $star ? 'etoile_rouge' : 'etoile_rouge_vide'; ?>.png"
+                                    alt="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>"
+                                    title="<?php echo $star ? 'Etoile' : 'Etoile Vide'; ?>">
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+
+    <!-- Menu Trier -->
+
+    <div id="sortMenu" class="hidden">
+        <button class="menu-item active" id="prixCroissant">Prix croissant</button>
+        <button class="menu-item" id="prixDecroissant">Prix décroissant</button>
+        <button class="menu-item" id="presDeMoi">Près de moi</button>
+        <button class="menu-item" id="notesGenerales">Notes générales</button>
+    </div>
+
+
     <script src="../js/scriptFilter.js"></script>
 </body>
+
 </html>
