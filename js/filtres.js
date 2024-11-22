@@ -70,13 +70,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Fonction de filtrage
     function filtrage() {
-        return Array.from(offres).filter(offre => {
-            // Appliquer la logique ET entre catégories
+        let resultats = Array.from(offres).filter(offre => {
             const checkboxesOK = filtres_actifs.every((filtresCategorie, index) => {
                 if (filtresCategorie.length === 0) return true;
                 return filtresCategorie.some(filtre => offre.classList.contains(filtre));
             });
-
+    
             const tempsOK = (() => {
                 if (!filtres_temps.start && !filtres_temps.end) return true;
                 const offreDate = new Date(offre.getAttribute('data-date'));
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (filtres_temps.end && offreDate > filtres_temps.end) return false;
                 return true;
             })();
-
+    
             const prixOK = (() => {
                 if (filtres_prix.min === null && filtres_prix.max === null) return true;
                 const offrePrix = parseInt(offre.getAttribute('data-prix'), 10);
@@ -92,33 +91,43 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (filtres_prix.max !== null && offrePrix > filtres_prix.max) return false;
                 return true;
             })();
-
+    
             return checkboxesOK && tempsOK && prixOK;
         });
+    
+        // Tri par défaut (priorité aux offres "aLaUne")
+        resultats.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
+        return resultats;
     }
+    
 
     function trie(offresVisibles) {
-        if (menuItems[0].classList.contains('active')) {
+        if (menuItems[0].classList.contains('active')) { // Tri par prix croissant
             offresVisibles.sort((a, b) => {
-                return a.getAttribute('data-prix') - b.getAttribute('data-prix');
+                return a.getAttribute('data-prix') - b.getAttribute('data-prix') ||
+                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
             });
         }
-        if (menuItems[1].classList.contains('active')) {
+        if (menuItems[1].classList.contains('active')) { // Tri par prix décroissant
             offresVisibles.sort((a, b) => {
-                return b.getAttribute('data-prix') - a.getAttribute('data-prix');
+                return b.getAttribute('data-prix') - a.getAttribute('data-prix') ||
+                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
             });
         }
-        if (menuItems[2].classList.contains('active')) {
+        if (menuItems[2].classList.contains('active')) { // Tri par date croissante
             offresVisibles.sort((a, b) => {
-                return new Date(a.getAttribute('data-note')) - new Date(b.getAttribute('data-note'));
+                return new Date(a.getAttribute('data-date')) - new Date(b.getAttribute('data-date')) ||
+                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
             });
         }
-        if (menuItems[3].classList.contains('active')) {
+        if (menuItems[3].classList.contains('active')) { // Tri par date décroissante
             offresVisibles.sort((a, b) => {
-                return new Date(b.getAttribute('data-note')) - new Date(a.getAttribute('data-note'));
+                return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date')) ||
+                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
             });
         }
     }
+    
 
     for (let i = 0; i < menuItems.length; i++) {
         menuItems[i].addEventListener('click', function () {
@@ -172,18 +181,23 @@ document.addEventListener('DOMContentLoaded', function () {
     // Fonction pour afficher uniquement les offres filtrées
     function afficherResultats(offresVisibles) {
         trie(offresVisibles);
+    
         const rechercheTexte = rechercheOffre.value.toLowerCase();
         offresVisibles = offresVisibles.filter(offre => {
             const offreTexte = offre.textContent.toLowerCase();
             return offreTexte.includes(rechercheTexte);
         });
+    
+        offresVisibles.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
+    
         Array.from(offres).forEach(offre => {
+            offre.style.display = offresVisibles.includes(offre) ? 'block' : 'none';
             offresVisibles.forEach((offreVisible, index) => {
                 offreVisible.style.order = index;
             });
-            offre.style.display = offresVisibles.includes(offre) ? 'block' : 'none';
         });
     }
+    
 
     // Initialisation
     ajouterEcouteursCheckbox();
@@ -229,6 +243,51 @@ document.addEventListener('DOMContentLoaded', function () {
             rechercheIMG.src = '../images/search_icon.png';
             rechercheIMG.style.cursor = 'default';
         }
+    });
+
+    const boutonNouveau = document.getElementsByClassName('boutonNouveau');
+    const boutonALaUne = document.getElementsByClassName('boutonALaUne');
+    console.log(boutonNouveau);
+    // boutons <p> Nouveau et A la une
+
+    function filtrerParBouton() {
+        const offresVisibles = filtrage();
+        const offresFiltrees = offresVisibles.filter(offre => {
+            const estNouveaute = Array.from(boutonNouveau).some(bouton => bouton.classList.contains('active')) && offre.classList.contains('Nouveaute');
+            const estALaUne = Array.from(boutonALaUne).some(bouton => bouton.classList.contains('active')) && offre.classList.contains('aLaUne');
+            return estNouveaute || estALaUne || (!Array.from(boutonNouveau).some(bouton => bouton.classList.contains('active')) && !Array.from(boutonALaUne).some(bouton => bouton.classList.contains('active')));
+        });
+        afficherResultats(offresFiltrees);
+    }
+
+    Array.from(boutonNouveau).forEach(bouton => {
+        bouton.addEventListener('click', function () {
+            bouton.classList.toggle('active');
+            if (this.classList.contains('active')) {
+                this.style.backgroundColor = '#2C2C2C';
+                this.querySelector('p').style.color = '#F5F5F5';
+                
+            } else {
+                this.style.backgroundColor = '#F5F5F5';
+                this.querySelector('p').style.color = '#757575';
+            }
+            filtrerParBouton();
+        });
+    });
+
+    Array.from(boutonALaUne).forEach(bouton => {
+        bouton.addEventListener('click', function () {
+            bouton.classList.toggle('active');
+            if (this.classList.contains('active')) {
+                this.style.backgroundColor = '#2C2C2C';
+                this.querySelector('p').style.color = '#F5F5F5';
+                
+            } else {
+                this.style.backgroundColor = '#F5F5F5';
+                this.querySelector('p').style.color = '#757575';
+            }
+            filtrerParBouton();
+        });
     });
 
 });
