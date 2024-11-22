@@ -67,7 +67,7 @@
 
                         <div class="spacer"></div>
 
-                        <div id="elements-privee1" style="display: none; margin-top: 30px;">
+                        <div id="elements-privee1" style="display: none; margin-top: 29px;">
                             <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
                             <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
                         </div>
@@ -109,7 +109,7 @@
                             <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required style="width: 100%; margin-bottom: 15px;">
 
                             <div class="form-info">
-                                <p class="FS">Cette étape n'est pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                                <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
                             </div>
                         </div>
 

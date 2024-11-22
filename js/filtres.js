@@ -114,16 +114,16 @@ document.addEventListener('DOMContentLoaded', function () {
                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
             });
         }
-        if (menuItems[2].classList.contains('active')) { // Tri par date croissante
+        if (menuItems[2].classList.contains('active')) { // Tri par note croissante
             offresVisibles.sort((a, b) => {
-                return new Date(a.getAttribute('data-date')) - new Date(b.getAttribute('data-date')) ||
-                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+            return a.getAttribute('data-note') - b.getAttribute('data-note') ||
+                   b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
             });
         }
-        if (menuItems[3].classList.contains('active')) { // Tri par date décroissante
+        if (menuItems[3].classList.contains('active')) { // Tri par note décroissante
             offresVisibles.sort((a, b) => {
-                return new Date(b.getAttribute('data-date')) - new Date(a.getAttribute('data-date')) ||
-                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+            return b.getAttribute('data-note') - a.getAttribute('data-note') ||
+                   b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
             });
         }
     }
