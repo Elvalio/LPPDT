@@ -44,9 +44,10 @@
 
     try{
 
-    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, p.src_image FROM pact.offre o
+    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, MIN(p.src_image) AS src_image FROM pact.offre o
     JOIN pact.photo_offre p ON o.idO = p.idO
-    WHERE o.idC = $user_cookie");
+    WHERE o.idC = $user_cookie
+    GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne");
     
     $stmt->execute();
 
