@@ -54,19 +54,21 @@
                             <label for="type-entreprise" style="display: block;">
                                 Type d'entreprise :
                             </label>
-                            <label>
-                                <input type="radio" name="type-entreprise" value="publique">
-                                Entreprise publique
-                            </label>
-                            <label>
-                                <input type="radio" name="type-entreprise" value="privee" checked>
-                                Entreprise privée
-                            </label>
+                            <div id="type-entreprise" class="radio-group">
+                                <label class="radio-option">
+                                    <input type="radio" name="type-entreprise" value="publique" class="radio-button">
+                                    <span class="radio-label">Entreprise publique</span>
+                                </label>
+                                <label class="radio-option">
+                                    <input type="radio" name="type-entreprise" value="privee" checked class="radio-button">
+                                    <span class="radio-label">Entreprise privée</span>
+                                </label>
+                            </div>
                         </div>
 
                         <div class="spacer"></div>
 
-                        <div id="elements-privee1" style="display: none; margin-top: 10px;">
+                        <div id="elements-privee1" style="display: none; margin-top: 25px;">
                             <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
                             <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
                         </div>
@@ -119,8 +121,8 @@
                 <div class="checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="FS-bold">
-                        Accepter les conditions générales d'utilisation de 
-                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">PACT</a>
+                        Accepter les conditions générales d'utilisation de PACT en cliquant 
+                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">ici.</a>
                         <span class="required">*</span>
                     </span>
                 </div>

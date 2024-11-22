@@ -84,8 +84,8 @@
                         <div class="checkbox">
                             <input type="checkbox" id="terms" name="terms" required>
                             <span class="FS-bold">
-                                Accepter les conditions générales d'utilisation de 
-                                <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">PACT</a>
+                                Accepter les conditions générales d'utilisation de PACT en cliquant 
+                                <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">ici.</a>
                                 <span class="required">*</span>
                             </span>
                         </div>
