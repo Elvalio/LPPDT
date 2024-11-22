@@ -252,7 +252,6 @@ input[type="text"] {
 /* Conteneur des boutons radio */
 .radio-group {
     display: flex;
-    gap: 20px;
     align-items: center;
 }
 
@@ -260,6 +259,7 @@ input[type="text"] {
 .radio-option {
     display: flex;
     align-items: center;
+    justify-content: center;
     cursor: pointer;
     gap: 10px;
 }
@@ -270,4 +270,10 @@ input[type="text"] {
     height: 20px;
     accent-color: #006B8F; /* Couleur personnalisée pour les boutons radio */
     cursor: pointer;
+}
+
+.radio-label {
+    font-size: 16px;
+    cursor: default; /* Désactive le clic sur le texte */
+    margin-right: 20px;
 }

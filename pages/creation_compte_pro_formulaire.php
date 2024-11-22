@@ -55,14 +55,13 @@
                                 Type d'entreprise :
                             </label>
                             <div id="type-entreprise" class="radio-group">
-                                <label class="radio-option">
                                     <input type="radio" name="type-entreprise" value="publique" class="radio-button">
                                     <span class="radio-label">Entreprise publique</span>
-                                </label>
-                                <label class="radio-option">
+
                                     <input type="radio" name="type-entreprise" value="privee" checked class="radio-button">
-                                    <span class="radio-label">Entreprise privée</span>
-                                </label>
+                                    <span class="radio-label">Entreprise privée
+
+                                
                             </div>
                         </div>
 
