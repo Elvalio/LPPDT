@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const trie_text = document.querySelector('.dropdown-toggle > p');
     const rechercheOffre = document.getElementById('rechercheOffre');
+    const rechercheIMG = document.getElementById('rechercheLieuIMG');
 
     const categoriesFiltres = [
         'filtre-type',
@@ -142,12 +143,30 @@ document.addEventListener('DOMContentLoaded', function () {
                 link.style.color = 'var(--bleuFonce-rougeFonce)'; // Change link color
                 trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${link.innerHTML}</span>`; // Change text with color
             }
+            closeDropdown();
             afficherResultats(filtrage());
         });
     }
 
     rechercheOffre.addEventListener('input', function () {
+
+        let rechercheIMG = document.getElementById('rechercheOffreIMG');
+        if (rechercheOffre.value != '') {
+            rechercheIMG.src = '../images/croix-noire.png';
+            rechercheIMG.style.cursor = 'pointer';
+        } else {
+            rechercheIMG.src = '../images/search_icon.png';
+            rechercheIMG.style.cursor = 'default';
+        }
         afficherResultats(filtrage());
+
+        rechercheIMG.addEventListener('click', function () {
+            rechercheOffre.value = '';
+            rechercheIMG.src = '../images/search_icon.png';
+            rechercheIMG.style.cursor = 'default';
+
+            afficherResultats(filtrage());
+        });
     });
 
     // Fonction pour afficher uniquement les offres filtrées
@@ -171,5 +190,45 @@ document.addEventListener('DOMContentLoaded', function () {
     ajouterEcouteursTemps();
     ajouterEcouteursPrix();
 
-    
+    const rechercheLieu = document.getElementById('rechercheLieu');
+    const lieux = document.getElementsByClassName('lieu');
+
+    rechercheLieu.addEventListener('input', function () {
+        const rechercheTexte = rechercheLieu.value.toLowerCase();
+
+        if (rechercheLieu.value != '') {
+            rechercheIMG.src = '../images/croix-noire.png';
+            rechercheIMG.style.cursor = 'pointer';
+
+            rechercheIMG.addEventListener('click', function () {
+                rechercheLieu.value = '';
+                rechercheIMG.src = '../images/search_icon.png';
+                rechercheIMG.style.cursor = 'default';
+
+                Array.from(lieux).forEach(lieu => {
+                    lieu.style.display = 'block';
+                });
+            });
+
+            Array.from(lieux).forEach(lieu => {
+                const lieuTexte = lieu.textContent.toLowerCase();
+                if (lieuTexte.includes(rechercheTexte)) {
+                    lieu.style.display = 'block';
+                    lieu.classList.remove('hidden');
+                } else {
+                    lieu.style.display = 'none';
+                    lieu.classList.add('hidden');
+                }
+            });
+
+        } else {
+            Array.from(lieux).forEach(lieu => {
+                lieu.style.display = 'block';
+            });
+
+            rechercheIMG.src = '../images/search_icon.png';
+            rechercheIMG.style.cursor = 'default';
+        }
+    });
+
 });

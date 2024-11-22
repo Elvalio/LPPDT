@@ -22,6 +22,11 @@
     .phone-element {    
       display: none;
     }
+
+    html {
+        scrollbar-gutter: stable;
+      }
+      
   }
   
 
@@ -104,24 +109,46 @@ input:focus {
 .filtrer-trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
+    gap: 20px;
 }
 
-.filtrer-bouton, .trier {
+.trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
     justify-content: space-between; /* Espace entre les boutons */
     align-items: center; /* Centre verticalement les éléments */
+    
     border: 1px solid #E6E6E6;
+    border-radius: 8px;
+
     width: 220px;
     height: fit-content;
+    
     padding: 15px;
     margin: 10px;
+}
+
+.filtrer-bouton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+    width: 100px;
+    height: 40px;
+    align-self: center;
+}
+
+.filtrer-bouton:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
 }
 
 .filtrer-trier div {
     display: flex; /* Pour les éléments internes */
     align-items: center; /* Centre verticalement le texte et l'image */
-    gap: 8px; /* Espacement entre le texte et l'image */
+    gap: 12px; /* Espacement entre le texte et l'image */
 }
 
 .filtrer-trier div p {
@@ -129,9 +156,15 @@ input:focus {
     margin: 0; /* Supprime les marges par défaut du texte */
 }
 
-.filtrer-trier div img {
+.trier img {
     width: 12px;
     height: 12px;
+    object-fit: contain;
+}
+
+.filtrer-bouton img {
+    width: 20px;
+    height: 20px;
     object-fit: contain;
 }
 
@@ -152,30 +185,45 @@ main.active_filter {
 
 .all-filter {
     display: none;
-    height: 150px;
-    margin-bottom: 20px;
+    width: fit-content;
+    height: 180px;
+    margin: 0 auto 20px auto;
 }
 
 .all-filter.active {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
+    justify-content: center;
+    
     transform: translateY(0);
     transition: all 0.3s ease-in-out;
+
+    border: 1px solid #E6E6E6;
+    border-radius: 10px;
 }
 
 .filter {
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    border: 1px solid #E6E6E6;
-    margin: 10px;
-    background-color: #FFFFFF;
-    border-radius: 10px;
+    justify-content: baseline;
+
+
+    width: fit-content;
+    height: 100%;
+    padding: 0 30px;
+    margin: 0 25px inherit 12.5px;
+
+    border-right: 1px solid #E6E6E6;
 
     transform: translateY(-20px);
     opacity: 0;
     transition: all 0.2s ease;
+}
+
+.filter:last-child {
+    border-right: none;
 }
 
 .filter.show {
@@ -183,6 +231,15 @@ main.active_filter {
     transform: translateY(0);
     transition: translateY 0.15s ease;
     opacity: 1;
+}
+
+.filter p {
+    width: 100%;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #595959;
+    text-align: center;
+    margin: 10px 0;
 }
 
 
@@ -194,13 +251,20 @@ main.active_filter {
 .filtre-type {
     display: flex;
     flex-direction: column;
+    align-self: center;
     gap: 8px;
-
-    padding: 15px 50px 15px 15px;
 }
 
 .filtre-case label {
     color: #595959;
+    align-self: center;
+}
+
+.filtre-case {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 
@@ -219,7 +283,6 @@ main.active_filter {
     width: 170px;
     height: fit-content;
     padding: 10px 15px;
-    margin: 2px;
 }
 
 .search-filter > img {
@@ -237,12 +300,15 @@ main.active_filter {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
-    height: fit-content;
-
-    padding: 15px;
 }
 
+.filtre-lieu-case {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
 
 /* ========================================= */
 /*       STYLES POUR LES FILTRES DE TEMPS    */
@@ -253,14 +319,6 @@ main.active_filter {
     flex-direction: row;
     align-items: center;
     gap: 5px;
-
-    border: 1px solid #D9D9D9;
-    border-radius: 20px;
-
-    width: fit-content;
-    height: fit-content;
-
-    padding: 10px 15px;
 
 }
 
@@ -310,10 +368,6 @@ input#date-end, input#date-start {
     align-items: center;
 
     gap: 8px;
-
-    width: 260px;
-    height: fit-content;
-    padding-bottom: 20px;
 
 }
 
@@ -423,11 +477,6 @@ input[type="range"]::-ms-thumb {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-
-    width: fit-content;
-    height: fit-content;
-
-    padding: 20px;
 }
 
 .note {
@@ -573,7 +622,8 @@ input[type="range"]::-ms-thumb {
 .carte_offre {
     margin: 24px;
     width: 240px;
-    height: 320px;
+    min-height: 320px;
+    height: auto;
     min-width: 240px;
     border: 1px solid #D9D9D9;
     display: flex;

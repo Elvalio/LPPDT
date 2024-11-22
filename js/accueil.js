@@ -29,13 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    window.closeDropdown = closeDropdown;
+
     function closeFilterMenu() {
         if (filtres.classList.contains('active')) {
             filtres.classList.remove('active');
             items_filters.forEach((item) => {
                 item.classList.remove('show');
             });
-            fleche_filtre.classList.remove('rotate-180');
             main.classList.remove('active_filter');
         }
     }
@@ -71,7 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         filtres.classList.toggle('active');
-        fleche_filtre.classList.toggle('rotate-180');
 
         if (filtres.classList.contains('active')) {
             main.classList.toggle('active_filter');
