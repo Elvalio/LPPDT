@@ -23,7 +23,7 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-membre TS-bold" id="link-membre">
-                Inscription Membre
+                <h1 class="TS-bold">Inscription membre</h1>
             </div>
         </div>
 

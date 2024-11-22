@@ -23,7 +23,7 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-pro TS-bold" id="link-pro">
-                Inscription professionnelle
+                <h1 class="TS-bold">Inscription pro</h1>
             </div>
         </div>
 
