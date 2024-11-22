@@ -384,6 +384,7 @@ if ($_POST != null) {
         }
     }
 }
+include_once('nav.php'); 
 ?>
 
 <!DOCTYPE html>
@@ -398,7 +399,6 @@ if ($_POST != null) {
         
     </head>
     <body class="BO">
-        <nav><?php include_once'nav.php'; ?></nav>
         <div class="main-content"> 
             <h1 class="TS-bold">Créez votre offre</h1>            
             <form action="creation_offre.php" method="post" enctype="multipart/form-data">
