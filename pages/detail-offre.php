@@ -8,12 +8,33 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     try{
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-        $note = $_POST['nbr_etoile'];
+        $note = (int)$_POST['nbr_etoile'];
         $titre = $_POST['titre_avis'];
         $com = $_POST['zone_avis'];
         $img = $_POST['image_avis'];
 
-        //stmt = $dbh->prepare("INSERT INTO pact._avis(idA, note, titre, corps, date_publication, date_visite) VALUES (64, $note, $com)");
+        $ido = (int)$_GET['value'];
+        $idc = (int)$_COOKIE['user'];
+        /*$stmt = $dbh->prepare("INSERT INTO pact._experience(idC, idO, idA)
+        VALUES (:idc, :ido, :ida)
+        ");
+        $stmt->execute([
+            ':idc' => $idc,
+            ':ido' => $ido,
+            ':ida' => 11
+        ]);*/
+
+
+        $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite)
+        VALUES (:idc, :ido, :titre, :note, :corps, NOW());
+        ");
+        $stmt->execute([
+            ':idc' => $idc,
+            ':ido' => $ido,
+            ':titre' => $titre,
+            ':note' => $note,
+            ':corps' => $com
+        ]);
 
     }catch(PDOException $e){
         print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -262,6 +283,7 @@ try {
                     <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
                 <?php endfor;?>
             </div>
+            <?php if (isset($_COOKIE['user'])){?>
             <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
                 <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
@@ -269,6 +291,15 @@ try {
                 <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
                 <input type="submit" id="bouton_publier" value="publier">
             </form>
+            <?php }else{ ?>
+                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                <textarea type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
+            <form method ="POST" action="creation_compte.php">
+                <input type="submit" id="bouton_publier" value="publier">
+            </form>    
+            <?php } ?>
         </article>
             <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
             <div class="alignement-conteneur-avis">
