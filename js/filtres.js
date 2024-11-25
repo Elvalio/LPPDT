@@ -290,4 +290,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    afficherResultats(filtrage());
+
 });
