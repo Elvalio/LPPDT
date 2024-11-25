@@ -296,7 +296,7 @@ try {
                 <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
                 <textarea type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                 <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
-            <form method ="POST" action="creation_compte.php">
+            <form method ="POST" action="connexion.php">
                 <input type="submit" id="bouton_publier" value="publier">
             </form>    
             <?php } ?>
