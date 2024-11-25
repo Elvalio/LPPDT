@@ -66,8 +66,8 @@
                         <div class="spacer"></div>
 
                         <div id="elements-privee1" style="display: none; margin-top: 29px;">
-                            <label for="bic" class="FS">BIC :</label>
-                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;"> 
+                            <label for="raison-sociale-pro" class="FS">Raison Sociale<span <?php if ($form == "privee") { ?>class="required"> <?php } ?>*</span></label>
+                            <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" <?php if ($form == "privee") { ?>required style="width: 100%; margin-bottom: 15px;"<?php } ?>>
                         </div>
                     </div>
 
@@ -91,6 +91,8 @@
                         </div>
 
                         
+                   
+                        
                         <label for="password" class="FS">Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-pro" name="password" required>
 
@@ -98,7 +100,8 @@
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
                         <div id="elements-privee2" style="display: none; margin-top: 20px;">
-
+                            <label for="bic" class="FS">BIC :</label>
+                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;">
 
                             <label for="iban" class="FS">IBAN :</label>
                             <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" style="width: 100%; margin-bottom: 15px;">
@@ -147,6 +150,7 @@
             $nom = $_POST["nom"];
             $prenom = $_POST["prenom"];
             $denomination = $_POST["denomination"];
+            $raison_sociale = $_POST["denomination"];
             $email = $_POST["email"];
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
@@ -163,9 +167,9 @@
             $codePro = time();
 
             if (!empty($POST["iban"])) {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, , nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
             } else {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, , nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
             }
 
         } else if ($form == "publique") {
@@ -218,7 +222,6 @@
 
         //Vérification des données avec regex
         function validateFormMembre() {
-            let check = true;
             let checkNom = true;
             let checkPrenom = true;
             let checkPseudo = true;
