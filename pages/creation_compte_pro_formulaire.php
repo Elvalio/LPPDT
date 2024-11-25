@@ -66,8 +66,8 @@
                         <div class="spacer"></div>
 
                         <div id="elements-privee1" style="display: none; margin-top: 29px;">
-                            <label for="raison-sociale-pro" class="FS">Raison Sociale<span <?php if ($form == "privee") { ?>class="required"> <?php } ?>*</span></label>
-                            <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" <?php if ($form == "privee") { ?>required style="width: 100%; margin-bottom: 15px;"<?php } ?>>
+                            <label for="iban" class="FS">IBAN :</label>
+                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" style="width: 100%; margin-bottom: 15px;">
                         </div>
                     </div>
 
@@ -89,9 +89,6 @@
                                 <input type="text" class="FS" placeholder="Lannion" id="ville-pro" name="ville" required>
                             </div>
                         </div>
-
-                        
-                   
                         
                         <label for="password" class="FS">Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-pro" name="password" required>
@@ -100,15 +97,12 @@
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
                         <div id="elements-privee2" style="display: none; margin-top: 20px;">
-                            <label for="bic" class="FS">BIC :</label>
-                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;">
-
-                            <label for="iban" class="FS">IBAN :</label>
-                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" style="width: 100%; margin-bottom: 15px;">
-
                             <div class="form-info">
                                 <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
                             </div>
+                        
+                            <label for="bic" class="FS">BIC :</label>
+                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;">
                         </div>
 
                         
