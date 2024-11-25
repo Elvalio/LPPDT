@@ -2,16 +2,16 @@
 Ceci est le CSS pour la page de création de compte : membre ou professionnel
 */
 
+/* C'est le style css pour le titre des pages */
 .menu-links {
-    display: flex;
-    padding: 10px 20px;
+    padding: 20px ;
 }
 
 .menu-links div {
     text-align: center; /* Alignement du texte */
-    width: 100%; /* Largeur complète */
 }
 
+/* Les 2 styles suivant déterminent la couleur du titre en fonction de la page */
 .inscription-membre {
     color: #006B8F; /* Couleur de texte par défaut */
 }
@@ -30,7 +30,7 @@ Ceci est le CSS pour la page de création de compte : membre ou professionnel
 
 /* C'est la classe qui me permet de mettre en rouge les étoiles dans les labels du formulaire */
 .required {
-    color: red;
+    color: #A2021F;
 }
 
 /* Le bouton retour en haut à gauche de la page */
@@ -93,7 +93,7 @@ label {
 /* Style du bouton d'envoi du formulaire pour la page membre */
 .bouton-envoi-formulaire-crea-compte-page-membre {
     background-color: #3AD4AE;
-    color: white;
+    color: black;
     padding: 15px;
     border: none;
     width: 100%;

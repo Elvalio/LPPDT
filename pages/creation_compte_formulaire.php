@@ -23,7 +23,7 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-membre TS-bold" id="link-membre">
-                <h1 class="TS-bold">Inscription membre</h1>
+                <h1 class="TS-bold">Création d'un compte membre</h1>
             </div>
         </div>
 
@@ -92,7 +92,7 @@
 
                     </div>
                 </div>
-                    <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">S'inscrire</button>
+                    <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Créer un compte</button>
             </form>
 
             <div class="redirection-links">

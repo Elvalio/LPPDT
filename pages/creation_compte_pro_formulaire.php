@@ -23,7 +23,7 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-pro TS-bold" id="link-pro">
-                <h1 class="TS-bold">Inscription pro</h1>
+                <h1 class="TS-bold">Création d'un compte pro</h1>
             </div>
         </div>
 
@@ -119,7 +119,7 @@
                 </div>
 
 
-                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">S'inscrire</button>
+                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">Créer un compte</button>
             </form>
             
             <div class="redirection-links">
