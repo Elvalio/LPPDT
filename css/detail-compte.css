@@ -1,0 +1,18 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.detail-compte-donnees{
+    display: flex;
+    flex-direction: column;
+}
+
+.ligne-info{
+    display: flex;
+    flex-direction: row;
+}
+
+#modif-infos{
+    width: 10%;
+}
