@@ -41,8 +41,8 @@
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Marco" id="prenom-pro" name="prenom" required>
 
-                        <label for="denomination-sociale-pro" class="FS">Dénomination Sociale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Les voyages de Marco Polo" id="denomination-sociale-pro" name="denomination" required>
+                        <label for="denomination" class="FS">Dénomination Sociale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="Les voyages de Marco Polo" id="denomination" name="denomination" required>
 
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
                         <input type="email" placeholder="marco.polo@gmail.com" id="email-pro" name="email" required>
@@ -55,21 +55,19 @@
                                 Type d'entreprise :
                             </label>
                             <div id="type-entreprise" class="radio-group">
-                                    <input type="radio" name="type-entreprise" value="publique" class="radio-button">
-                                    <span class="radio-label">Entreprise publique</span>
+                                <input type="radio" name="type-entreprise" value="publique" class="radio-button">
+                                <span class="radio-label">Entreprise publique</span>
 
-                                    <input type="radio" name="type-entreprise" value="privee" checked class="radio-button">
-                                    <span class="radio-label">Entreprise privée
-
-                                
+                                <input type="radio" name="type-entreprise" value="privee" checked class="radio-button">
+                                <span class="radio-label">Entreprise privée
                             </div>
                         </div>
 
                         <div class="spacer"></div>
 
                         <div id="elements-privee1" style="display: none; margin-top: 29px;">
-                            <label for="raison-sociale-pro" class="FS">Raison Sociale<span class="required">*</span></label>
-                            <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" required style="width: 100%; margin-bottom: 15px;">
+                            <label for="raison-sociale-pro" class="FS">Raison Sociale<span <?php if ($form == "privee") { ?>class="required"> <?php } ?>*</span></label>
+                            <input type="text" class="FS" placeholder="Les grandes aventures de Marco Polo" id="raison-sociale-pro" name="raison" <?php if ($form == "privee") { ?>required style="width: 100%; margin-bottom: 15px;"<?php } ?>>
                         </div>
                     </div>
 
@@ -103,10 +101,10 @@
 
                         <div id="elements-privee2" style="display: none; margin-top: 20px;">
                             <label for="bic" class="FS">BIC :</label>
-                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" required style="width: 100%; margin-bottom: 15px;">
+                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;">
 
                             <label for="iban" class="FS">IBAN :</label>
-                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" required style="width: 100%; margin-bottom: 15px;">
+                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" style="width: 100%; margin-bottom: 15px;">
 
                             <div class="form-info">
                                 <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
@@ -144,30 +142,54 @@
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
-        $nom = $_POST["nom"];
-        $prenom = $_POST["prenom"];
-        $denomination = $_POST["denomination"];
-        $raison_sociale = $_POST["raison"];
-        $email = $_POST["email"];
-        $telephone = $_POST["telephone"];
-        $code_postal = $_POST["codepostal"];
-        $ville = $_POST["ville"];
-        $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-        $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premiere valeur
-        array_shift($temp);                         //On supprime le numéro de la voie
-        $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-        $siren = $_POST["num_SIREN"];
-        $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
-        $mdp = $_POST["password"];
-        $iban = $_POST["iban"];
-        $bic = $_POST["bic"];
-        $codePro = time();
-
-        if (!empty($POST["iban"])) {
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-        } else {
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+        if (isset($_POST["type-entreprise"])) {
+            $form = $_POST["type-entreprise"];
         }
+
+        if ($form == "privee") {
+            $nom = $_POST["nom"];
+            $prenom = $_POST["prenom"];
+            $denomination = $_POST["denomination"];
+            $raison_sociale = $_POST["raison"];
+            $email = $_POST["email"];
+            $telephone = $_POST["telephone"];
+            $code_postal = $_POST["codepostal"];
+            $ville = $_POST["ville"];
+            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
+            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premiere valeur
+            array_shift($temp);                         //On supprime le numéro de la voie
+            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
+            $siren = $_POST["num_SIREN"];
+            $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
+            $mdp = $_POST["password"];
+            $iban = $_POST["iban"];
+            $bic = $_POST["bic"];
+            $codePro = time();
+
+            if (!empty($POST["iban"])) {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            } else {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            }
+
+        } else if ($form == "publique") {
+            $nom = $_POST["nom"];
+            $prenom = $_POST["prenom"];
+            $denomination = $_POST["denomination"];
+            $email = $_POST["email"];
+            $telephone = $_POST["telephone"];
+            $code_postal = $_POST["codepostal"];
+            $ville = $_POST["ville"];
+            $temp = explode(" ",$_POST["adresse"]);
+            $num_adresse = $temp[0];
+            array_shift($temp);
+            $adresse = implode(" ", $temp);
+            $mdp = $_POST["password"];
+            $codePro = time();
+
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+        }
+
 
         $stmt->execute();
         $dbh = null;
