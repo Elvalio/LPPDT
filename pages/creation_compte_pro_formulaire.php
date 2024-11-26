@@ -21,9 +21,9 @@ error_reporting(0); if (!empty($_POST)) {
             $code_postal = $_POST["codepostal"];
             $ville = $_POST["ville"];
             $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premiere valeur
-            array_shift($temp);                         //On supprime le numéro de la voie
-            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
+            $num_adresse = $temp[0];                                       //On récupère le numéro de la voie qui sera toujours la premiere valeur
+            array_shift($temp);                                    //On supprime le numéro de la voie
+            $adresse = implode(" ", $temp);              //On implode le reste de l'adresse (combine un array en string)
             $siren = $_POST["num_SIREN"];
             $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
             $mdp = $_POST["password"];
@@ -75,7 +75,7 @@ error_reporting(0); if (!empty($_POST)) {
 
 <body>
     <!-- Bouton de retour -->
-    <a href="creation_compte_formulaire.php" style="text-decoration: none;">
+    <a href="creation_compte_formulaire.php">
         <div class="bouton-retour-page-création">
             <button class="FS">
                 <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
@@ -112,8 +112,8 @@ error_reporting(0); if (!empty($_POST)) {
                         <label for="num_SIREN" class="FS">Numéro de SIREN<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="ex : 362 521 879" id="num_SIREN-pro" name="num_SIREN" required>
 
-                        <div>
-                            <label for="type-entreprise" style="display: block;">
+                        <div class="choix_entreprise">
+                            <label for="type-entreprise">
                                 Type d'entreprise :
                             </label>
                             <div id="type-entreprise" class="radio-group">
@@ -127,9 +127,9 @@ error_reporting(0); if (!empty($_POST)) {
 
                         <div class="spacer"></div>
 
-                        <div id="elements-privee1" style="display: none; margin-top: 29px;">
+                        <div class="element_prive1" id="elements-privee1">
                             <label for="iban" class="FS">IBAN :</label>
-                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" style="width: 100%; margin-bottom: 15px;">
+                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX">
                         </div>
                     </div>
 
@@ -158,24 +158,22 @@ error_reporting(0); if (!empty($_POST)) {
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
-                        <div id="elements-privee2" style="display: none; margin-top: 20px;">
-                            <div class="form-info">
-                                <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
-                            </div>
-                        
+                        <div class="element_prive2" id="elements-privee2">
                             <label for="bic" class="FS">BIC :</label>
-                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;">
+                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX">
                         </div>
 
                         
                     </div>
                 </div>
-
+                <div class="form-info">
+                    <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                </div>
                 <div class="checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="FS-bold">
                         Accepter les 
-                        <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">conditions générales d'utilisation de PACT</a>
+                        <a href="conditions_d_utilisation.php" target="_blank">conditions générales d'utilisation de PACT</a>
                         <span class="required">*</span>
                     </span>
                 </div>
