@@ -62,10 +62,25 @@ try {
     }
 
     // Requête pour récupérer les infos optionnel des activités
-    $stmtActivite = $bdh->prepare("SELECT a.*, o.* FROM pact.activite a INNER JOIN pact.offre o ON a.idO = o.ido WHERE o.ido = :idAnnonce");
+    $stmtActivite = $bdh->prepare("SELECT * FROM pact.activite WHERE ido = :idAnnonce");
     $stmtActivite->execute([':idAnnonce' => $idAnnonce]);
     $activite = $stmtActivite->fetchAll(PDO::FETCH_ASSOC);
 
+    $stmtParc = $bdh->prepare("SELECT * FROM pact.parc_d_attraction WHERE ido = :idAnnonce");
+    $stmtParc->execute([':idAnnonce' => $idAnnonce]);
+    $parc_actraction = $stmtParc->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmtSpectacle = $bdh->prepare("SELECT * FROM pact.spectacle WHERE ido = :idAnnonce");
+    $stmtSpectacle->execute([':idAnnonce' => $idAnnonce]);
+    $spectacle = $stmtSpectacle->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmtRestaurant = $bdh->prepare("SELECT * FROM pact.restauration WHERE ido = :idAnnonce");
+    $stmtRestaurant->execute([':idAnnonce' => $idAnnonce]);
+    $restaurant = $stmtRestaurant->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmtVisite = $bdh->prepare("SELECT * FROM pact.visite WHERE ido = :idAnnonce");
+    $stmtVisite->execute([':idAnnonce' => $idAnnonce]);
+    $visite = $stmtVisite->fetchAll(PDO::FETCH_ASSOC);
 
     // Requête pour récupérer les images associées
     $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idAnnonce");
@@ -100,7 +115,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?php echo htmlspecialchars($offre['titre'] ?? 'Détails de l\'offre'); ?>
+        <?php echo htmlspecialchars($offre['categorie'] ?? 'Détails de l\'offre'); ?>
     </title>
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
@@ -111,16 +126,24 @@ try {
     class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
 
     <section class="section-page part-annonce">
-        <header>
+        <header> 
             <h1 class="titre-rouge">
                 <?php echo htmlspecialchars($offre['titre']); ?>
             </h1>
             <h2 class="sous-titre">
                 <?php echo htmlspecialchars($offre['ville']); ?> |
                 <?php echo htmlspecialchars($telephone); ?>
-                <?php if (!empty($offre['duree'])) echo " | Durée : " . htmlspecialchars($offre['duree']); ?>
-                <?php if (!empty($offre['age_min'])) echo " | Âge : " . htmlspecialchars($offre['age_min']) . " ans"; ?>
-                <?php if (!empty($offre['prix_min'])) echo " | Prix : " . htmlspecialchars($offre['prix_min']) . " €"; ?>
+                <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars($spectacle[0]['duree']); ?>
+                <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars($activite[0]['duree']); ?>
+                <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars($visite[0]['duree']); ?>
+
+                <?php if (!empty($activite[0]['age_min'])) echo " | Âge : " . $activite[0]['age_min'] . " ans"; ?>
+                <?php if (!empty($parc_actraction[0]['age_min'])) echo " | Âge : " . $parc_actraction[0]['age_min'] . " ans"; ?>
+
+                <?php   if (!empty($restaurant[0]['gamme_prix'])) {echo " | Prix : " . htmlspecialchars($restaurant[0]['gamme_prix']);}
+                        elseif (!empty($offre['prix_min'])) {echo " | Prix : " . htmlspecialchars($offre['prix_min']) . " €";} 
+                ?>
+
                 <?php echo htmlspecialchars($offre['gamme_prix'] ?? ''); ?>
             </h2>
 
@@ -245,14 +268,14 @@ try {
                     </div>-->
             </div>
             <?php 
-                    if (!empty($offre['carte'])) { ?>
+                    if (!empty($parc_actraction[0]['src_image'])) { ?>
             <div>
-                <img class="carte" src="../images/ <?php $offre['carte'] ?>" alt="carte géolocalisation">
+                <img class="carte" src="../images/<?php echo $parc_actraction[0]['carte'] ?>" alt="plan">
             </div>
             <?php
-                    } elseif (!empty($offre['src_image'])) { ?>
+                    } elseif (!empty($restaurant[0]['src_image'])) { ?>
             <div>
-                <img class="carte" src="../images/ <?php $offre['src_image'] ?>" alt="carte">
+                <img class="carte" src="../images/<?php echo $restaurant[0]['src_image'] ?>" alt="carte">
             </div>
             <?php
                     }
