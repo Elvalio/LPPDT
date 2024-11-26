@@ -131,15 +131,20 @@
         border-radius: 12px;
     }
 
-    /* Suppression du défilement pour les lieux */
+        /* Suppression du défilement pour les lieux */
     .filtre-lieu-case {
         overflow-y: unset; /* Retire le défilement vertical */
         max-height: unset; /* Retire la limite de hauteur */
+        display: flex;
     }
 
-    /* Masquer les éléments à partir du 4ème */
+    /* Masquer les éléments à partir du ème */
     .filtre-lieu-case > div:nth-child(n+4) {
         display: none; /* Cache les éléments après les trois premiers */
+    }
+    
+    .filtre-case.lieu.hidden {
+        border: 2px solid #ccc;
     }
 
     .filtre-temps {
