@@ -15,14 +15,6 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 
         $ido = (int)$_GET['value'];
         $idc = (int)$_COOKIE['user'];
-        /*$stmt = $dbh->prepare("INSERT INTO pact._experience(idC, idO, idA)
-        VALUES (:idc, :ido, :ida)
-        ");
-        $stmt->execute([
-            ':idc' => $idc,
-            ':ido' => $ido,
-            ':ida' => 11
-        ]);*/
 
 
         $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite)

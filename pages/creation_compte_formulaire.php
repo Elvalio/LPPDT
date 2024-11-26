@@ -1,3 +1,41 @@
+<?php ini_set('display_errors', 1);
+error_reporting(E_ALL); 
+error_reporting(0); if (!empty($_POST)) { 
+    
+    include("../sql/connect_params.php");
+    try{ 
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+
+        if($_POST["type"]=="membre"){
+
+            $nom = $_POST["nom"];
+            $prenom = $_POST["prenom"];
+            $pseudo = $_POST["pseudo"];
+            $email = $_POST["email"];
+            $telephone = $_POST["telephone"];
+            $code_postal = $_POST["codepostal"];
+            $ville = $_POST["ville"];
+            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
+            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
+            array_shift($temp);                         //On supprime le numéro de la voie
+            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
+            $mdp = $_POST["password"];
+
+            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+
+        }
+        $stmt->execute();
+
+
+        }catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
+    header("Location:connexion.php");
+    $dbh = null;
+    ?>
+    <?php } ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,11 +61,11 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-membre TS-bold" id="link-membre">
-                <h1 class="TS-bold">Inscription membre</h1>
+                <h1 class="TS-bold">Création d'un compte membre</h1>
             </div>
         </div>
 
-        <?php error_reporting(0); if (empty($_POST)) { ?>
+
         <!-- Formulaire pour l'inscription membre -->
         <div class="form-container-page-creation-compte" id="form-membre">
             <form name="membre" action="creation_compte_formulaire.php" method="post" enctype="multipart/form-data">
@@ -92,7 +130,7 @@
 
                     </div>
                 </div>
-                    <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">S'inscrire</button>
+                    <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Créer un compte</button>
             </form>
 
             <div class="redirection-links">
@@ -102,43 +140,7 @@
         </div>
     </div>
 
-    <?php } else { ?>
-
-        <?php
-
-        include("../sql/connect_params.php");
-
-        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-
-        if($_POST["type"]=="membre"){
-
-            $nom = $_POST["nom"];
-            $prenom = $_POST["prenom"];
-            $pseudo = $_POST["pseudo"];
-            $email = $_POST["email"];
-            $telephone = $_POST["telephone"];
-            $code_postal = $_POST["codepostal"];
-            $ville = $_POST["ville"];
-            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
-            array_shift($temp);                         //On supprime le numéro de la voie
-            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-            $mdp = $_POST["password"];
-
-            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-
-
-            if (!empty($POST["iban"])) {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-            }
-            else {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-            }
-        }
-        $stmt->execute();
-        $dbh = null;
-        ?>
-    <?php } ?>
+    
 
     <script>
         document.getElementById('link-membre').addEventListener('click', function () {

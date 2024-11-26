@@ -1,3 +1,67 @@
+<?php ini_set('display_errors', 1);
+error_reporting(E_ALL); 
+error_reporting(0); if (!empty($_POST)) {
+
+
+        include("../sql/connect_params.php");
+
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+
+        if (isset($_POST["type-entreprise"])) {
+            $form = $_POST["type-entreprise"];
+        }
+
+        if ($form == "privee") {
+            $nom = $_POST["nom"];
+            $prenom = $_POST["prenom"];
+            $denomination = $_POST["denomination"];
+            $raison_sociale = $_POST["denomination"];
+            $email = $_POST["email"];
+            $telephone = $_POST["telephone"];
+            $code_postal = $_POST["codepostal"];
+            $ville = $_POST["ville"];
+            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
+            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premiere valeur
+            array_shift($temp);                         //On supprime le numéro de la voie
+            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
+            $siren = $_POST["num_SIREN"];
+            $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
+            $mdp = $_POST["password"];
+            $iban = $_POST["iban"];
+            $bic = $_POST["bic"];
+            $codePro = time();
+
+            if (!empty($_POST["iban"])) {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            } else {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            }
+
+        } else if ($form == "publique") {
+            $nom = $_POST["nom"];
+            $prenom = $_POST["prenom"];
+            $denomination = $_POST["denomination"];
+            $email = $_POST["email"];
+            $telephone = $_POST["telephone"];
+            $code_postal = $_POST["codepostal"];
+            $ville = $_POST["ville"];
+            $temp = explode(" ",$_POST["adresse"]);
+            $num_adresse = $temp[0];
+            array_shift($temp);
+            $adresse = implode(" ", $temp);
+            $mdp = $_POST["password"];
+            $codePro = time();
+
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+        }
+
+
+        $stmt->execute();
+        header("Location: connexion.php");
+        $dbh = null;
+        ?>
+    <?php } ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -23,11 +87,9 @@
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-pro TS-bold" id="link-pro">
-                <h1 class="TS-bold">Inscription pro</h1>
+                <h1 class="TS-bold">Création d'un compte pro</h1>
             </div>
         </div>
-
-        <?php error_reporting(0); if (empty($_POST)) { ?>
 
         <!-- Formulaire pour l'inscription professionnelle privée -->
         <div class="form-container-page-creation-compte" id="form-pro-privee">
@@ -66,8 +128,8 @@
                         <div class="spacer"></div>
 
                         <div id="elements-privee1" style="display: none; margin-top: 29px;">
-                            <label for="bic" class="FS">BIC :</label>
-                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;"> 
+                            <label for="iban" class="FS">IBAN :</label>
+                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" style="width: 100%; margin-bottom: 15px;">
                         </div>
                     </div>
 
@@ -89,7 +151,6 @@
                                 <input type="text" class="FS" placeholder="Lannion" id="ville-pro" name="ville" required>
                             </div>
                         </div>
-
                         
                         <label for="password" class="FS">Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-pro" name="password" required>
@@ -98,14 +159,12 @@
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
                         <div id="elements-privee2" style="display: none; margin-top: 20px;">
-
-
-                            <label for="iban" class="FS">IBAN :</label>
-                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX" style="width: 100%; margin-bottom: 15px;">
-
                             <div class="form-info">
                                 <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
                             </div>
+                        
+                            <label for="bic" class="FS">BIC :</label>
+                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX" style="width: 100%; margin-bottom: 15px;">
                         </div>
 
                         
@@ -122,7 +181,7 @@
                 </div>
 
 
-                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">S'inscrire</button>
+                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">Créer un compte</button>
             </form>
             
             <div class="redirection-links">
@@ -130,67 +189,6 @@
             </div>
         </div>
     </div>
-
-    <?php } else { ?>
-
-        <?php
-
-        include("../sql/connect_params.php");
-
-        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-
-        if (isset($_POST["type-entreprise"])) {
-            $form = $_POST["type-entreprise"];
-        }
-
-        if ($form == "privee") {
-            $nom = $_POST["nom"];
-            $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination"];
-            $email = $_POST["email"];
-            $telephone = $_POST["telephone"];
-            $code_postal = $_POST["codepostal"];
-            $ville = $_POST["ville"];
-            $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premiere valeur
-            array_shift($temp);                         //On supprime le numéro de la voie
-            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
-            $siren = $_POST["num_SIREN"];
-            $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
-            $mdp = $_POST["password"];
-            $iban = $_POST["iban"];
-            $bic = $_POST["bic"];
-            $codePro = time();
-
-            if (!empty($POST["iban"])) {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, , nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-            } else {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, , nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-            }
-
-        } else if ($form == "publique") {
-            $nom = $_POST["nom"];
-            $prenom = $_POST["prenom"];
-            $denomination = $_POST["denomination"];
-            $email = $_POST["email"];
-            $telephone = $_POST["telephone"];
-            $code_postal = $_POST["codepostal"];
-            $ville = $_POST["ville"];
-            $temp = explode(" ",$_POST["adresse"]);
-            $num_adresse = $temp[0];
-            array_shift($temp);
-            $adresse = implode(" ", $temp);
-            $mdp = $_POST["password"];
-            $codePro = time();
-
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
-        }
-
-
-        $stmt->execute();
-        $dbh = null;
-        ?>
-    <?php } ?>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -218,7 +216,6 @@
 
         //Vérification des données avec regex
         function validateFormMembre() {
-            let check = true;
             let checkNom = true;
             let checkPrenom = true;
             let checkPseudo = true;
@@ -325,7 +322,7 @@
             }
         });
 
-        // Afficher par défaut le premier formulaire
+        // Afficher le formulaire
         showForm('form-pro-privee');
     </script>
 </body>

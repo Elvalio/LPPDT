@@ -213,6 +213,10 @@ document.addEventListener('DOMContentLoaded', function () {
         if (rechercheLieu.value != '') {
             rechercheIMG.src = '../images/croix-noire.png';
             rechercheIMG.style.cursor = 'pointer';
+            Array.from(lieux).forEach(lieu => {
+                lieu.style.display = 'block';
+                lieu.classList.remove('hidden');
+            });
 
             rechercheIMG.addEventListener('click', function () {
                 rechercheLieu.value = '';
@@ -221,6 +225,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 Array.from(lieux).forEach(lieu => {
                     lieu.style.display = 'block';
+                    lieu.classList.remove('hidden');
                 });
             });
 
@@ -290,6 +295,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    afficherResultats(filtrage());
+    afficherResultats(filtrage()); // Pour afficher les offres au tout début (sans filtres) afin que les offres à la Une soient prioritaires
 
 });
