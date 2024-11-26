@@ -641,6 +641,24 @@ $$ language 'plpgsql';
 create or replace view pact.avis as 
   select idA, note, titre, corps, date_publication, date_visite, contexte, pact.count_likes(idA) as nbr_likes, pact.count_dislikes(idA) as nbr_dislikes, consulte, blackliste from _avis;
 
+create or replace function pact.delete_avis()
+  returns trigger as $$
+begin
+  
+  delete from pact._experience
+  where idA = OLD.idA;
+  
+  delete from pact._avis
+  where idA = OLD.idA;
+ 
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_delete_avis
+instead of delete on pact.avis
+  for each row execute procedure pact.delete_avis();
+
 --- Offres
 
 create or replace function pact.count_avis(idOffre integer)
