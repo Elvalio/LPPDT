@@ -167,7 +167,7 @@ error_reporting(0); if (!empty($_POST)) {
                     </div>
                 </div>
                 <div class="form-info">
-                    <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou modifier ultérieurement dans votre espace personnel.</p>
+                    <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou les modifier ultérieurement dans votre espace personnel.</p>
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" id="terms" name="terms" required>
