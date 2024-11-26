@@ -186,6 +186,7 @@
 
 
         $stmt->execute();
+        header("Location: connexion.php");
         $dbh = null;
         ?>
     <?php } ?>
@@ -322,7 +323,7 @@
             }
         });
 
-        // Afficher par défaut le premier formulaire
+        // Afficher le formulaire
         showForm('form-pro-privee');
     </script>
 </body>
