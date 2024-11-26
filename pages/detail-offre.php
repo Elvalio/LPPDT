@@ -8,12 +8,25 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     try{
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-        $note = $_POST['nbr_etoile'];
+        $note = (int)$_POST['nbr_etoile'];
         $titre = $_POST['titre_avis'];
         $com = $_POST['zone_avis'];
         $img = $_POST['image_avis'];
 
-        //stmt = $dbh->prepare("INSERT INTO pact._avis(idA, note, titre, corps, date_publication, date_visite) VALUES (64, $note, $com)");
+        $ido = (int)$_GET['value'];
+        $idc = (int)$_COOKIE['user'];
+
+
+        $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite)
+        VALUES (:idc, :ido, :titre, :note, :corps, NOW());
+        ");
+        $stmt->execute([
+            ':idc' => $idc,
+            ':ido' => $ido,
+            ':titre' => $titre,
+            ':note' => $note,
+            ':corps' => $com
+        ]);
 
     }catch(PDOException $e){
         print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -41,10 +54,25 @@ try {
     }
 
     // Requête pour récupérer les infos optionnel des activités
-    $stmtActivite = $bdh->prepare("SELECT a.*, o.* FROM pact.activite a INNER JOIN pact.offre o ON a.idO = o.ido WHERE o.ido = :idAnnonce");
+    $stmtActivite = $bdh->prepare("SELECT * FROM pact.activite WHERE ido = :idAnnonce");
     $stmtActivite->execute([':idAnnonce' => $idAnnonce]);
     $activite = $stmtActivite->fetchAll(PDO::FETCH_ASSOC);
 
+    $stmtParc = $bdh->prepare("SELECT * FROM pact.parc_d_attraction WHERE ido = :idAnnonce");
+    $stmtParc->execute([':idAnnonce' => $idAnnonce]);
+    $parc_actraction = $stmtParc->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmtSpectacle = $bdh->prepare("SELECT * FROM pact.spectacle WHERE ido = :idAnnonce");
+    $stmtSpectacle->execute([':idAnnonce' => $idAnnonce]);
+    $spectacle = $stmtSpectacle->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmtRestaurant = $bdh->prepare("SELECT * FROM pact.restauration WHERE ido = :idAnnonce");
+    $stmtRestaurant->execute([':idAnnonce' => $idAnnonce]);
+    $restaurant = $stmtRestaurant->fetchAll(PDO::FETCH_ASSOC);
+
+    $stmtVisite = $bdh->prepare("SELECT * FROM pact.visite WHERE ido = :idAnnonce");
+    $stmtVisite->execute([':idAnnonce' => $idAnnonce]);
+    $visite = $stmtVisite->fetchAll(PDO::FETCH_ASSOC);
 
     // Requête pour récupérer les images associées
     $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idAnnonce");
@@ -79,7 +107,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?php echo htmlspecialchars($offre['titre'] ?? 'Détails de l\'offre'); ?>
+        <?php echo htmlspecialchars($offre['categorie'] ?? 'Détails de l\'offre'); ?>
     </title>
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
@@ -90,16 +118,24 @@ try {
     class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
 
     <section class="section-page part-annonce">
-        <header>
+        <header> 
             <h1 class="titre-rouge">
                 <?php echo htmlspecialchars($offre['titre']); ?>
             </h1>
             <h2 class="sous-titre">
                 <?php echo htmlspecialchars($offre['ville']); ?> |
                 <?php echo htmlspecialchars($telephone); ?>
-                <?php if (!empty($offre['duree'])) echo " | Durée : " . htmlspecialchars($offre['duree']); ?>
-                <?php if (!empty($offre['age_min'])) echo " | Âge : " . htmlspecialchars($offre['age_min']) . " ans"; ?>
-                <?php if (!empty($offre['prix_min'])) echo " | Prix : " . htmlspecialchars($offre['prix_min']) . " €"; ?>
+                <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars($spectacle[0]['duree']); ?>
+                <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars($activite[0]['duree']); ?>
+                <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars($visite[0]['duree']); ?>
+
+                <?php if (!empty($activite[0]['age_min'])) echo " | Âge : " . $activite[0]['age_min'] . " ans"; ?>
+                <?php if (!empty($parc_actraction[0]['age_min'])) echo " | Âge : " . $parc_actraction[0]['age_min'] . " ans"; ?>
+
+                <?php   if (!empty($restaurant[0]['gamme_prix'])) {echo " | Prix : " . htmlspecialchars($restaurant[0]['gamme_prix']);}
+                        elseif (!empty($offre['prix_min'])) {echo " | Prix : " . htmlspecialchars($offre['prix_min']) . " €";} 
+                ?>
+
                 <?php echo htmlspecialchars($offre['gamme_prix'] ?? ''); ?>
             </h2>
 
@@ -224,14 +260,14 @@ try {
                     </div>-->
             </div>
             <?php 
-                    if (!empty($offre['carte'])) { ?>
+                    if (!empty($parc_actraction[0]['src_image'])) { ?>
             <div>
-                <img class="carte" src="../images/ <?php $offre['carte'] ?>" alt="carte géolocalisation">
+                <img class="carte" src="../images/<?php echo $parc_actraction[0]['carte'] ?>" alt="plan">
             </div>
             <?php
-                    } elseif (!empty($offre['src_image'])) { ?>
+                    } elseif (!empty($restaurant[0]['src_image'])) { ?>
             <div>
-                <img class="carte" src="../images/ <?php $offre['src_image'] ?>" alt="carte">
+                <img class="carte" src="../images/<?php echo $restaurant[0]['src_image'] ?>" alt="carte">
             </div>
             <?php
                     }
@@ -262,6 +298,7 @@ try {
                     <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
                 <?php endfor;?>
             </div>
+            <?php if (isset($_COOKIE['user'])){?>
             <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
                 <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
@@ -269,6 +306,15 @@ try {
                 <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
                 <input type="submit" id="bouton_publier" value="publier">
             </form>
+            <?php }else{ ?>
+                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                <textarea type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
+            <form method ="POST" action="connexion.php">
+                <input type="submit" id="bouton_publier" value="publier">
+            </form>    
+            <?php } ?>
         </article>
             <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
             <div class="alignement-conteneur-avis">

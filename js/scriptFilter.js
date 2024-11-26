@@ -5,15 +5,20 @@ const closeButton = document.getElementById('closeButton');
 const sortButton = document.getElementById('sortButton');
 const sortMenu = document.getElementById('sortMenu');
 const sortMenuItems = document.querySelectorAll('#sortMenu .menu-item');
+const overlayFiltre = document.getElementById('overlay-filtre');
 
 // Ouvrir le menu "Filtrer"
 filterButton.addEventListener('click', () => {
     menu.style.left = '0';
+    overlayFiltre.style.display = 'block';
+    document.body.classList.add('no-scroll'); // Empêche le scroll sur la page principale
 });
 
 // Fermer le menu "Filtrer"
 closeButton.addEventListener('click', () => {
     menu.style.left = '-273px';
+    overlayFiltre.style.display = 'none';
+    document.body.classList.remove('no-scroll'); // Réactive le scroll sur la page principale
 });
 
 // Ouvrir ou fermer le menu "Trier"
@@ -34,6 +39,8 @@ sortButton.addEventListener('click', (event) => {
 document.addEventListener('click', (event) => {
     if (!menu.contains(event.target) && !filterButton.contains(event.target)) {
         menu.style.left = '-273px';
+        overlayFiltre.style.display = 'none';
+        document.body.classList.remove('no-scroll'); // Réactive le scroll sur la page principale
     }
 });
 
@@ -53,4 +60,5 @@ sortMenuItems.forEach(item => {
         // Ajouter la classe active à l'élément cliqué
         item.classList.add('active');
     });
-}); 
+});
+

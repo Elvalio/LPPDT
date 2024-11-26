@@ -77,6 +77,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         <?php
             include 'header.php';
         ?>
+            <div>
+                <?php include 'filtreMobile.php'; ?>
+            </div>
         </header>
         <div class="main-content">
             <!-- Contenu principal de la page -->
@@ -112,7 +115,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </div>
                     </div>
                     <div class="NouveauALaUne">
-                        <div class="boutonNouveau NoSelect">
+                        <div class="boutonNouveau NoSelect" style="display: none;">
                             <p class="FS">Nouveau</p>
                         </div>
                         <div class="boutonALaUne NoSelect">
@@ -228,9 +231,12 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             <?php
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
-                    <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "A la une") {echo "aLaUne enRelief";}?>
+                    <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
                     <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>">
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
+                            <?php if ($value["option"] == "À la Une") { ?>
+                                <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
+                            <?php } ?>
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
                             <?php } else { ?>
@@ -309,10 +315,6 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                 <?php include_once'footer.php'; ?>
             </footer>
         
-        </div>
-
-        <?php include_once'footerNav.php' ?>
-
             
     </body>
 </html>

@@ -38,7 +38,6 @@
                 <button id="closeButton">×</button>
             </div>
             <div class="all-filter">
-                <p>TEST</p>
                 <div class="filter">
                     <p class="FS">Catégories</p>
                     <div class="filtre-type">

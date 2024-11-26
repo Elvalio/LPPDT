@@ -26,7 +26,7 @@
     font-family: 'TripSansUltra';
     src: url('./TripSans-Ultra.ttf') format('truetype');
   }
-  
+
 .body {
     display: flex;
     flex-direction: row;
@@ -39,6 +39,7 @@
     width: 85%;
     margin: 0;
 }
+
 .sous-titre {
     font-size: 1vw;
     color: black;
@@ -46,6 +47,7 @@
     width: 80%;
     margin: 0;
 }
+
 /* Définition d'un container pour gérer l'affichage */
 .container {
   overflow: hidden;
@@ -269,6 +271,12 @@
   margin-right: 10px;
 }
 
+/* 
+ * Cette règle CSS cible l'élément avec l'ID "container".
+ * Elle définit la largeur à 100% de son élément parent,
+ * applique un padding de 20 pixels sur tous les côtés,
+ * et définit la couleur de fond à gris clair (#f0f0f0).
+ */
 .side-contact div div {
   display: flex;
   flex-direction: row;
@@ -276,6 +284,10 @@
   margin-top: 10px;
 }
 
+/* 
+ * Cette règle CSS applique une couleur de fond à l'élément body.
+ * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
+ */
 .side-contact div div a  {
   display: flex;
   flex-direction: row;
@@ -468,8 +480,6 @@
     flex-direction: column;
   }
 }
-
-
 
 .poster_avis{
   margin : 10px;
