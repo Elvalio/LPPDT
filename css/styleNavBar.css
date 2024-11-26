@@ -7,7 +7,7 @@ body {
     top: 0;
     right:-30px;
     width: 30px;
-    height: 60px;
+    height: 75px;
     background-color: white;
     overflow: visible;
     border-radius: 0 25% 25% 0;
@@ -36,7 +36,7 @@ body {
     width: 80px; /* largeur fermée */
     height: 100vh;
     background-color: #ffffff;
-    transition: width 0.2s ease-in-out; /* animation sur la largeur */
+    transition: 0.2s cubic-bezier(0, 0, 0, 0.96);
     overflow: visible;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
@@ -153,30 +153,29 @@ body {
     height: 35px;
 }
 
-#sidebar .nav {
+#sidebar {
     display: flex;
     flex-direction: column;
-    padding: 10px 0;
 }
 
 #items{
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 82vh;
+    height: fit-content;
     
 }
 
 #top-items, #bottom-items{
     display: grid;
-    grid-template-rows: repeat(auto-fill, 30px); /* Chaque enfant a une hauteur de 50px */
-    gap: 15px; /* Espacement entre les enfants */
+    gap: 10px; /* Espacement entre les enfants */
     
 }
 
 #bottom-items{
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
 }
 
 
@@ -220,7 +219,6 @@ body {
 
 #sidebar.active .nav-item {
     border-radius: 4px;
-    transition: opacity 0.3s cubic-bezier(0.01, 0.01, 1, -0.3); /* Appliquer une transition à l'apparition */
 }
 
 .BO .actuel p{/*conteneur du logo actuel*/
@@ -245,7 +243,7 @@ body {
 
 
 #pact-item{
-    padding: 10px 0;
+    padding: 0;
     background-color: transparent;
 }
 
@@ -259,6 +257,10 @@ body {
 
 #email{
     font-size: 12px;
+}
+
+.nav-item{
+    display: none;
 }
 
 #sidebar.active .nav-item p {
@@ -280,9 +282,6 @@ body {
     background-color: transparent;
 }
 
-#sidebar.active #items{ 
-    margin: 0;
-}
 
 /* Lorsque l'utilisateur survole */
 #sidebar.active .notification-badge {
@@ -295,7 +294,7 @@ body {
     margin-left: 80px; /* marge pour la barre fermée */
     z-index: -1;
     padding: 20px;
-    transition: margin-left 0.1s ease-in-out;
+    transition: margin-left ease-in-out;
 }
 
 @media screen and (max-width: 800px) {

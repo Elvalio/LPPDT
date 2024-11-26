@@ -5,7 +5,23 @@ document.addEventListener("DOMContentLoaded", function() {
     const pactItem = document.querySelector("#pact-item");
     const bouton = document.querySelector(".sphere");
     const itemToHideFO = ['tableau-de-bord', 'facturation', 'creation', 'notification-avec-notif'];
-    const itemEnConstruction = ['favoris', 'historique', 'parametre']
+    const itemEnConstruction = ['favoris', 'historique', 'parametre', 'notification-avec-notif'];
+    const accueilItem = document.querySelector('[data-icon="accueil"]');
+
+    function changerApparenceIcon(p, it, im, ic){
+        if (p === currentPage) {
+            it.classList.add('actuel');
+            if(sidebar.classList.contains("FO")){
+                im.src = `../icons/icons-bleu/icon-${ic}-bleu.svg`;  // Chemin pour l'icône actif
+            } else {
+                im.src = `../icons/icons-rouge/icon-${ic}-rouge.svg`;  // Chemin pour l'icône actif
+            }
+        } else {
+            im.src = `../icons/icons-gris/icon-${ic}-gris.svg`;   // Chemin pour l'icône inactif
+        }
+    };
+
+    changerApparenceIcon('accueil.php', accueilItem, accueilItem.querySelector('.logo-nav'), 'accueil');
 
     //logo pact en fonction BO ou FO
     if (sidebar) {
@@ -33,35 +49,25 @@ document.addEventListener("DOMContentLoaded", function() {
         if (img && img.id === 'img-profile') {
             // Ne rien faire pour cet élément
             console.log("Image du profil, ne pas changer.");
+            item.style.display= 'flex';
             return;  // Sortir de la boucle pour cet élément
         }
 
         // Récupérer la valeur de data-icon pour les autres éléments
         const iconName = item.dataset.icon;
         const page = item.getAttribute('href');
-
+        console.log(item);
         if (sidebar.classList.contains('FO')){
-            if (itemToHideFO.includes(iconName) || itemEnConstruction.includes(iconName)){
-                item.style.display= 'none';
+            if (!itemToHideFO.includes(iconName) && !itemEnConstruction.includes(iconName)){
+                item.style.display= 'flex';
+                changerApparenceIcon(page, item, img, iconName);
             }
         } else {
-            if (itemEnConstruction.includes(iconName)){
-                item.style.display= 'none';
-            } else {
-                // Modifier l'image uniquement si l'élément a un data-icon
-                if (page === currentPage) {
-                    item.classList.add('actuel');
-                    if(sidebar.classList.contains("FO")){
-                        img.src = `../icons/icons-bleu/icon-${iconName}-bleu.svg`;  // Chemin pour l'icône actif
-                    } else {
-                        img.src = `../icons/icons-rouge/icon-${iconName}-rouge.svg`;  // Chemin pour l'icône actif
-                    }
-                } else {
-                    img.src = `../icons/icons-gris/icon-${iconName}-gris.svg`;   // Chemin pour l'icône inactif
-                }
+            if (!itemEnConstruction.includes(iconName)){
+                item.style.display= 'flex';
+                changerApparenceIcon(page, item, img, iconName);
             }
         }
-
     });
 
     bouton.addEventListener('click', function () {

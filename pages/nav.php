@@ -1,23 +1,17 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
         <link rel="stylesheet" href="../css/styleNavBar.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
-    </head>
-    <body>
+
     <?php
 
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
         if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")) { ?>
-            <div class="TS-bold BO" id="sidebar"> <?php
+            <div class="TS BO" id="sidebar"> <?php
         } else {?>
-            <div class="TS-bold FO" id="sidebar"> <?php
+            <div class="TS FO" id="sidebar"> <?php
             
         } ?>
-                <nav>  
                     <?php
                         $estMembre = true;
                         if (isset($_COOKIE['type_compte'])) {
@@ -26,18 +20,18 @@
                             }
                         }
                     ?>
-                    <a href="#" id="pact-item">
-                        <img src="#" alt="Image par défaut" class="image image-default">
-                        <img src="#" alt="Image au survol" class="image image-hover">      
+                    <a href="accueil.php" id="pact-item">
+                        <img  class="image image-default">
+                        <img  class="image image-hover">      
                     </a> 
                     <div id="items">
                         <div id="top-items">
-                            <a href="#" class="nav-item actuel" data-icon="accueil">
+                            <a href="accueil.php" class="nav-item" data-icon="accueil">
                                 <img src="../icons/icons-gris/icon-accueil-gris.svg" alt="Logo accueil" class="logo-nav">
                                 <p>Accueil</p>
                             </a>
 
-                            <a href="#" class="nav-item" data-icon="tableau-de-bord">
+                            <a href="tableau_de_bord.php" class="nav-item" data-icon="tableau-de-bord">
                                 <img src="../icons/icons-gris/icon-tableau-de-bord-gris.svg" alt="Logo tableau de bord" class="logo-nav">
                                 <p>Tableau de bord</p>
                             </a>
@@ -51,12 +45,12 @@
                                 <p>Historique</p>
                             </a>
 
-                                <a href="#" class="nav-item" data-icon="facturation">
+                                <a href="facturation.php" class="nav-item" data-icon="facturation">
                                     <img src="../icons/icons-gris/icon-facturation-gris.svg" alt="Logo Facturation" class="logo-nav">
                                     <p>Facturation</p>
                                 </a>
 
-                                <a href="#" class="nav-item" data-icon="creation">
+                                <a href="creation_offre.php" class="nav-item" data-icon="creation">
                                     <img src="../icons/icons-gris/icon-creation-gris.svg" alt="Logo création offre" class="logo-nav">
                                     <p>Créer une offre</p>
                                 </a>
@@ -91,7 +85,7 @@
                                         <p>Se déconnecter</p>
                                     </a>
                                 <?php } else { ?>
-                                    <a href="#" class="nav-item" data-icon="deconnection">
+                                    <a href="creation_compte_formulaire.php" class="nav-item" data-icon="deconnection">
                                         <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo Inscription" class="logo-nav">
                                         <p>S'inscrire</p>
                                     </a>
@@ -101,14 +95,14 @@
                             <?php if (isset($_COOKIE['type_compte'])) {?>
                                 
                                 <a href="#" class="nav-item">
-                                    <img src="../pages/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
+                                    <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                                     <div id="infoProfile">
                                         <p id="prenom" class="TS">Michael Smith</p>
                                         <p id="email" class="TS">michaelsmith12@gmail.com</p>
                                     </div>
                                 </a>
                             <?php } else { ?>
-                                <a href="#" class="nav-item">
+                                <a href="connexion.php" class="nav-item">
                                     <img src="../icons/utilisateur.png" alt="Logo connexion" class="logo-nav" id="img-profile">
                                     <div id="infoProfile">
                                         <p id="connexion" class="TS">Se connecter</p>
@@ -118,15 +112,13 @@
 
                         </div>
                     </div>
-                </nav>
                 <div class="sphere">
                     <img src="../icons/arrow.svg">
                 </div>
             </div>
             
         <script src="../nav.js"></script>
-    </body>
-</html>
+
 
 
         <!-- IMPORTANT: rajouter le code ci-dessous pour que la nav fonctionne correctement -->
