@@ -22,6 +22,11 @@
     .phone-element {    
       display: none;
     }
+
+    html {
+        scrollbar-gutter: stable;
+      }
+      
   }
   
 
@@ -35,6 +40,8 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 50px;
+    margin: 24px;
 }
 
 header + nav {
@@ -47,6 +54,17 @@ header + nav {
     display: flex;
     flex-direction: row;
     align-items: center; /* Aligne verticalement le contenu */
+    justify-content: space-between; /* Espace entre les éléments */
+
+    padding: 0 25px 0 14px;
+}
+
+.space-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
 }
 
 p {
@@ -93,24 +111,46 @@ input:focus {
 .filtrer-trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
+    gap: 20px;
 }
 
-.filtrer-bouton, .trier {
+.trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
     justify-content: space-between; /* Espace entre les boutons */
     align-items: center; /* Centre verticalement les éléments */
+    
     border: 1px solid #E6E6E6;
+    border-radius: 8px;
+
     width: 220px;
     height: fit-content;
+    
     padding: 15px;
     margin: 10px;
+}
+
+.filtrer-bouton {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 8px;
+    width: 100px;
+    height: 40px;
+    align-self: center;
+}
+
+.filtrer-bouton:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
 }
 
 .filtrer-trier div {
     display: flex; /* Pour les éléments internes */
     align-items: center; /* Centre verticalement le texte et l'image */
-    gap: 8px; /* Espacement entre le texte et l'image */
+    gap: 12px; /* Espacement entre le texte et l'image */
 }
 
 .filtrer-trier div p {
@@ -118,9 +158,15 @@ input:focus {
     margin: 0; /* Supprime les marges par défaut du texte */
 }
 
-.filtrer-trier div img {
+.trier img {
     width: 12px;
     height: 12px;
+    object-fit: contain;
+}
+
+.filtrer-bouton img {
+    width: 20px;
+    height: 20px;
     object-fit: contain;
 }
 
@@ -134,35 +180,52 @@ main {
 }
 
 main.active_filter {
-    transform: translateY(150px);
+    transform: translateY(170px);
     transition: all 0.3s ease-in-out;
+    
 }
 
 .all-filter {
     display: none;
-    height: 150px;
+    width: fit-content;
+    height: 180px;
+    margin: 0 auto 20px auto;
 }
 
 .all-filter.active {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    align-items: center;
+    justify-content: center;
+    
     transform: translateY(0);
     transition: all 0.3s ease-in-out;
+
+    border: 1px solid #E6E6E6;
+    border-radius: 10px;
 }
 
 .filter {
     display: flex;
     flex-direction: column;
-    padding: 10px;
-    border: 1px solid #E6E6E6;
-    margin: 10px;
-    background-color: #FFFFFF;
-    border-radius: 10px;
+    justify-content: baseline;
+
+
+    width: fit-content;
+    height: 100%;
+    padding: 0 30px;
+    margin: 0 25px inherit 12.5px;
+
+    border-right: 1px solid #E6E6E6;
 
     transform: translateY(-20px);
     opacity: 0;
     transition: all 0.2s ease;
+}
+
+.filter:last-child {
+    border-right: none;
 }
 
 .filter.show {
@@ -170,6 +233,15 @@ main.active_filter {
     transform: translateY(0);
     transition: translateY 0.15s ease;
     opacity: 1;
+}
+
+.filter p {
+    width: 100%;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #595959;
+    text-align: center;
+    margin: 10px 0;
 }
 
 
@@ -181,13 +253,20 @@ main.active_filter {
 .filtre-type {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-
-    padding: 15px 50px 15px 15px;
+    align-self: center;
+    gap: 5px;
 }
 
 .filtre-case label {
     color: #595959;
+    align-self: center;
+}
+
+.filtre-case {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
 }
 
 
@@ -206,7 +285,6 @@ main.active_filter {
     width: 170px;
     height: fit-content;
     padding: 10px 15px;
-    margin: 2px;
 }
 
 .search-filter > img {
@@ -224,12 +302,15 @@ main.active_filter {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
-    height: fit-content;
-
-    padding: 15px;
 }
 
+.filtre-lieu-case {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: scroll;
+    max-height: 80px;
+}
 
 /* ========================================= */
 /*       STYLES POUR LES FILTRES DE TEMPS    */
@@ -240,14 +321,6 @@ main.active_filter {
     flex-direction: row;
     align-items: center;
     gap: 5px;
-
-    border: 1px solid #D9D9D9;
-    border-radius: 20px;
-
-    width: fit-content;
-    height: fit-content;
-
-    padding: 10px 15px;
 
 }
 
@@ -297,9 +370,6 @@ input#date-end, input#date-start {
     align-items: center;
 
     gap: 8px;
-
-    width: 260px;
-    height: fit-content;
 
 }
 
@@ -400,37 +470,6 @@ input[type="range"]::-ms-thumb {
     right: 0;
 }
 
-#valider-prix {
-    display: none;
-}
-
-#valider-prix.active:hover {
-    transition: all 0.15s ease; /* Transition pour l'animation */
-    background-color: #2C2C2C;
-    color: #F5F5F5;
-}
-
-#valider-prix.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: #2C2C2C;
-    border: 1px solid #2C2C2C;
-    background-color: white;
-
-    font-size: 1.1em;
-    
-    border-radius: 30px;
-    
-    width: fit-content;
-    height: fit-content;
-    
-    margin: 10px;
-    padding: 8px 12px;
-}
-
-
 /* ========================================= */
 /*         STYLES POUR LES FILTRES DE NOTE   */
 /* ========================================= */
@@ -440,11 +479,6 @@ input[type="range"]::-ms-thumb {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-
-    width: fit-content;
-    height: fit-content;
-
-    padding: 20px;
 }
 
 .note {
@@ -516,6 +550,15 @@ input[type="range"]::-ms-thumb {
     border-bottom: none; /* Pas de bordure pour le dernier élément */
 }
 
+
+.dropdown-menu li:last-child.active {
+    border-bottom-left-radius: 8px;
+}
+
+.dropdown-menu li:first-child.active {
+    border-top-left-radius: 8px;
+}
+
 .dropdown-menu a {
     text-decoration: none;
     color: #737373;
@@ -540,6 +583,7 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: row;
     align-self: center;
+    gap: 4px;
 }
 
 .NouveauALaUne div {
@@ -551,7 +595,7 @@ input[type="range"]::-ms-thumb {
     width: fit-content;
     height: fit-content;
     padding: 5px 8px; /* Espacement intérieur pour le texte */
-    margin: 2px;
+    /* margin: 2px; */
     transition: background-color 0.3s, color 0.3s;
 }
 
@@ -560,19 +604,14 @@ input[type="range"]::-ms-thumb {
     color: #757575;
 }
 
-.NouveauALaUne div img {
-    width: 12px;
-    height: 12px;
-    object-fit: contain;
-    display: none; /* Masqué par défaut */
-}
-
 .NouveauALaUne div img.show {
     display: block; /* Affiche l'image lorsque la classe 'show' est ajoutée */
 }
 
 .NouveauALaUne div.active {
     background-color: #2C2C2C; /* Changer la couleur du fond lorsqu'actif */
+}
+.NouveauALaUne div.active p {
     color: #F5F5F5; /* Couleur du texte en mode actif */
 }
 
@@ -583,30 +622,40 @@ input[type="range"]::-ms-thumb {
 @media (min-width: 801px) {
 
 .carte_offre {
-    padding: 16px;
-    margin: 24px;
+    /* margin: 24px; */
     width: 240px;
-    height: fit-content;
+    min-height: 320px;
+    height: auto;
     min-width: 240px;
     border: 1px solid #D9D9D9;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
-    gap: 8px;
+    gap: 200px;
+    border-radius: 15px;
 }
 
 .carte_offre img {
     width: 100%;
-    object-fit: contain;
+    height: 250px;
+    object-fit: cover;
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+    margin-bottom: 10px;
+}
+
+.carte_offre .infoAnnonce, .carte_offre .titreAnnonce {
+    margin-left: 8px;
 }
 
 .carte_offre .infoAnnonce {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    width: 150px;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 15px;
 }
 
 .carte_offre .infoAnnonce p {
@@ -614,33 +663,78 @@ input[type="range"]::-ms-thumb {
     font-weight: bold;
 }
 
+.carte_offre .infoAnnonce .textAvis {
+    font-weight: normal;
+}
+
 .carte_offre .infoAnnonce .etoileNote {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 3px;
 }
 
 .carte_offre .infoAnnonce .etoileNote img {
     width: 18px;
     height: 18px;
     object-fit: cover;
-    margin: 0 2px;
+    margin: 1px 0;
 }
 
 
 .carte_offre a {
     text-decoration: none;
 }
+
+.phone-element, .mobile-footer{
+    display: none;
 }
 
 
+/* A AJOUTER */
+
+.enRelief {
+    background-image: url(../images/gold.jpg);
+    background-size: cover;
+    background-position: center;
+    /* background-color: rgba(255, 255, 74, 0.3); */
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.etoileALaUne {
+    width: 50px !important;
+    height: 50px !important;
+    object-fit: cover !important;
+    margin: -15px -20px;
+    position: absolute !important;
+    z-index: 1 !important;
+    /* box-shadow: 6px 5px 20px 5px rgba(0,0,0,0.25);
+    background-color: rgba(0, 0, 0, 0.20);
+    border-radius: 100%; */
+}
+
+/* -------------------------- */
 
 
-@media screen and (max-width: 768px) {
+.carte_offre:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1.5px);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+}
+
+/* =========================================================== */
+/*           STYLES POUR LA PAGE ACCUEIL MOBILE                */
+/* =========================================================== */
+
+@media screen and (max-width: 800px) {
+
 
     .nav_space {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
-
+    
     .filtrer-trier {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
@@ -650,13 +744,230 @@ input[type="range"]::-ms-thumb {
         height: fit-content;
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
         flex-wrap: wrap;
-        
     }
+
+    div.phone-element  {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
+
+    .carte_offre img {
+        width: 100%;
+        height: 100px;
+        object-fit: cover;
+        overflow: hidden;
+    }
+
+    .desktop-element {
+        display: none;
+    }
+
+
+    .carte_offre a {
+        text-decoration: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 5px; /* Réduction de l'espace entre les éléments */
+        max-height: 150px; /* Ajuste selon la taille que tu souhaites */
+        overflow: hidden; /* Cache le texte qui dépasse */
+    }
+
+    .noteAnnonce > img {
+        width: 12px;
+        height: 12px;
+        object-fit: cover;
+    }
+
+    .carte_offre.phone-element {
+        background-color: white;
+        border: 1px solid var(--bleuFonce-rougeFonce);
+        border-radius: 8px;
+        padding: 25px; /* Augmentation du padding pour agrandir l'espace entre le contenu et la bordure */
+        max-width: 550px; /* Case légèrement plus grande */
+        width: 80%; /* Légère augmentation de la largeur pour équilibrer */
+        margin: 20px auto; /* Ajustement de la marge externe */
+    }
+    
+    .titreAnnonce {
+        font-size: 1.1rem; /* Taille de la police inchangée */
+        color: var(--bleuFonce-rougeFonce);
+        font-family: 'TripSansBold';
+        margin-bottom: 3px; /* Moins d'espace en dessous */
+    }
+    
+    .resumeAnnonce {
+        font-size: 0.8rem; /* Taille de la police inchangée */
+        color: #333;
+        font-family: 'TripSansRegular';
+        margin-bottom: 3px; /* Moins d'espace en dessous */
+        overflow: hidden;
+        text-overflow: ellipsis; /* Ajoute "..." à la fin du texte qui dépasse */
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* Limite le texte à 3 lignes */
+        -webkit-box-orient: vertical;
+    }
+    
+    .villeAnnonce {
+        font-size: 0.7rem; /* Taille de la police inchangée */
+        color: #666;
+        font-family: 'TripSansRegular';
+        margin-bottom: 0; /* Pas d'espace en dessous */
+    }
+    
+    .etoileNote {
+        font-size: 1rem; /* Taille des étoiles inchangée */
+        color: var(--bleu-rouge);
+        font-family: 'TripSansBold';
+        text-align: center;
+        align-self: start;
+        margin-bottom: 2px; /* Réduction de l'espace entre les étoiles et l'image */
+    }
+    
+    .conteneurImage {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+    }
+    
+    .conteneurImage > img {
+        width: 100px; /* Taille de l'image inchangée */
+        height: auto;
+        border-radius: 8px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+    }
+
+    .InfoOffreMobile {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .NoteImageOffreMobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .etoileNote {
+        display: flex;
+        flex-direction: row;
+        gap: 3px;
+        margin-left: 6px;
+    }
+
+    .etoileNote img {
+        width: 15px;
+        height: 15px;
+        object-fit: cover;
+    }
+
 }
 
-@media screen and (max-width: 1180px) {
 
-    .NouveauALaUne {
-        flex-direction: column; /* Change la direction en colonne pour les petits écrans */
-    }
+/* =========================================================== */
+/*                     STYLES POUR LA POP-UP                   */
+/* =========================================================== */
+
+
+.popup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    background-color: var(--gris-clair);
+    border-radius: 2px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    
+    padding: 10px 20px;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.4s, transform 0.4s;
+    z-index: 1000;
 }
+
+.popup-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    gap: 5px;
+}
+
+.popup-text p {
+    color: var(--noir);
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.popup-text p+p {
+    color: var(--noir);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: lighter;
+}
+
+.popup a {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    
+    text-decoration: none;
+
+    padding: 10px 25px;
+    margin: 0 10px;
+
+    border-radius: 5px;
+}
+
+.popup a:hover {
+    background-color: var(--bleuFonce-rougeFonce);
+    transition: 0.4s;
+}
+
+.popup img {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+
+    cursor: pointer;
+
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    
+    padding: 1.5px;
+
+    background-color: var(--noir);
+
+    border: 1px solid var(--blanc);
+    border-radius: 25px;
+}
+
+/* Lorsque la pop-up est visible */
+.popup.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+
