@@ -1,10 +1,33 @@
 document.addEventListener("DOMContentLoaded", function() {
     const currentPage = window.location.pathname.split("/").pop();
     const navItems = document.querySelectorAll('.nav-item');
+    const sidebar = document.getElementById("sidebar");
+    const pactItem = document.querySelector("#pact-item");
+    const bouton = document.querySelector(".sphere");
+    const itemToHideFO = ['tableau-de-bord', 'facturation', 'creation', 'notification-avec-notif'];
+    const itemEnConstruction = ['favoris', 'historique', 'parametre']
 
+    //logo pact en fonction BO ou FO
+    if (sidebar) {
+        const imageDefault = pactItem.querySelector(".image-default"); // Première image
+        const imageHover = pactItem.querySelector(".image-hover");     // Deuxième image
+    
+        if (sidebar.classList.contains("FO")) {
+            // Si la classe est "BO"
+            imageDefault.src = "../logo/logo_reduit_vert.png"; // Définir l'image 1
+            imageHover.src = "../logo/logo_vert.png"; // Définir l'image 1-hover
+        } else if (sidebar.classList.contains("BO")) {
+            // Si la classe est "FO"
+            imageDefault.src = "../logo/logo_reduit_rouge.png"; // Définir l'image 2
+            imageHover.src = "../logo/logo_rouge.png"; // Définir l'image 2-hover
+        }
+    }
+
+    //icons nav
     navItems.forEach(item => {
         // Récupérer l'image associée à l'élément de navigation
         const img = item.querySelector('.logo-nav');
+        
 
         // Vérifier si c'est l'élément avec l'image spécifique à ne pas changer
         if (img && img.id === 'img-profile') {
@@ -17,14 +40,32 @@ document.addEventListener("DOMContentLoaded", function() {
         const iconName = item.dataset.icon;
         const page = item.getAttribute('href');
 
-        // Modifier l'image uniquement si l'élément a un data-icon
-        if (iconName) {
-            if (page === currentPage && page != "en-construction.php") {
-                item.classList.add('actuel');
-                img.src = `../icons/icons-rouge/icon-${iconName}-rouge.svg`;  // Chemin pour l'icône actif
+        if (sidebar.classList.contains('FO')){
+            if (itemToHideFO.includes(iconName) || itemEnConstruction.includes(iconName)){
+                item.style.display= 'none';
+            }
+        } else {
+            if (itemEnConstruction.includes(iconName)){
+                item.style.display= 'none';
             } else {
-                img.src = `../icons/icons-gris/icon-${iconName}-gris.svg`;   // Chemin pour l'icône inactif
+                // Modifier l'image uniquement si l'élément a un data-icon
+                if (page === currentPage) {
+                    item.classList.add('actuel');
+                    if(sidebar.classList.contains("FO")){
+                        img.src = `../icons/icons-bleu/icon-${iconName}-bleu.svg`;  // Chemin pour l'icône actif
+                    } else {
+                        img.src = `../icons/icons-rouge/icon-${iconName}-rouge.svg`;  // Chemin pour l'icône actif
+                    }
+                } else {
+                    img.src = `../icons/icons-gris/icon-${iconName}-gris.svg`;   // Chemin pour l'icône inactif
+                }
             }
         }
+
+    });
+
+    bouton.addEventListener('click', function () {
+        sidebar.classList.toggle('active'); // Ajouter/retirer la classe active
+        bouton.classList.toggle('active');
     });
 });
