@@ -12,10 +12,9 @@ SET SCHEMA 'pact';
   insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('IcyTerra', 'Chram', 'Ambre', 'ambre.chram@wanadoo.fr', '0754552861', 'LeMDPEstRéel', 'Plouaret', 4, 'rue de l''armorique', 22420, '');
 
 -- TYPE_OFFRE --
-  insert into pact._type_offre (nom_type, cout) values ('Gratuit', 0);
-  insert into pact._type_offre (nom_type, cout) values ('Standard', 10);
-  insert into pact._type_offre (nom_type, cout) values ('Premium', 20);
-
+  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Gratuit', 0, 0);
+  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Standard', 1.67, 2);
+  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Premium', 3.34, 4);
 
 
 
@@ -142,14 +141,3 @@ insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, con
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (6, 5, 'Parc d''attraction original', 4, 'Parc d''attraction très sympathique avec un thème unique et des attractions mémorables. J''aurai espéré voir plus d''attractions à sensation forte cependant.', now(), 'famille');
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (1, 6, 'Agréable', 4, 'Étant tous des kayakistes depuis plusieurs années, nous avons apprécié l''activité ainsi que ses paysages divers offerts.', now(), 'week-end entre ami');
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (3, 6, 'Inacceptable', 1, 'Lorsque nous sommes arrivés sur place, il manquait de l''équipement qui était censé être mis à disposition, ce qui a énormément retardé notre départ.', now(), 'voyage en famille.');
-
-
--- FACTURE --
-
--- insert into pact.facture(numFacture) values (NULL);
--- insert into pact.facture(numFacture) values (09782326747);
--- insert into pact.facture(numFacture) values (09782367648);
--- insert into pact.facture(numFacture) values (09782361252);
--- insert into pact.facture(numFacture) values (09782365144);
--- insert into pact.facture(numFacture) values (09782367564);
--- insert into pact.facture(numFacture) values (09782361449);
