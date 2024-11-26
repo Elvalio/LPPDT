@@ -16,3 +16,28 @@
 #modif-infos{
     width: 10%;
 }
+
+.note-date-publi{
+    display: flex;
+    align-items: center;
+}
+
+.avis{
+    border-radius: 5px;
+    border: solid;
+    border-width: 1px;
+    margin: 25px 0 25px 0;
+    padding: 10px;
+}
+
+p{
+    padding: 5px 0 5px 0 ;
+}
+
+.avis > .note-date-publi > p{
+    padding-left: 5px;
+}
+
+.mes-avis{
+    width: 100%;
+}
