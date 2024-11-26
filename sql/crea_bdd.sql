@@ -69,7 +69,6 @@ create table pact._secteur_public(
 );
 
 create table pact._secteur_prive(
-
   idC integer,
   iban varchar(34),
   bic varchar(11),
