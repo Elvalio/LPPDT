@@ -12,10 +12,9 @@ SET SCHEMA 'pact';
   insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('IcyTerra', 'Chram', 'Ambre', 'ambre.chram@wanadoo.fr', '0754552861', 'LeMDPEstRéel', 'Plouaret', 4, 'rue de l''armorique', 22420, '');
 
 -- TYPE_OFFRE --
-  insert into pact._type_offre (nom_type, cout) values ('Gratuit', 0);
-  insert into pact._type_offre (nom_type, cout) values ('Standard', 10);
-  insert into pact._type_offre (nom_type, cout) values ('Premium', 20);
-
+  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Gratuit', 0, 0);
+  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Standard', 1.67, 2);
+  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Premium', 3.34, 4);
 
 
 
