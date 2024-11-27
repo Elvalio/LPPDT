@@ -1,46 +1,83 @@
 <?php ini_set('display_errors', 1);
 error_reporting(E_ALL); 
-error_reporting(0); if (!empty($_POST)) { 
-    
+error_reporting(0); if (!empty($_POST)) {
+
+
     include("../sql/connect_params.php");
-    try{ 
+    try{
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
-        if($_POST["type"]=="membre"){
+        if (isset($_POST["type-entreprise"])) {
+            $form = $_POST["type-entreprise"];
+        }
 
+        if ($form == "privee") {
             $nom = $_POST["nom"];
             $prenom = $_POST["prenom"];
-            $pseudo = $_POST["pseudo"];
+            $denomination = $_POST["denomination"];
+            $raison_sociale = $_POST["denomination"];
             $email = $_POST["email"];
             $telephone = $_POST["telephone"];
             $code_postal = $_POST["codepostal"];
             $ville = $_POST["ville"];
             $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-            $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
-            array_shift($temp);                         //On supprime le numéro de la voie
-            $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
+            $num_adresse = $temp[0];                                       //On récupère le numéro de la voie qui sera toujours la premiere valeur
+            array_shift($temp);                                    //On supprime le numéro de la voie
+            $adresse = implode(" ", $temp);              //On implode le reste de l'adresse (combine un array en string)
+            $siren = $_POST["num_SIREN"];
+            $siren = preg_replace('/\s+/', '', $siren);  // Supprime tous les espaces, tabulations, sauts de ligne, etc.
             $mdp = $_POST["password"];
+            $iban = $_POST["iban"];
+            $bic = $_POST["bic"];
+            $codePro = time();
 
-            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            if (!empty($_POST["iban"])) {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            } else {
+                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            }
 
+        } else if ($form == "publique") {
+            $nom = $_POST["nom"];
+            $prenom = $_POST["prenom"];
+            $denomination = $_POST["denomination"];
+            $email = $_POST["email"];
+            $telephone = $_POST["telephone"];
+            $code_postal = $_POST["codepostal"];
+            $ville = $_POST["ville"];
+            $temp = explode(" ",$_POST["adresse"]);
+            $num_adresse = $temp[0];
+            array_shift($temp);
+            $adresse = implode(" ", $temp);
+            $mdp = $_POST["password"];
+            $codePro = time();
+
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
         }
+
+
         $stmt->execute();
+
 
         if ($stmt!=[]) {
             $idC = strval($stmt[0]['idc']);
-            setcookie("user", $idC, time() + 3600, '/');
-            setcookie("type_compte", 'membre', time() + 3600, '/');
-            header('Location:accueil.php');
+            setcookie("user", $idC, time() + 3600);
+
+            if ($stmt!=[]) {
+                setcookie("type_compte", 'pro_prive', time() + 3600, '/');
+            }else{
+                setcookie("type_compte", 'pro_public', time() + 3600, '/');
+            }
+            header('Location:tableau_de_bord.php');   
         }
-
-
+        $dbh = null;
     }catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
     }
-    $dbh = null;
-    ?>
-    <?php } ?>
+
+
+} ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -50,12 +87,12 @@ error_reporting(0); if (!empty($_POST)) {
     <title>Inscription</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/creation_compte.css">
-    <script src="../js/creation_compte_membre.js" defer></script>
+    <script src="../js/creation_compte_pro.js" defer></script>
 </head>
 
 <body>
     <!-- Bouton de retour -->
-    <a href="connexion.php">
+    <a href="creation_compte_formulaire.php">
         <div class="bouton-retour-page-création">
             <button class="FS">
                 <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
@@ -66,91 +103,117 @@ error_reporting(0); if (!empty($_POST)) {
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
         <div class="menu-links">
-            <div class="inscription-membre TS-bold" id="link-membre">
-                <h1 class="TS-bold">Création d'un compte membre</h1>
+            <div class="inscription-pro TS-bold" id="link-pro">
+                <h1 class="TS-bold">Création d'un compte pro</h1>
             </div>
         </div>
 
-
-        <!-- Formulaire pour l'inscription membre -->
-        <div class="form-container-page-creation-compte" id="form-membre">
-            <form name="membre" action="creation_compte_formulaire.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="type" value="membre">
+        <!-- Formulaire pour l'inscription professionnelle privée -->
+        <div class="form-container-page-creation-compte" id="form-pro-privee">
+            <form name="privee" action="creation_compte_pro_formulaire.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="pro_prive">
                 <div class="form-group">
                     <div class="left-column">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Colomb" id="nom-membre" name="nom" required>
-                        <label class="erreur" id="erreurnom"></label>
+                        <input type="text" class="FS" placeholder="Polo" id="nom-pro" name="nom" required>
                         
                         <label for="prenom" class="FS">Prénom<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Christophe" id="prenom-membre" name="prenom" required>
-                        <label class="erreur" id="erreurprenom"></label>
+                        <input type="text" class="FS" placeholder="Marco" id="prenom-pro" name="prenom" required>
+
+                        <label for="denomination" class="FS">Dénomination Sociale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="Les voyages de Marco Polo" id="denomination" name="denomination" required>
+
+                        <label for="email" class="FS">E-mail<span class="required">*</span></label>
+                        <input type="email" placeholder="marco.polo@gmail.com" id="email-pro" name="email" required>
                         
-                        <label for="pseudo" class="FS">Pseudonyme<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="Christophorus" id="pseudo-membre" name="pseudo" required>
-                        <label class="erreur" id="erreurpseudo"></label>
+                        <label for="num_SIREN" class="FS">Numéro de SIREN<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="ex : 362 521 879" id="num_SIREN-pro" name="num_SIREN" required>
+
+                        <div class="choix_entreprise">
+                            <label for="type-entreprise">
+                                Type d'entreprise :
+                            </label>
+                            <div id="type-entreprise" class="radio-group">
+                                <input type="radio" name="type-entreprise" value="publique" class="radio-button">
+                                <span class="radio-label">Entreprise publique</span>
+
+                                <input type="radio" name="type-entreprise" value="privee" checked class="radio-button">
+                                <span class="radio-label">Entreprise privée
+                            </div>
+                        </div>
+
+                        <div class="spacer"></div>
+
+                        <div class="element_prive1" id="elements-privee1">
+                            <label for="iban" class="FS">IBAN :</label>
+                            <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX">
+                        </div>
+                    </div>
+
+                    <div class="right-column">
+                        <label for="telephone-pro" class="FS">Téléphone<span class="required">*</span></label>
+                        <input type="tel" class="FS" placeholder="0637816458" id="telephone-pro" name="telephone" required>
+
+                        <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="5 rue de la gare" id="adresse-pro" name="adresse" required>
 
                         <div class="row">
                             <div class="input-wrapper">
                                 <label for="codepostal" class="FS">Code postal<span class="required">*</span></label>
-                                <input type="text" class="FS" placeholder="22300" id="codepostal-membre" name="codepostal" required>
-                                <label class="erreur" id="erreurcodep"></label>
+                                <input type="text" class="FS" placeholder="22300" id="codepostal-pro" name="codepostal" required>
                             </div>
 
                             <div class="input-wrapper">
                                 <label for="ville" class="FS">Ville<span class="required">*</span></label>
-                                <input type="text" class="FS" placeholder="Lannion" id="ville-membre" name="ville" required>
-                                <label class="erreur" id="erreurville"></label>
+                                <input type="text" class="FS" placeholder="Lannion" id="ville-pro" name="ville" required>
                             </div>
                         </div>
-
-                        <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="5 rue de  la gare" id="adresse-membre" name="adresse" required>
-                        <label class="erreur" id="erreuradresse"></label>
-                    </div>
-                    <div class="right-column">
-                        <label for="email" class="FS">E-mail<span class="required">*</span></label>
-                        <input type="email" class="FS" placeholder="christophe.colomb@gmail.com" id="email-membre" name="email" required>
-                        <label class="erreur" id="erreuremail"></label>
-
-                        <label for="telephone" class="FS">Téléphone<span class="required">*</span></label>
-                        <input type="tel" class="FS" placeholder="0641379428" id="telephone-membre" name="telephone" required>
-                        <label class="erreur" id="erreurtelephone"></label>
-
+                        
                         <label for="password" class="FS">Mot de passe<span class="required">*</span></label>
-                        <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-membre" name="password" required>
-                        <label class="erreur" id="erreurmdp"></label>
+                        <input type="password" class="FS" placeholder="Entrez votre mot de passe" id="password-pro" name="password" required>
 
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
-                        <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-membre" name="confirm_password" required>
-                        <label class="erreur" id="erreurconmdp"></label>
-                        
-                        <div class="checkbox">
-                            <input type="checkbox" id="terms" name="terms" required>
-                            <span class="FS-bold">
-                                Accepter les 
-                                <a href="conditions_d_utilisation.php" target="_blank">conditions générales d'utilisation de PACT</a>
-                                <span class="required">*</span>
-                            </span>
+                        <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
+
+                        <div class="element_prive2" id="elements-privee2">
+                            <label for="bic" class="FS">BIC :</label>
+                            <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX">
                         </div>
 
+                        
                     </div>
                 </div>
-                    <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Créer un compte</button>
-            </form>
+                <div class="form-info">
+                    <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou les modifier ultérieurement dans votre espace personnel.</p>
+                </div>
+                <div class="checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <span class="FS-bold">
+                        Accepter les 
+                        <a href="conditions_d_utilisation.php" target="_blank">conditions générales d'utilisation de PACT</a>
+                        <span class="required">*</span>
+                    </span>
+                </div>
 
+
+                <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">Créer un compte</button>
+            </form>
+            
             <div class="redirection-links">
                 <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
-                <a href="creation_compte_pro_formulaire.php" class="Redirection_pro">Vous êtes un professionnel ? Cliquez ici.</a>
             </div>
         </div>
     </div>
 
-    
-
     <script>
-        document.getElementById('link-membre').addEventListener('click', function () {
-            showForm('form-membre');
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialisation : afficher le formulaire privé par défaut
+            showForm('form-pro-privee');
+
+            // Ajouter l'événement de basculement pour le formulaire privé
+            document.getElementById('link-pro-privee').addEventListener('click', function () {
+                showForm('form-pro-privee');
+            });
         });
 
         function showForm(formId) {
@@ -160,12 +223,14 @@ error_reporting(0); if (!empty($_POST)) {
 
             // Afficher le formulaire correspondant
             const activeForm = document.getElementById(formId);
-            activeForm.classList.add('active');
+            if (activeForm) {
+                activeForm.classList.add('active');
+            }
         }
+
 
         //Vérification des données avec regex
         function validateFormMembre() {
-            let check = true;
             let checkNom = true;
             let checkPrenom = true;
             let checkPseudo = true;
@@ -266,14 +331,14 @@ error_reporting(0); if (!empty($_POST)) {
         }
 
         //Empêche l'envoie des données si le form possède des erreurs
-        document.forms["membre"].addEventListener('submit', function (event) {
+        document.forms["pro-privee"].addEventListener('submit', function (event) {
             if (!validateFormMembre()) {
                 event.preventDefault();
             }
         });
 
-        // Afficher par défaut le premier formulaire
-        showForm('form-membre');
+        // Afficher le formulaire
+        showForm('form-pro-privee');
     </script>
 </body>
 </html>
