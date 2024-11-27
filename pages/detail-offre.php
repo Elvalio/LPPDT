@@ -28,6 +28,8 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             ':corps' => $com
         ]);
 
+        $dbh=null;
+
     }catch(PDOException $e){
         print "Erreur !: " . $e->getMessage() . "<br/>";
         die();
@@ -301,35 +303,42 @@ try {
             <?php if (isset($_COOKIE['user'])){?>
             <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                <textarea type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
-                <input type="submit" id="bouton_publier" value="publier">
+                <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                <textarea minlength="50" maxlength="250" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                <input type="submit" id="bouton_publier" value="Publier">
             </form>
             <?php }else{ ?>
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                <textarea type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                <textarea type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                <input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">
+                <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                <textarea minlength="50" maxlength="250" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
             <form method ="POST" action="connexion.php">
-                <input type="submit" id="bouton_publier" value="publier">
+                <input type="submit" id="bouton_publier" value="Publier">
             </form>    
             <?php } ?>
         </article>
-            <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): ?>
+            <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
+                
+                $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
+                $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
+                $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);                
+                ?>
             <div class="alignement-conteneur-avis">
                 <div class="header-avis-profil">
                     <div class="profil">
-                        <img src="../images/image4.png" alt="Photo de profil" width="40" height="40">
-                        <p>
-                            <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
-                        </p>
+                        <img src="../images/1 2.png" alt="Photo de profil" width="40" height="40">
+                        <div>
+                            <h4>
+                                <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
+                            </h4>
+                            <p><?php echo htmlspecialchars($compte['pseudo']); ?></p>
+                        </div>
                     </div>
                     <div class="etoile-avis-detail-offre">
                         <?php
                         $full = (int) $avisIndividuel['note'];
                         $empty = 5 - $full;
-    
                         for ($i = 0; $i < $full; $i++): ?>
                         <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
                             width="20px" height="20px" alt="Étoile">
