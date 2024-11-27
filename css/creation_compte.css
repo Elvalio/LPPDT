@@ -3,6 +3,12 @@ Ceci est le CSS pour la page de création de compte : membre ou professionnel
 */
 
 /* C'est le style css pour le titre des pages */
+
+a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 .menu-links {
     padding: 20px ;
 }
@@ -216,5 +222,20 @@ input[type="text"] {
 }
 
 .form-info {
+    margin-top: 1em;
     padding-bottom: 1.5em;
+}
+
+.choix_entreprise {
+    display: block;
+}
+
+.element_prive1 {
+    display: none;
+    margin-top: 29px;
+}
+
+.element_prive2 {
+    display: none;
+    margin-top: 82px;
 }

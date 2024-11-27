@@ -80,8 +80,6 @@ create table pact._secteur_prive(
   (idC) references pact._professionnel(idC)
 );
 
-
-
 create table pact._membre(
 
   idC integer,
@@ -179,14 +177,24 @@ create table pact._type_offre(
   constraint _type_offre_pk primary key (idT)
 );
 
+----------- Option -----------
+create table pact._option(
+  idOption serial,
+  nom_option varchar(20) not null,
+  cout_HT float not null,
+  cout_TTC float not null,
+
+  constraint _option_pk primary key (idOption)
+);
+
 ----------- Offre est ses enfants -----------
 
 create table pact._offre(
   idO serial,
   titre varchar(50),
   resume varchar(250),
-  option varchar(20),
   description varchar(1000),
+  site_web varchar(200),
   prix_min float,
   --/moy_note
   --/nbrAvis
@@ -358,6 +366,21 @@ create table pact._photo_offre(
 
 );
 
+create table pact._option_offre(
+  --table qui gère les options des offres
+  idO integer,
+  idOption integer,
+  date_lancement date, -- if null when putting online ask user to set these
+  duree_option interval,
+
+  constraint _option_offre_pk primary key (idO),
+
+  constraint _option_offre_fk_offre foreign key
+  (idO) references pact._offre(idO),
+
+  constraint _option_offre_fk_option foreign key
+  (idOption) references pact._option(idOption)
+);
 
 ----------- Exprience ----------- 
 
@@ -658,6 +681,10 @@ create or replace trigger tg_delete_avis
 instead of delete on pact.avis
   for each row execute procedure pact.delete_avis();
 
+--- option offre
+create or replace view option_offre as
+ select * from _option_offre natural join _option;
+
 --- Offres
 
 create or replace function pact.count_avis(idOffre integer)
@@ -683,11 +710,12 @@ begin
 end;
 $$ language 'plpgsql';
 
-create or replace view offre as
-  select idO, titre, resume, "type", nom_type, cout_HT, cout_TTC, option, description, prix_min, pact.moy_notes(idO) as moy_note, pact.count_avis(idO) as nbrAvis, 
+create or replace view pact.offre as
+  select  o.idO, o.titre, resume, "type", op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, 
   accessibilite, categorie, date_creation, date_publication, date_hors_ligne, o.idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC from pact._offre o 
-  inner join pact._type_offre on "type" = idT 
-  inner join pact._adresse a on a.idAdresse = o.idAdresse;
+  inner join pact._type_offre t on "type" = idT
+  inner join pact._adresse a on a.idAdresse = o.idAdresse
+  left outer join option_offre op on op.idO = o.idO;
   
 create or replace function pact.insert_offre()
   returns trigger as $$
@@ -700,8 +728,8 @@ begin
     select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC)
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, new.categorie, new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC);
+  insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC)
+  values (new.titre, new.resume, new."type", new.description, new.site_web, new.prix_min, new.accessibilite, new.categorie, new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC);
   RETURN NEW;
 end;
 $$ language 'plpgsql';
@@ -715,7 +743,7 @@ instead of insert on pact.offre
 
 --insert
 create or replace view pact.activite as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, age_min, prestation_incluse, prestation_excluse, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, age_min, prestation_incluse, prestation_excluse, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._activite natural join pact.offre;
   
   create or replace function pact.insert_activite()
@@ -726,8 +754,8 @@ begin
   else
     select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Activite', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
+  insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.description, new.site_web, new.prix_min, new.accessibilite, 'Activite', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
   
   insert into pact._activite (idO, duree, age_min, prestation_incluse, prestation_excluse) values (new.idO, new.duree, new.age_min, new.prestation_incluse, new.prestation_excluse);
   RETURN OLD;
@@ -748,7 +776,7 @@ begin
     update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
   end if;
 
-  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web,  prix_min = new.prix_min,
    accessibilite = new.accessibilite, date_publication = new.date_publication, date_hors_ligne = new.date_hors_ligne, idAdresse = new.idAdresse where idO = old.idO;
   
   update pact._activite set duree = new.duree, age_min = new.age_min, prestation_incluse = new.prestation_incluse, prestation_excluse = new.prestation_excluse where idO = old.idO;
@@ -767,7 +795,7 @@ instead of update on pact.activite
 -- visite
 --insert
 create or replace view pact.visite as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, langues, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, langues, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from _visite natural join offre;
   
 create or replace function pact.insert_visite()
@@ -779,8 +807,8 @@ begin
     select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Visite', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
+  insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.description, new.site_web, new.prix_min, new.accessibilite, 'Visite', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
   
 insert into pact._visite (idO, duree, langues) values (new.idO, new.duree, new.langues);
   RETURN OLD;
@@ -801,7 +829,7 @@ begin
     update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
   end if;
 
-  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
    accessibilite = new.accessibilite, date_publication = new.date_publication, date_hors_ligne = new.date_hors_ligne, idAdresse = new.idAdresse where idO = old.idO;
   
   update pact._visite set duree = new.duree, langues = new.langues where idO = old.idO;
@@ -817,7 +845,7 @@ instead of update on pact.visite
 -- spectacle
 --insert
 create or replace view pact.spectacle as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, capacite, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, capacite, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._spectacle natural join pact.offre;
   
 create or replace function pact.insert_spectacle()
@@ -830,8 +858,8 @@ begin
     select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Spectacle', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
+  insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.description, new.site_web, new.prix_min, new.accessibilite, 'Spectacle', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
   
   insert into pact._spectacle (idO, duree, capacite) values (new.idO, new.duree, new.capacite);
   RETURN OLD;
@@ -852,7 +880,7 @@ begin
     update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
   end if;
 
-  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
    accessibilite = new.accessibilite, date_publication = new.date_publication, date_hors_ligne = new.date_hors_ligne, idAdresse = new.idAdresse where idO = old.idO;
   
   update pact._spectacle set duree = new.duree, capacite = new.capacite where idO = old.idO;
@@ -868,7 +896,7 @@ instead of update on pact.spectacle
 -- parc_d_attraction
 --insert
 create or replace view pact.parc_d_attraction as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, "plan", src_image, nbr_attractions, age_min, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, "plan", src_image, nbr_attractions, age_min, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._parc_d_attraction 
    natural join pact.offre
    inner join pact._image on "plan"=idImage;
@@ -882,8 +910,8 @@ begin
     select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Parc d''attraction', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
+  insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.description, new.site_web, new.prix_min, new.accessibilite, 'Parc d''attraction', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
   
 
   insert into pact._image(src_image) values (new.src_image) returning idImage into new."plan";
@@ -905,7 +933,7 @@ begin
     update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
   end if;
 
-  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
    accessibilite = new.accessibilite, date_publication = new.date_publication, date_hors_ligne = new.date_hors_ligne, idAdresse = new.idAdresse where idO = old.idO;
   
   update pact._image set src_image = new.src_image where idImage = old."plan";
@@ -922,7 +950,7 @@ instead of update on pact.parc_d_attraction
 -- restauration
 --insert
 create or replace view pact.restauration as
-  select idO, titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, 
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, 
   carte_restaurant, src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
    from pact._restauration 
     natural join pact.offre
@@ -937,8 +965,8 @@ begin
     select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
-  insert into pact._offre (titre, resume, "type", option, description, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
-  values (new.titre, new.resume, new."type", new.option, new.description, new.prix_min, new.accessibilite, 'Restauration', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
+  insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
+  values (new.titre, new.resume, new."type", new.description, new.site_web, new.prix_min, new.accessibilite, 'Restauration', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
   
   insert into pact._image(src_image) values (new.src_image) returning idImage into new.carte_restaurant;
   insert into pact._restauration (idO, carte_restaurant, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons) 
@@ -961,7 +989,7 @@ begin
     update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
   end if;
 
-  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", option = new.option, description = new.description, prix_min = new.prix_min,
+  update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
    accessibilite = new.accessibilite, date_publication = new.date_publication, date_hors_ligne = new.date_hors_ligne, idAdresse = new.idAdresse where idO = old.idO;
   
   update pact._image set src_image = new.src_image where idImage = old.carte_restaurant;
@@ -1023,15 +1051,14 @@ create or replace trigger tg_insert_photo_offre
 instead of insert on pact.photo_offre
   for each row execute procedure pact.insert_photo_offre();
 
-
 --- facturation ---
-
 
 /*
   Cette fonction calcule le cout TTC d'une offre pour une certaine durée 
   Le nombre de jours entre la date de publication et la date donnée dans la plupart des cas, 
   sauf si la date de mise hors ligne de l'offre est plus vielle avant.
 */
+
 create or replace function pact.prix_offre_TTC(idCompte integer, idOffre integer, date_fin date)
   returns float as $$
 declare

@@ -37,11 +37,10 @@
                 <span>filtrer</span>
                 <button id="closeButton">×</button>
             </div>
-            <div class="all-filter">
-                <p>TEST</p>
-                <div class="filter">
+            <div class="all-filter mobile">
+                <div class="filter mobile">
                     <p class="FS">Catégories</p>
-                    <div class="filtre-type">
+                    <div class="filtre-type mobile">
                         <div class="filtre-case">
                             <input type="checkbox" id="visite" name="Visite" />
                             <label for="visite">Visite</label>
@@ -51,18 +50,22 @@
                             <label for="spectacle">Spectacle</label>
                         </div>
                         <div class="filtre-case">
-                            <input type="checkbox" id="Activite" name="Activite" />
-                            <label for="Pattractions">Activité</label>
+                            <input type="checkbox" id="activite" name="Activite" />
+                            <label for="activite">Activité</label>
                         </div>
                         <div class="filtre-case">
                             <input type="checkbox" id="restauration" name="Restauration" />
                             <label for="restauration">Restauration</label>
                         </div>
+                        <div class="filtre-case">
+                            <input type="checkbox" id="parc d'attraction" name="Parc d'attraction" />
+                            <label for="parc d'attraction">Parc d'attraction</label>
+                        </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter mobile">
                     <p class="FS">Lieux</p>
-                    <div class="filtre-lieu">
+                    <div class="filtre-lieu mobile">
                         <div class="search-filter">
                             <input type="text" name="search" id="rechercheLieu" placeholder="Recherche">
                             <img src="../images/search_icon.png" alt="Recherche" title="Recherche"
@@ -71,16 +74,16 @@
                         <div class="filtre-lieu-case">
                             <?php foreach ($lieux as $lieu) { ?>
                             <div class="filtre-case lieu">
-                                <input type="checkbox" id="<?php echo $lieu; ?>" name="<?php echo $lieu; ?>" />
-                                <label for="<?php echo $lieu; ?>"><?php echo $lieu; ?></label>
+                                <input type="checkbox" id="<?php echo strtolower($lieu); ?>" name="<?php echo $lieu; ?>" />
+                                <label for="<?php echo strtolower($lieu); ?>"><?php echo $lieu; ?></label>
                             </div>
                             <?php } ?>
                         </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter mobile">
                     <p class="FS">Date de publication</p>
-                    <div class="filtre-temps">
+                    <div class="filtre-temps mobile">
                         <div id="calendar-start">
                             <label for="calendar-start">
                                 Au plus tôt
@@ -96,9 +99,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter mobile">
                     <p class="FS">Prix</p>
-                    <div class="filtre-prix">
+                    <div class="filtre-prix mobile">
                         <div class="slider-container">
                             <input type="range" id="slider-left" min="<?php echo $prix_min ?>"
                                 max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>"
@@ -114,9 +117,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter mobile">
                     <p class="FS">Notes</p>
-                    <div class="filtre-note">
+                    <div class="filtre-note mobile">
                         <?php
                     $notes = [
                         5 => [true, true, true, true, true],

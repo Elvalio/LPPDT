@@ -26,12 +26,19 @@ error_reporting(0); if (!empty($_POST)) {
         }
         $stmt->execute();
 
+        $idC = $dbh->lastInsertId();
 
-        }catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage() . "<br/>";
-            die();
+        if ($stmt!=[]) {
+            setcookie("user", $idC, time() + 3600, '/');
+            setcookie("type_compte", 'membre', time() + 3600, '/');
+            header('Location:accueil.php');
         }
-    header("Location:connexion.php");
+
+
+    }catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
     $dbh = null;
     ?>
     <?php } ?>
@@ -49,7 +56,7 @@ error_reporting(0); if (!empty($_POST)) {
 
 <body>
     <!-- Bouton de retour -->
-    <a href="connexion.php" style="text-decoration: none;">
+    <a href="connexion.php">
         <div class="bouton-retour-page-création">
             <button class="FS">
                 <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
@@ -123,7 +130,7 @@ error_reporting(0); if (!empty($_POST)) {
                             <input type="checkbox" id="terms" name="terms" required>
                             <span class="FS-bold">
                                 Accepter les 
-                                <a href="conditions_d_utilisation.php" target="_blank" style="color: inherit; text-decoration: underline;">conditions générales d'utilisation de PACT</a>
+                                <a href="conditions_d_utilisation.php" target="_blank">conditions générales d'utilisation de PACT</a>
                                 <span class="required">*</span>
                             </span>
                         </div>
