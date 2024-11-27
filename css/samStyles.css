@@ -497,6 +497,7 @@
   margin-top: 5px;
   resize: none;
   overflow: auto;
+  font-family: "TripSansRegular";
 }
 
 #titre_avis{
@@ -504,6 +505,7 @@
   border-radius: 5px;
   resize: none;
   overflow: auto;
+  font-family: "TripSansRegular";
 }
 
 #bouton_publier {
