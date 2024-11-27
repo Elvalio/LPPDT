@@ -250,7 +250,7 @@ body {
 .nav-item p {
     white-space: nowrap;
     margin: 0;
-    opacity: 0; /* Rendre invisible par défaut */
+    display: none;
     transition: none;
 
 }
