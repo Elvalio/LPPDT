@@ -12,11 +12,26 @@ document.addEventListener('DOMContentLoaded', function () {
     const filtres_actifs = Array(categoriesFiltres.length).fill().map(() => []);
     const filtres_temps = { start: null, end: null }; // Pour le filtre-temps
     const filtres_prix = { min: null, max: null };   // Pour le filtre-prix
+    
+    let offres;
+    function updateOffres() {
+        if (window.innerWidth > 801) {
+            offres = document.getElementsByClassName('carte_offre desktop-element');
+        } else {
+            offres = document.getElementsByClassName('carte_offre phone-element');
+        }
+    }
 
-    const offres = document.getElementsByClassName('carte_offre desktop-element');
+    // Initial call to set the correct value
+    updateOffres();
+
+    // Update the value on window resize
+    window.addEventListener('resize', updateOffres);
+
+
     const dropdownMenu = document.querySelector('.dropdown-menu');
     const menuItems = dropdownMenu.querySelectorAll('li');
-    console.log(menuItems); 
+
 
     // Gestion des filtres avec checkboxes
     function ajouterEcouteursCheckbox() {
@@ -24,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const inputs = document.querySelectorAll(`.${categorie} input`);
             inputs.forEach(input => {
                 input.addEventListener('change', function () {
+
                     if (input.checked) {
                         filtres_actifs[index].push(input.name);
                     } else {

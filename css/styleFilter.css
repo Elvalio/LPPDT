@@ -43,7 +43,7 @@
     #menu {
         position: fixed;
         top: 0;
-        left: 0px; /*Mettre à -273px pour que ce soit caché lors de chargement*/
+        left: -273px; /*Mettre à -273px pour que ce soit caché lors de chargement*/
         width: 273px;
         height: 100%;
         background-color: #fff;

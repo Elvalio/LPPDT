@@ -489,6 +489,7 @@
 #ecrire_avis{
   width : 99%;
   height: 200px;
+  border-radius: 5px;
 }
 
 #titre_avis{

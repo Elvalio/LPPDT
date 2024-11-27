@@ -126,13 +126,13 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
 
             </nav>
 
-            <div class="all-filter">
-                <div class="filter">
+            <div class="all-filter desktop">
+                <div class="filter desktop">
                     <p class="FS">Catégories</p>
-                    <div class="filtre-type">
+                    <div class="filtre-type desktop">
                         <div class="filtre-case">
-                            <input type="checkbox" id="visite" name="Visite" />
-                            <label for="visite">Visite</label>
+                            <input type="checkbox" id="Visite" name="Visite" />
+                            <label for="Visite">Visite</label>
                         </div>
                         <div class="filtre-case">
                             <input type="checkbox" id="Spectacle" name="Spectacle" />
@@ -152,9 +152,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter desktop">
                     <p class="FS">Lieux</p>
-                    <div class="filtre-lieu">
+                    <div class="filtre-lieu desktop">
                         <div class="search-filter">
                             <input type="text" name="search" id="rechercheLieu" placeholder="Recherche">
                             <img src="../images/search_icon.png" alt="Recherche" title="Recherche" id="rechercheLieuIMG">
@@ -169,9 +169,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter desktop">
                     <p class="FS">Date de publication</p>
-                    <div class="filtre-temps">
+                    <div class="filtre-temps desktop">
                         <div id="calendar-start">
                             <label for="calendar-start">
                                 Au plus tôt
@@ -187,9 +187,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter desktop">
                     <p class="FS">Prix</p>
-                    <div class="filtre-prix">
+                    <div class="filtre-prix desktop">
                         <div class="slider-container">
                             <input type="range" id="slider-left" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>" class="filtre-prix-min">
                             <input type="range" onchange="change()" id="slider-right" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>" class="filtre-prix-max">
@@ -201,9 +201,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </div>
                     </div>
                 </div>
-                <div class="filter">
+                <div class="filter desktop">
                     <p class="FS">Notes</p>
-                    <div class="filtre-note">
+                    <div class="filtre-note desktop">
                     <?php
                     $notes = [
                         5 => [true, true, true, true, true],
@@ -264,9 +264,11 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </a>
                     </div>
 
-                    <div class="carte_offre phone-element">
+                    <div class="carte_offre phone-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?> <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>">
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
-
+                            <?php if ($value["option"] == "À la Une") { ?>
+                                <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
+                            <?php } ?>
                         <div class="InfoOffreMobile">
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
 
