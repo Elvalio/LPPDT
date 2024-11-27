@@ -88,7 +88,6 @@ error_reporting(0); if (!empty($_POST)) {
     <title>Inscription</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/creation_compte.css">
-    <script src="../js/creation_compte_pro.js" defer></script>
 </head>
 
 <body>
@@ -105,7 +104,7 @@ error_reporting(0); if (!empty($_POST)) {
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-pro TS-bold" id="link-pro">
-                <h1 class="TS-bold">Création d'un compte pro</h1>
+                <h1 class="TS-bold">Inscription pro</h1>
             </div>
         </div>
 

@@ -51,9 +51,13 @@ error_reporting(0); if (!empty($_POST)) {
     <title>Inscription</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/creation_compte.css">
-    <script src="../js/creation_compte_membre.js" defer></script>
 </head>
 
+<!--
+<div class="phone-element">
+        <?php //include_once 'header.php' ?>
+</div>
+-->
 <body>
     <!-- Bouton de retour -->
     <a href="connexion.php">
@@ -68,7 +72,7 @@ error_reporting(0); if (!empty($_POST)) {
     <div class="container-page-creation-compte">
         <div class="menu-links">
             <div class="inscription-membre TS-bold" id="link-membre">
-                <h1 class="TS-bold">Création d'un compte membre</h1>
+                <h1 class="TS-bold">Inscription</h1>
             </div>
         </div>
 
@@ -135,6 +139,8 @@ error_reporting(0); if (!empty($_POST)) {
                             </span>
                         </div>
 
+
+
                     </div>
                 </div>
                     <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Créer un compte</button>
@@ -146,8 +152,6 @@ error_reporting(0); if (!empty($_POST)) {
             </div>
         </div>
     </div>
-
-    
 
     <script>
         document.getElementById('link-membre').addEventListener('click', function () {
@@ -276,5 +280,8 @@ error_reporting(0); if (!empty($_POST)) {
         // Afficher par défaut le premier formulaire
         showForm('form-membre');
     </script>
+
+    <?php include_once'footerNav.php' ?>
+    
 </body>
 </html>
