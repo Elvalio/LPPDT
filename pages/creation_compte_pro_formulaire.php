@@ -60,25 +60,15 @@ error_reporting(0); if (!empty($_POST)) {
 
 
         if ($stmt!=[]) {
-            if ($stmt[0]['mdp'] == $_POST['password']) {
-                $idC = strval($stmt[0]['idc']);
-                setcookie("user", $idC, time() + 3600);
+            $idC = strval($stmt[0]['idc']);
+            setcookie("user", $idC, time() + 3600);
 
-                $stmt = $dbh->prepare(
-                    "select * from pact.professionnel where idC in (select idC from pact.secteur_prive where idC = $idC);"
-                );
-        
-                $stmt->execute();
-                $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                if ($stmt!=[]) {
-                    setcookie("type_compte", 'pro_prive', time() + 3600, '/');
-                }else{
-                    setcookie("type_compte", 'pro_public', time() + 3600, '/');
-                }
-                header('Location:tableau_de_bord.php');   
-                $trouve = true;
+            if ($stmt!=[]) {
+                setcookie("type_compte", 'pro_prive', time() + 3600, '/');
+            }else{
+                setcookie("type_compte", 'pro_public', time() + 3600, '/');
             }
+            header('Location:tableau_de_bord.php');   
         }
         $dbh = null;
     }catch (PDOException $e) {
