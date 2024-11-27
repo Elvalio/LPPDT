@@ -296,7 +296,7 @@ try {
                 <h3>Poster un avis :</h3>
                 <div>
                     <?php for($i = 1; $i<6; $i++):?>
-                        <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px" id="etoile_note<?php echo $i?>">
                     <?php endfor;?>
                 </div>
                 <?php if (isset($_COOKIE['user'])){?>
@@ -326,7 +326,7 @@ try {
             <div class="alignement-conteneur-avis">
                 <div class="header-avis-profil">
                     <div class="profil">
-                        <img src="../images/1 2.png" alt="Photo de profil" width="40" height="40">
+                        <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
                         <div>
                             <h4>
                                 <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
