@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const dropdownMenu = document.querySelector('.dropdown-menu');
     const menuItems = dropdownMenu.querySelectorAll('li');
     const bouton_filtre = document.querySelector('.filtrer-bouton');
-    const filtres = document.querySelector('.all-filter');
-    const items_filters = document.querySelectorAll('.filter');
+    const filtres = document.querySelector('.all-filter.desktop');
+    const items_filters = document.querySelectorAll('.filter.desktop');
     const fleche_filtre = document.querySelector('.filtrer-bouton > img');
     const main = document.querySelector('main');
 
