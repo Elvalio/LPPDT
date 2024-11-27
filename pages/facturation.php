@@ -1,3 +1,44 @@
+<?php
+include('../sql/connect_params.php');
+try {
+    $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+    $userID = filter_var($_COOKIE['user'], FILTER_VALIDATE_INT);
+
+    if (!$userID) {
+        die("Invalid user ID.");
+    }
+
+    $stmt = $bdh->prepare("SELECT * FROM pact.facturation WHERE idC = :userId");
+    $stmt->execute([':userId' => $userID]);
+    $factures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$factures) {
+        die("Vous n'avez aucune facture.");
+    }
+
+} catch (PDOException $e) {
+    echo "Erreur : " . htmlspecialchars($e->getMessage());
+    die();
+}
+
+function offre($numFacture, $userID, $bdh){
+    $stmt = $bdh->prepare("SELECT o.*, pact.prix_offre_HT(:userID, o.idO, now()::date) from pact.offre o inner join pact._facturation f on f.idC = o.idC where o.idC = :userID and f.numFacture = :numFacture and 
+    EXTRACT(MONTH FROM f.date_facture) = EXTRACT(MONTH FROM o.date_publication)
+    and EXTRACT(YEAR FROM f.date_facture) = EXTRACT(YEAR FROM o.date_publication);");
+    $stmt->execute([':userID' => $userID, ':numFacture' => $numFacture]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function image($idOffre) {
+
+    // Requête pour récupérer les images associées
+    $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idAnnonce");
+    $stmtPhotos->execute([':idAnnonce' => $idAnnonce]);
+    $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
+    return $photos[0];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -15,70 +56,48 @@
         <?php include_once 'nav.php' ?>
     </div>
     <div class="main-content">
-        <header>
-            <h1 class="titre-rouge">Facturation</h1>
-            <p class="facture-tri">Plus recent</p>
-        </header>
-        <div>
-            <article class="facture-composant-liste">
+    <header>
+        <h1 class="titre-rouge">Facturation</h1>
+        <p class="facture-tri">Plus recent</p>
+    </header>
+    <div>
+        <?php foreach ($factures as $facture) { ?>
+        <article class="facture-composant-liste">
+            
                 <div class="facture-liste-facture">
-                    <div>
-                        <p>Date :</p>
-                        <p>10/11/2024</p>
-                    </div>
-                    <div>
-                        <p>Numéro de facture :</p>
-                        <p>123456</p>
-                    </div>
-                    <div>
-                        <p>Total à payer :</p>
-                        <p>100€</p>
-                    </div>
-                    <div>
-                        <p>Nombre d'offres :</p>
-                        <p>2</p>
-                    </div>
-                    <button class="voir-plus" aria-expanded="false">Voir plus +</button>
-                </div>
-                <div class="facture-details">
-                    <div class="facture-offre">
-                        <img src="../images/image_offre/2-1.jpg" alt="">
-                        <p>Qui m'aime me suive</p>
-                        <p>Pas d'option</p>
-                        <p>50€</p>
-                    </div>
-                    <div class="facture-offre">
-                        <img src="../images/image_offre/2-1.jpg" alt="">
-                        <p>Qui m'aime me suive</p>
-                        <p>Pas d'option</p>
-                        <p>50€</p>
-                    </div>
-                </div>
                 
-
-
-            </article>
-            <article class="facture-composant-liste">
-                <div class="facture-liste-facture">
                     <div>
                         <p>Date :</p>
-                        <p>10/11/2024</p>
+                        <p><?php echo htmlspecialchars($facture['date_facture']); ?></p>
                     </div>
                     <div>
                         <p>Numéro de facture :</p>
-                        <p>123456</p>
+                        <p><?php echo htmlspecialchars($facture['numfacture']); ?></p>
                     </div>
                     <div>
                         <p>Total à payer :</p>
-                        <p>100€</p>
+                        <p><?php echo htmlspecialchars($facture['prix_ttc']); ?>€/TTC</p>
                     </div>
                     <div>
                         <p>Nombre d'offres :</p>
-                        <p>2</p>
+                        <p><?php echo htmlspecialchars($facture['nombre_offre']); ?></p>
                     </div>
+                    <button class="telecharger">Télécharger</button>
                     <button class="voir-plus" aria-expanded="false">Voir plus +</button>
                 </div>
                 <div class="facture-details">
+                    <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
+                    <div class="facture-offre">
+                        <img src="../images/image_offre/2-1.jpg" alt="">
+                        <p><?php echo htmlspecialchars($offre['titre']) ?></p>
+                        <p><?php if (!empty($offre['option'])) {
+                                        echo htmlspecialchars($offre['option']);
+                                    } else {
+                                echo "Pas d'option";
+                                    }
+                          ?></p>
+                        <p><?php echo htmlspecialchars($offre['cout_ttc']) ?></p>
+                    </div>
                     <div class="facture-offre">
                         <img src="../images/image_offre/2-1.jpg" alt="">
                         <p>Qui m'aime me suive</p>
@@ -86,10 +105,12 @@
                         <p>50€</p>
                     </div>
                 </div>
-            </article>
-
-        </div>
+            <?php } ?>
+        </article> 
+        <?php } ?>
     </div>
+</div>
+
     <script>
     // Sélectionner tous les boutons "Voir plus"
     const buttons = document.querySelectorAll('.voir-plus');

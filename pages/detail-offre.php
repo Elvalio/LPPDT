@@ -11,7 +11,6 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $note = (int)$_POST['nbr_etoile'];
         $titre = $_POST['titre_avis'];
         $com = $_POST['zone_avis'];
-        $img = $_POST['image_avis'];
 
         $ido = (int)$_GET['value'];
         $idc = (int)$_COOKIE['user'];
@@ -206,7 +205,7 @@ try {
                         ?>
                         <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
                             <img src="../images/maison.png" alt="icon maison (localisation)">
-                            <p>
+                            <p class="lien">
                                 <?php
                                 echo $offre['numero_voie'];
                                 echo " ";
@@ -225,7 +224,7 @@ try {
                             echo htmlspecialchars($telephone);
                                 ?> ">
                             <img src="../images/telephone.png" alt="icon telephone">
-                            <p>
+                            <p class="lien">
                                 <?php 
                                         echo htmlspecialchars($telephone);
                                     ?>
@@ -238,7 +237,7 @@ try {
                     <div>
                         <a href=" <?php echo $offre['site_web']; ?>">
                             <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                            <p>
+                            <p class="lien">
                                 <?php
                             echo $offre['site_web']; ?>
                             </p>
@@ -293,31 +292,31 @@ try {
             </h3>
         </header>
         <article class="article-avis">
-        <article class="poster_avis">
-            <h3>Poster un avis :</h3>
-            <div>
-                <?php for($i = 1; $i<6; $i++):?>
-                    <img src="../icons/etoile_bleue_vide.png" width="40px" height="40px" id="etoile_note<?php echo $i?>">
-                <?php endfor;?>
-            </div>
-            <?php if (isset($_COOKIE['user'])){?>
-            <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
-                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                <textarea minlength="50" maxlength="250" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                <input type="submit" id="bouton_publier" value="Publier">
-            </form>
-            <?php }else{ ?>
-                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                <textarea minlength="50" maxlength="250" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-            <form method ="POST" action="connexion.php">
-                <input type="submit" id="bouton_publier" value="Publier">
-            </form>    
-            <?php } ?>
-        </article>
+            <article class="poster_avis">
+                <h3>Poster un avis :</h3>
+                <div>
+                    <?php for($i = 1; $i<6; $i++):?>
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px" id="etoile_note<?php echo $i?>">
+                    <?php endfor;?>
+                </div>
+                <?php if (isset($_COOKIE['user'])){?>
+                <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
+                    <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                    <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                    <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                    <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                    <input type="submit" id="bouton_publier" value="Publier">
+                </form>
+                <?php }else{ ?>
+                    <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                    <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                    <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                    <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                <form method ="POST" action="connexion.php">
+                    <input type="submit" id="bouton_publier" value="Publier">
+                </form>    
+                <?php } ?>
+            </article>
             <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
                 
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
@@ -327,7 +326,7 @@ try {
             <div class="alignement-conteneur-avis">
                 <div class="header-avis-profil">
                     <div class="profil">
-                        <img src="../images/1 2.png" alt="Photo de profil" width="40" height="40">
+                        <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
                         <div>
                             <h4>
                                 <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
