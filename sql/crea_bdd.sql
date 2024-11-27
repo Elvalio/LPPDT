@@ -379,7 +379,7 @@ create table pact._option_offre(
   (idO) references pact._offre(idO),
 
   constraint _option_offre_fk_option foreign key
-  (idO) references pact._option(idOption)
+  (idOption) references pact._option(idOption)
 );
 
 ----------- Exprience ----------- 
