@@ -205,7 +205,7 @@ try {
                         ?>
                         <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
                             <img src="../images/maison.png" alt="icon maison (localisation)">
-                            <p>
+                            <p class="lien">
                                 <?php
                                 echo $offre['numero_voie'];
                                 echo " ";
@@ -224,7 +224,7 @@ try {
                             echo htmlspecialchars($telephone);
                                 ?> ">
                             <img src="../images/telephone.png" alt="icon telephone">
-                            <p>
+                            <p class="lien">
                                 <?php 
                                         echo htmlspecialchars($telephone);
                                     ?>
@@ -237,9 +237,9 @@ try {
                     <div>
                         <a href=" <?php echo $offre['site_web']; ?>">
                             <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                            <p>
+                            <p class="lien">
                                 <?php
-                            echo $offre['titre']; ?>
+                            echo $offre['site_web']; ?>
                             </p>
                         </a>
                     </div>
