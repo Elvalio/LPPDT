@@ -265,9 +265,8 @@ body {
 
 #sidebar.active .nav-item p {
     /*display: inline-block; /* le texte apparaît lorsque la sidebar est survolée */
-    opacity: 1; /* Afficher le badge */
-    transition: opacity 0.1s ease; /* Appliquer une transition à l'apparition */
-    transition-delay: 0.1s; /* Délai de 500 ms avant d'apparaître */
+    display: block;
+    
 }
 
 .BO.active .actuel{ 
