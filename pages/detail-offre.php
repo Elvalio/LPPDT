@@ -238,7 +238,7 @@ try {
                             <img src="../images/pc.png" alt="icon pc (lien vers le site)">
                             <p>
                                 <?php
-                            echo $offre['site_web']; ?>
+                            echo $offre['titre']; ?>
                             </p>
                         </a>
                     </div>
