@@ -93,6 +93,10 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             <input type="text" name="search" id="rechercheOffre" placeholder="Recherche" class="FS">
                             <img src="../images/search_icon.png" alt="Recherche" title="Recherche" id="rechercheOffreIMG">
                         </div>
+                        <ul id="suggestionsContainer" style="position: absolute; display: none; z-index: 1000;">
+                            <!-- Les éléments <li> générés dynamiquement apparaîtront ici -->!-- Les éléments <li> générés dynamiquement apparaîtront ici -->
+                        </ul>
+                        </ul>
 
                         <div class="filtrer-trier"> 
                             <div class="dropdown NoSelect">

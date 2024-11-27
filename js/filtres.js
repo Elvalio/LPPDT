@@ -313,4 +313,234 @@ document.addEventListener('DOMContentLoaded', function () {
 
     afficherResultats(filtrage()); // Pour afficher les offres au tout début (sans filtres) afin que les offres à la Une soient prioritaires
 
+
+
+    // Fonctionnalité de recherche par mots-clés récents
+    const suggestionsContainer = document.createElement('ul');
+    suggestionsContainer.classList.add('suggestions');
+    document.body.appendChild(suggestionsContainer);
+
+    const MAX_MOTS_CLES = 5; // Nombre maximum de mots-clés récents à stocker
+    const NB_MAX_LENGTH = 18; // Nombre maximum de caractères pour un mot-clé
+    const MOTS_CLES_STORAGE_KEY = 'motsClesRecents'; // Nom de la clé pour localStorage
+
+    // Charger les mots-clés récents depuis localStorage
+    function chargerMotsClesRecents() {
+        const motsCles = localStorage.getItem(MOTS_CLES_STORAGE_KEY);
+        return motsCles ? JSON.parse(motsCles) : [];
+    }
+
+    // Sauvegarder les mots-clés récents dans localStorage
+    function sauvegarderMotsClesRecents(motsCles) {
+        localStorage.setItem(MOTS_CLES_STORAGE_KEY, JSON.stringify(motsCles));
+    }
+
+    // Ajouter un mot-clé dans les récents
+    function ajouterMotCleRecent(motCle) {
+        let motsCles = chargerMotsClesRecents();
+        motCle = motCle.trim().toLowerCase();
+
+        if (!motCle || motsCles.includes(motCle)) return;
+
+        // Ajouter le nouveau mot-clé et limiter la taille de la liste
+        motsCles.unshift(motCle);
+        if (motsCles.length > MAX_MOTS_CLES) {
+            motsCles.pop();
+        }
+        sauvegarderMotsClesRecents(motsCles);
+    }
+
+        
+    // Écouter les événements de clic sur chaque suggestion (div)
+    suggestionsContainer.addEventListener('mousedown', function (event) {
+        // Si l'événement provient de la croix
+        if (event.target.classList.contains('close-icon')) {
+            const suggestionDiv = event.target.closest('li');
+            const motCle = suggestionDiv.querySelector('span').textContent;
+            
+            // Empêcher la propagation de l'événement click au conteneur parent (le <li>)
+            event.stopPropagation();
+
+            // Retirer la suggestion de l'historique
+            retirerSuggestion(motCle);
+        }
+    });
+
+    // Modifier la fonction d'affichage des suggestions
+    function afficherSuggestions(textRecherche) {
+        // Assurez-vous que textRecherche est une chaîne de caractères
+        if (typeof textRecherche !== 'string') {
+            console.log("textRecherche n'est pas une chaîne valide :", textRecherche);
+            textRecherche = '';
+        }
+
+        const motsCles = chargerMotsClesRecents(); // Charger les mots-clés récents
+        suggestionsContainer.innerHTML = ''; // Réinitialiser le conteneur
+
+        console.log("afficherSuggestions");
+
+        // Filtrer les mots-clés selon la recherche
+        let motsFiltres;
+        if (textRecherche !== '') {
+            motsFiltres = motsCles.filter(motCle =>
+                motCle.toLowerCase().includes(textRecherche.toLowerCase())
+            );
+        } else {
+            motsFiltres = motsCles;
+        }
+
+        console.log("Mots filtrés :", motsFiltres);
+
+        // Si aucune suggestion, cacher le conteneur
+        if (motsFiltres.length === 0) {
+            suggestionsContainer.style.display = 'none';
+            return;
+        }
+
+        // Réafficher le conteneur pour les suggestions
+        suggestionsContainer.style.display = 'block';
+
+        // Ajouter chaque mot-clé comme élément de liste
+        motsFiltres.forEach(motCle => {
+            // Troncature si nécessaire
+            let motTemp;
+            if (motCle.length > NB_MAX_LENGTH) {
+                motTemp = motCle.substring(0, NB_MAX_LENGTH) + '...';
+            }
+
+            // Créer un élément <li>
+            const li = document.createElement('li');
+            
+            // Créer un div pour la suggestion
+            const suggestionDiv = document.createElement('div');
+            suggestionDiv.classList.add('suggestion-item'); // Classe pour la suggestion
+
+            // Créer un élément pour le texte de la suggestion
+            const textDiv = document.createElement('span');
+            textDiv.textContent = motTemp || motCle; // Utiliser le texte tronqué si nécessaire
+            suggestionDiv.appendChild(textDiv);
+
+            // Créer l'élément pour l'image de la croix
+            const closeIcon = document.createElement('img');
+            closeIcon.src = '../images/croix-noire.png';  // Image de la croix
+            closeIcon.alt = 'Supprimer';
+            closeIcon.classList.add('close-icon');  // Classe pour le style de la croix
+            suggestionDiv.appendChild(closeIcon);
+
+            // Ajouter l'élément div au li
+            li.appendChild(suggestionDiv);
+
+            // Attacher un écouteur d'événement pour gérer le clic sur la suggestion
+            li.addEventListener('mousedown', function () {
+                rechercheOffre.value = motCle; // Mettre le mot-clé dans le champ de recherche
+                afficherResultats(filtrage()); // Effectuer la recherche
+                suggestionsContainer.style.display = 'none'; // Masquer les suggestions
+            });
+
+            // Gestion du clic sur la croix pour supprimer une suggestion
+            closeIcon.addEventListener('mousedown', function (e) {
+                e.stopPropagation(); // Empêcher le clic de déclencher d'autres actions (comme remplir le champ)
+                e.preventDefault(); // Empêcher les comportements par défaut si nécessaires
+                retirerSuggestion(motCle); // Supprime le mot clé de l'historique
+                afficherSuggestions(rechercheOffre.value); // Met à jour les suggestions
+            });
+
+
+            // Ajouter l'élément <li> au conteneur
+            suggestionsContainer.appendChild(li);
+        });
+
+        // Positionner dynamiquement le conteneur sous le champ de texte
+        const rect = rechercheOffre.getBoundingClientRect();
+        suggestionsContainer.style.top = `${rect.bottom}px`;
+        suggestionsContainer.style.left = `${rect.left}px`;
+        suggestionsContainer.style.width = `${rect.width}px`;
+    }
+
+    
+
+    // Fonction pour retirer un mot-clé de l'historique
+    function retirerSuggestion(motCle) {
+        let motsCles = chargerMotsClesRecents();
+        motsCles = motsCles.filter(mot => mot !== motCle); // Retirer le mot de l'historique
+        sauvegarderMotsClesRecents(motsCles); // Sauvegarder l'historique mis à jour
+    }
+        
+
+    // Cacher les suggestions
+    function cacherSuggestions() {
+        suggestionsContainer.style.display = 'none';
+    }
+
+    // Événement pour enregistrer un mot-clé à chaque recherche
+    // Fonction pour ajouter le mot-clé lors de différents événements
+    function ajouterMotCleDepuisRecherche() {
+        let motCle = rechercheOffre.value.trim();
+
+        if (motCle) {
+            ajouterMotCleRecent(motCle);
+        }
+    }
+
+    // Gestion de l'événement "Entrée" dans le champ de recherche
+    rechercheOffre.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            ajouterMotCleDepuisRecherche();
+            afficherResultats(filtrage());
+            cacherSuggestions();
+        }
+    });
+
+    rechercheOffre.addEventListener('blur', function () {
+        // Utiliser un setTimeout pour différer l'exécution après le clic sur une suggestion ou la croix
+        setTimeout(() => {
+            const activeElement = document.activeElement;
+    
+            // Vérifiez si l'élément actif est lié aux suggestions (li ou croix)
+            if (
+                !activeElement.closest('#suggestionsContainer') &&
+                !activeElement.classList.contains('close-icon')
+            ) {
+                // Ajouter la recherche récente seulement si ce n'est pas une suppression
+                if (rechercheOffre.value.trim() !== '') {
+                    ajouterMotCleDepuisRecherche();
+                }
+                cacherSuggestions();
+            }
+        }, 200); // 200 ms suffisent pour gérer les clics
+    });
+    
+
+    // Gestion du clic sur la croix d'effacement
+    rechercheIMG.addEventListener('click', function () {
+        if (rechercheOffre.value.trim() !== '') {
+            ajouterMotCleDepuisRecherche();
+        }
+        rechercheOffre.value = ''; // Réinitialiser la recherche
+        rechercheIMG.src = '../images/search_icon.png'; // Réinitialiser l'icône
+        rechercheIMG.style.cursor = 'default';
+        afficherResultats(filtrage());
+    });
+
+    // Afficher les suggestions lors du focus sur le champ
+    rechercheOffre.addEventListener('focus', function () {
+        console.log("focus");
+        afficherSuggestions(rechercheOffre.value.trim());
+    });
+
+    // Mettre à jour les suggestions lors de la saisie
+    rechercheOffre.addEventListener('input', function () {
+        const textRecherche = rechercheOffre.value.trim();
+        afficherSuggestions(textRecherche); // Toujours afficher les suggestions, même si le champ est vide
+    });
+
+    // Cacher les suggestions lorsqu'on clique ailleurs
+    document.addEventListener('click', function (e) {
+        if (!rechercheOffre.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+            cacherSuggestions();
+        }
+    });
+
+    // Initialisation des suggestions au chargement
+    cacherSuggestions();
 });
