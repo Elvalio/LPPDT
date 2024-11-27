@@ -26,8 +26,9 @@ error_reporting(0); if (!empty($_POST)) {
         }
         $stmt->execute();
 
+        $idC = $dbh->lastInsertId();
+
         if ($stmt!=[]) {
-            $idC = strval($stmt[0]['idc']);
             setcookie("user", $idC, time() + 3600, '/');
             setcookie("type_compte", 'membre', time() + 3600, '/');
             header('Location:accueil.php');
