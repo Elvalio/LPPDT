@@ -14,17 +14,6 @@ document.addEventListener("DOMContentLoaded", function() {
         input.style.border = '1px solid #ccc';
     });
 
-
-    inputs_pro.forEach(input => {
-        // Ajouter les styles personnalisés directement aux inputs de la page pro
-        input.style.width = '100%';
-        input.style.padding = '10px';
-        input.style.marginBottom = '20px';
-        input.style.borderRadius = '5px';
-        input.style.border = '1px solid #ccc';
-    });
-
-
     // Sélectionner les éléments des liens
     const membreLink = document.getElementById('link-membre');
 

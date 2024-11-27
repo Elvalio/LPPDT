@@ -211,10 +211,7 @@ error_reporting(0); if (!empty($_POST)) {
             // Initialisation : afficher le formulaire privé par défaut
             showForm('form-pro-privee');
 
-            // Ajouter l'événement de basculement pour le formulaire privé
-            document.getElementById('link-pro-privee').addEventListener('click', function () {
-                showForm('form-pro-privee');
-            });
+            
         });
 
         function showForm(formId) {
@@ -330,13 +327,6 @@ error_reporting(0); if (!empty($_POST)) {
                 return false;
             }
         }
-
-        //Empêche l'envoie des données si le form possède des erreurs
-        document.forms["pro-privee"].addEventListener('submit', function (event) {
-            if (!validateFormMembre()) {
-                event.preventDefault();
-            }
-        });
 
         // Afficher le formulaire
         showForm('form-pro-privee');
