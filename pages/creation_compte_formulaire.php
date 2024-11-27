@@ -26,12 +26,19 @@ error_reporting(0); if (!empty($_POST)) {
         }
         $stmt->execute();
 
+        $idC = $dbh->lastInsertId();
 
-        }catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage() . "<br/>";
-            die();
+        if ($stmt!=[]) {
+            setcookie("user", $idC, time() + 3600, '/');
+            setcookie("type_compte", 'membre', time() + 3600, '/');
+            header('Location:accueil.php');
         }
-    header("Location:connexion.php");
+
+
+    }catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
     $dbh = null;
     ?>
     <?php } ?>

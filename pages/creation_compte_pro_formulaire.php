@@ -3,8 +3,8 @@ error_reporting(E_ALL);
 error_reporting(0); if (!empty($_POST)) {
 
 
-        include("../sql/connect_params.php");
-
+    include("../sql/connect_params.php");
+    try{
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
         if (isset($_POST["type-entreprise"])) {
@@ -57,10 +57,28 @@ error_reporting(0); if (!empty($_POST)) {
 
 
         $stmt->execute();
-        header("Location: connexion.php");
+
+        $idC = $dbh->lastInsertId();
+
+
+        if ($stmt!=[]) {
+            setcookie("user", $idC, time() + 3600);
+
+            if ($stmt!=[]) {
+                setcookie("type_compte", 'pro_prive', time() + 3600, '/');
+            }else{
+                setcookie("type_compte", 'pro_public', time() + 3600, '/');
+            }
+            header('Location:tableau_de_bord.php');   
+        }
         $dbh = null;
-        ?>
-    <?php } ?>
+    }catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+
+
+} ?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -193,10 +211,7 @@ error_reporting(0); if (!empty($_POST)) {
             // Initialisation : afficher le formulaire privé par défaut
             showForm('form-pro-privee');
 
-            // Ajouter l'événement de basculement pour le formulaire privé
-            document.getElementById('link-pro-privee').addEventListener('click', function () {
-                showForm('form-pro-privee');
-            });
+            
         });
 
         function showForm(formId) {
@@ -312,13 +327,6 @@ error_reporting(0); if (!empty($_POST)) {
                 return false;
             }
         }
-
-        //Empêche l'envoie des données si le form possède des erreurs
-        document.forms["pro-privee"].addEventListener('submit', function (event) {
-            if (!validateFormMembre()) {
-                event.preventDefault();
-            }
-        });
 
         // Afficher le formulaire
         showForm('form-pro-privee');
