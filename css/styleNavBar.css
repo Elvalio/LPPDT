@@ -2,6 +2,32 @@ body {
     margin: 0;
 }
 
+.sphere{
+    position: absolute;
+    top: 0;
+    right:-30px;
+    width: 30px;
+    height: 75px;
+    background-color: white;
+    overflow: visible;
+    border-radius: 0 25% 25% 0;
+    box-shadow: 3px 2px 3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    
+}
+
+.sphere img{
+    width: 40px;
+}
+
+.sphere.active img{
+    transform: scaleX(-1); /* Inverse l’orientation gauche-droite */
+}
+
 #sidebar {
     position: fixed;
     z-index: 1;
@@ -10,18 +36,19 @@ body {
     width: 80px; /* largeur fermée */
     height: 100vh;
     background-color: #ffffff;
-    transition: width 0.3s ease-in-out; /* animation sur la largeur */
-    overflow: hidden;
+    transition: 0.2s cubic-bezier(0, 0, 0, 0.96);
+    overflow: visible;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
-#sidebar:hover {
+#sidebar.active {
     width: 250px; /* largeur ouverte lors du survol */
 }
 
 /**** animation image pact ***/
 #pact-item{
-    height: 90px;
+    height: 80px;
+    
 }
 
 /* Style de base pour les images */
@@ -29,29 +56,56 @@ body {
     position: absolute;
 }
 
+
+
+/* taille logo avant et après ouverture*/
+
+/* #sidebar #pact-item {
+    margin-top: -15px;
+}
+
+#sidebar #top-items {
+    margin-top: 15px;
+}
+
+#sidebar.active #pact-item{
+    margin-top: 0;
+}
+
+#sidebar.active  #top-items{
+    margin-top: 0;
+} */
+
+/****************************************/
+
+
+
+
 /* Image par défaut (visible au début) */
 .image-default {
     opacity: 1;
     z-index: 2;
     max-height: 60px;
+    /* max-height: 50px; */
 }
 
-/* Image qui apparaît au survol (invisible au départ) */
+/* Image 2 (invisible au départ) */
 .image-hover {
     opacity: 0;
     z-index: 1;
-    max-height: 90px;
+    max-height: 60px;
+    /* max-height: 80px; */
 }
 
-/* Au survol du conteneur */
-#sidebar:hover .image-hover {
+/* Au clique pour ouvrir le conteneur */
+#sidebar.active .image-hover {
     opacity: 1;  /* L'image 2 devient visible progressivement */
-    transition: opacity 0.6s ease; /* Appliquer une transition à l'apparition */
+    /* transition: opacity 0.6s ease; Appliquer une transition à l'apparition */
 }
 
-#sidebar:hover .image-default {
+#sidebar.active .image-default {
     opacity: 0;  /* L'image 1 devient invisible */ 
-    transition: opacity 0.2s ease; /* Appliquer une transition à l'apparition */
+    /* transition: opacity 0.2s ease; Appliquer une transition à l'apparition */
     
 }
 
@@ -63,23 +117,35 @@ body {
 
 /***************************CONTROLE ICON NOTIFICATION***************************************/
 /* Si le conteneur principal est survolé, l'image de notification change */
-#sidebar:hover .notification-container .logo-nav {
-    content: url('../icons/icons-gris/icon-notification-sans-notif-gris.svg'); 
+#sidebar.active .notification-container .logo-nav {
+    content: url('icons-gris/icon-notification-sans-notif-gris.svg'); 
 }
 
 /* Si notification est "actuel", l'image doit être celle en rouge */
-.actuel .notification-container .logo-nav {
-    content: url('../icons/icons-rouge/icon-notification-avec-notif-rouge.svg');
+.BO .actuel .notification-container .logo-nav {
+    content: url('icons-rouge/icon-notification-avec-notif-rouge.svg');
 }
 
 /* Si notification est "actuel" et le conteneur principal est survolé, l'image change aussi */
-#sidebar:hover .actuel .notification-container .logo-nav {
-    content: url('../icons/icons-rouge/icon-notification-sans-notif-rouge.svg');
+.BO.active .actuel .notification-container .logo-nav {
+    content: url('icons-rouge/icon-notification-sans-notif-rouge.svg');
+}
+
+
+
+/* Si notification est "actuel", l'image doit être celle en rouge */
+.FO .actuel .notification-container .logo-nav {
+    content: url('icons-bleu/icon-notification-avec-notif-bleu.svg');
+}
+
+/* Si notification est "actuel" et le conteneur principal est survolé, l'image change aussi */
+.FO.active .actuel .notification-container .logo-nav {
+    content: url('icons-bleu/icon-notification-sans-notif-bleu.svg');
 }
 
 /*************************************************************************************************/
 
-#sidebar:hover #img-profile{
+#sidebar.active #img-profile{
      height: 35px;
 }
 
@@ -87,42 +153,29 @@ body {
     height: 35px;
 }
 
-#sidebar .nav {
+#sidebar {
     display: flex;
     flex-direction: column;
-    padding: 10px 0;
 }
 
 #items{
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 82vh;
+    height: fit-content;
     
 }
 
-#top-items, #bottom-items, #top-of-bottom-items{
-    display: flex;
+#top-items, #bottom-items{
+    display: grid;
+    gap: 10px; /* Espacement entre les enfants */
     
-    flex-direction: column;
-    justify-content: space-between;
-    
-}
-
-#top-items{
-    height: 36vh;
-}
-
-#top-items.BO {
-    height: 16vh;
 }
 
 #bottom-items{
-    height: 26vh;
-}
-
-#top-of-bottom-items{
-    height: 18vh;
+    position: absolute;
+    bottom: 20px;
 }
 
 
@@ -136,7 +189,7 @@ body {
 .notification-badge {
     position: absolute;
     right: 5px;
-    background-color: var(--turquoise-orange);
+    background-color: red/*var(--turquoise-orange)*/;
     color: white;
     border-radius: 50%;
     padding: 2px 6px;
@@ -155,31 +208,42 @@ body {
     text-decoration: none;
 }
 
-.nav-item.BO {
-    display: none;
+.active .nav-item:hover {
+    background-color: rgba(117, 117, 117, 0.1);
 }
 
-.nav-item:hover {
+.logo-nav:hover{
     background-color: rgba(117, 117, 117, 0.1);
+    border-radius: 12px;
+}
+
+#sidebar.active .nav-item {
+    border-radius: 4px;
+}
+
+.BO .actuel p{/*conteneur du logo actuel*/
+    color: red/*var(--bleu-rouge)*/;
+}
+.FO .actuel p{/*conteneur du logo actuel*/
+    color: rgb(29, 162, 167)/*var(--bleu-rouge)*/;
+}
+
+.BO .actuel .logo-nav{ /*image du logo actuel*/
+    background-color: rgba(222, 2, 43, 0.08);
+    border-radius: 12px;
     
 }
 
-.actuel p{/*conteneur du logo actuel*/
-    color: var(--bleu-rouge);
-}
-
-.actuel .logo-nav{ /*image du logo actuel*/
-    background-color: rgba(222, 2, 43, 0.08);
+.FO .actuel .logo-nav{
+    background-color: rgba(29, 162, 167, 0.1);
     border-radius: 12px;
 }
 
 
-.actuel:hover{
-    background-color: rgba(222, 2, 43, 0.08);
-}
+
 
 #pact-item{
-    padding: 10px 0;
+    padding: 0;
     background-color: transparent;
 }
 
@@ -188,37 +252,39 @@ body {
     margin: 0;
     opacity: 0; /* Rendre invisible par défaut */
     transition: none;
+
 }
 
 #email{
     font-size: 12px;
 }
 
-#sidebar:hover .nav-item p {
+.nav-item{
+    display: none;
+}
+
+#sidebar.active .nav-item p {
     /*display: inline-block; /* le texte apparaît lorsque la sidebar est survolée */
     opacity: 1; /* Afficher le badge */
-    transition: opacity 0.3s ease; /* Appliquer une transition à l'apparition */
-    transition-delay: 0.05s; /* Délai de 500 ms avant d'apparaître */
+    transition: opacity 0.1s ease; /* Appliquer une transition à l'apparition */
+    transition-delay: 0.1s; /* Délai de 500 ms avant d'apparaître */
 }
 
-#sidebar:hover .nav-item {
-    border-radius: 4px;
-}
-
-#sidebar:hover .actuel { 
+.BO.active .actuel{ 
     background-color: rgba(222, 2, 43, 0.08);
 }
 
-#sidebar:hover .actuel  img{ 
+.FO.active .actuel{ 
+    background-color: rgba(29, 162, 167, 0.1);
+}
+
+#sidebar.active .actuel  img{ 
     background-color: transparent;
 }
 
-#sidebar:hover #items{ 
-    margin: 0;
-}
 
 /* Lorsque l'utilisateur survole */
-#sidebar:hover .notification-badge {
+#sidebar.active .notification-badge {
     opacity: 1; /* Afficher le badge */
     transition: opacity 0.3s ease; /* Appliquer une transition à l'apparition */
     transition-delay: 0.16s; /* Délai de 500 ms avant d'apparaître */
@@ -228,7 +294,7 @@ body {
     margin-left: 80px; /* marge pour la barre fermée */
     z-index: -1;
     padding: 20px;
-    transition: margin-left 0.3s ease-in-out;
+    transition: margin-left ease-in-out;
 }
 
 @media screen and (max-width: 800px) {
