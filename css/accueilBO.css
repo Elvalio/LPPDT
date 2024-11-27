@@ -729,12 +729,12 @@ input[type="range"]::-ms-thumb {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
     
-    .filtrer-trier {
+    .filtrer-trier.mobile {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
     }
 
 
-    .all-filter {
+    .all-filter.mobile {
         height: fit-content;
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
         flex-wrap: wrap;
@@ -753,6 +753,10 @@ input[type="range"]::-ms-thumb {
     }
 
     .desktop-element {
+        display: none !important;
+    }
+
+    .all-filter.desktop {
         display: none;
     }
 

@@ -63,7 +63,7 @@ if ($_POST!=[]) {
         }
 
         if (!$trouve){
-            $message_erreur = "Nom d'utilisateur ou mot de pass incorrecte, veuillez réessayer";
+            $message_erreur = "Nom d'utilisateur ou mot de passe incorrect, veuillez réessayer";
         }
 
     } catch (PDOException $e) {

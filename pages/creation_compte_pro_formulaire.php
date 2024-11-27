@@ -3,8 +3,8 @@ error_reporting(E_ALL);
 error_reporting(0); if (!empty($_POST)) {
 
 
-        include("../sql/connect_params.php");
-
+    include("../sql/connect_params.php");
+    try{
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
         if (isset($_POST["type-entreprise"])) {
@@ -57,10 +57,27 @@ error_reporting(0); if (!empty($_POST)) {
 
 
         $stmt->execute();
-        header("Location: connexion.php");
+
+
+        if ($stmt!=[]) {
+            $idC = strval($stmt[0]['idc']);
+            setcookie("user", $idC, time() + 3600);
+
+            if ($stmt!=[]) {
+                setcookie("type_compte", 'pro_prive', time() + 3600, '/');
+            }else{
+                setcookie("type_compte", 'pro_public', time() + 3600, '/');
+            }
+            header('Location:tableau_de_bord.php');   
+        }
         $dbh = null;
-        ?>
-    <?php } ?>
+    }catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+
+
+} ?>
 
 <!DOCTYPE html>
 <html lang="fr">
