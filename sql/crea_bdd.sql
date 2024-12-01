@@ -352,6 +352,22 @@ create table pact._tags_restauration(
   (idTag) references pact._tag_resto(idTag)
 );
 
+-- HORAIRE RESTO
+create table pact._horaire(
+  idHoraire serial,
+  heureOuverture time not null,
+  heureFermeture time not null,
+  ouvertWeekend boolean default false,
+    
+  --FK
+  idO integer,
+
+  constraint _horaire_pk primary key (idHoraire),
+  
+  constraint _horaire_fk_restauration foreign key
+    (idO) references pact._restauration(idO)
+);
+
 create table pact._photo_offre(
   idImage integer,
   idO integer,
