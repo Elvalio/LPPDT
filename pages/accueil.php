@@ -8,7 +8,7 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image, o.ido, o.categorie, o.date_publication, o.option
+            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image, o.ido, o.categorie, o.date_publication, o.option, o.description
              FROM pact.offre o
              JOIN pact._adresse a ON o.idAdresse = a.idAdresse
              LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
@@ -236,7 +236,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
                     <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
-                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>">
+                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>">
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value["option"] == "À la Une") { ?>
                                 <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
@@ -315,7 +315,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <p>Vous aussi, postez votre offre dès maintenant !</p>
                     <p>Devenez professionnel en 1 minute</p>
                 </div>
-                <a href="creation_compte.php" class="join-button">Nous rejoindre</a>
+                <a href="creation_compte_pro_formulaire.php" class="join-button">Nous rejoindre</a>
             </div>
             <footer>
                 <?php include_once'footer.php'; ?>

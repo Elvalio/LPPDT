@@ -199,9 +199,13 @@ document.addEventListener('DOMContentLoaded', function () {
         trie(offresVisibles);
     
         const rechercheTexte = rechercheOffre.value.toLowerCase();
+
         offresVisibles = offresVisibles.filter(offre => {
             const offreTexte = offre.textContent.toLowerCase();
-            return offreTexte.includes(rechercheTexte);
+            const offreCategorie = offre.getAttribute('data-categorie').toLowerCase();
+            const offreTitre = offre.getAttribute('data-titre').toLowerCase();
+            const offreDescription = offre.getAttribute('data-desc').toLowerCase();
+            return offreTexte.includes(rechercheTexte) || offreCategorie.includes(rechercheTexte) || offreTitre.includes(rechercheTexte) || offreDescription.includes(rechercheTexte);
         });
     
         offresVisibles.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
