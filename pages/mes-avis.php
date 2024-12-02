@@ -7,9 +7,11 @@
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body>
+        <nav class="nav-bar">
         <?php
-        include_once 'nav.php';
-
+        include_once 'nav.php'; ?>
+        </nav>
+        <?php
         include('../sql/connect_params.php');
 
 
@@ -136,4 +138,8 @@
         </div>
     </body>
     <script src="../js/mes-avis.js"></script>
+    <div class = "footer-nav">
+        <?php
+        include_once 'footerNav.php'; ?>
+    </div>
 </html>
