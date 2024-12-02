@@ -29,14 +29,8 @@ function offre($numFacture, $userID, $bdh){
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function image($idOffre) {
+   
 
-    // Requête pour récupérer les images associées
-    $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idAnnonce");
-    $stmtPhotos->execute([':idAnnonce' => $idAnnonce]);
-    $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
-    return $photos[0];
-}
 ?>
 
 <!DOCTYPE html>
@@ -85,10 +79,15 @@ function image($idOffre) {
                     <button class="telecharger">Télécharger</button>
                     <button class="voir-plus" aria-expanded="false">Voir plus +</button>
                 </div>
+                
                 <div class="facture-details">
-                    <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
+                <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
                     <div class="facture-offre">
-                        <img src="../images/image_offre/2-1.jpg" alt="">
+                        <img src="../images/<?php  // Requête pour récupérer les images associées
+    $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idOffre");
+    $stmtPhotos->execute([':idOffre' => $idOffre]);
+    $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
+    return $photos[0]; ?>" alt="">
                         <p><?php echo htmlspecialchars($offre['titre']) ?></p>
                         <p><?php if (!empty($offre['option'])) {
                                         echo htmlspecialchars($offre['option']);
@@ -96,16 +95,11 @@ function image($idOffre) {
                                 echo "Pas d'option";
                                     }
                           ?></p>
-                        <p><?php echo htmlspecialchars($offre['cout_ttc']) ?></p>
+                        <p><?php echo htmlspecialchars($offre['cout_ttc']) ?>€/TTC</p>
                     </div>
-                    <div class="facture-offre">
-                        <img src="../images/image_offre/2-1.jpg" alt="">
-                        <p>Qui m'aime me suive</p>
-                        <p>Pas d'option</p>
-                        <p>50€</p>
-                    </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
+            
         </article> 
         <?php } ?>
     </div>

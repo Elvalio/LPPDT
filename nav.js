@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Vérifier si c'est l'élément avec l'image spécifique à ne pas changer
         if (img && img.id === 'img-profile') {
             // Ne rien faire pour cet élément
-            console.log("Image du profil, ne pas changer.");
             item.style.display= 'flex';
             return;  // Sortir de la boucle pour cet élément
         }
@@ -56,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Récupérer la valeur de data-icon pour les autres éléments
         const iconName = item.dataset.icon;
         const page = item.getAttribute('href');
-        console.log(item);
         if (sidebar.classList.contains('FO')){
             if (!itemToHideFO.includes(iconName) && !itemEnConstruction.includes(iconName)){
                 item.style.display= 'flex';

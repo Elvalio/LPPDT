@@ -15,8 +15,6 @@
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
-        $user_cookie = $_COOKIE['user'];
-
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if(isset($_POST['id_avis'])){
@@ -28,22 +26,21 @@
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
                 }
+            }else{
+                
             }
         }
-    
-        try{
 
-        
-        $stmt=$dbh->prepare("SELECT * FROM pact.experience WHERE idC = :id_user");
-        $stmt->bindParam(':id_user', $user_cookie);
-        $stmt->execute();
-    
-        $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+        try{
+            $stmt = $dbh->prepare("SELECT * FROM pact.experience WHERE idC = :id_user");
+            $stmt->bindParam(':id_user', $_COOKIE['user']);
+            $stmt->execute();
+            $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-
+        
         $dbh = null;
         ?>
 

@@ -1,3 +1,7 @@
+<?php 
+include('../sql/connect_params.php');
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -33,7 +37,7 @@
             <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
             <div>
                 <h2>Michael Smith</h2>
-                <p>Membre</p>
+                <p><?php echo $_COOKIE['type_compte']; ?></p>
             </div>
         </div>
 
@@ -98,7 +102,9 @@
             <div class="container-ligne">
                 <button class="edit-btn">Modifier les informations</button>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
-                <button class="edit-btn">Afficher mes avis</button>
+                <form method="POST" action="mes-avis.php">
+                    <button type="submit" class="edit-btn">Afficher mes avis</button>
+                </form>
                 <?php } ?>
             </div>
         </div>
