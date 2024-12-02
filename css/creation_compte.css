@@ -30,7 +30,7 @@ a {
 .container-page-creation-compte {
     width: 100%;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: auto;
     padding: 20px;
 }
 
@@ -166,11 +166,6 @@ input[type="radio"] {
     margin: 5px;
 }
 
-
-
-
-
-
 .checkbox {
     display: flex;
     align-items: center;
@@ -182,11 +177,6 @@ input[type="checkbox"] {
     padding: 0;
     margin: 5px;
 }
-
-
-
-
-
 
 /* Conteneur des boutons radio */
 .radio-group {
@@ -207,16 +197,12 @@ input[type="checkbox"] {
 .radio-button {
     width: 20px;
     height: 20px;
-    accent-color: #006B8F; /* Couleur personnalisée pour les boutons radio */
     cursor: pointer;
 }
 
 .radio-label {
-    font-size: 16px;
-    cursor: default; /* Désactive le clic sur le texte */
-    margin-right: 20px;
+    margin-right: 10px;
 }
-
 
 .redirection-links {
     margin-top: 15px;
@@ -263,7 +249,6 @@ input[type="checkbox"] {
         display: none;
     }
 
-
 }
 
 
@@ -272,6 +257,9 @@ input[type="checkbox"] {
 /* ==================================== */
 
 @media (max-width: 800px) {
+    .container-page-creation-compte {
+        width: 100%;
+      }
     .Redirection_pro {
         display: none;
     }
@@ -304,12 +292,12 @@ input[type="checkbox"] {
         flex-direction: column; /* Forme une seule colonne */
     }
 
-    .input {
+    .form-group input:not([type="checkbox"]) {
         width: 95%;
         padding: 10px;
         border: none;               /* Remove all borders */
         border-bottom: 1px solid #ccc; /* Only the bottom border */
-        border-radius: 5px;
+        border-radius: 0;
     }
 
     .left-column, .right-column {
@@ -329,4 +317,22 @@ input[type="checkbox"] {
     .checkbox {
         margin-top: 20px;
     }
+
+    .redirection-links {
+        margin-bottom: 3em;
+        display: inline-block;
+        padding: 10px;
+        border: 2px solid black;
+        border-radius: 5px;
+        color: black;
+        text-decoration: none;
+        text-align: center;  /* Center the text inside the button */
+        width: 100%;         /* Match the width of the "Se connecter" button */
+        box-sizing: border-box; /* Ensure padding doesn't overflow the width */
+    }
+
+    .redirection-links a {
+        text-decoration: none;
+    }
+
 }
