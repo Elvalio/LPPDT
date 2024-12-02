@@ -1,14 +1,5 @@
-@media (max-width: 800px) {
-    .phone-element {
-      display: block;
-    }
-  
-    .desktop-element {
-      display: none;
-    }
-  }
-  
-  @media (min-width: 801px) {
+/* Version desktop*/
+@media (min-width: 801px) {
     .desktop-element {
       display: block;
     }
@@ -16,12 +7,7 @@
     .phone-element {    
       display: none;
     }
-
-    html {
-        scrollbar-gutter: stable;
-      }
-      
-  }
+}
 
 /* Temporair, je sais pas comment les autres ont fais pour pas que la page dépasse sur la nav */
 .content {
@@ -124,8 +110,12 @@
     cursor: pointer;
 }
 
-.edit-btn:hover {
+.cancel-btn:hover {
     background-color: var(--gris-fonce);
+}
+
+.deco-btn {
+    visibility: hidden;
 }
 
 div > hr {
@@ -134,4 +124,37 @@ div > hr {
     background-color: #E4E4E4;
     border: 1px;
     border-radius: 3px;
+}
+
+
+/* Version mobile*/
+@media (max-width: 800px) {
+    .phone-element {
+      display: block;
+    }
+  
+    .desktop-element {
+      display: none;
+    }
+
+    .container-ligne {
+        display: none;
+    }
+
+    .deco-btn {
+        visibility: visible;
+        display: block;
+        margin: 100px 100px 100px 0;
+        padding: 10px 20px;
+        background-color: var(--gris-clair);
+        color: var(--blanc);
+        font-family: 'TripSansBold', Arial, sans-serif;
+        text-align: center;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .deco-btn:hover {
+        background-color: var(--gris-fonce);
+    }
 }
