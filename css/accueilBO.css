@@ -500,6 +500,28 @@ input[type="range"]::-ms-thumb {
     object-fit: cover;
 }
 
+
+/* ========================================= */
+/*         STYLES POUR OUVERT/FERMEE         */
+/* ========================================= */
+
+
+
+.filtre-ouvert {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+
+.filtre-ouvert div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
 /* ========================================= */
 /*         STYLES POUR LE MENU DÉROULANT     */
 /* ========================================= */
