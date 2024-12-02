@@ -94,8 +94,8 @@ include('../sql/connect_params.php');
                     <input type="text" value="Les voyages de Marco Polo">
                 </div>
                 <div class="container-info">
-                    <label>Numéro SIRET</label>
-                    <input type="text" value="12345678912345">
+                    <label>Numéro SIREN</label>
+                    <input type="text" value="123456789">
                 </div>
             </div>
             <?php } ?>
