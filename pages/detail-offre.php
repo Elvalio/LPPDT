@@ -297,7 +297,7 @@ try {
             </h3>
         </header>
         <article class="article-avis">
-            <?php if($_COOKIE['type_compte']!="pro_public" && $_COOKIE['type_compte']!="pro_prive"){ ?>
+            <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ ?>
                 <article class="poster_avis">
                     <h3>Poster un avis :</h3>
                     <div>

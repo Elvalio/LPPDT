@@ -473,13 +473,21 @@
 
   /* Définition du container contact */
   .part-contact {
-      display: block;
+      display: flex;
       flex-direction: row;
       width: 100%;
       padding-top: 12px ;
       font-family: 'TripSansBold';
       font-size: 12px;  
   }
+
+  .part-contact div img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+
+  
   
   .carte {
       width: 40vh;
@@ -490,7 +498,7 @@
     display: flex;
     flex-direction: column;
   }
-}
+
 
 .poster_avis{
   width: 100%;
@@ -543,6 +551,7 @@
   font-size: 16px;
   width: fit-content;
   margin-top: 30px;
+}
 }
 
 /* CSS FACTURATION */
