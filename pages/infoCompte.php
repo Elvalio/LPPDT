@@ -109,8 +109,9 @@ include('../sql/connect_params.php');
                 </div>
                 <div class="container-info">
                     <label>Adresse Postale</label>
-                    <!-- I NEED TO IMPLODE BOTH OF THESE SO THAT THEY ARE SHOWN CORRECTLY -->
-                    <input type="text" value=<?php echo $compte[0]['numero_voie'] . ' ' . $compte[0]['voie']; ?> readonly>
+                    <?php
+                    ?>
+                    <input type="text" value="<?php echo htmlspecialchars($compte[0]['numero_voie'] . ' ' . $compte[0]['voie']); ?>" readonly>
                 </div>
             </div>
             <br><br>
@@ -157,7 +158,7 @@ include('../sql/connect_params.php');
         </div>
     </div>
 
-    <footer>
+    <footer class="content">
         <?php include_once 'footer.php'; ?>
     </footer>
 </body>
