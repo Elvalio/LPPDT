@@ -1,3 +1,7 @@
+<?php 
+include('../sql/connect_params.php');
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -37,7 +41,7 @@
             </div>
         </div>
 
-        <form class="main-container">
+        <form class="main-container" action="infoCompte.php">
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Prénom</label>
@@ -100,8 +104,12 @@
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Entrer le mot de passe</label>
-                    <input type="password" value="Les voyages de Marco Polo">
+                    <input type="password" value="skjosdkkvd">
                 </div>
+            </div>
+            <div class="container-ligne">
+                <button type="submit" class="edit-btn">Enregistrer les modifications</button>
+                <button type="reset" class="cancel-btn">Annuler les modifications</button>
             </div>
         </form>
     </div>
