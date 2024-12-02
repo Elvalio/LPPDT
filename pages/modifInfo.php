@@ -115,13 +115,3 @@ include('../sql/connect_params.php');
     </div>
 </body>
 </html>
-
-            <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                         <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                      <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                   <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                             <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                                          <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                                                       <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                                                                    <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
