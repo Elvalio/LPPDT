@@ -500,6 +500,28 @@ input[type="range"]::-ms-thumb {
     object-fit: cover;
 }
 
+
+/* ========================================= */
+/*         STYLES POUR OUVERT/FERMEE         */
+/* ========================================= */
+
+
+
+.filtre-ouvert {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+
+.filtre-ouvert div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 5px;
+}
+
 /* ========================================= */
 /*         STYLES POUR LE MENU DÉROULANT     */
 /* ========================================= */
@@ -897,7 +919,7 @@ input[type="range"]::-ms-thumb {
     opacity: 0;
     transform: translateX(20px);
     transition: opacity 0.4s, transform 0.4s;
-    z-index: 1000;
+    z-index: 10;
 }
 
 .popup-text {

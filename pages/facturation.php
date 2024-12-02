@@ -22,21 +22,38 @@ try {
 }
 
 function offre($numFacture, $userID, $bdh){
-    $stmt = $bdh->prepare("SELECT o.*, pact.prix_offre_HT(:userID, o.idO, now()::date) from pact.offre o inner join pact._facturation f on f.idC = o.idC where o.idC = :userID and f.numFacture = :numFacture and 
+    $stmt = $bdh->prepare("SELECT o.*, pact.prix_offre_HT(:userID, o.idO, now()::date), pact.prix_offre_TTC(:userID, o.idO, now()::date) from pact.offre o inner join pact._facturation f on f.idC = o.idC where o.idC = :userID and f.numFacture = :numFacture and 
     EXTRACT(MONTH FROM f.date_facture) = EXTRACT(MONTH FROM o.date_publication)
     and EXTRACT(YEAR FROM f.date_facture) = EXTRACT(YEAR FROM o.date_publication);");
     $stmt->execute([':userID' => $userID, ':numFacture' => $numFacture]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function image($idOffre) {
-
-    // Requête pour récupérer les images associées
-    $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idAnnonce");
-    $stmtPhotos->execute([':idAnnonce' => $idAnnonce]);
+function image($idOffre, $bdh) {
+    $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idOffre");
+    $stmtPhotos->execute([':idOffre' => $idOffre]);
     $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
-    return $photos[0];
+    return $photos[0]['src_image'] ?? ''; // Assurez-vous que la clé existe
 }
+
+function PrixOptionTTC($idOffre, $bdh) {
+    try {
+        // Préparez et exécutez la requête
+        $stmtPrixOption = $bdh->prepare("SELECT pact.prix_option_offre_TTC(:idOffre) AS prix_option_ttc");
+        $stmtPrixOption->execute([':idOffre' => $idOffre]);
+
+        // Récupérez le résultat
+        $Prix = $stmtPrixOption->fetch(PDO::FETCH_ASSOC);
+
+        // Retournez la valeur ou une valeur par défaut si rien n'est trouvé
+        return $Prix['prix_option_ttc'] ?? 0;
+    } catch (PDOException $e) {
+        // Gérez les erreurs
+        echo "Erreur lors de la récupération du prix des options : " . htmlspecialchars($e->getMessage());
+        return 0;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -82,30 +99,32 @@ function image($idOffre) {
                         <p>Nombre d'offres :</p>
                         <p><?php echo htmlspecialchars($facture['nombre_offre']); ?></p>
                     </div>
-                    <button class="telecharger">Télécharger</button>
+                    <button >Télécharger</button>
                     <button class="voir-plus" aria-expanded="false">Voir plus +</button>
                 </div>
+                
                 <div class="facture-details">
-                    <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
+                <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
                     <div class="facture-offre">
-                        <img src="../images/image_offre/2-1.jpg" alt="">
-                        <p><?php echo htmlspecialchars($offre['titre']) ?></p>
-                        <p><?php if (!empty($offre['option'])) {
+                        <img class="facture-detail-element" src="../images/<?php echo image($offre['ido'], $bdh) ?>" alt="">
+                        <p class="facture-detail-titre facture-detail-element"><?php echo htmlspecialchars($offre['titre']) ?></p>
+                        <p class="facture-detail-option facture-detail-element"><?php if (!empty($offre['option'])) {
                                         echo htmlspecialchars($offre['option']);
                                     } else {
                                 echo "Pas d'option";
                                     }
                           ?></p>
-                        <p><?php echo htmlspecialchars($offre['cout_ttc']) ?></p>
+                          <button class="telecharger facture-detail-element">Télécharger</button>
+                          <div class="facture-total facture-detail-element">
+                        <p>Prix HT : <?php echo round($offre['prix_offre_ht'],2) ?>€</p>
+                    <p>TVA : <?php echo round($offre['prix_offre_ttc'] - $offre['prix_offre_ht'],2) ?>€</p>
+                    <p>Montant TTC : <?php echo round($offre['prix_offre_ttc'],2) ?>€</p>   
                     </div>
-                    <div class="facture-offre">
-                        <img src="../images/image_offre/2-1.jpg" alt="">
-                        <p>Qui m'aime me suive</p>
-                        <p>Pas d'option</p>
-                        <p>50€</p>
+                    
                     </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
+            
         </article> 
         <?php } ?>
     </div>

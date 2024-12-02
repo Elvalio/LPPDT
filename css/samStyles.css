@@ -489,38 +489,140 @@
   .side-contact {
     display: flex;
     flex-direction: column;
-    width: 100%;
   }
-  
-  .side-contact div img {
-    width: 20px;
-    height: 20px;
-    margin-right: 8px;
-  }
-  
-  /* 
-   * Cette règle CSS cible l'élément avec l'ID "container".
-   * Elle définit la largeur à 100% de son élément parent,
-   * applique un padding de 20 pixels sur tous les côtés,
-   * et définit la couleur de fond à gris clair (#f0f0f0).
-   */
-  .side-contact div div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  /* 
-   * Cette règle CSS applique une couleur de fond à l'élément body.
-   * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
-   */
-  .side-contact div div a  {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-decoration: none;
-  }
-    
+}
 
-}   
+.poster_avis{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.poster_avis div{
+  display: flex;
+  margin-top: 5px;
+}
+
+.poster_avis > div > img{
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.poster_avis > h3{
+  font-family: 'TripSansBold';
+}
+
+#ecrire_avis{
+  width : 100%;
+  height: 200px;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 5px;
+  resize: none;
+  overflow: auto;
+  font-family: "TripSansRegular";
+}
+
+#titre_avis{
+  width : 100%;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 5px;
+  resize: none;
+  overflow: auto;
+  font-family: "TripSansRegular";
+}
+
+#bouton_publier {
+  padding: 10px 30px; /* Padding à droite et à gauche */
+  cursor: pointer; /* Curseur en forme de main */
+  border: none;
+  border-radius: 8px;
+  background-color: var(--turquoise-orange);
+  font-size: 16px;
+  width: fit-content;
+  margin-top: 30px;
+}
+
+/* CSS FACTURATION */
+/*-----------------------------------------------------------------------------------*/
+
+/* Définition du composant de la facturation */
+.facture-liste-facture {
+  display: flex;
+  flex-direction: row;
+  width: 99%;
+  justify-content: space-between;
+  }
+
+.facture-liste-facture button {
+  background-color: var(--bleuFonce-rougeFonce);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: 'TripSansBold';
+  padding: 10px;
+  transition: background-color 0.3s ease-in-out;
+  align-self: center;
+  width: 100px;
+}
+
+.facture-liste-facture button:hover {
+  background-color: #d30027;
+}
+
+.facture-tri {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  font-family: 'TripSansBold';
+  padding: 10px;
+  border: 2px solid var(--bleuFonce-rougeFonce);
+  border-radius: 10px;
+  width: fit-content;
+}
+
+.facture-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              opacity 0.3s ease-in-out, 
+              padding 0.3s ease-in-out;
+  padding: 0 10px;
+}
+
+.facture-details.active {
+  max-height: 1000px; /* Toujours une valeur élevée pour éviter de couper le contenu */
+  opacity: 1;
+  padding: 10px 10px;
+}
+
+
+.facture-composant-liste {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  background-color: #f077055d;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: 'TripSansRegular';
+}
+
+.facture-offre {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 10px;
+  font-family: 'TripSansBold';
+}
+
+.facture-offre img {
+  height: 120px;
+  border-radius: 10px;
+}
