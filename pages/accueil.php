@@ -8,10 +8,32 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT o.en_ligne, o.titre, o.prix_min, o.moy_note, o.nbravis, o.resume, a.ville, p.src_image, o.ido, o.categorie, o.date_publication, o.option, o.description
-             FROM pact.offre o
-             JOIN pact._adresse a ON o.idAdresse = a.idAdresse
-             LEFT JOIN pact.photo_offre p ON o.idO = p.idO"
+            "SELECT 
+    o.en_ligne, 
+    o.titre, 
+    o.prix_min, 
+    o.moy_note, 
+    o.nbravis, 
+    o.resume, 
+    a.ville, 
+    p.src_image, 
+    o.ido, 
+    o.categorie, 
+    o.date_publication, 
+    o.option, 
+    o.description, 
+    h.heureOuverture, 
+    h.heureFermeture,
+    h.ouvertWeekend
+FROM 
+    pact.offre o
+JOIN 
+    pact._adresse a ON o.idAdresse = a.idAdresse
+LEFT JOIN 
+    pact.photo_offre p ON o.idO = p.idO
+LEFT JOIN 
+    pact._horaire h ON o.idO = h.idO;
+"
         );
     
     $stmt->execute();
@@ -77,9 +99,11 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         <?php
             include 'header.php';
         ?>
+            
             <div>
                 <?php include 'filtreMobile.php'; ?>
             </div>
+           
         </header>
         <div class="main-content">
             <!-- Contenu principal de la page -->
@@ -196,7 +220,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <div class="filtre-prix desktop">
                         <div class="slider-container">
                             <input type="range" id="slider-left" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>" class="filtre-prix-min">
-                            <input type="range" onchange="change()" id="slider-right" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>" class="filtre-prix-max">
+                            <input type="range" id="slider-right" min="<?php echo $prix_min ?>" max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>" class="filtre-prix-max">
                             
                             <div class="value-container">
                                 <span id="value-left"><?php echo $prix_min ?>€</span>
@@ -229,6 +253,23 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <?php } ?>
                     </div>
                 </div>
+                <div class="filter desktop">
+                    <p class="FS">Ouvert / Fermé</p>
+                    <div class="filtre-ouvert desktop">
+                        <div class="choixOuvert">
+                            <input type="radio" name="ouverture" id="tout" checked>
+                            <label for="tout">Tout</label>
+                        </div>
+                        <div class="choixOuvert">
+                            <input type="radio" name="ouverture" id="ouvert">
+                            <label for="ouvert">Ouvert</label>
+                        </div>
+                        <div class="choixOuvert">
+                            <input type="radio" name="ouverture" id="ferme">
+                            <label for="ferme">Fermé</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <main>
@@ -236,7 +277,12 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
                     <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
-                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>">
+                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?> <?php if (isset($value["heureouverture"]) && isset($value["heurefermeture"])) {
+                            $currentHour = date('H:i:s');
+                            $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
+                            echo $isOpen ? "ouvert" : "ferme";
+                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>">
+                        
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value["option"] == "À la Une") { ?>
                                 <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
@@ -268,7 +314,13 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </a>
                     </div>
 
-                    <div class="carte_offre phone-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?> <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>">
+                    <div class="carte_offre phone-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
+                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?> <?php if (isset($value["heureouverture"]) && isset($value["heurefermeture"])) {
+                            $currentHour = date('H:i:s');
+                            $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
+                            echo $isOpen ? "ouvert" : "ferme";
+                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>">
+                        
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value["option"] == "À la Une") { ?>
                                 <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
@@ -284,7 +336,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             <div class="etoileNote">
                                 <?php
                                 if ($value["moy_note"] != null && $value["nbravis"] != 0) {
-                                    for ($i=0; $i < $value["moy_note"]; $i++) { ?>
+                                    for ($i=0; $i < floor($value["moy_note"]); $i++) { ?>
                                         <img src="../icons/etoile_rouge.png" alt="Etoile">
                                     <?php }
                                     for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>

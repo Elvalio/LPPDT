@@ -152,6 +152,10 @@
   .phone-element{
     display: none;
   }
+
+  .titre-connexion {
+    display: none;
+  }
 }
 
 /* ==================================== */

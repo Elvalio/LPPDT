@@ -97,3 +97,31 @@ h1{
     display: flex;
     justify-content: flex-start;
 }
+
+@media screen and (max-width: 800px) {
+    
+    .avis{
+        margin: 0px;
+        border-radius: 0px;
+    }
+
+    h1{
+        margin: 10px 0px 10px 25px !important;
+    }
+
+    .main-content{
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .nav-bar{
+        display: none;
+    }
+
+}
+
+@media screen and (min-width: 801px) {
+    .footer-nav{
+        display: none;
+    }
+}
