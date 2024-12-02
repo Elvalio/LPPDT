@@ -1,3 +1,7 @@
+<?php 
+include('../sql/connect_params.php');
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -37,7 +41,7 @@
             </div>
         </div>
 
-        <form class="main-container">
+        <form class="main-container" action="infoCompte.php">
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Prénom</label>
@@ -90,8 +94,8 @@
                     <input type="text" value="Les voyages de Marco Polo">
                 </div>
                 <div class="container-info">
-                    <label>Numéro SIRET</label>
-                    <input type="text" value="12345678912345">
+                    <label>Numéro SIREN</label>
+                    <input type="text" value="123456789">
                 </div>
             </div>
             <?php } ?>
@@ -100,20 +104,14 @@
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Entrer le mot de passe</label>
-                    <input type="password" value="Les voyages de Marco Polo">
+                    <input type="password" value="skjosdkkvd">
                 </div>
+            </div>
+            <div class="container-ligne">
+                <button type="submit" class="edit-btn">Enregistrer les modifications</button>
+                <button type="reset" class="cancel-btn">Annuler les modifications</button>
             </div>
         </form>
     </div>
 </body>
 </html>
-
-            <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                         <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                      <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                   <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                             <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                                          <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                                                       <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
-                                                                                                                    <!-- CHANGE LE GRAND DIV EN FORM POUR POUVOIR MODIFIER LES INFORMATIONS OUBLIE PAS SALE CONNARD -->
