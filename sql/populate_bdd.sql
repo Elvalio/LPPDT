@@ -129,7 +129,7 @@ insert into pact.photo_offre (src_image, idO) values ('image_offre/4-1.jpg', 4);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/5-1.webp', 5);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/6-1.jpg', 6);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/7-1.jpg', 7);
-
+insert into pact.photo_offre (src_image, idO) values ('image_offre/7-2.jpg', 7);
 
 -- AVIS --
 
