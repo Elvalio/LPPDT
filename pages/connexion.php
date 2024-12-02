@@ -102,6 +102,9 @@ if ($_POST!=[]) {
         <?php if (!empty($message_erreur)) { ?>
         <p class="message-erreur"><?php echo $message_erreur; ?></p>
         <?php } ?>
+
+        <h1 class="titre-connexion TS-bold">Connexion</h1>
+
         <form action="connexion.php" method="post" class="login-form">
             <div class="form-group">
                 <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
