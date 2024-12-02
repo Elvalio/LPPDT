@@ -88,6 +88,23 @@
     background-color: var(--bleuFonce-rougeFonce);
 }
 
+.cancel-btn {
+    display: block;
+    margin: 100px 100px 100px 0;
+    padding: 10px 20px;
+    background-color: var(--gris-clair);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background-color: var(--gris-fonce);
+}
+
 div > hr {
     width: 80%;
     height: 2px;
