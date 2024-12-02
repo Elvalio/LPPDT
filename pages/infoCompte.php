@@ -8,6 +8,15 @@ include('../sql/connect_params.php');
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/styleEthan.css">
+
+
+    <script>
+        function deconnexion() {
+            document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+            document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+            location.assign("accueil.php");
+                                        }
+    </script>
 </head>
     <?php
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
@@ -30,7 +39,7 @@ include('../sql/connect_params.php');
             }
 
             $compte = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            
+
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
@@ -67,6 +76,12 @@ include('../sql/connect_params.php');
             <div>
                 <h2><?php echo $compte['prenom'] . ' ' . $compte['nom']; ?></h2>
                 <p><?php echo $_COOKIE['type_compte']; ?></p>
+                <br>
+                <?php if ($_COOKIE['type_compte'] == "membre") { ?>
+                <form method="POST" action="mes-avis.php">
+                    <button type="submit" class="edit-btn">Afficher mes avis</button>
+                </form>
+                <?php } ?>
             </div>
         </div>
 
@@ -129,12 +144,8 @@ include('../sql/connect_params.php');
             </div>
             <?php } ?>
             <div class="container-ligne">
-                <button class="edit-btn">Modifier les informations</button>
-                <?php if ($_COOKIE['type_compte'] == "membre") { ?>
-                <form method="POST" action="mes-avis.php">
-                    <button type="submit" class="edit-btn">Afficher mes avis</button>
-                </form>
-                <?php } ?>
+                <button class="edit-btn" onclick="modifInfo.php">Modifier les informations</button>
+                <button class="deco-btn" onclick="deconnexion()">Se déconnecter</button>
             </div>
         </div>
     </div>
