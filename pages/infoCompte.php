@@ -1,3 +1,7 @@
+<?php 
+include('../sql/connect_params.php');
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -33,7 +37,7 @@
             <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
             <div>
                 <h2>Michael Smith</h2>
-                <p>Membre</p>
+                <p><?php echo $_COOKIE['type_compte']; ?></p>
             </div>
         </div>
 
