@@ -82,18 +82,7 @@ label {
 }
 
 /* Le style de la checkbox pour la validation des conditions d'utilisation */
-.checkbox {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    margin-top: 2.2em;
-    font-weight: bold;
-}
 
-/* Définir l'espace entre la case à cocher et le texte qui suit */
-.checkbox input {
-    margin-right: 10px;
-}
 
 
 /* Style du bouton d'envoi du formulaire pour la page membre */
@@ -164,15 +153,40 @@ label {
     font-weight: bold;
 }
 
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
 input[type="radio"] {
+    padding: 0;
     margin: 5px;
 }
 
-input[type="text"] {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+
+
+
+
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    height: 15%;
 }
+
+input[type="checkbox"] {
+    width: 5%;
+    padding: 0;
+    margin: 5px;
+}
+
+
+
+
+
 
 /* Conteneur des boutons radio */
 .radio-group {
@@ -238,4 +252,81 @@ input[type="text"] {
 .element_prive2 {
     display: none;
     margin-top: 82px;
+}
+
+/* ===================================== */
+/*          VERSION DESKTOP              */
+/* ===================================== */
+
+@media (min-width: 800px) {
+    .phone-element, .mobile-footer{
+        display: none;
+    }
+
+
+}
+
+
+/* ==================================== */
+/*          VERSION MOBILE              */
+/* ==================================== */
+
+@media (max-width: 800px) {
+    .Redirection_pro {
+        display: none;
+    }
+    
+    .bouton-retour-page-création {
+        display: none;
+    }
+
+    .phone-element {
+        width: 100%;
+    }
+
+    .bouton-envoi-formulaire-crea-compte-page-membre {
+        background-color: black;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .inscription-membre {
+        color: black;
+    }
+
+    .form-container-page-creation-compte {
+        max-width: 90%; /* Réduction supplémentaire sur petits écrans */
+        width: auto; /* Annulation de la largeur fixe */
+        padding: 15px;
+    }
+
+    .form-group {
+        flex-direction: column; /* Forme une seule colonne */
+    }
+
+    .input {
+        width: 95%;
+        padding: 10px;
+        border: none;               /* Remove all borders */
+        border-bottom: 1px solid #ccc; /* Only the bottom border */
+        border-radius: 5px;
+    }
+
+    .left-column, .right-column {
+        width: 95%; /* Colonne unique */
+    }
+
+    .row {
+        flex-direction: column;
+        gap: 0; /* Supprimer les écarts horizontaux */
+    }
+
+    .input-wrapper {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .checkbox {
+        margin-top: 20px;
+    }
 }

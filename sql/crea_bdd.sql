@@ -352,6 +352,22 @@ create table pact._tags_restauration(
   (idTag) references pact._tag_resto(idTag)
 );
 
+-- HORAIRE RESTO
+create table pact._horaire(
+  idHoraire serial,
+  heureOuverture time not null,
+  heureFermeture time not null,
+  ouvertWeekend boolean default false,
+    
+  --FK
+  idO integer,
+
+  constraint _horaire_pk primary key (idHoraire),
+  
+  constraint _horaire_fk_restauration foreign key
+    (idO) references pact._restauration(idO)
+);
+
 create table pact._photo_offre(
   idImage integer,
   idO integer,
@@ -743,7 +759,7 @@ instead of insert on pact.offre
 
 --insert
 create or replace view pact.activite as
-  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, age_min, prestation_incluse, prestation_excluse, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, age_min, prestation_incluse, prestation_excluse, idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC
    from pact._activite natural join pact.offre;
   
   create or replace function pact.insert_activite()
@@ -795,7 +811,7 @@ instead of update on pact.activite
 -- visite
 --insert
 create or replace view pact.visite as
-  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, langues, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, langues, idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC
    from _visite natural join offre;
   
 create or replace function pact.insert_visite()
@@ -845,7 +861,7 @@ instead of update on pact.visite
 -- spectacle
 --insert
 create or replace view pact.spectacle as
-  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, capacite, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, duree, capacite, idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC
    from pact._spectacle natural join pact.offre;
   
 create or replace function pact.insert_spectacle()
@@ -896,7 +912,7 @@ instead of update on pact.spectacle
 -- parc_d_attraction
 --insert
 create or replace view pact.parc_d_attraction as
-  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, "plan", src_image, nbr_attractions, age_min, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, "plan", src_image, nbr_attractions, age_min, idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC
    from pact._parc_d_attraction 
    natural join pact.offre
    inner join pact._image on "plan"=idImage;
@@ -951,7 +967,7 @@ instead of update on pact.parc_d_attraction
 --insert
 create or replace view pact.restauration as
   select idO, titre, resume, "type", option, description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, 
-  carte_restaurant, src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, idAdresse, ville, numero_voie, voie, code_postal, complement, idC
+  carte_restaurant, src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC
    from pact._restauration 
     natural join pact.offre
     inner join pact._image on carte_restaurant=idImage;
@@ -1137,7 +1153,7 @@ end;
 $$ language 'plpgsql';
 
 /*
-  Cette fonction calcule le prix TTC de la facture pour le mois et l'année, ne prend pas en compte les options pour l'instant
+  Cette fonction calcule le prix TTC de la facture pour le mois et l'année, ne prend pas en compte les options
 */
 create or replace function pact.prix_total_TTC(idCompte integer, idFacture integer)
   returns float as $$
@@ -1158,7 +1174,7 @@ $$ language 'plpgsql';
 
 
 /*
-  Cette fonction calcule le prix HT de la facture pour le mois et l'année, ne prend pas en compte les options pour l'instant
+  Cette fonction calcule le prix HT de la facture pour le mois et l'année, ne prend pas en compte les options
 */
 create or replace function pact.prix_total_HT(idCompte integer, idFacture integer)
   returns float as $$
@@ -1180,3 +1196,60 @@ $$ language 'plpgsql';
 create or replace view pact.facturation as 
   select numfacture, date_facture, pact.nombre_offre_facture(idC, numFacture) as nombre_offre, pact.prix_total_TTC(idC, numFacture) as prix_ttc,
   pact.prix_total_HT(idC, numFacture) as prix_ht, idC from pact._facturation;
+
+/*
+  Fonction calcule le prix TTC d'une option pour une offre donnée,
+  si la date de lancement n'a pas étée dépasée, le prix est 0
+*/
+create or replace function pact.prix_option_offre_TTC(idOffre integer)
+  returns float as $$
+declare
+  cout float;
+  duree interval;
+  comp float;
+  days integer;
+  res float;
+  date_lancement date;
+
+begin
+  select o.date_lancement from pact.option_offre o where o.idO = idOffre into date_lancement;
+  if (current_date > date_lancement and date_lancement is not null) then
+    select o.cout_TTC from pact.option_offre o where o.idO = idOffre into cout;
+    select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
+    select EXTRACT(DAY FROM duree) into days;
+    res = days/7 * cout;
+  else
+    res = 0;
+  end if;
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+
+/*
+  Fonction calcule le prix HT d'une option pour une offre donnée,
+  si la date de lancement n'a pas étée dépasée, le prix est 0
+*/
+create or replace function pact.prix_option_offre_HT(idOffre integer)
+  returns float as $$
+declare
+  cout float;
+  duree interval;
+  comp float;
+  days integer;
+  res float;
+  date_lancement date;
+
+begin
+  select o.date_lancement from pact.option_offre o where o.idO = idOffre into date_lancement;
+  if (current_date > date_lancement and date_lancement is not null) then
+    select o.cout_HT from pact.option_offre o where o.idO = idOffre into cout;
+    select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
+    select EXTRACT(DAY FROM duree) into days;
+    res = days/7 * cout;
+  else
+    res = 0;
+  end if;
+  RETURN res;
+end;
+$$ language 'plpgsql';

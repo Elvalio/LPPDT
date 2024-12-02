@@ -1,0 +1,97 @@
+
+/* Temporair, je sais pas comment les autres ont fais pour pas que la page dépasse sur la nav */
+.content {
+    margin-left: 100px;
+    padding: 20px;
+}
+
+.titre {
+    margin-left: 100px;
+}
+
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile h2 {
+    margin: 0;
+    font-family: 'FiraSansBold', Arial, sans-serif;
+    color: var(--bleuFonce-rougeFonce);
+    font-weight: 100;
+}
+
+.profile p {
+    margin: 0;
+    font-family: 'FiraSansRegular', Arial, sans-serif;
+    color: #767676;
+}
+
+#pfp  {
+    margin: 30px 50px;
+}
+
+.main-container {
+    width: 70%;
+    margin-top: 30px;
+    margin-left: 50px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.container-ligne{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.container-info {
+    flex: 1 1 45%;
+    margin-bottom: 15px;
+}
+
+.container-info label {
+    padding-left: 10px;
+    font-weight: bold;
+    font-family: 'FiraSansBold', Arial, sans-serif;
+    color: var(--noir);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.container-info input {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #E4E4E4;
+    border-radius: 20px;
+    background-color: #E4E4E4;
+    color: var(--noir);
+    font-family: 'FiraSansRegular', Arial, sans-serif;
+}
+
+.edit-btn {
+    display: block;
+    margin: 100px 100px 100px 0;
+    padding: 10px 20px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background-color: var(--bleuFonce-rougeFonce);
+}
+
+div > hr {
+    width: 80%;
+    height: 2px;
+    background-color: #E4E4E4;
+    border: 1px;
+    border-radius: 3px;
+}

@@ -967,3 +967,46 @@ input[type="range"]::-ms-thumb {
     opacity: 1;
     transform: translateX(0);
 }
+
+.suggestions {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0 0;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.suggestions li {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.suggestions li:hover {
+    background: #f0f0f0;
+}
+
+.suggestion-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10px;
+}
+
+.close-icon {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+}
+
+.close-icon:hover {
+    width: 20px;
+    height: 20px;
+    transition: 0.2s;
+}

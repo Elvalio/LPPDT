@@ -3,7 +3,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Mon Compte</title>
-        <link rel="stylesheet" href="../css/detail-compte.css">
+        <link rel="stylesheet" href="../css/mes-avis.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body>
@@ -48,17 +48,7 @@
         ?>
 
         <div class="main-content">
-            <h1>
-                Paramètres de compte
-            </h1>
-            <div>
-                <img src="../images/59.png" width="5%" heigth="5%">
-                <div>
-                    <p>ElDiablo</p>
-                    <button>Voir mes avis</button>
-                </div>
-            </div>
-            <!--<section class="detail-compte-donnees">
+            <!--<section class="mes-avis-donnees">
                 <article class="ligne-info">
                     <div>
                         <p>Prénom</p>
@@ -92,7 +82,7 @@
                 <button id="modif-infos">Modifier les informations</button>
             </section>-->
             <section class="mes-avis">
-            <h2>Mes avis</h2>
+            <h1>Mes avis :</h1>
                 <?php
                 foreach($avis as $a) { 
                 ?>
@@ -135,14 +125,18 @@
                         <p id="date-publi"><?php echo $a['date_publication']?></p>
                     </div>
                     <p id="commentaire"><?php echo $a['corps']?></p>
-                    <form method="POST" action="detail-compte.php">
-                        <input type="hidden" name="id_avis" value=<?php echo $a['ida']; ?>>
-                        <input type="submit" name="bouton_supp" value="Supprimer l'avis">
-                    </form>
+                    <div class="boutons">
+                        <form method="POST" action="mes-avis.php" id="form-supp">
+                            <input type="hidden" name="id_avis" value=<?php echo $a['ida']; ?>>
+                            <input type="button" name="bouton_supp" id="bouton-supp" value="Supprimer l'avis">
+                        </form>
+                        <a href="detail-offre.php?value=<?php echo $offre['ido'] ?>">Voir l'offre</a>
+                    </div>
                 </article>
                 <?php
                 } ?>
             </section>
         </div>
     </body>
+    <script src="../js/mes-avis.js"></script>
 </html>
