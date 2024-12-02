@@ -257,7 +257,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <p class="FS">Ouvert / Fermé</p>
                     <div class="filtre-ouvert desktop">
                         <div class="choixOuvert">
-                            <input type="radio" name="ouverture" id="tout" checked>
+                            <input type="radio" name="ouverture" id="tout">
                             <label for="tout">Tout</label>
                         </div>
                         <div class="choixOuvert">

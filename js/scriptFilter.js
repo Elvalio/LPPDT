@@ -7,6 +7,8 @@ const sortMenu = document.getElementById('sortMenu');
 const sortMenuItems = document.querySelectorAll('#sortMenu .menu-item');
 const overlayFiltre = document.getElementById('overlay-filtre');
 
+overlayFiltre.style.display = 'none'; // Cache l'overlay au chargement de la page
+
 // Ouvrir le menu "Filtrer"
 filterButton.addEventListener('click', () => {
     menu.style.left = '0';
@@ -40,7 +42,7 @@ document.addEventListener('click', (event) => {
     if (!menu.contains(event.target) && !filterButton.contains(event.target)) {
         menu.style.left = '-273px';
         overlayFiltre.style.display = 'none';
-        document.body.classList.remove('no-scroll'); // Réactive le scroll sur la page principale
+        document.body.classList.remove('no-scroll'); // Réactive le scroll sur la page principale*
     }
 });
 

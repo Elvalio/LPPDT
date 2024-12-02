@@ -106,7 +106,7 @@
                             <input type="range" id="slider-left" min="<?php echo $prix_min ?>"
                                 max="<?php echo $prix_max ?>" value="<?php echo $prix_min ?>" step="<?php echo $step ?>"
                                 class="filtre-prix-min">
-                            <input type="range" onchange="change()" id="slider-right" min="<?php echo $prix_min ?>"
+                            <input type="range" id="slider-right" min="<?php echo $prix_min ?>"
                                 max="<?php echo $prix_max ?>" value="<?php echo $prix_max ?>" step="<?php echo $step ?>"
                                 class="filtre-prix-max">
 
@@ -141,6 +141,23 @@
                             </div>
                         </div>
                         <?php } ?>
+                    </div>
+                </div>
+                <div class="filter mobile">
+                    <p class="FS">Ouvert / Fermé</p>
+                    <div class="filtre-ouvert mobile">
+                        <div class="choixOuvert">
+                            <input type="radio" name="Ouverture" id="Tout" checked>
+                            <label for="Tout">Tout</label>
+                        </div>
+                        <div class="choixOuvert">
+                            <input type="radio" name="Ouverture" id="Ouvert">
+                            <label for="Ouvert">Ouvert</label>
+                        </div>
+                        <div class="choixOuvert">
+                            <input type="radio" name="Ouverture" id="Ferme">
+                            <label for="Ferme">Fermé</label>
+                        </div>
                     </div>
                 </div>
             </div>
