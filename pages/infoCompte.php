@@ -99,7 +99,6 @@
                 <button class="edit-btn">Modifier les informations</button>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
                 <form method="POST" action="mes-avis.php">
-                    <input type="hidden" name="id_user" value="<?php echo $_COOKIE['user']; ?>">
                     <button type="submit" class="edit-btn">Afficher mes avis</button>
                 </form>
                 <?php } ?>
