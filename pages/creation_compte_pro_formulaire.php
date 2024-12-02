@@ -137,7 +137,7 @@ error_reporting(0); if (!empty($_POST)) {
                                 <input type="radio" name="type-entreprise" value="publique" class="radio-button">
                                 <span class="radio-label">Entreprise publique</span>
 
-                                <input type="radio" name="type-entreprise" value="privee" checked class="radio-button">
+                                <input type="radio" name="type-entreprise" value="privee" class="radio-button" checked>
                                 <span class="radio-label">Entreprise privée
                             </div>
                         </div>
@@ -224,6 +224,40 @@ error_reporting(0); if (!empty($_POST)) {
                 activeForm.classList.add('active');
             }
         }
+
+        // Sélection des éléments à manipuler
+        const radios = document.querySelectorAll('input[name="type-entreprise"]');
+        const elementsPrivee1 = document.getElementById('elements-privee1');
+        const elementsPrivee2 = document.getElementById('elements-privee2');
+
+        // Fonction pour gérer l'affichage et la désactivation
+        function toggleElements() {
+            const selectedValue = document.querySelector('input[name="type-entreprise"]:checked').value;
+
+            if (selectedValue === 'publique') {
+                elementsPrivee1.style.display = 'none';
+                elementsPrivee2.style.display = 'none';
+
+                // Désactiver les champs
+                elementsPrivee1.querySelectorAll('input').forEach(el => el.disabled = true);
+                elementsPrivee2.querySelectorAll('input').forEach(el => el.disabled = true);
+            } else {
+                elementsPrivee1.style.display = 'block';
+                elementsPrivee2.style.display = 'block';
+
+                // Activer les champs
+                elementsPrivee1.querySelectorAll('input').forEach(el => el.disabled = false);
+                elementsPrivee2.querySelectorAll('input').forEach(el => el.disabled = false);
+            }
+        }
+
+        // Ajout d'un écouteur d'événements sur chaque bouton radio
+        radios.forEach(radio => {
+            radio.addEventListener('change', toggleElements);
+        });
+
+        // Appeler la fonction au chargement pour initialiser l'état
+        toggleElements();
 
 
         //Vérification des données avec regex
