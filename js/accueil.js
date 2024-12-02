@@ -102,6 +102,11 @@ document.addEventListener('DOMContentLoaded', function () {
             menuItems.forEach((item) => {
                 item.classList.remove('show');
             });
+            if (window.innerWidth > SCREEN_MOBILE) {
+                console.log('Écran desktop');
+            } else {
+                console.log('Écran mobile');
+            }
             dropdownMenu.classList.remove('show');
         }
     });
@@ -135,18 +140,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    const ecran = window.innerWidth > SCREEN_MOBILE ? 'desktop' : 'mobile';
+
     // Appelle la fonction au chargement et au redimensionnement de la fenêtre
     window.addEventListener('resize', updateImageSources);
     updateImageSources();
 
     // Code du slider double
-    const sliderLeft = document.getElementById('slider-left');
-    const sliderRight = document.getElementById('slider-right');
-    const valueLeft = document.getElementById('value-left');
-    const valueRight = document.getElementById('value-right');
+    const sliderLeft = document.querySelector(`.${ecran} #slider-left`);
+    const sliderRight = document.querySelector(`.${ecran} #slider-right`);
+    const valueLeft = document.querySelector(`.${ecran} #value-left`);
+    const valueRight = document.querySelector(`.${ecran} #value-right`);
     const rangeActive = document.createElement('div'); // Crée un élément pour la plage active
     rangeActive.classList.add('range-active');
-    document.querySelector('.slider-container').appendChild(rangeActive);
+    document.querySelector(`.${ecran} .slider-container`).appendChild(rangeActive);
 
     // const minGap = 5; // Espace minimum entre les deux sliders
     const maxSliderValue = Math.max(parseInt(sliderLeft.max), parseInt(sliderRight.max));

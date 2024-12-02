@@ -133,7 +133,7 @@ error_reporting(0); if (!empty($_POST)) {
                             <label for="type-entreprise">
                                 Type d'entreprise :
                             </label>
-                            <div id="type-entreprise" class="radio-group">
+                            <div id="type-entreprise" class="radio-group FS">
                                 <input type="radio" name="type-entreprise" value="publique" class="radio-button">
                                 <span class="radio-label">Entreprise publique</span>
 
@@ -144,7 +144,7 @@ error_reporting(0); if (!empty($_POST)) {
 
                         <div class="spacer"></div>
 
-                        <div class="element_prive1" id="elements-privee1">
+                        <div class="element_prive1 FS" id="elements-privee1">
                             <label for="iban" class="FS">IBAN :</label>
                             <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX">
                         </div>
@@ -175,7 +175,7 @@ error_reporting(0); if (!empty($_POST)) {
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
-                        <div class="element_prive2" id="elements-privee2">
+                        <div class="element_prive2 FS" id="elements-privee2">
                             <label for="bic" class="FS">BIC :</label>
                             <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX">
                         </div>
@@ -186,7 +186,7 @@ error_reporting(0); if (!empty($_POST)) {
                 <div class="form-info">
                     <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou les modifier ultérieurement dans votre espace personnel.</p>
                 </div>
-                <div class="checkbox">
+                <div class="checkbox FS">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="FS-bold">
                         Accepter les 
@@ -199,7 +199,7 @@ error_reporting(0); if (!empty($_POST)) {
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">Créer un compte</button>
             </form>
             
-            <div class="redirection-links">
+            <div class="redirection-links FS">
                 <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
             </div>
         </div>

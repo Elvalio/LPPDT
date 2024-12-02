@@ -7,15 +7,15 @@
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body>
+        <nav class="nav-bar">
         <?php
-        include_once 'nav.php';
-
+        include_once 'nav.php'; ?>
+        </nav>
+        <?php
         include('../sql/connect_params.php');
 
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-
-        $user_cookie = $_COOKIE['user'];
 
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -28,22 +28,21 @@
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
                 }
+            }else{
+                
             }
         }
-    
-        try{
 
-        
-        $stmt=$dbh->prepare("SELECT * FROM pact.experience WHERE idC = :id_user");
-        $stmt->bindParam(':id_user', $user_cookie);
-        $stmt->execute();
-    
-        $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
+        try{
+            $stmt = $dbh->prepare("SELECT * FROM pact.experience WHERE idC = :id_user");
+            $stmt->bindParam(':id_user', $_COOKIE['user']);
+            $stmt->execute();
+            $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-
+        
         $dbh = null;
         ?>
 
@@ -139,4 +138,8 @@
         </div>
     </body>
     <script src="../js/mes-avis.js"></script>
+    <div class = "footer-nav">
+        <?php
+        include_once 'footerNav.php'; ?>
+    </div>
 </html>

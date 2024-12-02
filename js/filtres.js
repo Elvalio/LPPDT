@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const trie_text = document.querySelector('.dropdown-toggle > p');
     const rechercheOffre = document.getElementById('rechercheOffre');
     const rechercheIMG = document.getElementById('rechercheLieuIMG');
+    const SCREEN_MOBILE = 801; // Taille de l'écran pour le changement d'images
 
     const categoriesFiltres = [
         'filtre-type',
@@ -14,12 +15,15 @@ document.addEventListener('DOMContentLoaded', function () {
     const filtres_prix = { min: null, max: null };   // Pour le filtre-prix
     
     let offres;
+    let ecran;
     function updateOffres() {
-        if (window.innerWidth > 801) {
+        if (window.innerWidth > SCREEN_MOBILE) {
             offres = document.getElementsByClassName('carte_offre desktop-element');
         } else {
             offres = document.getElementsByClassName('carte_offre phone-element');
         }
+
+        ecran = window.innerWidth > SCREEN_MOBILE ? 'desktop' : 'mobile';
     }
 
     // Initial call to set the correct value
@@ -36,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Gestion des filtres avec checkboxes
     function ajouterEcouteursCheckbox() {
         categoriesFiltres.forEach((categorie, index) => {
-            const inputs = document.querySelectorAll(`.${categorie} input`);
+            const inputs = document.querySelectorAll(`.${ecran} .${categorie} input`);
             inputs.forEach(input => {
                 input.addEventListener('change', function () {
 
@@ -51,38 +55,145 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-
-    // Gestion des filtres de dates (calendriers)
-    function ajouterEcouteursTemps() {
-        const startDateInput = document.querySelector('.filtre-temps-start');
-        const endDateInput = document.querySelector('.filtre-temps-end');
-
-        startDateInput.addEventListener('change', function () {
-            filtres_temps.start = new Date(startDateInput.value);
-            afficherResultats(filtrage());
-        });
-
-        endDateInput.addEventListener('change', function () {
-            filtres_temps.end = new Date(endDateInput.value);
-            afficherResultats(filtrage());
+    
+    // Gestion des filtres avec radiobuttons pour "filtre-ouvert"
+    function ajouterEcouteursRadio() {
+        const radios = document.querySelectorAll(`.${ecran} .filtre-ouvert input[type="radio"]`);
+        radios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                afficherResultats(filtrage());
+            });
         });
     }
 
+    
+    function filtrage() {
+        let resultats = Array.from(offres).filter(offre => {
+            // Vérification des checkboxes actives
+            const checkboxesOK = filtres_actifs.every((filtresCategorie, index) => {
+                if (filtresCategorie.length === 0) return true; // Aucun filtre actif dans cette catégorie
+                return filtresCategorie.some(filtre => offre.classList.contains(filtre));
+            });
+    
+            // Vérification des filtres temporels
+            const tempsOK = (() => {
+                if (!filtres_temps.start && !filtres_temps.end) return true; // Pas de filtre sur la date
+                const offreDate = new Date(offre.getAttribute('data-date'));
+                if (filtres_temps.start && offreDate < filtres_temps.start) return false;
+                if (filtres_temps.end && offreDate > filtres_temps.end) return false;
+                return true;
+            })();
+    
+            // Vérification des filtres sur les prix
+            const prixOK = (() => {
+                if (filtres_prix.min === null && filtres_prix.max === null) return true; // Pas de filtre sur le prix
+                const offrePrix = parseInt(offre.getAttribute('data-prix'), 10);
+                if (filtres_prix.min !== null && offrePrix < filtres_prix.min) return false;
+                if (filtres_prix.max !== null && offrePrix > filtres_prix.max) return false;
+                return true;
+            })();
+    
+            // Vérification du filtre "ouvert/fermé"
+            const ouvertOK = (() => {
+                const radioOuvert = document.querySelector(`.${ecran} .filtre-ouvert input[type="radio"]:checked`);
+                if (!radioOuvert || radioOuvert.value === 'tout') return true; // Pas de filtre sélectionné
+                const filtreOuvert = radioOuvert.value;
+    
+                // Appliquer uniquement aux offres de "Restauration"
+                if (!offre.classList.contains('Restauration')) return true;
+    
+                // Vérification du statut "ouvert/fermé"
+                if (filtreOuvert === 'ouvert' && !offre.classList.contains('ouvert')) return false;
+                if (filtreOuvert === 'ferme' && !offre.classList.contains('ferme')) return false;
+    
+                return true;
+            })();
+    
+            // Retourner si l'offre passe tous les filtres
+            return checkboxesOK && tempsOK && prixOK && ouvertOK;
+        });
+    
+        // Tri par défaut (priorité aux offres "aLaUne")
+        resultats.sort((a, b) => {
+            const aALaUne = a.classList.contains('aLaUne') ? 1 : 0;
+            const bALaUne = b.classList.contains('aLaUne') ? 1 : 0;
+            return bALaUne - aALaUne; // Descendant
+        });
+    
+        return resultats;
+    }
+    
+
+    ajouterEcouteursRadio();
+
+    // Gestion des filtres de dates (calendriers)
+    function ajouterEcouteursTemps() {
+        const startDateInput = document.querySelector(`.${ecran} .filtre-temps-start`);
+        const endDateInput = document.querySelector(`.${ecran} .filtre-temps-end`);
+    
+        startDateInput.addEventListener('change', function () {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+    
+            // Validation des dates
+            if (endDateInput.value && startDate > endDate) {
+                startDateInput.value = endDateInput.value; // Corrige si nécessaire
+            }
+            filtres_temps.start = startDate;
+            afficherResultats(filtrage());
+        });
+    
+        endDateInput.addEventListener('change', function () {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+    
+            // Validation des dates
+            if (startDateInput.value && endDate < startDate) {
+                endDateInput.value = startDateInput.value; // Corrige si nécessaire
+            }
+            filtres_temps.end = endDate;
+            afficherResultats(filtrage());
+        });
+    }
+    
+
     // Gestion des filtres de prix (double-slider)
     function ajouterEcouteursPrix() {
-        const sliderMin = document.querySelector('.filtre-prix-min');
-        const sliderMax = document.querySelector('.filtre-prix-max');
-
+        
+        const sliderMin = document.querySelector(`.${ecran} .filtre-prix-min`);
+        const sliderMax = document.querySelector(`.${ecran} .filtre-prix-max`);
+        const valueLeft = document.querySelector(`.${ecran} #value-left`);
+        const valueRight = document.querySelector(`.${ecran} #value-right`);
+    
         sliderMin.addEventListener('input', function () {
+            const minValue = parseInt(sliderMin.value, 10);
+            const maxValue = parseInt(sliderMax.value, 10);
+    
+            // Empêche que le curseur gauche dépasse le droit
+            if (minValue > maxValue) {
+                sliderMin.value = maxValue;
+            }
+            valueLeft.textContent = `${sliderMin.value}€`;
+    
             filtres_prix.min = parseInt(sliderMin.value, 10);
             afficherResultats(filtrage());
         });
-
+    
         sliderMax.addEventListener('input', function () {
+            const minValue = parseInt(sliderMin.value, 10);
+            const maxValue = parseInt(sliderMax.value, 10);
+    
+            // Empêche que le curseur droit passe en dessous du gauche
+            if (maxValue < minValue) {
+                sliderMax.value = minValue;
+            }
+            valueRight.textContent = `${sliderMax.value}€`;
+    
             filtres_prix.max = parseInt(sliderMax.value, 10);
             afficherResultats(filtrage());
         });
     }
+    
 
     // Fonction de filtrage
     function filtrage() {
