@@ -30,6 +30,7 @@ include('../sql/connect_params.php');
             }
 
             $compte = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
@@ -137,5 +138,9 @@ include('../sql/connect_params.php');
             </div>
         </div>
     </div>
+
+    <footer>
+        <?php include_once 'footer.php'; ?>
+    </footer>
 </body>
 </html>
