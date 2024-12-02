@@ -919,7 +919,7 @@ input[type="range"]::-ms-thumb {
     opacity: 0;
     transform: translateX(20px);
     transition: opacity 0.4s, transform 0.4s;
-    z-index: 1000;
+    z-index: 10;
 }
 
 .popup-text {

@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     }
-    
+
     // Gestion des filtres avec radiobuttons pour "filtre-ouvert"
     function ajouterEcouteursRadio() {
         const radios = document.querySelectorAll(`.${ecran} .filtre-ouvert input[type="radio"]`);
@@ -66,62 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    
-    function filtrage() {
-        let resultats = Array.from(offres).filter(offre => {
-            // Vérification des checkboxes actives
-            const checkboxesOK = filtres_actifs.every((filtresCategorie, index) => {
-                if (filtresCategorie.length === 0) return true; // Aucun filtre actif dans cette catégorie
-                return filtresCategorie.some(filtre => offre.classList.contains(filtre));
-            });
-    
-            // Vérification des filtres temporels
-            const tempsOK = (() => {
-                if (!filtres_temps.start && !filtres_temps.end) return true; // Pas de filtre sur la date
-                const offreDate = new Date(offre.getAttribute('data-date'));
-                if (filtres_temps.start && offreDate < filtres_temps.start) return false;
-                if (filtres_temps.end && offreDate > filtres_temps.end) return false;
-                return true;
-            })();
-    
-            // Vérification des filtres sur les prix
-            const prixOK = (() => {
-                if (filtres_prix.min === null && filtres_prix.max === null) return true; // Pas de filtre sur le prix
-                const offrePrix = parseInt(offre.getAttribute('data-prix'), 10);
-                if (filtres_prix.min !== null && offrePrix < filtres_prix.min) return false;
-                if (filtres_prix.max !== null && offrePrix > filtres_prix.max) return false;
-                return true;
-            })();
-    
-            // Vérification du filtre "ouvert/fermé"
-            const ouvertOK = (() => {
-                const radioOuvert = document.querySelector(`.${ecran} .filtre-ouvert input[type="radio"]:checked`);
-                if (!radioOuvert || radioOuvert.value === 'tout') return true; // Pas de filtre sélectionné
-                const filtreOuvert = radioOuvert.value;
-    
-                // Appliquer uniquement aux offres de "Restauration"
-                if (!offre.classList.contains('Restauration')) return true;
-    
-                // Vérification du statut "ouvert/fermé"
-                if (filtreOuvert === 'ouvert' && !offre.classList.contains('ouvert')) return false;
-                if (filtreOuvert === 'ferme' && !offre.classList.contains('ferme')) return false;
-    
-                return true;
-            })();
-    
-            // Retourner si l'offre passe tous les filtres
-            return checkboxesOK && tempsOK && prixOK && ouvertOK;
-        });
-    
-        // Tri par défaut (priorité aux offres "aLaUne")
-        resultats.sort((a, b) => {
-            const aALaUne = a.classList.contains('aLaUne') ? 1 : 0;
-            const bALaUne = b.classList.contains('aLaUne') ? 1 : 0;
-            return bALaUne - aALaUne; // Descendant
-        });
-    
-        return resultats;
-    }
     
 
     ajouterEcouteursRadio();
@@ -219,7 +163,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 return true;
             })();
     
-            return checkboxesOK && tempsOK && prixOK;
+            // Vérification du filtre "ouvert/fermé"
+            const ouvertOK = (() => {
+                const radioOuvert = document.querySelector(`.${ecran} .filtre-ouvert input[type="radio"]:checked`);
+                if (ecran === 'desktop') {
+                    if (!radioOuvert || radioOuvert.id === 'tout') return true; // Pas de filtre sélectionné
+                    const filtreOuvert = radioOuvert.id;
+                    // Appliquer uniquement aux offres de "Restauration"
+                    if (offre.classList.contains('Restauration')) {
+                        // Vérification du statut "ouvert/fermé"
+                        if (filtreOuvert === 'ouvert' && offre.classList.contains('ferme')) return false;
+                        if (filtreOuvert === 'ferme' && offre.classList.contains('ouvert')) return false;
+                    }
+                } else if (ecran === 'mobile') {
+                    if (!radioOuvert || radioOuvert.id === 'Tout') return true; // Pas de filtre sélectionné
+                    const filtreOuvert = radioOuvert.id;
+                    // Appliquer uniquement aux offres de "Restauration"
+                    if (offre.classList.contains('Restauration')) {
+                        // Vérification du statut "ouvert/fermé"
+                        if (filtreOuvert === 'Ouvert' && offre.classList.contains('ferme')) return false;
+                        if (filtreOuvert === 'Ferme' && offre.classList.contains('ouvert')) return false;
+                    }
+                }
+                return true;
+
+            })();
+    
+            // Retourner si l'offre passe tous les filtres
+            return checkboxesOK && tempsOK && prixOK && ouvertOK;
         });
     
         // Tri par défaut (priorité aux offres "aLaUne")

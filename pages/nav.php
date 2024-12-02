@@ -65,7 +65,7 @@
                                         <div class="notification-badge">2</div>
                                     </div>   
                                 </a>
-                                <a href="#" class="nav-item" data-icon="parametre">
+                                <a href="infoCompte.php" class="nav-item" data-icon="parametre">
                                     <img src="../icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
                                     <p>Paramètres</p>
                                 </a>
@@ -94,7 +94,7 @@
 
                             <?php if (isset($_COOKIE['type_compte'])) {?>
                                 
-                                <a href="#" class="nav-item">
+                                <a href="infoCompte.php" class="nav-item">
                                     <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                                     <div id="infoProfile">
                                         <p id="prenom" class="TS">Michael Smith</p>
