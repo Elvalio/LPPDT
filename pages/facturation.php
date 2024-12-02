@@ -99,30 +99,29 @@ function PrixOptionTTC($idOffre, $bdh) {
                         <p>Nombre d'offres :</p>
                         <p><?php echo htmlspecialchars($facture['nombre_offre']); ?></p>
                     </div>
-                    <button class="telecharger">Télécharger</button>
+                    <button >Télécharger</button>
                     <button class="voir-plus" aria-expanded="false">Voir plus +</button>
                 </div>
                 
                 <div class="facture-details">
                 <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
                     <div class="facture-offre">
-                        <img src="../images/<?php echo image($offre['ido'], $bdh) ?>" alt="">
-                        <p class="facture-detail-titre"><?php echo htmlspecialchars($offre['titre']) ?></p>
-                        <p class="facture-detail-option"><?php if (!empty($offre['option'])) {
+                        <img class="facture-detail-element" src="../images/<?php echo image($offre['ido'], $bdh) ?>" alt="">
+                        <p class="facture-detail-titre facture-detail-element"><?php echo htmlspecialchars($offre['titre']) ?></p>
+                        <p class="facture-detail-option facture-detail-element"><?php if (!empty($offre['option'])) {
                                         echo htmlspecialchars($offre['option']);
                                     } else {
                                 echo "Pas d'option";
                                     }
                           ?></p>
-                          <div class="facture-total">
+                          <button class="telecharger facture-detail-element">Télécharger</button>
+                          <div class="facture-total facture-detail-element">
                         <p>Prix HT : <?php echo round($offre['prix_offre_ht'],2) ?>€</p>
                     <p>TVA : <?php echo round($offre['prix_offre_ttc'] - $offre['prix_offre_ht'],2) ?>€</p>
                     <p>Montant TTC : <?php echo round($offre['prix_offre_ttc'],2) ?>€</p>   
                     </div>
-
-                    </div>
                     
-                        
+                    </div>
                     <?php } ?>
                 </div>
             
