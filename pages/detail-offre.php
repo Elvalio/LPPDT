@@ -1,5 +1,7 @@
 <?php
+echo '<div class="desktop-element">';
 include_once 'nav.php';
+echo '</div>';
 include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -259,6 +261,8 @@ try {
                             <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
                         </div>
                     </div>-->
+
+            <!--
             </div>
             <?php 
                     if (!empty($parc_actraction[0]['src_image'])) { ?>
@@ -274,9 +278,10 @@ try {
                     }
                 ?>
             </div>
+            -->
 
         </article>
-        <button class="bouton-retour NoSelect">
+        <button class="desktop-element bouton-retour NoSelect">
             <a href="./accueil.php">
                 <img src="../icons/arrow-left-o.svg" alt="Retour">
                 Retour
@@ -292,32 +297,33 @@ try {
             </h3>
         </header>
         <article class="article-avis">
-            <article class="poster_avis">
-                <h3>Poster un avis :</h3>
-                <div>
-                    <?php for($i = 1; $i<6; $i++):?>
-                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px" id="etoile_note<?php echo $i?>">
-                    <?php endfor;?>
-                </div>
-                <?php if (isset($_COOKIE['user'])){?>
-                <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
-                    <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                    <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                    <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                    <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                    <input type="submit" id="bouton_publier" value="Publier">
-                </form>
-                <?php }else{ ?>
-                    <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                    <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                    <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                    <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                <form method ="POST" action="connexion.php">
-                    <input type="submit" id="bouton_publier" value="Publier">
-                </form>    
-                <?php } ?>
-            </article>
-            <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
+                <article class="poster_avis">
+                    <h3>Poster un avis :</h3>
+                    <div>
+                        <?php for($i = 1; $i<6; $i++):?>
+                            <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px" id="etoile_note<?php echo $i?>">
+                        <?php endfor;?>
+                    </div>
+                    <?php if (isset($_COOKIE['user'])){?>
+                    <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
+                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                        <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                        <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                        <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                        <input type="submit" id="bouton_publier" value="Publier">
+                    </form>
+                    <?php }else{ ?>
+                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                        <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
+                        <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                        <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                    <form method ="POST" action="connexion.php">
+                        <input type="submit" id="bouton_publier" value="Publier">
+                    </form>    
+                    <?php } ?>
+                </article>
+            <?php 
+            if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
                 
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
