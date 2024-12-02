@@ -1,3 +1,27 @@
+@media (max-width: 800px) {
+    .phone-element {
+      display: block;
+    }
+  
+    .desktop-element {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 801px) {
+    .desktop-element {
+      display: block;
+    }
+  
+    .phone-element {    
+      display: none;
+    }
+
+    html {
+        scrollbar-gutter: stable;
+      }
+      
+  }
 
 /* Temporair, je sais pas comment les autres ont fais pour pas que la page dépasse sur la nav */
 .content {
@@ -96,7 +120,6 @@
     color: var(--blanc);
     font-family: 'TripSansBold', Arial, sans-serif;
     text-align: center;
-    border: none;
     border-radius: 4px;
     cursor: pointer;
 }
