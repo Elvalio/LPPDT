@@ -95,7 +95,12 @@
                 </div>
             </div>
             <?php } ?>
-            <button class="edit-btn">Modifier les informations</button>
+            <div class="container-ligne">
+                <button class="edit-btn">Modifier les informations</button>
+                <?php if ($_COOKIE['type_compte'] == "membre") { ?>
+                <button class="edit-btn">Afficher mes avis</button>
+                <?php } ?>
+            </div>
         </div>
     </div>
 </body>
