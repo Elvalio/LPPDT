@@ -54,9 +54,9 @@ include('../sql/connect_params.php');
             ?>
             </nav>
             <header class="phone-element">
-            <!-- <?php
+            <?php
                 include 'header.php';
-            ?> -->
+            ?>
             </header>
 
     <div class="content">
