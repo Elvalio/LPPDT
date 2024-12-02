@@ -22,14 +22,37 @@ try {
 }
 
 function offre($numFacture, $userID, $bdh){
-    $stmt = $bdh->prepare("SELECT o.*, pact.prix_offre_HT(:userID, o.idO, now()::date) from pact.offre o inner join pact._facturation f on f.idC = o.idC where o.idC = :userID and f.numFacture = :numFacture and 
+    $stmt = $bdh->prepare("SELECT o.*, pact.prix_offre_HT(:userID, o.idO, now()::date), pact.prix_offre_TTC(:userID, o.idO, now()::date) from pact.offre o inner join pact._facturation f on f.idC = o.idC where o.idC = :userID and f.numFacture = :numFacture and 
     EXTRACT(MONTH FROM f.date_facture) = EXTRACT(MONTH FROM o.date_publication)
     and EXTRACT(YEAR FROM f.date_facture) = EXTRACT(YEAR FROM o.date_publication);");
     $stmt->execute([':userID' => $userID, ':numFacture' => $numFacture]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-   
+function image($idOffre, $bdh) {
+    $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idOffre");
+    $stmtPhotos->execute([':idOffre' => $idOffre]);
+    $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
+    return $photos[0]['src_image'] ?? ''; // Assurez-vous que la clé existe
+}
+
+function PrixOptionTTC($idOffre, $bdh) {
+    try {
+        // Préparez et exécutez la requête
+        $stmtPrixOption = $bdh->prepare("SELECT pact.prix_option_offre_TTC(:idOffre) AS prix_option_ttc");
+        $stmtPrixOption->execute([':idOffre' => $idOffre]);
+
+        // Récupérez le résultat
+        $Prix = $stmtPrixOption->fetch(PDO::FETCH_ASSOC);
+
+        // Retournez la valeur ou une valeur par défaut si rien n'est trouvé
+        return $Prix['prix_option_ttc'] ?? 0;
+    } catch (PDOException $e) {
+        // Gérez les erreurs
+        echo "Erreur lors de la récupération du prix des options : " . htmlspecialchars($e->getMessage());
+        return 0;
+    }
+}
 
 ?>
 
@@ -83,20 +106,23 @@ function offre($numFacture, $userID, $bdh){
                 <div class="facture-details">
                 <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
                     <div class="facture-offre">
-                        <img src="../images/<?php  // Requête pour récupérer les images associées
-    $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idOffre");
-    $stmtPhotos->execute([':idOffre' => $idOffre]);
-    $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
-    return $photos[0]; ?>" alt="">
-                        <p><?php echo htmlspecialchars($offre['titre']) ?></p>
-                        <p><?php if (!empty($offre['option'])) {
+                        <img src="../images/<?php echo image($offre['ido'], $bdh) ?>" alt="">
+                        <p class="facture-detail-titre"><?php echo htmlspecialchars($offre['titre']) ?></p>
+                        <p class="facture-detail-option"><?php if (!empty($offre['option'])) {
                                         echo htmlspecialchars($offre['option']);
                                     } else {
                                 echo "Pas d'option";
                                     }
                           ?></p>
-                        <p><?php echo htmlspecialchars($offre['cout_ttc']) ?>€/TTC</p>
+                          <div class="facture-total">
+                        <p>Prix HT : <?php echo round($offre['prix_offre_ht'],2) ?>€</p>
+                    <p>TVA : <?php echo round($offre['prix_offre_ttc'] - $offre['prix_offre_ht'],2) ?>€</p>
+                    <p>Montant TTC : <?php echo round($offre['prix_offre_ttc'],2) ?>€</p>   
                     </div>
+
+                    </div>
+                    
+                        
                     <?php } ?>
                 </div>
             

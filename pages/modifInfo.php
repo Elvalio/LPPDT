@@ -9,7 +9,34 @@ include('../sql/connect_params.php');
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/styleEthan.css">
 </head>
-    <?php 
+    <?php
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+
+        try {
+            if ($_COOKIE['type_compte'] == "membre") {
+                $stmt=$dbh->prepare("SELECT * FROM pact.membre WHERE idC = :id_user");
+                $stmt->bindParam(':id_user', $user_cookie);
+                $stmt->execute();
+            }
+            else if ($_COOKIE['type_compte'] == "pro_public") {
+                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :id_user");
+                $stmt->bindParam(':id_user', $user_cookie);
+                $stmt->execute();
+            }
+            else if ($_COOKIE['type_compte'] == "pro_privee") {
+                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_privee WHERE idC = :id_user");
+                $stmt->bindParam(':id_user', $user_cookie);
+                $stmt->execute();
+            }
+        
+            $compte = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
+
+
         if(isset($_COOKIE['type_compte'])){
             if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
                 <body class="BO"> <?php   
@@ -21,7 +48,7 @@ include('../sql/connect_params.php');
         }?>
             <nav class="desktop-element">
             <?php 
-                include_once'nav.php'; 
+                include_once 'nav.php'; 
             ?>
             </nav>
             <header class="phone-element">
@@ -36,8 +63,8 @@ include('../sql/connect_params.php');
         <div class="profile">
             <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
             <div>
-                <h2>Michael Smith</h2>
-                <p>Membre</p>
+                <h2><?php echo $compte['prenom'] . ' ' . $compte['nom']; ?></h2>
+                <p><?php echo $_COOKIE['type_compte']; ?></p>
             </div>
         </div>
 
@@ -45,11 +72,11 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Prénom</label>
-                    <input type="text" value="Michael">
+                    <input type="text" value=<?php echo $compte['prenom']; ?>>
                 </div>
                 <div class="container-info">
                     <label>Nom</label>
-                    <input type="text" value="Smith">
+                    <input type="text" value=<?php echo $compte['nom']; ?>>
                 </div>
             </div>
             <hr>
@@ -57,22 +84,22 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Téléphone</label>
-                    <input type="text" value="08 49 37 56 15">
+                    <input type="text" value=<?php echo $compte['telephone']; ?>>
                 </div>
                 <div class="container-info">
                     <label>Adresse Postale</label>
-                    <input type="text" value="3 Rue Des Loutres">
+                    <input type="text" value=<?php echo $compte['numero_voie'] . ' ' . $compte['voie']; ?>>
                 </div>
             </div>
             <br><br>
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Code Postal</label>
-                    <input type="text" value="22700">
+                    <input type="text" value=<?php echo $compte['code_postal']; ?>>
                 </div>
                 <div class="container-info">
                     <label>Ville</label>
-                    <input type="text" value="Perros-Guirec">
+                    <input type="text" value=<?php echo $compte['ville']; ?>>
                 </div>
             </div>
             <?php if ($_COOKIE['type_compte'] == "pro_public") { ?>
@@ -81,7 +108,7 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Raison sociale</label>
-                    <input type="text" value="Les voyages de Marco Polo">
+                    <input type="text" value=<?php echo $compte['denomination_sociale']; ?>>
                 </div>
             </div>
             <?php } ?>
@@ -91,11 +118,11 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Dénomination sociale</label>
-                    <input type="text" value="Les voyages de Marco Polo">
+                    <input type="text" value=<?php echo $compte['denomination_sociale']; ?>>
                 </div>
                 <div class="container-info">
                     <label>Numéro SIREN</label>
-                    <input type="text" value="123456789">
+                    <input type="text" value=<?php echo $compte['siren']; ?>>
                 </div>
             </div>
             <?php } ?>
@@ -104,7 +131,7 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Entrer le mot de passe</label>
-                    <input type="password" value="skjosdkkvd">
+                    <input type="password" value=<?php echo $compte['mdp']; ?>>
                 </div>
             </div>
             <div class="container-ligne">
@@ -113,5 +140,9 @@ include('../sql/connect_params.php');
             </div>
         </form>
     </div>
+
+    <footer>
+        <?php include_once 'footer.php'; ?>
+    </footer>
 </body>
 </html>
