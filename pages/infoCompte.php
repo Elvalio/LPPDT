@@ -1,4 +1,8 @@
-<?php 
+<?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include('../sql/connect_params.php');
 ?>
 
@@ -24,17 +28,17 @@ include('../sql/connect_params.php');
         try {
             if ($_COOKIE['type_compte'] == "membre") {
                 $stmt=$dbh->prepare("SELECT * FROM pact.membre WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $user_cookie);
+                $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
             else if ($_COOKIE['type_compte'] == "pro_public") {
                 $stmt=$dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $user_cookie);
+                $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
             else if ($_COOKIE['type_compte'] == "pro_privee") {
                 $stmt=$dbh->prepare("SELECT * FROM pact.secteur_privee WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $user_cookie);
+                $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
 
@@ -59,7 +63,7 @@ include('../sql/connect_params.php');
         }?>
             <nav class="desktop-element">
             <?php 
-                include_once 'nav.php'; 
+                include_once 'nav.php';     
             ?>
             </nav>
             <header class="phone-element">
@@ -74,7 +78,7 @@ include('../sql/connect_params.php');
         <div class="profile">
             <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
             <div>
-                <h2><?php echo $compte['prenom'] . ' ' . $compte['nom']; ?></h2>
+                <h2><?php echo $compte[0]['prenom'] . ' ' . $compte[0]['nom']; ?></h2>
                 <p><?php echo $_COOKIE['type_compte']; ?></p>
                 <br>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
@@ -89,11 +93,11 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Prénom</label>
-                    <input type="text" value=<?php echo $compte['prenom']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['prenom']; ?> readonly>
                 </div>
                 <div class="container-info">
                     <label>Nom</label>
-                    <input type="text" value=<?php echo $compte['nom']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['nom']; ?> readonly>
                 </div>
             </div>
             <hr>
@@ -101,22 +105,23 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Téléphone</label>
-                    <input type="text" value=<?php echo $compte['telephone']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['telephone']; ?> readonly>
                 </div>
                 <div class="container-info">
                     <label>Adresse Postale</label>
-                    <input type="text" value=<?php echo $compte['numero_voie'] . ' ' . $compte['voie']; ?> readonly>
+                    <!-- I NEED TO IMPLODE BOTH OF THESE SO THAT THEY ARE SHOWN CORRECTLY -->
+                    <input type="text" value=<?php echo $compte[0]['numero_voie'] . ' ' . $compte[0]['voie']; ?> readonly>
                 </div>
             </div>
             <br><br>
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Code Postal</label>
-                    <input type="text" value=<?php echo $compte['code_postal']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['code_postal']; ?> readonly>
                 </div>
                 <div class="container-info">
                     <label>Ville</label>
-                    <input type="text" value=<?php echo $compte['ville']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['ville']; ?> readonly>
                 </div>
             </div>
             <?php if ($_COOKIE['type_compte'] == "pro_public") { ?>
@@ -125,7 +130,7 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Raison sociale</label>
-                    <input type="text" value=<?php echo $compte['denomination_sociale']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['denomination_sociale']; ?> readonly>
                 </div>
             </div>
             <?php } ?>
@@ -135,16 +140,18 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Dénomination sociale</label>
-                    <input type="text" value=<?php echo $compte['denomination_sociale']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['denomination_sociale']; ?> readonly>
                 </div>
                 <div class="container-info">
                     <label>Numéro SIREN</label>
-                    <input type="text" value=<?php echo $compte['siren']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['siren']; ?> readonly>
                 </div>
             </div>
             <?php } ?>
             <div class="container-ligne">
-                <button class="edit-btn" onclick="modifInfo.php">Modifier les informations</button>
+                <form method="POST" action="modifInfo.php">
+                    <button type="submit" class="edit-btn">Modifier les informations</button>
+                </form>
                 <button class="deco-btn" onclick="deconnexion()">Se déconnecter</button>
             </div>
         </div>
