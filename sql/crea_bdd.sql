@@ -360,7 +360,7 @@ create table pact._horaire(
   ouvertWeekend boolean default false,
     
   --FK
-  idO integer,
+  idO integer unique,
 
   constraint _horaire_pk primary key (idHoraire),
   

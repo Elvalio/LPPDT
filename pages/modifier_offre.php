@@ -36,12 +36,12 @@ function hasTag($val, $arr){
 }
 
 function option_offre($arr){
-    $res = '';
+    $res = null;
 
     if (isset($arr['une']) && $arr['une'] != ''){
-        $res = $arr['une'];
+        $res = 2;
     }else if (isset($arr['relief']) && $arr['relief'] != ''){
-        $res = $arr['relief'];
+        $res = 1;
     }
     return $res;
 }
@@ -217,7 +217,6 @@ try{
                 $titre = str_replace("'", "''",$_POST['titre']);
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST);
                 $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -237,7 +236,6 @@ try{
                         titre = '$titre', 
                         resume = '$resume', 
                         \"type\" = $type, 
-                        option = '$option', 
                         description = '$description',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
@@ -258,7 +256,6 @@ try{
                 $titre = str_replace("'", "''",$_POST['titre']);
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST);
                 $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -279,7 +276,6 @@ try{
                         titre = '$titre', 
                         resume = '$resume', 
                         \"type\" = $type, 
-                        option = '$option', 
                         description = '$description',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
@@ -299,7 +295,6 @@ try{
                 $titre = str_replace("'", "''",$_POST['titre']);
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST);
                 $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -319,7 +314,6 @@ try{
                         titre = '$titre', 
                         resume = '$resume', 
                         \"type\" = $type, 
-                        option = '$option', 
                         description = '$description',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
@@ -340,7 +334,6 @@ try{
                 $titre = str_replace("'", "''",$_POST['titre']);
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST);
                 $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -366,7 +359,6 @@ try{
                         titre = '$titre', 
                         resume = '$resume', 
                         \"type\" = $type, 
-                        option = '$option', 
                         description = '$description',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
@@ -390,7 +382,6 @@ try{
                 $titre = str_replace("'", "''",$_POST['titre']);
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
-                $option = option_offre($_POST);
                 $description = str_replace("'", "''",$_POST['description']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -411,7 +402,6 @@ try{
                         titre = '$titre', 
                         resume = '$resume', 
                         \"type\" = $type, 
-                        option = '$option', 
                         description = '$description',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
@@ -420,7 +410,7 @@ try{
                         langues = '$langues',
                         ville = '$ville', 
                         numero_voie = $numero_voie , 
-                        voie = '$voie', 
+                        voie = '$voie',     
                         code_postal = $code_postal, 
                         complement =''
                     where idO = $idO;"
@@ -432,6 +422,26 @@ try{
                 break;
         }
         $stmt->execute();
+
+        // gestion options
+        $option = option_offre($_POST);
+        
+        // retire option pour la modifier
+        // ou si l'option à été retitrée par l'utilisateur
+        $stmt = $dbh->prepare(
+            "delete from pact._option_offre where idO = $idO;"
+        );
+        $stmt->execute();
+
+        // quand option est non nulle donc on ajoute l'option à l'offre
+        if ($option != null) {
+            $stmt = $dbh->prepare(
+                "insert into pact._option_offre 
+                    (idOption, idO) values ($option, $idO);"
+            );
+            $stmt->execute();
+        }
+       
 
         /*
         //pour l'insertion des 3 images
@@ -479,10 +489,8 @@ try{
             $stmt->execute();
         }
 
-        //ajout des tags // TODO remove tags
+        //ajout des tags
         $tags = tag_offre($_POST);
-
-        // can be unsafe maybe
         
         $stmt = $dbh->prepare(
             //récupération de l'idTag
@@ -539,8 +547,6 @@ include_once 'nav.php';
         <title>Modification d'offre</title>
         <link rel="stylesheet" href="../css/styleOffre.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
-        
-        
     </head>
     <body>
         <div class="main-content"> 
@@ -697,11 +703,19 @@ include_once 'nav.php';
                             </div>
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
-                                <input id="submit-button" type="submit" class="FS" value="Publier"/>
+                                <input id="submit-button" type="submit" class="FS" value="Modifier"/>
                                 <button class="FS">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
                                 </button>
+                            </div>
+                            <div class="hors_ligne" style = "display : none">
+                                    <form method="POST" action="modifier_offre.php" onsubmit ="">
+                                    <input id='status-button' type="submit" name='submit' onclick="form.submit();" 
+                                        value="<?php echo ($dataOffre[0]["en_ligne"]) ? 'Mettre hors Ligne' : 'Mettre en Ligne' ; ?>" 
+                                        style="background-color:<?php echo ($dataOffre[0]["en_ligne"]) ? 'red' : 'green' ; ?>"
+                                    >
+                                    </form>
                             </div>
                         </div>
                     </div>
@@ -917,30 +931,64 @@ include_once 'nav.php';
             </form>
         </div>
 
-        <script>
-            
-        </script>
+        <?php
+            $dir = '../images/image_offre';
+            $files = array_slice(scandir($dir),2);
+            $pattern = "/$idO-[0-9]/";
+            $matches = preg_grep($pattern, $files);
+            $matches = array_values($matches);
+
+            $pattern = "/$idO-[a-z]/i";
+            $special = array_values(preg_grep($pattern, $files));
+        ?>
         
 
         <script src="../js/creation_offre.js">
+            
         </script>
-
         <script>
-
-            //var img = selectedImages[1];
-                                    /*
+            /*
             selectedImages[1].getAttribute('src') == '../images/image_offre/2-1.jpg';
             img.src = '../images/image_offre/2-1.jpg';
             fileInputs[1].value = '../images/image_offre/2-1.jpg';
             */
+
+            
+
+            if (<?php echo empty($special) ?  'false' : 'true'?>) {
+                imageCarte = document.getElementById('selected-image');
+                imageCarte.src = '../images/image_offre/<?php echo isset($special[0]) ?  $special[0] : ''?>';
+                
+                //affiche boutons modifier et supprimer
+                mapFileDelete.style.display = 'flex';
+                
+                mapTextBouton.textContent = 'Modifier';
+                mapIconBouton.src = '../icons/changer.svg';
+            }
+
+
+            console.log("currentImageCount : " + currentImageCount);
+            <?php for ($i=0; $i < count($matches); $i++) { ?>
+            selectedImages[<?php echo $i?>].src = '../images/image_offre/<?php echo $matches[$i]?>';
+            currentImageCount++;
+            <?php }?>
             
             for (let index = 0; index < selectedImages.length; index++) {
                 console.log(selectedImages[index].getAttribute('src'));
             }
-            selectedImages[1].src = '../images/image_offre/2-1.jpg';
-            fileInputs[1].value = '../images/image_offre/2-1.jpg';
-            currentImageCount++;
-            console.log(currentImageCount);
+
+            //affiche le bouton supression s'il y a des images
+            if (currentImageCount > 0) {
+                nextIndex = rechercheImageVide();                           
+                boutonSuppression.style.display = 'flex';
+            }
+            toggleFileUpload(); // affiche/cache bouton ajouter
+
+            //fileInputs[0].value = '../images/image_offre/<?php echo $idO?>-1.jpg';
+            console.log(selectedImages[0].getAttribute('src') === '../images/rien.png');
+
+            console.log("currentImageCount : " + currentImageCount);
         </script>
+
     </body>
 </html>
