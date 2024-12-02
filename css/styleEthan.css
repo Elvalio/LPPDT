@@ -130,15 +130,16 @@ div > hr {
 /* Version mobile*/
 @media (max-width: 800px) {
     .phone-element {
-      display: block;
+        display: block;
     }
   
     .desktop-element {
-      display: none;
+        display: none;
     }
 
     .container-ligne {
-        display: none;
+        display: flex;
+        flex-direction: column;
     }
 
     .deco-btn {
@@ -147,7 +148,7 @@ div > hr {
         margin: 100px 100px 100px 0;
         padding: 10px 20px;
         background-color: var(--gris-clair);
-        color: var(--blanc);
+        color: var(--noir);
         font-family: 'TripSansBold', Arial, sans-serif;
         text-align: center;
         border-radius: 4px;
