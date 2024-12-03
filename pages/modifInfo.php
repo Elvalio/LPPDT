@@ -95,7 +95,7 @@ include('../sql/connect_params.php');
                     <input type="text" value="<?php echo htmlspecialchars($compte[0]['numero_voie'] . ' ' . $compte[0]['voie']); ?>">
                 </div>
             </div>
-            <br><br>
+
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Code Postal</label>
