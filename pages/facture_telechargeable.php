@@ -1,0 +1,99 @@
+<?php
+require '../vendor/autoload.php'; // Inclure l'autoloader de Composer
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
+// Connexion à la base de données
+include('../sql/connect_params.php'); // Ce fichier contient vos paramètres de connexion
+
+// Fonction pour générer le HTML de la facture
+function generateFactureHTML($dbh, $ido, $userID) {
+    try {
+        // Requête SQL pour récupérer les données
+        $sql = "
+            SELECT 
+                f.numfacture AS numero_facture,
+                f.date_facture AS date_emission,
+                c.nom AS pro_nom,
+                a.voie || ' ' || a.numero_voie AS pro_adresse,
+                a.code_postal AS pro_code_postal,
+                a.ville AS pro_ville,
+                c.telephone AS pro_telephone,
+                c.email AS pro_email,
+                EXTRACT(DAY FROM AGE(o.date_hors_ligne, o.date_publication)) AS jours_publication,
+                t.nom_type AS abonnement_type,
+                o.option AS options,
+                o.titre AS titre_offre,
+                t.cout_HT AS abonnement_ht_unitaire,
+                t.cout_TTC AS abonnement_ttc_unitaire,
+                pact.prix_option_offre_HT(o.idO, f.numfacture) AS total_options_ht,
+                pact.prix_option_offre_TTC(o.idO, f.numfacture) AS total_options_ttc
+            FROM pact.facturation f
+            INNER JOIN pact.offre o ON f.idC = o.idC
+            INNER JOIN pact._compte c ON o.idC = c.idC
+            INNER JOIN pact._adresse a ON c.idAdresse = a.idAdresse
+            INNER JOIN pact._type_offre t ON o.type = t.idT
+            WHERE o.idO = :idOffre AND f.idC = :userId;
+        ";
+
+        $stmt = $dbh->prepare($sql);
+        $stmt->bindParam(':idOffre', $ido, PDO::PARAM_INT);
+        $stmt->bindParam(':userId', $userID, PDO::PARAM_INT);
+        $stmt->execute();
+        $facture_data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$facture_data) {
+            throw new Exception("Aucune donnée trouvée pour l'offre ID: $ido");
+        }
+
+        // Calculs
+        $jours_publication = $facture_data['jours_publication'];
+        $abonnement_ht = $jours_publication * $facture_data['abonnement_ht_unitaire'];
+        $abonnement_ttc = $jours_publication * $facture_data['abonnement_ttc_unitaire'];
+        $total_ht = $abonnement_ht + $facture_data['total_options_ht'];
+        $total_ttc = $abonnement_ttc + $facture_data['total_options_ttc'];
+
+        // Création du HTML
+        ob_start();
+        include('../templates/facturation_template.php'); // Inclure votre template HTML si nécessaire
+        return ob_get_clean();
+    } catch (Exception $e) {
+        die("Erreur lors de la génération du HTML : " . $e->getMessage());
+    }
+}
+
+// Vérifier si les paramètres GET sont présents
+if (isset($_GET['ido'])) {
+    try {
+        // Connexion à la base de données
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $ido = filter_var($_GET['ido'], FILTER_VALIDATE_INT);
+        $userID = filter_var($_COOKIE['user'], FILTER_VALIDATE_INT);
+
+        if (!$ido || !$userID) {
+            die("Paramètres manquants ou invalides.");
+        }
+
+        // Générer le HTML de la facture
+        $html = generateFactureHTML($dbh, $ido, $userID);
+
+        // Configurer Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $dompdf = new Dompdf($options);
+
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        // Envoyer le fichier PDF au navigateur pour téléchargement
+        $dompdf->stream("Facture_Offre_$ido.pdf", ["Attachment" => true]);
+    } catch (Exception $e) {
+        die("Erreur : " . $e->getMessage());
+    }
+} else {
+    die("Paramètre 'ido' manquant.");
+}
+?>

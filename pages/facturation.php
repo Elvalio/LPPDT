@@ -95,13 +95,13 @@ function PrixOptionTTC($idOffre, $bdh) {
                         <p>Total à payer :</p>
                         <p><?php echo htmlspecialchars($facture['prix_option_ttc']); ?>€/TTC</p>
                     </div>
-                    <a href="telecharger.php?numFacture=<?php echo htmlspecialchars($facture['numfacture']); ?>&userID=<?php echo $userID; ?>" class="telecharger facture-button">Télécharger</a>
+                        <?php $offre = offre($facture['numfacture'], $userID, $bdh);?>
+                    <a href="facture_telechargeable.php?ido=<?php echo htmlspecialchars($offre[0]['ido']); ?>&userID=<?php echo $userID; ?>" class="telecharger facture-button" target="_blank">Télécharger</a>
                     <button class="voir-plus" aria-expanded="true">Voir plus +</button>
                 </div>
                 
                 <div class="facture-details">
                     <div class="facture-offre">
-                        <?php $offre = offre($facture['numfacture'], $userID, $bdh);?>
                         <img class="facture-detail-element" src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt="">
                         <p class="facture-detail-titre facture-detail-element"><?php echo htmlspecialchars($offre[0]['titre']) ?></p>
                         <p class="facture-detail-option facture-detail-element"><?php if (!empty($offre[0]['option'])) {
