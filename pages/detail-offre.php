@@ -316,7 +316,7 @@ try {
                     <?php endfor;?>
                 </div>
                 <?php if (isset($_COOKIE['user'])){?>
-                <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
+                <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
                     <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
                     <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                         required="required"></textarea>
@@ -332,7 +332,7 @@ try {
                 <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
                     placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                <form method="POST" action="connexion.php">
+                <form method="POST" action="connexion.php" class="zone-btn-publier">
                     <input type="submit" id="bouton_publier" value="Publier">
                 </form>
                 <?php } ?>

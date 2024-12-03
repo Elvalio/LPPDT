@@ -483,6 +483,7 @@ body {
   font-family: 'TripSansBold';
   width: 85%;
   margin: 0;
+  padding: 0 0 5 0;
 }
 
 .sous-titre {
@@ -769,6 +770,7 @@ padding: 5px;
 resize: none;
 overflow: auto;
 font-family: "TripSansRegular";
+font-size: 17px;
 }
 
 #titre_avis{
@@ -779,6 +781,7 @@ padding: 5px;
 resize: none;
 overflow: auto;
 font-family: "TripSansRegular";
+font-size: 17px;
 }
 
 #bouton_publier {
@@ -791,6 +794,122 @@ font-size: 16px;
 width: fit-content;
 margin-top: 30px;
 }
+
+.header-avis {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid rgb(0, 0, 0, .4);
+}
+
+.header-avis h3{
+  font-family: 'TripSansBold';
+}
+
+.profil {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: baseline;
+  margin-top: 20px;
+}
+
+.profil div {
+  padding-left: 10px;
+  font-family: 'TripSansBold';
+}
+
+.profil > div > p {
+  opacity: 70%;
+  font-family: 'TripSansRegular';
+}
+
+.header-avis-profil {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.commentaire-consulte {
+  display: flex;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, .3);
+  margin-bottom: 10px;
+  font-family: 'TripSansRegular';
+}
+
+.alignement-conteneur-avis {
+  width: 100%;
+}
+
+.commentaire-non-consulte {
+  display: flex;
+  background-color: lightgrey;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.article-avis {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  height: fit-content;
+}
+
+.reponse {
+  color: rgb(128, 128, 128);
+  font-style: bold;
+}
+
+.detail-offre-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.etoile-avis-detail-offre {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 20px;
+  margin-top: 20px;
+}
+
+.poster_avis{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.poster_avis div{
+  display: flex;
+  margin-top: 5px;
+}
+
+.poster_avis > div > img{
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.poster_avis > h3{
+  font-family: 'TripSansBold';
+}
+
+.zone-btn-publier {
+  display: flex;
+  justify-content: right;
+
+}
+
 }
 
 /* CSS FACTURATION */
