@@ -50,6 +50,11 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .back-button:hover {
+    background-color: #5b60f3;
   }
   
   
@@ -83,6 +88,11 @@
     font-family: 'TripSansUltra';
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .submit-button:hover {
+    background-color: #5b60f3;
   }
   
   .links {

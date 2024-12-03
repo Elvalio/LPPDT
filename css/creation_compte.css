@@ -54,6 +54,11 @@ a {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-retour-page-création-membre button:hover {
+    background-color: #5b60f3; /* Couleur plus claire ou différente */
 }
 
 .bouton-retour-page-création-membre img,  .bouton-retour-page-création-pro img{
@@ -75,6 +80,10 @@ a {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.bouton-retour-page-création-pro button:hover {
+    background-color: #be1937;
 }
 
 /* Permet de bien définir la zone du formulaire */
@@ -114,6 +123,11 @@ label {
     cursor: pointer;
     border-radius: 20px;
     margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-envoi-formulaire-crea-compte-page-membre:hover {
+    background-color: #5b60f3; /* Couleur plus claire ou différente */
 }
 
 /* Style du bouton d'envoi du formulaire pour la page pro */
@@ -127,6 +141,11 @@ label {
     cursor: pointer;
     border-radius: 20px;
     margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-envoi-formulaire-crea-compte-page-pro:hover {
+    background-color: #be1937;
 }
 
 /* Les styles ci-dessous correspondent au éléments du formulaire qui se trouvent sur une même ligne : Code postal et ville par exemple */
