@@ -52,7 +52,7 @@ error_reporting(0); if (!empty($_POST)) {
             $mdp = $_POST["password"];
             $codePro = time();
 
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$codePro', '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
         }
 
 
@@ -129,7 +129,7 @@ error_reporting(0); if (!empty($_POST)) {
                         <label for="num_SIREN" class="FS">Numéro de SIREN<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="ex : 362 521 879" id="num_SIREN-pro" name="num_SIREN" required>
 
-                        <div class="choix_entreprise">
+                        <div class="choix_entreprise FS">
                             <label for="type-entreprise">
                                 Type d'entreprise :
                             </label>
