@@ -142,8 +142,6 @@ error_reporting(0); if (!empty($_POST)) {
                             </div>
                         </div>
 
-                        <div class="spacer"></div>
-
                         <div class="element_prive1 FS" id="elements-privee1">
                             <label for="iban" class="FS">IBAN :</label>
                             <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX">
@@ -225,10 +223,10 @@ error_reporting(0); if (!empty($_POST)) {
             }
         }
 
-        // Sélection des éléments à manipuler
         const radios = document.querySelectorAll('input[name="type-entreprise"]');
         const elementsPrivee1 = document.getElementById('elements-privee1');
         const elementsPrivee2 = document.getElementById('elements-privee2');
+        const formInfo = document.querySelector('.form-info');
 
         // Fonction pour gérer l'affichage et la désactivation
         function toggleElements() {
@@ -237,6 +235,7 @@ error_reporting(0); if (!empty($_POST)) {
             if (selectedValue === 'publique') {
                 elementsPrivee1.style.display = 'none';
                 elementsPrivee2.style.display = 'none';
+                formInfo.style.display = 'none';
 
                 // Désactiver les champs
                 elementsPrivee1.querySelectorAll('input').forEach(el => el.disabled = true);
@@ -244,6 +243,7 @@ error_reporting(0); if (!empty($_POST)) {
             } else {
                 elementsPrivee1.style.display = 'block';
                 elementsPrivee2.style.display = 'block';
+                formInfo.style.display = 'block';
 
                 // Activer les champs
                 elementsPrivee1.querySelectorAll('input').forEach(el => el.disabled = false);
