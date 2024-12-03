@@ -81,10 +81,6 @@ label {
     margin-bottom: 5px;
 }
 
-/* Le style de la checkbox pour la validation des conditions d'utilisation */
-
-
-
 /* Style du bouton d'envoi du formulaire pour la page membre */
 .bouton-envoi-formulaire-crea-compte-page-membre {
     background-color: #3AD4AE;
@@ -286,6 +282,7 @@ input[type="checkbox"] {
         max-width: 90%; /* Réduction supplémentaire sur petits écrans */
         width: auto; /* Annulation de la largeur fixe */
         padding: 15px;
+        box-shadow: none;
     }
 
     .form-group {
@@ -322,17 +319,20 @@ input[type="checkbox"] {
         margin-bottom: 3em;
         display: inline-block;
         padding: 10px;
-        border: 2px solid black;
+        border: 1px solid black;
         border-radius: 5px;
         color: black;
-        text-decoration: none;
-        text-align: center;  /* Center the text inside the button */
-        width: 100%;         /* Match the width of the "Se connecter" button */
+        text-align: center;
+        font-weight: 900;
+        width: auto;
         box-sizing: border-box; /* Ensure padding doesn't overflow the width */
+
     }
 
     .redirection-links a {
         text-decoration: none;
     }
+
+
 
 }

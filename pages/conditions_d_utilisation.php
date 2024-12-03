@@ -168,7 +168,7 @@
                 <h2>9. Contact</h2>
                 <p>
                     Pour toute question relative aux présentes CGU, vous pouvez nous contacter via l'email suivant : 
-                    <a href="mailto:support@votresite.com">support@votresite.com</a>.
+                    <a href="mailto:LPPDT@proton.me">LPPDT@proton.me</a>
                 </p>
             </section>
         </main>
