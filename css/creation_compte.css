@@ -19,7 +19,7 @@ a {
 
 /* Les 2 styles suivant déterminent la couleur du titre en fonction de la page */
 .inscription-membre {
-    color: #006B8F; /* Couleur de texte par défaut */
+    color: #002292; /* Couleur de texte par défaut */
 }
 
 .inscription-pro {
@@ -47,13 +47,18 @@ a {
     position: fixed;
 	top: 30px;
     left: 20px;
-    background-color: #48c9b0;
+    background-color: #3136ED;
     border: none;
-    color: black;
+    color: white;
     padding: 10px 20px;
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-retour-page-création-membre button:hover {
+    background-color: #5b60f3; /* Couleur plus claire ou différente */
 }
 
 .bouton-retour-page-création-membre img,  .bouton-retour-page-création-pro img{
@@ -75,6 +80,11 @@ a {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-retour-page-création-pro button:hover {
+    background-color: #be1937;
 }
 
 /* Permet de bien définir la zone du formulaire */
@@ -105,8 +115,8 @@ label {
 
 /* Style du bouton d'envoi du formulaire pour la page membre */
 .bouton-envoi-formulaire-crea-compte-page-membre {
-    background-color: #3AD4AE;
-    color: black;
+    background-color: #3136ED;
+    color: white;
     padding: 15px;
     border: none;
     width: 100%;
@@ -114,6 +124,11 @@ label {
     cursor: pointer;
     border-radius: 20px;
     margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-envoi-formulaire-crea-compte-page-membre:hover {
+    background-color: #5b60f3; /* Couleur plus claire ou différente */
 }
 
 /* Style du bouton d'envoi du formulaire pour la page pro */
@@ -127,6 +142,11 @@ label {
     cursor: pointer;
     border-radius: 20px;
     margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-envoi-formulaire-crea-compte-page-pro:hover {
+    background-color: #be1937;
 }
 
 /* Les styles ci-dessous correspondent au éléments du formulaire qui se trouvent sur une même ligne : Code postal et ville par exemple */
