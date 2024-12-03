@@ -1,499 +1,52 @@
 
 
 @font-face {
-    font-family: 'TripSansBold';
-    src: url('./TripSans-Bold.ttf') format('truetype');
-  }
-  
-  @font-face {
-    font-family: 'TripSansRegular';
-    src: url('./TripSans-Regular.ttf') format('truetype');
-  }
-  
-  @font-face {
-    font-family: 'TripSansUltra';
-    src: url('./TripSans-Ultra.ttf') format('truetype');
-  }
-
-  @media (min-width: 801px) {
-
-    .body {
-      display: flex;
-      flex-direction: row;
-  }
-  
-  .titre-rouge {
-      font-size: 3vw;
-      color: var(--bleuFonce-rougeFonce);
-      font-family: 'TripSansBold';
-      width: 85%;
-      margin: 0;
-  }
-  
-  .sous-titre {
-      font-size: 1vw;
-      color: black;
-      font-family: 'TripSansRegular';
-      width: 80%;
-      margin: 0;
-  }
-  
-  /* Définition d'un container pour gérer l'affichage */
-  .container {
-    overflow: hidden;
-    /* Cache les éléments qui dépassent du container */
-    height: 25vw;
-    /* Hauteur égale à 50% de la hauteur de la vue */
-    flex-wrap: nowrap;
-    /* Empêche les éléments de se placer sur plusieurs lignes */
-    width: 85%;
-    /* Largeur égale à 80% de la largeur de la vue */
-    margin-top: 10px;
-  }
-  /* Définition du carousel */
-  .carousel {
-    position: relative;
-    /* Le carousel est positionné relativement à son parent */
-  }
-  /* Définition de l'élément contenant les diapositives */
-  .carousel-inner {
-    display: flex;
-    /* Affiche les éléments en ligne */
-    overflow: hidden;
-    /* Cache les éléments qui dépassent */
-    height: 25vw;
-    /* Hauteur égale à 50% de la hauteur de la vue */
-    flex-wrap: nowrap;
-    /* Empêche les éléments de se placer sur plusieurs lignes */
-    width: 100%;
-  }
-  /* Définition des diapositives */
-  .slide {
-    flex: 0 0 100%;
-    /* Largeur de chaque diapositive est de 100% */
-    height: 100%;
-    /* Hauteur de chaque diapositive est de 100% */
-    transition: .5s ease-in-out;
-    /* Ajout d'une animation douce pour la transition entre les diapositives */
-  }
-  /* Définition de l'affichage de l'image de chaque diapositive */
-  .slide img {
-    width: 100%;
-    /* Largeur de l'image est de 100% */
-    height: 100%;
-    /* Hauteur de l'image est de 100% */
-    object-fit: cover;
-    /* Couvre tout l'espace disponible */
-    border-radius: 15px;
-    /* Ajout d'un bord arrondi */
-  }
-  /* Définition des boutons de contrôle du carousel */
-  .carousel-controls {
-    position: absolute;
-    /* Les boutons sont absolument positionnés */
-    z-index: 5;
-    /* Ils sont placés au-dessus des autres éléments */
-    left: 5%;
-    /* La distance à gauche est de 10% */
-    right: 5%;
-    /* La distance à droite est de 10% */
-    top: 42%;
-    /* La distance du haut est de 50% */
-    display: flex;
-    /* Affiche les boutons en ligne */
-    justify-content: space-between;
-    /* Espacement égal entre les boutons */
-    z-index: 0;
-  }
-  /* Style des boutons de contrôle */
-  .carousel-controls button {
-    padding: 10px;
-    /* Ajout de padding pour un meilleur contrôle */
-    background-color:transparent;
-    /* Arrière-plan en aquamarine */
-    border: transparent !important;
-  }
-  /* Définition des flèches de contrôle */
-  .carousel-controls button img {
-    width: 8vh;
-    /* Largeur de l'image est de 30px */
-    height: 8vh;
-    /* Hauteur de l'image est de 30px */
-  }
-  /* Définition des points de contrôle */
-  .carousel-dots {
-    position: absolute;
-    /* Les points sont absolument positionnés */
-    z-index: 5;
-    /* Ils sont placés au-dessus des autres éléments */
-    left: 50%;
-    /* La distance à gauche est de 50% */
-    right: 50%;
-    /* La distance à droite est de 50% */
-    bottom: 10%;
-    /*La distance du bas est de 10% */
-    display: flex;
-    /* Affiche les points en ligne */
-    justify-content: center;
-    /* Centrage des points */
-  }
-  /* Style des points de contrôle */
-  .carousel-dots .dot {
-    border-radius: 50%;
-    /* Les points sont en forme de cercle */
-    margin: 5px;
-    /* Ajout d'un margin pour un meilleur contrôle */
-    cursor: pointer;
-    /* Curseur en forme de main pour un meilleur contrôle */
-  }
-  /* Styles pour les points de navigation du carrousel */
-  .carousel-dots .active {
-    /* Border de 10px pour le point actif */
-    border: 10px solid #353435 !important;
-    /* !important permet de surcharger les autres styles éventuels */
-  }
-  .carousel-dots .inactive {
-    /* Border de 10px pour les points inactifs */
-    border: 10px solid #acafb0;
-  }
-  
-  /* Retourner la fleche précédent dans le bon sens */
-  
-  #prev {
-    transform: rotate(90deg);
-  }
-  
-  /* Retourner la fleche suivante dans le bon sens */
-  
-  #next {
-    transform: rotate(-90deg);
-  }
-  
-  /* Définition du container pour gérer l'affichage de la description */
-  .description-offre {
-      font-size: 2vh;
-      color: black;
-      font-family: 'TripSansRegular';
-      width: 85%;
-      margin: 0;
-      margin-top: 10px;
-  }
-  
-  /* Définition du container pour gérer l'affichage de l'annonce */
-  .part-annonce {
-      display: flex;
-      flex-direction: column;
-      width: 65%;
-      padding: 20px;
-  }
-  
-  /* Définition du container pour gérer l'affichage des avis */
-  .part-avis {
-      display: flex;
-      flex-direction: column;
-      width: 35%;
-      margin: 50px 20px;
-      border: 2px solid rgb(0, 0, 0, .4);
-      border-radius: 10px;
-      height: fit-content;
-  }
-  
-  /* Définition du container pour gérer l'affichage des infos de l'offre */
-  .infos-offre {
-      display: flex;
-      flex-direction: row;
-      width: 80%;
-      margin-top: 10px;
-      align-items: center;
-      justify-content: flex-start;
-  }
-  
-  /* Définition du comportement des étoiles */
-  .etoiles {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-right: 10px;
-  }
-  
-  .etoiles img {
-      width: 20px;
-      height: 20px;
-  }
-  
-  /* Définition du container pour gérer l'alignement des infos de l'offre */
-  .infos-offre img {
-      width: 20px;
-      height: 20px;
-  }
-  
-  .infos-offre p {
-      font-size: 2vh;
-      color: black;
-      font-family: 'TripSansRegular';
-      margin: 0;
-  }
-  
-    /* Définition du container contact */
-    .part-contact {
-        display: block;
-        flex-direction: row;
-        width: 85%;
-        padding: 20 0 20 0;
-        font-family: 'TripSansBold';
-        font-size: 2vh;
-    }
-    
-    .carte {
-        width: 40vh;
-        border-radius: 15px;
-    }
-    
-    .side-contact {
-      display: flex;
-      flex-direction: column;
-      width: 60%;
-    }
-    
-    .side-contact div img {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-    }
-    
-    /* 
-    * Cette règle CSS cible l'élément avec l'ID "container".
-    * Elle définit la largeur à 100% de son élément parent,
-    * applique un padding de 20 pixels sur tous les côtés,
-    * et définit la couleur de fond à gris clair (#f0f0f0).
-    */
-    .side-contact div div {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-top: 10px;
-    }
-    
-    /* 
-    * Cette règle CSS applique une couleur de fond à l'élément body.
-    * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
-    */
-    .side-contact div div a  {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      text-decoration: none;
-    }
-    
-    .horaires {
-      display: flex;
-      flex-direction: column;
-      margin-top: 30px;
-    }
-  
-  /* Style du bouton retour */
-  .bouton-retour {
-    display: flex; /* Utiliser flex pour aligner l'image et le texte */
-    align-items: center; /* Centre verticalement le contenu */
-    padding: 10px 30px; /* Padding à droite et à gauche */
-    cursor: pointer; /* Curseur en forme de main */
-    border: none;
-    border-radius: 8px;
-    background-color: var(--turquoise-orange);
-    font-size: 16px;
-    width: fit-content;
-    justify-content: center;
-    margin-top: 30px;
-  }
-  
-  .bouton-retour img{
-    height: 18px;
-    margin-right: 10px; /* Espace entre l'image et le texte */
-    width: auto; /* Largeur automatique pour garder le ratio */
-  }
-  
-  .bouton-retour a {
-    text-decoration: none;
-    color: black;
-  }
-  
-  .header-avis {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    border-bottom: 2px solid rgb(0, 0, 0, .4);
-  }
-  
-  .header-avis h3{
-    font-family: 'TripSansBold';
-  }
-  
-  .profil {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: baseline;
-    margin-top: 20px;
-  }
-  
-  .profil div {
-    padding-left: 10px;
-    font-family: 'TripSansBold';
-  }
-  
-  .profil > div > p {
-    opacity: 70%;
-    font-family: 'TripSansRegular';
-  }
-  
-  .header-avis-profil {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .commentaire-consulte {
-    display: flex;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, .3);
-    margin-bottom: 10px;
-    font-family: 'TripSansRegular';
-  }
-  
-  .alignement-conteneur-avis {
-    width: 100%;
-  }
-  
-  .commentaire-non-consulte {
-    display: flex;
-    background-color: lightgrey;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid black;
-    margin-bottom: 10px;
-  }
-  
-  .article-avis {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
-    height: fit-content;
-  }
-  
-  .reponse {
-    color: rgb(128, 128, 128);
-    font-style: bold;
-  }
-  
-  .detail-offre-footer {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .etoile-avis-detail-offre {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 20px;
-    margin-top: 20px;
-  }
-
-  .poster_avis{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-  
-  .poster_avis div{
-    display: flex;
-    margin-top: 5px;
-  }
-  
-  .poster_avis > div > img{
-    margin-left: 2px;
-    margin-right: 2px;
-  }
-  
-  .poster_avis > h3{
-    font-family: 'TripSansBold';
-  }
-  
-  #ecrire_avis{
-    width : 100%;
-    height: 200px;
-    border-radius: 5px;
-    margin-top: 10px;
-    padding: 5px;
-    resize: none;
-    overflow: auto;
-    font-family: "TripSansRegular";
-  }
-  
-  #titre_avis{
-    width : 100%;
-    border-radius: 5px;
-    margin-top: 10px;
-    padding: 5px;
-    resize: none;
-    overflow: auto;
-    font-family: "TripSansRegular";
-  }
-  
-  #bouton_publier {
-    padding: 10px 30px; /* Padding à droite et à gauche */
-    cursor: pointer; /* Curseur en forme de main */
-    border: none;
-    border-radius: 8px;
-    background-color: var(--turquoise-orange);
-    font-size: 16px;
-    width: fit-content;
-    margin-top: 30px;
-  }
-
+  font-family: 'TripSansBold';
+  src: url('./TripSans-Bold.ttf') format('truetype');
 }
 
-@media (max-width: 800px) {
-  .desktop-element {
-    display: none;
-  }
+@font-face {
+  font-family: 'TripSansRegular';
+  src: url('./TripSans-Regular.ttf') format('truetype');
+}
 
-  body {
-    margin-left: 0px !important;
-  }
+@font-face {
+  font-family: 'TripSansUltra';
+  src: url('./TripSans-Ultra.ttf') format('truetype');
+}
 
-  .titre-rouge {
-    font-size: 24px;
-    color: var(--noir);
+@media (min-width: 801px) {
+
+  .body {
+    display: flex;
+    flex-direction: row;
+}
+
+.titre-rouge {
+    font-size: 3vw;
+    color: var(--bleuFonce-rougeFonce);
     font-family: 'TripSansBold';
     width: 85%;
     margin: 0;
-  }
+}
 
-  .sous-titre {
-    font-size: 14px;
+.sous-titre {
+    font-size: 1vw;
     color: black;
     font-family: 'TripSansRegular';
     width: 80%;
     margin: 0;
-  }
+}
 
 /* Définition d'un container pour gérer l'affichage */
 .container {
   overflow: hidden;
   /* Cache les éléments qui dépassent du container */
-  height: 50vw;
+  height: 25vw;
   /* Hauteur égale à 50% de la hauteur de la vue */
   flex-wrap: nowrap;
   /* Empêche les éléments de se placer sur plusieurs lignes */
-  width: fit-content;
+  width: 85%;
   /* Largeur égale à 80% de la largeur de la vue */
   margin-top: 10px;
 }
@@ -508,7 +61,7 @@
   /* Affiche les éléments en ligne */
   overflow: hidden;
   /* Cache les éléments qui dépassent */
-  height: 50vw;
+  height: 25vw;
   /* Hauteur égale à 50% de la hauteur de la vue */
   flex-wrap: nowrap;
   /* Empêche les éléments de se placer sur plusieurs lignes */
@@ -546,7 +99,7 @@
   /* La distance à droite est de 10% */
   top: 42%;
   /* La distance du haut est de 50% */
-  display: none;
+  display: flex;
   /* Affiche les boutons en ligne */
   justify-content: space-between;
   /* Espacement égal entre les boutons */
@@ -616,103 +169,249 @@
   transform: rotate(-90deg);
 }
 
-  /* Définition du comportement des étoiles */
-  .etoiles {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-right: 10px;
-} 
+.infos-avis {
+  display: flex;
+}
 
-  .etoiles img {
-    width: 20px;
-    height: 20px;
-  }
+.infos-accessibilite {
+  display: flex;
+}
 
-  .infos-offre {
-    display: flex;
-  }
-
-  /* Définition du container pour gérer l'alignement des infos de l'offre */
-  .infos-offre img {
-    width: 20px;
-    height: 20px;
-  }
-
-  .infos-offre p {
-      font-size: 2vh;
-      color: black;
-      font-family: 'TripSansRegular';
-      margin: 0;
-  }
-
-  /* Définition du container pour gérer l'affichage de la description */
-  .description-offre {
+/* Définition du container pour gérer l'affichage de la description */
+.description-offre {
     font-size: 2vh;
     color: black;
     font-family: 'TripSansRegular';
     width: 85%;
     margin: 0;
     margin-top: 10px;
+}
+
+/* Définition du container pour gérer l'affichage de l'annonce */
+.part-annonce {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+    padding: 20px;
+}
+
+/* Définition du container pour gérer l'affichage des avis */
+.part-avis {
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    margin: 50px 20px;
+    border: 2px solid rgb(0, 0, 0, .4);
+    border-radius: 10px;
+    height: fit-content;
+}
+
+/* Définition du container pour gérer l'affichage des infos de l'offre */
+.infos-offre {
+    display: flex;
+    flex-direction: row;
+    width: 80%;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* Définition du comportement des étoiles */
+.etoiles {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.etoiles img {
+    width: 20px;
+    height: 20px;
+}
+
+/* Définition du container pour gérer l'alignement des infos de l'offre */
+.infos-offre img {
+    width: 20px;
+    height: 20px;
+}
+
+.infos-offre p {
+    font-size: 2vh;
+    color: black;
+    font-family: 'TripSansRegular';
+    margin: 0;
+}
+
+  /* Définition du container contact */
+  .part-contact {
+      display: block;
+      flex-direction: row;
+      width: 85%;
+      padding: 20 0 20 0;
+      font-family: 'TripSansBold';
+      font-size: 2vh;
+  }
+  
+  .carte {
+      width: 40vh;
+      border-radius: 15px;
+  }
+  
+  .side-contact {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+  }
+  
+  .side-contact div img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  /* 
+  * Cette règle CSS cible l'élément avec l'ID "container".
+  * Elle définit la largeur à 100% de son élément parent,
+  * applique un padding de 20 pixels sur tous les côtés,
+  * et définit la couleur de fond à gris clair (#f0f0f0).
+  */
+  .side-contact div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  /* 
+  * Cette règle CSS applique une couleur de fond à l'élément body.
+  * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
+  */
+  .side-contact div div a  {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .horaires {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
   }
 
-      /* Définition du container contact */
-      .part-contact {
-        display: block;
-        flex-direction: row;
-        width: fit-content;
-        padding: 20 0 20 0;
-        font-family: 'TripSansBold';
-        font-size: 2vh;
-    }
-    
-    .carte {
-        width: 40vh;
-        border-radius: 15px;
-    }
-    
-    .side-contact {
-      display: flex;
-      flex-direction: column;
-      width: fit-content;
-    }
-    
-    .side-contact div img {
-      width: 20px;
-      height: 20px;
-      margin-right: 10px;
-    }
-    
-    /* 
-    * Cette règle CSS cible l'élément avec l'ID "container".
-    * Elle définit la largeur à 100% de son élément parent,
-    * applique un padding de 20 pixels sur tous les côtés,
-    * et définit la couleur de fond à gris clair (#f0f0f0).
-    */
-    .side-contact div div {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-top: 10px;
-    }
-    
-    /* 
-    * Cette règle CSS applique une couleur de fond à l'élément body.
-    * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
-    */
-    .side-contact div div a  {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      text-decoration: none;
-    }
-    
-    .horaires {
-      display: flex;
-      flex-direction: column;
-      margin-top: 30px;
-    }
+/* Style du bouton retour */
+.bouton-retour {
+  display: flex; /* Utiliser flex pour aligner l'image et le texte */
+  align-items: center; /* Centre verticalement le contenu */
+  padding: 10px 30px; /* Padding à droite et à gauche */
+  cursor: pointer; /* Curseur en forme de main */
+  border: none;
+  border-radius: 8px;
+  background-color: var(--turquoise-orange);
+  font-size: 16px;
+  width: fit-content;
+  justify-content: center;
+  margin-top: 30px;
+}
 
+.bouton-retour img{
+  height: 18px;
+  margin-right: 10px; /* Espace entre l'image et le texte */
+  width: auto; /* Largeur automatique pour garder le ratio */
+}
+
+.bouton-retour a {
+  text-decoration: none;
+  color: black;
+}
+
+.header-avis {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  border-bottom: 2px solid rgb(0, 0, 0, .4);
+}
+
+.header-avis h3{
+  font-family: 'TripSansBold';
+}
+
+.profil {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: baseline;
+  margin-top: 20px;
+}
+
+.profil div {
+  padding-left: 10px;
+  font-family: 'TripSansBold';
+}
+
+.profil > div > p {
+  opacity: 70%;
+  font-family: 'TripSansRegular';
+}
+
+.header-avis-profil {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.commentaire-consulte {
+  display: flex;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, .3);
+  margin-bottom: 10px;
+  font-family: 'TripSansRegular';
+}
+
+.alignement-conteneur-avis {
+  width: 100%;
+}
+
+.commentaire-non-consulte {
+  display: flex;
+  background-color: lightgrey;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid black;
+  margin-bottom: 10px;
+}
+
+.article-avis {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 20px;
+  height: fit-content;
+}
+
+.reponse {
+  color: rgb(128, 128, 128);
+  font-style: bold;
+}
+
+.detail-offre-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.etoile-avis-detail-offre {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 20px;
+  margin-top: 20px;
+}
 
 .poster_avis{
   width: 100%;
@@ -766,6 +465,332 @@
   width: fit-content;
   margin-top: 30px;
 }
+
+}
+
+@media (max-width: 800px) {
+.desktop-element {
+  display: none;
+}
+
+body {
+  margin-left: 0px !important;
+}
+
+.titre-rouge {
+  font-size: 24px;
+  color: var(--noir);
+  font-family: 'TripSansBold';
+  width: 85%;
+  margin: 0;
+}
+
+.sous-titre {
+  font-size: 14px;
+  color: black;
+  font-family: 'TripSansRegular';
+  width: 80%;
+  margin: 0;
+}
+
+/* Définition d'un container pour gérer l'affichage */
+.container {
+overflow: hidden;
+/* Cache les éléments qui dépassent du container */
+height: 50vw;
+/* Hauteur égale à 50% de la hauteur de la vue */
+flex-wrap: nowrap;
+/* Empêche les éléments de se placer sur plusieurs lignes */
+width: fit-content;
+/* Largeur égale à 80% de la largeur de la vue */
+margin-top: 10px;
+}
+/* Définition du carousel */
+.carousel {
+position: relative;
+/* Le carousel est positionné relativement à son parent */
+}
+/* Définition de l'élément contenant les diapositives */
+.carousel-inner {
+display: flex;
+/* Affiche les éléments en ligne */
+overflow: hidden;
+/* Cache les éléments qui dépassent */
+height: 50vw;
+/* Hauteur égale à 50% de la hauteur de la vue */
+flex-wrap: nowrap;
+/* Empêche les éléments de se placer sur plusieurs lignes */
+width: 100%;
+}
+/* Définition des diapositives */
+.slide {
+flex: 0 0 100%;
+/* Largeur de chaque diapositive est de 100% */
+height: 100%;
+/* Hauteur de chaque diapositive est de 100% */
+transition: .5s ease-in-out;
+/* Ajout d'une animation douce pour la transition entre les diapositives */
+}
+/* Définition de l'affichage de l'image de chaque diapositive */
+.slide img {
+width: 100%;
+/* Largeur de l'image est de 100% */
+height: 100%;
+/* Hauteur de l'image est de 100% */
+object-fit: cover;
+/* Couvre tout l'espace disponible */
+border-radius: 15px;
+/* Ajout d'un bord arrondi */
+}
+/* Définition des boutons de contrôle du carousel */
+.carousel-controls {
+position: absolute;
+/* Les boutons sont absolument positionnés */
+z-index: 5;
+/* Ils sont placés au-dessus des autres éléments */
+left: 5%;
+/* La distance à gauche est de 10% */
+right: 5%;
+/* La distance à droite est de 10% */
+top: 42%;
+/* La distance du haut est de 50% */
+display: none;
+/* Affiche les boutons en ligne */
+justify-content: space-between;
+/* Espacement égal entre les boutons */
+z-index: 0;
+}
+/* Style des boutons de contrôle */
+.carousel-controls button {
+padding: 10px;
+/* Ajout de padding pour un meilleur contrôle */
+background-color:transparent;
+/* Arrière-plan en aquamarine */
+border: transparent !important;
+}
+/* Définition des flèches de contrôle */
+.carousel-controls button img {
+width: 8vh;
+/* Largeur de l'image est de 30px */
+height: 8vh;
+/* Hauteur de l'image est de 30px */
+}
+/* Définition des points de contrôle */
+.carousel-dots {
+position: absolute;
+/* Les points sont absolument positionnés */
+z-index: 5;
+/* Ils sont placés au-dessus des autres éléments */
+left: 50%;
+/* La distance à gauche est de 50% */
+right: 50%;
+/* La distance à droite est de 50% */
+bottom: 10%;
+/*La distance du bas est de 10% */
+display: flex;
+/* Affiche les points en ligne */
+justify-content: center;
+/* Centrage des points */
+}
+/* Style des points de contrôle */
+.carousel-dots .dot {
+border-radius: 50%;
+/* Les points sont en forme de cercle */
+margin: 5px;
+/* Ajout d'un margin pour un meilleur contrôle */
+cursor: pointer;
+/* Curseur en forme de main pour un meilleur contrôle */
+}
+/* Styles pour les points de navigation du carrousel */
+.carousel-dots .active {
+/* Border de 10px pour le point actif */
+border: 10px solid #353435 !important;
+/* !important permet de surcharger les autres styles éventuels */
+}
+.carousel-dots .inactive {
+/* Border de 10px pour les points inactifs */
+border: 10px solid #acafb0;
+}
+
+/* Retourner la fleche précédent dans le bon sens */
+
+#prev {
+transform: rotate(90deg);
+}
+
+/* Retourner la fleche suivante dans le bon sens */
+
+#next {
+transform: rotate(-90deg);
+}
+
+/* Définition du comportement des étoiles */
+.etoiles {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+} 
+
+.etoiles img {
+  width: 20px;
+  height: 20px;
+}
+
+.infos-offre {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin: 10 0 10 0;
+}
+
+/* Définition du container pour gérer l'alignement des infos de l'offre */
+.infos-offre img {
+  width: 20px;
+  height: 20px;
+}
+
+.infos-offre p {
+    font-size: 2vh;
+    color: black;
+    font-family: 'TripSansRegular';
+    margin: 0;
+}
+
+.infos-accessibilite {
+  display: flex;
+  flex-direction: row; /* Aligne chaque section verticalement */
+  align-items: center;
+  gap: 10px;
+}
+
+.infos-avis {
+  display: flex;
+  flex-direction: row; /* Les étoiles et le texte des avis sont alignés horizontalement */
+  align-items: center; /* Alignement vertical des éléments */
+  gap: 10px; /* Espacement entre les étoiles et le texte */
+}
+
+/* Définition du container pour gérer l'affichage de la description */
+.description-offre {
+  font-size: 2vh;
+  color: black;
+  font-family: 'TripSansRegular';
+  width: 85%;
+  margin: 0;
+  margin-top: 10px;
+}
+
+    /* Définition du container contact */
+    .part-contact {
+      display: block;
+      flex-direction: row;
+      width: fit-content;
+      padding: 20 0 20 0;
+      font-family: 'TripSansBold';
+      font-size: 2vh;
+  }
+  
+  .carte {
+      width: 40vh;
+      border-radius: 15px;
+  }
+  
+  .side-contact {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+  }
+  
+  .side-contact div img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+  }
+  
+  /* 
+  * Cette règle CSS cible l'élément avec l'ID "container".
+  * Elle définit la largeur à 100% de son élément parent,
+  * applique un padding de 20 pixels sur tous les côtés,
+  * et définit la couleur de fond à gris clair (#f0f0f0).
+  */
+  .side-contact div div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  /* 
+  * Cette règle CSS applique une couleur de fond à l'élément body.
+  * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
+  */
+  .side-contact div div a  {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-decoration: none;
+  }
+  
+  .horaires {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+  }
+
+
+.poster_avis{
+width: 100%;
+display: flex;
+flex-direction: column;
+justify-content: flex-start;
+}
+
+.poster_avis div{
+display: flex;
+margin-top: 5px;
+}
+
+.poster_avis > div > img{
+margin-left: 2px;
+margin-right: 2px;
+}
+
+.poster_avis > h3{
+font-family: 'TripSansBold';
+}
+
+#ecrire_avis{
+width : 100%;
+height: 200px;
+border-radius: 5px;
+margin-top: 10px;
+padding: 5px;
+resize: none;
+overflow: auto;
+font-family: "TripSansRegular";
+}
+
+#titre_avis{
+width : 100%;
+border-radius: 5px;
+margin-top: 10px;
+padding: 5px;
+resize: none;
+overflow: auto;
+font-family: "TripSansRegular";
+}
+
+#bouton_publier {
+padding: 10px 30px; /* Padding à droite et à gauche */
+cursor: pointer; /* Curseur en forme de main */
+border: none;
+border-radius: 8px;
+background-color: var(--turquoise-orange);
+font-size: 16px;
+width: fit-content;
+margin-top: 30px;
+}
 }
 
 /* CSS FACTURATION */
@@ -773,128 +798,128 @@
 
 /* Définition du composant de la facturation */
 .facture-liste-facture {
-  display: flex;
-  flex-direction: row;
-  width: 99%;
-  justify-content: space-between;
-  }
+display: flex;
+flex-direction: row;
+width: 99%;
+justify-content: space-between;
+}
 
 .facture-liste-facture button, .telecharger {
-  background-color: var(--bleuFonce-rougeFonce);
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 5px;
-  cursor: pointer;
-  text-decoration: none;
-  font-family: 'TripSansBold';
-  padding: 10px;
-  transition: background-color 0.3s ease-in-out;
-  align-self: center;
-  width: 100px;
+background-color: var(--bleuFonce-rougeFonce);
+color: white;
+border: none;
+border-radius: 5px;
+padding: 5px;
+cursor: pointer;
+text-decoration: none;
+font-family: 'TripSansBold';
+padding: 10px;
+transition: background-color 0.3s ease-in-out;
+align-self: center;
+width: 100px;
 }
 
 .facture-liste-facture button:hover, .telecharger:hover {
-  background-color: #d30027;
+background-color: #d30027;
 }
 
 .facture-tri {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-  font-family: 'TripSansBold';
-  padding: 10px;
-  border: 2px solid var(--bleuFonce-rougeFonce);
-  border-radius: 10px;
-  width: fit-content;
+display: flex;
+align-items: center;
+margin-top: 20px;
+font-family: 'TripSansBold';
+padding: 10px;
+border: 2px solid var(--bleuFonce-rougeFonce);
+border-radius: 10px;
+width: fit-content;
 }
 
 .facture-details {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              opacity 0.3s ease-in-out, 
-              padding 0.3s ease-in-out;
-  padding: 0 10px;
+max-height: 0;
+opacity: 0;
+overflow: hidden;
+transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+            opacity 0.3s ease-in-out, 
+            padding 0.3s ease-in-out;
+padding: 0 10px;
 }
 
 .facture-details.active {
-  max-height: 1000px; /* Toujours une valeur élevée pour éviter de couper le contenu */
-  opacity: 1;
-  padding: 10px 10px;
+max-height: 1000px; /* Toujours une valeur élevée pour éviter de couper le contenu */
+opacity: 1;
+padding: 10px 10px;
 }
 
 
 .facture-composant-liste {
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
-  background-color: #f077055d;
-  padding: 10px;
-  border-radius: 10px;
-  font-family: 'TripSansRegular';
+display: flex;
+flex-direction: column;
+margin-top: 20px;
+background-color: #f077055d;
+padding: 10px;
+border-radius: 10px;
+font-family: 'TripSansRegular';
 }
 
 .facture-offre {
-  display: grid;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 10px;
-  font-family: 'TripSansBold';
-  grid-gap: 50px;
+display: grid;
+flex-direction: row;
+align-items: center;
+margin-top: 10px;
+font-family: 'TripSansBold';
+grid-gap: 50px;
 }
 
 .facture-offre img {
-  height: 120px;
-  width: 250px;
-  border-radius: 10px;
-  object-fit: cover;
-  grid-column: 1/5;
-  grid-row: 1;
+height: 120px;
+width: 250px;
+border-radius: 10px;
+object-fit: cover;
+grid-column: 1/5;
+grid-row: 1;
 }
 
 .facture-total {
-  display: flex;
-  flex-direction: column;
-  align-self: flex-start;
-  margin-top: 10px;
-  font-family: 'TripSansBold';
-  grid-column: 5/5;
-  grid-row: 1;
+display: flex;
+flex-direction: column;
+align-self: flex-start;
+margin-top: 10px;
+font-family: 'TripSansBold';
+grid-column: 5/5;
+grid-row: 1;
 }
 
 .facture-detail-titre {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  font-family: 'TripSansBold';
-  align-self: flex-start;
-  grid-column: 2/5;
-  grid-row: 1;
+display: flex;
+flex-direction: column;
+margin-top: 10px;
+font-family: 'TripSansBold';
+align-self: flex-start;
+grid-column: 2/5;
+grid-row: 1;
 }
 
 .facture-detail-option {
-  display: flex;
-  flex-direction: column;
-  align-self: flex-start;
-  margin-top: 10px;
-  font-family: 'TripSansRegular';
-  grid-column: 3/5;
-  grid-row: 1;
+display: flex;
+flex-direction: column;
+align-self: flex-start;
+margin-top: 10px;
+font-family: 'TripSansRegular';
+grid-column: 3/5;
+grid-row: 1;
 }
 
 .facture-detail-element {
-  display: flex;
-  font-family: 'TripSansRegular';
+display: flex;
+font-family: 'TripSansRegular';
 }
 
 .telecharger {
-  display: flex;
-  align-self: flex-start;
-  justify-content: center;
-  margin-top: 10px;
-  grid-row: 1;
-  grid-column: 4/5;
-  font-family: 'TripSansBold';
+display: flex;
+align-self: flex-start;
+justify-content: center;
+margin-top: 10px;
+grid-row: 1;
+grid-column: 4/5;
+font-family: 'TripSansBold';
 }
