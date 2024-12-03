@@ -122,7 +122,7 @@ include('../sql/connect_params.php');
                 $stmt->execute();
             }
             else if ($_COOKIE['type_compte'] == "pro_prive") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.esecteur_prive WHERE idC = :id_user");
+                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :id_user");
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
