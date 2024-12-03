@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const pactItem = document.querySelector("#pact-item");
     const bouton = document.querySelector(".sphere");
     const itemToHideFO = ['tableau-de-bord', 'facturation', 'creation', 'notification-avec-notif'];
-    const itemEnConstruction = ['favoris', 'historique', 'parametre', 'notification-avec-notif'];
+    const itemEnConstruction = ['favoris', 'historique', 'notification-avec-notif'];
     const accueilItem = document.querySelector('[data-icon="accueil"]');
 
     function changerApparenceIcon(p, it, im, ic){
