@@ -7,11 +7,12 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+/*
 
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
-
+*/
 function type_offre($str){
     $res = 1;
 
@@ -461,8 +462,8 @@ try{
                         (src_image, idO) values 
                         ('image_offre/$idOffre-$i.$extention', '$idOffre');"
                     );
-                
-                
+
+
                 $stmt->execute();
             }    
         }
@@ -523,7 +524,7 @@ try{
                 );
                 $stmt->execute();
             }
-            
+                        
         }   
         
         //header('Location:tableau_de_bord.php');
@@ -632,7 +633,7 @@ include_once 'nav.php';
 
                                     <input type="checkbox" class="hidden" name="plein-air" id="plein-air" value="Pleine air" <?php echo  (hasTag("Pleine air", $tags_offre)) ?  'checked' : '';?>>
                                     <label for="plein-air">Pleine air</label>
-
+                                    
                                     <input type="checkbox" class="hidden" name="sport" id="sport" value="Sport" <?php echo  (hasTag("Sport", $tags_offre)) ?  'checked' : '';?>>
                                     <label for="sport">Sport</label>
 
@@ -963,8 +964,8 @@ include_once 'nav.php';
                 console.log(selectedImages[index].getAttribute('src'));
             }
 
-            //affiche le bouton supression s'il y a des images
-            if (currentImageCount > 0) {
+                        //affiche le bouton supression s'il y a des images
+                        if (currentImageCount > 0) {
                 nextIndex = rechercheImageVide();                           
                 boutonSuppression.style.display = 'flex';
             }
@@ -975,6 +976,6 @@ include_once 'nav.php';
 
             console.log("currentImageCount : " + currentImageCount);
         </script>
-
+        
     </body>
 </html>

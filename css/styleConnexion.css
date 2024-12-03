@@ -39,8 +39,8 @@
     position: absolute;
     top: 20px;
     left: 20px;
-    background-color: #3AD4AE;
-    color: rgb(0, 0, 0);
+    background-color: #3136ED;
+    color: white;
     border: none;
     border-radius: 8px;
     padding: 10px 50px;
@@ -75,7 +75,7 @@
 
   
   .submit-button {
-    background-color: #3AD4AE;
+    background-color: #3136ED;
     color: white;
     border: none;
     padding: 12px;

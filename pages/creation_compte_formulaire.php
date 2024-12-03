@@ -53,17 +53,17 @@ error_reporting(0); if (!empty($_POST)) {
     <link rel="stylesheet" href="../css/creation_compte.css">
 </head>
 
-<!--
+
 <div class="phone-element">
-        <?php //include_once 'header.php' ?>
+        <?php include_once 'header.php' ?>
 </div>
--->
+
 <body>
     <!-- Bouton de retour -->
     <a href="connexion.php">
-        <div class="bouton-retour-page-création">
+        <div class="bouton-retour-page-création-membre">
             <button class="FS">
-                <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
+                <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
             </button>
         </div>
     </a>
@@ -147,7 +147,7 @@ error_reporting(0); if (!empty($_POST)) {
             </form>
 
             <div class="redirection-links">
-                <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
+                <a href="connexion.php" class="Connexion">Déjà inscrit(e) ? Connectez-vous.</a>
                 <a href="creation_compte_pro_formulaire.php" class="Redirection_pro">Vous êtes un professionnel ? Cliquez ici.</a>
             </div>
         </div>

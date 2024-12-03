@@ -52,7 +52,7 @@ error_reporting(0); if (!empty($_POST)) {
             $mdp = $_POST["password"];
             $codePro = time();
 
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES (1002, '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$codePro', '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
         }
 
 
@@ -93,9 +93,9 @@ error_reporting(0); if (!empty($_POST)) {
 <body>
     <!-- Bouton de retour -->
     <a href="creation_compte_formulaire.php">
-        <div class="bouton-retour-page-création">
+        <div class="bouton-retour-page-création-pro">
             <button class="FS">
-                <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
+                <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
             </button>
         </div>
     </a>
@@ -129,7 +129,7 @@ error_reporting(0); if (!empty($_POST)) {
                         <label for="num_SIREN" class="FS">Numéro de SIREN<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="ex : 362 521 879" id="num_SIREN-pro" name="num_SIREN" required>
 
-                        <div class="choix_entreprise">
+                        <div class="choix_entreprise FS">
                             <label for="type-entreprise">
                                 Type d'entreprise :
                             </label>
@@ -141,8 +141,6 @@ error_reporting(0); if (!empty($_POST)) {
                                 <span class="radio-label">Entreprise privée
                             </div>
                         </div>
-
-                        <div class="spacer"></div>
 
                         <div class="element_prive1 FS" id="elements-privee1">
                             <label for="iban" class="FS">IBAN :</label>
@@ -200,7 +198,7 @@ error_reporting(0); if (!empty($_POST)) {
             </form>
             
             <div class="redirection-links FS">
-                <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
+                <a href="connexion.php" class="Connexion">Déjà inscrit(e) ? Connectez-vous.</a>
             </div>
         </div>
     </div>
@@ -225,10 +223,10 @@ error_reporting(0); if (!empty($_POST)) {
             }
         }
 
-        // Sélection des éléments à manipuler
         const radios = document.querySelectorAll('input[name="type-entreprise"]');
         const elementsPrivee1 = document.getElementById('elements-privee1');
         const elementsPrivee2 = document.getElementById('elements-privee2');
+        const formInfo = document.querySelector('.form-info');
 
         // Fonction pour gérer l'affichage et la désactivation
         function toggleElements() {
@@ -237,6 +235,7 @@ error_reporting(0); if (!empty($_POST)) {
             if (selectedValue === 'publique') {
                 elementsPrivee1.style.display = 'none';
                 elementsPrivee2.style.display = 'none';
+                formInfo.style.display = 'none';
 
                 // Désactiver les champs
                 elementsPrivee1.querySelectorAll('input').forEach(el => el.disabled = true);
@@ -244,6 +243,7 @@ error_reporting(0); if (!empty($_POST)) {
             } else {
                 elementsPrivee1.style.display = 'block';
                 elementsPrivee2.style.display = 'block';
+                formInfo.style.display = 'block';
 
                 // Activer les champs
                 elementsPrivee1.querySelectorAll('input').forEach(el => el.disabled = false);

@@ -1,5 +1,7 @@
 <?php
+echo '<div class="desktop-element">';
 include_once 'nav.php';
+echo '</div>';
 include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -259,6 +261,8 @@ try {
                             <p>12 € par adulte, gratuit pour les enfants (-12 ans)</p>
                         </div>
                     </div>-->
+
+            <!--
             </div>
             <?php 
                     if (!empty($parc_actraction[0]['src_image'])) { ?>
@@ -274,9 +278,10 @@ try {
                     }
                 ?>
             </div>
+            -->
 
         </article>
-        <button class="bouton-retour NoSelect">
+        <button class="desktop-element bouton-retour NoSelect">
             <a href="./accueil.php">
                 <img src="../icons/arrow-left-o.svg" alt="Retour">
                 Retour
@@ -292,7 +297,7 @@ try {
             </h3>
         </header>
         <article class="article-avis">
-            <?php if($_COOKIE['type_compte']=="membre"){ ?>
+            <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ ?>
                 <article class="poster_avis">
                     <h3>Poster un avis :</h3>
                     <div>
@@ -318,8 +323,8 @@ try {
                     </form>    
                     <?php } ?>
                 </article>
-            <?php }
-            if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
+            <?php   } ?>
+            <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
                 
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);

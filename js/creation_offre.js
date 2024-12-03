@@ -50,6 +50,7 @@
                 const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
                 const texteBoutonAjout = document.querySelectorAll('.upload-text'); // Les textes des boutons d'ajout
                 const errorMessageSupprimer = document.getElementById('error-message-supprimer');
+                const preventionMessage = document.getElementById('message-prevention');
 
                 var currentImageCount = 0; // Nombre d'images actuellement affichées
                 var selectedImageIndex = -1; // Index de l'image sélectionnée pour la suppression
@@ -329,6 +330,7 @@
                                         // Trouver la première case vide pour nextIndex
                                         nextIndex = rechercheImageVide();
                                         boutonSuppression.style.display = 'flex';
+                                        preventionMessage.style.display = 'none';
                                     } else { //sélectionné mais une image exiqte déjà
                                         selectedImages[selectedImageIndex].src = e.target.result;
                                         selectedImages[selectedImageIndex].classList.remove('selected');
@@ -345,6 +347,7 @@
                                         nextIndex++;
                                     }
                                     boutonSuppression.style.display = 'flex';
+                                    preventionMessage.style.display = 'none';
                                 }
                                 toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout                       
                             };
@@ -367,6 +370,7 @@
                         if (currentImageCount === 0 ){
                             boutonSuppression.style.display = 'none';
                             errorMessageSupprimer.style.display = 'none';
+                            preventionMessage.style.display = 'block';
                         }
                         nextIndex = rechercheImageVide();
                         toggleFileUpload()
@@ -388,6 +392,7 @@
                         if (currentImageCount === 0) {
                             boutonSuppression.style.display = 'none';
                             errorMessageSupprimer.style.display = 'none';
+                            preventionMessage.style.display = 'block';
                         }
                         nextIndex = rechercheImageVide();
                         toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
