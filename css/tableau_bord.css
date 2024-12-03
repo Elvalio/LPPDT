@@ -2,7 +2,6 @@ h1{
     font-family: 'TripSansRegular';
     src: url('../polices/TripSans-Regular.ttf')
     format('truetype');
-    color: var(--rouge-fonce);
     margin-top: 10px;
     font-family: 'TripSansREgular';
 }
@@ -22,7 +21,7 @@ h2{
 
 .titre_offre{
     font-family: 'TripSansRegular';
-    color: var(--noir);
+    color: var(--bleuFonce-rougeFonce);
     font-size: 20px;
 }
 
@@ -36,9 +35,10 @@ section{
     align-items: center;
     border-radius: 5px;
     border-width: 1px;
-    border-color: black;
+    border-color: var(--bleuFonce-rougeFonce);
     border-style: solid;
     margin: 20px;
+    box-shadow: 0 0 3px var(--gris-fonce);
 }
 
 section > img{
@@ -78,11 +78,14 @@ section > div{
     border-radius: 5px;
     border-width: 1px;
     background-color: white;
+    box-shadow: 0 0 2px var(--gris-fonce);
 
 }
 
 .detail_modif > a:hover{
-    background-color: var(--gris-fonce);
+    background-color: rgb(162, 2, 31, .6);
+    transition: background-color 0.2s linear;
+    color: white;
     cursor:pointer;
 }
 
@@ -91,17 +94,23 @@ section > div{
 }
 
 #creer_offre{
-    background-color: var(--noir);
-    color: white;
+    
+    background-color: white;
+    color: black;
     margin-left: 20px;
     padding: 5px;
     font-size: 16px;
     border-radius: 5px;
+    border-width: 1px;
+    box-shadow: 0 0 2px var(--gris-fonce);
 }
 
 #creer_offre:hover{
-    background-color: var(--noir);
+    background-color: var(--bleuFonce-rougeFonce);
+    border-color: var(--bleuFonce-rougeFonce);
     cursor:pointer;
+    color: white;
+    transition: background-color 0.2s linear;
 }
 
 .titre_switch{

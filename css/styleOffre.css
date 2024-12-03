@@ -79,7 +79,7 @@
 }
 
 #description-container{
-    height: 276px;
+    height: 256px;
 }
 
 #type-container, #option-container{
@@ -128,16 +128,20 @@
     height: 100px;
 }
 
+#pinclus-container textarea, #pexclus-container textarea{
+    height: 56px;
+}
+
 #accessibilite-container textarea, #pinclus-container textarea, #pexclus-container textarea{
     width: 510px;
 }
 
 #accessibilite-container, #resume-container{
-    height: 150px;
+    height: 130px;
 }
 
 #pinclus-container, #pexclus-container{
-    height: 75px;
+    height: 86px;
     display: none;
 }
 
@@ -250,6 +254,12 @@
 }
 
 #map-image-container{
+    margin-top: 10px;
+}
+
+#message-prevention{
+    font-size: 0.9em;
+    color:rgb(151, 151, 151);
     margin-top: 10px;
 }
 

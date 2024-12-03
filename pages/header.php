@@ -9,21 +9,14 @@
         <header class = "header">
             <div class="logo_recherche">
                 <img src="../images/logo_vert.png" alt="logo_vert" title="logo_vert" width="122px" height="80px" id="logo">
-                <form action="header.php">
-                    <input type="search" name="recherche" id="recherche" placeholder="Recherche">
-                    <input type="image" src="../images/search_icon.png" alt="Submit Form" id="image_recherche"/>
-                </form>
             </div>
             <?php
             if ($_SERVER['SCRIPT_NAME'] != '/pages/connexion.php') { ?>
-                <ul class="liste_nav">
-                    <li>
-                        <button>À la une</button>
-                    </li>
-                    <li>
-                        <button>Nouveautés</button>
-                    </li>
-                </ul>
+            <div>
+            </div>
+            <div class="liste_nav">
+                <p class="bouton-nouv NoSelect">Nouveautés</p>
+            </div>
             <?php } ?>
             <hr>
         </header>

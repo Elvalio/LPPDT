@@ -1,4 +1,9 @@
 <?php
+require '../vendor/autoload.php'; // Inclure l'autoloader de Composer
+
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 include('../sql/connect_params.php');
 try {
     $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
@@ -54,6 +59,44 @@ function PrixOptionTTC($idOffre, $bdh) {
     }
 }
 
+function telecharger($idOffre) {
+
+// Créer une instance de Dompdf avec les options
+$options = new Options();
+$options->set('defaultFont', 'Courier'); // Police par défaut
+$options->set('isHtml5ParserEnabled', true); // Activer le parser HTML5
+
+$dompdf = new Dompdf($options);
+
+// Exemple de contenu HTML à convertir
+$html = '
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exemple PDF</title>
+</head>
+<body>
+    <h1>Bonjour, ceci est un PDF généré avec Dompdf</h1>
+    <p>Ceci est un exemple simple de génération de PDF avec une page HTML.</p>
+</body>
+</html>
+';
+
+// Charger le HTML dans Dompdf
+$dompdf->loadHtml($html);
+
+// Définir le format de la page (par défaut A4, portrait)
+$dompdf->setPaper('A4', 'portrait');
+
+// Rendre le PDF
+$dompdf->render();
+
+// Envoyer le PDF au navigateur pour téléchargement
+$dompdf->stream("facture.pdf", ["Attachment" => true]);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -99,30 +142,29 @@ function PrixOptionTTC($idOffre, $bdh) {
                         <p>Nombre d'offres :</p>
                         <p><?php echo htmlspecialchars($facture['nombre_offre']); ?></p>
                     </div>
-                    <button class="telecharger">Télécharger</button>
+                    <button>Télécharger</button>
                     <button class="voir-plus" aria-expanded="false">Voir plus +</button>
                 </div>
                 
                 <div class="facture-details">
                 <?php foreach (offre($facture['numfacture'], $userID, $bdh) as $offre) { ?>
                     <div class="facture-offre">
-                        <img src="../images/<?php echo image($offre['ido'], $bdh) ?>" alt="">
-                        <p class="facture-detail-titre"><?php echo htmlspecialchars($offre['titre']) ?></p>
-                        <p class="facture-detail-option"><?php if (!empty($offre['option'])) {
+                        <img class="facture-detail-element" src="../images/<?php echo image($offre['ido'], $bdh) ?>" alt="">
+                        <p class="facture-detail-titre facture-detail-element"><?php echo htmlspecialchars($offre['titre']) ?></p>
+                        <p class="facture-detail-option facture-detail-element"><?php if (!empty($offre['option'])) {
                                         echo htmlspecialchars($offre['option']);
                                     } else {
                                 echo "Pas d'option";
                                     }
                           ?></p>
-                          <div class="facture-total">
+                          <button class="telecharger facture-detail-element" onclick="telecharger($offre['ido'])">Télécharger</button>
+                          <div class="facture-total facture-detail-element">
                         <p>Prix HT : <?php echo round($offre['prix_offre_ht'],2) ?>€</p>
                     <p>TVA : <?php echo round($offre['prix_offre_ttc'] - $offre['prix_offre_ht'],2) ?>€</p>
                     <p>Montant TTC : <?php echo round($offre['prix_offre_ttc'],2) ?>€</p>   
                     </div>
-
-                    </div>
                     
-                        
+                    </div>
                     <?php } ?>
                 </div>
             

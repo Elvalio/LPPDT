@@ -50,6 +50,7 @@
                 const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
                 const texteBoutonAjout = document.querySelectorAll('.upload-text'); // Les textes des boutons d'ajout
                 const errorMessageSupprimer = document.getElementById('error-message-supprimer');
+                const preventionMessage = document.getElementById('message-prevention');
 
                 var currentImageCount = 0; // Nombre d'images actuellement affichées
                 var selectedImageIndex = -1; // Index de l'image sélectionnée pour la suppression
@@ -329,8 +330,15 @@
                                         // Trouver la première case vide pour nextIndex
                                         nextIndex = rechercheImageVide();
                                         boutonSuppression.style.display = 'flex';
-                                    }                                
-                                }else{                                
+                                        preventionMessage.style.display = 'none';
+                                    } else { //sélectionné mais une image exiqte déjà
+                                        selectedImages[selectedImageIndex].src = e.target.result;
+                                        selectedImages[selectedImageIndex].classList.remove('selected');
+                                        selectedImageIndex = -1;
+                                        // Trouver la première case vide pour nextIndex
+                                        nextIndex = rechercheImageVide();
+                                    }                        
+                                }else{                          
                                     selectedImages[nextIndex].src = e.target.result;
                                     currentImageCount++;
                                     if (currentImageCount > nextIndex){
@@ -339,6 +347,7 @@
                                         nextIndex++;
                                     }
                                     boutonSuppression.style.display = 'flex';
+                                    preventionMessage.style.display = 'none';
                                 }
                                 toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout                       
                             };
@@ -361,6 +370,7 @@
                         if (currentImageCount === 0 ){
                             boutonSuppression.style.display = 'none';
                             errorMessageSupprimer.style.display = 'none';
+                            preventionMessage.style.display = 'block';
                         }
                         nextIndex = rechercheImageVide();
                         toggleFileUpload()
@@ -382,6 +392,7 @@
                         if (currentImageCount === 0) {
                             boutonSuppression.style.display = 'none';
                             errorMessageSupprimer.style.display = 'none';
+                            preventionMessage.style.display = 'block';
                         }
                         nextIndex = rechercheImageVide();
                         toggleFileUpload(); // Vérifier si on doit afficher le bouton d'ajout après suppression
@@ -432,7 +443,7 @@
             const submitButton = document.getElementById('submit-button');
             submitButton.disabled = true; // Désactive le bouton de soumission
             //const forbiddenCodeKeywords = /(function|var|let|const|if|else|while|for|return|console|document|window|alert|eval|script|import|export|async|await|try|catch|finally|class|this|super|new|void|typeof|instanceof|throw|debugger|with|case|switch|default|break|continue|do|try|finally|yield|static|print|def|in|as|from|lambda|class|self|__init__|require|module|exports|package|import|public|private|protected|implements|extends|new|enum|throw|catch|finally|toString|JSON|Promise|Map|Set|WeakMap|WeakSet|Symbol|Math|parseInt|parseFloat|push|pop|shift|unshift|splice|slice|filter|map|reduce|forEach|every|some|indexOf|includes|lastIndexOf|join|sort|reverse|fill|flat|flatMap|Object|Array|Function|Boolean|Number|String|RegExp|Date|Error|Promise|Set|Map|WeakMap|WeakSet|Proxy|Reflect|Intl|eval|setTimeout|setInterval|clearTimeout|clearInterval|requestAnimationFrame|fetch|XMLHttpRequest|localStorage|sessionStorage|documentElement|createElement|createTextNode|getElementById|getElementsByClassName|getElementsByTagName|querySelector|querySelectorAll|print|include|require|namespace|do|try|catch|finally|yield|void|define|global|using|class|interface|method|static|delegate|event|addEventListener|prompt|file|input|document.createElement|document.write|document.getElementById|document.getElementsByClassName|document.getElementsByTagName)/i;
-            const forbiddenCodeKeywords = /(<br>)/i;
+            // const forbiddenCodeKeywords = /(<br>)/i;
             function validateTitle() {
                 const titreInput = document.getElementById('titre');
                 const errorMessageElement = document.getElementById('error-message-titre');
@@ -445,9 +456,9 @@
                     errors.push("Le titre ne doit pas dépasser 50 caractères.");
                 }
 
-                if (forbiddenCodeKeywords.test(titre)) {
-                    errors.push("Le titre semble contenir du code, ce qui est interdit.");
-                }
+                // if (forbiddenCodeKeywords.test(titre)) {
+                //     errors.push("Le titre semble contenir du code, ce qui est interdit.");
+                // }
 
                 // 3. Vérification des caractères spéciaux (<, >)
                 const forbiddenCharacters = /[<>]/;
@@ -484,9 +495,9 @@
                     errors.push("Le résumé contient des caractères spéciaux interdits (ex : <, >).");
                 }
 
-                if (forbiddenCodeKeywords.test(resume)) {
-                    errors.push("Le résumé semble contenir du code, ce qui est interdit.");
-                }
+                // if (forbiddenCodeKeywords.test(resume)) {
+                //     errors.push("Le résumé semble contenir du code, ce qui est interdit.");
+                // }
         
                 // 4. Vérification de la pertinence (au moins un mot significatif)
                 const alphanumeric = /[A-Za-z0-9]/;
@@ -519,9 +530,9 @@
 
                 // 2. Vérification que la description n'est pas vide ou composée uniquement d'espaces
                 if (description !== '') {
-                    if (forbiddenCodeKeywords.test(description)) {
-                        errors.push("La description semble contenir du code, ce qui est interdit.");
-                    }
+                    // if (forbiddenCodeKeywords.test(description)) {
+                    //     errors.push("La description semble contenir du code, ce qui est interdit.");
+                    // }
     
                     // 4. Vérification de la pertinence (au moins un mot significatif)
                     const alphanumeric = /[A-Za-z0-9]/;
@@ -543,6 +554,40 @@
                 
             }
 
+            // Fonction pour valider l'URL
+            function validateWebsite() {
+                const websiteInput = document.getElementById('site');
+                const errorMessageElement = document.getElementById('site-error-message');
+                const website = websiteInput.value.trim();
+                let errors = [];
+
+                // 1. Vérification de la validité générale de l'URL
+                const urlPattern = /^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/.*)?$/;
+                if (!urlPattern.test(website)) {
+                    errors.push("Veuillez entrer une URL valide (par exemple : https://www.example.com).");
+                }
+
+                // 2. Vérification des caractères spéciaux interdits
+                const forbiddenCharacters = /[<>]/;
+                if (forbiddenCharacters.test(website)) {
+                    errors.push("L'URL contient des caractères spéciaux interdits (ex : <, >).");
+                }
+
+                // 3. Vérification de la présence d'un protocole valide
+                if (!website.startsWith("http://") && !website.startsWith("https://")) {
+                    errors.push("L'URL doit commencer par 'http://' ou 'https://'.");
+                }
+
+                // Affichage des erreurs ou validation
+                if (errors.length > 0) {
+                    errorMessageElement.textContent = errors.join(" ");
+                    submitButton.disabled = true;
+                } else {
+                    errorMessageElement.textContent = "";
+                    submitButton.disabled = false;
+                }
+            }
+
             // Fonction pour valider l'adresse
             function validateAdresse() {
                 const adresseInput = document.getElementById('adresse');
@@ -555,9 +600,9 @@
                     errors.push("L'adresse ne doit pas dépasser 200 caractères.");
                 }
 
-                if (forbiddenCodeKeywords.test(adresse)) {
-                    errors.push("L'adresse semble contenir du code, ce qui est interdit.");
-                }
+                // if (forbiddenCodeKeywords.test(adresse)) {
+                //     errors.push("L'adresse semble contenir du code, ce qui est interdit.");
+                // }
 
                 // 3. Vérification des caractères spéciaux interdits (<, >) pour empêcher les balises HTML
                 const forbiddenCharacters = /[<>]/;
@@ -566,7 +611,7 @@
                 }
 
                 // 5. Vérification des caractères autorisés (alphanumérique + certains caractères courants dans les adresses)
-                const allowedCharacters = /^[A-Za-zÀ-ú0-9\s\,\.\-\#\/]*$/;  // Inclut les alphanumériques, espaces, et les caractères , . - # /
+                const allowedCharacters = /^[A-Za-zÀ-ú0-9\s\,\.\-\#\/']*$/;  // Inclut les alphanumériques, espaces, et les caractères , . - # /
                 if (!allowedCharacters.test(adresse)) {
                     errors.push("L'adresse contient des caractères non autorisés (seuls les alphanumériques, espaces, , . - # / sont permis).");
                 }
@@ -630,9 +675,9 @@
         
                 // 1. Vérification que la ville n'est pas vide
                 
-                if (forbiddenCodeKeywords.test(city)) {
-                    errors.push("Le nom de ville semble contenir du code, ce qui est interdit.");
-                }
+                // if (forbiddenCodeKeywords.test(city)) {
+                //     errors.push("Le nom de ville semble contenir du code, ce qui est interdit.");
+                // }
         
                 // 2. Vérification de la validité des caractères (lettres, espaces, accents, tirets, apostrophes)
                 const allowedCharacters = /^[A-Za-zÀ-ÿ\s\-']+$/; // Autorise lettres, espaces, accents, tirets et apostrophes
@@ -665,9 +710,9 @@
                 }
         
                 
-                if (forbiddenCodeKeywords.test(accessibility)) {
-                    errors.push("L'accessibilité semble contenir du code, ce qui est interdit.");
-                }
+                // if (forbiddenCodeKeywords.test(accessibility)) {
+                //     errors.push("L'accessibilité semble contenir du code, ce qui est interdit.");
+                // }
         
                 // 2. Vérification de la validité des caractères
                 const allowedCharacters = /^[A-Za-zÀ-ÿ0-9\s\-.,'()]+$/; // Autorise lettres, chiffres, espaces, accents, tirets, virgules et parenthèses
@@ -984,6 +1029,7 @@
             document.getElementById('pinclus').addEventListener('blur', validatePrestationIncluse);
             document.getElementById('pexclus').addEventListener('blur', validatePrestationExcluse);
             document.getElementById('langue').addEventListener('blur', validateLangue);
+            document.getElementById('site').addEventListener('blur', validateWebsite);
 
 
 
