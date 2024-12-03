@@ -63,7 +63,7 @@ error_reporting(0); if (!empty($_POST)) {
     <a href="connexion.php">
         <div class="bouton-retour-page-création-membre">
             <button class="FS">
-                <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
+                <img src="../icons/arrow-left-o.svg" alt="Bouton Image"> Retour
             </button>
         </div>
     </a>

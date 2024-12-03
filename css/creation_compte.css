@@ -41,6 +41,8 @@ a {
 
 /* Le bouton retour en haut à gauche de la page */
 .bouton-retour-page-création-membre button {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
     position: fixed;
 	top: 30px;
@@ -54,8 +56,14 @@ a {
     font-size: 16px;
 }
 
+.bouton-retour-page-création-membre img,  .bouton-retour-page-création-pro img{
+    margin-right: 5px;
+}
+
 
 .bouton-retour-page-création-pro button {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
     position: fixed;
 	top: 30px;
@@ -68,7 +76,6 @@ a {
     border-radius: 5px;
     font-size: 16px;
 }
-
 
 /* Permet de bien définir la zone du formulaire */
 .form-container-page-creation-compte {
@@ -277,7 +284,7 @@ input[type="checkbox"] {
         display: none;
     }
     
-    .bouton-retour-page-création {
+    .bouton-retour-page-création-membre {
         display: none;
     }
 
