@@ -125,23 +125,6 @@ create table pact._photo_avis(
 
 );
 
------------ FACTURATION -----------
-
-create table pact._facturation(
-  numFacture integer,
-  --/nbOffre
-  --/prixTotal
-  date_facture date default now(),
-  idC integer,
-
-  constraint _facturation_pk primary key (numFacture),
-
-  constraint _facturation_fk_secteur_prive foreign key
-  (idC) references pact._secteur_prive(idC)
-
-);
-
-
 ----------- TAGS -----------
 
 create table pact._tag(
@@ -398,6 +381,24 @@ create table pact._option_offre(
   (idOption) references pact._option(idOption)
 );
 
+----------- FACTURATION -----------
+
+create table pact._facturation(
+  numFacture integer,
+  --/prixOffreTTC
+  --/prixOffreHT
+  --/prixOptionTTC
+  --/prixOptionHT
+  date_facture date default now(),
+  idO integer,
+
+  constraint _facturation_pk primary key (numFacture),
+
+  constraint _facturation_fk_secteur_prive foreign key
+  (idO) references pact._offre(idO)
+);
+
+
 ----------- Exprience ----------- 
 
 create table pact._experience(
@@ -532,10 +533,10 @@ create or replace view pact.membre as
 create or replace function pact.insert_membre()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.idAdresse) returning idC into new.idC;
   insert into pact._membre (idc, pseudo) values (new.idc, new.pseudo);
@@ -547,6 +548,26 @@ create or replace trigger tg_insert_membre
 instead of insert on pact.membre
   for each row execute procedure pact.insert_membre();
 
+
+create or replace function pact.update_membre()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  -- on ne peut pas modifier le pseudo
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_membre
+instead of update on pact.membre
+  for each row execute procedure pact.update_membre();
+  
 -- professionnel
 create or replace view pact.professionnel as
   select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
@@ -556,10 +577,10 @@ create or replace view pact.professionnel as
 create or replace function pact.insert_professionnel()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.idAdresse) returning idC into new.idC;
   insert into pact._professionnel (idc, codePro, denomination_sociale) values (new.idc, new.codePro, new.denomination_sociale);
@@ -571,6 +592,24 @@ create or replace trigger tg_insert_professionnel
 instead of insert on pact.professionnel
   for each row execute procedure pact.insert_professionnel();
 
+create or replace function pact.update_professionnel()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
+  -- on ne peut pas modifier le code pro
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_professionnel
+instead of update on pact.professionnel
+  for each row execute procedure pact.update_professionnel();
 
 -- professionnel secteur public
 
@@ -593,6 +632,25 @@ create or replace trigger tg_insert_secteur_public
 instead of insert on pact.secteur_public
   for each row execute procedure pact.insert_secteur_public();
 
+create or replace function pact.update_secteur_public()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
+  -- on ne peut pas modifier le code pro
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_secteur_public
+instead of update on pact.secteur_public
+  for each row execute procedure pact.update_secteur_public();
+
 
 -- professionnel secteur prive
 
@@ -614,6 +672,26 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_secteur_prive
 instead of insert on pact.secteur_prive
   for each row execute procedure pact.insert_secteur_prive();
+
+create or replace function pact.update_secteur_prive()
+  returns trigger as $$
+begin
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+    insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
+  else
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+  end if;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
+  update pact._secteur_prive set iban = new.iban, bic = new.bic, raison_sociale = new.raison_sociale where idC = old.idC;
+  -- on ne peut pas modifier le code pro
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_secteur_prive
+instead of update on pact.secteur_prive
+  for each row execute procedure pact.update_secteur_prive();
   
 --- Tags
 
@@ -738,10 +816,10 @@ create or replace function pact.insert_offre()
 begin
 
  -- test adresse
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
   insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC)
@@ -765,10 +843,10 @@ create or replace view pact.activite as
   create or replace function pact.insert_activite()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
   values (new.titre, new.resume, new."type", new.description, new.site_web, new.prix_min, new.accessibilite, 'Activite', new.date_creation, new.date_publication, new.date_hors_ligne, new.idAdresse, new.idC) returning idO into new.idO;
@@ -786,10 +864,10 @@ instead of insert on pact.activite
 create or replace function pact.update_activite()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
   update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web,  prix_min = new.prix_min,
@@ -817,10 +895,10 @@ create or replace view pact.visite as
 create or replace function pact.insert_visite()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
   insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
@@ -839,10 +917,10 @@ instead of insert on pact.visite
 create or replace function pact.update_visite()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
   update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
@@ -868,10 +946,10 @@ create or replace function pact.insert_spectacle()
   returns trigger as $$
 begin
 
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
   insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
@@ -890,10 +968,10 @@ instead of insert on pact.spectacle
 create or replace function pact.update_spectacle()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
   update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
@@ -920,10 +998,10 @@ create or replace view pact.parc_d_attraction as
 create or replace function pact.insert_parc_d_attraction()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
   insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
@@ -943,10 +1021,10 @@ instead of insert on pact.parc_d_attraction
 create or replace function pact.update_parc_d_attraction()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
   update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
@@ -975,10 +1053,10 @@ create or replace view pact.restauration as
 create or replace function pact.insert_restauration()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
   
   insert into pact._offre (titre, resume, "type", description, site_web, prix_min, accessibilite, categorie, date_creation, date_publication, date_hors_ligne, idAdresse, idC) 
@@ -999,10 +1077,10 @@ instead of insert on pact.restauration
 create or replace function pact.update_restauration()
   returns trigger as $$
 begin
-  if (select not exists(select * from pact._adresse where ville = new.ville and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
+  if (select not exists(select * from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement)) then
     insert into pact._adresse (ville, numero_voie, voie, code_postal, complement) values (new.ville, new.numero_voie, new.voie, new.code_postal, new.complement) returning idAdresse into new.idAdresse;
   else
-    update pact._adresse set ville = new.ville, voie = new.voie, code_postal = new.code_postal, complement = new.complement where idAdresse = new.idAdresse returning idAdresse into new.idAdresse;
+    select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
   update pact._offre set titre = new.titre, resume = new.resume, "type" = new."type", description = new.description, site_web = new.site_web, prix_min = new.prix_min,
@@ -1075,36 +1153,47 @@ instead of insert on pact.photo_offre
   sauf si la date de mise hors ligne de l'offre est plus vielle avant.
 */
 
-create or replace function pact.prix_offre_TTC(idCompte integer, idOffre integer, date_fin date)
+create or replace function pact.prix_offre_TTC(idOffre integer, date_fin date, idFacture integer)
   returns float as $$
 declare
   cout float;
   comp float;
   date_offre date;
   date_offre_hors_ligne date;
+  date_emmission_facture date;
   n integer;
 begin
   comp = 0;
-  select o.cout_TTC from pact.offre o where o.idO = idOffre and o.idC = idCompte into cout;
-  
-  select o.date_publication from pact.offre o where o.idO = idOffre and o.idC = idCompte into date_offre;
-  
-  select o.date_hors_ligne from pact.offre o where o.idO = idOffre and o.idC = idCompte into date_offre_hors_ligne;
+    
+  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
+  date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
+  -- Si la date d'emmission de la facture est avant la date de publication, 
+  -- ça veut dire que cette offre n'etait pas active pendant ce mois
+  -- (à modifier)
+  select o.date_publication from pact.offre o where o.idO = idOffre into date_offre;
 
-  if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
-    select(date_fin - date_offre) as days into n;
-  else
-    select(date_offre_hors_ligne - date_offre) as days into n;   
-  end if;
+  if (date_emmission_facture > date_offre) then
+ 
+    select o.cout_TTC from pact.offre o where o.idO = idOffre into cout;
   
-  for counter in 1..n loop
-    comp = comp + cout;
-  end loop;
+    select o.date_hors_ligne from pact.offre o where o.idO = idOffre into date_offre_hors_ligne;
+
+    if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
+      select(date_fin - date_offre) as days into n;
+    else
+      select(date_offre_hors_ligne - date_offre) as days into n;   
+    end if;
+    
+    for counter in 1..n loop
+      comp = comp + cout;
+    end loop;
+  end if;
   
   RETURN comp;
 end;
 $$ language 'plpgsql';
 
+/*DEPRECIATED : compte le nombre d'offres pour une facture (facture à plusieurs offres)*/
 create or replace function pact.nombre_offre_facture(idCompte integer, idFacture integer)
   returns integer as $$
 declare
@@ -1118,42 +1207,57 @@ end;
 $$ language 'plpgsql';
 
 /*
-  Cette fonction calcule le cout HT d'une offre pour une certaine durée 
+  Cette fonction calcule le cout HT d'une offre pour une certaine durée
   Le nombre de jours entre la date de publication et la date donnée dans la plupart des cas, 
   sauf si la date de mise hors ligne de l'offre est plus vielle avant.
 */
-create or replace function pact.prix_offre_HT(idCompte integer, idOffre integer, date_fin date)
+create or replace function pact.prix_offre_HT(idOffre integer, date_fin date, idFacture integer)
   returns float as $$
 declare
   cout float;
   comp float;
   date_offre date;
   date_offre_hors_ligne date;
+  date_emmission_facture date;
   n integer;
 begin
   comp = 0;
-  select o.cout_HT from pact.offre o where o.idO = idOffre and o.idC = idCompte into cout;
-  
-  select o.date_publication from pact.offre o where o.idO = idOffre and o.idC = idCompte into date_offre;
-  
-  select o.date_hors_ligne from pact.offre o where o.idO = idOffre and o.idC = idCompte into date_offre_hors_ligne;
+    
+  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
+  date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
 
-  if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
-    select(date_fin - date_offre) as days into n;
-  else
-    select(date_offre_hors_ligne - date_offre) as days into n;   
-  end if;
+  -- Si la date d'emmission de la facture est avant la date de publication, 
+  -- ça veut dire que cette offre n'etait pas active pendant ce mois
+  -- (à modifier)
+  select o.date_publication from pact.offre o where o.idO = idOffre into date_offre;
+  if (date_emmission_facture > date_offre) then
+ 
+    select o.cout_HT from pact.offre o where o.idO = idOffre into cout;
+    
+    
   
-  for counter in 1..n loop
-    comp = comp + cout;
-  end loop;
+    select o.date_hors_ligne from pact.offre o where o.idO = idOffre into date_offre_hors_ligne;
+    -- try date truncate with month if lasts over a month
+    if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
+      select(date_fin - date_offre) as days into n;
+    else
+      select(date_offre_hors_ligne - date_offre) as days into n;   
+    end if;
+    
+    for counter in 1..n loop
+      comp = comp + cout;
+    end loop;
+  end if;
   
   RETURN comp;
 end;
 $$ language 'plpgsql';
 
+select * from facturation;
+
 /*
   Cette fonction calcule le prix TTC de la facture pour le mois et l'année, ne prend pas en compte les options
+  DEPRECIATED : pour facture à plusieur offres
 */
 create or replace function pact.prix_total_TTC(idCompte integer, idFacture integer)
   returns float as $$
@@ -1175,6 +1279,7 @@ $$ language 'plpgsql';
 
 /*
   Cette fonction calcule le prix HT de la facture pour le mois et l'année, ne prend pas en compte les options
+  DEPRECIATED : pour facture à plusieur offres
 */
 create or replace function pact.prix_total_HT(idCompte integer, idFacture integer)
   returns float as $$
@@ -1193,15 +1298,12 @@ begin
 end;
 $$ language 'plpgsql';
 
-create or replace view pact.facturation as 
-  select numfacture, date_facture, pact.nombre_offre_facture(idC, numFacture) as nombre_offre, pact.prix_total_TTC(idC, numFacture) as prix_ttc,
-  pact.prix_total_HT(idC, numFacture) as prix_ht, idC from pact._facturation;
-
 /*
   Fonction calcule le prix TTC d'une option pour une offre donnée,
   si la date de lancement n'a pas étée dépasée, le prix est 0
+  si la date de lancement et la date de la facture ne sont pas du mêle mois et année, le prix de l'option est 0
 */
-create or replace function pact.prix_option_offre_TTC(idOffre integer)
+create or replace function pact.prix_option_offre_TTC(idOffre integer, idFacture integer)
   returns float as $$
 declare
   cout float;
@@ -1210,16 +1312,18 @@ declare
   days integer;
   res float;
   date_lancement date;
-
+  date_facture date;
 begin
+  res = 0;
+  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_facture;
   select o.date_lancement from pact.option_offre o where o.idO = idOffre into date_lancement;
-  if (current_date > date_lancement and date_lancement is not null) then
-    select o.cout_TTC from pact.option_offre o where o.idO = idOffre into cout;
-    select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
-    select EXTRACT(DAY FROM duree) into days;
-    res = days/7 * cout;
-  else
-    res = 0;
+  if (EXTRACT(MONTH FROM date_facture) = EXTRACT(MONTH FROM date_lancement) and EXTRACT(YEAR FROM date_facture) = EXTRACT(YEAR FROM date_lancement)) then
+    if (current_date > date_lancement and date_lancement is not null) then
+      select o.cout_TTC from pact.option_offre o where o.idO = idOffre into cout;
+      select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
+      select EXTRACT(DAY FROM duree) into days;
+      res = days/7 * cout;
+    end if;
   end if;
   RETURN res;
 end;
@@ -1229,8 +1333,9 @@ $$ language 'plpgsql';
 /*
   Fonction calcule le prix HT d'une option pour une offre donnée,
   si la date de lancement n'a pas étée dépasée, le prix est 0
+  si la date de lancement et la date de la facture ne sont pas du mêle mois et année, le prix de l'option est 0
 */
-create or replace function pact.prix_option_offre_HT(idOffre integer)
+create or replace function pact.prix_option_offre_HT(idOffre integer, idFacture integer)
   returns float as $$
 declare
   cout float;
@@ -1239,17 +1344,26 @@ declare
   days integer;
   res float;
   date_lancement date;
-
+  date_facture date;
 begin
+  res = 0;
+  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_facture;
   select o.date_lancement from pact.option_offre o where o.idO = idOffre into date_lancement;
-  if (current_date > date_lancement and date_lancement is not null) then
-    select o.cout_HT from pact.option_offre o where o.idO = idOffre into cout;
-    select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
-    select EXTRACT(DAY FROM duree) into days;
-    res = days/7 * cout;
-  else
-    res = 0;
+  if (EXTRACT(MONTH FROM date_facture) = EXTRACT(MONTH FROM date_lancement) and EXTRACT(YEAR FROM date_facture) = EXTRACT(YEAR FROM date_lancement)) then
+    if (current_date > date_lancement and date_lancement is not null) then
+      select o.cout_HT from pact.option_offre o where o.idO = idOffre into cout;
+      select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
+      select EXTRACT(DAY FROM duree) into days;
+      res = days/7 * cout;
+    end if;
   end if;
   RETURN res;
 end;
 $$ language 'plpgsql';
+
+
+create or replace view pact.facturation as 
+  select numfacture, date_facture, date_trunc('month', date_facture + interval '1 month') as date_emmission, pact.prix_offre_TTC(f.idO, now()::date, numfacture) as prix_offre_ttc, pact.prix_offre_HT(f.ido, now()::date, numfacture) as prix_offre_ht, 
+  pact.prix_option_offre_TTC(f.idO) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO) as  prix_option_ht,
+  f.idO, idC from pact._facturation f
+  inner join pact.offre o on o.idO = f.idO;
