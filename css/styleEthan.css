@@ -9,14 +9,14 @@
     }
 }
 
-/* Temporair, je sais pas comment les autres ont fais pour pas que la page dépasse sur la nav */
+
 .content {
-    margin-left: 100px;
+    margin: 30px 0 0 50px;
     padding: 20px;
 }
 
 .titre {
-    margin-left: 100px;
+    margin-left: 60px;
 }
 
 
@@ -40,7 +40,7 @@
 }
 
 #pfp  {
-    margin: 30px 50px;
+    margin: 50px 50px 0 70px;
 }
 
 .main-container {
@@ -83,7 +83,7 @@
 
 .edit-btn {
     display: block;
-    margin: 100px 100px 100px 0;
+    margin: 100px 100px 0 0;
     padding: 10px 20px;
     background-color: var(--bleu-rouge);
     color: var(--blanc);
@@ -100,13 +100,14 @@
 
 .cancel-btn {
     display: block;
-    margin: 100px 100px 100px 0;
+    margin: 100px 100px 0 0;
     padding: 10px 20px;
     background-color: var(--gris-clair);
     color: var(--noir);
     font-family: 'TripSansBold', Arial, sans-serif;
     text-align: center;
     border-radius: 4px;
+    border-width: 2px;
     cursor: pointer;
 }
 
@@ -145,13 +146,14 @@ div > hr {
     .deco-btn {
         visibility: visible;
         display: block;
-        margin: 100px 100px 100px 0;
+        margin: 100px 100px 0 0;
         padding: 10px 20px;
         background-color: var(--gris-clair);
         color: var(--noir);
         font-family: 'TripSansBold', Arial, sans-serif;
         text-align: center;
         border-radius: 4px;
+        border-width: 2px;
         cursor: pointer;
     }
 

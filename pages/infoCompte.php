@@ -19,7 +19,7 @@ include('../sql/connect_params.php');
             document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             location.assign("accueil.php");
-                                        }
+        }
     </script>
 </head>
     <?php
@@ -36,8 +36,8 @@ include('../sql/connect_params.php');
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
-            else if ($_COOKIE['type_compte'] == "pro_privee") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_privee WHERE idC = :id_user");
+            else if ($_COOKIE['type_compte'] == "pro_prive") {
+                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :id_user");
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
@@ -76,11 +76,20 @@ include('../sql/connect_params.php');
         <h1 class="TS titre">Paramètres De Compte</h1>
     
         <div class="profile">
-            <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
+            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
             <div>
-                <h2><?php echo $compte[0]['prenom'] . ' ' . $compte[0]['nom']; ?></h2>
-                <p><?php echo $_COOKIE['type_compte']; ?></p>
                 <br>
+                <h2>
+                    <?php
+                        if ($_COOKIE['type_compte'] == "membre") {
+                            echo $compte[0]['pseudo'];
+                        }
+                        else {
+                            echo $compte[0]['prenom'] . ' ' . $compte[0]['nom'];
+                        }
+                    ?>
+                </h2>
+                <p><?php echo $_COOKIE['type_compte']; ?></p>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
                 <form method="POST" action="mes-avis.php">
                     <button type="submit" class="edit-btn">Afficher mes avis</button>
@@ -114,7 +123,7 @@ include('../sql/connect_params.php');
                     <input type="text" value="<?php echo htmlspecialchars($compte[0]['numero_voie'] . ' ' . $compte[0]['voie']); ?>" readonly>
                 </div>
             </div>
-            <br><br>
+
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Code Postal</label>
