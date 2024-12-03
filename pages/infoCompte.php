@@ -74,6 +74,7 @@ include('../sql/connect_params.php');
 
     <div class="content">
         <h1 class="TS titre">Paramètres De Compte</h1>
+        <?php print_r($_COOKIE['user']); ?>
     
         <div class="profile">
             <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
@@ -89,7 +90,19 @@ include('../sql/connect_params.php');
                         }
                     ?>
                 </h2>
-                <p><?php echo $_COOKIE['type_compte']; ?></p>
+                <p>
+                    <?php 
+                        if($_COOKIE['type_compte'] == "membre") {
+                            echo "Membre";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_public"){
+                            echo "Professionnel Public";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_prive"){
+                            echo "Professionnel Privé";
+                        }
+                    ?>
+                </p>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
                 <form method="POST" action="mes-avis.php">
                     <button type="submit" class="edit-btn">Afficher mes avis</button>
