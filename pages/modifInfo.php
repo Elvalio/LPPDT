@@ -31,10 +31,10 @@ include('../sql/connect_params.php');
                     $stmt->bindParam(':nom', $_POST['nom']);
                     $stmt->bindParam(':telephone', $_POST['telephone']);
 
-                    $temp = explode(" ",$_POST["adresse"]);     //On explode l'adresse
-                    $num_adresse = $temp[0];                    //On récupère le numéro de la voie qui sera toujours la premier valeur
-                    array_shift($temp);                         //On supprime le numéro de la voie
-                    $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
+                    $temp = explode(" ",$_POST["adresse"]);
+                    $num_adresse = $temp[0];
+                    array_shift($temp);
+                    $adresse = implode(" ", $temp);
 
                     $stmt->bindParam(':numero_voie', $num_adresse);
                     $stmt->bindParam(':voie', $adresse);
@@ -44,6 +44,60 @@ include('../sql/connect_params.php');
                     $stmt->bindParam(':id_user', $_COOKIE['user']);
                     $stmt->execute();
     
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            }
+
+            else if ($_COOKIE['type_compte'] == "pro_public") {
+                try {
+                    $stmt = $dbh->prepare("UPDATE pact.secteur_public SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :denomination_sociale, mdp = :mdp WHERE idC = :id_user");
+                    $stmt->bindParam(':prenom', $_POST['prenom']);
+                    $stmt->bindParam(':nom', $_POST['nom']);
+                    $stmt->bindParam(':telephone', $_POST['telephone']);
+
+                    $temp = explode(" ",$_POST["adresse"]);
+                    $num_adresse = $temp[0];
+                    array_shift($temp);
+                    $adresse = implode(" ", $temp);
+
+                    $stmt->bindParam(':numero_voie', $num_adresse);
+                    $stmt->bindParam(':voie', $adresse);
+                    $stmt->bindParam(':code_postal', $_POST['code_postal']);
+                    $stmt->bindParam(':ville', $_POST['ville']);
+                    $stmt->bindParam(':denomination_sociale', $_POST['denomination_sociale']);
+                    $stmt->bindParam(':mdp', $_POST['mdp']);
+                    $stmt->bindParam(':id_user', $_COOKIE['user']);
+                    $stmt->execute();
+                    
+                } catch (PDOException $e) {
+                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                }
+            }
+
+            else if ($_COOKIE['type_compte'] == "pro_privee") {
+                try {
+                    $stmt = $dbh->prepare("UPDATE pact.secteur_prive SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :denomination_sociale, mdp = :mdp WHERE idC = :id_user");
+                    $stmt->bindParam(':prenom', $_POST['prenom']);
+                    $stmt->bindParam(':nom', $_POST['nom']);
+                    $stmt->bindParam(':telephone', $_POST['telephone']);
+
+                    $temp = explode(" ",$_POST["adresse"]);
+                    $num_adresse = $temp[0];
+                    array_shift($temp);
+                    $adresse = implode(" ", $temp);
+
+                    $stmt->bindParam(':numero_voie', $num_adresse);
+                    $stmt->bindParam(':voie', $adresse);
+                    $stmt->bindParam(':code_postal', $_POST['code_postal']);
+                    $stmt->bindParam(':ville', $_POST['ville']);
+                    $stmt->bindParam(':denomination_sociale', $_POST['denomination_sociale']);
+                    $stmt->bindParam(':mdp', $_POST['mdp']);
+                    $stmt->bindParam(':id_user', $_COOKIE['user']);
+                    $stmt->execute();
+                    
                 } catch (PDOException $e) {
                     print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
@@ -67,8 +121,8 @@ include('../sql/connect_params.php');
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
-            else if ($_COOKIE['type_compte'] == "pro_privee") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_privee WHERE idC = :id_user");
+            else if ($_COOKIE['type_compte'] == "pro_prive") {
+                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :id_user");
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
@@ -106,7 +160,7 @@ include('../sql/connect_params.php');
         <?php print_r($_POST); ?>
     
         <div class="profile">
-            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
+            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
             <div>
                 <h2>
                     <?php

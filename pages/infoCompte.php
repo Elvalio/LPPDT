@@ -36,8 +36,8 @@ include('../sql/connect_params.php');
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
-            else if ($_COOKIE['type_compte'] == "pro_privee") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_privee WHERE idC = :id_user");
+            else if ($_COOKIE['type_compte'] == "pro_prive") {
+                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :id_user");
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
             }
@@ -76,8 +76,9 @@ include('../sql/connect_params.php');
         <h1 class="TS titre">Paramètres De Compte</h1>
     
         <div class="profile">
-            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="200px%" width="200px">
+            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
             <div>
+                <br>
                 <h2>
                     <?php
                         if ($_COOKIE['type_compte'] == "membre") {
@@ -89,7 +90,6 @@ include('../sql/connect_params.php');
                     ?>
                 </h2>
                 <p><?php echo $_COOKIE['type_compte']; ?></p>
-                <br>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
                 <form method="POST" action="mes-avis.php">
                     <button type="submit" class="edit-btn">Afficher mes avis</button>
