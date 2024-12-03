@@ -234,62 +234,62 @@
       margin: 0;
   }
   
-  /* Définition du container contact */
-  .part-contact {
-      display: block;
+    /* Définition du container contact */
+    .part-contact {
+        display: block;
+        flex-direction: row;
+        width: 85%;
+        padding: 20 0 20 0;
+        font-family: 'TripSansBold';
+        font-size: 2vh;
+    }
+    
+    .carte {
+        width: 40vh;
+        border-radius: 15px;
+    }
+    
+    .side-contact {
+      display: flex;
+      flex-direction: column;
+      width: 60%;
+    }
+    
+    .side-contact div img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+    
+    /* 
+    * Cette règle CSS cible l'élément avec l'ID "container".
+    * Elle définit la largeur à 100% de son élément parent,
+    * applique un padding de 20 pixels sur tous les côtés,
+    * et définit la couleur de fond à gris clair (#f0f0f0).
+    */
+    .side-contact div div {
+      display: flex;
       flex-direction: row;
-      width: 85%;
-      padding: 20px;
-      font-family: 'TripSansBold';
-      font-size: 2vh;
-  }
-  
-  .carte {
-      width: 40vh;
-      border-radius: 15px;
-  }
-  
-  .side-contact {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-  }
-  
-  .side-contact div img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-  
-  /* 
-   * Cette règle CSS cible l'élément avec l'ID "container".
-   * Elle définit la largeur à 100% de son élément parent,
-   * applique un padding de 20 pixels sur tous les côtés,
-   * et définit la couleur de fond à gris clair (#f0f0f0).
-   */
-  .side-contact div div {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  /* 
-   * Cette règle CSS applique une couleur de fond à l'élément body.
-   * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
-   */
-  .side-contact div div a  {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-decoration: none;
-  }
-  
-  .horaires {
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
-  }
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    /* 
+    * Cette règle CSS applique une couleur de fond à l'élément body.
+    * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
+    */
+    .side-contact div div a  {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-decoration: none;
+    }
+    
+    .horaires {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+    }
   
   /* Style du bouton retour */
   .bouton-retour {
@@ -404,6 +404,60 @@
     height: 20px;
     margin-top: 20px;
   }
+
+  .poster_avis{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  
+  .poster_avis div{
+    display: flex;
+    margin-top: 5px;
+  }
+  
+  .poster_avis > div > img{
+    margin-left: 2px;
+    margin-right: 2px;
+  }
+  
+  .poster_avis > h3{
+    font-family: 'TripSansBold';
+  }
+  
+  #ecrire_avis{
+    width : 100%;
+    height: 200px;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 5px;
+    resize: none;
+    overflow: auto;
+    font-family: "TripSansRegular";
+  }
+  
+  #titre_avis{
+    width : 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 5px;
+    resize: none;
+    overflow: auto;
+    font-family: "TripSansRegular";
+  }
+  
+  #bouton_publier {
+    padding: 10px 30px; /* Padding à droite et à gauche */
+    cursor: pointer; /* Curseur en forme de main */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--turquoise-orange);
+    font-size: 16px;
+    width: fit-content;
+    margin-top: 30px;
+  }
+
 }
 
 @media (max-width: 800px) {
@@ -430,6 +484,137 @@
     width: 80%;
     margin: 0;
   }
+
+/* Définition d'un container pour gérer l'affichage */
+.container {
+  overflow: hidden;
+  /* Cache les éléments qui dépassent du container */
+  height: 50vw;
+  /* Hauteur égale à 50% de la hauteur de la vue */
+  flex-wrap: nowrap;
+  /* Empêche les éléments de se placer sur plusieurs lignes */
+  width: fit-content;
+  /* Largeur égale à 80% de la largeur de la vue */
+  margin-top: 10px;
+}
+/* Définition du carousel */
+.carousel {
+  position: relative;
+  /* Le carousel est positionné relativement à son parent */
+}
+/* Définition de l'élément contenant les diapositives */
+.carousel-inner {
+  display: flex;
+  /* Affiche les éléments en ligne */
+  overflow: hidden;
+  /* Cache les éléments qui dépassent */
+  height: 50vw;
+  /* Hauteur égale à 50% de la hauteur de la vue */
+  flex-wrap: nowrap;
+  /* Empêche les éléments de se placer sur plusieurs lignes */
+  width: 100%;
+}
+/* Définition des diapositives */
+.slide {
+  flex: 0 0 100%;
+  /* Largeur de chaque diapositive est de 100% */
+  height: 100%;
+  /* Hauteur de chaque diapositive est de 100% */
+  transition: .5s ease-in-out;
+  /* Ajout d'une animation douce pour la transition entre les diapositives */
+}
+/* Définition de l'affichage de l'image de chaque diapositive */
+.slide img {
+  width: 100%;
+  /* Largeur de l'image est de 100% */
+  height: 100%;
+  /* Hauteur de l'image est de 100% */
+  object-fit: cover;
+  /* Couvre tout l'espace disponible */
+  border-radius: 15px;
+  /* Ajout d'un bord arrondi */
+}
+/* Définition des boutons de contrôle du carousel */
+.carousel-controls {
+  position: absolute;
+  /* Les boutons sont absolument positionnés */
+  z-index: 5;
+  /* Ils sont placés au-dessus des autres éléments */
+  left: 5%;
+  /* La distance à gauche est de 10% */
+  right: 5%;
+  /* La distance à droite est de 10% */
+  top: 42%;
+  /* La distance du haut est de 50% */
+  display: none;
+  /* Affiche les boutons en ligne */
+  justify-content: space-between;
+  /* Espacement égal entre les boutons */
+  z-index: 0;
+}
+/* Style des boutons de contrôle */
+.carousel-controls button {
+  padding: 10px;
+  /* Ajout de padding pour un meilleur contrôle */
+  background-color:transparent;
+  /* Arrière-plan en aquamarine */
+  border: transparent !important;
+}
+/* Définition des flèches de contrôle */
+.carousel-controls button img {
+  width: 8vh;
+  /* Largeur de l'image est de 30px */
+  height: 8vh;
+  /* Hauteur de l'image est de 30px */
+}
+/* Définition des points de contrôle */
+.carousel-dots {
+  position: absolute;
+  /* Les points sont absolument positionnés */
+  z-index: 5;
+  /* Ils sont placés au-dessus des autres éléments */
+  left: 50%;
+  /* La distance à gauche est de 50% */
+  right: 50%;
+  /* La distance à droite est de 50% */
+  bottom: 10%;
+  /*La distance du bas est de 10% */
+  display: flex;
+  /* Affiche les points en ligne */
+  justify-content: center;
+  /* Centrage des points */
+}
+/* Style des points de contrôle */
+.carousel-dots .dot {
+  border-radius: 50%;
+  /* Les points sont en forme de cercle */
+  margin: 5px;
+  /* Ajout d'un margin pour un meilleur contrôle */
+  cursor: pointer;
+  /* Curseur en forme de main pour un meilleur contrôle */
+}
+/* Styles pour les points de navigation du carrousel */
+.carousel-dots .active {
+  /* Border de 10px pour le point actif */
+  border: 10px solid #353435 !important;
+  /* !important permet de surcharger les autres styles éventuels */
+}
+.carousel-dots .inactive {
+  /* Border de 10px pour les points inactifs */
+  border: 10px solid #acafb0;
+}
+
+/* Retourner la fleche précédent dans le bon sens */
+
+#prev {
+  transform: rotate(90deg);
+}
+
+/* Retourner la fleche suivante dans le bon sens */
+
+#next {
+  transform: rotate(-90deg);
+}
 
   /* Définition du comportement des étoiles */
   .etoiles {
@@ -471,33 +656,62 @@
     margin-top: 10px;
   }
 
-  /* Définition du container contact */
-  .part-contact {
+      /* Définition du container contact */
+      .part-contact {
+        display: block;
+        flex-direction: row;
+        width: fit-content;
+        padding: 20 0 20 0;
+        font-family: 'TripSansBold';
+        font-size: 2vh;
+    }
+    
+    .carte {
+        width: 40vh;
+        border-radius: 15px;
+    }
+    
+    .side-contact {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+    }
+    
+    .side-contact div img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+    
+    /* 
+    * Cette règle CSS cible l'élément avec l'ID "container".
+    * Elle définit la largeur à 100% de son élément parent,
+    * applique un padding de 20 pixels sur tous les côtés,
+    * et définit la couleur de fond à gris clair (#f0f0f0).
+    */
+    .side-contact div div {
       display: flex;
       flex-direction: row;
-      width: 100%;
-      padding-top: 12px ;
-      font-family: 'TripSansBold';
-      font-size: 12px;  
-  }
-
-  .part-contact div img {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-  }
-
-  
-  
-  .carte {
-      width: 40vh;
-      border-radius: 15px;
-  }
-  
-  .side-contact {
-    display: flex;
-    flex-direction: column;
-  }
+      align-items: center;
+      margin-top: 10px;
+    }
+    
+    /* 
+    * Cette règle CSS applique une couleur de fond à l'élément body.
+    * Elle définit la couleur de fond à une teinte bleu clair (#e0f7fa).
+    */
+    .side-contact div div a  {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-decoration: none;
+    }
+    
+    .horaires {
+      display: flex;
+      flex-direction: column;
+      margin-top: 30px;
+    }
 
 
 .poster_avis{
