@@ -79,7 +79,7 @@ include('../sql/connect_params.php');
 
             else if ($_COOKIE['type_compte'] == "pro_prive") {
                 try {
-                    $stmt = $dbh->prepare("UPDATE pact.secteur_prive SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :denomination_sociale, mdp = :mdp WHERE idC = :id_user");
+                    $stmt = $dbh->prepare("UPDATE pact.secteur_prive SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :denomination_sociale, siren = :siren, iban = :iban, bic = :bic, mdp = :mdp WHERE idC = :id_user");
                     $stmt->bindParam(':prenom', $_POST['prenom']);
                     $stmt->bindParam(':nom', $_POST['nom']);
                     $stmt->bindParam(':telephone', $_POST['telephone']);
@@ -93,7 +93,10 @@ include('../sql/connect_params.php');
                     $stmt->bindParam(':voie', $adresse);
                     $stmt->bindParam(':code_postal', $_POST['code_postal']);
                     $stmt->bindParam(':ville', $_POST['ville']);
-                    $stmt->bindParam(':denomination_sociale', $_POST['denomination_sociale']);
+                    $stmt->bindParam(':denomination_sociale', $_POST['raison_sociale']);
+                    $stmt->bindParam(':siren', $_POST['siren']);
+                    $stmt->bindParam(':iban', $_POST['iban']);
+                    $stmt->bindParam(':bic', $_POST['bic']);
                     $stmt->bindParam(':mdp', $_POST['mdp']);
                     $stmt->bindParam(':id_user', $_COOKIE['user']);
                     $stmt->execute();
@@ -171,7 +174,19 @@ include('../sql/connect_params.php');
                         }
                     ?>
                 </h2>
-                <p><?php echo $_COOKIE['type_compte']; ?></p>
+                <p>
+                    <?php 
+                        if($_COOKIE['type_compte'] == "membre") {
+                            echo "Membre";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_public"){
+                            echo "Professionnel Public";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_prive"){
+                            echo "Professionnel Privé";
+                        }
+                    ?>
+                </p>
             </div>
         </div>
 
@@ -225,15 +240,27 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Dénomination sociale</label>
-                    <input type="text" name="denomination_sociale" value=<?php echo $compte[0]['denomination_sociale']; ?>>
+                    <input type="text" name="raison_sociale" value=<?php echo $compte[0]['raison_sociale']; ?>>
                 </div>
                 <div class="container-info">
                     <label>Numéro SIREN</label>
                     <input type="text" value=<?php echo $compte[0]['siren']; ?> readonly>
                 </div>
             </div>
-            <button class="edit-btn">Modifier les informations bancaires</button>
+            <hr>
+            <br><br>
+            <div class="container-ligne">
+                <div class="container-info">
+                    <label>IBAN</label>
+                    <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?>>
+                </div>
+                <div class="container-info">
+                    <label>BIC</label>
+                    <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?>>
+                </div>
+            </div>
             <?php } ?>
+            <hr>
             <br><br>
             <div class="container-ligne">
                 <div class="container-info">

@@ -74,6 +74,7 @@ include('../sql/connect_params.php');
 
     <div class="content">
         <h1 class="TS titre">Paramètres De Compte</h1>
+        <?php print_r($_COOKIE['user']); ?>
     
         <div class="profile">
             <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
@@ -89,7 +90,19 @@ include('../sql/connect_params.php');
                         }
                     ?>
                 </h2>
-                <p><?php echo $_COOKIE['type_compte']; ?></p>
+                <p>
+                    <?php 
+                        if($_COOKIE['type_compte'] == "membre") {
+                            echo "Membre";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_public"){
+                            echo "Professionnel Public";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_prive"){
+                            echo "Professionnel Privé";
+                        }
+                    ?>
+                </p>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
                 <form method="POST" action="mes-avis.php">
                     <button type="submit" class="edit-btn">Afficher mes avis</button>
@@ -150,11 +163,23 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Dénomination sociale</label>
-                    <input type="text" value=<?php echo $compte[0]['denomination_sociale']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['raison_sociale']; ?> readonly>
                 </div>
                 <div class="container-info">
                     <label>Numéro SIREN</label>
                     <input type="text" value=<?php echo $compte[0]['siren']; ?> readonly>
+                </div>
+            </div>
+            <hr>
+            <br><br>
+            <div class="container-ligne">
+                <div class="container-info">
+                    <label>IBAN</label>
+                    <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?>>
+                </div>
+                <div class="container-info">
+                    <label>BIC</label>
+                    <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?>>
                 </div>
             </div>
             <?php } ?>

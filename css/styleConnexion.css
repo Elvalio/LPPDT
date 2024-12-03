@@ -39,8 +39,8 @@
     position: absolute;
     top: 20px;
     left: 20px;
-    background-color: #3AD4AE;
-    color: rgb(0, 0, 0);
+    background-color: #3136ED;
+    color: white;
     border: none;
     border-radius: 8px;
     padding: 10px 50px;
@@ -50,6 +50,11 @@
     justify-content: center;
     align-items: center;
     gap: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .back-button:hover {
+    background-color: #5b60f3;
   }
   
   
@@ -75,7 +80,7 @@
 
   
   .submit-button {
-    background-color: #3AD4AE;
+    background-color: #3136ED;
     color: white;
     border: none;
     padding: 12px;
@@ -83,6 +88,11 @@
     font-family: 'TripSansUltra';
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .submit-button:hover {
+    background-color: #5b60f3;
   }
   
   .links {
