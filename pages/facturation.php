@@ -75,7 +75,6 @@ function PrixOptionTTC($idOffre, $bdh) {
     <div class="main-content">
     <header>
         <h1 class="titre-rouge">Facturation</h1>
-        <p class="facture-tri">Plus recent</p>
     </header>
     <div>
         <?php foreach ($factures as $facture) { ?>
