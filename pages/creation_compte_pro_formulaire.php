@@ -200,7 +200,7 @@ error_reporting(0); if (!empty($_POST)) {
             </form>
             
             <div class="redirection-links FS">
-                <a href="connexion.php" class="Connexion">Déjà inscrit ? Connectez-vous.</a>
+                <a href="connexion.php" class="Connexion">Déjà inscrit(e) ? Connectez-vous.</a>
             </div>
         </div>
     </div>
