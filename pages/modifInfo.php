@@ -12,6 +12,13 @@ include('../sql/connect_params.php');
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/styleEthan.css">
+
+
+    <script>
+        function annulation() {
+            location.assign("infoCompte.php");
+        }
+    </script>
 </head>
     <?php
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
@@ -65,9 +72,18 @@ include('../sql/connect_params.php');
         <h1 class="TS titre">Paramètres De Compte</h1>
     
         <div class="profile">
-            <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
+            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
             <div>
-                <h2><?php echo $compte[0]['prenom'] . ' ' . $compte[0]['nom']; ?></h2>
+                <h2>
+                    <?php
+                        if ($_COOKIE['type_compte'] == "membre") {
+                            echo $compte[0]['pseudo'];
+                        }
+                        else {
+                            echo $compte[0]['prenom'] . ' ' . $compte[0]['nom'];
+                        }
+                    ?>
+                </h2>
                 <p><?php echo $_COOKIE['type_compte']; ?></p>
             </div>
         </div>
@@ -140,7 +156,7 @@ include('../sql/connect_params.php');
             </div>
             <div class="container-ligne">
                 <button type="submit" class="edit-btn">Enregistrer les modifications</button>
-                <button type="reset" class="cancel-btn">Annuler les modifications</button>
+                <button type="reset" class="cancel-btn" onclick=annulation()>Annuler les modifications</button>
             </div>
         </form>
     </div>
