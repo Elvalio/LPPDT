@@ -163,11 +163,23 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Dénomination sociale</label>
-                    <input type="text" value=<?php echo $compte[0]['denomination_sociale']; ?> readonly>
+                    <input type="text" value=<?php echo $compte[0]['raison_sociale']; ?> readonly>
                 </div>
                 <div class="container-info">
                     <label>Numéro SIREN</label>
                     <input type="text" value=<?php echo $compte[0]['siren']; ?> readonly>
+                </div>
+            </div>
+            <hr>
+            <br><br>
+            <div class="container-ligne">
+                <div class="container-info">
+                    <label>IBAN</label>
+                    <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?>>
+                </div>
+                <div class="container-info">
+                    <label>BIC</label>
+                    <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?>>
                 </div>
             </div>
             <?php } ?>
