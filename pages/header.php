@@ -14,13 +14,13 @@
             if ($_SERVER['SCRIPT_NAME'] != '/pages/connexion.php') { ?>
             <div>
             </div>
-            <div class="liste_nav">
-                <p class="bouton-nouv NoSelect">Nouveautés</p>
+            <div class="boutonALaUne NoSelect">
+                <p>À la Une</p>
             </div>
             <?php } ?>
             <hr>
         </header>
-        <script src="../js/header.js">
+        <script src="../js/filtres.js">
         </script>
     </body>
 </html>

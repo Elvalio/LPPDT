@@ -7,12 +7,15 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-/*
 
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
-*/
+
+echo "<pre>";
+print_r($_FILES);
+echo "</pre>";
+
 function type_offre($str){
     $res = 1;
 
@@ -218,6 +221,7 @@ try{
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
                 $description = str_replace("'", "''",$_POST['description']);
+                $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
@@ -237,6 +241,7 @@ try{
                         resume = '$resume', 
                         \"type\" = $type, 
                         description = '$description',
+                        site_web = '$site',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
                         date_publication = now(), 
@@ -257,6 +262,7 @@ try{
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
                 $description = str_replace("'", "''",$_POST['description']);
+                $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
@@ -277,6 +283,7 @@ try{
                         resume = '$resume', 
                         \"type\" = $type, 
                         description = '$description',
+                        site_web = '$site',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
                         date_publication = now(), 
@@ -296,6 +303,7 @@ try{
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
                 $description = str_replace("'", "''",$_POST['description']);
+                $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
@@ -315,6 +323,7 @@ try{
                         resume = '$resume', 
                         \"type\" = $type, 
                         description = '$description',
+                        site_web = '$site',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
                         date_publication = now(), 
@@ -335,6 +344,7 @@ try{
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
                 $description = str_replace("'", "''",$_POST['description']);
+                $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
 
@@ -360,6 +370,7 @@ try{
                         resume = '$resume', 
                         \"type\" = $type, 
                         description = '$description',
+                        site_web = '$site',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
                         date_publication = now(),
@@ -383,6 +394,7 @@ try{
                 $resume = str_replace("'", "''", $_POST['resume']);
                 $type = type_offre($_POST['offre']);
                 $description = str_replace("'", "''",$_POST['description']);
+                $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
                 $src_image = random_int(1, 1000); // need image source
@@ -403,6 +415,8 @@ try{
                         resume = '$resume', 
                         \"type\" = $type, 
                         description = '$description',
+                        site_web = '$site',
+                        site_web = '$site',
                         prix_min = $prix_min, 
                         accessibilite = '$accessibilite', 
                         date_publication = now(), 
@@ -612,6 +626,14 @@ include_once 'nav.php';
                                 <p id="description-error-message" class="error-message"></p>
                                 <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..."><?php echo $dataOffre[0]["description"];?></textarea>
                             </div>
+
+                            <!-- Champ "Site web" -->
+                            <div class="container" id="site-container">
+                                <label for="site">Site web</label>
+                                <p id="site-error-message" class="error-message"></p>
+                                <input type="text" id="site" class="FS" name="site" placeholder="https://exemple.com" value = "<?php echo $dataOffre[0]["site_web"];?>">
+                            </div>
+
                             <!-- Champ "Tags" -->
                             <div id="tag-container">
                                 <label>Tags</label>
