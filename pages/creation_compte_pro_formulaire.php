@@ -93,9 +93,9 @@ error_reporting(0); if (!empty($_POST)) {
 <body>
     <!-- Bouton de retour -->
     <a href="creation_compte_formulaire.php">
-        <div class="bouton-retour-page-création">
+        <div class="bouton-retour-page-création-pro">
             <button class="FS">
-                <img src="../icons/arrow-left-o.svg" alt="Bouton Image" width="15" height="15"> Retour
+                <img src="../icons/arrow-left-w.svg" alt="Bouton Image" width="15" height="15"> Retour
             </button>
         </div>
     </a>
