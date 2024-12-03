@@ -171,7 +171,19 @@ include('../sql/connect_params.php');
                         }
                     ?>
                 </h2>
-                <p><?php echo $_COOKIE['type_compte']; ?></p>
+                <p>
+                    <?php 
+                        if($_COOKIE['type_compte'] == "membre") {
+                            echo "Membre";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_public"){
+                            echo "Professionnel Public";
+                        }
+                        else if ($_COOKIE['type_compte'] == "pro_prive"){
+                            echo "Professionnel Privé";
+                        }
+                    ?>
+                </p>
             </div>
         </div>
 
