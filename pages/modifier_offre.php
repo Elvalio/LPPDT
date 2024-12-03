@@ -7,11 +7,10 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-/*
+
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
-*/
 
 function type_offre($str){
     $res = 1;
@@ -321,7 +320,7 @@ try{
                         duree = interval '$duree', 
                         langues = '$langues',
                         ville = '$ville', 
-                        numero_voie = $numero_voie , 
+                        numero_voie = $numero_voie, 
                         voie = '$voie', 
                         code_postal = $code_postal, 
                         complement =''
@@ -340,11 +339,11 @@ try{
 
                 $src_image = random_int(1, 1000); // need image source
                 $gamme_prix = $_POST['categorie-prix'];
-                $petit_dejeuner = ($_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
-                $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
-                $dejeuner = ($_POST['dejeuner'] == 'dejeuner') ? 'true' : 'false';
-                $diner = ($_POST['diner'] == 'diner') ? 'true' : 'false';
-                $boissons = ($_POST['boissons'] == 'boissons') ? 'true' : 'false';
+                $petit_dejeuner = (isset($_POST['petit-dejeuner']) && $_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
+                $brunch = (isset($_POST['brunch']) && $_POST['brunch'] == 'brunch') ? 'true' : 'false';
+                $dejeuner = (isset($_POST['brunch']) && $_POST['dejeuner'] == 'dejeuner') ? 'true' : 'false';
+                $diner = (isset($_POST['diner']) && $_POST['diner'] == 'diner') ? 'true' : 'false';
+                $boissons = (isset($_POST['boissons']) && $_POST['boissons'] == 'boissons') ? 'true' : 'false';
 
                 $ville = $_POST['ville'];
 
@@ -709,14 +708,6 @@ include_once 'nav.php';
                                     Retour
                                 </button>
                             </div>
-                            <div class="hors_ligne" style = "display : none">
-                                    <form method="POST" action="modifier_offre.php" onsubmit ="">
-                                    <input id='status-button' type="submit" name='submit' onclick="form.submit();" 
-                                        value="<?php echo ($dataOffre[0]["en_ligne"]) ? 'Mettre hors Ligne' : 'Mettre en Ligne' ; ?>" 
-                                        style="background-color:<?php echo ($dataOffre[0]["en_ligne"]) ? 'red' : 'green' ; ?>"
-                                    >
-                                    </form>
-                            </div>
                         </div>
                     </div>
                     <div id="right-part">
@@ -932,6 +923,7 @@ include_once 'nav.php';
         </div>
 
         <?php
+            // Trouve les images de l'offre
             $dir = '../images/image_offre';
             $files = array_slice(scandir($dir),2);
             $pattern = "/$idO-[0-9]/";
@@ -947,14 +939,8 @@ include_once 'nav.php';
             
         </script>
         <script>
-            /*
-            selectedImages[1].getAttribute('src') == '../images/image_offre/2-1.jpg';
-            img.src = '../images/image_offre/2-1.jpg';
-            fileInputs[1].value = '../images/image_offre/2-1.jpg';
-            */
 
-            
-
+            // Affiche image de carte/menu si elle existe
             if (<?php echo empty($special) ?  'false' : 'true'?>) {
                 imageCarte = document.getElementById('selected-image');
                 imageCarte.src = '../images/image_offre/<?php echo isset($special[0]) ?  $special[0] : ''?>';
@@ -967,7 +953,7 @@ include_once 'nav.php';
             }
 
 
-            console.log("currentImageCount : " + currentImageCount);
+            // affiche les images de l'offre
             <?php for ($i=0; $i < count($matches); $i++) { ?>
             selectedImages[<?php echo $i?>].src = '../images/image_offre/<?php echo $matches[$i]?>';
             currentImageCount++;
