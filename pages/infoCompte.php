@@ -78,7 +78,16 @@ include('../sql/connect_params.php');
         <div class="profile">
             <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
             <div>
-                <h2><?php echo $compte[0]['prenom'] . ' ' . $compte[0]['nom']; ?></h2>
+                <h2>
+                    <?php
+                        if ($_COOKIE['type_compte'] == "membre") {
+                            echo $compte[0]['pseudo'];
+                        }
+                        else {
+                            echo $compte[0]['prenom'] . ' ' . $compte[0]['nom'];
+                        }
+                    ?>
+                </h2>
                 <p><?php echo $_COOKIE['type_compte']; ?></p>
                 <br>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
