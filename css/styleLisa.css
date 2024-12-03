@@ -1,0 +1,27 @@
+.test {
+    background-image: 
+        linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef),
+        linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef);
+    background-position: 0 0, 25px 25px; /* Pour aligner les deux gradients */
+    background-size: 50px 50px; /* Taille des carrés */
+}
+
+.Boutons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 40%;
+}
+
+.bouton-valider{
+    padding: 10px 30px; /* Padding à droite et à gauche */
+    cursor: pointer; /* Curseur en forme de main */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--noir);
+    color: white;
+    font-size: 16px;
+    width: fit-content;
+    justify-content: center;
+    margin-top: 30px;
+}

@@ -19,7 +19,7 @@ include('../sql/connect_params.php');
             document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             location.assign("accueil.php");
-                                        }
+        }
     </script>
 </head>
     <?php
@@ -76,7 +76,7 @@ include('../sql/connect_params.php');
         <h1 class="TS titre">Paramètres De Compte</h1>
     
         <div class="profile">
-            <img src="../images/image 4.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="10%" width="10%">
+            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="200px%" width="200px">
             <div>
                 <h2>
                     <?php
