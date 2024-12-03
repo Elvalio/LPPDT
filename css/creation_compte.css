@@ -289,12 +289,22 @@ input[type="checkbox"] {
         flex-direction: column; /* Forme une seule colonne */
     }
 
-    .form-group input:not([type="checkbox"]) {
-        width: 95%;
-        padding: 10px;
-        border: none;               /* Remove all borders */
-        border-bottom: 1px solid #ccc; /* Only the bottom border */
-        border-radius: 0;
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    border: none;               /* Remove all borders */
+    border-bottom: 1px solid #ccc; /* Only the bottom border */
+    border-radius: 0;
+    }
+
+    input[type="search"], 
+    input[type="image"] {
+        margin: 0;
+        padding: 0;
+        border: none;
     }
 
     .left-column, .right-column {

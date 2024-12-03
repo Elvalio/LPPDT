@@ -53,11 +53,11 @@ error_reporting(0); if (!empty($_POST)) {
     <link rel="stylesheet" href="../css/creation_compte.css">
 </head>
 
-<!--
+
 <div class="phone-element">
-        <?php //include_once 'header.php' ?>
+        <?php include_once 'header.php' ?>
 </div>
--->
+
 <body>
     <!-- Bouton de retour -->
     <a href="connexion.php">
