@@ -123,7 +123,7 @@ include('../sql/connect_params.php');
                     <input type="text" value="<?php echo htmlspecialchars($compte[0]['numero_voie'] . ' ' . $compte[0]['voie']); ?>" readonly>
                 </div>
             </div>
-            <br><br>
+            <br>
             <div class="container-ligne">
                 <div class="container-info">
                     <label>Code Postal</label>
