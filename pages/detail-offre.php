@@ -118,10 +118,10 @@ try {
 </head>
 
 <body
-    class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
+    class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
 
     <section class="section-page part-annonce">
-        <header> 
+        <header>
             <h1 class="titre-rouge">
                 <?php echo htmlspecialchars($offre['titre']); ?>
             </h1>
@@ -167,30 +167,34 @@ try {
 
             <!-- Informations -->
             <div class="infos-offre">
-                <div class="etoiles">
-                    <?php 
+                <div class="infos-avis">
+                    <div class="etoiles">
+                        <?php 
                     $nbrAvis = $offre['nbravis'];
                     $moyNote = $offre['moy_note'];
                     $fullStars = (int) $moyNote;
                     $emptyStars = 5 - $fullStars;
 
                     for ($i = 0; $i < $fullStars; $i++): ?>
-                    <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
-                        alt="Étoile">
-                    <?php endfor; ?>
-                    <?php for ($i = 0; $i < $emptyStars; $i++): ?>
-                    <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
-                        alt="Étoile Vide">
-                    <?php endfor; ?>
+                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
+                            alt="Étoile">
+                        <?php endfor; ?>
+                        <?php for ($i = 0; $i < $emptyStars; $i++): ?>
+                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
+                            alt="Étoile Vide">
+                        <?php endfor; ?>
+                    </div>
+                    <p class="nb-avis-info-offre">
+                        <?php echo $nbrAvis . " Avis |"; ?>
+                    </p>
                 </div>
-                <p class="nb-avis-info-offre">
-                    <?php echo $nbrAvis . " Avis |"; ?>
-                </p>
-                
-                <img src="../images/Wheelchair.png" alt="Accessibilité">
-                <p>
-                    <?php echo htmlspecialchars($offre['accessibilite']); ?>
-                </p>
+                <div class="infos-accessibilite">
+
+                    <img src="../images/Wheelchair.png" alt="Accessibilité">
+                    <p>
+                        <?php echo htmlspecialchars($offre['accessibilite']); ?>
+                    </p>
+                </div>
             </div>
         </header>
 
@@ -303,31 +307,36 @@ try {
         </header>
         <article class="article-avis">
             <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ ?>
-                <article class="poster_avis">
-                    <h3>Poster un avis :</h3>
-                    <div>
-                        <?php for($i = 1; $i<6; $i++):?>
-                            <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px" id="etoile_note<?php echo $i?>">
-                        <?php endfor;?>
-                    </div>
-                    <?php if (isset($_COOKIE['user'])){?>
-                    <form method ="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>">
-                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                        <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                        <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                        <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                        <input type="submit" id="bouton_publier" value="Publier">
-                    </form>
-                    <?php }else{ ?>
-                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                        <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis" required="required"></textarea>
-                        <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                        <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                    <form method ="POST" action="connexion.php">
-                        <input type="submit" id="bouton_publier" value="Publier">
-                    </form>    
-                    <?php } ?>
-                </article>
+            <article class="poster_avis">
+                <h3>Poster un avis :</h3>
+                <div>
+                    <?php for($i = 1; $i<6; $i++):?>
+                    <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                        id="etoile_note<?php echo $i?>">
+                    <?php endfor;?>
+                </div>
+                <?php if (isset($_COOKIE['user'])){?>
+                <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
+                    <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                    <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                        required="required"></textarea>
+                    <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
+                        placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                    <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                    <input type="submit" id="bouton_publier" value="Publier">
+                </form>
+                <?php }else{ ?>
+                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                    required="required"></textarea>
+                <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
+                    placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                <form method="POST" action="connexion.php" class="zone-btn-publier">
+                    <input type="submit" id="bouton_publier" value="Publier">
+                </form>
+                <?php } ?>
+            </article>
             <?php   } ?>
             <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
                 
@@ -367,9 +376,11 @@ try {
                     </p>
                 </div>
             </div>
-            <?php endforeach; }?> <!-- Ensure this is properly placed -->
+            <?php endforeach; }?>
+            <!-- Ensure this is properly placed -->
         </article>
     </section>
-    <script src = "../js/detail_offre.js"></script>
+    <script src="../js/detail_offre.js"></script>
 </body>
+
 </html>
