@@ -89,7 +89,7 @@ if ($_POST!=[]) {
     </div>
     
 
-<body class="login-page">
+<body class="login-page"
     <div class="container">
         <button class="back-button" onclick="location.href='accueil.php';"> <img src="../icons/arrow-left-w.svg" alt="">Retour</button>
 
