@@ -258,11 +258,9 @@
 }
 
 #message-prevention{
-    margin-top: 10px;
     font-size: 0.9em;
     color:rgb(151, 151, 151);
-    width: 90%;
-    
+    margin-top: 10px;
 }
 
 .selected-image, #selected-image {

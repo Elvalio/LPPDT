@@ -194,7 +194,9 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     <link rel="stylesheet" href="../css/styleLisa.css">
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <script src="../js/previsualisation.js"></script>
     <script src="../detail-offre.js" async></script>
+    
 </head>
 <body class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
 
@@ -224,22 +226,31 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                     
                     
                     <?php
+                    if (!empty($photos)){
                         foreach ($photos as $index => $photo): ?>
                             <div class="slide">
                                 <img src="<?php echo htmlspecialchars($photo); ?>"
                                     alt="Image <?php echo $index + 1; ?>">
                             </div>
-                        <?php endforeach; ?>
+                        <?php endforeach; 
+                    } else { ?>
+                        <div class="slide">
+                            <img class="test" src="../images/rien.png" alt="Image">
+                        </div>
+                    <?php } ?>
                     
                 </div>
                 
                 <div class="carousel-controls NoSelect">
-            
-                    <button id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
-                    <button id="next"><img src="../images/fleche.png" alt="Suivant"></button>
+                    <?php if (!empty($photos)){ ?>
+                        <button id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
+                        <button id="next"><img src="../images/fleche.png" alt="Suivant"></button>
+                    <?php } ?>  
+                    
                 </div>
-                <div class="carousel-dots NoSelect"></div>
-
+                <?php if (!empty($photos)){ ?>
+                    <div class="carousel-dots NoSelect"></div>
+                <?php } ?>
                 
             </div>
         </div>
@@ -357,15 +368,17 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         </div>
 
     </article>
-    <button class="FS" onclick="window.location.href='tableau_de_bord.php';">
-        Valider
-    </button>
-    <button class="bouton-retour NoSelect">
-        <a href="./creation_offre.php">
-            <img src="../icons/arrow-left-o.svg" alt="Retour">
-            Retour
-        </a>
-    </button>
+    <div class="Boutons">
+        <button class="FS bouton-valider" onclick="window.location.href='tableau_de_bord.php';">
+            Valider
+        </button>
+        <button class="bouton-retour NoSelect">
+            <a href="./creation_offre.php">
+                <img src="../icons/arrow-left-o.svg" alt="Retour">
+                Retour
+            </a>
+        </button>
+    </div>
 </section>
 
 <!-- Avis -->

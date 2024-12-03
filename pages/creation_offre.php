@@ -725,7 +725,7 @@ include_once('nav.php');
                                     </button>
                                 </div>
                                 <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
-                                <p id="message-prevention">Les images ne sont pas essentielles pour la poursuite de la création. Vous pourrez les ajouter ou les modifier plus tard.</p>
+                                <p id="message-prevention">Les images ne sont pas essentielles pour la poursuite de la création. <br> Vous pourrez les ajouter ou les modifier plus tard.</p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
                                     <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
