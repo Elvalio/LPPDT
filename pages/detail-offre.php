@@ -151,6 +151,10 @@ try {
                             <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
                                 alt="Image <?php echo $index + 1; ?>">
                         </div>
+                        <div class="slide">
+                            <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
+                                alt="Image <?php echo $index + 1; ?>">
+                        </div>
                         <?php endforeach; ?>
                     </div>
                     <div class="carousel-controls NoSelect">
@@ -182,6 +186,7 @@ try {
                 <p class="nb-avis-info-offre">
                     <?php echo $nbrAvis . " Avis |"; ?>
                 </p>
+                
                 <img src="../images/Wheelchair.png" alt="Accessibilité">
                 <p>
                     <?php echo htmlspecialchars($offre['accessibilite']); ?>
@@ -201,7 +206,7 @@ try {
             <div class="side-contact">
                 <div>
                     <h3>Contact :</h3>
-                    <div>
+                    <div class="element-contact">
                         <?php 
                         $address = $offre['numero_voie'] . $offre['voie'] . $offre['ville'] . $offre['code_postal'];
                         ?>
@@ -221,7 +226,7 @@ try {
                             </p>
                         </a>
                     </div>
-                    <div>
+                    <div class="element-contact">
                         <a href="tel:<?php 
                             echo htmlspecialchars($telephone);
                                 ?> ">
@@ -236,7 +241,7 @@ try {
 
                     <?php
                         if (!empty($offre['site_web'])) { ?>
-                    <div>
+                    <div class="element-contact">
                         <a href=" <?php echo $offre['site_web']; ?>">
                             <img src="../images/pc.png" alt="icon pc (lien vers le site)">
                             <p class="lien">
