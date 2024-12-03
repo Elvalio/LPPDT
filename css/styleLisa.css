@@ -1,11 +1,3 @@
-.test {
-    background-image: 
-        linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef),
-        linear-gradient(45deg, #f0efef 25%, transparent 25%, transparent 75%, #f0efef 75%, #f0efef);
-    background-position: 0 0, 25px 25px; /* Pour aligner les deux gradients */
-    background-size: 50px 50px; /* Taille des carrés */
-}
-
 .Boutons{
     display: flex;
     flex-direction: row;

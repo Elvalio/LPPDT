@@ -235,7 +235,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                         <?php endforeach; 
                     } else { ?>
                         <div class="slide">
-                            <img class="test" src="../images/rien.png" alt="Image">
+                            <img src="../images/imagesReferences/placeholder.jpg" alt="Image">
                         </div>
                     <?php } ?>
                     
