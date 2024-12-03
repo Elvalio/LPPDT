@@ -565,7 +565,7 @@
   justify-content: space-between;
   }
 
-.facture-liste-facture button, .telecharger {
+.facture-liste-facture button, .facture-button {
   background-color: var(--bleuFonce-rougeFonce);
   color: white;
   border: none;
@@ -580,7 +580,12 @@
   width: 100px;
 }
 
-.facture-liste-facture button:hover, .telecharger:hover {
+.facture-button {
+  display: flex;
+  align-self: flex-start;
+}
+
+.facture-liste-facture button:hover, .facture-button:hover {
   background-color: #d30027;
 }
 
@@ -636,7 +641,7 @@
   width: 250px;
   border-radius: 10px;
   object-fit: cover;
-  grid-column: 1/5;
+  grid-column: 1/4;
   grid-row: 1;
 }
 
@@ -646,7 +651,7 @@
   align-self: flex-start;
   margin-top: 10px;
   font-family: 'TripSansBold';
-  grid-column: 5/5;
+  grid-column: 4/4;
   grid-row: 1;
 }
 
@@ -656,7 +661,7 @@
   margin-top: 10px;
   font-family: 'TripSansBold';
   align-self: flex-start;
-  grid-column: 2/5;
+  grid-column: 2/4;
   grid-row: 1;
 }
 
@@ -666,7 +671,7 @@
   align-self: flex-start;
   margin-top: 10px;
   font-family: 'TripSansRegular';
-  grid-column: 3/5;
+  grid-column: 3/4;
   grid-row: 1;
 }
 
@@ -679,8 +684,5 @@
   display: flex;
   align-self: flex-start;
   justify-content: center;
-  margin-top: 10px;
-  grid-row: 1;
-  grid-column: 4/5;
   font-family: 'TripSansBold';
 }
