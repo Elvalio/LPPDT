@@ -77,7 +77,7 @@ include('../sql/connect_params.php');
                 }
             }
 
-            else if ($_COOKIE['type_compte'] == "pro_privee") {
+            else if ($_COOKIE['type_compte'] == "pro_prive") {
                 try {
                     $stmt = $dbh->prepare("UPDATE pact.secteur_prive SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :denomination_sociale, mdp = :mdp WHERE idC = :id_user");
                     $stmt->bindParam(':prenom', $_POST['prenom']);
