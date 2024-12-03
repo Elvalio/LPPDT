@@ -65,7 +65,7 @@
         <link rel="stylesheet" href="../css/tableau_bord.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
-    <body>
+    <body class="BO">
         <div class="main-content">
             <header>
                 <h1>Vos offres</h1>
