@@ -16,10 +16,10 @@
 /* ============================== */
 
 body.FO {
-    --vert-clair: #9EE7A0;    /* Vert clair */
-    --turquoise-orange: #3AD4AE;     /* Turquoise */
-    --bleu-rouge: #1DA2A7;          /*--bleuFonce-rougeFonce Bleu */
-    --bleuFonce-rougeFonce: #006B8F;    /* Bleu foncé */
+    --vert-clair: #9ED4E7;    /* Vert clair */
+    --turquoise-orange: #5374F4;     /* Turquoise */
+    --bleu-rouge: #3136ED;          /*--bleuFonce-rougeFonce Bleu */
+    --bleuFonce-rougeFonce: #002292;    /* Bleu foncé */
 }
 
 body.BO {
@@ -177,7 +177,7 @@ p {
 
 .header > .logo_recherche{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-left: 10px;
     margin-right: 10px;
@@ -230,24 +230,16 @@ p {
     height: 20px;
 }
 
-.header > .liste_nav > li > button{
-    display: block;
-    border: none;
+.header > .liste_nav > .bouton-nouv{
     background-color: white;
-    color: var(--gris-fonce);
-    line-height: 30px;
-    font-size: 14px;
-    width: 100%;
-    height: 100%;
-}
-
-.header > .liste_nav > li{
+    color: black;
+    line-height: 50px;
     width: 100%;
     height: 100%;
     text-align: center;
 }
 
-.header > .liste_nav > li > button:hover{
+.header > .liste_nav > .bouton-nouv:hover{
     background-color: var(--vert-clair);
     color: var(--noir);
     border-radius: 5px;
