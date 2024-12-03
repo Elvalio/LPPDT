@@ -220,10 +220,12 @@ input[type="checkbox"] {
 .form-info {
     margin-top: 1em;
     padding-bottom: 1.5em;
+    display: none;
 }
 
 .choix_entreprise {
     display: block;
+    margin-bottom: 1em;
 }
 
 .element_prive1 {
