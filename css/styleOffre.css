@@ -257,6 +257,14 @@
     margin-top: 10px;
 }
 
+#message-prevention{
+    margin-top: 10px;
+    font-size: 0.9em;
+    color:rgb(151, 151, 151);
+    width: 90%;
+    
+}
+
 .selected-image, #selected-image {
     max-width: 525px; /* Limiter la largeur de l'image */
     max-height: 220px; /* Garder le ratio de l'image */

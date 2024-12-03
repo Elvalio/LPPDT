@@ -718,13 +718,14 @@ include_once('nav.php');
                                         <p class="upload-text">Ajouter une image 3</p>
                                     </label>
                                     <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png"/>
-
+                                    
                                     <button id="file-delete" type="button">
                                         <img src="../icons/moins.svg" alt="Bouton Image">
                                         Supprimer une image
                                     </button>
                                 </div>
                                 <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
+                                <p id="message-prevention">Les images ne sont pas essentielles pour la poursuite de la création. Vous pourrez les ajouter ou les modifier plus tard.</p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
                                     <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
