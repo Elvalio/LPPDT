@@ -6,14 +6,13 @@
         <link rel="stylesheet" href="../css/mes-avis.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
-    <body>
+    <body class="FO">
         <nav class="nav-bar">
         <?php
         include_once 'nav.php'; ?>
         </nav>
         <?php
         include('../sql/connect_params.php');
-
 
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
@@ -92,7 +91,6 @@
                     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
                     try{
-
 
                         $stmt=$dbh->prepare("SELECT * FROM pact.offre WHERE idO = :id_offre");
                         $stmt->bindParam(':id_offre', $a['ido']);
