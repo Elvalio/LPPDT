@@ -48,6 +48,7 @@
                 const labelsBoutonAjout = document.querySelectorAll('.custom-file-upload'); // Les labels d'ajout d'image
                 const iconsBoutonAjout = document.querySelectorAll('.custom-file-upload img'); // Sélectionne l'image dans le label
                 const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
+                const statusImages = document.querySelectorAll('.status-image'); // Récupère toutes les images
                 const texteBoutonAjout = document.querySelectorAll('.upload-text'); // Les textes des boutons d'ajout
                 const errorMessageSupprimer = document.getElementById('error-message-supprimer');
                 const preventionMessage = document.getElementById('message-prevention');
@@ -64,6 +65,8 @@
                 const mapTextBouton = document.getElementById("map-upload-text"); 
                 const mapIconBouton = document.querySelector('#map-custom-file-upload img');
                 
+                const mapStatus = document.getElementById("status-map"); 
+
                 ////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////// GESTION DES CHAMPS PAR CATEGORIE /////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////////
@@ -326,12 +329,17 @@
                                         currentImageCount++;
                                         selectedImages[selectedImageIndex].src = e.target.result;
                                         selectedImages[selectedImageIndex].classList.remove('selected');
+                                        //MODIFIER OFFRE : change statut image
+                                        if (statusImages.length !== 0) {
+                                            statusImages[selectedImageIndex].value = 'false';
+                                        }
                                         selectedImageIndex = -1;
+
                                         // Trouver la première case vide pour nextIndex
                                         nextIndex = rechercheImageVide();
                                         boutonSuppression.style.display = 'flex';
                                         preventionMessage.style.display = 'none';
-                                    } else { //sélectionné mais une image exiqte déjà
+                                    } else { //sélectionné mais une image existe déjà
                                         selectedImages[selectedImageIndex].src = e.target.result;
                                         selectedImages[selectedImageIndex].classList.remove('selected');
                                         selectedImageIndex = -1;
@@ -341,6 +349,10 @@
                                 }else{                          
                                     selectedImages[nextIndex].src = e.target.result;
                                     currentImageCount++;
+                                    //MODIFIER OFFRE : change statut image
+                                    if (statusImages.length !== 0) {
+                                        statusImages[nextIndex].value = 'false';
+                                    }
                                     if (currentImageCount > nextIndex){
                                         nextIndex = currentImageCount;
                                     } else {
@@ -366,7 +378,10 @@
                         selectedImages[i].src = '../images/rien.png';
                         fileInputs[i].value = '';
                         currentImageCount--;
-                        
+                        //MODIFIER OFFRE : change statut image
+                        if (statusImages.length !== 0) {
+                            statusImages[i].value = 'true';
+                        }
                         if (currentImageCount === 0 ){
                             boutonSuppression.style.display = 'none';
                             errorMessageSupprimer.style.display = 'none';
@@ -381,6 +396,10 @@
                         if (img.getAttribute('src') !== '../images/rien.png'){
                             img.src = '../images/rien.png';
                             fileInputs[selectedImageIndex].value = '';
+                            //MODIFIER OFFRE : change statut image
+                            if (statusImages.length !== 0) {
+                                statusImages[selectedImageIndex].value = 'true';
+                            }
                             img.classList.remove('selected');
                             currentImageCount--;
                             selectedImageIndex = -1;
@@ -423,6 +442,11 @@
                         reader.readAsDataURL(file);
                         mapTextBouton.textContent = 'Modifier';
                         mapIconBouton.src = '../icons/changer.svg';
+
+                        //MODIFIER OFFRE : change statut image
+                        if (mapStatus !== null) {
+                            mapStatus.value = 'false';
+                        }
                     }
                 });
 
@@ -433,7 +457,11 @@
                     mapImageContainer.src = '../images/rien.png'; // Réinitialiser l'image
                     mapFileDelete.style.display = 'none';
                     mapFileUpload.value = '';
-                    
+
+                    //MODIFIER OFFRE : change statut image
+                    if (mapStatus !== null) {
+                        mapStatus.value = 'true';
+                    }
                 });
             // });
 
