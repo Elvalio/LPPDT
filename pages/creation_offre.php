@@ -526,7 +526,7 @@ include_once('nav.php');
                             </div>
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
-                                <input id="submit-button" type="submit" class="FS" value="Valider" />
+                                <input id="submit-button" type="submit" class="FS" value="Prévisualiser" />
                                 <button class="FS" onclick="history.go(-1)">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
