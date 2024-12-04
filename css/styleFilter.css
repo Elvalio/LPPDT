@@ -135,6 +135,8 @@
         overflow-y: unset; /* Retire le défilement vertical */
         max-height: unset; /* Retire la limite de hauteur */
         display: flex;
+        max-height: 100px;
+        overflow-y: scroll;
     }
 
     /* Masquer les éléments à partir du ème */

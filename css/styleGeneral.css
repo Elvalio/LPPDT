@@ -245,6 +245,21 @@ p {
     height: 20px;
 }
 
+.header > .boutonALaUne{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 50px;
+    background-color: var(--vert-clair);
+    border-radius: 5px;
+}
+
+.header > .boutonALaUne.active > p {
+    background-color: var(--vert-clair);
+}
+
 .header > .boutonALaUne > p{
     background-color: white;
     color: black;
@@ -252,13 +267,10 @@ p {
     width: 100%;
     height: 50px;
     text-align: center;
-}
-
-.header > .boutonALaUne:hover > p{
-    background-color: var(--vert-clair);
-    color: var(--noir);
     border-radius: 5px;
 }
+
+
 
 /*============================*/
 /*           FOOTER           */
