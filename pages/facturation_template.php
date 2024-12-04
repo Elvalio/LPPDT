@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Facture N°<?= htmlspecialchars($facture_data['numero_facture']) ?></title>
-    <link rel="stylesheet" href="../css/creationFacturation.css">
-    <link rel="stylesheet" href="../css/styleGeneral.css">
+     <style>
+        <?php include_once("../css/creationFacturation.css"); 
+        include_once("../css/styleGeneral.css");?>
+    </style>
 </head>
 <body class="BO">
     <header>
@@ -22,7 +24,7 @@
             <p>Plateforme</p>
             <p>1 Place du Chai</p>
             <p>22000 Saint-Brieuc</p>
-            <p>Email : PACT-TripEnArmor@proton.me</p>
+            <p>Email : PACT-TripEnArvor@proton.me</p>
         </div>
         <div class="Destinataire">
             <h2>Destinataire : <?= htmlspecialchars($facture_data['pro_nom']) ?></h2>
@@ -47,12 +49,11 @@
         <tbody>
             <tr>
                 <td>Abonnement <?= htmlspecialchars($facture_data['abonnement_type']) ?></td>
-                <td><?= htmlspecialchars($facture_data['jours_publication']) ?> jours</td>
+                <td><?= htmlspecialchars($facture_data['nbrjours']); if ($facture_data['nbrjours'] == 1) {echo " jour";} else {echo " jours";} ?></td>
                 <td><?= number_format($facture_data['abonnement_ht_unitaire'], 2, ',', ' ') ?> €</td>
                 <td><?= number_format($abonnement_ht, 2, ',', ' ') ?> €</td>
                 <td><?= number_format($abonnement_ttc, 2, ',', ' ') ?> €</td>
             </tr>
-            <?php foreach ($options as $option): ?>
                 <tr>
                     <td>Option « <?= htmlspecialchars($option['nom']) ?> »</td>
                     <td><?= htmlspecialchars($option['date_creation']) ?> au <?= date('d/m/Y') ?></td>
@@ -60,7 +61,6 @@
                     <td><?= number_format($option['ht'], 2, ',', ' ') ?> €</td>
                     <td><?= number_format($option['ttc'], 2, ',', ' ') ?> €</td>
                 </tr>
-            <?php endforeach; ?>
         </tbody>
         <tfoot>
             <tr class="total">

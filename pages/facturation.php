@@ -91,28 +91,39 @@ function PrixOptionTTC($idOffre, $bdh) {
                         <p><?php echo htmlspecialchars($facture['numfacture']); ?></p>
                     </div>
                     <div>
-                        <p>Total à payer :</p>
-                        <p><?php echo htmlspecialchars($facture['prix_option_ttc']); ?>€/TTC</p>
+                        <p class="facture_total">Total à payer :</p>
+                        <p class="facture_total"><?php echo htmlspecialchars($facture['prix_offre_ttc'] + $facture['prix_option_ttc']); ?>€/TTC</p>
                     </div>
                         <?php $offre = offre($facture['numfacture'], $userID, $bdh);?>
                     <a href="facture_telechargeable.php?ido=<?php echo htmlspecialchars($offre[0]['ido']); ?>&userID=<?php echo $userID; ?>" class="telecharger facture-button" target="_blank">Télécharger</a>
                     <button class="voir-plus" aria-expanded="true">Voir plus +</button>
                 </div>
-                
                 <div class="facture-details">
                     <div class="facture-offre">
-                        <img class="facture-detail-element" src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt="">
-                        <p class="facture-detail-titre facture-detail-element"><?php echo htmlspecialchars($offre[0]['titre']) ?></p>
-                        <p class="facture-detail-option facture-detail-element"><?php if (!empty($offre[0]['option'])) {
-                                        echo htmlspecialchars($offre[0]['option']);
-                                    } else {
-                                echo "Pas d'option";
-                                    }
-                          ?></p>
+                        <div class="facture-detail-element">
+                            <img  src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt="">
+                        </div>
+                        
+                        <div class="facture-detail-titre facture-detail-element">
+                            <p ><?php echo htmlspecialchars($offre[0]['titre']) ?></p>
+                        </div>
+                        
+                        <div class="facture-detail-option facture-detail-element">
+                            <p ><?php if (!empty($offre[0]['option'])) {
+                                                                    echo htmlspecialchars($offre[0]['option']);
+                                                                } else {
+                                                            echo "Pas d'option";
+                                                                }
+                                                    ?></p>
+                        </div>
+                        
                           <div class="facture-total facture-detail-element">
-                        <p>Prix HT : <?php echo round($offre[0]['prix_offre_ht'],2) ?>€</p>
-                    <p>TVA : <?php echo round($offre[0]['prix_offre_ttc'] - $offre[0]['prix_offre_ht'],2) ?>€</p>
-                    <p>Montant TTC : <?php echo round($offre[0]['prix_offre_ttc'],2) ?>€</p>   
+                        <p class="montant_facture">Prix offre HT : <?php echo round($offre[0]['prix_offre_ht'],2) ?>€</p>
+                        <p class="montant_facture">Prix option HT : <?php echo round($offre[0]['prix_option_ht'],2) ?>€</p>
+                        <br>
+                        <p class="montant_facture">Total HT : <?php echo round($offre[0]['prix_offre_ht'] + $offre[0]['prix_option_ht'],2) ?>€</p>
+                    <p class="montant_facture">TVA : <?php echo round($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'] - $offre[0]['prix_offre_ht'] - $offre[0]['prix_option_ht'],2) ?>€</p>
+                    <p class="montant_facture facture_total">Total TTC : <?php echo round($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'],2) ?>€</p>   
                     </div>
                     
                     </div>
