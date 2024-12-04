@@ -607,7 +607,7 @@ include_once 'nav.php';
         <link rel="stylesheet" href="../css/styleOffre.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
-    <body>
+    <body class="BO">
         <div class="main-content"> 
             <h1 class="TS-bold">Modifiez votre offre</h1>            
             <form action="" method="post" enctype="multipart/form-data">
@@ -771,7 +771,7 @@ include_once 'nav.php';
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
                                 <input id="submit-button" type="submit" class="FS" value="Modifier"/>
-                                <button class="FS">
+                                <button class="FS" onclick="confirmer()">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
                                 </button>
@@ -1047,7 +1047,7 @@ include_once 'nav.php';
             }
             toggleFileUpload(); // affiche/cache bouton ajouter
 
-            //status-image : if sale the not deleted, else it was deleted
+            //status-image : if false then not deleted, else it was deleted
         </script>
         
     </body>
