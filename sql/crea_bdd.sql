@@ -1389,9 +1389,7 @@ declare
   date_offre_hors_ligne date;
   date_emmission_facture date;
   n integer;
-begin
-  comp = 0;
-    
+begin    
   select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
   date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
   
@@ -1405,9 +1403,11 @@ begin
     else
       select(date_offre_hors_ligne - date_offre) as days into n;   
     end if;
-    
   end if;
   
+  if (n is null) then
+    n = 0;
+  end if;
   RETURN n;
 end;
 $$ language 'plpgsql';
