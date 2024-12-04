@@ -117,6 +117,16 @@
 
 .deco-btn {
     visibility: hidden;
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 20px;
+    background-color: var(--gris-clair);
+    color: var(--noir);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border-radius: 4px;
+    border-width: 2px;
+    cursor: pointer;
 }
 
 div > hr {
@@ -147,7 +157,7 @@ div > hr {
         visibility: visible;
         display: block;
         margin: 100px 100px 0 0;
-        padding: 10px 20px;
+        padding: 10px 43px;
         background-color: var(--gris-clair);
         color: var(--noir);
         font-family: 'TripSansBold', Arial, sans-serif;
@@ -158,6 +168,6 @@ div > hr {
     }
 
     .deco-btn:hover {
-        background-color: var(--gris-fonce);
+        background-color: #C3C3C3;
     }
 }

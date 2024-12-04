@@ -1132,6 +1132,7 @@ instead of insert on pact.experience
 create or replace view pact.photo_offre as
   select * from _photo_offre natural join _image;
   
+--insert
 create or replace function pact.insert_photo_offre()
   returns trigger as $$
 begin
@@ -1144,6 +1145,26 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_photo_offre
 instead of insert on pact.photo_offre
   for each row execute procedure pact.insert_photo_offre();
+
+--delete
+create or replace function pact.delete_photo_offre()
+  returns trigger as $$
+declare
+  idIm integer;
+begin
+  select idImage from pact.photo_offre where src_image = old.src_image into idIm;
+
+  delete from pact._photo_offre where idImage = idIm;
+
+  delete from pact._image where idImage = idIm;
+  
+  RETURN OLD;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_delete_photo_offre
+instead of delete on pact.photo_offre
+  for each row execute procedure pact.delete_photo_offre();
 
 --- facturation ---
 
@@ -1253,7 +1274,6 @@ begin
 end;
 $$ language 'plpgsql';
 
-select * from facturation;
 
 /*
   Cette fonction calcule le prix TTC de la facture pour le mois et l'année, ne prend pas en compte les options
@@ -1361,9 +1381,40 @@ begin
 end;
 $$ language 'plpgsql';
 
+create or replace function pact.nbrJours(idOffre integer, date_fin date, idFacture integer)
+  returns integer as $$
+declare
+  comp float;
+  date_offre date;
+  date_offre_hors_ligne date;
+  date_emmission_facture date;
+  n integer;
+begin
+  comp = 0;
+    
+  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
+  date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
+  
+  select o.date_publication from pact.offre o where o.idO = idOffre into date_offre;
+  if (date_emmission_facture > date_offre) then
+
+    select o.date_hors_ligne from pact.offre o where o.idO = idOffre into date_offre_hors_ligne;
+    -- try date truncate with month if lasts over a month
+    if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
+      select(date_fin - date_offre) as days into n;
+    else
+      select(date_offre_hors_ligne - date_offre) as days into n;   
+    end if;
+    
+  end if;
+  
+  RETURN n;
+end;
+$$ language 'plpgsql';
+
 
 create or replace view pact.facturation as 
   select numfacture, date_facture, date_trunc('month', date_facture + interval '1 month') as date_emmission, pact.prix_offre_TTC(f.idO, now()::date, numfacture) as prix_offre_ttc, pact.prix_offre_HT(f.ido, now()::date, numfacture) as prix_offre_ht, 
-  pact.prix_option_offre_TTC(f.idO) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO) as  prix_option_ht,
+  pact.prix_option_offre_TTC(f.idO, numfacture) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO, numfacture) as  prix_option_ht, nbrJours(f.idO, now()::date, numfacture),
   f.idO, idC from pact._facturation f
   inner join pact.offre o on o.idO = f.idO;

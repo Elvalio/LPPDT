@@ -13,20 +13,21 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $note = (int)$_POST['nbr_etoile'];
         $titre = $_POST['titre_avis'];
         $com = $_POST['zone_avis'];
-
         $ido = (int)$_GET['value'];
         $idc = (int)$_COOKIE['user'];
+        $contexte = $_POST['options'];
 
 
         $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite)
-        VALUES (:idc, :ido, :titre, :note, :corps, NOW());
+        VALUES (:idc, :ido, :titre, :note, :corps, NOW(), :contexte);
         ");
         $stmt->execute([
             ':idc' => $idc,
             ':ido' => $ido,
             ':titre' => $titre,
             ':note' => $note,
-            ':corps' => $com
+            ':corps' => $com,
+            ':contexte' => $contexte
         ]);
 
         $dbh=null;
@@ -323,6 +324,14 @@ try {
                     <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
                         placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                     <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                    <label for="options" id="titre-contexte">Contexte de la visite :</label>
+                    <select id="options-contexte" name="options">
+                        <option value="affaires">Affaires</option>
+                        <option value="couple">Couple</option>
+                        <option value="famille">Famille</option>
+                        <option value="amis">Amis</option>
+                        <option value="seul">Seul</option>
+                    </select>
                     <input type="submit" id="bouton_publier" value="Publier">
                 </form>
                 <?php }else{ ?>
@@ -332,6 +341,14 @@ try {
                 <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
                     placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                <label for="options" id="titre-contexte">Contexte de la visite :</label>
+                    <select id="options-contexte" name="options">
+                        <option value="affaires">Affaires</option>
+                        <option value="couple">Couple</option>
+                        <option value="famille">Famille</option>
+                        <option value="amis">Amis</option>
+                        <option value="seul">Seul</option>
+                    </select>
                 <form method="POST" action="connexion.php" class="zone-btn-publier">
                     <input type="submit" id="bouton_publier" value="Publier">
                 </form>
@@ -349,10 +366,16 @@ try {
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
                         <div>
-                            <h4>
-                                <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
-                            </h4>
-                            <p><?php echo htmlspecialchars($compte['pseudo']); ?></p>
+                            <div class="titre-date">
+                                <h4>
+                                    <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
+                                </h4>
+                                <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
+                            </div>
+                            <div class="pseudo-contexte">
+                                <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
+                            </div>
                         </div>
                     </div>
                     <div class="etoile-avis-detail-offre">

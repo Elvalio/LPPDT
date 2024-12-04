@@ -79,7 +79,7 @@ include('../sql/connect_params.php');
 
             else if ($_COOKIE['type_compte'] == "pro_prive") {
                 try {
-                    $stmt = $dbh->prepare("UPDATE pact.secteur_prive SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :denomination_sociale, siren = :siren, iban = :iban, bic = :bic, mdp = :mdp WHERE idC = :id_user");
+                    $stmt = $dbh->prepare("UPDATE pact.secteur_prive SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :raison_sociale, raison_sociale = :raison_sociale, siren = :siren, iban = :iban, bic = :bic, mdp = :mdp WHERE idC = :id_user");
                     $stmt->bindParam(':prenom', $_POST['prenom']);
                     $stmt->bindParam(':nom', $_POST['nom']);
                     $stmt->bindParam(':telephone', $_POST['telephone']);
@@ -93,7 +93,7 @@ include('../sql/connect_params.php');
                     $stmt->bindParam(':voie', $adresse);
                     $stmt->bindParam(':code_postal', $_POST['code_postal']);
                     $stmt->bindParam(':ville', $_POST['ville']);
-                    $stmt->bindParam(':denomination_sociale', $_POST['raison_sociale']);
+                    $stmt->bindParam(':raison_sociale', $_POST['raison_sociale']);
                     $stmt->bindParam(':siren', $_POST['siren']);
                     $stmt->bindParam(':iban', $_POST['iban']);
                     $stmt->bindParam(':bic', $_POST['bic']);
@@ -160,6 +160,7 @@ include('../sql/connect_params.php');
 
     <div class="content">
         <h1 class="TS titre">Paramètres De Compte</h1>
+        <?php print_r($_POST); ?>
     
         <div class="profile">
             <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
