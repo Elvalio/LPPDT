@@ -54,13 +54,15 @@
                 <td><?= number_format($abonnement_ht, 2, ',', ' ') ?> €</td>
                 <td><?= number_format($abonnement_ttc, 2, ',', ' ') ?> €</td>
             </tr>
+            <?php if (isset($facture_data['options'])) ?>
                 <tr>
-                    <td>Option « <?= htmlspecialchars($option['nom']) ?> »</td>
+                    <td>Option « <?= htmlspecialchars($facture_data['options']) ?> »</td>
                     <td><?= htmlspecialchars($option['date_creation']) ?> au <?= date('d/m/Y') ?></td>
                     <td><?= number_format($option['ht'], 2, ',', ' ') ?> €</td>
                     <td><?= number_format($option['ht'], 2, ',', ' ') ?> €</td>
                     <td><?= number_format($option['ttc'], 2, ',', ' ') ?> €</td>
                 </tr>
+            
         </tbody>
         <tfoot>
             <tr class="total">
