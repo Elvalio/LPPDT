@@ -1,3 +1,4 @@
+<?php include_once 'nav.php' ?>
 <?php
 include('../sql/connect_params.php');
 try {
@@ -68,11 +69,10 @@ function PrixOptionTTC($idOffre, $bdh) {
 
 </head>
 
+
 <body class="BO">
-    <div>
-        <?php include_once 'nav.php' ?>
-    </div>
-    <div class="main-content">
+    
+    <div class="main-content facture_titre">
     <header>
         <h1 class="titre-rouge">Facturation</h1>
     </header>

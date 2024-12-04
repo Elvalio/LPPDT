@@ -8,8 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const itemEnConstruction = ['favoris', 'historique', 'notification-avec-notif'];
     const accueilItem = document.querySelector('[data-icon="accueil"]');
 
+    
+
     function changerApparenceIcon(p, it, im, ic){
-        if (p === currentPage) {
+        if (p === currentPage || (it === accueilItem && currentPage === 'detail-offre.php')) {
             it.classList.add('actuel');
             if(sidebar.classList.contains("FO")){
                 im.src = `../icons/icons-bleu/icon-${ic}-bleu.svg`;  // Chemin pour l'icône actif
@@ -56,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const iconName = item.dataset.icon;
         const page = item.getAttribute('href');
         if (sidebar.classList.contains('FO')){
-            if (!itemToHideFO.includes(iconName) && !itemEnConstruction.includes(iconName)){
+            if (!itemToHideFO.includes(iconName)){
                 item.style.display= 'flex';
                 changerApparenceIcon(page, item, img, iconName);
             }

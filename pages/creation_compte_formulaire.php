@@ -21,7 +21,18 @@ error_reporting(0); if (!empty($_POST)) {
             $adresse = implode(" ", $temp);             //On implode le reste de l'adresse (combine un array en string)
             $mdp = $_POST["password"];
 
-            $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            $stmt_check = $dbh->prepare("SELECT COUNT(*) FROM pact.membre WHERE pseudo = :pseudo");
+            $stmt_check->bindParam(':pseudo', $pseudo);
+            $stmt_check->execute();
+            $count = $stmt_check->fetchColumn();
+
+            if ($count > 0) {
+                echo "Le pseudonyme choisit existe déjà, veuillez en choisir un autre";
+            }
+
+            else {
+                $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            }
 
         }
         $stmt->execute();
