@@ -980,8 +980,14 @@ include_once 'nav.php';
             $dir = '../images/image_offre';
             $files = array_slice(scandir($dir),2);
             $pattern = "/$idO-[0-9]/";
-            $matches = preg_grep($pattern, $files);
-            $matches = array_values($matches);
+            $res = preg_grep($pattern, $files);
+            //met le bon index pour chaque image de l'offre
+            // c'est important pour bien remplacer le fichier et modifier la bdd
+            foreach ($res as $key => $value) {
+                $id = (int)substr(explode("-", $value)[1],0,1);
+                $id--;
+                $matches[$id] = $value;
+            }
 
             $pattern = "/$idO-[a-z]/i";
             $special = array_values(preg_grep($pattern, $files));
@@ -1007,10 +1013,12 @@ include_once 'nav.php';
 
 
             // affiche les images de l'offre
-            <?php for ($i=0; $i < count($matches); $i++) { ?>
+            <?php for ($i=0; $i < 3; $i++) { 
+                if (isset($matches[$i])){
+            ?>
             selectedImages[<?php echo $i?>].src = '../images/image_offre/<?php echo $matches[$i]?>';
             currentImageCount++;
-            <?php }?>
+            <?php }}?>
             
             for (let index = 0; index < selectedImages.length; index++) {
                 console.log(selectedImages[index].getAttribute('src'));
