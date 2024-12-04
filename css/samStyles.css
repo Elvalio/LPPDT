@@ -461,18 +461,37 @@
 
 #bouton_publier {
   padding: 10px 30px; /* Padding à droite et à gauche */
-  cursor: pointer; /* Curseur en forme de main */
+  cursor: pointer; /* CuVisiterseur en forme de main */
   border: none;
   border-radius: 8px;
   background-color: var(--turquoise-orange);
   font-size: 16px;
-  width: fit-content;
+  width: 100%;
   margin-top: 30px;
+  color: white;
 }
 
 #bouton_publier:hover {
   background-color: var(--bleu-rouge);
   transition: background-color 0.3s ease-in-out;
+}
+
+#titre-contexte {
+  font-family: "TripSansBold";
+  display: block;
+  margin-bottom: 8px;
+}
+
+#options-contexte {
+    width: 20%;
+    padding: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#options-contexte > option{
+    font-family: "TripSansRegular";
 }
 
 }
