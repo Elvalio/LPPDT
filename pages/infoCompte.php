@@ -67,14 +67,13 @@ include('../sql/connect_params.php');
             ?>
             </nav>
             <header class="phone-element">
-            <?php
+            <!-- <?php
                 include 'header.php';
-            ?>
+            ?> -->
             </header>
 
     <div class="content">
         <h1 class="TS titre">Paramètres De Compte</h1>
-        <?php print_r($_COOKIE['user']); ?>
     
         <div class="profile">
             <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
@@ -187,7 +186,9 @@ include('../sql/connect_params.php');
                 <form method="POST" action="modifInfo.php">
                     <button type="submit" class="edit-btn">Modifier les informations</button>
                 </form>
-                <button class="deco-btn" onclick="deconnexion()">Se déconnecter</button>
+                <form>
+                    <button class="deco-btn" onclick="deconnexion()">Se déconnecter</button>
+                </form>
             </div>
         </div>
     </div>

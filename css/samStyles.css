@@ -17,6 +17,10 @@
 
 @media (min-width: 801px) {
 
+  .phone-element {
+    display: none;
+  }
+
   .body {
     display: flex;
     flex-direction: row;
@@ -351,7 +355,27 @@
   font-family: 'TripSansBold';
 }
 
-.profil > div > p {
+.titre-date{
+  display: flex;
+  padding: 0px !important;
+}
+
+.titre-date > h4{
+  margin-right: 5px;
+}
+
+.titre-date > p{
+  opacity: 70%;
+  font-family: 'TripSansRegular';
+}
+
+.pseudo-contexte{
+  display: flex;
+  padding: 0px !important;
+}
+
+.pseudo-contexte > p{
+  margin-right: 5px;
   opacity: 70%;
   font-family: 'TripSansRegular';
 }
@@ -457,13 +481,37 @@
 
 #bouton_publier {
   padding: 10px 30px; /* Padding à droite et à gauche */
-  cursor: pointer; /* Curseur en forme de main */
+  cursor: pointer; /* CuVisiterseur en forme de main */
   border: none;
   border-radius: 8px;
   background-color: var(--turquoise-orange);
   font-size: 16px;
-  width: fit-content;
+  width: 100%;
   margin-top: 30px;
+  color: white;
+}
+
+#bouton_publier:hover {
+  background-color: var(--bleu-rouge);
+  transition: background-color 0.3s ease-in-out;
+}
+
+#titre-contexte {
+  font-family: "TripSansBold";
+  display: block;
+  margin-bottom: 8px;
+}
+
+#options-contexte {
+    width: 20%;
+    padding: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#options-contexte > option{
+    font-family: "TripSansRegular";
 }
 
 }
@@ -910,6 +958,10 @@ margin-top: 30px;
 
 }
 
+ .mobile-footer {
+  margin-left: -20px;
+ }
+
 }
 
 /* CSS FACTURATION */
@@ -994,7 +1046,7 @@ grid-gap: 50px;
   width: 250px;
   border-radius: 10px;
   object-fit: cover;
-  grid-column: 1/5;
+  grid-column: 1/4;
   grid-row: 1;
 }
 
@@ -1004,7 +1056,7 @@ grid-gap: 50px;
   align-self: flex-start;
   margin-top: 10px;
   font-family: 'TripSansBold';
-  grid-column: 5/5;
+  grid-column: 4/4;
   grid-row: 1;
 }
 
@@ -1014,7 +1066,7 @@ grid-gap: 50px;
   margin-top: 10px;
   font-family: 'TripSansBold';
   align-self: flex-start;
-  grid-column: 2/5;
+  grid-column: 2/4;
   grid-row: 1;
 }
 
@@ -1024,7 +1076,7 @@ grid-gap: 50px;
   align-self: flex-start;
   margin-top: 10px;
   font-family: 'TripSansRegular';
-  grid-column: 3/5;
+  grid-column: 3/4;
   grid-row: 1;
 }
 
@@ -1037,8 +1089,15 @@ font-family: 'TripSansRegular';
   display: flex;
   align-self: flex-start;
   justify-content: center;
-  margin-top: 10px;
-  grid-row: 1;
-  grid-column: 4/5;
+  font-family: 'TripSansBold';
+}
+
+.montant_facture {
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'TripSansRegular';
+}
+
+.facture_total {
   font-family: 'TripSansBold';
 }

@@ -6,12 +6,25 @@ use Dompdf\Options;
 // Connexion à la base de données
 include('../sql/connect_params.php'); // Ce fichier contient vos paramètres de connexion
 
-// Fonction pour générer le HTML de la facture
-function generateFactureHTML($dbh, $ido, $userID) {
+// Vérifier si les paramètres GET sont présents
+if (isset($_GET['ido'])) {
     try {
-        // Requête SQL pour récupérer les données
-        $sql = "
+        // Connexion à la base de données
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        $ido = filter_var($_GET['ido'], FILTER_VALIDATE_INT);
+        $userID = filter_var($_COOKIE['user'], FILTER_VALIDATE_INT);
+
+        if (!$ido || !$userID) {
+            die("Paramètres manquants ou invalides.");
+        }
+
+        // Préparer les données nécessaires pour `facturation_template.php`
+        // (À personnaliser en fonction des données nécessaires dans votre template)
+        $stmt = $dbh->prepare("
             SELECT 
+                f.nbrjours,
                 f.numfacture AS numero_facture,
                 f.date_facture AS date_emission,
                 c.nom AS pro_nom,
@@ -33,11 +46,9 @@ function generateFactureHTML($dbh, $ido, $userID) {
             INNER JOIN pact._compte c ON o.idC = c.idC
             INNER JOIN pact._adresse a ON c.idAdresse = a.idAdresse
             INNER JOIN pact._type_offre t ON o.type = t.idT
-            WHERE o.idO = :idOffre AND f.idC = :userId;
-        ";
-
-        $stmt = $dbh->prepare($sql);
-        $stmt->bindParam(':idOffre', $ido, PDO::PARAM_INT);
+            WHERE o.idO = :ido AND f.idC = :userId;
+        ");
+        $stmt->bindParam(':ido', $ido, PDO::PARAM_INT);
         $stmt->bindParam(':userId', $userID, PDO::PARAM_INT);
         $stmt->execute();
         $facture_data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -47,37 +58,16 @@ function generateFactureHTML($dbh, $ido, $userID) {
         }
 
         // Calculs
-        $jours_publication = $facture_data['jours_publication'];
+        $jours_publication = $facture_data['nbrjours'];
         $abonnement_ht = $jours_publication * $facture_data['abonnement_ht_unitaire'];
         $abonnement_ttc = $jours_publication * $facture_data['abonnement_ttc_unitaire'];
         $total_ht = $abonnement_ht + $facture_data['total_options_ht'];
         $total_ttc = $abonnement_ttc + $facture_data['total_options_ttc'];
-
-        // Création du HTML
+        
+        // Capture du contenu de `facturation_template.php` dans $html
         ob_start();
-        include('../templates/facturation_template.php'); // Inclure votre template HTML si nécessaire
-        return ob_get_clean();
-    } catch (Exception $e) {
-        die("Erreur lors de la génération du HTML : " . $e->getMessage());
-    }
-}
-
-// Vérifier si les paramètres GET sont présents
-if (isset($_GET['ido'])) {
-    try {
-        // Connexion à la base de données
-        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $ido = filter_var($_GET['ido'], FILTER_VALIDATE_INT);
-        $userID = filter_var($_COOKIE['user'], FILTER_VALIDATE_INT);
-
-        if (!$ido || !$userID) {
-            die("Paramètres manquants ou invalides.");
-        }
-
-        // Générer le HTML de la facture
-        $html = generateFactureHTML($dbh, $ido, $userID);
+        include('facturation_template.php'); // Assurez-vous que ce fichier utilise les données nécessaires
+        $html = ob_get_clean();
 
         // Configurer Dompdf
         $options = new Options();
@@ -97,3 +87,4 @@ if (isset($_GET['ido'])) {
     die("Paramètre 'ido' manquant.");
 }
 ?>
+
