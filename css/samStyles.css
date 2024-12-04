@@ -1101,3 +1101,7 @@ font-family: 'TripSansRegular';
 .facture_total {
   font-family: 'TripSansBold';
 }
+
+.facture_titre {
+  margin-left: 110px;
+}

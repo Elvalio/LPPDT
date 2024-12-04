@@ -118,7 +118,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             <img src="../images/search_icon.png" alt="Recherche" title="Recherche" id="rechercheOffreIMG">
                         </div>
                         <ul id="suggestionsContainer" style="position: absolute; display: none; z-index: 1000;">
-                            <!-- Les éléments <li> générés dynamiquement apparaîtront ici -->!-- Les éléments <li> générés dynamiquement apparaîtront ici -->
+                            <!-- Les éléments <li> générés dynamiquement apparaîtront ici -->
                         </ul>
                         </ul>
 
@@ -184,8 +184,8 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <p class="FS">Lieux</p>
                     <div class="filtre-lieu desktop">
                         <div class="search-filter">
-                            <input type="text" name="search" id="rechercheLieu" placeholder="Recherche">
-                            <img src="../images/search_icon.png" alt="Recherche" title="Recherche" id="rechercheLieuIMG">
+                            <input type="text" name="search" class="rechercheLieu" placeholder="Recherche">
+                            <img src="../images/search_icon.png" alt="Recherche" title="Recherche" class="rechercheLieuIMG">
                         </div>
                         <div class="filtre-lieu-case">
                             <?php foreach ($lieux as $lieu) { ?>
