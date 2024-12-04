@@ -22,11 +22,9 @@ try {
     die();
 }
 
-function offre($numFacture, $userID, $bdh){
-    $stmt = $bdh->prepare("SELECT o.*, f.* from pact.offre o inner join pact.facturation f on f.idC = o.idC where o.idC = :userID and f.numFacture = :numFacture and 
-    EXTRACT(MONTH FROM f.date_facture) = EXTRACT(MONTH FROM o.date_publication)
-    and EXTRACT(YEAR FROM f.date_facture) = EXTRACT(YEAR FROM o.date_publication);");
-    $stmt->execute([':userID' => $userID, ':numFacture' => $numFacture]);
+function offre($numFacture, $bdh){
+    $stmt = $bdh->prepare("SELECT o.*, f.* from pact.offre o inner join pact.facturation f on f.idO = o.idO where f.numFacture = :numFacture");
+    $stmt->execute([':numFacture' => $numFacture]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
@@ -94,12 +92,25 @@ function PrixOptionTTC($idOffre, $bdh) {
                         <p class="facture_total">Total à payer :</p>
                         <p class="facture_total"><?php echo htmlspecialchars($facture['prix_offre_ttc'] + $facture['prix_option_ttc']); ?>€/TTC</p>
                     </div>
-                        <?php $offre = offre($facture['numfacture'], $userID, $bdh);?>
+                        <?php $offre = offre($facture['numfacture'], $bdh);?>
                     <a href="facture_telechargeable.php?ido=<?php echo htmlspecialchars($offre[0]['ido']); ?>&userID=<?php echo $userID; ?>" class="telecharger facture-button" target="_blank">Télécharger</a>
                     <button class="voir-plus" aria-expanded="true">Voir plus +</button>
                 </div>
                 <div class="facture-details">
+                    <hr>
                     <div class="facture-offre">
+                    <div class="facture_tableau_image">
+                            <p class="facture_tableau_presentation"></p>
+                        </div>
+                        <div class="facture_tableau_titre">
+                            <p>Titre</p>
+                        </div>
+                        <div class="facture_tableau_option">
+                            <p>Option</p>
+                        </div>
+                        <div class="facture_tableau_Montant">
+                            <p class="montant_facture facture_total">Montant</p>
+                        </div>
                         <div class="facture-detail-element">
                             <img  src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt="">
                         </div>
@@ -130,12 +141,14 @@ function PrixOptionTTC($idOffre, $bdh) {
                 </div>
         </article> 
         <?php } ?>
-    </div>
+    </div><?php include_once 'footer.php'; ?>
 </div>
 
     <script>
     // Sélectionner tous les boutons "Voir plus"
     const buttons = document.querySelectorAll('.voir-plus');
+    const detailFirst = document.getElementsByClassName('facture-details');
+    detailFirst[0].classList.toggle('active');
 
     // Ajouter un gestionnaire d'événement pour chaque bouton
     buttons.forEach(button => {
