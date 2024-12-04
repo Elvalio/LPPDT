@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const trie_text = document.querySelector('.dropdown-toggle > p');
     const rechercheOffre = document.getElementById('rechercheOffre');
-    const rechercheIMG = document.getElementById('rechercheLieuIMG');
+    const rechercheIMG = document.getElementsByClassName('rechercheLieuIMG');
     const SCREEN_MOBILE = 801; // Taille de l'écran pour le changement d'images
 
     const categoriesFiltres = [
@@ -267,12 +267,17 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         afficherResultats(filtrage());
 
-        rechercheIMG.addEventListener('click', function () {
-            rechercheOffre.value = '';
-            rechercheIMG.src = '../images/search_icon.png';
-            rechercheIMG.style.cursor = 'default';
-
-            afficherResultats(filtrage());
+        Array.from(rechercheIMG).forEach(rechercheIMG => {
+            rechercheIMG.addEventListener('click', function () {
+                const rechercheOffre = document.querySelector('.rechercheOffre'); // Suppose qu'il y a une seule `rechercheOffre`
+                if (rechercheOffre) {
+                    rechercheOffre.value = ''; // Vide le champ
+                }
+                rechercheIMG.src = '../images/search_icon.png';
+                rechercheIMG.style.cursor = 'default';
+        
+                afficherResultats(filtrage()); // Exécution des fonctions
+            });
         });
     });
 
@@ -306,51 +311,51 @@ document.addEventListener('DOMContentLoaded', function () {
     ajouterEcouteursTemps();
     ajouterEcouteursPrix();
 
-    const rechercheLieu = document.getElementById('rechercheLieu');
-    const lieux = document.getElementsByClassName('lieu');
+    const rechercheLieux = Array.from(document.getElementsByClassName('rechercheLieu'));
+    const lieux = Array.from(document.getElementsByClassName('lieu'));
 
-    rechercheLieu.addEventListener('input', function () {
-        const rechercheTexte = rechercheLieu.value.toLowerCase();
+    rechercheLieux.forEach(rechercheLieu => {
+        rechercheLieu.addEventListener('input', function () {
+            const rechercheTexte = rechercheLieu.value.toLowerCase();
 
-        if (rechercheLieu.value != '') {
-            rechercheIMG.src = '../images/croix-noire.png';
-            rechercheIMG.style.cursor = 'pointer';
-            Array.from(lieux).forEach(lieu => {
-                lieu.style.display = 'block';
-                lieu.classList.remove('hidden');
-            });
+            if (rechercheTexte !== '') {
+                const rechercheIMG = rechercheLieu.nextElementSibling; // Suppose que l'image est juste après l'input
+                rechercheIMG.src = '../images/croix-noire.png';
+                rechercheIMG.style.cursor = 'pointer';
 
-            rechercheIMG.addEventListener('click', function () {
-                rechercheLieu.value = '';
+                rechercheIMG.addEventListener('click', function () {
+                    rechercheLieu.value = '';
+                    rechercheIMG.src = '../images/search_icon.png';
+                    rechercheIMG.style.cursor = 'default';
+
+                    lieux.forEach(lieu => {
+                        lieu.style.display = 'block';
+                        lieu.classList.remove('hidden');
+                    });
+                });
+
+                lieux.forEach(lieu => {
+                    const lieuTexte = lieu.textContent.toLowerCase();
+                    if (lieuTexte.includes(rechercheTexte)) {
+                        lieu.style.display = 'block';
+                        lieu.classList.remove('hidden');
+                    } else {
+                        lieu.style.display = 'none';
+                        lieu.classList.add('hidden');
+                    }
+                });
+            } else {
+                lieux.forEach(lieu => {
+                    lieu.style.display = 'block';
+                });
+
+                const rechercheIMG = rechercheLieu.nextElementSibling;
                 rechercheIMG.src = '../images/search_icon.png';
                 rechercheIMG.style.cursor = 'default';
-
-                Array.from(lieux).forEach(lieu => {
-                    lieu.style.display = 'block';
-                    lieu.classList.remove('hidden');
-                });
-            });
-
-            Array.from(lieux).forEach(lieu => {
-                const lieuTexte = lieu.textContent.toLowerCase();
-                if (lieuTexte.includes(rechercheTexte)) {
-                    lieu.style.display = 'block';
-                    lieu.classList.remove('hidden');
-                } else {
-                    lieu.style.display = 'none';
-                    lieu.classList.add('hidden');
-                }
-            });
-
-        } else {
-            Array.from(lieux).forEach(lieu => {
-                lieu.style.display = 'block';
-            });
-
-            rechercheIMG.src = '../images/search_icon.png';
-            rechercheIMG.style.cursor = 'default';
-        }
+            }
+        });
     });
+
 
     const boutonNouveau = document.getElementsByClassName('boutonNouveau');
     const boutonALaUne = document.getElementsByClassName('boutonALaUne');
@@ -598,13 +603,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
     // Gestion du clic sur la croix d'effacement
-    rechercheIMG.addEventListener('click', function () {
+    const rechercheOffreIMG = document.getElementById('rechercheOffreIMG');
+    rechercheOffreIMG.addEventListener('click', function () {
         if (rechercheOffre.value.trim() !== '') {
             ajouterMotCleDepuisRecherche();
         }
         rechercheOffre.value = ''; // Réinitialiser la recherche
-        rechercheIMG.src = '../images/search_icon.png'; // Réinitialiser l'icône
-        rechercheIMG.style.cursor = 'default';
+        rechercheOffreIMG.src = '../images/search_icon.png'; // Réinitialiser l'icône
+        rechercheOffreIMG.style.cursor = 'default';
         afficherResultats(filtrage());
     });
 

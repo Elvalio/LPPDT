@@ -42,19 +42,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Gestion des boutons "Nouveau" et "À la une"
-    boutons.forEach(bouton => {
-        bouton.addEventListener('click', function () {
+    // boutons.forEach(bouton => {
+    //     bouton.addEventListener('click', function () {
 
-            if (this.classList.contains('active')) {
-                this.style.backgroundColor = '#2C2C2C';
-                this.querySelector('p').style.color = '#F5F5F5';
+    //         if (this.classList.contains('active')) {
+    //             this.style.backgroundColor = '#2C2C2C';
+    //             this.querySelector('p').style.color = '#F5F5F5';
                 
-            } else {
-                this.style.backgroundColor = '#F5F5F5';
-                this.querySelector('p').style.color = '#757575';
-            }
-        });
-    });
+    //         } else {
+    //             this.style.backgroundColor = '#F5F5F5';
+    //             this.querySelector('p').style.color = '#757575';
+    //         }
+    //     });
+    // });
 
     // Gestion du menu Filtres
     bouton_filtre.addEventListener('click', async function (event) {
