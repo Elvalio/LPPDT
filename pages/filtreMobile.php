@@ -67,9 +67,9 @@
                     <p class="FS">Lieux</p>
                     <div class="filtre-lieu mobile">
                         <div class="search-filter">
-                            <input type="text" name="search" id="rechercheLieu" placeholder="Recherche">
+                            <input type="text" name="search" class="rechercheLieu" placeholder="Recherche">
                             <img src="../images/search_icon.png" alt="Recherche" title="Recherche"
-                                id="rechercheLieuIMG">
+                                class="rechercheLieuIMG">
                         </div>
                         <div class="filtre-lieu-case">
                             <?php foreach ($lieux as $lieu) { ?>

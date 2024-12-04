@@ -20,7 +20,5 @@
             <?php } ?>
             <hr>
         </header>
-        <script src="../js/filtres.js">
-        </script>
     </body>
 </html>
