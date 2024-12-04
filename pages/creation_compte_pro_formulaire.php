@@ -62,11 +62,11 @@ error_reporting(0); if (!empty($_POST)) {
 
 
         if ($stmt!=[]) {
-            setcookie("user", $idC, time() + 3600);
+            setcookie("user", $idC, time() + 3600, '/');
 
-            if ($stmt!=[]) {
+            if ($form == "privee") {
                 setcookie("type_compte", 'pro_prive', time() + 3600, '/');
-            }else{
+            }else if ($form == "publique"){
                 setcookie("type_compte", 'pro_public', time() + 3600, '/');
             }
             header('Location:tableau_de_bord.php');   
