@@ -323,6 +323,14 @@ try {
                     <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
                         placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                     <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                    <label for="options" id="titre-contexte">Contexte de la visite :</label>
+                    <select id="options-contexte" name="options">
+                        <option value="affaires">Affaires</option>
+                        <option value="couple">Couple</option>
+                        <option value="famille">Famille</option>
+                        <option value="amis">Amis</option>
+                        <option value="seul">Seul</option>
+                    </select>
                     <input type="submit" id="bouton_publier" value="Publier">
                 </form>
                 <?php }else{ ?>
@@ -332,6 +340,14 @@ try {
                 <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
                     placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                <label for="options" id="titre-contexte">Contexte de la visite :</label>
+                    <select id="options-contexte" name="options">
+                        <option value="affaires">Affaires</option>
+                        <option value="couple">Couple</option>
+                        <option value="famille">Famille</option>
+                        <option value="amis">Amis</option>
+                        <option value="seul">Seul</option>
+                    </select>
                 <form method="POST" action="connexion.php" class="zone-btn-publier">
                     <input type="submit" id="bouton_publier" value="Publier">
                 </form>
