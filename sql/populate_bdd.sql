@@ -3,18 +3,18 @@ SET SCHEMA 'pact';
 
 -- MEMBRES --
 
-  insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Jonnnie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');   
-  insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Bobbie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');  
-  insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Zirconium', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', 11, 'rue de la gare', 22000, '');
-  insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('HolyCannolee', 'La Vedette', 'Hugo', 'hugo.lavedette@orange', '0652637537', 'hugolemeilleur!', 'Guingamp', 5, 'boulevard clémenceau', 22200, '');
-  insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Kabibabie', 'Aquecouccou', 'Lillie', 'kabibaie@gmail.com', '0772368545', 'IDontLikeMakingPasswords', 'Lannion', 1, 'rue édouard branly', 22300, '');
-  insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Aberrington', 'Lacèsvash', 'Guillaume', 'guillaume.lacesvash@wanadoo.fr', '0687783861', 'g7YZk?D:2*q2', 'Saint-Brieuc', 7, 'rue piet mondrian', 22000, '');
-  insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('IcyTerra', 'Chram', 'Ambre', 'ambre.chram@wanadoo.fr', '0754552861', 'LeMDPEstRéel', 'Plouaret', 4, 'rue de l''armorique', 22420, '');
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Jonnnie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');   
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Bobbie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');  
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Zirconium', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', 11, 'rue de la gare', 22000, '');
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('HolyCannolee', 'La Vedette', 'Hugo', 'hugo.lavedette@orange', '0652637537', 'hugolemeilleur!', 'Guingamp', 5, 'boulevard clémenceau', 22200, '');
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Kabibabie', 'Aquecouccou', 'Lillie', 'kabibaie@gmail.com', '0772368545', 'IDontLikeMakingPasswords', 'Lannion', 1, 'rue édouard branly', 22300, '');
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Aberrington', 'Lacèsvash', 'Guillaume', 'guillaume.lacesvash@wanadoo.fr', '0687783861', 'g7YZk?D:2*q2', 'Saint-Brieuc', 7, 'rue piet mondrian', 22000, '');
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('IcyTerra', 'Chram', 'Ambre', 'ambre.chram@wanadoo.fr', '0754552861', 'LeMDPEstRéel', 'Plouaret', 4, 'rue de l''armorique', 22420, '');
 
 -- TYPE_OFFRE --
-  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Gratuit', 0, 0);
-  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Standard', 1.67, 2);
-  insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Premium', 3.34, 4);
+insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Gratuit', 0, 0);
+insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Standard', 1.67, 2);
+insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Premium', 3.34, 4);
 
 -- OPTION --
 insert into pact._option(nom_option, cout_HT, cout_TTC) values ('En relief', 8.34, 10);
