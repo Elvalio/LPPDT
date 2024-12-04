@@ -366,12 +366,16 @@ try {
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
                         <div>
-                            <h4>
-                                <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
-                            </h4>
-                            <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
-                            <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
-                            <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
+                            <div class="titre-date">
+                                <h4>
+                                    <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
+                                </h4>
+                                <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
+                            </div>
+                            <div class="pseudo-contexte">
+                                <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
+                            </div>
                         </div>
                     </div>
                     <div class="etoile-avis-detail-offre">

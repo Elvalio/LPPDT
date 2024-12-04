@@ -355,7 +355,27 @@
   font-family: 'TripSansBold';
 }
 
-.profil > div > p {
+.titre-date{
+  display: flex;
+  padding: 0px !important;
+}
+
+.titre-date > h4{
+  margin-right: 5px;
+}
+
+.titre-date > p{
+  opacity: 70%;
+  font-family: 'TripSansRegular';
+}
+
+.pseudo-contexte{
+  display: flex;
+  padding: 0px !important;
+}
+
+.pseudo-contexte > p{
+  margin-right: 5px;
   opacity: 70%;
   font-family: 'TripSansRegular';
 }
