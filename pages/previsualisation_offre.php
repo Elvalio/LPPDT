@@ -149,8 +149,18 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         
         $stmt->execute();
 
-        $idOffre = $stmt->fetchColumn(); //id de l'offre qui vient d'être crée (ici offre n°8)
+        $idOffre = $stmt->fetchColumn(); //id de l'offre qui vient d'être crée (ici offre n°8) a faiare apres la création de l'offre
         // $idOffre = $db->lastInsertId(); //a faire après avoir créer l'offre !!!
+
+        $stmt = $dbh->prepare(
+            "select telephone from pact.professionnel where idc = :user;"
+        );
+        
+        $stmt->execute([
+            'user' => $_COOKIE['user']
+        ]);
+
+        $telephone = $stmt->fetchColumn();
 
     } catch (PDOException $e) {
         echo "<pre>";
@@ -159,6 +169,9 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         die();
     }
 
+    if ($telephone === null){
+        $telephone = 'Non disponible';
+    }
 
     for ($i = 1; $i < 4; $i++) { //pour chaque images
         if (!empty($_FILES['file-upload'.$i]['name'])){
@@ -207,7 +220,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         </h1>
         <h2 class="sous-titre">
             <?php echo htmlspecialchars($_POST['ville']); ?> |
-            <?php echo 'Non disponible'; ?>
+            <?php echo $telephone ?>
             <?php if ($categorie === 'spectacle' || $categorie === 'activite' || $categorie === 'visite') echo " | Durée : " . htmlspecialchars($_POST['duree']); ?>
 
             <?php if ($categorie === 'parcAttraction' || $categorie === 'activite') echo " | Âge : " . $_POST['age'] . " ans"; ?>
@@ -330,11 +343,20 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
 
                 
                 <div>
-                    <a href=" <?php echo 'non disponible'; ?>">
+                    <a href=" <?php
+                            if ($_POST['site'] !== null){
+                                echo $_POST['site'];
+                            } else {
+                                echo 'Non disponible';
+                            }?>">
                         <img src="../images/pc.png" alt="icon pc (lien vers le site)">
                         <p>
                             <?php
-                        echo $_POST['site'] ?>
+                            if ($_POST['site'] !== ''){
+                                echo $_POST['site'];
+                            } else {
+                                echo 'Non disponible';
+                            }?>
                         </p>
                     </a>
                 </div>
