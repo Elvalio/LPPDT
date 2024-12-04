@@ -17,6 +17,10 @@
 
 @media (min-width: 801px) {
 
+  .phone-element {
+    display: none;
+  }
+
   .body {
     display: flex;
     flex-direction: row;
@@ -466,6 +470,11 @@
   margin-top: 30px;
 }
 
+#bouton_publier:hover {
+  background-color: var(--bleu-rouge);
+  transition: background-color 0.3s ease-in-out;
+}
+
 }
 
 @media (max-width: 800px) {
@@ -909,6 +918,10 @@ margin-top: 30px;
   justify-content: right;
 
 }
+
+ .mobile-footer {
+  margin-left: -20px;
+ }
 
 }
 

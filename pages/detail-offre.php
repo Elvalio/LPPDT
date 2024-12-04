@@ -380,6 +380,9 @@ try {
             <!-- Ensure this is properly placed -->
         </article>
     </section>
+    <footer class="phone-element">
+        <?php include_once 'footerNav.php'; ?>
+    </footer>
     <script src="../js/detail_offre.js"></script>
 </body>
 
