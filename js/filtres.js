@@ -1,4 +1,6 @@
+import { closeSortMenu } from './scriptFilter.js';
 document.addEventListener('DOMContentLoaded', function () {
+
     const trie_text = document.querySelector('.dropdown-toggle > p');
     const rechercheOffre = document.getElementById('rechercheOffre');
     const rechercheIMG = document.getElementsByClassName('rechercheLieuIMG');
@@ -200,32 +202,61 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
     function trie(offresVisibles) {
-        if (menuItems[0].classList.contains('active')) { // Tri par prix croissant
-            offresVisibles.sort((a, b) => {
-                return a.getAttribute('data-prix') - b.getAttribute('data-prix') ||
-                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-            });
-        }
-        if (menuItems[1].classList.contains('active')) { // Tri par prix décroissant
-            offresVisibles.sort((a, b) => {
-                return b.getAttribute('data-prix') - a.getAttribute('data-prix') ||
-                       b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-            });
-        }
-        if (menuItems[2].classList.contains('active')) { // Tri par note croissante
-            offresVisibles.sort((a, b) => {
-            return a.getAttribute('data-note') - b.getAttribute('data-note') ||
-                   b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-            });
-        }
-        if (menuItems[3].classList.contains('active')) { // Tri par note décroissante
-            offresVisibles.sort((a, b) => {
-            return b.getAttribute('data-note') - a.getAttribute('data-note') ||
-                   b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-            });
+        if (window.innerWidth > SCREEN_MOBILE) {
+                
+            if (menuItems[0].classList.contains('active')) { // Tri par prix croissant
+                offresVisibles.sort((a, b) => {
+                    return a.getAttribute('data-prix') - b.getAttribute('data-prix') ||
+                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
+            if (menuItems[1].classList.contains('active')) { // Tri par prix décroissant
+                offresVisibles.sort((a, b) => {
+                    return b.getAttribute('data-prix') - a.getAttribute('data-prix') ||
+                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
+            if (menuItems[2].classList.contains('active')) { // Tri par note croissante
+                offresVisibles.sort((a, b) => {
+                return a.getAttribute('data-note') - b.getAttribute('data-note') ||
+                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
+            if (menuItems[3].classList.contains('active')) { // Tri par note décroissante
+                offresVisibles.sort((a, b) => {
+                return b.getAttribute('data-note') - a.getAttribute('data-note') ||
+                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
+        } else if (window.innerWidth <= SCREEN_MOBILE) {
+            if (boutonTriMobile[0].classList.contains('active')) { // Tri par prix croissant
+                offresVisibles.sort((a, b) => {
+                    return a.getAttribute('data-prix') - b.getAttribute('data-prix') ||
+                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
+            if (boutonTriMobile[1].classList.contains('active')) { // Tri par prix décroissant
+                offresVisibles.sort((a, b) => {
+                    return b.getAttribute('data-prix') - a.getAttribute('data-prix') ||
+                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
+            if (boutonTriMobile[2].classList.contains('active')) { // Tri par note croissante
+                offresVisibles.sort((a, b) => {
+                return a.getAttribute('data-note') - b.getAttribute('data-note') ||
+                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
+            if (boutonTriMobile[3].classList.contains('active')) { // Tri par note décroissante
+                offresVisibles.sort((a, b) => {
+                return b.getAttribute('data-note') - a.getAttribute('data-note') ||
+                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                });
+            }
         }
     }
     
+    const boutonTriMobile = document.getElementsByClassName("menu-item-tri");
 
     for (let i = 0; i < menuItems.length; i++) {
         menuItems[i].addEventListener('click', function () {
@@ -252,6 +283,22 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             closeDropdown();
             afficherResultats(filtrage());
+        });
+    }
+
+    for (let i = 0; i < boutonTriMobile.length; i++) {
+        boutonTriMobile[i].addEventListener('click', function () {
+            if (boutonTriMobile[i].classList.contains('active')) {
+                boutonTriMobile[i].classList.remove('active');
+            } else {
+                for (let k = 0; k < boutonTriMobile.length; k++) {
+                    boutonTriMobile[k].classList.remove('active');
+                }
+                boutonTriMobile[i].classList.add('active');
+            }
+            
+            afficherResultats(filtrage());
+            closeSortMenu();
         });
     }
 
@@ -329,7 +376,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     rechercheIMG.style.cursor = 'default';
 
                     lieux.forEach(lieu => {
-                        lieu.style.display = 'block';
+                        lieu.style.display = 'flex';
                         lieu.classList.remove('hidden');
                     });
                 });
@@ -337,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 lieux.forEach(lieu => {
                     const lieuTexte = lieu.textContent.toLowerCase();
                     if (lieuTexte.includes(rechercheTexte)) {
-                        lieu.style.display = 'block';
+                        lieu.style.display = 'flex';
                         lieu.classList.remove('hidden');
                     } else {
                         lieu.style.display = 'none';
@@ -346,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             } else {
                 lieux.forEach(lieu => {
-                    lieu.style.display = 'block';
+                    lieu.style.display = 'flex';
                 });
 
                 const rechercheIMG = rechercheLieu.nextElementSibling;
@@ -359,7 +406,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const boutonNouveau = document.getElementsByClassName('boutonNouveau');
     const boutonALaUne = document.getElementsByClassName('boutonALaUne');
-    console.log(boutonNouveau);
     // boutons <p> Nouveau et A la une
 
     function filtrerParBouton() {
@@ -468,7 +514,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const motsCles = chargerMotsClesRecents(); // Charger les mots-clés récents
         suggestionsContainer.innerHTML = ''; // Réinitialiser le conteneur
 
-        console.log("afficherSuggestions");
 
         // Filtrer les mots-clés selon la recherche
         let motsFiltres;
@@ -479,8 +524,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             motsFiltres = motsCles;
         }
-
-        console.log("Mots filtrés :", motsFiltres);
 
         // Si aucune suggestion, cacher le conteneur
         if (motsFiltres.length === 0) {
@@ -616,7 +659,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Afficher les suggestions lors du focus sur le champ
     rechercheOffre.addEventListener('focus', function () {
-        console.log("focus");
         afficherSuggestions(rechercheOffre.value.trim());
     });
 

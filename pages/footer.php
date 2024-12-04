@@ -11,8 +11,8 @@
             <div class="listes_infos">
                 <ul class="entreprise">
                     <li><p id="footer_titre_entreprise">Entreprise</p></li>
-                    <li><a>À propos de nous</a></li>
-                    <li><a>Nos politiques</a></li>
+                    <li><a href="a_propos_de_nous.php">À propos de nous</a></li>
+                    <li><a href="nos_politiques">Nos politiques</a></li>
                 </ul>
                 <ul class="offres">
                     <li><p id="footer_titre_offre">Offres</p></li>
@@ -29,10 +29,10 @@
         </div>
         <hr>
         <div class="autres_liens">
-            <a>Contactez-nous</a>
-            <a>Politique de Confidentialité</a>
-            <a>Conditions Générales d'Utilisation</a>
-            <a>RGPD</a>
+            <a href="mailto:PACT-TripEnArmor@proton.me">Contactez-nous</a>
+            <a href="politique_confidentialite">Politique de Confidentialité</a>
+            <a href="conditions_d_utilisation.php">Conditions Générales d'Utilisation</a>
+            <a href="RGPD.php">RGPD</a>
             <img src="../images/logo_noir_reduit.png" alt="logo_noir_reduit" title="logo_noir_reduit" id="image_reduit">
         </div>
     </footer>
