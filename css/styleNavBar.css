@@ -178,6 +178,10 @@ body {
     bottom: 20px;
 }
 
+#sidebar.active #bottom-items{
+    bottom: 18px;
+}
+
 
 .notification-container {
     position: relative;

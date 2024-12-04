@@ -6,6 +6,51 @@
 
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
+        include('../sql/connect_params.php');
+
+        if(isset($_COOKIE['user'])){
+            try{
+                $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
+                    $user, $pass);   
+                
+                if($_COOKIE['type_compte'] === 'pro_prive' || $_COOKIE['type_compte'] === 'pro_public'){
+                    $stmt = $dbh->prepare(
+                        "select nom, prenom, email from pact.professionnel where idc = :user;"
+                    );
+ 
+                } else {
+                    $stmt = $dbh->prepare(
+                        "select nom, prenom, email from pact.membre where idc = :user;"
+                    );
+                }
+
+                $stmt->execute([
+                    'user' => $_COOKIE['user']
+                ]);
+                // Récupérer la première ligne du résultat
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                if ($row) {
+                    // Récupérer les valeurs des trois colonnes
+                    $nom = $row['nom'];
+                    $prenom = $row['prenom'];
+                    $email = $row['email'];
+                }
+    
+    
+            } catch (PDOException $e) {
+                echo "<pre>";
+                print "Erreur !: " . $e->getMessage() . "<br/>";
+                echo "</pre>";
+                die();
+            }
+        }
+        
+
+
+
+
+
         if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")) { ?>
             <div class="TS BO" id="sidebar"> <?php
         } else {?>
@@ -98,8 +143,8 @@
                                 <a href="infoCompte.php" class="nav-item">
                                     <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                                     <div id="infoProfile">
-                                        <p id="prenom" class="TS">Michael Smith</p>
-                                        <p id="email" class="TS">michaelsmith12@gmail.com</p>
+                                        <p id="prenom" class="TS"><?php echo $nom . ' ' . $prenom ?></p>
+                                        <p id="email" class="TS"><?php echo $email ?></p>
                                     </div>
                                 </a>
                             <?php } else { ?>
