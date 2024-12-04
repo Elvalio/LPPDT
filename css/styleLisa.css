@@ -3,6 +3,7 @@
     flex-direction: row;
     justify-content: space-between;
     width: 40%;
+    margin-bottom: 20px;
 }
 
 .bouton-valider{
@@ -16,4 +17,8 @@
     width: fit-content;
     justify-content: center;
     margin-top: 30px;
+}
+
+.bouton-retour img {
+    height: 24px;
 }
