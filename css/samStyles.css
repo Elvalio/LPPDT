@@ -994,7 +994,7 @@ grid-gap: 50px;
   width: 250px;
   border-radius: 10px;
   object-fit: cover;
-  grid-column: 1/5;
+  grid-column: 1/4;
   grid-row: 1;
 }
 
@@ -1004,7 +1004,7 @@ grid-gap: 50px;
   align-self: flex-start;
   margin-top: 10px;
   font-family: 'TripSansBold';
-  grid-column: 5/5;
+  grid-column: 4/4;
   grid-row: 1;
 }
 
@@ -1014,7 +1014,7 @@ grid-gap: 50px;
   margin-top: 10px;
   font-family: 'TripSansBold';
   align-self: flex-start;
-  grid-column: 2/5;
+  grid-column: 2/4;
   grid-row: 1;
 }
 
@@ -1024,7 +1024,7 @@ grid-gap: 50px;
   align-self: flex-start;
   margin-top: 10px;
   font-family: 'TripSansRegular';
-  grid-column: 3/5;
+  grid-column: 3/4;
   grid-row: 1;
 }
 
@@ -1037,8 +1037,5 @@ font-family: 'TripSansRegular';
   display: flex;
   align-self: flex-start;
   justify-content: center;
-  margin-top: 10px;
-  grid-row: 1;
-  grid-column: 4/5;
   font-family: 'TripSansBold';
 }
