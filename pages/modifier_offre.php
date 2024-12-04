@@ -338,7 +338,6 @@ try{
                 );
                 break;
 
-            // don't know if image works for update
             case 'Restauration':
                 $titre = str_replace("'", "''",$_POST['titre']);
                 $resume = str_replace("'", "''", $_POST['resume']);
@@ -457,43 +456,74 @@ try{
         }
        
 
-        /*
+        // $idO 
         //pour l'insertion des 3 images
-        $stmt = $dbh->prepare(
-            "select max(ido)
-            from pact.offre;"
-        );
-        
-        $stmt->execute();
-
-        $idOffre = $stmt->fetchColumn(); //id de l'offre qui vient d'être crée (ici offre n°8)
+        $dir = '../images/image_offre';
+        $images = scandir($dir);
         for ($i = 1; $i < 4; $i++) { //pour chaque images
+            $pattern = "/$idO-$i/";
+            $image = array_values(preg_grep($pattern, $images));
             if (!empty($_FILES['file-upload'.$i]['name'])){
                 $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
-                    move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
+                //trouver ancienne image si elle existe pour la supprimer
+                if (!empty($image)) {
+                    //supprime image pour la remplacer
+                    $image = $image[0];
                     $stmt = $dbh->prepare(
-                        "insert into pact.photo_offre 
-                        (src_image, idO) values 
-                        ('image_offre/$idOffre-$i.$extention', '$idOffre');"
+                        "delete from pact.photo_offre 
+                        where src_image = 'image_offre/$image';"
                     );
-
-
+                    $stmt->execute();
+                    unlink("$dir/$image");
+                }
+                move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idO.'-'.$i.'.'.$extention);
+                $stmt = $dbh->prepare(
+                    "insert into pact.photo_offre 
+                    (src_image, idO) values 
+                    ('image_offre/$idO-$i.$extention', '$idO');"
+                );
                 $stmt->execute();
-            }    
+            } else if (!empty($image)) {
+                // supprimer les images
+                /*
+                $image = $image[0];
+                print_r($image);
+                $stmt = $dbh->prepare(
+                    "delete from pact.photo_offre 
+                    where src_image = 'image_offre/$image';"
+                );
+                $stmt->execute();
+                print_r("$dir/$image");
+                unlink("$dir/$image");
+                */
+            }  
         }
-        */
 
         //images plan et menu
         $fileInfo = pathinfo($_FILES['map-file-upload']['name']);
         if (isset($fileInfo['extension'])){
             $extention = $fileInfo['extension'];
-            if ($categorie === 'parcAttraction'){
+            if ($categorie === "Parc d'attraction"){
+                $pattern = "/$idO-plan/";
+                $image = array_values(preg_grep($pattern, $images));
+                if (!empty($image)) {
+                    //supprime image pour la remplacer
+                    $image = $image[0];
+                    unlink("$dir/$image");
+                }
                 move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idO.'-plan.'.$extention);
                 $stmt = $dbh->prepare(
                     "UPDATE pact.parc_d_attraction SET src_image = 'image_offre/$idO-plan.$extention'
                     WHERE ido = $idO;"
                 );
-            } else if ($categorie === 'restauration'){
+            } else if ($categorie === 'Restauration'){
+                $pattern = "/$idO-menu/";
+                $image = array_values(preg_grep($pattern, $images));
+                if (!empty($image)) {
+                    //supprime image pour la remplacer
+                    $image = $image[0];
+                    unlink("$dir/$image");
+                }
                 move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idO.'-menu.'.$extention);
                 $stmt = $dbh->prepare(
                     "UPDATE pact.restauration SET src_image = 'image_offre/$idO-menu.$extention'
@@ -910,20 +940,20 @@ include_once 'nav.php';
                                         <img src="../icons/plus.svg" alt="Bouton Image">
                                         <p class="upload-text">Ajouter une image 1</p>
                                     </label>
-                                    <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png"/>
+                                    <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg"/>
 
                                     <!---- Bouton 2 --->
                                     <label for="file-upload2" class="custom-file-upload">
                                         <img src="../icons/plus.svg" alt="Bouton Image">
                                         <p class="upload-text">Ajouter une image 2</p>
                                     </label>
-                                    <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png"/>
+                                    <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg"/>
                                     <!---- Bouton 3 --->
                                     <label for="file-upload3" class="custom-file-upload">
                                         <img src="../icons/plus.svg" alt="Bouton Image">
                                         <p class="upload-text">Ajouter une image 3</p>
                                     </label>
-                                    <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png"/>
+                                    <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg"/>
 
                                     <button id="file-delete" type="button">
                                         <img src="../icons/moins.svg" alt="Bouton Image">
@@ -986,8 +1016,8 @@ include_once 'nav.php';
                 console.log(selectedImages[index].getAttribute('src'));
             }
 
-                        //affiche le bouton supression s'il y a des images
-                        if (currentImageCount > 0) {
+            //affiche le bouton supression s'il y a des images
+            if (currentImageCount > 0) {
                 nextIndex = rechercheImageVide();                           
                 boutonSuppression.style.display = 'flex';
             }
