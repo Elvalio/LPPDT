@@ -1026,10 +1026,12 @@ padding: 10px 10px;
 display: flex;
 flex-direction: column;
 margin-top: 20px;
-background-color: #f077055d;
+background-color: #fff;
 padding: 10px;
 border-radius: 10px;
+border: 2px solid var(--bleuFonce-rougeFonce);
 font-family: 'TripSansRegular';
+box-shadow: 1px 1px 5px #383838;
 }
 
 .facture-offre {
@@ -1047,7 +1049,8 @@ grid-gap: 50px;
   border-radius: 10px;
   object-fit: cover;
   grid-column: 1/4;
-  grid-row: 1;
+  grid-row: 2;
+  box-shadow: 1px 1px 5px #1d1d1d;
 }
 
 .facture-total {
@@ -1057,7 +1060,7 @@ grid-gap: 50px;
   margin-top: 10px;
   font-family: 'TripSansBold';
   grid-column: 4/4;
-  grid-row: 1;
+  grid-row: 2;
 }
 
 .facture-detail-titre {
@@ -1067,7 +1070,7 @@ grid-gap: 50px;
   font-family: 'TripSansBold';
   align-self: flex-start;
   grid-column: 2/4;
-  grid-row: 1;
+  grid-row: 2;
 }
 
 .facture-detail-option {
@@ -1077,7 +1080,7 @@ grid-gap: 50px;
   margin-top: 10px;
   font-family: 'TripSansRegular';
   grid-column: 3/4;
-  grid-row: 1;
+  grid-row: 2;
 }
 
 .facture-detail-element {
@@ -1104,4 +1107,29 @@ font-family: 'TripSansRegular';
 
 .facture_titre {
   margin-left: 110px;
+}
+
+.facture_tableau_titre {
+  grid-row: 1;
+  grid-column: 2/4;
+}
+
+.facture_tableau_option {
+  grid-row: 1;
+  grid-column: 3/4;
+}
+
+.facture_tableau_Montant {
+  grid-row: 1;
+  grid-column: 4/4;
+}
+
+.facture_tableau_image {
+  grid-row: 1;
+  grid-column: 1/4;
+}
+
+hr {
+  border : 1px solid var(--bleuFonce-rougeFonce);
+  margin: 10 0 20 0px;
 }

@@ -151,4 +151,4 @@ insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, con
 -- FACTURE --
 
 insert into pact._facturation(numFacture, idO, date_facture) values (12345, 1, date_trunc('month', current_date));
-insert into pact._facturation(numFacture, idC, date_facture) values (54321, 1, date_trunc('month', now() - interval '1 month'));
+insert into pact._facturation(numFacture, idO, date_facture) values (54321, 1, date_trunc('month', now() - interval '1 month'));

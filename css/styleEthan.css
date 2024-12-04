@@ -148,6 +148,11 @@ div > hr {
         display: none;
     }
 
+    button {
+        display: flex;
+        align-items: center;
+    }
+
     .container-ligne {
         display: flex;
         flex-direction: column;
