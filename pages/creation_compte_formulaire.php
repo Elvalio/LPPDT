@@ -106,6 +106,10 @@ error_reporting(0); if (!empty($_POST)) {
                         <input type="text" class="FS" placeholder="Christophorus" id="pseudo-membre" name="pseudo" required>
                         <label class="erreur" id="erreurpseudo"></label>
 
+                        <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
+                        <input type="text" class="FS" placeholder="5 rue de  la gare" id="adresse-membre" name="adresse" required>
+                        <label class="erreur" id="erreuradresse"></label>
+
                         <div class="row">
                             <div class="input-wrapper">
                                 <label for="codepostal" class="FS">Code postal<span class="required">*</span></label>
@@ -119,10 +123,6 @@ error_reporting(0); if (!empty($_POST)) {
                                 <label class="erreur" id="erreurville"></label>
                             </div>
                         </div>
-
-                        <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
-                        <input type="text" class="FS" placeholder="5 rue de  la gare" id="adresse-membre" name="adresse" required>
-                        <label class="erreur" id="erreuradresse"></label>
                     </div>
                     <div class="right-column">
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
