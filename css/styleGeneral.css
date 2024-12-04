@@ -185,7 +185,7 @@ p {
 
 /* Bouton de navigations "À la une ..."*/
 
-.header > .liste_nav{
+.header > .bouton-nouv{
     list-style-type: none;
     display:flex;
     justify-content: flex-start;
@@ -230,7 +230,7 @@ p {
     height: 20px;
 }
 
-.header > .liste_nav > .bouton-nouv{
+.header > .bouton-nouv > p{
     background-color: white;
     color: black;
     line-height: 50px;
@@ -239,7 +239,7 @@ p {
     text-align: center;
 }
 
-.header > .liste_nav > .bouton-nouv:hover{
+.header > .bouton-nouv:hover > p{
     background-color: var(--vert-clair);
     color: var(--noir);
     border-radius: 5px;

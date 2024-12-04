@@ -11,7 +11,21 @@ try {
 
     // ID de l'offre à rechercher
 
-    $idOffre = $_GET["Offre"];
+    $userID = filter_var($_COOKIE['user'], FILTER_VALIDATE_INT);
+
+    if (!$userID) {
+        die("Invalid user ID.");
+    }
+
+    $stmt = $dbh->prepare("SELECT * FROM pact.facturation WHERE idC = :userId");
+    $stmt->execute([':userId' => $userID]);
+    $factures = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$factures) {
+        die("Vous n'avez aucune facture.");
+    }
+
+    $idOffre = $_GET["offre"];
 
     // Requête pour récupérer les données
     $sql = "
@@ -37,12 +51,12 @@ try {
         INNER JOIN pact._compte c ON o.idC = c.idC
         INNER JOIN pact._adresse a ON c.idAdresse = a.idAdresse
         INNER JOIN pact._type_offre t ON o.type = t.idT
-        WHERE o.idO = :idOffre;
-
+        WHERE o.idO = :idOffre AND f.idC = :userId;
     ";
 
     $stmt = $dbh->prepare($sql);
     $stmt->bindParam(':idOffre', $idOffre, PDO::PARAM_INT);
+    $stmt->bindParam(':userId', $userID, PDO::PARAM_INT);
     $stmt->execute();
     $facture_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -78,37 +92,35 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Facture</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        table th, table td { border: 1px solid #ccc; padding: 10px; text-align: left; }
-        .header, .footer { text-align: center; }
-        .total { font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="../css/creationFacturation.css">
+    <link rel="stylesheet" href="../css/styleGeneral.css">
 </head>
-<body>
-    <div class="header">
-        <h1>Facture N°<?= $facture_data['numero_facture'] ?></h1>
-        <p>Date d’émission : <?= date('d/m/Y', strtotime($facture_data['date_emission'])) ?></p>
-    </div>
+<body class="BO">
+    <header>
+        <img src="../logo/logo_rouge.png" alt="PACT" id="logo">
+        <div class="titre">
+            <h1>Facture N°<?= $facture_data['numero_facture'] ?></h1>
+            <p>Date d’émission : <?= date('d/m/Y', strtotime($facture_data['date_emission'])) ?></p>
+        </div>
+    </header>
 
+    <div class="E-D">
     <!-- Informations des parties -->
-    <h2>Émetteur : PACT</h2>
-    <p>
-        Plateforme<br>
-        1 Place du Chai<br>
-        22000 Saint-Brieuc<br>
-        Email : PACT-TripEnArmor@proton.me
-    </p>
-
-    <h2>Destinataire : <?= $facture_data['pro_nom'] ?></h2>
-    <p>
-        <?= $facture_data['pro_adresse'] ?><br>
-        <?= $facture_data['pro_code_postal'] ?> <?= $facture_data['pro_ville'] ?><br>
-        Téléphone : <?= $facture_data['pro_telephone'] ?><br>
-        Email : <?= $facture_data['pro_email'] ?>
-    </p>
-
+        <div class="Emetteur"> 
+            <h2>Émetteur : PACT</h2>
+            <p>Plateforme</p>
+            <p>1 Place du Chai</p>
+            <p>22000 Saint-Brieuc</p>
+            <p>Email : PACT-TripEnArmor@proton.me</p>
+        </div>
+        <div class="Destinataire">
+            <h2>Destinataire : <?= $facture_data['pro_nom'] ?></h2>
+            <p><?= $facture_data['pro_adresse'] ?></p>
+            <p><?= $facture_data['pro_code_postal'] ?> <?= $facture_data['pro_ville'] ?></p>
+            <p>Téléphone : <?= $facture_data['pro_telephone'] ?></p>
+            <p>Email : <?= $facture_data['pro_email'] ?></p>
+        </div>    
+    </div>
     <!-- Détails de la facture -->
     <table>
         <thead>
@@ -147,8 +159,8 @@ try {
         </tfoot>
     </table>
 
-    <div class="footer">
+    <footer>
         <p>Merci pour votre confiance.</p>
-    </div>
+    </footer>
 </body>
 </html>
