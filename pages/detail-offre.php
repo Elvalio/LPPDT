@@ -13,20 +13,21 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $note = (int)$_POST['nbr_etoile'];
         $titre = $_POST['titre_avis'];
         $com = $_POST['zone_avis'];
-
         $ido = (int)$_GET['value'];
         $idc = (int)$_COOKIE['user'];
+        $contexte = $_POST['options'];
 
 
         $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite)
-        VALUES (:idc, :ido, :titre, :note, :corps, NOW());
+        VALUES (:idc, :ido, :titre, :note, :corps, NOW(), :contexte);
         ");
         $stmt->execute([
             ':idc' => $idc,
             ':ido' => $ido,
             ':titre' => $titre,
             ':note' => $note,
-            ':corps' => $com
+            ':corps' => $com,
+            ':contexte' => $contexte
         ]);
 
         $dbh=null;
@@ -368,7 +369,9 @@ try {
                             <h4>
                                 <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
                             </h4>
-                            <p><?php echo htmlspecialchars($compte['pseudo']); ?></p>
+                            <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                            <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
+                            <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
                         </div>
                     </div>
                     <div class="etoile-avis-detail-offre">
