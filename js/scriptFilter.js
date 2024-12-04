@@ -36,6 +36,13 @@ sortButton.addEventListener('click', (event) => {
         sortMenu.style.display = 'block';
     }
 });
+// Fonction pour fermer le menu "Trier" depuis un autre fichier
+function closeSortMenu() {
+    sortMenu.style.display = 'none';
+}
+
+// Exporter la fonction pour qu'elle soit accessible depuis un autre fichier
+export { closeSortMenu };
 
 // Fermer le menu "Filtrer" en cliquant en dehors
 document.addEventListener('click', (event) => {

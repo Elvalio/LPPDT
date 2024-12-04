@@ -93,7 +93,6 @@
     
     label {
         display: block;
-        margin-bottom: 10px;
         font-size: 14px;
     }
     
@@ -141,10 +140,6 @@
     /* Masquer les éléments à partir du ème */
     .filtre-lieu-case > div:nth-child(n+4) {
         display: none; /* Cache les éléments après les trois premiers */
-    }
-    
-    .filtre-case.lieu.hidden {
-        border: 2px solid #ccc;
     }
 
     .filtre-temps {
@@ -207,7 +202,7 @@
     }
     
     /* Options du menu "Trier" */
-    #sortMenu .menu-item {
+    #sortMenu .menu-item-tri {
         display: block;
         padding: 10px 15px;
         font-size: 14px;
@@ -219,16 +214,18 @@
         width: 100%;
     }
     
-    #sortMenu .menu-item:hover {
+    #sortMenu .menu-item-tri:hover {
         background-color: #f0f0f0;
     }
     
-    #sortMenu .menu-item.active {
+    #sortMenu .menu-item-tri.active {
         font-weight: bold;
         color: var(--bleuFonce-rougeFonce);
         border-left: 2px solid var(--bleuFonce-rougeFonce);
     }
     
-    
+    .filtre-lieu-case, .filtre-type {
+        gap: 12px;
+    }
 
 }
