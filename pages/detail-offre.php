@@ -304,34 +304,50 @@ try {
             </h3>
         </header>
         <article class="article-avis">
-            <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ ?>
+            <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ 
+                    if (isset($_COOKIE['user'])){
+                    $avis_publie = false;
+                    if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel):
+                        if($_COOKIE['user'] == $avisIndividuel['idc']){
+                            $avis_publie = true;
+                        }
+                    endforeach;}
+                    if(!$avis_publie){ ?>
             <article class="poster_avis">
                 <h3>Poster un avis :</h3>
                 <div>
                     <?php for($i = 1; $i<6; $i++):?>
-                    <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
-                        id="etoile_note<?php echo $i?>">
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
                     <?php endfor;?>
                 </div>
-                <?php if (isset($_COOKIE['user'])){?>
-                <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
-                    <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                    <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
-                        required="required"></textarea>
-                    <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
-                        placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
-                    <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                    <label for="options" id="titre-contexte">Contexte de la visite :</label>
-                    <select id="options-contexte" name="options">
-                        <option value="Affaires">Affaires</option>
-                        <option value="Couple">Couple</option>
-                        <option value="Famille">Famille</option>
-                        <option value="Amis">Amis</option>
-                        <option value="Seul">Seul</option>
-                    </select>
-                    <input type="submit" id="bouton_publier" value="Publier">
-                </form>
-                <?php }else{ ?>
+                
+                        <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
+                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                        <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                            required="required"></textarea>
+                        <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
+                            placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                        <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                        <label for="options" id="titre-contexte">Contexte de la visite :</label>
+                        <select id="options-contexte" name="options">
+                            <option value="Affaires">Affaires</option>
+                            <option value="Couple">Couple</option>
+                            <option value="Famille">Famille</option>
+                            <option value="Amis">Amis</option>
+                            <option value="Seul">Seul</option>
+                        </select>
+                        <input type="submit" id="bouton_publier" value="Publier">
+                        </form>
+                <?php }
+                }else{ ?>
+                <h3>Poster un avis :</h3>
+                <div>
+                    <?php for($i = 1; $i<6; $i++):?>
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
+                    <?php endfor;?>
+                </div>
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
                 <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                     required="required"></textarea>

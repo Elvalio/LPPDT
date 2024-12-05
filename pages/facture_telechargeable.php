@@ -28,7 +28,7 @@ if (isset($_GET['ido'])) {
                 f.numfacture AS numero_facture,
                 f.date_facture AS date_emission,
                 c.nom AS pro_nom,
-                a.voie || ' ' || a.numero_voie AS pro_adresse,
+                a.numero_voie || ' ' || a.voie AS pro_adresse,
                 a.code_postal AS pro_code_postal,
                 a.ville AS pro_ville,
                 c.telephone AS pro_telephone,
@@ -39,9 +39,11 @@ if (isset($_GET['ido'])) {
                 o.titre AS titre_offre,
                 t.cout_HT AS abonnement_ht_unitaire,
                 t.cout_TTC AS abonnement_ttc_unitaire,
-                pact.prix_option_offre_HT(o.idO, f.numfacture) AS total_options_ht,
-                pact.prix_option_offre_TTC(o.idO, f.numfacture) AS total_options_ttc
+                op.cout_ht AS total_options_ht,
+                op.cout_ttc AS total_options_ttc,
+                pact.nbSemaines(f.idO, f.numFacture) AS nbSemaines
             FROM pact.facturation f
+            INNER JOIN pact.option_offre op ON f.idO = op.idO
             INNER JOIN pact.offre o ON f.idC = o.idC
             INNER JOIN pact._compte c ON o.idC = c.idC
             INNER JOIN pact._adresse a ON c.idAdresse = a.idAdresse

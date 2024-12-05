@@ -92,7 +92,7 @@ error_reporting(0); if (!empty($_POST)) {
 
 <body>
     <!-- Bouton de retour -->
-    <a href="creation_compte_formulaire.php">
+    <a id="btnRetour" href="#">
         <div class="bouton-retour-page-création-pro">
             <button class="FS">
                 <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
@@ -131,7 +131,7 @@ error_reporting(0); if (!empty($_POST)) {
 
                         <div class="choix_entreprise FS">
                             <label for="type-entreprise">
-                                Type d'entreprise :
+                                Type d'entreprise<span class="required">*</span>
                             </label>
                             <div id="type-entreprise" class="radio-group FS">
                                 <input type="radio" name="type-entreprise" value="publique" class="radio-button">
@@ -258,6 +258,18 @@ error_reporting(0); if (!empty($_POST)) {
 
         // Appeler la fonction au chargement pour initialiser l'état
         toggleElements();
+
+
+        // Récupère l'URL de la dernière page visitée
+        var previousPage = document.referrer;
+
+        // Vérifie si la page précédente existe et n'est pas la même que la page actuelle
+        if (previousPage && previousPage !== window.location.href) {
+            document.getElementById('btnRetour').href = previousPage;
+        } else {
+            // Si aucune page précédente n'existe, on peut rediriger vers une page par défaut
+            document.getElementById('btnRetour').href = 'creation_compte_formulaire.php'; // Remplacez par une page par défaut si nécessaire
+        }
 
 
         //Vérification des données avec regex

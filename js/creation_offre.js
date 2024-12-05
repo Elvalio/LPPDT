@@ -165,7 +165,7 @@
                             tagsItemsContainer.style.height = '77.3px';
                             tagContainer.style.height = '107.3px';
                             categoriePrixContainer.style.display = 'flex';
-                            //document.getElementById('categorie-prix').required = true;
+                            document.getElementById('categorie-prix').required = true;
                             dureeContainer.style.display = 'none';
                             document.getElementById('duree').required = false;
                             nbattractionContainer.style.display = 'none';
@@ -196,7 +196,7 @@
                             tagsItemsContainer.style.height = '116px';
                             tagContainer.style.height = '146px';
                             categoriePrixContainer.style.display = 'none';
-                            //document.getElementById('categorie-prix').required = false;
+                            document.getElementById('categorie-prix').required = false;
                             repasContainer.style.display = 'none';
                             
                         }
@@ -572,14 +572,9 @@
                 
 
                 // Affichage des erreurs ou validation
-                if (description !== ''){
-                    if (errors.length > 0) {
-                        errorMessageElement.textContent = errors.join(" ");
-                        submitButton.disabled = true;
-                    } else {
-                        errorMessageElement.textContent = "";
-                        submitButton.disabled = false;
-                    }
+                if (errors.length > 0) {
+                    errorMessageElement.textContent = errors.join(" ");
+                    submitButton.disabled = true;
                 } else {
                     errorMessageElement.textContent = "";
                     submitButton.disabled = false;
@@ -646,7 +641,7 @@
                 // 3. Vérification des caractères spéciaux interdits (<, >) pour empêcher les balises HTML
                 const forbiddenCharacters = /[<>']/;
                 if (forbiddenCharacters.test(adresse)) {
-                    errors.push("L'adresse contient des caractères spéciaux interdits (ex : <, >), ou un apostrophe.");
+                    errors.push("L'adresse ne doit pas contenir de caractère spéciaux (ex : <, >) ou d'apostrophe.");
                 }
 
                 // 5. Vérification des caractères autorisés (alphanumérique + certains caractères courants dans les adresses)
