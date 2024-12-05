@@ -782,6 +782,7 @@ input[type="range"]::-ms-thumb {
         height: fit-content;
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
         flex-wrap: wrap;
+        margin-bottom: 80px;
     }
 
     div.phone-element  {
