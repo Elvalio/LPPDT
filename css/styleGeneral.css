@@ -230,12 +230,12 @@ p {
     margin-left: 5px;
     background-color: var(--gris-clair);
     height: 100%;
-    width: 80px;
+    width: 30%;
     transition: width 0.2s ease-in-out;
 }
 
 .header > .logo_recherche > div > #rechercheOffre_mobile:focus {
-    width: 300px;
+    width: 100%;
     transition: width 0.2s ease-in-out;
 }
 
