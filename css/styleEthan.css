@@ -176,6 +176,11 @@ form > hr {
         display: none;
     }
 
+    .content {
+        margin: 0 0 0 0;
+        padding: 20px;
+    }
+
     button {
         display: flex;
         align-items: center;
@@ -184,6 +189,20 @@ form > hr {
     .container-ligne {
         display: flex;
         flex-direction: column;
+    }
+
+
+    .container-info > input {
+        background-color: #FFFFFF;
+        width: 95%;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    hr {
+        visibility: hidden;
     }
 
     .deco-btn {
