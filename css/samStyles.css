@@ -264,7 +264,7 @@
   .side-contact {
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: 100%;
   }
   
   .side-contact div img {
@@ -296,6 +296,8 @@
     align-items: center;
     text-decoration: none;
   }
+
+
   
   .horaires {
     display: flex;
@@ -961,7 +963,7 @@ margin-top: 30px;
 .zone-btn-publier {
   display: flex;
   justify-content: right;
-
+  flex-direction: column;
 }
 
 }
