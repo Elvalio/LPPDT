@@ -391,4 +391,8 @@ input[type="checkbox"] {
         padding: 0;
         border: none;
     }
+
+    .boutonALaUne {
+        display: none;
+    }
 }

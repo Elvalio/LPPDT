@@ -274,6 +274,10 @@
       text-decoration: underline;
   }
 
+  .boutonALaUne {
+    display: none;
+}
+
   
 }
 
