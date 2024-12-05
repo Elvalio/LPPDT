@@ -5,11 +5,43 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-if($_SERVER['REQUEST_METHOD']==='POST'){
+// // Identifier si le bouton est cliqué
+// if (isset($_POST['action'])){
+//     if ($_POST['action'] === 'redirect') {
+//         // Rediriger vers une autre page
+//         header('Location: test.php');
+//         exit; // Toujours arrêter l'exécution après une redirection
+//     }
+// }
 
+
+$idC = $_COOKIE['user'];
+$categorie = $_POST['categorie'];
+
+
+$temp = explode(' ',trim(addslashes($_POST["adresse"])));
+$numero_voie = $temp[0];
+array_shift($temp);
+$voie = implode(' ', $temp);
+
+if(isset($_POST['site'])){
+    if ($_POST['site'] !== ''){
+        $site = $_POST['site'];
+    }else {
+        $site = 'Non disponible';
+    }
+} else {
+    $site = 'Non disponible';
+}
+
+// echo '<pre>';
+// print_r($_POST);
+// echo'</pre>';
+
+if (isset($_POST['validation'])){
     function type_offre($nom_type){
         $resultat = 1; //type offre gratuite par défaut
-
+    
         if ($nom_type == "standard"){
             $resultat = 2;
         }else if ($nom_type == "premium"){
@@ -17,22 +49,21 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         }
         return $resultat;
     }
-
+    
     function option_offre($arr){
-        $resultat = ''; //aucune option par défaut
-
-        if (isset($_POST['une'])){
-            $resultat = $arr['une']; 
+        $res = null;
+    
+        if (isset($arr['une']) && $arr['une'] != ''){
+            $res = 2;
+        }else if (isset($arr['relief']) && $arr['relief'] != ''){
+            $res = 1;
         }
-        if (isset($_POST['relief'])){
-            $resultat = $arr['relief'];
-        }
-        return $resultat;
+        return $res;
     }
-
+    
     function tag_offre($arr){
         $resultat = []; //aucun tag par défaut
-
+    
         if (isset($_POST['culturel'])){
             $resultat[] = $arr['culturel'];
         } 
@@ -119,83 +150,345 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         }
         return $resultat;
     }
+}
+
+try{
+    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
+        $user, $pass); 
+        
+    // pour telephone
+    $stmt = $dbh->prepare(
+        "select telephone from pact.professionnel where idc = :user;"
+    );
+    $stmt->execute([
+        'user' => $idC
+    ]);
+    $telephone = $stmt->fetchColumn();
+
+    if ($telephone === null){
+        $telephone = 'Non disponible';
+    }
 
 
-
-
-    $idC = $_COOKIE['user'];
-
-    $categorie = $_POST['categorie'];
-
-    $temp = explode(' ',trim($_POST["adresse"]));
-    $numero_voie = $temp[0];
-    array_shift($temp);
-    $voie = implode(' ', $temp);
-
-    // echo '<pre>';
-    // print_r($_POST);
-    // echo'</pre>';
-
-    $photos = [];
-    try{
-        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
-            $user, $pass);   
 
         //pour l'insertion des 3 images
         $stmt = $dbh->prepare(
             "select max(ido)
             from pact.offre;"
         );
-        
         $stmt->execute();
-
-        $idOffre = $stmt->fetchColumn(); //id de l'offre qui vient d'être crée (ici offre n°8) a faiare apres la création de l'offre
+        $idOffre = $stmt->fetchColumn() + 1; //id de l'offre qui a été crée avant 
         // $idOffre = $db->lastInsertId(); //a faire après avoir créer l'offre !!!
 
-        $stmt = $dbh->prepare(
-            "select telephone from pact.professionnel where idc = :user;"
-        );
-        
-        $stmt->execute([
-            'user' => $_COOKIE['user']
-        ]);
-
-        $telephone = $stmt->fetchColumn();
-
-    } catch (PDOException $e) {
-        echo "<pre>";
-        print "Erreur !: " . $e->getMessage() . "<br/>";
-        echo "</pre>";
-        die();
-    }
-
-    if ($telephone === null){
-        $telephone = 'Non disponible';
-    }
-
-    for ($i = 1; $i < 4; $i++) { //pour chaque images
-        if (!empty($_FILES['file-upload'.$i]['name'])){
-            $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
-            //move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
-            $photos[] = '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention;
-            //     $stmt = $dbh->prepare(
-            //         "insert into pact.photo_offre 
-            //         (src_image, idO) values 
-            //         ('image_offre/$idOffre-$i.$extention', '$idOffre');"
-            //     );
-            
-            
-            // $stmt->execute();
-        }    
-    }
 
     
+
+    
+
+
+
+    if (isset($_POST['validation'])){
+
+        switch ($categorie) {
+            case 'activite':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $age_min = $_POST['age'];
+
+                if (isset($_POST['pinclus'])){
+                    $prestation_incluse = $_POST['pinclus'];
+                } else {
+                    $prestation_incluse = '';
+                }
+                
+                if (isset($_POST['pexclus'])){
+                    $prestation_excluse = $_POST['pexclus'];
+                } else {
+                    $prestation_excluse = '';
+                }
+
+                $ville = $_POST['ville'];
+                $code_postal= $_POST['codeP'];
+    
+                $stmt = $dbh->prepare(
+                    "insert into pact.activite 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', $age_min, '$prestation_incluse', '$prestation_excluse', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+    
+            case 'spectacle':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $capacite = $_POST['capacite'];
+                $ville = $_POST['ville'];
+                $code_postal= $_POST['codeP'];
+    
+                $stmt = $dbh->prepare(
+                    "insert into pact.spectacle 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, capacite, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', $capacite, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+                
+            case 'visite':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $duree = $_POST['duree'];
+                $langues = $_POST['langue'];
+                $ville = $_POST['ville'];
+                $code_postal= $_POST['codeP'];
+                
+                $stmt = $dbh->prepare(
+                    "insert into pact.visite 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', '$langues', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+    
+            case 'restauration':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $src_image = time();
+                $gamme_prix = $_POST['categorie-prix'];
+                $petit_dejeuner = ($_POST['petit-dejeuner'] == 'petit-dejeuner') ? 'true' : 'false';
+                $brunch = ($_POST['brunch'] == 'brunch') ? 'true' : 'false';
+                $dejeuner = ($_POST['dejeuner'] == 'dejeuner') ? 'true' : 'false';
+                $diner = ($_POST['diner'] == 'diner') ? 'true' : 'false';
+                $boissons = ($_POST['boissons'] == 'boissons') ? 'true' : 'false';
+                $ville = $_POST['ville'];
+                $code_postal= $_POST['codeP'];
+                
+                $stmt = $dbh->prepare(
+                    "insert into pact.restauration 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, ville, petit_dejeuner, brunch, dejeuner, diner, boissons, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', '$gamme_prix', '$ville', $petit_dejeuner, $brunch, $dejeuner, $diner, $boissons, $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+    
+            case 'parcAttraction':
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
+                $type = type_offre($_POST['offre']);
+                $description = $_POST['description'];
+                $prix_min = $_POST['prix'];
+                $accessibilite = $_POST['accessibilite'];
+                $src_image = time();
+                $nbr_attractions = $_POST['nbattraction'];
+                $age_min = $_POST['age'];
+                $ville = $_POST['ville'];
+                $code_postal= $_POST['codeP'];
+                
+                $stmt = $dbh->prepare(
+                    "insert into pact.parc_d_attraction 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC) values 
+                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', $nbr_attractions, $age_min, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                );
+                break;
+    
+            default:
+                # code...
+                break;
+        } 
+        $stmt->execute();
+
+
+    $idOffre = $dbh->lastInsertId();
+
+    // for ($i = 1; $i < 4; $i++) { //pour chaque images
+    //     if (!empty($_POST['file-upload'.$i]['name'])){
+    //         $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
+    //             move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
+    //             $stmt = $dbh->prepare(
+    //                 "insert into pact.photo_offre 
+    //                 (src_image, idO) values 
+    //                 ('image_offre/$idOffre-$i.$extention', '$idOffre');"
+    //             );
+            
+            
+    //         $stmt->execute();
+    //     }    
+    // }
+
+    // // insertion de la map
+    // $fileInfo = pathinfo($_FILES['map-file-upload']['name']);
+    // if (isset($fileInfo['extension'])){
+    //     $extention = $fileInfo['extension'];
+    //     if ($categorie === 'parcAttraction'){
+    //         move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-plan.'.$extention);
+    //         $stmt = $dbh->prepare(
+    //             "UPDATE pact.parc_d_attraction SET src_image = 'image_offre/$idOffre-plan.$extention'
+    //             WHERE ido = $idOffre;"
+    //         );
+    //     } else if ($categorie === 'restauration'){
+    //         move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-menu.'.$extention);
+    //         $stmt = $dbh->prepare(
+    //             "UPDATE pact.restauration SET src_image = 'image_offre/$idOffre-menu.$extention'
+    //             WHERE ido = $idOffre;"
+    //         );
+    //     }
+    //     $stmt->execute();
+    // }
+    // //ajout des tags 
+
+    // $tags = tag_offre($_POST);
+
+    // for ($i=0; $i < sizeof($tags) ; $i++) { 
+    //     $t = $tags[$i];
+    //     $stmt = $dbh->prepare(
+    //         //récupération de l'idTag
+    //         "select idtag from pact._tag where libelle = '$t';"
+    //     );
+    //     $stmt->execute();
+    //     $idtag = $stmt->fetchColumn();
+
+
+    //     if ($categorie === 'parcAttraction'){
+    //         //vérification que le tag n'a pas déjà été inséré
+    //         $checkStmt = $dbh->prepare("
+    //             SELECT COUNT(*) FROM pact._tags_parc_d_attraction
+    //             WHERE idO = :idOffre AND idtag = :idtag;
+    //         ");
+    //         $checkStmt->execute([
+    //             'idOffre' => $idOffre,
+    //             'idtag' => $idtag
+    //         ]);
+    //         if ($checkStmt->fetchColumn() == 0) {
+    //             $stmt = $dbh->prepare(
+    //                 //insertion    
+    //                 "insert into pact._tags_parc_d_attraction(idO, idtag) values ($idOffre,$idtag);"
+    //             );
+
+    //         }
+    //     } else {
+    //         //vérification que le tag n'a pas déjà été inséré
+    //         $checkStmt = $dbh->prepare("
+    //             SELECT COUNT(*) FROM pact._tags_$categorie
+    //             WHERE idO = :idOffre AND idtag = :idtag;
+    //         ");
+    //         $checkStmt->execute([
+    //             'idOffre' => $idOffre,
+    //             'idtag' => $idtag
+    //         ]);
+    //         if ($checkStmt->fetchColumn() == 0) {
+    //             $stmt = $dbh->prepare(
+    //                 //insertion
+    //                 "insert into pact._tags_$categorie(idO, idtag) values ($idOffre,$idtag);"
+    //             );
+    //         }
+    //     }
+        
+    //     $stmt->execute();
+    // }
+
+    // // Redirection vers /accueil.php
+    // header('Location: tableau_de_bord.php');
+    // exit(); // Important : Terminer le script pour éviter des exécutions non voulues
+
+
+
+    } // fin de vérif si clic sur bouton
+
+
+} catch (PDOException $e) {
+    echo "<pre>";
+    print "Erreur !: " . $e->getMessage() . "<br/>";
+    echo "</pre>";
+    die();
+}
+
+
+$photos = [];
+for ($i = 1; $i < 4; $i++) { //pour chaque images
+    if (!empty($_FILES['file-upload'.$i]['name'])){
+        $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
+        move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
+        $photos[] = '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention;
+    }    
+}
+
+// insertion de la map
+if (!empty($_FILES['map-file-upload']['name'])){
+
+    $fileInfo = pathinfo($_FILES['map-file-upload']['name']);
+
+    if (isset($fileInfo['extension'])){
+        $extention = $fileInfo['extension'];
+
+        if ($categorie === 'parcAttraction'){
+            $mapPhoto = '../images/image_offre/'.$idOffre.'-plan.'.$extention;
+            move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-plan.'.$extention);
+            
+        } else if ($categorie === 'restauration'){
+            $mapPhoto = '../images/image_offre/'.$idOffre.'-menu.'.$extention;
+            
+        }
+    }
 
 }
 ?>
 
 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!DOCTYPE html>
@@ -204,9 +497,9 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prévisualisation</title>
-    <link rel="stylesheet" href="../css/styleLisa.css">
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="stylesheet" href="../css/styleLisa.css">
     <script src="../js/previsualisation.js"></script>
     <script src="../detail-offre.js" async></script>
     
@@ -255,13 +548,13 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                 </div>
                 
                 <div class="carousel-controls NoSelect">
-                    <?php if (!empty($photos)){ ?>
+                    <?php if (!empty($photos) && sizeof($photos) >= 2){ ?>
                         <button id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
                         <button id="next"><img src="../images/fleche.png" alt="Suivant"></button>
                     <?php } ?>  
                     
                 </div>
-                <?php if (!empty($photos)){ ?>
+                <?php if (!empty($photos) && sizeof($photos) >= 2){ ?>
                     <div class="carousel-dots NoSelect"></div>
                 <?php } ?>
                 
@@ -329,36 +622,44 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                     </a>
                 </div>
                 <div>
-                    <a href="tel:<?php 
-                        echo 'Non disponible';
-                            ?> ">
+                   <?php if ($telephone !== 'Non disponible'){ ?>
+                        <a href="tel:<?php 
+                            echo $telephone;
+                                ?> ">
+                            <img src="../images/telephone.png" alt="icon telephone">
+                            <p>
+                                <?php 
+                                        echo $telephone;
+                                    ?>
+                            </p>
+                        </a>
+                   <?php } else { ?>
                         <img src="../images/telephone.png" alt="icon telephone">
                         <p>
                             <?php 
-                                    echo 'Non disponible';
+                                    echo $telephone;
                                 ?>
                         </p>
-                    </a>
+                   <?php } ?>
+                    
                 </div>
 
                 
                 <div>
-                    <a href=" <?php
-                            if ($_POST['site'] !== null){
-                                echo $_POST['site'];
-                            } else {
-                                echo 'Non disponible';
-                            }?>">
+                    <?php if ($site !== 'Non disponible'){ ?>
+                        <a href=" <?php echo $site; ?>" target="_blank">
+                            <img src="../images/pc.png" alt="icon pc (lien vers le site)">
+                            <p>
+                                <?php echo $site; ?>
+                            </p>
+                        </a>
+                    <?php } else { ?>
                         <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                        <p>
-                            <?php
-                            if ($_POST['site'] !== ''){
-                                echo $_POST['site'];
-                            } else {
-                                echo 'Non disponible';
-                            }?>
-                        </p>
-                    </a>
+                            <p>
+                                <?php echo $site; ?>
+                            </p>
+                    <?php } ?>
+                    
                 </div>
             </div>
         </div>
@@ -375,14 +676,14 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                 </div>-->
         </div>
         <?php 
-                if (!empty($parc_actraction[0]['src_image'])) { ?>
+                if ($categorie === 'parcAttraction' && $mapPhoto !== '') { ?>
         <div>
-            <img class="carte" src="../images/<?php echo $parc_actraction[0]['carte'] ?>" alt="plan">
+            <img class="carte" src="<?php echo htmlspecialchars($mapPhoto); ?>" alt="plan">
         </div>
         <?php
-                } elseif (!empty($restaurant[0]['src_image'])) { ?>
+                } elseif ($categorie === 'restauration' && $mapPhoto !== '') { ?>
         <div>
-            <img class="carte" src="../images/<?php echo $restaurant[0]['src_image'] ?>" alt="carte">
+            <img class="carte" src="<?php echo htmlspecialchars($mapPhoto); ?>" alt="carte">
         </div>
         <?php
                 }
@@ -390,17 +691,55 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         </div>
 
     </article>
+    <form method="post" action="previsualisation_offre.php">
+    <?php 
+        foreach ($_POST as $key => $value) {
+            // Si la valeur est un tableau (cas des champs checkbox ou similaires)
+            if ($value !== ''){
+                ?><input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>"><?php
+            }
+            
+        }
+        
+        foreach ($photos as $key => $value) {
+            // Si la valeur est un tableau (cas des champs checkbox ou similaires)
+            if ($value !== ''){
+                ?><input type="hidden" name="<?php echo"image". $key; ?>" value="<?php echo $value; ?>"><?php
+            }
+            
+        }?>
+
+
+        <input type="hidden" name="validation" value="true">
+
+        
+
+
+
     <div class="Boutons">
-        <button class="FS bouton-valider" onclick="window.location.href='tableau_de_bord.php';">
-            Valider
-        </button>
-        <button class="bouton-retour NoSelect">
-            <a href="./creation_offre.php">
+            <button class="FS bouton-valider" type="submit">
+                Valider
+            </button>
+    </form>
+    <form method="post" action="test.php">
+    <?php 
+        foreach ($_POST as $key => $value) {
+            // Si la valeur est un tableau (cas des champs checkbox ou similaires)
+            if ($value !== ''){
+                ?><input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>"><?php
+            }
+            
+        }?>
+
+        <button class="bouton-retour NoSelect" type="submit">
                 <img src="../icons/arrow-left-o.svg" alt="Retour">
                 Retour
-            </a>
         </button>
+    </form>
+            
     </div>
+    
+    
 </section>
 
 <!-- Avis -->

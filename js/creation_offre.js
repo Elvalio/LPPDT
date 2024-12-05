@@ -572,9 +572,14 @@
                 
 
                 // Affichage des erreurs ou validation
-                if (errors.length > 0) {
-                    errorMessageElement.textContent = errors.join(" ");
-                    submitButton.disabled = true;
+                if (description !== ''){
+                    if (errors.length > 0) {
+                        errorMessageElement.textContent = errors.join(" ");
+                        submitButton.disabled = true;
+                    } else {
+                        errorMessageElement.textContent = "";
+                        submitButton.disabled = false;
+                    }
                 } else {
                     errorMessageElement.textContent = "";
                     submitButton.disabled = false;
@@ -607,13 +612,19 @@
                 }
 
                 // Affichage des erreurs ou validation
-                if (errors.length > 0) {
-                    errorMessageElement.textContent = errors.join(" ");
-                    submitButton.disabled = true;
+                if (website !== ''){
+                    if (errors.length > 0) {
+                        errorMessageElement.textContent = errors.join(" ");
+                        submitButton.disabled = true;
+                    } else {
+                        errorMessageElement.textContent = "";
+                        submitButton.disabled = false;
+                    }
                 } else {
                     errorMessageElement.textContent = "";
                     submitButton.disabled = false;
                 }
+                
             }
 
             // Fonction pour valider l'adresse
@@ -633,9 +644,9 @@
                 // }
 
                 // 3. Vérification des caractères spéciaux interdits (<, >) pour empêcher les balises HTML
-                const forbiddenCharacters = /[<>]/;
+                const forbiddenCharacters = /[<>']/;
                 if (forbiddenCharacters.test(adresse)) {
-                    errors.push("L'adresse contient des caractères spéciaux interdits (ex : <, >).");
+                    errors.push("L'adresse contient des caractères spéciaux interdits (ex : <, >), ou un apostrophe.");
                 }
 
                 // 5. Vérification des caractères autorisés (alphanumérique + certains caractères courants dans les adresses)
@@ -952,14 +963,19 @@
                 }
 
         
-                // Affichage des erreurs ou validation
-                if (errors.length > 0) {
-                    errorMessageElement.textContent = errors.join(" ");
-                    submitButton.disabled = true;
+                if (prestationI !== ''){
+                    if (errors.length > 0) {
+                        errorMessageElement.textContent = errors.join(" ");
+                        submitButton.disabled = true;
+                    } else {
+                        errorMessageElement.textContent = "";
+                        submitButton.disabled = false;
+                    }
                 } else {
                     errorMessageElement.textContent = "";
                     submitButton.disabled = false;
                 }
+
                 
             }
 
@@ -992,9 +1008,14 @@
 
         
                 // Affichage des erreurs ou validation
-                if (errors.length > 0) {
-                    errorMessageElement.textContent = errors.join(" ");
-                    submitButton.disabled = true;
+                if (prestationE !== ''){
+                    if (errors.length > 0) {
+                        errorMessageElement.textContent = errors.join(" ");
+                        submitButton.disabled = true;
+                    } else {
+                        errorMessageElement.textContent = "";
+                        submitButton.disabled = false;
+                    }
                 } else {
                     errorMessageElement.textContent = "";
                     submitButton.disabled = false;
@@ -1030,10 +1051,14 @@
                 }
                 
         
-                // Affichage des erreurs ou validation
-                if (errors.length > 0) {
-                    errorMessageElement.textContent = errors.join(" ");
-                    submitButton.disabled = true;
+                if (langues !== ''){
+                    if (errors.length > 0) {
+                        errorMessageElement.textContent = errors.join(" ");
+                        submitButton.disabled = true;
+                    } else {
+                        errorMessageElement.textContent = "";
+                        submitButton.disabled = false;
+                    }
                 } else {
                     errorMessageElement.textContent = "";
                     submitButton.disabled = false;
