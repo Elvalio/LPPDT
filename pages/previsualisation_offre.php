@@ -1,18 +1,8 @@
 <?php
-// include_once 'nav.php';
 include('../sql/connect_params.php');
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-// // Identifier si le bouton est cliqué
-// if (isset($_POST['action'])){
-//     if ($_POST['action'] === 'redirect') {
-//         // Rediriger vers une autre page
-//         header('Location: test.php');
-//         exit; // Toujours arrêter l'exécution après une redirection
-//     }
-// }
 
 
 $idC = $_COOKIE['user'];
@@ -33,10 +23,6 @@ if(isset($_POST['site'])){
 } else {
     $site = 'Non disponible';
 }
-
-// echo '<pre>';
-// print_r($_POST);
-// echo'</pre>';
 
 if (isset($_POST['validation'])){
     function type_offre($nom_type){
@@ -181,12 +167,6 @@ try{
         $stmt->execute();
         $idOffre = $stmt->fetchColumn() + 1; //id de l'offre qui a été crée avant 
         // $idOffre = $db->lastInsertId(); //a faire après avoir créer l'offre !!!
-
-
-    
-
-    
-
 
 
     if (isset($_POST['validation'])){
@@ -404,7 +384,6 @@ try{
         exit(); // Important : Terminer le script pour éviter des exécutions non voulues
 
 
-
     } // fin de vérif si clic sur bouton
 
 
@@ -448,51 +427,6 @@ if (!empty($_FILES['map-file-upload']['name'])){
 }
 ?>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -507,7 +441,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
     
 </head>
 <body class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
-
+<?php include_once 'nav.php';?>
 <section class="section-page part-annonce">
     <header> 
         <h1 class="titre-rouge">
@@ -730,7 +664,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
                 Valider
             </button>
     </form>
-    <form method="post" action="test.php">
+    <form method="post" action="creation_offre.php">
     <?php 
         foreach ($_POST as $key => $value) {
             // Si la valeur est un tableau (cas des champs checkbox ou similaires)
