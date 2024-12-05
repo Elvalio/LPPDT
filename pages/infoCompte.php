@@ -103,9 +103,7 @@ include('../sql/connect_params.php');
                     ?>
                 </p>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
-                <form method="POST" action="mes-avis.php">
-                    <button type="submit" class="edit-btn">Afficher mes avis</button>
-                </form>
+                    <a href="mes-avis.php" class="edit-btn">Afficher mes avis</a>
                 <?php } ?>
             </div>
         </div>
