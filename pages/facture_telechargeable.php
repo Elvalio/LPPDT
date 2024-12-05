@@ -7,16 +7,16 @@ use Dompdf\Options;
 include('../sql/connect_params.php'); // Ce fichier contient vos paramètres de connexion
 
 // Vérifier si les paramètres GET sont présents
-if (isset($_GET['ido'])) {
+if (isset($_GET['numFacture'])) {
     try {
         // Connexion à la base de données
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $ido = filter_var($_GET['ido'], FILTER_VALIDATE_INT);
+        $numfacture = filter_var($_GET['numFacture'], FILTER_VALIDATE_INT);
         $userID = filter_var($_COOKIE['user'], FILTER_VALIDATE_INT);
 
-        if (!$ido || !$userID) {
+        if (!$numfacture || !$userID) {
             die("Paramètres manquants ou invalides.");
         }
 
@@ -24,8 +24,9 @@ if (isset($_GET['ido'])) {
         // (À personnaliser en fonction des données nécessaires dans votre template)
         $stmt = $dbh->prepare("
             SELECT 
+            f.*,o.*,
                 f.nbrjours,
-                f.numfacture AS numero_facture,
+                f.numfacture,
                 f.date_facture AS date_emission,
                 c.nom AS pro_nom,
                 a.numero_voie || ' ' || a.voie AS pro_adresse,
@@ -41,16 +42,16 @@ if (isset($_GET['ido'])) {
                 t.cout_TTC AS abonnement_ttc_unitaire,
                 op.cout_ht AS total_options_ht,
                 op.cout_ttc AS total_options_ttc,
-                pact.nbSemaines(f.idO, f.numFacture) AS nbSemaines
+                f.nbSemaines
             FROM pact.facturation f
             INNER JOIN pact.option_offre op ON f.idO = op.idO
             INNER JOIN pact.offre o ON f.idC = o.idC
             INNER JOIN pact._compte c ON o.idC = c.idC
             INNER JOIN pact._adresse a ON c.idAdresse = a.idAdresse
             INNER JOIN pact._type_offre t ON o.type = t.idT
-            WHERE o.idO = :ido AND f.idC = :userId;
+            WHERE f.numfacture = :numfacture AND f.idC = :userId;
         ");
-        $stmt->bindParam(':ido', $ido, PDO::PARAM_INT);
+        $stmt->bindParam(':numfacture', $numfacture, PDO::PARAM_INT);
         $stmt->bindParam(':userId', $userID, PDO::PARAM_INT);
         $stmt->execute();
         $facture_data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -59,17 +60,34 @@ if (isset($_GET['ido'])) {
             throw new Exception("Aucune donnée trouvée pour l'offre ID: $ido");
         }
 
+        function offre($numFacture, $dbh){
+            $stmt = $dbh->prepare("SELECT o.*, f.* FROM pact.offre o INNER JOIN pact.facturation f ON f.idO = o.idO WHERE f.numFacture = :numFacture");
+            $stmt->execute([':numFacture' => $numFacture]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        $offre = offre($numfacture, $dbh);
+        
+
         // Calculs
         $jours_publication = $facture_data['nbrjours'];
         $abonnement_ht = $jours_publication * $facture_data['abonnement_ht_unitaire'];
         $abonnement_ttc = $jours_publication * $facture_data['abonnement_ttc_unitaire'];
-        $total_ht = $abonnement_ht + $facture_data['total_options_ht'];
-        $total_ttc = $abonnement_ttc + $facture_data['total_options_ttc'];
+        $total_ht = round($offre[0]['prix_offre_ht'] + $offre[0]['prix_option_ht'],2);
+        $total_ttc = round($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'],2);
         
-        // Capture du contenu de `facturation_template.php` dans $html
-        ob_start();
-        include('facturation_template.php'); // Assurez-vous que ce fichier utilise les données nécessaires
-        $html = ob_get_clean();
+        // Initialisez $bdh avant d'inclure le template
+include('../sql/connect_params.php');
+$bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+$bdh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+// Transmettez $facture_data et $bdh au template
+ob_start();
+include('facturation_template.php');
+$html = ob_get_clean();
+$ido = $offre[0]['ido'] ?? null;
+if (!$ido) {
+    die("Erreur : Identifiant de l'offre introuvable.");
+}
 
         // Configurer Dompdf
         $options = new Options();
