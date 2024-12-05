@@ -2,7 +2,7 @@
 <html lang="fr">
     <?php
     include_once'nav.php';
-    
+
 
     include('../sql/connect_params.php');
 
@@ -21,7 +21,7 @@
                 $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_publication = now()  WHERE idO = $offre_id");
                 $stmt->execute();
             }else{
-                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
+                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_hors_ligne = now( WHERE idO = $offre_id");
                 $stmt->execute();
             }
 

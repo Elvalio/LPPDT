@@ -372,6 +372,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             <footer>
                 <?php include_once'footer.php'; ?>
             </footer>
+            <footer class="phone-element">
+                <?php include_once'footerNav.php'; ?>
+            </footer>
         
             
     </body>
