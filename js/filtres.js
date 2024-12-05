@@ -2,7 +2,6 @@ import { closeSortMenu } from './scriptFilter.js';
 document.addEventListener('DOMContentLoaded', function () {
 
     const trie_text = document.querySelector('.dropdown-toggle > p');
-    const rechercheOffre = document.getElementById('rechercheOffre');
     const rechercheIMG = document.getElementsByClassName('rechercheLieuIMG');
     const SCREEN_MOBILE = 801; // Taille de l'écran pour le changement d'images
 
@@ -18,11 +17,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
     let offres;
     let ecran;
+    let rechercheOffre;
     function updateOffres() {
         if (window.innerWidth > SCREEN_MOBILE) {
             offres = document.getElementsByClassName('carte_offre desktop-element');
+            rechercheOffre = document.getElementById('rechercheOffre');
         } else {
             offres = document.getElementsByClassName('carte_offre phone-element');
+            rechercheOffre = document.getElementById('rechercheOffreMobile');
         }
 
         ecran = window.innerWidth > SCREEN_MOBILE ? 'desktop' : 'mobile';
@@ -304,7 +306,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     rechercheOffre.addEventListener('input', function () {
 
-        let rechercheIMG = document.getElementById('rechercheOffreIMG');
+        let rechercheIMG
+        if (window.innerWidth > SCREEN_MOBILE) {
+            rechercheIMG = document.getElementById('rechercheOffreIMG');
+        } else {
+            rechercheIMG = document.getElementById('rechercheOffreIMGmobile');
+        }
+       
         if (rechercheOffre.value != '') {
             rechercheIMG.src = '../images/croix-noire.png';
             rechercheIMG.style.cursor = 'pointer';
@@ -316,7 +324,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         Array.from(rechercheIMG).forEach(rechercheIMG => {
             rechercheIMG.addEventListener('click', function () {
-                const rechercheOffre = document.querySelector('.rechercheOffre'); // Suppose qu'il y a une seule `rechercheOffre`
+                let rechercheOffre;
+                if (window.innerWidth > SCREEN_MOBILE) {
+                    rechercheOffre = document.getElementById('rechercheOffre');
+                } else {
+                    rechercheOffre = document.getElementById('rechercheOffreMobile');
+                }
+                // const rechercheOffre = document.querySelector('.rechercheOffre'); // Suppose qu'il y a une seule `rechercheOffre`
                 if (rechercheOffre) {
                     rechercheOffre.value = ''; // Vide le champ
                 }
@@ -567,7 +581,12 @@ document.addEventListener('DOMContentLoaded', function () {
             // Attacher un écouteur d'événement pour gérer le clic sur la suggestion
             li.addEventListener('mousedown', function () {
                 rechercheOffre.value = motCle; // Mettre le mot-clé dans le champ de recherche
-                const rechercheIMG = document.getElementById('rechercheOffreIMG');
+                let rechercheIMG
+                if (window.innerWidth > SCREEN_MOBILE) {
+                    rechercheIMG = document.getElementById('rechercheOffreIMG');
+                } else {
+                    rechercheIMG = document.getElementById('rechercheOffreIMGmobile');
+                }
                 rechercheIMG.src = '../images/croix-noire.png';
                 rechercheIMG.style.cursor = 'pointer';
                 afficherResultats(filtrage()); // Effectuer la recherche
@@ -649,7 +668,13 @@ document.addEventListener('DOMContentLoaded', function () {
     
 
     // Gestion du clic sur la croix d'effacement
-    const rechercheOffreIMG = document.getElementById('rechercheOffreIMG');
+    let rechercheOffreIMG
+    if (window.innerWidth > SCREEN_MOBILE) {
+        rechercheOffreIMG = document.getElementById('rechercheOffreIMG');
+    } else {
+        rechercheOffreIMG = document.getElementById('rechercheOffreIMGmobile');
+    }
+
     rechercheOffreIMG.addEventListener('click', function () {
         if (rechercheOffre.value.trim() !== '') {
             ajouterMotCleDepuisRecherche();
