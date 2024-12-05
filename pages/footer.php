@@ -12,9 +12,9 @@
                 <ul class="entreprise">
                     <li><p id="footer_titre_entreprise">Entreprise</p></li>
                     <li><a href="a_propos_de_nous.php">À propos de nous</a></li>
-                    <li><a href="nos_politiques">Nos politiques</a></li>
+                    <li><a href="nos_politiques.php">Nos politiques</a></li>
                 </ul>
-                <ul class="offres">
+                <!--<ul class="offres">
                     <li><p id="footer_titre_offre">Offres</p></li>
                     <li><a>Offres à la une</a></li>
                     <li><a>Nouveautés</a></li>
@@ -24,7 +24,7 @@
                     <li><a>Restauration</a></li>
                     <li><a>Parc d'attraction</a></li>
                     <li><a>Spectacle</a></li>
-                </ul>
+                </ul>-->
             </div>
         </div>
         <hr>

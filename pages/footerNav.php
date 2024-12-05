@@ -19,10 +19,17 @@
             <a href="../pages/en-construction.php" class="menu-item">
                 <img src="../icons/notification.png" alt="Bell Icon" id="bellIcon">
             </a>
+            <?php if (isset($_COOKIE['type_compte'])) { ?>
+            <a href="../pages/infoCompte.php" class="menu-item">
+                <img src="../icons/profil.png" alt="Profile Icon" id="profileIcon">
+            </a>
+            <?php }
+            else { ?>
             -->
             <a href="../pages/connexion.php" class="menu-item">
                 <img src="../icons/profil.png" alt="Profile Icon" id="profileIcon">
             </a>
+            <?php } ?> 
         </nav>
     </footer>
 

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <title>Nos Politiques - TripEnArmor</title>
 </head>
-<body class="FO nos_politiques">
+<body class="FO main_style">
 <header>
     <h1>Nos Politiques</h1>
     <p>Chez TripEnArmor, nous mettons tout en œuvre pour garantir une expérience de voyage transparente et agréable.</p>
