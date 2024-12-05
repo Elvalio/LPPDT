@@ -12,12 +12,14 @@
             <a href="../pages/accueil.php" class="menu-item">
                 <img src="../icons/home.png" alt="Home Icon" id="homeIcon">
             </a>
+            <!--
             <a href="../pages/en-construction.php" class="menu-item">
                 <img src="../icons/recent.png" alt="Clock Icon" id="clockIcon">
             </a>
             <a href="../pages/en-construction.php" class="menu-item">
                 <img src="../icons/notification.png" alt="Bell Icon" id="bellIcon">
             </a>
+            -->
             <a href="../pages/connexion.php" class="menu-item">
                 <img src="../icons/profil.png" alt="Profile Icon" id="profileIcon">
             </a>
