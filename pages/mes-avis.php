@@ -123,9 +123,9 @@
                     </div>
                     <p id="commentaire"><?php echo $a['corps']?></p>
                     <div class="boutons">
-                        <form method="POST" action="mes-avis.php" id="form-supp">
+                        <form method="POST" action="mes-avis.php" class="form-supp">
                             <input type="hidden" name="id_avis" value=<?php echo $a['ida']; ?>>
-                            <input type="button" name="bouton_supp" id="bouton-supp" value="Supprimer l'avis">
+                            <input type="button" name="bouton_supp" class="bouton-supp" value="Supprimer l'avis">
                         </form>
                         <a href="detail-offre.php?value=<?php echo $offre['ido'] ?>">Voir l'offre</a>
                     </div>
