@@ -119,9 +119,9 @@ try {
 </head>
 
 <body
-    class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
-
-    <section class="section-page part-annonce">
+    class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
+    <div class="body">
+        <section class="section-page part-annonce">
         <header>
             <h1 class="titre-rouge">
                 <?php echo htmlspecialchars($offre['titre']); ?>
@@ -402,6 +402,11 @@ try {
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>
+    </div>
+    <footer>
+        <?php include_once 'footer.php'; ?>
+    </footer>
+        
     <script src="../js/detail_offre.js"></script>
 </body>
 
