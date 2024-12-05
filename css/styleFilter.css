@@ -135,11 +135,8 @@
         overflow-y: unset; /* Retire le défilement vertical */
         max-height: unset; /* Retire la limite de hauteur */
         display: flex;
-    }
-
-    /* Masquer les éléments à partir du ème */
-    .filtre-lieu-case > div:nth-child(n+4) {
-        display: none; /* Cache les éléments après les trois premiers */
+        max-height: 75px;
+        overflow-y: auto;
     }
 
     .filtre-temps {

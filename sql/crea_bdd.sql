@@ -1389,9 +1389,7 @@ declare
   date_offre_hors_ligne date;
   date_emmission_facture date;
   n integer;
-begin
-  comp = 0;
-    
+begin    
   select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
   date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
   
@@ -1405,9 +1403,11 @@ begin
     else
       select(date_offre_hors_ligne - date_offre) as days into n;   
     end if;
-    
   end if;
   
+  if (n is null) then
+    n = 0;
+  end if;
   RETURN n;
 end;
 $$ language 'plpgsql';
@@ -1418,3 +1418,20 @@ create or replace view pact.facturation as
   pact.prix_option_offre_TTC(f.idO, numfacture) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO, numfacture) as  prix_option_ht, nbrJours(f.idO, now()::date, numfacture),
   f.idO, idC from pact._facturation f
   inner join pact.offre o on o.idO = f.idO;
+
+/*
+  Fonction pour voir si une offre a une facture pour le mois présent
+*/
+create or replace function pact.hasFacture(idOffre integer)
+  returns boolean as $$
+declare
+  res boolean;
+begin
+  res = false;
+  if (exists (select * from pact.offre o inner join pact._facturation f  on f.idO = o.idO where f.idO = idOffre 
+  and EXTRACT(MONTH FROM f.date_facture) = EXTRACT(MONTH FROM now())and EXTRACT(YEAR FROM f.date_facture) = EXTRACT(YEAR FROM now()))) then
+     res = true;
+    end if;
+  RETURN res;
+end;
+$$ language 'plpgsql';

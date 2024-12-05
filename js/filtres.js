@@ -567,6 +567,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // Attacher un écouteur d'événement pour gérer le clic sur la suggestion
             li.addEventListener('mousedown', function () {
                 rechercheOffre.value = motCle; // Mettre le mot-clé dans le champ de recherche
+                const rechercheIMG = document.getElementById('rechercheOffreIMG');
+                rechercheIMG.src = '../images/croix-noire.png';
+                rechercheIMG.style.cursor = 'pointer';
                 afficherResultats(filtrage()); // Effectuer la recherche
                 suggestionsContainer.style.display = 'none'; // Masquer les suggestions
             });

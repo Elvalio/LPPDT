@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const iconName = item.dataset.icon;
         const page = item.getAttribute('href');
         if (sidebar.classList.contains('FO')){
-            if (!itemToHideFO.includes(iconName)){
+            if (!itemToHideFO.includes(iconName) && !itemEnConstruction.includes(iconName)){
                 item.style.display= 'flex';
                 changerApparenceIcon(page, item, img, iconName);
             }

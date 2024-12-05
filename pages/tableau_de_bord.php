@@ -2,7 +2,7 @@
 <html lang="fr">
     <?php
     include_once'nav.php';
-    
+
 
     include('../sql/connect_params.php');
 
@@ -21,7 +21,7 @@
                 $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_publication = now()  WHERE idO = $offre_id");
                 $stmt->execute();
             }else{
-                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status WHERE idO = $offre_id");
+                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_hors_ligne = now( WHERE idO = $offre_id");
                 $stmt->execute();
             }
 
@@ -76,7 +76,7 @@
                 foreach($result as $key => $valeur){
                 ?>
                 <section class="section_offre">
-                    <img src="../images/<?php echo $valeur["src_image"]; ?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>">
+                    <img src="../images/<?php echo $valeur["src_image"]; ?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>" placeholder="../images/imagesReferences/placeholder.php">
                     <div class="infos_offre">
                         <div class="titre_switch">
                             <p class="titre_offre"><strong><?php echo $valeur["titre"]; ?></strong></p>

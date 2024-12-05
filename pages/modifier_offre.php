@@ -7,7 +7,7 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-
+/*
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
@@ -15,6 +15,7 @@ echo "</pre>";
 echo "<pre>";
 print_r($_FILES);
 echo "</pre>";
+*/
 
 function type_offre($str){
     $res = 1;
@@ -483,20 +484,16 @@ try{
                     ('image_offre/$idO-$i.$extention', '$idO');"
                 );
                 $stmt->execute();
-            } else if (!empty($image)) {
-                // supprimer les images
-                /*
+            } else if ($_POST['statusImage'.$i] === 'true') {
+                // supprimer images
                 $image = $image[0];
-                print_r($image);
                 $stmt = $dbh->prepare(
                     "delete from pact.photo_offre 
                     where src_image = 'image_offre/$image';"
                 );
                 $stmt->execute();
-                print_r("$dir/$image");
                 unlink("$dir/$image");
-                */
-            }  
+            } 
         }
 
         //images plan et menu
@@ -531,6 +528,24 @@ try{
                 );
             }
             $stmt->execute();
+        }
+
+        if ($_POST['status-map'] === 'true') {
+            if ($categorie === "Parc d'attraction"){
+                $pattern = "/$idO-plan/";
+                $image = array_values(preg_grep($pattern, $images));
+            } else if ($categorie === 'Restauration'){
+                $pattern = "/$idO-menu/";
+                $image = array_values(preg_grep($pattern, $images));
+            }
+            // supprimer images
+            $image = $image[0];
+            $stmt = $dbh->prepare(
+                "delete from pact.photo_offre 
+                where src_image = 'image_offre/$image';"
+            );
+            $stmt->execute();
+            unlink("$dir/$image");
         }
 
         //ajout des tags
@@ -571,7 +586,7 @@ try{
                         
         }   
         
-        //header('Location:tableau_de_bord.php');
+        header('Location:tableau_de_bord.php');
         exit();
     }
     $dbh = null;
@@ -592,7 +607,7 @@ include_once 'nav.php';
         <link rel="stylesheet" href="../css/styleOffre.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
-    <body>
+    <body class="BO">
         <div class="main-content"> 
             <h1 class="TS-bold">Modifiez votre offre</h1>            
             <form action="" method="post" enctype="multipart/form-data">
@@ -756,7 +771,7 @@ include_once 'nav.php';
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
                                 <input id="submit-button" type="submit" class="FS" value="Modifier"/>
-                                <button class="FS">
+                                <button class="FS" onclick="confirmer()">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
                                 </button>
@@ -886,6 +901,7 @@ include_once 'nav.php';
                                                 <p id="map-upload-text">Ajouter</p>
                                             </label>
                                             <input type="file" id="map-file-upload" name="map-file-upload" accept=".png"/>
+                                            <input type="hidden" id="status-map" name="status-map" value="false">
                                             <button id="map-file-delete" type="button">
                                                 <img src="../icons/moins.svg" alt="Bouton Image">
                                                 Supprimer
@@ -961,11 +977,15 @@ include_once 'nav.php';
                                     </button>
                                 </div>
                                 <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
+                                <p id="message-prevention"></p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
                                     <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
+                                    <input class="status-image" type="hidden" id="statusImage1" name="statusImage1" value="false">
                                     <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée2" />
+                                    <input class="status-image" type="hidden" id="statusImage2" name="statusImage2" value="false">
                                     <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée3" />
+                                    <input class="status-image" type="hidden" id="statusImage3" name="statusImage3" value="false">
                                 </div>
                             <!-- Formulaire caché pour le téléchargement d'images -->
                             
@@ -1019,10 +1039,6 @@ include_once 'nav.php';
             selectedImages[<?php echo $i?>].src = '../images/image_offre/<?php echo $matches[$i]?>';
             currentImageCount++;
             <?php }}?>
-            
-            for (let index = 0; index < selectedImages.length; index++) {
-                console.log(selectedImages[index].getAttribute('src'));
-            }
 
             //affiche le bouton supression s'il y a des images
             if (currentImageCount > 0) {
@@ -1031,10 +1047,7 @@ include_once 'nav.php';
             }
             toggleFileUpload(); // affiche/cache bouton ajouter
 
-            //fileInputs[0].value = '../images/image_offre/<?php echo $idO?>-1.jpg';
-            console.log(selectedImages[0].getAttribute('src') === '../images/rien.png');
-
-            console.log("currentImageCount : " + currentImageCount);
+            //status-image : if false then not deleted, else it was deleted
         </script>
         
     </body>

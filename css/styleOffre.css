@@ -352,7 +352,7 @@ input[type="submit"]{
     border: none;
     background-color: var(--noir);
     color: white;
-    padding: 0 100px;
+    padding: 0 60px;
     cursor: pointer;
 }
 
@@ -413,7 +413,6 @@ input[type="file"]{
 }
 
 #publier-retour button img{
-    height: 18px;
     margin-right: 10px; /* Espace entre l'image et le texte */
     width: auto; /* Largeur automatique pour garder le ratio */
 }
