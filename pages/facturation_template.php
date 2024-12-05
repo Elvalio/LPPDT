@@ -50,17 +50,18 @@
             <tr>
                 <td>Abonnement <?= htmlspecialchars($facture_data['abonnement_type']) ?></td>
                 <td><?= htmlspecialchars($facture_data['nbrjours']); if ($facture_data['nbrjours'] == 1) {echo " jour";} else {echo " jours";} ?></td>
-                <td><?= number_format($facture_data['abonnement_ht_unitaire'], 2, ',', ' ') ?> €</td>
+                <td><?= number_format($facture_data['abonnement_ht_unitaire'], 2, ',', ' ') ?> €/Jour</td>
                 <td><?= number_format($abonnement_ht, 2, ',', ' ') ?> €</td>
                 <td><?= number_format($abonnement_ttc, 2, ',', ' ') ?> €</td>
             </tr>
             <?php if (isset($facture_data['options'])) ?>
                 <tr>
+                    <?php print_r($facture_data); ?>
                     <td>Option « <?= htmlspecialchars($facture_data['options']) ?> »</td>
-                    <td><?= htmlspecialchars($option['date_creation']) ?> au <?= date('d/m/Y') ?></td>
-                    <td><?= number_format($option['ht'], 2, ',', ' ') ?> €</td>
-                    <td><?= number_format($option['ht'], 2, ',', ' ') ?> €</td>
-                    <td><?= number_format($option['ttc'], 2, ',', ' ') ?> €</td>
+                    <td><?= $facture_data['nbSemaines'] ?> Semaine</td>
+                    <td><?= number_format($facture_data['total_option_ht'], 2, ',', ' ') ?> €/Semaine</td>
+                    <td><?= number_format($facture_data['total_options_ht'], 2, ',', ' ') ?> €</td>
+                    <td><?= number_format($facture_data['total_options_ttc'], 2, ',', ' ') ?> €</td>
                 </tr>
             
         </tbody>
