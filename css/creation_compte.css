@@ -344,12 +344,7 @@ input[type="checkbox"] {
     border-radius: 0;
     }
 
-    input[type="search"], 
-    input[type="image"] {
-        margin: 0;
-        padding: 0;
-        border: none;
-    }
+    
 
     .left-column, .right-column {
         width: 95%; /* Colonne unique */
@@ -364,6 +359,8 @@ input[type="checkbox"] {
         width: 100%;
         margin-right: 0;
     }
+
+
 
     .checkbox {
         margin-top: 20px;
@@ -388,5 +385,17 @@ input[type="checkbox"] {
     }
 
 
+    input[type="search"], 
+    input[type="image"] {
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
 
+
+    header > div > div {
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
 }
