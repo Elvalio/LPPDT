@@ -1,7 +1,4 @@
 <?php
-echo '<div class="desktop-element">';
-include_once 'nav.php';
-echo '</div>';
 include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -117,6 +114,10 @@ try {
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../detail-offre.js" async></script>
 </head>
+
+<div class="desktop-element">
+<?php include_once 'nav.php';?>
+</div>
 
 <body
     class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
