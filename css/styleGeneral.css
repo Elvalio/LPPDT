@@ -237,7 +237,6 @@ p {
 }
 
 .header > .logo_recherche > div:focus-within{
-    width: 80%;
     transition: width 0.2s ease-in-out;
     overflow: hidden;
 }
@@ -253,8 +252,8 @@ p {
 }
 
 .header > .logo_recherche > div > #rechercheOffre_mobile:focus{
+    width: 400px;
     transition: width 0.2s ease-in-out;
-    overflow: hidden;
 }
 
 .header > .logo_recherche > #image_recherche{
