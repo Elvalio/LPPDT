@@ -299,6 +299,7 @@ input[type="checkbox"] {
 @media (max-width: 800px) {
     .container-page-creation-compte {
         width: 100%;
+        padding: 0px;
       }
     .Redirection_pro {
         display: none;
