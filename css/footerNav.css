@@ -3,6 +3,7 @@
     padding: 10px 0;
     position: fixed;
     bottom: 0;
+    left: 0;
     width: 100%; /* Assure que le footer occupe 100% de la largeur de l'écran */
     max-width: 100%; /* Empêche le débordement en forçant la largeur maximale */
     z-index: 1000;
