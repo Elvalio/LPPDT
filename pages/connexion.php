@@ -117,7 +117,7 @@ if ($_POST!=[]) {
             <button type="submit" class="submit-button">Se connecter</button>
 
             <div class="links">
-                <a href="#" class="mdpOublie"><!--Mot de passe oublié ?--></a>
+                <!--<a href="#" class="mdpOublie">Mot de passe oublié ?</a>-->
                 <a href="creation_compte_formulaire.php" class="inscription">S'inscrire</a>
             </div>
         </form>
