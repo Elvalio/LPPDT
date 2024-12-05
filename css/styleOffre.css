@@ -38,6 +38,10 @@
     flex-direction: column;
 }
 
+#top-right-part-content{
+    width: 525px;
+}
+
 
 #title-categorie, #codeP-ville, #type-option{
     display: flex;
@@ -111,18 +115,17 @@
 #duree-prix-age{
     display: flex;
     flex-direction: row;
-    width: 100%;
-}
-
-#duree-container, #prix-container, #age-container, #capacite-container, #nbattraction-container, #categorie-prix-container{
-    margin-right: 20px;
-    flex-grow: 1;
-    max-width: 160px;
 }
 
 #duree-container, #age-container, #langue-container, #capacite-container, #nbattraction-container, #categorie-prix-container{
     display: none;
 }
+
+#duree-container, #prix-container, #age-container, #capacite-container, #nbattraction-container, #categorie-prix-container{
+    margin-right: 20px;
+    max-width: 155px;
+}
+
 
 #accessibilite-container textarea, #resume-container textarea{
     height: 100px;

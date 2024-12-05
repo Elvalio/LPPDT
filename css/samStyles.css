@@ -545,6 +545,11 @@ body {
   margin: 0;
 }
 
+.side-contact p {
+  overflow-wrap: break-word;
+  max-width: 80%;
+}
+
 /* Définition d'un container pour gérer l'affichage */
 .container {
 overflow: hidden;
@@ -737,7 +742,7 @@ transform: rotate(-90deg);
     .part-contact {
       display: block;
       flex-direction: row;
-      width: fit-content;
+      width: 100%;
       padding: 20 0 20 0;
       font-family: 'TripSansBold';
       font-size: 2vh;
@@ -751,7 +756,7 @@ transform: rotate(-90deg);
   .side-contact {
     display: flex;
     flex-direction: column;
-    width: fit-content;
+    width: 100%;
   }
   
   .side-contact div img {

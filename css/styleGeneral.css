@@ -376,7 +376,7 @@ p {
     display: none;
 }
 
-@media screen and (max-width:730px){
+@media screen and (max-width:800px){
     .footer > .main_div_infos > #image_full{
         display: none;
     }
