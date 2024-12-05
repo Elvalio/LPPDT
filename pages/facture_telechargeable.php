@@ -84,7 +84,10 @@ $bdh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 ob_start();
 include('facturation_template.php');
 $html = ob_get_clean();
-
+$ido = $offre[0]['ido'] ?? null;
+if (!$ido) {
+    die("Erreur : Identifiant de l'offre introuvable.");
+}
 
         // Configurer Dompdf
         $options = new Options();
