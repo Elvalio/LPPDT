@@ -8,7 +8,7 @@ try{
         $user, $pass);
         
         $stmt = $dbh->prepare(
-            "SELECT 
+            "SELECT DISTINCT ON (o.ido)
     o.en_ligne, 
     o.titre, 
     o.prix_min, 
@@ -33,6 +33,7 @@ LEFT JOIN
     pact.photo_offre p ON o.idO = p.idO
 LEFT JOIN 
     pact._horaire h ON o.idO = h.idO;
+
 "
         );
     
@@ -42,6 +43,7 @@ LEFT JOIN
     $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
 // ido, titre, resume, type, nom_type, cout, description, prix_min, moy_note, nbravis, accessibilitev, categorie, date_creation, date_publication, idadresse, ville, numero_voie, voie, code_postal, complement, idc
 
+// print_r($resultat);
 
     function toInteger($value) {
         return intval($value);
