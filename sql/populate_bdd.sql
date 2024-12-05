@@ -21,7 +21,7 @@ insert into pact._option(nom_option, cout_HT, cout_TTC) values ('En relief', 8.3
 insert into pact._option(nom_option, cout_HT, cout_TTC) values ('À la Une', 16.68, 20);
 
 -- PROFESSIONNEL SECTEUR PUBLIC --
-insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Raison', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (728, 'MyBuisiness', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', 11, 'rue de la gare', 22000, '');
 insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (5642, 'Waw L''entreprise','Glichton', 'Carter', 'theglitchton@gmail.com', '0610254122', 'exTraSpiCYhitBox', 'Dinan', 1, 'résidence la conninais', 22100, '');
 
@@ -29,9 +29,9 @@ insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, ema
 
 
 -- PROFESSIONNEL SECTEUR PRIVE --
-insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'Denom', 'FR7630001007941234567890185', 'CMCIFRPP', '125475842', 'Raison sociale', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, ''); 
-insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (212, 'Youpi Land', 'FR7630004000031234567890143', 'CRLYFRPPXXX', '144365479', 'Raison sociale', 'Portimao', 'Jean-Jacques', 'jeanjacsques.portimao@orange.fr', '0654620539', 'lQ6Jm896GfAz', 'Paimpol', 13, 'rue salvador allende', 22500, '');
-insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (18, 'Sparadra', 'FR7630006000011234567890189', 'CMCIFR2A', '682647654', 'Raison sociale', 'Modem', 'Nicola', 'modem.nicola@gmail.com', '0742576876', 'MjTdtLDapoUd', 'Guingamp', 18, 'rue valentin', 22200, '');
+insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'Denom', 'iban', 'bic', '125475842', 'Raison sociale', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, ''); 
+insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (212, 'Youpi Land', 'iban', 'bic', '144365479', 'Raison sociale', 'Portimao', 'Jean-Jacques', 'jeanjacsques.portimao@orange.fr', '0654620539', 'lQ6Jm896GfAz', 'Paimpol', 13, 'rue salvador allende', 22500, '');
+insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (18, 'Sparadra', 'iban', 'bic', '682647654', 'Raison sociale', 'Modem', 'Nicola', 'modem.nicola@gmail.com', '0742576876', 'MjTdtLDapoUd', 'Guingamp', 18, 'rue valentin', 22200, '');
 
 
 --insert into pact.offre (titre, resume, "type", description, prix_min, accessibilite, date_creation, date_publication, ville, numero_voie, voie, code_postal, complement, idC) values ('TITRE', 'resume', 2, 'desc', '5.00'::double precision, 'Accessible', now(), now(), 'Perros-Guirec', 5, 'rue des cordiers', 22700, '', 11);
@@ -157,4 +157,5 @@ insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, con
 -- FACTURE --
 
 insert into pact._facturation(numFacture, idO, date_facture) values (12345, 1, date_trunc('month', current_date));
+insert into pact._facturation(numFacture, idO, date_facture) values (121212, 6, date_trunc('month', current_date));
 insert into pact._facturation(numFacture, idO, date_facture) values (54321, 1, date_trunc('month', now() - interval '1 month'));
