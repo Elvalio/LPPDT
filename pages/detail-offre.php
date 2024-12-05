@@ -315,7 +315,7 @@ try {
                     if(!$avis_publie){ ?>
             <article class="poster_avis">
                 <h3>Poster un avis :</h3>
-                <div>
+                <div class="notes_avis">
                     <?php for($i = 1; $i<6; $i++):?>
                         <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
                             id="etoile_note<?php echo $i?>">
@@ -342,7 +342,7 @@ try {
                 <?php }
                 }else{ ?>
                 <h3>Poster un avis :</h3>
-                <div>
+                <div class="notes_avis">
                     <?php for($i = 1; $i<6; $i++):?>
                         <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
                             id="etoile_note<?php echo $i?>">
