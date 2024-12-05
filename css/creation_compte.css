@@ -344,12 +344,7 @@ input[type="checkbox"] {
     border-radius: 0;
     }
 
-    input[type="search"], 
-    input[type="image"] {
-        margin: 0;
-        padding: 0;
-        border: none;
-    }
+    
 
     .left-column, .right-column {
         width: 95%; /* Colonne unique */
@@ -365,6 +360,8 @@ input[type="checkbox"] {
         margin-right: 0;
     }
 
+
+
     .checkbox {
         margin-top: 20px;
     }
@@ -373,6 +370,7 @@ input[type="checkbox"] {
         margin-bottom: 3em;
         display: inline-block;
         padding: 10px;
+        border: none;
         border: 1px solid black;
         border-radius: 5px;
         color: black;
@@ -387,6 +385,9 @@ input[type="checkbox"] {
         text-decoration: none;
     }
 
-
-
+    header > div > div > input{
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
 }

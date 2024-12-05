@@ -194,5 +194,8 @@ include('../sql/connect_params.php');
     <footer class="content">
         <?php include_once 'footer.php'; ?>
     </footer>
+    <footer class="phone-element">
+        <?php include_once 'footerNav.php'; ?>
+    </footer>
 </body>
 </html>

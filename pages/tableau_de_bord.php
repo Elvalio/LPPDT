@@ -45,7 +45,7 @@
     try{
 
     $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, MIN(p.src_image) AS src_image FROM pact.offre o
-    JOIN pact.photo_offre p ON o.idO = p.idO
+    LEFT OUTER JOIN pact.photo_offre p ON o.idO = p.idO
     WHERE o.idC = $user_cookie
     GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne");
     
@@ -76,7 +76,7 @@
                 foreach($result as $key => $valeur){
                 ?>
                 <section class="section_offre">
-                    <img src="../images/<?php echo $valeur["src_image"]; ?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>" placeholder="../images/imagesReferences/placeholder.php">
+                    <img src="../images/<?php echo !is_null($valeur["src_image"]) ?  $valeur["src_image"] : '../images/rien.png'?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>" placeholder="../images/imagesReferences/placeholder.php">
                     <div class="infos_offre">
                         <div class="titre_switch">
                             <p class="titre_offre"><strong><?php echo $valeur["titre"]; ?></strong></p>

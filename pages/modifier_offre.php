@@ -667,9 +667,9 @@ include_once 'nav.php';
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container" id="description-container">
-                                <label for="description">Description</label>
+                                <label for="description">Description*</label>
                                 <p id="description-error-message" class="error-message"></p>
-                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..."><?php echo $dataOffre[0]["description"];?></textarea>
+                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..." required><?php echo $dataOffre[0]["description"];?></textarea>
                             </div>
 
                             <!-- Champ "Site web" -->

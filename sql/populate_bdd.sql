@@ -122,10 +122,16 @@ insert into pact._tags_parc_d_attraction(idO, idTag) values (5,17);
 
 -- IMAGES --
 
-insert into pact.photo_offre (src_image, idO) values ('image_offre/1-1.webp', 1);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/1-1.png', 1);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/1-2.png', 1);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/1-3.png', 1);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/2-1.jpg', 2);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/3-1.jpg', 3);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/4-1.jpg', 4);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/3-1.png', 3);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/3-2.png', 3);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/3-3.png', 3);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/4-1.png', 4);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/4-2.png', 4);
+insert into pact.photo_offre (src_image, idO) values ('image_offre/4-3.png', 4);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/5-1.webp', 5);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/6-1.jpg', 6);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/7-1.jpg', 7);
