@@ -876,7 +876,7 @@ input[type="range"]::-ms-thumb {
       
       .conteneurImage > img {
         width: 100px; /* Taille de l'image inchangée */
-        height: auto;
+        max-height: 60px;
         border-radius: 8px;
         padding: 0;
         margin: 0;
@@ -927,13 +927,17 @@ input[type="range"]::-ms-thumb {
         border-radius: 100%; */
     }
 
+    
     .enRelief {
-    border-image: url(../images/gold.jpg) 1 !important;
-    border-width: 5px !important;
-    padding: 20px;
-    border-radius: 80px !important;
-}
-
+        border: none ;
+        border-image: url(../images/gold.jpg) 1 !important;
+        border-width: 5px !important;
+        padding: 20px;
+        border-radius: 80px !important;
+    }
+    
+    
+   
     
 }
 
