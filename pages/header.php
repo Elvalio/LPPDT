@@ -16,8 +16,6 @@
             </div>
             <?php
             if ($_SERVER['SCRIPT_NAME'] != '/pages/connexion.php' && $_SERVER['SCRIPT_NAME'] != '/pages/creation_compte_formulaire.php') { ?>
-            <div>
-            </div>
             <div class="boutonALaUne NoSelect">
                 <p>À la Une</p>
             </div>
