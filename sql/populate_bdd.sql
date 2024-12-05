@@ -21,7 +21,7 @@ insert into pact._option(nom_option, cout_HT, cout_TTC) values ('En relief', 8.3
 insert into pact._option(nom_option, cout_HT, cout_TTC) values ('À la Une', 16.68, 20);
 
 -- PROFESSIONNEL SECTEUR PUBLIC --
-insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Denom', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
+insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1002, 'Raison', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (728, 'MyBuisiness', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', 11, 'rue de la gare', 22000, '');
 insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (5642, 'Waw L''entreprise','Glichton', 'Carter', 'theglitchton@gmail.com', '0610254122', 'exTraSpiCYhitBox', 'Dinan', 1, 'résidence la conninais', 22100, '');
 
