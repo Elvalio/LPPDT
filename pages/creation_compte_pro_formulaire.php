@@ -131,7 +131,7 @@ error_reporting(0); if (!empty($_POST)) {
 
                         <div class="choix_entreprise FS">
                             <label for="type-entreprise">
-                                Type d'entreprise :
+                                Type d'entreprise<span class="required">*</span>
                             </label>
                             <div id="type-entreprise" class="radio-group FS">
                                 <input type="radio" name="type-entreprise" value="publique" class="radio-button">
