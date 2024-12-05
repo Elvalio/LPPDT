@@ -121,7 +121,7 @@ function PrixOptionTTC($idOffre, $bdh) {
                         <?php
                         $idO = $offre[0]['ido'];
 
-                        $stmtOption = $bdh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement < now() and idO = :idO");
+                        $stmtOption = $bdh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement > now() and idO = :idO");
                         $stmtOption->execute([':idO' => $idO]);
                         $options = $stmtOption->fetchAll(PDO::FETCH_ASSOC);
                         
@@ -134,7 +134,7 @@ function PrixOptionTTC($idOffre, $bdh) {
                                                                 }
                                                     ?></p>
                         </div>
-                        
+                        <?php print_r($offre) ?>
                           <div class="facture-total facture-detail-element">
                         <p class="montant_facture">Prix offre HT : <?php echo round($offre[0]['prix_offre_ht'],2) ?>€</p>
                         <p class="montant_facture">Prix option HT : <?php echo round($offre[0]['prix_option_ht'],2) ?>€</p>
