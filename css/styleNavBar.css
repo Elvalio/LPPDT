@@ -34,7 +34,7 @@ body {
     top: 0;
     left: 0;
     width: 80px; /* largeur fermée */
-    height: 100vh;
+    height: 100%;
     background-color: #ffffff;
     transition: 0.2s cubic-bezier(0, 0, 0, 0.96);
     overflow: visible;
@@ -83,7 +83,7 @@ body {
 
 /* Image par défaut (visible au début) */
 .image-default {
-    opacity: 1;
+    display: block;
     z-index: 2;
     max-height: 60px;
     /* max-height: 50px; */
@@ -91,7 +91,7 @@ body {
 
 /* Image 2 (invisible au départ) */
 .image-hover {
-    opacity: 0;
+    display: none;
     z-index: 1;
     max-height: 60px;
     /* max-height: 80px; */
@@ -99,12 +99,12 @@ body {
 
 /* Au clique pour ouvrir le conteneur */
 #sidebar.active .image-hover {
-    opacity: 1;  /* L'image 2 devient visible progressivement */
+    display: block;  /* L'image 2 devient visible progressivement */
     /* transition: opacity 0.6s ease; Appliquer une transition à l'apparition */
 }
 
 #sidebar.active .image-default {
-    opacity: 0;  /* L'image 1 devient invisible */ 
+    display: none;  /* L'image 1 devient invisible */ 
     /* transition: opacity 0.2s ease; Appliquer une transition à l'apparition */
     
 }
@@ -164,6 +164,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: fit-content;
+    height: 100%;
     
 }
 
@@ -174,8 +175,7 @@ body {
 }
 
 #bottom-items{
-    position: absolute;
-    bottom: 20px;
+    margin-bottom: 10px;
 }
 
 #sidebar.active #bottom-items{
