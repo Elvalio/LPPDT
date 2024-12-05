@@ -99,6 +99,24 @@
     background-color: var(--bleuFonce-rougeFonce);
 }
 
+.avis-btn {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 10px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.avis-btn:hover {
+    background-color: var(--bleuFonce-rougeFonce);
+}
+
 .cancel-btn {
     display: block;
     margin: 100px 100px 0 0;
@@ -138,6 +156,15 @@ div > hr {
     border-radius: 3px;
 }
 
+form > hr {
+    width: 80%;
+    height: 2px;
+    background-color: #E4E4E4;
+    border: 1px;
+    border-radius: 3px;
+}
+
+
 
 /* Version mobile*/
 @media (max-width: 800px) {
@@ -149,6 +176,11 @@ div > hr {
         display: none;
     }
 
+    .content {
+        margin: 0 0 0 0;
+        padding: 20px;
+    }
+
     button {
         display: flex;
         align-items: center;
@@ -157,6 +189,20 @@ div > hr {
     .container-ligne {
         display: flex;
         flex-direction: column;
+    }
+
+
+    .container-info > input {
+        background-color: #FFFFFF;
+        width: 95%;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    hr {
+        visibility: hidden;
     }
 
     .deco-btn {

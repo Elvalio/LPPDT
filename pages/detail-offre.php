@@ -317,8 +317,8 @@ try {
                 <h3>Poster un avis :</h3>
                 <div>
                     <?php for($i = 1; $i<6; $i++):?>
-                    <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
-                        id="etoile_note<?php echo $i?>">
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
                     <?php endfor;?>
                 </div>
                 
@@ -341,10 +341,17 @@ try {
                         </form>
                 <?php }
                 }else{ ?>
+                <h3>Poster un avis :</h3>
+                <div>
+                    <?php for($i = 1; $i<6; $i++):?>
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
+                    <?php endfor;?>
+                </div>
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                     required="required"></textarea>
-                <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
+                <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
                     placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                 <label for="options" id="titre-contexte">Contexte de la visite :</label>

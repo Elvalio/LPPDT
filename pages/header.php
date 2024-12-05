@@ -10,8 +10,8 @@
             <div class="logo_recherche">
                 <img src="../images/logo_vert.png" alt="logo_vert" title="logo_vert" width="122px" height="80px" id="logo">
                 <div>
-                    <img src="../icons/search_icon.png">    
-                    <input type="text" name="search" id="rechercheOffre_mobile" placeholder="Recherche" class="FS">
+                    <img src="../icons/search_icon.png" id="rechercheOffreIMGmobile">    
+                    <input type="text" name="search" id="rechercheOffreMobile" placeholder="Recherche" class="FS">
                 </div>
             </div>
             <?php

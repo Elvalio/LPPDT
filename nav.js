@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const itemToHideFO = ['tableau-de-bord', 'facturation', 'creation', 'notification-avec-notif'];
     const itemEnConstruction = ['favoris', 'historique', 'notification-avec-notif'];
     const accueilItem = document.querySelector('[data-icon="accueil"]');
-
-    
+    const tableauDeBordItem = document.querySelector('[data-icon="tableau-de-bord"]');
+    const creationOffreItem = document.querySelector('[data-icon="creation"]');
 
     function changerApparenceIcon(p, it, im, ic){
-        if (p === currentPage || (it === accueilItem && currentPage === 'detail-offre.php')) {
+        if (p === currentPage || (it === accueilItem && currentPage === 'detail-offre.php') || (it === tableauDeBordItem && currentPage === 'modifier_offre.php') || (it === creationOffreItem && currentPage === 'previsualisation_offre.php')) {
             it.classList.add('actuel');
             if(sidebar.classList.contains("FO")){
                 im.src = `../icons/icons-bleu/icon-${ic}-bleu.svg`;  // Chemin pour l'icône actif
