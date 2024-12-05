@@ -1,7 +1,4 @@
 <?php
-echo '<div class="desktop-element">';
-include_once 'nav.php';
-echo '</div>';
 include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -118,10 +115,14 @@ try {
     <script src="../detail-offre.js" async></script>
 </head>
 
-<body
-    class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
+<div class="desktop-element">
+<?php include_once 'nav.php';?>
+</div>
 
-    <section class="section-page part-annonce">
+<body
+    class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
+    <div class="body">
+        <section class="section-page part-annonce">
         <header>
             <h1 class="titre-rouge">
                 <?php echo htmlspecialchars($offre['titre']); ?>
@@ -402,6 +403,11 @@ try {
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>
+    </div>
+    <footer>
+        <?php include_once 'footer.php'; ?>
+    </footer>
+        
     <script src="../js/detail_offre.js"></script>
 </body>
 
