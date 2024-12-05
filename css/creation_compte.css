@@ -370,6 +370,7 @@ input[type="checkbox"] {
         margin-bottom: 3em;
         display: inline-block;
         padding: 10px;
+        border: none;
         border: 1px solid black;
         border-radius: 5px;
         color: black;
@@ -384,16 +385,7 @@ input[type="checkbox"] {
         text-decoration: none;
     }
 
-
-    input[type="search"], 
-    input[type="image"] {
-        margin: 0;
-        padding: 0;
-        border: none;
-    }
-
-
-    header > div > div {
+    header > div > div > input{
         margin: 0;
         padding: 0;
         border: none;
