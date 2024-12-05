@@ -317,92 +317,91 @@ try{
         $stmt->execute();
 
 
-    $idOffre --;
-    for ($i = 0; $i < 3; $i++) { //pour chaque images
-        if(isset($_POST['image'.$i])){
-            $img = $_POST['image'.$i];
-            $stmt = $dbh->prepare(
-                "insert into pact.photo_offre 
-                (src_image, idO) values 
-                ('$img', '$idOffre');"
-            );   
+        $idOffre;
+        for ($i = 0; $i < 3; $i++) { //pour chaque images
+            if(isset($_POST['image'.$i])){
+                $img = $_POST['image'.$i];
+                $stmt = $dbh->prepare(
+                    "insert into pact.photo_offre 
+                    (src_image, idO) values 
+                    ('$img', '$idOffre');"
+                );   
+                $stmt->execute();
+            }
+        }
+
+        // insertion de la map
+        if (isset($_POST['mapPhoto'])){
+            $img = $_POST['mapPhoto'];
+            if ($categorie === 'parcAttraction'){
+                $stmt = $dbh->prepare(
+                    "UPDATE pact.parc_d_attraction SET src_image = '$img'
+                    WHERE ido = $idOffre;"
+                );
+            } else if ($categorie === 'restauration'){
+                $stmt = $dbh->prepare(
+                    "UPDATE pact.restauration SET src_image = '$img'
+                    WHERE ido = $idOffre;"
+                );
+            }
             $stmt->execute();
         }
-    }
 
-    // insertion de la map
-    if (isset($_POST['mapPhoto'])){
-        $img = $_POST['mapPhoto'];
-        if ($categorie === 'parcAttraction'){
+
+        //ajout des tags 
+
+        $tags = tag_offre($_POST);
+        for ($i=0; $i < sizeof($tags) ; $i++) { 
+            $t = $tags[$i];
             $stmt = $dbh->prepare(
-                "UPDATE pact.parc_d_attraction SET src_image = '$img'
-                WHERE ido = $idOffre;"
+                //récupération de l'idTag
+                "select idtag from pact._tag where libelle = '$t';"
             );
-        } else if ($categorie === 'restauration'){
-            $stmt = $dbh->prepare(
-                "UPDATE pact.restauration SET src_image = '$img'
-                WHERE ido = $idOffre;"
-            );
+            $stmt->execute();
+            $idtag = $stmt->fetchColumn();
+
+
+            if ($categorie === 'parcAttraction'){
+                //vérification que le tag n'a pas déjà été inséré
+                $checkStmt = $dbh->prepare("
+                    SELECT COUNT(*) FROM pact._tags_parc_d_attraction
+                    WHERE idO = :idOffre AND idtag = :idtag;
+                ");
+                $checkStmt->execute([
+                    'idOffre' => $idOffre,
+                    'idtag' => $idtag
+                ]);
+                if ($checkStmt->fetchColumn() == 0) {
+                    $stmt = $dbh->prepare(
+                        //insertion    
+                        "insert into pact._tags_parc_d_attraction(idO, idtag) values ($idOffre,$idtag);"
+                    );
+
+                }
+            } else {
+                //vérification que le tag n'a pas déjà été inséré
+                $checkStmt = $dbh->prepare("
+                    SELECT COUNT(*) FROM pact._tags_$categorie
+                    WHERE idO = :idOffre AND idtag = :idtag;
+                ");
+                $checkStmt->execute([
+                    'idOffre' => $idOffre,
+                    'idtag' => $idtag
+                ]);
+                if ($checkStmt->fetchColumn() == 0) {
+                    $stmt = $dbh->prepare(
+                        //insertion
+                        "insert into pact._tags_$categorie(idO, idtag) values ($idOffre,$idtag);"
+                    );
+                }
+            }
+            
+            $stmt->execute();
         }
-        $stmt->execute();
-    }
 
-
-    // //ajout des tags 
-
-    // $tags = tag_offre($_POST);
-
-    // for ($i=0; $i < sizeof($tags) ; $i++) { 
-    //     $t = $tags[$i];
-    //     $stmt = $dbh->prepare(
-    //         //récupération de l'idTag
-    //         "select idtag from pact._tag where libelle = '$t';"
-    //     );
-    //     $stmt->execute();
-    //     $idtag = $stmt->fetchColumn();
-
-
-    //     if ($categorie === 'parcAttraction'){
-    //         //vérification que le tag n'a pas déjà été inséré
-    //         $checkStmt = $dbh->prepare("
-    //             SELECT COUNT(*) FROM pact._tags_parc_d_attraction
-    //             WHERE idO = :idOffre AND idtag = :idtag;
-    //         ");
-    //         $checkStmt->execute([
-    //             'idOffre' => $idOffre,
-    //             'idtag' => $idtag
-    //         ]);
-    //         if ($checkStmt->fetchColumn() == 0) {
-    //             $stmt = $dbh->prepare(
-    //                 //insertion    
-    //                 "insert into pact._tags_parc_d_attraction(idO, idtag) values ($idOffre,$idtag);"
-    //             );
-
-    //         }
-    //     } else {
-    //         //vérification que le tag n'a pas déjà été inséré
-    //         $checkStmt = $dbh->prepare("
-    //             SELECT COUNT(*) FROM pact._tags_$categorie
-    //             WHERE idO = :idOffre AND idtag = :idtag;
-    //         ");
-    //         $checkStmt->execute([
-    //             'idOffre' => $idOffre,
-    //             'idtag' => $idtag
-    //         ]);
-    //         if ($checkStmt->fetchColumn() == 0) {
-    //             $stmt = $dbh->prepare(
-    //                 //insertion
-    //                 "insert into pact._tags_$categorie(idO, idtag) values ($idOffre,$idtag);"
-    //             );
-    //         }
-    //     }
-        
-    //     $stmt->execute();
-    // }
-
-    // // Redirection vers /accueil.php
-    // header('Location: tableau_de_bord.php');
-    // exit(); // Important : Terminer le script pour éviter des exécutions non voulues
+        // Redirection vers /accueil.php
+        header('Location: tableau_de_bord.php');
+        exit(); // Important : Terminer le script pour éviter des exécutions non voulues
 
 
 
