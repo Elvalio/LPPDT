@@ -80,7 +80,7 @@
                 <button id="modif-infos">Modifier les informations</button>
             </section>-->
             <section class="mes-avis">
-            <h1>Mes avis :</h1>
+            <h1>Mes avis</h1>
                 <?php
                 foreach($avis as $a) { 
                 ?>
