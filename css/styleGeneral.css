@@ -221,6 +221,13 @@ p {
     background-color: var(--gris-clair);
     border-radius: 10px;
     margin-right: 5px;
+    
+}
+
+.header > .logo_recherche > div:focus-within{
+    width: 80%;
+    transition: width 0.2s ease-in-out;
+    overflow: hidden;
 }
 
 .header > .logo_recherche > div > #rechercheOffre_mobile{
@@ -230,13 +237,12 @@ p {
     margin-left: 5px;
     background-color: var(--gris-clair);
     height: 100%;
-    width: 30%;
-    transition: width 0.2s ease-in-out;
+    width: 100%;    
 }
 
-.header > .logo_recherche > div > #rechercheOffre_mobile:focus {
-    width: 100%;
+.header > .logo_recherche > div > #rechercheOffre_mobile:focus{
     transition: width 0.2s ease-in-out;
+    overflow: hidden;
 }
 
 .header > .logo_recherche > #image_recherche{
@@ -254,13 +260,18 @@ p {
     height: 50px;
     background-color: var(--vert-clair);
     border-radius: 5px;
+    transition: background-color 1s ease, color 1s ease;
 }
 
 .header > .boutonALaUne.active > p {
     background-color: var(--vert-clair);
+    color: var(--noir) !important;
+    font-weight: bold;
 }
 
 .header > .boutonALaUne > p{
+    color: rgb(105, 105, 105) !important;
+    font-weight: bold;
     background-color: white;
     color: black;
     line-height: 50px;
