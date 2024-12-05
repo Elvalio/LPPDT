@@ -125,6 +125,11 @@ body {
 }
 
 @media (max-width: 800px) {
+
+    .phone-element {
+        padding-bottom: 3em;
+    }
+
     h1 {
         color: var(--bleuFonce-rougeFonce);
         font-size: 3.5em;
