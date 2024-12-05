@@ -422,9 +422,9 @@ include_once('nav.php');
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container" id="description-container">
-                                <label for="description">Description</label>
+                                <label for="description">Description*</label>
                                 <p id="description-error-message" class="error-message"></p>
-                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..."></textarea>
+                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..." required></textarea>
                             </div>
 
                             <!-- Champ "Site web" -->
@@ -593,7 +593,7 @@ include_once('nav.php');
                                     </div>
                                     <div class="container categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>
-                                        <select id="categorie-prix" name="categorie-prix" class="FS">
+                                        <select id="categorie-prix" name="categorie-prix" class="FS" required>
                                             <option value="" disabled selected hidden id="first-option">Gamme de prix</option>
                                             <option value="€">€</option>
                                             <option value="€€">€€</option>
