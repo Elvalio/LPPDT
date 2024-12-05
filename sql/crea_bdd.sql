@@ -1412,10 +1412,35 @@ begin
 end;
 $$ language 'plpgsql';
 
+--nombre semaines pour option offre active
+create or replace function pact.nbSemaines(idOffre integer, idFacture integer)
+  returns integer as $$
+declare
+  duree interval;
+  comp float;
+  days integer;
+  res float;
+  date_lancement date;
+  date_facture date;
+begin
+  res = 0;
+  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_facture;
+  select o.date_lancement from pact.option_offre o where o.idO = idOffre into date_lancement;
+  if (EXTRACT(MONTH FROM date_facture) = EXTRACT(MONTH FROM date_lancement) and EXTRACT(YEAR FROM date_facture) = EXTRACT(YEAR FROM date_lancement)) then
+    if (current_date > date_lancement and date_lancement is not null) then
+      select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
+      select EXTRACT(DAY FROM duree) into days;
+      res = days/7;
+    end if;
+  end if;
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
 
 create or replace view pact.facturation as 
   select numfacture, date_facture, date_trunc('month', date_facture + interval '1 month') as date_emmission, pact.prix_offre_TTC(f.idO, now()::date, numfacture) as prix_offre_ttc, pact.prix_offre_HT(f.ido, now()::date, numfacture) as prix_offre_ht, 
-  pact.prix_option_offre_TTC(f.idO, numfacture) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO, numfacture) as  prix_option_ht, nbrJours(f.idO, now()::date, numfacture),
+  nbrJours(f.idO, now()::date, numfacture) ,pact.prix_option_offre_TTC(f.idO, numfacture) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO, numfacture) as  prix_option_ht, pact.nbSemaines(f.idO, numfacture),
   f.idO, idC from pact._facturation f
   inner join pact.offre o on o.idO = f.idO;
 

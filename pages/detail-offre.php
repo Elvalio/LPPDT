@@ -317,8 +317,8 @@ try {
                 <h3>Poster un avis :</h3>
                 <div>
                     <?php for($i = 1; $i<6; $i++):?>
-                    <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
-                        id="etoile_note<?php echo $i?>">
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
                     <?php endfor;?>
                 </div>
                 
@@ -341,6 +341,13 @@ try {
                         </form>
                 <?php }
                 }else{ ?>
+                <h3>Poster un avis :</h3>
+                <div>
+                    <?php for($i = 1; $i<6; $i++):?>
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
+                    <?php endfor;?>
+                </div>
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
                 <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                     required="required"></textarea>
