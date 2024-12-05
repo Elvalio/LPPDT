@@ -152,10 +152,6 @@ try {
                             <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
                                 alt="Image <?php echo $index + 1; ?>">
                         </div>
-                        <div class="slide">
-                            <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
-                                alt="Image <?php echo $index + 1; ?>">
-                        </div>
                         <?php endforeach; ?>
                     </div>
                     <div class="carousel-controls NoSelect">

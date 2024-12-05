@@ -130,6 +130,7 @@ function PrixOptionTTC($idOffre, $bdh) {
                         
                           <div class="facture-total facture-detail-element">
                         <p class="montant_facture">Prix offre HT : <?php echo round($offre[0]['prix_offre_ht'],2) ?>€</p>
+                        <?php print_r($offre[0]); ?>
                         <p class="montant_facture">Prix option HT : <?php echo round($offre[0]['prix_option_ht'],2) ?>€</p>
                         <br>
                         <p class="montant_facture">Total HT : <?php echo round($offre[0]['prix_offre_ht'] + $offre[0]['prix_option_ht'],2) ?>€</p>
