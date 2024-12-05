@@ -708,7 +708,7 @@ transform: rotate(-90deg);
   display: flex;
   flex-direction: column;
   gap: 5px;
-  margin: 10 0 10 0;
+  margin: 10px 0px 10px 0px;
 }
 
 /* Définition du container pour gérer l'alignement des infos de l'offre */
@@ -978,7 +978,7 @@ color: white;
 }
 
 #options-contexte {
-  width: 20%;
+  width: fit-content;
   padding: 5px;
   margin-bottom: 20px;
   border: 1px solid #ccc;
@@ -1087,7 +1087,7 @@ padding: 10px 10px;
 display: flex;
 flex-direction: column;
 margin-top: 20px;
-background-color: #fff;
+background-color: #99530317;
 padding: 10px;
 border-radius: 10px;
 border: 2px solid var(--bleuFonce-rougeFonce);
