@@ -595,7 +595,7 @@ try{
     die();
 }
 
-include_once 'nav.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -607,6 +607,9 @@ include_once 'nav.php';
         <link rel="stylesheet" href="../css/styleOffre.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
+    <nav>
+        <?php include_once 'nav.php';?>
+    </nav>
     <body class="BO">
         <div class="main-content"> 
             <h1 class="TS-bold">Modifiez votre offre</h1>            

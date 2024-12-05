@@ -508,6 +508,7 @@
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    background-color: rgb(83, 116, 244, .4);
 }
 
 #options-contexte > option{

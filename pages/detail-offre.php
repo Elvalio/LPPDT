@@ -1,7 +1,4 @@
 <?php
-echo '<div class="desktop-element">';
-include_once 'nav.php';
-echo '</div>';
 include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -18,7 +15,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
         $contexte = $_POST['options'];
 
 
-        $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite)
+        $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite, contexte)
         VALUES (:idc, :ido, :titre, :note, :corps, NOW(), :contexte);
         ");
         $stmt->execute([
@@ -118,10 +115,14 @@ try {
     <script src="../detail-offre.js" async></script>
 </head>
 
-<body
-    class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
+<div class="desktop-element">
+<?php include_once 'nav.php';?>
+</div>
 
-    <section class="section-page part-annonce">
+<body
+    class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
+    <div class="body">
+        <section class="section-page part-annonce">
         <header>
             <h1 class="titre-rouge">
                 <?php echo htmlspecialchars($offre['titre']); ?>
@@ -148,10 +149,6 @@ try {
                 <div class="carousel">
                     <div class="carousel-inner">
                         <?php foreach ($photos as $index => $photo): ?>
-                        <div class="slide">
-                            <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
-                                alt="Image <?php echo $index + 1; ?>">
-                        </div>
                         <div class="slide">
                             <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
                                 alt="Image <?php echo $index + 1; ?>">
@@ -326,11 +323,11 @@ try {
                     <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                     <label for="options" id="titre-contexte">Contexte de la visite :</label>
                     <select id="options-contexte" name="options">
-                        <option value="affaires">Affaires</option>
-                        <option value="couple">Couple</option>
-                        <option value="famille">Famille</option>
-                        <option value="amis">Amis</option>
-                        <option value="seul">Seul</option>
+                        <option value="Affaires">Affaires</option>
+                        <option value="Couple">Couple</option>
+                        <option value="Famille">Famille</option>
+                        <option value="Amis">Amis</option>
+                        <option value="Seul">Seul</option>
                     </select>
                     <input type="submit" id="bouton_publier" value="Publier">
                 </form>
@@ -343,11 +340,11 @@ try {
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                 <label for="options" id="titre-contexte">Contexte de la visite :</label>
                     <select id="options-contexte" name="options">
-                        <option value="affaires">Affaires</option>
-                        <option value="couple">Couple</option>
-                        <option value="famille">Famille</option>
-                        <option value="amis">Amis</option>
-                        <option value="seul">Seul</option>
+                        <option value="Affaires">Affaires</option>
+                        <option value="Couple">Couple</option>
+                        <option value="Famille">Famille</option>
+                        <option value="Amis">Amis</option>
+                        <option value="Seul">Seul</option>
                     </select>
                 <form method="POST" action="connexion.php" class="zone-btn-publier">
                     <input type="submit" id="bouton_publier" value="Publier">
@@ -406,6 +403,11 @@ try {
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>
+    </div>
+    <footer>
+        <?php include_once 'footer.php'; ?>
+    </footer>
+        
     <script src="../js/detail_offre.js"></script>
 </body>
 

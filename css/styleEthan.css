@@ -11,7 +11,7 @@
 
 
 .content {
-    margin: 30px 0 0 50px;
+    margin: 0 0 0 50px;
     padding: 20px;
 }
 
@@ -92,6 +92,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .edit-btn:hover {
@@ -112,7 +113,7 @@
 }
 
 .cancel-btn:hover {
-    background-color: var(--gris-fonce);
+    background-color: #C3C3C3;
 }
 
 .deco-btn {
