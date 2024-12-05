@@ -226,10 +226,10 @@ body {
 }
 
 .BO .actuel p{/*conteneur du logo actuel*/
-    color: red/*var(--bleu-rouge)*/;
+    color: var(--bleu-rouge)
 }
 .FO .actuel p{/*conteneur du logo actuel*/
-    color: rgb(29, 162, 167)/*var(--bleu-rouge)*/;
+    color: var(--bleu-rouge)
 }
 
 .BO .actuel .logo-nav{ /*image du logo actuel*/
@@ -239,7 +239,7 @@ body {
 }
 
 .FO .actuel .logo-nav{
-    background-color: rgba(29, 162, 167, 0.1);
+    background-color: rgba(83, 116, 244, 0.1);
     border-radius: 12px;
 }
 
@@ -278,7 +278,7 @@ body {
 }
 
 .FO.active .actuel{ 
-    background-color: rgba(29, 162, 167, 0.1);
+    background-color: rgba(83, 116, 244, 0.1);
 }
 
 #sidebar.active .actuel  img{ 
