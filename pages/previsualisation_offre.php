@@ -467,7 +467,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
     
 </head>
 <body class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
-<!-- <?php include_once 'nav.php';?> -->
+<?php include_once 'nav.php';?>
 <section class="section-page part-annonce">
     <header> 
         <h1 class="titre-rouge">

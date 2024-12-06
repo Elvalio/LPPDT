@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 
 include('../sql/connect_params.php');
-// include_once('nav.php'); 
+include_once('nav.php'); 
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
