@@ -4,6 +4,10 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// echo '<pre>';
+    // print_r($_POST);
+    // echo '<pre>';
+
 
 $idC = $_COOKIE['user'];
 $categorie = $_POST['categorie'];
@@ -379,6 +383,15 @@ try{
             $stmt->execute();
         }
 
+
+        //insertion de l'option :
+        $option = option_offre($_POST);
+        $stmt = $dbh->prepare(
+            "insert into pact._option_offre 
+                (idOption, idO) values ($option, $idOffre);"
+        );
+        $stmt->execute();
+
         // Redirection vers /accueil.php
         header('Location: tableau_de_bord.php');
         exit(); // Important : Terminer le script pour éviter des exécutions non voulues
@@ -401,7 +414,12 @@ for ($i = 1; $i < 4; $i++) { //pour chaque images
         $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
         move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
         $photos[] = 'image_offre/'.$idOffre.'-'.$i.'.'.$extention;
-    }    
+    } else {
+        $img = glob("../images/image_offre/$idOffre-$i.*");
+        if (!empty($img)){
+            unlink($img[0]);
+        }
+    }
 }
 
 // insertion de la map
@@ -424,6 +442,14 @@ if (!empty($_FILES['map-file-upload']['name'])){
         }
     }
 
+} else {
+    $menu = glob("../images/image_offre/$idOffre-menu.*");
+    $parc = glob("../images/image_offre/$idOffre-plan.*");
+    if(!empty($menu)){
+        unlink($menu[0]);
+    } else if (!empty($parc)){
+        unlink($parc[0]);
+    }
 }
 ?>
 

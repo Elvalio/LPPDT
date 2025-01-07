@@ -42,7 +42,7 @@ if (isset($_GET['numFacture'])) {
                 t.cout_TTC AS abonnement_ttc_unitaire,
                 op.cout_ht AS total_options_ht,
                 op.cout_ttc AS total_options_ttc,
-                f.nbSemaines
+                f.nbSemaines AS nbSemaines
             FROM pact.facturation f
             INNER JOIN pact.option_offre op ON f.idO = op.idO
             INNER JOIN pact.offre o ON f.idC = o.idC

@@ -32,10 +32,33 @@ error_reporting(0); if (!empty($_POST)) {
             $codePro = time();
 
             if (!empty($_POST["iban"])) {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '$iban', '$bic', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+                $stmt = $dbh->prepare(
+                    "INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
+                    VALUES (:codePro, :denomination, :iban, :bic, :siren, :raison_sociale, :nom, :prenom, :email, :telephone, :mdp, :ville, :numero_voie, :voie, :code_postal, :complement)"
+                );
+                $stmt->bindParam(':iban', $iban, PDO::PARAM_STR);
+                $stmt->bindParam(':bic', $bic, PDO::PARAM_STR);
             } else {
-                $stmt = $dbh->prepare("INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ($codePro, '$denomination', '', '', '$siren', '$raison_sociale', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+                $stmt = $dbh->prepare(
+                    "INSERT INTO pact.secteur_prive(codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
+                    VALUES (:codePro, :denomination, '', '', :siren, :raison_sociale, :nom, :prenom, :email, :telephone, :mdp, :ville, :numero_voie, :voie, :code_postal, :complement)"
+                );
             }
+            $stmt->bindParam(':codePro', $codePro, PDO::PARAM_INT);
+            $stmt->bindParam(':denomination', $denomination, PDO::PARAM_STR);
+            $stmt->bindParam(':siren', $siren, PDO::PARAM_STR);
+            $stmt->bindParam(':raison_sociale', $raison_sociale, PDO::PARAM_STR);
+            $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+            $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':telephone', $telephone, PDO::PARAM_STR);
+            $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+            $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+            $stmt->bindParam(':numero_voie', $num_adresse, PDO::PARAM_INT);
+            $stmt->bindParam(':voie', $adresse, PDO::PARAM_STR);
+            $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_INT);
+            $stmt->bindValue(':complement', '', PDO::PARAM_STR);
+            
 
         } else if ($form == "publique") {
             $nom = $_POST["nom"];
@@ -52,7 +75,23 @@ error_reporting(0); if (!empty($_POST)) {
             $mdp = $_POST["password"];
             $codePro = time();
 
-            $stmt = $dbh->prepare("INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$codePro', '$denomination', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+            $stmt = $dbh->prepare(
+                "INSERT INTO pact.secteur_public(codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
+                VALUES (:codePro, :denomination, :nom, :prenom, :email, :telephone, :mdp, :ville, :numero_voie, :voie, :code_postal, :complement)"
+            );
+            
+            $stmt->bindParam(':codePro', $codePro, PDO::PARAM_INT);
+            $stmt->bindParam(':denomination', $denomination, PDO::PARAM_STR);
+            $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+            $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':telephone', $telephone, PDO::PARAM_STR);
+            $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+            $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+            $stmt->bindParam(':numero_voie', $num_adresse, PDO::PARAM_INT);
+            $stmt->bindParam(':voie', $adresse, PDO::PARAM_STR);
+            $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_INT);
+            $stmt->bindValue(':complement', '', PDO::PARAM_STR);
         }
 
 
