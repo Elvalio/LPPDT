@@ -1378,7 +1378,6 @@ begin
   select pact.nbSemaines(idOffre, idFacture) into weeks;
   select o.cout_TTC from pact.option_offre o where o.idO = idOffre into cout;
   res = weeks * cout;
-  raise notice '%', res;
   if res is null then
      res = 0;
   end if;
