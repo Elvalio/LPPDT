@@ -167,20 +167,25 @@ try {
             <div class="infos-offre">
                 <div class="infos-avis">
                     <div class="etoiles">
-                        <?php 
-                    $nbrAvis = $offre['nbravis'];
-                    $moyNote = $offre['moy_note'];
-                    $fullStars = (int) $moyNote;
-                    $emptyStars = 5 - $fullStars;
+                        <?php
+                            $nbrAvis = $offre['nbravis'];
+                            $fullStars = floor($offre["moy_note"]);
+                            $halfStar = ($offre["moy_note"] - $fullStars >= 0.5) ? 1 : 0;
+                            $emptyStars = 5 - $fullStars - $halfStar;
+                        ?>
 
-                    for ($i = 0; $i < $fullStars; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
-                            alt="Étoile">
+                        <?php for ($i = 0; $i < $fullStars; $i++): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png" alt="Étoile">
                         <?php endfor; ?>
+
+                        <?php if ($halfStar): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'demi_etoile_rouge' : 'demi_etoile_bleue'; ?>.png" alt="Demi Étoile">
+                        <?php endif; ?>
+
                         <?php for ($i = 0; $i < $emptyStars; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
-                            alt="Étoile Vide">
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png" alt="Étoile Vide">
                         <?php endfor; ?>
+
                     </div>
                     <p class="nb-avis-info-offre">
                         <?php echo $nbrAvis . " Avis |"; ?>
@@ -425,6 +430,9 @@ try {
     </footer>
         
     <script src="../js/detail_offre.js"></script>
+</body>
+
+</html>
 </body>
 
 </html>
