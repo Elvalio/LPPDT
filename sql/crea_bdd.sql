@@ -568,6 +568,20 @@ create or replace trigger tg_update_membre
 instead of update on pact.membre
   for each row execute procedure pact.update_membre();
   
+
+create or replace function pact.delete_membre()
+  returns trigger as $$
+begin
+  update pact._experience set idC = 8 where idC = old.idC;
+  delete from pact._membre where idC = old.idC;
+  return OLD;
+end;
+$$ language 'plpgsql';
+  
+create or replace trigger tg_delete_membre
+instead of delete on pact.membre
+  for each row execute procedure pact.delete_membre();
+  
 -- professionnel
 create or replace view pact.professionnel as
   select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
@@ -1427,3 +1441,5 @@ begin
   RETURN res;
 end;
 $$ language 'plpgsql';
+
+delete from pact.membre where idC = 1;
