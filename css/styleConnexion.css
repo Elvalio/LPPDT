@@ -132,7 +132,7 @@
     border-width: 1px;
     border-color: #ccc;
     border-style: solid;
-    width: 40%;
+    width: 90%;
   }
 
   .phone-element, .mobile-footer{
@@ -150,6 +150,7 @@
     text-align: center;
     width: 50%;
     padding: 20px;
+    align-items: center;
   }
 
   .form-group input {
@@ -205,13 +206,26 @@
     flex-direction: column;
   }
 
+  .menu-links {
+    padding: 20px;
+}
+
+.menu-links div {
+    text-align: center; /* Alignement du texte */
+}
+
   .container {
-    text-align: center;
-    width: 50%;
+    align-items: center;
+    justify-content: center;
+    width: 94%;
+  }
+
+  .form-container {
+    display: block;
   }
 
   .form-group input {
-    width: 95%;
+    width: 90%;
     padding: 10px;
     border: none;               /* Remove all borders */
     border-bottom: 1px solid #ccc; /* Only the bottom border */
@@ -272,9 +286,5 @@
   .links a:hover {
       text-decoration: underline;
   }
-
-
   
 }
-
-

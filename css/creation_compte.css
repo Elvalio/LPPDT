@@ -166,13 +166,6 @@ label {
     margin-right: 0;
 }
 
-.form-container-page-creation-compte {
-    display: none;
-}
-.form-container-page-creation-compte.active {
-    display: block;
-}
-
 .erreur {
     font-size: 12px;
     color: red;
