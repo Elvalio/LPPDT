@@ -112,11 +112,11 @@ function PrixOptionTTC($idOffre, $bdh) {
                             <p class="montant_facture facture_total">Montant</p>
                         </div>
                         <div class="facture-detail-element">
-                            <img  src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt="">
+                            <a href="detail-offre.php?value=<?php echo $offre[0]['ido']?>"><img src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt=""></a>
                         </div>
                         
                         <div class="facture-detail-titre facture-detail-element">
-                            <p ><?php echo htmlspecialchars($offre[0]['titre']) ?></p>
+                        <a href="detail-offre.php?value=<?php echo $offre[0]['ido']?>"><p ><?php echo htmlspecialchars($offre[0]['titre']) ?></p></a>
                         </div>
                         <?php
                         $idO = $offre[0]['ido'];
@@ -134,7 +134,7 @@ function PrixOptionTTC($idOffre, $bdh) {
                                                                 }
                                                     ?></p>
                         </div>
-                          <div class="facture-total facture-detail-element">
+                            <div class="facture-total facture-detail-element">
                         <p class="montant_facture">Prix offre HT : <?php echo round($offre[0]['prix_offre_ht'],2) ?>€</p>
                         <p class="montant_facture">Prix option HT : <?php echo round($offre[0]['prix_option_ht'],2) ?>€</p>
                         <br>

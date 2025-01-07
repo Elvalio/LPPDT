@@ -56,12 +56,14 @@
             </tr>
 
             <?php
-            $idO = $offre[0]['ido'];
+                        $idO = $offre[0]['ido'];
 
-                        $stmtOption = $bdh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement > now() and idO = :idO");
+                        $stmtOption = $bdh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement < now() and idO = :idO");
                         $stmtOption->execute([':idO' => $idO]);
-                        $options = $stmtOption->fetchAll(PDO::FETCH_ASSOC);?>
-            <?php if (!empty($options[0]['idOption'])) { ?>
+                        $options = $stmtOption->fetchAll(PDO::FETCH_ASSOC);
+                        
+                        ?>
+            <?php if (!empty($options[0])) { ?>
                 <tr>
                     <td>Option « <?= htmlspecialchars($facture_data['options']) ?> »</td>
                     <td><?php echo $facture_data['nbSemaines'] ?> Semaine</td>

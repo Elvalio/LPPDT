@@ -1134,6 +1134,10 @@ grid-gap: 50px;
   grid-row: 2;
 }
 
+.facture-detail-titre a {
+  text-decoration: none;
+}
+
 .facture-detail-option {
   display: flex;
   flex-direction: column;
