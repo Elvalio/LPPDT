@@ -572,7 +572,7 @@ instead of update on pact.membre
 create or replace function pact.delete_membre()
   returns trigger as $$
 begin
-  update pact._experience set idC = 8 where idC = old.idC;
+  update pact._experience set idC = 1 where idC = old.idC;
   delete from pact._membre where idC = old.idC;
   return OLD;
 end;
