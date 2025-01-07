@@ -71,3 +71,31 @@ sortMenuItems.forEach(item => {
     });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    const filterTitles = document.querySelectorAll(".titleFilter"); // Sélectionner tous les éléments avec la classe titleFilter
+
+    filterTitles.forEach((title) => {
+        const nextDiv = title.nextElementSibling; // Récupère la div suivante par rapport à l'élément avec la classe titleFilter
+        const arrow = title.querySelector("#fleche-filtre"); // Récupère l'image de la flèche
+
+        if (nextDiv) {
+            // Stocker l'état initial dans un attribut data
+            nextDiv.dataset.initialDisplay = window.getComputedStyle(nextDiv).display;
+
+            // Initialiser l'état de la flèche
+            arrow.style.transition = "transform 0.3s ease"; // Ajouter une transition fluide pour la rotation
+
+            title.addEventListener("click", function () {
+                // Bascule entre "none" et "flex"
+                if (nextDiv.style.display === "flex") {
+                    nextDiv.style.display = "none";
+                    arrow.style.transform = "rotate(0deg)"; // Retour à la position initiale
+                } else {
+                    nextDiv.style.display = "flex";
+                    arrow.style.transform = "rotate(180deg)"; // Rotation de 180 degrés
+                }
+            });
+        }
+    });
+});
+

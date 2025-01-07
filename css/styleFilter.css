@@ -165,6 +165,33 @@
         overflow: auto; /* Permet le défilement sur ce conteneur */
         z-index: 1000;
     }
+
+    /* De base les filtres sont cachés */
+    .filtre-type , .filtre-lieu , .filtre-temps , .filtre-prix , .filtre-note , .filtre-ouvert {
+        display: none;
+    }
+
+    /* Flèche */
+
+    #fleche-filtre {
+        width: 40px;
+        height: 40px;
+        color: black;
+        rotate: 90deg;
+    }
+
+    .titleFilter {
+        display: flex !important;
+        align-items: center;
+    }
+    
+    .titleFilter .arrow {
+        margin-left: 10px;
+        transition: transform 0.3s ease;
+    }
+    
+    
+
     /* ============================== */
     /*           MENU TRIER           */
     /* ============================== */
@@ -224,5 +251,6 @@
     .filtre-lieu-case, .filtre-type {
         gap: 12px;
     }
+
 
 }
