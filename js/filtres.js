@@ -235,29 +235,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 sensTri.classList.add('clicked');
                 sensInverse = !sensInverse;
                 sensTriIMG.classList.toggle('rotate-180');
-                
-                for (let i = 0; i < menuItems.length; i++) {
-                    if (menuItems[i].classList.contains('active')) {
-                        const link = menuItems[i].querySelector('a');
-                        if (sensInverse) {
-                            sensText = 'Décroissant';
-                        } else {
-                            sensText = 'Croissant';
+
+                if (sensTri.classList.contains('desktop')) {                    
+                    for (let i = 0; i < menuItems.length; i++) {
+                        if (menuItems[i].classList.contains('active')) {
+                            const link = menuItems[i].querySelector('a');
+                            if (sensInverse) {
+                                sensText = 'Décroissant';
+                            } else {
+                                sensText = 'Croissant';
+                            }
+                            trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${link.innerHTML} ${sensText}</span>`; // Change text with color
                         }
-                        trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${link.innerHTML} ${sensText}</span>`; // Change text with color
+                    }
+                } else {
+                    for (let i = 0; i < boutonTriMobile.length; i++) {
+    
+                        if (boutonTriMobile[i].classList.contains('active')) {
+                            boutonTriMobile[i].textContent = boutonTriMobile[i].textContent.replace(` ${sensText}`, '');
+                            if (sensInverse) {
+                                sensText = 'Décroissant';
+                            } else {
+                                sensText = 'Croissant';
+                            }
+                            boutonTriMobile[i].textContent += ` ${sensText}`;
+                        } else {
+                            boutonTriMobile[i].textContent = boutonTriMobile[i].textContent.replace(` ${sensText}`, '');
+                        }
+                        
+                        trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${boutonTriMobile[i].textContent} ${sensText}</span>`; // Change text with color
                     }
                 }
 
-                for (let i = 0; i < boutonTriMobile.length; i++) {
-
-                    trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${boutonTriText.textContent} ${sensText}</span>`; // Change text with color
-
-                    if (boutonTriMobile[i].classList.contains('active')) {
-                        boutonTriMobile[i].textContent += ` ${sensText}`;
-                    } else {
-                        boutonTriMobile[i].textContent = boutonTriMobile[i].textContent.replace(` ${sensText}`, '');
-                    }
-                }
 
                 afficherResultats(filtrage());
                 setTimeout(() => {

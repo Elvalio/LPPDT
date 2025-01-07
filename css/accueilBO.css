@@ -215,11 +215,6 @@ input:focus {
 
 }
 
-.sensTris:hover {
-    cursor: pointer;
-    background-color: #F5F5F5;
-
-}
 
 /* ============================================= */
 /*           STYLES POUR LES FILTRES             */
@@ -789,6 +784,13 @@ input[type="range"]::-ms-thumb {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+
+.sensTris:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
+
+}
+
 }
 
 /* =========================================================== */
@@ -812,6 +814,28 @@ input[type="range"]::-ms-thumb {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
         flex-wrap: wrap;
         margin-bottom: 80px;
+    }
+
+    .sensTris img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        
+        transition: 0.3s all;
+    }
+    
+    .sensTris {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+    
+        margin-left: -20px;
+    
     }
 
     div.phone-element  {
