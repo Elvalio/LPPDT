@@ -130,9 +130,9 @@ try {
             <h2 class="sous-titre">
                 <?php echo htmlspecialchars($offre['ville']); ?> |
                 <?php echo htmlspecialchars($telephone); ?>
-                <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars($spectacle[0]['duree']); ?>
-                <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars($activite[0]['duree']); ?>
-                <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars($visite[0]['duree']); ?>
+                <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($spectacle[0]['duree'], 0, 5)); ?>
+                <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($activite[0]['duree'], 0, 5)); ?>
+                <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($visite[0]['duree'], 0, 5)); ?>
 
                 <?php if (!empty($activite[0]['age_min'])) echo " | Âge : " . $activite[0]['age_min'] . " ans"; ?>
                 <?php if (!empty($parc_actraction[0]['age_min'])) echo " | Âge : " . $parc_actraction[0]['age_min'] . " ans"; ?>
@@ -167,20 +167,25 @@ try {
             <div class="infos-offre">
                 <div class="infos-avis">
                     <div class="etoiles">
-                        <?php 
-                    $nbrAvis = $offre['nbravis'];
-                    $moyNote = $offre['moy_note'];
-                    $fullStars = (int) $moyNote;
-                    $emptyStars = 5 - $fullStars;
+                        <?php
+                            $nbrAvis = $offre['nbravis'];
+                            $fullStars = floor($offre["moy_note"]);
+                            $halfStar = ($offre["moy_note"] - $fullStars >= 0.5) ? 1 : 0;
+                            $emptyStars = 5 - $fullStars - $halfStar;
+                        ?>
 
-                    for ($i = 0; $i < $fullStars; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
-                            alt="Étoile">
+                        <?php for ($i = 0; $i < $fullStars; $i++): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png" alt="Étoile">
                         <?php endfor; ?>
+
+                        <?php if ($halfStar): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'demi_etoile_rouge' : 'demi_etoile_bleue'; ?>.png" alt="Demi Étoile">
+                        <?php endif; ?>
+
                         <?php for ($i = 0; $i < $emptyStars; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
-                            alt="Étoile Vide">
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png" alt="Étoile Vide">
                         <?php endfor; ?>
+
                     </div>
                     <p class="nb-avis-info-offre">
                         <?php echo $nbrAvis . " Avis |"; ?>
@@ -315,10 +320,10 @@ try {
                     if(!$avis_publie){ ?>
             <article class="poster_avis">
                 <h3>Poster un avis :</h3>
-                <div>
+                <div class="notes_avis">
                     <?php for($i = 1; $i<6; $i++):?>
-                    <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
-                        id="etoile_note<?php echo $i?>">
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
                     <?php endfor;?>
                 </div>
                 
@@ -341,10 +346,17 @@ try {
                         </form>
                 <?php }
                 }else{ ?>
+                <h3>Poster un avis :</h3>
+                <div class="notes_avis">
+                    <?php for($i = 1; $i<6; $i++):?>
+                        <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
+                            id="etoile_note<?php echo $i?>">
+                    <?php endfor;?>
+                </div>
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                     required="required"></textarea>
-                <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
+                <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
                     placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                 <label for="options" id="titre-contexte">Contexte de la visite :</label>

@@ -814,6 +814,7 @@ input[type="range"]::-ms-thumb {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
         flex-wrap: wrap;
         margin-bottom: 80px;
+        width: 100%; /* Changement pour que les filtres mobiles prennent toute la largeur même fermés */
     }
 
     .sensTris img {

@@ -568,6 +568,20 @@ create or replace trigger tg_update_membre
 instead of update on pact.membre
   for each row execute procedure pact.update_membre();
   
+
+create or replace function pact.delete_membre()
+  returns trigger as $$
+begin
+  update pact._experience set idC = 8 where idC = old.idC;
+  delete from pact._membre where idC = old.idC;
+  return OLD;
+end;
+$$ language 'plpgsql';
+  
+create or replace trigger tg_delete_membre
+instead of delete on pact.membre
+  for each row execute procedure pact.delete_membre();
+  
 -- professionnel
 create or replace view pact.professionnel as
   select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
@@ -1169,6 +1183,56 @@ instead of delete on pact.photo_offre
 --- facturation ---
 
 /*
+Compte le nombre de jours qu'une facture est active pour le mois
+*/
+create or replace function pact.nbrJours(idOffre integer, date_fin date, idFacture integer)
+  returns integer as $$
+declare
+  comp float;
+  date_debut date;
+  date_offre_hors_ligne date;
+  date_facture date;
+  date_emmission_facture date;
+  n integer;
+begin
+  n = 0;
+  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_facture;
+  date_emmission_facture = date_trunc('month'::text, date_facture + '1 mon'::interval);
+  
+  -- si la date d'emmission est plus vielle que la date donnée donc elle devient la date de fin
+  -- celà évite qu'il n'y ai plus de jours que dans le mois comptés
+  
+  if date_emmission_facture < date_fin then
+    date_fin = date_emmission_facture;
+   end if;
+  
+  select o.date_publication from pact.offre o where o.idO = idOffre into date_debut;
+  
+  -- voir si la date de publication est plus vielle que la date de facture
+  if date_debut < date_trunc('month', date_facture) then
+    date_debut = date_trunc('month', date_facture);
+   end if;
+
+  if (date_emmission_facture > date_debut) then
+    select o.date_hors_ligne from pact.offre o where o.idO = idOffre into date_offre_hors_ligne;
+    
+    -- try date truncate with month if lasts over a month
+    if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
+      select(date_fin - date_debut) as days into n;
+    else
+      -- make sure it doesn't take from previous month TODO
+      select(date_offre_hors_ligne - date_debut) as days into n;
+      -- corrige si la date de mise hors ligne est plus vielle que la date de debut
+      if n<0 then
+        n = 0;
+      end if;
+    end if;
+  end if;
+  RETURN n;
+end;
+$$ language 'plpgsql';
+
+/*
   Cette fonction calcule le cout TTC d'une offre pour une certaine durée 
   Le nombre de jours entre la date de publication et la date donnée dans la plupart des cas, 
   sauf si la date de mise hors ligne de l'offre est plus vielle avant.
@@ -1179,42 +1243,22 @@ create or replace function pact.prix_offre_TTC(idOffre integer, date_fin date, i
 declare
   cout float;
   comp float;
-  date_offre date;
-  date_offre_hors_ligne date;
-  date_emmission_facture date;
   n integer;
 begin
   comp = 0;
-    
-  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
-  date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
-  -- Si la date d'emmission de la facture est avant la date de publication, 
-  -- ça veut dire que cette offre n'etait pas active pendant ce mois
-  -- (à modifier)
-  select o.date_publication from pact.offre o where o.idO = idOffre into date_offre;
-
-  if (date_emmission_facture > date_offre) then
- 
-    select o.cout_TTC from pact.offre o where o.idO = idOffre into cout;
-  
-    select o.date_hors_ligne from pact.offre o where o.idO = idOffre into date_offre_hors_ligne;
-
-    if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
-      select(date_fin - date_offre) as days into n;
-    else
-      select(date_offre_hors_ligne - date_offre) as days into n;   
-    end if;
-    
-    for counter in 1..n loop
-      comp = comp + cout;
-    end loop;
-  end if;
+  select o.cout_TTC from pact.offre o where o.idO = idOffre into cout;
+  select pact.nbrJours(idOffre, date_fin, idFacture) into n;
+  for counter in 1..n loop
+    comp = comp + cout;
+  end loop;
   
   RETURN comp;
 end;
 $$ language 'plpgsql';
 
-/*DEPRECIATED : compte le nombre d'offres pour une facture (facture à plusieurs offres)*/
+/*
+DEPRECIATED : compte le nombre d'offres pour une facture (facture à plusieurs offres)
+*/
 create or replace function pact.nombre_offre_facture(idCompte integer, idFacture integer)
   returns integer as $$
 declare
@@ -1237,38 +1281,14 @@ create or replace function pact.prix_offre_HT(idOffre integer, date_fin date, id
 declare
   cout float;
   comp float;
-  date_offre date;
-  date_offre_hors_ligne date;
-  date_emmission_facture date;
   n integer;
 begin
   comp = 0;
-    
-  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
-  date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
-
-  -- Si la date d'emmission de la facture est avant la date de publication, 
-  -- ça veut dire que cette offre n'etait pas active pendant ce mois
-  -- (à modifier)
-  select o.date_publication from pact.offre o where o.idO = idOffre into date_offre;
-  if (date_emmission_facture > date_offre) then
- 
-    select o.cout_HT from pact.offre o where o.idO = idOffre into cout;
-    
-    
-  
-    select o.date_hors_ligne from pact.offre o where o.idO = idOffre into date_offre_hors_ligne;
-    -- try date truncate with month if lasts over a month
-    if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
-      select(date_fin - date_offre) as days into n;
-    else
-      select(date_offre_hors_ligne - date_offre) as days into n;   
-    end if;
-    
-    for counter in 1..n loop
-      comp = comp + cout;
-    end loop;
-  end if;
+  select o.cout_HT from pact.offre o where o.idO = idOffre into cout;
+  select pact.nbrJours(idOffre, date_fin, idFacture) into n;
+  for counter in 1..n loop
+    comp = comp + cout;
+  end loop;
   
   RETURN comp;
 end;
@@ -1276,8 +1296,8 @@ $$ language 'plpgsql';
 
 
 /*
-  Cette fonction calcule le prix TTC de la facture pour le mois et l'année, ne prend pas en compte les options
   DEPRECIATED : pour facture à plusieur offres
+  Cette fonction calcule le prix TTC de la facture pour le mois et l'année, ne prend pas en compte les options 
 */
 create or replace function pact.prix_total_TTC(idCompte integer, idFacture integer)
   returns float as $$
@@ -1298,8 +1318,8 @@ $$ language 'plpgsql';
 
 
 /*
-  Cette fonction calcule le prix HT de la facture pour le mois et l'année, ne prend pas en compte les options
   DEPRECIATED : pour facture à plusieur offres
+  Cette fonction calcule le prix HT de la facture pour le mois et l'année, ne prend pas en compte les options
 */
 create or replace function pact.prix_total_HT(idCompte integer, idFacture integer)
   returns float as $$
@@ -1318,15 +1338,10 @@ begin
 end;
 $$ language 'plpgsql';
 
-/*
-  Fonction calcule le prix TTC d'une option pour une offre donnée,
-  si la date de lancement n'a pas étée dépasée, le prix est 0
-  si la date de lancement et la date de la facture ne sont pas du mêle mois et année, le prix de l'option est 0
-*/
-create or replace function pact.prix_option_offre_TTC(idOffre integer, idFacture integer)
-  returns float as $$
+--nombre semaines pour option offre active
+create or replace function pact.nbSemaines(idOffre integer, idFacture integer)
+  returns integer as $$
 declare
-  cout float;
   duree interval;
   comp float;
   days integer;
@@ -1339,11 +1354,33 @@ begin
   select o.date_lancement from pact.option_offre o where o.idO = idOffre into date_lancement;
   if (EXTRACT(MONTH FROM date_facture) = EXTRACT(MONTH FROM date_lancement) and EXTRACT(YEAR FROM date_facture) = EXTRACT(YEAR FROM date_lancement)) then
     if (current_date > date_lancement and date_lancement is not null) then
-      select o.cout_TTC from pact.option_offre o where o.idO = idOffre into cout;
       select o.duree_option from pact.option_offre o where o.idO = idOffre into duree;
       select EXTRACT(DAY FROM duree) into days;
-      res = days/7 * cout;
+      res = days/7;
     end if;
+  end if;
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+/*
+  Fonction calcule le prix TTC d'une option pour une offre donnée,
+  si la date de lancement n'a pas étée dépasée, le prix est 0
+  si la date de lancement et la date de la facture ne sont pas du mêle mois et année, le prix de l'option est 0
+*/
+create or replace function pact.prix_option_offre_TTC(idOffre integer, idFacture integer)
+  returns float as $$
+declare
+  cout float;
+  weeks integer;
+  res float;
+begin
+  select pact.nbSemaines(idOffre, idFacture) into weeks;
+  select o.cout_TTC from pact.option_offre o where o.idO = idOffre into cout;
+  res = weeks * cout;
+  raise notice '%', res;
+  if res is null then
+     res = 0;
   end if;
   RETURN res;
 end;
@@ -1381,41 +1418,10 @@ begin
 end;
 $$ language 'plpgsql';
 
-create or replace function pact.nbrJours(idOffre integer, date_fin date, idFacture integer)
-  returns integer as $$
-declare
-  comp float;
-  date_offre date;
-  date_offre_hors_ligne date;
-  date_emmission_facture date;
-  n integer;
-begin    
-  select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_emmission_facture;
-  date_emmission_facture = date_trunc('month'::text, date_emmission_facture + '1 mon'::interval);
-  
-  select o.date_publication from pact.offre o where o.idO = idOffre into date_offre;
-  if (date_emmission_facture > date_offre) then
-
-    select o.date_hors_ligne from pact.offre o where o.idO = idOffre into date_offre_hors_ligne;
-    -- try date truncate with month if lasts over a month
-    if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
-      select(date_fin - date_offre) as days into n;
-    else
-      select(date_offre_hors_ligne - date_offre) as days into n;   
-    end if;
-  end if;
-  
-  if (n is null) then
-    n = 0;
-  end if;
-  RETURN n;
-end;
-$$ language 'plpgsql';
-
 
 create or replace view pact.facturation as 
   select numfacture, date_facture, date_trunc('month', date_facture + interval '1 month') as date_emmission, pact.prix_offre_TTC(f.idO, now()::date, numfacture) as prix_offre_ttc, pact.prix_offre_HT(f.ido, now()::date, numfacture) as prix_offre_ht, 
-  pact.prix_option_offre_TTC(f.idO, numfacture) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO, numfacture) as  prix_option_ht, nbrJours(f.idO, now()::date, numfacture),
+  nbrJours(f.idO, now()::date, numfacture) ,pact.prix_option_offre_TTC(f.idO, numfacture) as  prix_option_ttc, pact.prix_option_offre_HT(f.idO, numfacture) as  prix_option_ht, pact.nbSemaines(f.idO, numfacture),
   f.idO, idC from pact._facturation f
   inner join pact.offre o on o.idO = f.idO;
 
@@ -1435,3 +1441,5 @@ begin
   RETURN res;
 end;
 $$ language 'plpgsql';
+
+delete from pact.membre where idC = 1;

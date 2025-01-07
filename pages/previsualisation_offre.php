@@ -1,18 +1,12 @@
 <?php
-// include_once 'nav.php';
 include('../sql/connect_params.php');
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// // Identifier si le bouton est cliqué
-// if (isset($_POST['action'])){
-//     if ($_POST['action'] === 'redirect') {
-//         // Rediriger vers une autre page
-//         header('Location: test.php');
-//         exit; // Toujours arrêter l'exécution après une redirection
-//     }
-// }
+// echo '<pre>';
+    // print_r($_POST);
+    // echo '<pre>';
 
 
 $idC = $_COOKIE['user'];
@@ -33,10 +27,6 @@ if(isset($_POST['site'])){
 } else {
     $site = 'Non disponible';
 }
-
-// echo '<pre>';
-// print_r($_POST);
-// echo'</pre>';
 
 if (isset($_POST['validation'])){
     function type_offre($nom_type){
@@ -183,12 +173,6 @@ try{
         // $idOffre = $db->lastInsertId(); //a faire après avoir créer l'offre !!!
 
 
-    
-
-    
-
-
-
     if (isset($_POST['validation'])){
 
         switch ($categorie) {
@@ -317,93 +301,100 @@ try{
         $stmt->execute();
 
 
-    $idOffre --;
-    for ($i = 0; $i < 3; $i++) { //pour chaque images
-        if(isset($_POST['image'.$i])){
-            $img = $_POST['image'.$i];
-            $stmt = $dbh->prepare(
-                "insert into pact.photo_offre 
-                (src_image, idO) values 
-                ('$img', '$idOffre');"
-            );   
+        $idOffre;
+        for ($i = 0; $i < 3; $i++) { //pour chaque images
+            if(isset($_POST['image'.$i])){
+                $img = $_POST['image'.$i];
+                $stmt = $dbh->prepare(
+                    "insert into pact.photo_offre 
+                    (src_image, idO) values 
+                    ('$img', '$idOffre');"
+                );   
+                $stmt->execute();
+            }
+        }
+
+        // insertion de la map
+        if (isset($_POST['mapPhoto'])){
+            $img = $_POST['mapPhoto'];
+            if ($categorie === 'parcAttraction'){
+                $stmt = $dbh->prepare(
+                    "UPDATE pact.parc_d_attraction SET src_image = '$img'
+                    WHERE ido = $idOffre;"
+                );
+            } else if ($categorie === 'restauration'){
+                $stmt = $dbh->prepare(
+                    "UPDATE pact.restauration SET src_image = '$img'
+                    WHERE ido = $idOffre;"
+                );
+            }
             $stmt->execute();
         }
-    }
 
-    // insertion de la map
-    if (isset($_POST['mapPhoto'])){
-        $img = $_POST['mapPhoto'];
-        if ($categorie === 'parcAttraction'){
+
+        //ajout des tags 
+
+        $tags = tag_offre($_POST);
+        for ($i=0; $i < sizeof($tags) ; $i++) { 
+            $t = $tags[$i];
             $stmt = $dbh->prepare(
-                "UPDATE pact.parc_d_attraction SET src_image = '$img'
-                WHERE ido = $idOffre;"
+                //récupération de l'idTag
+                "select idtag from pact._tag where libelle = '$t';"
             );
-        } else if ($categorie === 'restauration'){
-            $stmt = $dbh->prepare(
-                "UPDATE pact.restauration SET src_image = '$img'
-                WHERE ido = $idOffre;"
-            );
+            $stmt->execute();
+            $idtag = $stmt->fetchColumn();
+
+
+            if ($categorie === 'parcAttraction'){
+                //vérification que le tag n'a pas déjà été inséré
+                $checkStmt = $dbh->prepare("
+                    SELECT COUNT(*) FROM pact._tags_parc_d_attraction
+                    WHERE idO = :idOffre AND idtag = :idtag;
+                ");
+                $checkStmt->execute([
+                    'idOffre' => $idOffre,
+                    'idtag' => $idtag
+                ]);
+                if ($checkStmt->fetchColumn() == 0) {
+                    $stmt = $dbh->prepare(
+                        //insertion    
+                        "insert into pact._tags_parc_d_attraction(idO, idtag) values ($idOffre,$idtag);"
+                    );
+
+                }
+            } else {
+                //vérification que le tag n'a pas déjà été inséré
+                $checkStmt = $dbh->prepare("
+                    SELECT COUNT(*) FROM pact._tags_$categorie
+                    WHERE idO = :idOffre AND idtag = :idtag;
+                ");
+                $checkStmt->execute([
+                    'idOffre' => $idOffre,
+                    'idtag' => $idtag
+                ]);
+                if ($checkStmt->fetchColumn() == 0) {
+                    $stmt = $dbh->prepare(
+                        //insertion
+                        "insert into pact._tags_$categorie(idO, idtag) values ($idOffre,$idtag);"
+                    );
+                }
+            }
+            
+            $stmt->execute();
         }
+
+
+        //insertion de l'option :
+        $option = option_offre($_POST);
+        $stmt = $dbh->prepare(
+            "insert into pact._option_offre 
+                (idOption, idO) values ($option, $idOffre);"
+        );
         $stmt->execute();
-    }
 
-
-    // //ajout des tags 
-
-    // $tags = tag_offre($_POST);
-
-    // for ($i=0; $i < sizeof($tags) ; $i++) { 
-    //     $t = $tags[$i];
-    //     $stmt = $dbh->prepare(
-    //         //récupération de l'idTag
-    //         "select idtag from pact._tag where libelle = '$t';"
-    //     );
-    //     $stmt->execute();
-    //     $idtag = $stmt->fetchColumn();
-
-
-    //     if ($categorie === 'parcAttraction'){
-    //         //vérification que le tag n'a pas déjà été inséré
-    //         $checkStmt = $dbh->prepare("
-    //             SELECT COUNT(*) FROM pact._tags_parc_d_attraction
-    //             WHERE idO = :idOffre AND idtag = :idtag;
-    //         ");
-    //         $checkStmt->execute([
-    //             'idOffre' => $idOffre,
-    //             'idtag' => $idtag
-    //         ]);
-    //         if ($checkStmt->fetchColumn() == 0) {
-    //             $stmt = $dbh->prepare(
-    //                 //insertion    
-    //                 "insert into pact._tags_parc_d_attraction(idO, idtag) values ($idOffre,$idtag);"
-    //             );
-
-    //         }
-    //     } else {
-    //         //vérification que le tag n'a pas déjà été inséré
-    //         $checkStmt = $dbh->prepare("
-    //             SELECT COUNT(*) FROM pact._tags_$categorie
-    //             WHERE idO = :idOffre AND idtag = :idtag;
-    //         ");
-    //         $checkStmt->execute([
-    //             'idOffre' => $idOffre,
-    //             'idtag' => $idtag
-    //         ]);
-    //         if ($checkStmt->fetchColumn() == 0) {
-    //             $stmt = $dbh->prepare(
-    //                 //insertion
-    //                 "insert into pact._tags_$categorie(idO, idtag) values ($idOffre,$idtag);"
-    //             );
-    //         }
-    //     }
-        
-    //     $stmt->execute();
-    // }
-
-    // // Redirection vers /accueil.php
-    // header('Location: tableau_de_bord.php');
-    // exit(); // Important : Terminer le script pour éviter des exécutions non voulues
-
+        // Redirection vers /accueil.php
+        header('Location: tableau_de_bord.php');
+        exit(); // Important : Terminer le script pour éviter des exécutions non voulues
 
 
     } // fin de vérif si clic sur bouton
@@ -423,7 +414,12 @@ for ($i = 1; $i < 4; $i++) { //pour chaque images
         $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
         move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
         $photos[] = 'image_offre/'.$idOffre.'-'.$i.'.'.$extention;
-    }    
+    } else {
+        $img = glob("../images/image_offre/$idOffre-$i.*");
+        if (!empty($img)){
+            unlink($img[0]);
+        }
+    }
 }
 
 // insertion de la map
@@ -446,53 +442,16 @@ if (!empty($_FILES['map-file-upload']['name'])){
         }
     }
 
+} else {
+    $menu = glob("../images/image_offre/$idOffre-menu.*");
+    $parc = glob("../images/image_offre/$idOffre-plan.*");
+    if(!empty($menu)){
+        unlink($menu[0]);
+    } else if (!empty($parc)){
+        unlink($parc[0]);
+    }
 }
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -508,7 +467,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
     
 </head>
 <body class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
-
+<?php include_once 'nav.php';?>
 <section class="section-page part-annonce">
     <header> 
         <h1 class="titre-rouge">
@@ -731,7 +690,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
                 Valider
             </button>
     </form>
-    <form method="post" action="test.php">
+    <form method="post" action="creation_offre.php">
     <?php 
         foreach ($_POST as $key => $value) {
             // Si la valeur est un tableau (cas des champs checkbox ou similaires)

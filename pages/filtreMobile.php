@@ -42,7 +42,10 @@
             </div>
             <div class="all-filter mobile">
                 <div class="filter mobile">
-                    <p class="FS">Catégories</p>
+                    <div class="titleFilter">
+                        <p class="FS">Catégories</p>
+                        <img src="../icons/arrow.svg" id="fleche-filtre">
+                    </div>
                     <div class="filtre-type mobile">
                         <div class="filtre-case">
                             <input type="checkbox" id="visite" name="Visite" />
@@ -67,7 +70,10 @@
                     </div>
                 </div>
                 <div class="filter mobile">
-                    <p class="FS">Lieux</p>
+                    <div class="titleFilter">
+                        <p class="FS">Lieux</p>
+                        <img src="../icons/arrow.svg" id="fleche-filtre">
+                    </div>
                     <div class="filtre-lieu mobile">
                         <div class="search-filter">
                             <input type="text" name="search" class="rechercheLieu" placeholder="Recherche">
@@ -85,7 +91,10 @@
                     </div>
                 </div>
                 <div class="filter mobile">
-                    <p class="FS">Date de publication</p>
+                    <div class="titleFilter">
+                        <p class="FS">Date de publication</p>
+                        <img src="../icons/arrow.svg" id="fleche-filtre">
+                    </div>
                     <div class="filtre-temps mobile">
                         <div id="calendar-start">
                             <label for="calendar-start">
@@ -103,7 +112,11 @@
                     </div>
                 </div>
                 <div class="filter mobile">
-                    <p class="FS">Prix</p>
+                    
+                    <div class="titleFilter">
+                        <p class="FS">Prix</p>
+                        <img src="../icons/arrow.svg" id="fleche-filtre">
+                    </div>
                     <div class="filtre-prix mobile">
                         <div class="slider-container">
                             <input type="range" id="slider-left" min="<?php echo $prix_min ?>"
@@ -121,7 +134,10 @@
                     </div>
                 </div>
                 <div class="filter mobile">
-                    <p class="FS">Notes</p>
+                    <div class="titleFilter">
+                        <p class="FS">Notes</p>
+                        <img src="../icons/arrow.svg" id="fleche-filtre">
+                    </div>
                     <div class="filtre-note mobile">
                         <?php
                     $notes = [
@@ -147,7 +163,10 @@
                     </div>
                 </div>
                 <div class="filter mobile">
-                    <p class="FS">Ouvert / Fermé</p>
+                    <div class="titleFilter">
+                        <p class="FS">Ouvert / Fermé</p>
+                        <img src="../icons/arrow.svg" id="fleche-filtre">
+                    </div>
                     <div class="filtre-ouvert mobile">
                         <div class="choixOuvert">
                             <input type="checkbox" name="ouverture" id="ouvert">

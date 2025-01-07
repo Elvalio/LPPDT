@@ -12,8 +12,10 @@ if ($_POST!=[]) {
         //verifie si membre
 
         $stmt = $dbh->prepare(
-            "SELECT idC, pseudo, mdp FROM pact.membre where pseudo = '$identifiant';"
+            "SELECT idC, pseudo, mdp FROM pact.membre WHERE pseudo = :pseudo;"
         );
+        $stmt->bindParam(':pseudo', $identifiant, PDO::PARAM_STR);
+        
             
         $stmt->execute();
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,8 +36,9 @@ if ($_POST!=[]) {
         $identifiant = (int)$identifiant;
 
         $stmt = $dbh->prepare(
-            "SELECT idC, codePro, mdp FROM pact.professionnel where codePro = $identifiant;"
+            "SELECT idC, codePro, mdp FROM pact.professionnel WHERE codePro = :codePro;"
         );
+        $stmt->bindParam(':codePro', $identifiant, PDO::PARAM_INT);
 
         $stmt->execute();
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -71,56 +74,62 @@ if ($_POST!=[]) {
         die();
     }
 
-    
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Se connecter</title>
+    <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" type="text/css" href="../css/styleConnexion.css">
-
 </head>
 
-<div class="phone-element">
+    <div class="phone-element">
         <?php include_once 'header.php' ?>
     </div>
-    
 
-<body class="login-page"
+<body class="login-page">
     <div class="container">
-        <button class="back-button" onclick="location.href='accueil.php';"> <img src="../icons/arrow-left-w.svg" alt="">Retour</button>
-
-        <div class="logo-container">
-            <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo">
+        <div class="menu-links">
+            <div class="inscription-membre TS-bold" id="link-membre">
+                <h1 class="titre-connexion TS-bold">Connexion</h1>
+            </div>
         </div>
-        <?php if (!empty($message_erreur)) { ?>
-        <p class="message-erreur"><?php echo $message_erreur; ?></p>
-        <?php } ?>
+        <div class="form-container">
+            <button class="back-button" onclick="location.href='accueil.php';"> <img src="../icons/arrow-left-w.svg" alt="">Retour</button>
 
-        <h1 class="titre-connexion TS-bold">Connexion</h1>
-
-        <form action="connexion.php" method="post" class="login-form">
-            <div class="form-group">
-                <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
-                <label for="identifiant">Identifiant compte</label>
-                <input id="identifiant" name="identifiant" placeholder="Identifiant" required>
+            <div class="logo-container">
+                <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo">
             </div>
+            <?php if (!empty($message_erreur)) { ?>
+            <p class="message-erreur"><?php echo $message_erreur; ?></p>
+            <?php } ?>
 
-            <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-            </div>
+            
 
-            <button type="submit" class="submit-button">Se connecter</button>
+            <form action="connexion.php" method="post" class="login-form">
+                <div class="form-group">
+                    <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
+                    <label for="identifiant">Identifiant compte</label>
+                    <input id="identifiant" name="identifiant" placeholder="Identifiant" required>
+                </div>
 
-            <div class="links">
-                <a href="#" class="mdpOublie"><!--Mot de passe oublié ?--></a>
-                <a href="creation_compte_formulaire.php" class="inscription">S'inscrire</a>
-            </div>
-        </form>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                </div>
+
+                <button type="submit" class="submit-button">Se connecter</button>
+
+                <div class="links">
+                    <!--<a href="#" class="mdpOublie">Mot de passe oublié ?</a>-->
+                    <a href="creation_compte_formulaire.php" class="inscription">S'inscrire</a>
+                </div>
+            </form>
+        </div>
     </div>
             <?php include_once 'footerNav.php' ?>
 </body>

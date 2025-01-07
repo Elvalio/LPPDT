@@ -93,7 +93,7 @@ function PrixOptionTTC($idOffre, $bdh) {
                         <p class="facture_total"><?php echo htmlspecialchars($facture['prix_offre_ttc'] + $facture['prix_option_ttc']); ?>€/TTC</p>
                     </div>
                         <?php $offre = offre($facture['numfacture'], $bdh);?>
-                    <a href="facture_telechargeable.php?ido=<?php echo htmlspecialchars($offre[0]['ido']); ?>&userID=<?php echo $userID; ?>" class="telecharger facture-button" target="_blank">Télécharger</a>
+                    <a href="facture_telechargeable.php?numFacture=<?php echo htmlspecialchars($facture['numfacture']); ?>&userID=<?php echo $userID; ?>" class="telecharger facture-button" target="_blank">Télécharger</a>
                     <button class="voir-plus" aria-expanded="true">Voir plus +</button>
                 </div>
                 <div class="facture-details">
@@ -112,23 +112,29 @@ function PrixOptionTTC($idOffre, $bdh) {
                             <p class="montant_facture facture_total">Montant</p>
                         </div>
                         <div class="facture-detail-element">
-                            <img  src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt="">
+                            <a href="detail-offre.php?value=<?php echo $offre[0]['ido']?>"><img src="../images/<?php echo image($offre[0]['ido'], $bdh) ?>" alt=""></a>
                         </div>
                         
                         <div class="facture-detail-titre facture-detail-element">
-                            <p ><?php echo htmlspecialchars($offre[0]['titre']) ?></p>
+                        <a href="detail-offre.php?value=<?php echo $offre[0]['ido']?>"><p ><?php echo htmlspecialchars($offre[0]['titre']) ?></p></a>
                         </div>
+                        <?php
+                        $idO = $offre[0]['ido'];
+
+                        $stmtOption = $bdh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement < now() and idO = :idO");
+                        $stmtOption->execute([':idO' => $idO]);
+                        $options = $stmtOption->fetchAll(PDO::FETCH_ASSOC);
                         
+                        ?>
                         <div class="facture-detail-option facture-detail-element">
-                            <p ><?php if (!empty($offre[0]['option'])) {
+                            <p ><?php if (!empty($options[0])) {
                                                                     echo htmlspecialchars($offre[0]['option']);
                                                                 } else {
                                                             echo "Pas d'option";
                                                                 }
                                                     ?></p>
                         </div>
-                        
-                          <div class="facture-total facture-detail-element">
+                            <div class="facture-total facture-detail-element">
                         <p class="montant_facture">Prix offre HT : <?php echo round($offre[0]['prix_offre_ht'],2) ?>€</p>
                         <p class="montant_facture">Prix option HT : <?php echo round($offre[0]['prix_option_ht'],2) ?>€</p>
                         <br>

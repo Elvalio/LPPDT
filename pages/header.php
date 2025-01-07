@@ -15,9 +15,7 @@
                 </div>
             </div>
             <?php
-            if ($_SERVER['SCRIPT_NAME'] != '/pages/connexion.php' && $_SERVER['SCRIPT_NAME'] != '/pages/creation_compte_formulaire.php' && $_SERVER['SCRIPT_NAME'] != '/pages/creation_compte_pro_formulaire.php') { ?>
-            <div>
-            </div>
+            if (!str_contains($_SERVER['REQUEST_URI'], 'connexion.php') && !str_contains($_SERVER['REQUEST_URI'], 'creation_compte_formulaire.php')) { ?>
             <div class="boutonALaUne NoSelect">
                 <p>À la Une</p>
             </div>

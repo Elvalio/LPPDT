@@ -912,18 +912,18 @@ try{
                                         </div>
                                     </div>
                                 </div>
-                                <div id="type-option">
+                                <div id="type-option"  <?php echo (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] === 'pro_public') ? 'style="display: none"' : '';?>>
                                     <!-- Champ "Type" -->
                                     <div id="type-container">
                                         <label>Type d'offre</label>
 
-                                        <div id="gratuit" <?php echo  (isset($_COOKIE['type_compte'])&&(string)$_COOKIE['type_compte'] == 'pro_public') ?  '' : 'style="display: none;"';?>>
+                                        <div id="gratuit" <?php echo  (isset($_COOKIE['type_compte'])&&(string)$_COOKIE['type_compte'] === 'pro_public') ?  '' : 'style="display: none;"';?>>
                                             <input type="radio" id="gratuit" name="offre" value="gratuit" <?php echo  ($dataOffre[0]['type'] == 1) ?  'checked' : '';?>/>
                                             <label for="gratuit">Gratuit</label>
                                         </div>
                                         
                                         
-                                        <div id="standard-premium" <?php echo  (isset($_COOKIE['type_compte'])&&(string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
+                                        <div id="standard-premium" <?php echo  (isset($_COOKIE['type_compte'])&&(string)$_COOKIE['type_compte'] === 'pro_prive') ?  '' : 'style="display: none;"';?>>
                                             <div id="standard">
                                                 <input type="radio" id="standard" name="offre" value="standard" <?php echo  ($dataOffre[0]['type'] == 2) ?  'checked' : '';?>/>
                                                 <label for="standard">Standard</label>

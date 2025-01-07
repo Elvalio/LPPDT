@@ -296,14 +296,22 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                                 <div class="etoileNote">
                                     <?php 
                                     if ($value["moy_note"] != null && $value["nbravis"] != 0) {
-                                        for ($i=0; $i < floor($value["moy_note"]); $i++) { ?>
+                                        for ($i = 0; $i < floor($value["moy_note"]); $i++) { ?>
                                             <img src="../icons/etoile_rouge.png" alt="Etoile">
                                         <?php }
-                                        for ($i=floor($value["moy_note"]); $i < 5; $i++) { ?>
+
+                                        if ($value["moy_note"] - floor($value["moy_note"]) >= 0.5) { ?>
+                                            <img src="../icons/demi_etoile_rouge.png" alt="Demi Etoile">
+                                        <?php 
+                                            $i++;
+                                        }
+
+                                        for (; $i < 5; $i++) { ?>
                                             <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
                                     <?php }} ?>
                                     <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
-                                        <p class="textAvis">(<?php echo $value["nbravis"] ?>)</p> <?php } ?>
+                                        <p class="textAvis">(<?php echo $value["nbravis"] ?>)</p> 
+                                    <?php } ?>
                                 </div>
 
                             </div>
@@ -329,17 +337,26 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             <p class="villeAnnonce"><?php echo $value["ville"] ?></p>
                         </div>
                         <div class="NoteImageOffreMobile">
-                            <div class="etoileNote">
-                                <?php
-                                if ($value["moy_note"] != null && $value["nbravis"] != 0) {
-                                    for ($i=0; $i < floor($value["moy_note"]); $i++) { ?>
-                                        <img src="../icons/etoile_rouge.png" alt="Etoile">
-                                    <?php }
-                                    for ($i=0; $i < 5-$value["moy_note"]; $i++) { ?>
-                                    
-                                        <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
-                                <?php }} ?>
-                            </div>
+                        <div class="etoileNote">
+                                    <?php 
+                                    if ($value["moy_note"] != null && $value["nbravis"] != 0) {
+                                        for ($i = 0; $i < floor($value["moy_note"]); $i++) { ?>
+                                            <img src="../icons/etoile_rouge.png" alt="Etoile">
+                                        <?php }
+
+                                        if ($value["moy_note"] - floor($value["moy_note"]) >= 0.5) { ?>
+                                            <img src="../icons/demi_etoile_rouge.png" alt="Demi Etoile">
+                                        <?php 
+                                            $i++;
+                                        }
+
+                                        for (; $i < 5; $i++) { ?>
+                                            <img src="../icons/etoile_rouge_vide.png" alt="Etoile Vide">
+                                    <?php }} ?>
+                                    <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
+                                        <p class="textAvis">(<?php echo $value["nbravis"] ?>)</p> 
+                                    <?php } ?>
+                                </div>
                         
                             <div class="conteneurImage">
                                 <?php if ($value['src_image']) { ?>

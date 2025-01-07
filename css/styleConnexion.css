@@ -31,6 +31,7 @@
   
   body {
     background-color: #ffffff;
+    justify-content: center;
     font-family: 'TripSansRegular', sans-serif;
     height: 100vh;
   }
@@ -84,9 +85,10 @@
     color: white;
     border: none;
     padding: 12px;
-    width: 100%;
+    width: 98%;
     font-family: 'TripSansUltra';
-    border-radius: 5px;
+    margin-top: 10px;
+    border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
   }
@@ -132,7 +134,7 @@
     border-width: 1px;
     border-color: #ccc;
     border-style: solid;
-    width: 40%;
+    width: 95%;
   }
 
   .phone-element, .mobile-footer{
@@ -148,8 +150,9 @@
 
   .container {
     text-align: center;
-    width: 50%;
+    width: 60%;
     padding: 20px;
+    align-items: center;
   }
 
   .form-group input {
@@ -200,22 +203,34 @@
   }
 
   .login-page {
-    display: flex;
     align-items: center;
     flex-direction: column;
   }
 
+  .menu-links {
+    padding: 20px;
+}
+
+.menu-links div {
+    text-align: center; /* Alignement du texte */
+}
+
   .container {
-    text-align: center;
-    width: 50%;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-left: 10px;
+  }
+
+  .form-container {
+    display: block;
   }
 
   .form-group input {
-    width: 95%;
+    width: 90%;
     padding: 10px;
     border: none;               /* Remove all borders */
     border-bottom: 1px solid #ccc; /* Only the bottom border */
-    border-radius: 5px;
   }
 
 
@@ -273,8 +288,5 @@
   .links a:hover {
       text-decoration: underline;
   }
-
   
 }
-
-
