@@ -1441,4 +1441,53 @@ begin
 end;
 $$ language 'plpgsql';
 
-delete from pact.membre where idC = 1;
+/*
+  Fonction pour voir si une offre a une facture pour le mois donné
+*/
+create or replace function pact.hasFacture(idOffre integer, mois date)
+  returns boolean as $$
+declare
+  res boolean;
+begin
+  res = false;
+  if (exists (select * from pact.offre o inner join pact._facturation f  on f.idO = o.idO where f.idO = idOffre 
+  and EXTRACT(MONTH FROM f.date_facture) = EXTRACT(MONTH FROM mois)and EXTRACT(YEAR FROM f.date_facture) = EXTRACT(YEAR FROM mois))) then
+     res = true;
+    end if;
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.creerFactures(idOffre integer)
+  returns boolean as $$
+declare
+  i date;
+  res boolean;
+  date_debut date;
+  query text;
+  nFact integer;
+  id varchar(10);
+begin
+  res = false;
+  
+  select o.date_publication from pact.offre o where o.idO = idOffre into date_debut;
+  
+  for i in select date_trunc('month', current_date) - (dates*interval '1 month')
+      from generate_series(0,(extract(year from age(now(), date_debut)) * 12 + extract(month from age(now(), date_debut)))+1,1) dates
+   loop
+    if not pact.hasFacture(1, i) then
+      --creation du numero de facture
+      if length(max(idOffre)::text) < 2 then
+        id = concat('0', idOffre::text);
+      else
+        id = idOffre::text;
+      end if;
+      select substring(concat(floor((extract(epoch from now())+ random())*100),id),10) into id;
+      raise notice '% created for : %', id, i;
+      nFact = cast(id as bigint);
+      insert into pact._facturation(numFacture, idO, date_facture) values (nFact, idOffre, i);
+     end if;
+   end loop;
+  RETURN res;
+end;
+$$ language 'plpgsql';
