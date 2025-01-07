@@ -133,6 +133,7 @@ input:focus {
 .filtrer-trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
+    align-items: center; /* Centre verticalement les éléments */
     gap: 20px;
 }
 
@@ -191,6 +192,29 @@ input:focus {
     height: 20px;
     object-fit: contain;
 }
+
+.sensTris img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    
+    transition: 0.3s all;
+}
+
+.sensTris {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+
+    margin-left: -20px;
+
+}
+
 
 /* ============================================= */
 /*           STYLES POUR LES FILTRES             */
@@ -760,6 +784,13 @@ input[type="range"]::-ms-thumb {
     transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+
+.sensTris:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
+
+}
+
 }
 
 /* =========================================================== */
@@ -784,6 +815,28 @@ input[type="range"]::-ms-thumb {
         flex-wrap: wrap;
         margin-bottom: 80px;
         width: 100%; /* Changement pour que les filtres mobiles prennent toute la largeur même fermés */
+    }
+
+    .sensTris img {
+        width: 20px;
+        height: 20px;
+        object-fit: contain;
+        
+        transition: 0.3s all;
+    }
+    
+    .sensTris {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+    
+        margin-left: -20px;
+    
     }
 
     div.phone-element  {

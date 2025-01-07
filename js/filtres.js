@@ -60,19 +60,19 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Gestion des filtres avec radiobuttons pour "filtre-ouvert"
-    function ajouterEcouteursRadio() {
-        const radios = document.querySelectorAll(`.${ecran} .filtre-ouvert input[type="radio"]`);
-        radios.forEach(radio => {
-            radio.addEventListener('change', function () {
+    // Gestion des filtres avec checkboxes pour "filtre-ouvert"
+    function ajouterEcouteursCheckboxOuvert() {
+        const checkboxes = document.querySelectorAll(`.${ecran} .filtre-ouvert input[type="checkbox"]`);
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
                 afficherResultats(filtrage());
             });
         });
     }
 
-    
+    ajouterEcouteursCheckboxOuvert();
 
-    ajouterEcouteursRadio();
+
 
     // Gestion des filtres de dates (calendriers)
     function ajouterEcouteursTemps() {
@@ -169,25 +169,13 @@ document.addEventListener('DOMContentLoaded', function () {
     
             // Vérification du filtre "ouvert/fermé"
             const ouvertOK = (() => {
-                const radioOuvert = document.querySelector(`.${ecran} .filtre-ouvert input[type="radio"]:checked`);
-                if (ecran === 'desktop') {
-                    if (!radioOuvert || radioOuvert.id === 'tout') return true; // Pas de filtre sélectionné
-                    const filtreOuvert = radioOuvert.id;
-                    // Appliquer uniquement aux offres de "Restauration"
-                    if (offre.classList.contains('Restauration')) {
-                        // Vérification du statut "ouvert/fermé"
-                        if (filtreOuvert === 'ouvert' && offre.classList.contains('ferme')) return false;
-                        if (filtreOuvert === 'ferme' && offre.classList.contains('ouvert')) return false;
-                    }
-                } else if (ecran === 'mobile') {
-                    if (!radioOuvert || radioOuvert.id === 'Tout') return true; // Pas de filtre sélectionné
-                    const filtreOuvert = radioOuvert.id;
-                    // Appliquer uniquement aux offres de "Restauration"
-                    if (offre.classList.contains('Restauration')) {
-                        // Vérification du statut "ouvert/fermé"
-                        if (filtreOuvert === 'Ouvert' && offre.classList.contains('ferme')) return false;
-                        if (filtreOuvert === 'Ferme' && offre.classList.contains('ouvert')) return false;
-                    }
+                const radioOuvert = document.querySelector(`.${ecran} .filtre-ouvert input[type="checkbox"]:checked`);
+                if (!radioOuvert) return true; // Pas de filtre sélectionné
+                const filtreOuvert = radioOuvert.id;
+                // Appliquer uniquement aux offres de "Restauration"
+                if (offre.classList.contains('Restauration')) {
+                    // Vérification du statut "ouvert"
+                    if (filtreOuvert === 'ouvert' && offre.classList.contains('ferme')) return false;
                 }
                 return true;
 
@@ -202,63 +190,95 @@ document.addEventListener('DOMContentLoaded', function () {
         return resultats;
     }
     
+    let sensInverse = false;
 
     function trie(offresVisibles) {
+        
         if (window.innerWidth > SCREEN_MOBILE) {
-                
-            if (menuItems[0].classList.contains('active')) { // Tri par prix croissant
+            if (menuItems[0].classList.contains('active')) { // Tri par prix
                 offresVisibles.sort((a, b) => {
-                    return a.getAttribute('data-prix') - b.getAttribute('data-prix') ||
-                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                    return sensInverse ? a.getAttribute('data-prix') - b.getAttribute('data-prix') : b.getAttribute('data-prix') - a.getAttribute('data-prix');
                 });
             }
-            if (menuItems[1].classList.contains('active')) { // Tri par prix décroissant
+            if (menuItems[1].classList.contains('active')) { // Tri par note
                 offresVisibles.sort((a, b) => {
-                    return b.getAttribute('data-prix') - a.getAttribute('data-prix') ||
-                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-                });
-            }
-            if (menuItems[2].classList.contains('active')) { // Tri par note croissante
-                offresVisibles.sort((a, b) => {
-                return a.getAttribute('data-note') - b.getAttribute('data-note') ||
-                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-                });
-            }
-            if (menuItems[3].classList.contains('active')) { // Tri par note décroissante
-                offresVisibles.sort((a, b) => {
-                return b.getAttribute('data-note') - a.getAttribute('data-note') ||
-                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                    return sensInverse ? a.getAttribute('data-note') - b.getAttribute('data-note') : b.getAttribute('data-note') - a.getAttribute('data-note');
                 });
             }
         } else if (window.innerWidth <= SCREEN_MOBILE) {
-            if (boutonTriMobile[0].classList.contains('active')) { // Tri par prix croissant
+            if (boutonTriMobile[0].classList.contains('active')) { // Tri par prix
                 offresVisibles.sort((a, b) => {
-                    return a.getAttribute('data-prix') - b.getAttribute('data-prix') ||
-                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                    return sensInverse ? a.getAttribute('data-prix') - b.getAttribute('data-prix') : b.getAttribute('data-prix') - a.getAttribute('data-prix');
                 });
             }
-            if (boutonTriMobile[1].classList.contains('active')) { // Tri par prix décroissant
+            if (boutonTriMobile[1].classList.contains('active')) { // Tri par note
                 offresVisibles.sort((a, b) => {
-                    return b.getAttribute('data-prix') - a.getAttribute('data-prix') ||
-                        b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-                });
-            }
-            if (boutonTriMobile[2].classList.contains('active')) { // Tri par note croissante
-                offresVisibles.sort((a, b) => {
-                return a.getAttribute('data-note') - b.getAttribute('data-note') ||
-                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
-                });
-            }
-            if (boutonTriMobile[3].classList.contains('active')) { // Tri par note décroissante
-                offresVisibles.sort((a, b) => {
-                return b.getAttribute('data-note') - a.getAttribute('data-note') ||
-                    b.classList.contains('aLaUne') - a.classList.contains('aLaUne');
+                    return sensInverse ? a.getAttribute('data-note') - b.getAttribute('data-note') : b.getAttribute('data-note') - a.getAttribute('data-note');
                 });
             }
         }
     }
     
+    const sensTris = document.querySelectorAll(`.${ecran}.sensTris`);
+
+    sensTris.forEach(sensTri => {
+        sensTri.style.display = 'none';
+    });
+
+    const sensTriIMG = document.querySelector(`.${ecran}.sensTris img`);
+
+    sensTris.forEach(sensTri => {
+        sensTri.addEventListener('click', function (event) {
+            event.stopPropagation(); // Empêche la propagation de l'événement
+            if (trie_text.innerHTML === 'Trier par') return; // Ne rien faire si le texte est "Trier par"
+            if (!sensTri.classList.contains('clicked')) {
+                sensTri.classList.add('clicked');
+                sensInverse = !sensInverse;
+                sensTriIMG.classList.toggle('rotate-180');
+
+                if (sensTri.classList.contains('desktop')) {                    
+                    for (let i = 0; i < menuItems.length; i++) {
+                        if (menuItems[i].classList.contains('active')) {
+                            const link = menuItems[i].querySelector('a');
+                            if (sensInverse) {
+                                sensText = 'Décroissant';
+                            } else {
+                                sensText = 'Croissant';
+                            }
+                            trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${link.innerHTML} ${sensText}</span>`; // Change text with color
+                        }
+                    }
+                } else {
+                    for (let i = 0; i < boutonTriMobile.length; i++) {
+    
+                        if (boutonTriMobile[i].classList.contains('active')) {
+                            boutonTriMobile[i].textContent = boutonTriMobile[i].textContent.replace(` ${sensText}`, '');
+                            if (sensInverse) {
+                                sensText = 'Décroissant';
+                            } else {
+                                sensText = 'Croissant';
+                            }
+                            boutonTriMobile[i].textContent += ` ${sensText}`;
+                        } else {
+                            boutonTriMobile[i].textContent = boutonTriMobile[i].textContent.replace(` ${sensText}`, '');
+                        }
+                        
+                        trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${boutonTriMobile[i].textContent} ${sensText}</span>`; // Change text with color
+                    }
+                }
+
+
+                afficherResultats(filtrage());
+                setTimeout(() => {
+                    sensTri.classList.remove('clicked');
+                }, 300); // Délai pour éviter les clics multiples rapides
+            }
+        });
+    });
+
+    
     const boutonTriMobile = document.getElementsByClassName("menu-item-tri");
+    let sensText = 'Croissant';
 
     for (let i = 0; i < menuItems.length; i++) {
         menuItems[i].addEventListener('click', function () {
@@ -270,6 +290,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 link.style.color = ''; // Remove link color
 
                 trie_text.innerHTML = 'Trier par' // Reset text;
+
+                sensTris.forEach(sensTri => {
+                    sensTri.style.display = 'none';
+                });
+
             } else {
                 for (let k = 0; k < menuItems.length; k++) {
                     menuItems[k].classList.remove('active');
@@ -281,7 +306,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 menuItems[i].classList.add('active');
                 menuItems[i].style.borderLeft = '2px solid var(--bleuFonce-rougeFonce)'; // Add left border
                 link.style.color = 'var(--bleuFonce-rougeFonce)'; // Change link color
-                trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${link.innerHTML}</span>`; // Change text with color
+                if (sensInverse) {
+                    sensText = 'Décroissant';
+                } else {
+                    sensText = 'Croissant';
+                }
+                trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${link.innerHTML} ${sensText}</span>`; // Change text with color
+
+                sensTris.forEach(sensTri => {
+                    sensTri.style.display = 'flex';
+                });
             }
             closeDropdown();
             afficherResultats(filtrage());
@@ -292,11 +326,47 @@ document.addEventListener('DOMContentLoaded', function () {
         boutonTriMobile[i].addEventListener('click', function () {
             if (boutonTriMobile[i].classList.contains('active')) {
                 boutonTriMobile[i].classList.remove('active');
+                
+                boutonTriMobile[i].style.borderLeft = ''; // Remove left border
+
+                trie_text.innerHTML = 'Trier par' // Reset text;
+
+                sensTris.forEach(sensTri => {
+                    sensTri.style.display = 'none';
+                });
+
+                boutonTriMobile[i].textContent = boutonTriMobile[i].textContent.replace(` ${sensText}`, '');
+
+                sensInverse = false;
+
             } else {
                 for (let k = 0; k < boutonTriMobile.length; k++) {
                     boutonTriMobile[k].classList.remove('active');
+                    boutonTriMobile[k].style.borderLeft = ''; // Remove left border
+                    boutonTriMobile[k].textContent = boutonTriMobile[k].textContent.replace(` ${sensText}`, '');
+
                 }
                 boutonTriMobile[i].classList.add('active');
+                boutonTriMobile[i].style.borderLeft = '2px solid var(--bleuFonce-rougeFonce)'; // Add left border
+
+                let boutonTriText = boutonTriMobile[i].classList.contains('active') ? boutonTriMobile[i].textContent : '';
+
+                if (sensInverse) {
+                    sensText = 'Décroissant';
+                } else {
+                    sensText = 'Croissant';
+                }
+                trie_text.innerHTML = 'Trier par :' + ' ' + `<span style="color: var(--bleuFonce-rougeFonce); font-size: 0.8em;">${boutonTriText.textContent} ${sensText}</span>`; // Change text with color
+
+                if (boutonTriMobile[i].classList.contains('active')) {
+                    boutonTriMobile[i].textContent += ` ${sensText}`;
+                } else {
+                    boutonTriMobile[i].textContent = boutonTriMobile[i].textContent.replace(` ${sensText}`, '');
+                }
+
+                sensTris.forEach(sensTri => {
+                    sensTri.style.display = 'flex';
+                });
             }
             
             afficherResultats(filtrage());

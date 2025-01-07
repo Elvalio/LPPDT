@@ -20,6 +20,15 @@ include('../sql/connect_params.php');
             document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             location.assign("accueil.php");
         }
+
+        function supprime() {
+            if (confirm("haiii :3")) {
+
+            }
+            else {
+                alert("nooooo");
+            }
+        }
     </script>
 </head>
     <?php
@@ -46,7 +55,7 @@ include('../sql/connect_params.php');
 
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
-            die();
+            die();  
         }
 
 
@@ -189,6 +198,10 @@ include('../sql/connect_params.php');
                 <div>
                     <button class="deco-btn" onclick="deconnexion()">Se déconnecter</button>
                 </div>
+                <form method="POST" action="infoCompte.php">
+                    <input type="hidden" name="delete" value="true">
+                    <button type="submit" class="delete-btn">Supprimer le compte</button>
+                </form>
             </div>
         </div>
     </div>

@@ -27,6 +27,9 @@
         </button>
 
 
+        <div class="mobile sensTris NoSelect">
+            <img src="../icons/sens.png" alt="Sens Du tri" titre="Sens Tris">
+        </div>
 
     </div>
 
@@ -166,16 +169,8 @@
                     </div>
                     <div class="filtre-ouvert mobile">
                         <div class="choixOuvert">
-                            <input type="radio" name="Ouverture" id="Tout" checked>
-                            <label for="Tout">Tout</label>
-                        </div>
-                        <div class="choixOuvert">
-                            <input type="radio" name="Ouverture" id="Ouvert">
-                            <label for="Ouvert">Ouvert</label>
-                        </div>
-                        <div class="choixOuvert">
-                            <input type="radio" name="Ouverture" id="Ferme">
-                            <label for="Ferme">Fermé</label>
+                            <input type="checkbox" name="ouverture" id="ouvert">
+                            <label for="ouvert">Ouvert</label>
                         </div>
                     </div>
                 </div>
@@ -187,12 +182,12 @@
     <!-- Menu Trier -->
 
     <div id="sortMenu" class="hidden">
-        <button class="menu-item-tri active" id="prixCroissant">Prix croissant</button>
-        <button class="menu-item-tri" id="prixDecroissant">Prix décroissant</button>
+        <button class="menu-item-tri" id="prixCroissant">Prix</button>
+        <!-- <button class="menu-item-tri" id="prixDecroissant">Prix décroissant</button> -->
         <!-- <button class="menu-item-tri" id="presDeMoi">Plus proche</button>
         <button class="menu-item-tri" id="presDeMoi">Plus proche</button> -->
-        <button class="menu-item-tri" id="notesCroissantes">Notes croissantes</button>
-        <button class="menu-item-tri" id="notesDecroissantes">Notes décroissantes</button>
+        <button class="menu-item-tri" id="notesCroissantes">Notes</button>
+        <!-- <button class="menu-item-tri" id="notesDecroissantes">Notes décroissantes</button> -->
     </div>
 
 
