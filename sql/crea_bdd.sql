@@ -1181,7 +1181,7 @@ declare
   date_emmission_facture date;
   n integer;
 begin
-  n = 0
+  n = 0;
   select f.date_facture from pact._facturation f where f.numFacture = idFacture into date_facture;
   date_emmission_facture = date_trunc('month'::text, date_facture + '1 mon'::interval);
   
