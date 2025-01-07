@@ -12,8 +12,10 @@ if ($_POST!=[]) {
         //verifie si membre
 
         $stmt = $dbh->prepare(
-            "SELECT idC, pseudo, mdp FROM pact.membre where pseudo = '$identifiant';"
+            "SELECT idC, pseudo, mdp FROM pact.membre WHERE pseudo = :pseudo;"
         );
+        $stmt->bindParam(':pseudo', $identifiant, PDO::PARAM_STR);
+        
             
         $stmt->execute();
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -34,8 +36,9 @@ if ($_POST!=[]) {
         $identifiant = (int)$identifiant;
 
         $stmt = $dbh->prepare(
-            "SELECT idC, codePro, mdp FROM pact.professionnel where codePro = $identifiant;"
+            "SELECT idC, codePro, mdp FROM pact.professionnel WHERE codePro = :codePro;"
         );
+        $stmt->bindParam(':codePro', $identifiant, PDO::PARAM_INT);
 
         $stmt->execute();
         $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);

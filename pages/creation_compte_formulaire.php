@@ -31,7 +31,22 @@ error_reporting(0); if (!empty($_POST)) {
             }
 
             else {
-                $stmt = $dbh->prepare("INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) VALUES ('$pseudo', '$nom', '$prenom', '$email', $telephone, '$mdp', '$ville', $num_adresse, '$adresse', $code_postal, '')");
+                $stmt = $dbh->prepare(
+                    "INSERT INTO pact.membre(pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
+                    VALUES (:pseudo, :nom, :prenom, :email, :telephone, :mdp, :ville, :numero_voie, :voie, :code_postal, :complement)"
+                );
+                
+                $stmt->bindParam(':pseudo', $pseudo, PDO::PARAM_STR);
+                $stmt->bindParam(':nom', $nom, PDO::PARAM_STR);
+                $stmt->bindParam(':prenom', $prenom, PDO::PARAM_STR);
+                $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+                $stmt->bindParam(':telephone', $telephone, PDO::PARAM_STR);
+                $stmt->bindParam(':mdp', $mdp, PDO::PARAM_STR);
+                $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+                $stmt->bindParam(':numero_voie', $num_adresse, PDO::PARAM_INT);
+                $stmt->bindParam(':voie', $adresse, PDO::PARAM_STR);
+                $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_INT);
+                $stmt->bindParam(':complement', $complement, PDO::PARAM_STR);
             }
 
         }
