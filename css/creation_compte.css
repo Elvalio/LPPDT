@@ -255,10 +255,6 @@ input[type="checkbox"] {
     color: #000000;
 }
 
-.redirection-links a:hover {
-    text-decoration: underline;
-}
-
 .form-info {
     margin-top: 1em;
     padding-bottom: 1.5em;
@@ -378,8 +374,14 @@ input[type="checkbox"] {
         text-align: center;
         font-weight: 900;
         width: auto;
-        box-sizing: border-box; /* Ensure padding doesn't overflow the width */
+        box-sizing: border-box;
+        background-color: #ffffff;
+        transition: background-color 0.3s ease;
 
+    }
+
+    .redirection-links:hover {
+        background-color: #d3d3d3;
     }
 
     .redirection-links a {
