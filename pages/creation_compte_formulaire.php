@@ -174,7 +174,7 @@ error_reporting(0); if (!empty($_POST)) {
 
             <div class="redirection-links">
                 <a href="connexion.php" class="Connexion">Déjà inscrit(e) ? Connectez-vous.</a>
-                <a href="creation_compte_pro_formulaire.php" class="Redirection_pro">Vous êtes un professionnel ? Cliquez ici.</a>
+                <a href="creation_compte_pro_formulaire.php" class="Redirection_pro">Vous êtes un(e) professionnel(le) ? Cliquez ici.</a>
             </div>
         </div>
     </div>
