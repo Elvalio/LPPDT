@@ -1403,13 +1403,6 @@ begin
   RETURN res;
 end;
 $$ language 'plpgsql';
-  
-  if (n is null) then
-    n = 0;
-  end if;
-  RETURN n;
-end;
-$$ language 'plpgsql';
 
 
 create or replace view pact.facturation as 
