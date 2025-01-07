@@ -27,6 +27,9 @@
         </button>
 
 
+        <div class="mobile sensTris NoSelect">
+            <img src="../icons/sens.png" alt="Sens Du tri" titre="Sens Tris">
+        </div>
 
     </div>
 
@@ -168,12 +171,12 @@
     <!-- Menu Trier -->
 
     <div id="sortMenu" class="hidden">
-        <button class="menu-item-tri active" id="prixCroissant">Prix croissant</button>
-        <button class="menu-item-tri" id="prixDecroissant">Prix décroissant</button>
+        <button class="menu-item-tri active" id="prixCroissant">Prix</button>
+        <!-- <button class="menu-item-tri" id="prixDecroissant">Prix décroissant</button> -->
         <!-- <button class="menu-item-tri" id="presDeMoi">Plus proche</button>
         <button class="menu-item-tri" id="presDeMoi">Plus proche</button> -->
-        <button class="menu-item-tri" id="notesCroissantes">Notes croissantes</button>
-        <button class="menu-item-tri" id="notesDecroissantes">Notes décroissantes</button>
+        <button class="menu-item-tri" id="notesCroissantes">Notes</button>
+        <!-- <button class="menu-item-tri" id="notesDecroissantes">Notes décroissantes</button> -->
     </div>
 
 

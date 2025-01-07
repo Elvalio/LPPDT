@@ -131,11 +131,13 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                                     <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                                 </div>
                                 <ul class="dropdown-menu">
-                                    <li><a>Prix croissant</a></li>
-                                    <li><a>Prix décroissant</a></li>
-                                    <li><a>Notes croissantes</a></li>
-                                    <li><a>Notes décroissantes</a></li>
+                                    <li><a>Prix</a></li>
+                                    <li><a>Notes</a></li>
                                 </ul>
+                            </div>
+
+                            <div class="desktop sensTris NoSelect">
+                                <img src="../icons/sens.png" alt="Sens Du tri" titre="Sens Tris">
                             </div>
 
                             <div class="filtrer-bouton NoSelect">
@@ -259,16 +261,8 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <p class="FS">Ouvert / Fermé</p>
                     <div class="filtre-ouvert desktop">
                         <div class="choixOuvert">
-                            <input type="radio" name="ouverture" id="tout">
-                            <label for="tout">Tout</label>
-                        </div>
-                        <div class="choixOuvert">
-                            <input type="radio" name="ouverture" id="ouvert">
+                            <input type="checkbox" name="ouverture" id="ouvert">
                             <label for="ouvert">Ouvert</label>
-                        </div>
-                        <div class="choixOuvert">
-                            <input type="radio" name="ouverture" id="ferme">
-                            <label for="ferme">Fermé</label>
                         </div>
                     </div>
                 </div>

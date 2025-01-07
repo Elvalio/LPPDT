@@ -133,6 +133,7 @@ input:focus {
 .filtrer-trier {
     display: flex; /* Affiche les boutons dans une ligne */
     flex-direction: row; /* Aligne les éléments horizontalement */
+    align-items: center; /* Centre verticalement les éléments */
     gap: 20px;
 }
 
@@ -190,6 +191,34 @@ input:focus {
     width: 20px;
     height: 20px;
     object-fit: contain;
+}
+
+.sensTris img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    
+    transition: 0.3s all;
+}
+
+.sensTris {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+
+    margin-left: -20px;
+
+}
+
+.sensTris:hover {
+    cursor: pointer;
+    background-color: #F5F5F5;
+
 }
 
 /* ============================================= */
