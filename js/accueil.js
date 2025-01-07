@@ -121,16 +121,16 @@ document.addEventListener('DOMContentLoaded', function () {
     // Code pour changer les images en fonction de la taille de l'écran
     function updateImageSources() {
 
-        const etoiles = document.querySelectorAll('img[alt="Etoile"], img[alt="Etoile Vide"]');
+        const etoiles = document.querySelectorAll('img[alt="Etoile"], img[alt="Etoile Vide"], img[alt="Demi Etoile"]');
         const body = document.querySelector('body');
         etoiles.forEach(etoile => {
             if (body.classList.contains('BO')) {
                 if (window.innerWidth <= SCREEN_MOBILE) {
-                    if (etoile.src.includes('etoile_rouge.png') || etoile.src.includes('etoile_rouge_vide.png')) {
+                    if (etoile.src.includes('etoile_rouge.png') || etoile.src.includes('etoile_rouge_vide.png') || etoile.src.includes('demi_etoile_rouge.png')) {
                         etoile.src = etoile.src.replace("etoile_rouge", "etoile_bleue");
                     }
                 } else {
-                    if (etoile.src.includes('etoile_bleue.png') || etoile.src.includes('etoile_bleue_vide.png')) {
+                    if (etoile.src.includes('etoile_bleue.png') || etoile.src.includes('etoile_bleue_vide.png') || etoile.src.includes('demi_etoile_bleu.png')) {
                         etoile.src = etoile.src.replace("etoile_bleue", "etoile_rouge");
                     }
                 }
