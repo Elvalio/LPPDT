@@ -130,9 +130,9 @@ try {
             <h2 class="sous-titre">
                 <?php echo htmlspecialchars($offre['ville']); ?> |
                 <?php echo htmlspecialchars($telephone); ?>
-                <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars($spectacle[0]['duree']); ?>
-                <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars($activite[0]['duree']); ?>
-                <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars($visite[0]['duree']); ?>
+                <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($spectacle[0]['duree'], 0, 5)); ?>
+                <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($activite[0]['duree'], 0, 5)); ?>
+                <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($visite[0]['duree'], 0, 5)); ?>
 
                 <?php if (!empty($activite[0]['age_min'])) echo " | Âge : " . $activite[0]['age_min'] . " ans"; ?>
                 <?php if (!empty($parc_actraction[0]['age_min'])) echo " | Âge : " . $parc_actraction[0]['age_min'] . " ans"; ?>
