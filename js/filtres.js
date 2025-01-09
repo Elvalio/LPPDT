@@ -638,6 +638,10 @@ document.addEventListener('DOMContentLoaded', function () {
             textDiv.textContent = motTemp || motCle; // Utiliser le texte tronqué si nécessaire
             suggestionDiv.appendChild(textDiv);
 
+            if (textDiv.textContent === 'boite de nuit') {
+                animerCartesBoiteDeNuit();
+            }
+
             // Créer l'élément pour l'image de la croix
             const closeIcon = document.createElement('img');
             closeIcon.src = '../images/croix-noire.png';  // Image de la croix
@@ -715,6 +719,7 @@ document.addEventListener('DOMContentLoaded', function () {
             afficherResultats(filtrage());
             cacherSuggestions();
         }
+
     });
 
     rechercheOffre.addEventListener('blur', function () {
@@ -775,4 +780,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialisation des suggestions au chargement
     cacherSuggestions();
+
+
+
+
+    // ************** CONNERIES BOITE DE NUIT ************** //
+
+    function animerCartesBoiteDeNuit() {
+        const cartes = document.querySelectorAll('.carte_offre');
+
+        // Crée un nouvel élément audio
+        const audio = new Audio('../play.mp3');
+
+        // Joue la musique
+        audio.play();
+
+        // Ajoute un délai de 5 secondes avant de continuer
+        setTimeout(() => {
+            // Code à exécuter après 5 secondes
+        }, 5000);
+
+        cartes.forEach((carte, index) => {
+             // Génère un délai aléatoire entre 1000ms (1s) et 3000ms (3s)
+            const delay = Math.random() * 4000 + 2000;
+
+            // Applique la classe 'lol' après le délai
+            setTimeout(() => {
+                carte.classList.add('lol');
+            }, delay);
+
+            // Applique une animation continue de mouvement aléatoire
+            setInterval(() => {
+                const randomX = Math.random() * 400 - 200; // Entre -100 et 100
+                const randomY = Math.random() * 400 - 200; // Entre -100 et 100
+                carte.style.transition = 'transform 1.5s ease-in-out';
+                carte.style.transform = `translate(${randomX}px, ${randomY}px)`;
+            }, 2000);
+        });
+
+
+    }
+
+    // animerCartesBoiteDeNuit();
+
 });

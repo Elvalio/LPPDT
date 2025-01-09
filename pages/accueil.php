@@ -281,14 +281,15 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value["option"] == "À la Une") { ?>
-                                <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
+                                <div class="alaune">
+                                    <p>À la une</p>
+                                </div>
                             <?php } ?>
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
                             <?php } else { ?>
                                 <img src="../images/imagesReferences/placeholder.jpg" alt="Image par défaut">
                             <?php } ?>
-                            
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
                             <div class="infoAnnonce">
                                 <p><?php echo $value["prix_min"] ?>€</p>

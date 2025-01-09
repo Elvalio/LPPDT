@@ -704,6 +704,27 @@ input[type="range"]::-ms-thumb {
         border-radius: 15px;
     }
 
+    .carte_offre div.alaune {
+        position: absolute;
+        z-index: 2;
+        
+        background-color: plum;
+        
+        width: fit-content;
+        height: fit-content;
+
+        padding: 5px 10px;
+        margin: 10px 10px;
+        
+        border-radius: 50px;
+    }
+
+    .carte_offre div.alaune p {
+        color: rgb(94, 8, 94);
+        font-size: 1em;
+        font-weight: bold;
+    }
+
 .carte_offre img {
     width: 100%;
     height: 250px;
@@ -764,6 +785,32 @@ input[type="range"]::-ms-thumb {
     background-position: center;
     /* background-color: rgba(255, 255, 74, 0.3); */
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.carte_offre.lol {
+    background-image: url(../images/gold.jpg);
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+    animation: rainbowShadow 2s infinite;
+}
+
+@keyframes rainbowShadow {
+    0% {
+        box-shadow: 0 0 50px rgba(255, 0, 0, 1); /* Rouge */
+    }
+    25% {
+        box-shadow: 0 0 50px rgba(0, 255, 0, 1); /* Vert */
+    }
+    50% {
+        box-shadow: 0 0 50px rgba(0, 0, 255, 1); /* Bleu */
+    }
+    75% {
+        box-shadow: 0 0 50px rgba(255, 255, 0, 1); /* Jaune */
+    }
+    100% {
+        box-shadow: 0 0 50px rgba(255, 0, 255, 1); /* Magenta */
+    }
 }
 
 .etoileALaUne {
