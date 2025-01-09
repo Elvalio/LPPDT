@@ -298,7 +298,7 @@ error_reporting(E_ALL);
                                                 <img src="../icons/plus.svg" alt="Bouton Image">
                                                 <p id="map-upload-text">Ajouter</p>
                                             </label>
-                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png"/>
+                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png, .jpg, .jpeg, .gif"/>
                                             <button id="map-file-delete" type="button">
                                                 <img src="../icons/moins.svg" alt="Bouton Image">
                                                 Supprimer
@@ -364,20 +364,20 @@ error_reporting(E_ALL);
                                         <img src="../icons/plus.svg" alt="Bouton Image">
                                         <p class="upload-text">Ajouter une image 1</p>
                                     </label>
-                                    <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png"/>
+                                    <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg, .jpeg, .gif"/>
 
                                     <!---- Bouton 2 --->
                                     <label for="file-upload2" class="custom-file-upload">
                                         <img src="../icons/plus.svg" alt="Bouton Image">
                                         <p class="upload-text">Ajouter une image 2</p>
                                     </label>
-                                    <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png"/>
+                                    <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg, .jpeg, .gif"/>
                                     <!---- Bouton 3 --->
                                     <label for="file-upload3" class="custom-file-upload">
                                         <img src="../icons/plus.svg" alt="Bouton Image">
                                         <p class="upload-text">Ajouter une image 3</p>
                                     </label>
-                                    <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png"/>
+                                    <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg, .jpeg, .gif"/>
                                     
                                     <button id="file-delete" type="button">
                                         <img src="../icons/moins.svg" alt="Bouton Image">
@@ -388,16 +388,59 @@ error_reporting(E_ALL);
                                 <p id="message-prevention">Les images ne sont pas essentielles pour la poursuite de la création. <br> Vous pourrez les ajouter ou les modifier plus tard.</p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée2" />
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée3" />
+                                    <?php $photos = [];
+                                    if (isset($_POST['image0'])){
+                                        if ($_POST['image0'] === 'null'){
+                                            $src = '../images/rien.png';
+                                            $photos[] = 'false';
+                                        } else {
+                                            $src = '../images/'.$_POST['image0'];
+                                            $photos[] = $_POST['image0'];
+                                        }
+                                        
+                                    }else {
+                                        $src ='../images/rien.png';
+                                        $photos[] = 'false';
+                                    }
+                                    ?><img class="selected-image" src="<?php echo $src ?>" alt="Image sélectionnée1" /><?php
+                                    if (isset($_POST['image1'])){
+                                        if ($_POST['image1'] === 'null'){
+                                            $src = '../images/rien.png';
+                                            $photos[] = 'false';
+                                        } else {
+                                            $src = '../images/'.$_POST['image1'];
+                                            $photos[] = $_POST['image1'];
+                                        }
+                                        
+                                    }else {
+                                        $src ='../images/rien.png';
+                                        $photos[] = 'false';
+                                    }?>
+                                    
+                                    <img class="selected-image" src="<?php echo $src ?>" alt="Image sélectionnée2" /><?php
+                                    if (isset($_POST['image2'])){
+                                        if ($_POST['image2'] === 'null'){
+                                            $src = '../images/rien.png';
+                                            $photos[] = 'false';
+                                        } else {
+                                            $src = '../images/'.$_POST['image2'];
+                                            $photos[] = $_POST['image2'];
+                                        }
+                                        
+                                    }else {
+                                        $src ='../images/rien.png';
+                                        $photos[] = 'false';
+                                    }?>
+                                    
+                                    <img class="selected-image" src="<?php echo $src ?>" alt="Image sélectionnée3" />
                                 </div>
                             </div>                     
                         </div>
                     </div>
                 </div>    
-
-
+                <input type="hidden" name="image0" class="img" value="<?php echo $photos[0]; ?>">
+                <input type="hidden" name="image1" id="img1" value="<?php echo $photos[1]; ?>">
+                <input type="hidden" name="image2" id="img2" value="<?php echo $photos[2]; ?>">
             </form>
         </div>
 
