@@ -74,6 +74,10 @@ if (isset($_GET['numFacture'])) {
         $abonnement_ttc = $jours_publication * $facture_data['abonnement_ttc_unitaire'];
         $total_ht = round($offre[0]['prix_offre_ht'] + $offre[0]['prix_option_ht'],2);
         $total_ttc = round($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'],2);
+        $offre_options_ht = $offre[0]['prix_option_ht'];
+        $offre_options_ttc = $offre[0]['prix_option_ttc'];
+        $option_titre = $offre[0]['option'];
+
         
         // Initialisez $bdh avant d'inclure le template
 include('../sql/connect_params.php');
