@@ -386,6 +386,7 @@ create table pact._option_offre(
 
 create table pact._registre(
   -- enregistre toutes les dates de publication et de mise hors ligne pour ne pas les perdre
+  -- registre des perodes où l'offre était en ligne
   idRegistre serial,
   date_publication date not null,
   date_hors_ligne date not null,
@@ -1530,6 +1531,24 @@ begin
       insert into pact._facturation(numFacture, idO, date_facture) values (nFact, idOffre, i);
      end if;
    end loop;
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+
+/*
+Verifie si compte a bien saisit ses coords bancaires
+*/
+
+create or replace function pact.hasBank(idCompte integer)
+  returns boolean as $$
+declare
+  res boolean;
+begin
+  res = false;
+  if exists(select * from _secteur_prive where iban is not null and bic is not null and idC = idCompte) then
+     res = true;
+   end if;
   RETURN res;
 end;
 $$ language 'plpgsql';
