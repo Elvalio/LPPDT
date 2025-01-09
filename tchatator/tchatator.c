@@ -7,10 +7,11 @@
 
 #define PORT 8888
 #define BUFFER_SIZE 1024
+#define SIZE_KEY 64
 
 // Structure pour stocker les clés d'API
 typedef struct {
-    char key[64];
+    char key[SIZE_KEY];
     char role[16]; // "client", "professional", "admin"
 } APIKey;
 
@@ -20,6 +21,31 @@ APIKey api_keys[] = {
     {"professional_api_key", "professional"},
     {"admin_api_key", "admin"}
 };
+// Fonction pour générer une clé d'API aléatoire
+void generate_api_key(char* api_key, size_t length) {
+    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    for (size_t i = 0; i < length - 1; i++) {
+        int key = rand() % (int)(sizeof(charset) - 1);
+        api_key[i] = charset[key];
+    }
+    api_key[length - 1] = '\0';
+}
+
+// Fonction pour générer des clés d'API pour les comptes clients et professionnels
+/* void generate_api_keys() {
+    generate_api_key(api_keys[len(api_keys)].key, SIZE_KEY);
+    strcpy(api_keys[len(api_keys)].role, "client");
+
+    generate_api_key(api_keys[len(api_keys)].key, SIZE_KEY);
+    strcpy(api_keys[len(api_keys)].role, "professional");
+}
+
+// Appel de la fonction pour générer les clés d'API
+__attribute__((constructor))
+void init_api_keys() {
+    srand(time(NULL));
+    generate_api_keys();
+} */
 
 // Fonction pour valider une clé d'API
 const char* validate_api_key(const char* api_key) {
@@ -98,6 +124,9 @@ int main() {
             perror("Erreur lors de l'acceptation");
             continue;
         }
+
+
+        
 
         printf("Connexion acceptée\n");
         handle_client_request(client_socket);
