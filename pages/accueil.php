@@ -131,11 +131,13 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                                     <img src="../images/fleche.png" alt="Fleche" title="Fleche">
                                 </div>
                                 <ul class="dropdown-menu">
-                                    <li><a>Prix croissant</a></li>
-                                    <li><a>Prix décroissant</a></li>
-                                    <li><a>Notes croissantes</a></li>
-                                    <li><a>Notes décroissantes</a></li>
+                                    <li><a>Prix</a></li>
+                                    <li><a>Notes</a></li>
                                 </ul>
+                            </div>
+
+                            <div class="desktop sensTris NoSelect">
+                                <img src="../icons/sens.png" alt="Sens Du tri" titre="Sens Tris">
                             </div>
 
                             <div class="filtrer-bouton NoSelect">
@@ -259,16 +261,8 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <p class="FS">Ouvert / Fermé</p>
                     <div class="filtre-ouvert desktop">
                         <div class="choixOuvert">
-                            <input type="radio" name="ouverture" id="tout">
-                            <label for="tout">Tout</label>
-                        </div>
-                        <div class="choixOuvert">
-                            <input type="radio" name="ouverture" id="ouvert">
+                            <input type="checkbox" name="ouverture" id="ouvert">
                             <label for="ouvert">Ouvert</label>
-                        </div>
-                        <div class="choixOuvert">
-                            <input type="radio" name="ouverture" id="ferme">
-                            <label for="ferme">Fermé</label>
                         </div>
                     </div>
                 </div>
@@ -287,14 +281,15 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value["option"] == "À la Une") { ?>
-                                <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
+                                <div class="alaune">
+                                    <p>À la une</p>
+                                </div>
                             <?php } ?>
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
                             <?php } else { ?>
                                 <img src="../images/imagesReferences/placeholder.jpg" alt="Image par défaut">
                             <?php } ?>
-                            
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
                             <div class="infoAnnonce">
                                 <p><?php echo $value["prix_min"] ?>€</p>

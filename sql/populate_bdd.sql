@@ -2,7 +2,7 @@ SET SCHEMA 'pact';
 
 
 -- MEMBRES --
-
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Anonyme', 'Ano', 'nyme', 'anonyme@gmail.com', '0123456789', 'NeTrouverPasCeMotDePasse', 'Ici', 1, 'rue de la rue', 22222, '');
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Jonnnie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');   
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Bobbie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');  
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Zirconium', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', 11, 'rue de la gare', 22000, '');
@@ -10,7 +10,6 @@ insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, nume
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Kabibabie', 'Aquecouccou', 'Lillie', 'kabibaie@gmail.com', '0772368545', 'IDontLikeMakingPasswords', 'Lannion', 1, 'rue édouard branly', 22300, '');
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Aberrington', 'Lacèsvash', 'Guillaume', 'guillaume.lacesvash@wanadoo.fr', '0687783861', 'g7YZk?D:2*q2', 'Saint-Brieuc', 7, 'rue piet mondrian', 22000, '');
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('IcyTerra', 'Chram', 'Ambre', 'ambre.chram@wanadoo.fr', '0754552861', 'LeMDPEstRéel', 'Plouaret', 4, 'rue de l''armorique', 22420, '');
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Anonyme', 'Ano', 'nyme', 'anonyme@gmail.com', '0123456789', 'NeTrouverPasCeMotDePasse', 'Ici', 1, 'rue de la rue', 22222, '');
 
 -- TYPE_OFFRE --
 insert into pact._type_offre (nom_type, cout_HT, cout_TTC) values ('Gratuit', 0, 0);
