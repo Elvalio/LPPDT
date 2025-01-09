@@ -470,11 +470,12 @@ try {
                     <?php
                 }
                 ?>
-                <?php if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre") : ?>
+                <?php if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
                     <div class="btn-signaler">
                         <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                         <p>Signaler l'avis</p>
                     </div>
+                    
                 <?php endif; ?>
             </div>
             <?php endforeach; }?>
