@@ -450,6 +450,35 @@ create table pact._reponse(
   (idC) references pact._professionnel(idC)
 );
 
+---Signalements---
+
+create table pact._signal_avis(
+  idA integer, -- id de l'avis signalé
+  idSignaleur integer,
+
+  constraint _signal_avis_pk primary key(idA, idSignaleur),
+
+  constraint _signal_avis_fk_avis foreign key
+  (idA) references pact._avis(idA),
+  
+  constraint _signal_avis_fk_compte foreign key
+  (idSignaleur) references pact._compte(idC)
+);
+
+create table pact._signal_reponse(
+  idA integer, --id de l'avis répondu
+  idSignaleur integer,
+
+  constraint _signal_reponse_pk primary key(idA, idSignaleur),
+
+  constraint _signal_reponse_fk_avis foreign key
+  (idA) references pact._reponse(idA),
+  
+  constraint _signal_reponse_fk_professionnel foreign key
+  (idSignaleur) references pact._compte(idC)
+);
+
+
 ----------- like/dislike -----------
 
 create table pact._recommande(
