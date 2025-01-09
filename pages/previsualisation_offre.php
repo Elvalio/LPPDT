@@ -4,9 +4,9 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// echo '<pre>';
-    // print_r($_POST);
-    // echo '<pre>';
+echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
 
 
 $idC = $_COOKIE['user'];
@@ -149,13 +149,13 @@ try{
         $user, $pass); 
         
     // pour telephone
-    $stmt = $dbh->prepare(
+    $Stelephone = $dbh->prepare(
         "select telephone from pact.professionnel where idc = :user;"
     );
-    $stmt->execute([
+    $Stelephone->execute([
         'user' => $idC
     ]);
-    $telephone = $stmt->fetchColumn();
+    $telephone = $Stelephone->fetchColumn();
 
     if ($telephone === null){
         $telephone = 'Non disponible';
@@ -164,13 +164,12 @@ try{
 
 
         //pour l'insertion des 3 images
-        $stmt = $dbh->prepare(
+        $Sid = $dbh->prepare(
             "select max(ido)
             from pact.offre;"
         );
-        $stmt->execute();
-        $idOffre = $stmt->fetchColumn() + 1; //id de l'offre qui a été crée avant 
-        // $idOffre = $db->lastInsertId(); //a faire après avoir créer l'offre !!!
+        $Sid->execute();
+        $idOffre = $Sid->fetchColumn() + 1; //id de l'offre qui a été crée avant 
 
 
     if (isset($_POST['validation'])){
@@ -201,7 +200,7 @@ try{
                 $ville = $_POST['ville'];
                 $code_postal= $_POST['codeP'];
     
-                $stmt = $dbh->prepare(
+                $Ioffre = $dbh->prepare(
                     "insert into pact.activite 
                     (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC) values 
                     ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', $age_min, '$prestation_incluse', '$prestation_excluse', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
@@ -220,7 +219,7 @@ try{
                 $ville = $_POST['ville'];
                 $code_postal= $_POST['codeP'];
     
-                $stmt = $dbh->prepare(
+                $Ioffre = $dbh->prepare(
                     "insert into pact.spectacle 
                     (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, capacite, ville, numero_voie, voie, code_postal, complement, idC) values 
                     ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', $capacite, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
@@ -243,7 +242,7 @@ try{
                 $ville = $_POST['ville'];
                 $code_postal= $_POST['codeP'];
                 
-                $stmt = $dbh->prepare(
+                $Ioffre = $dbh->prepare(
                     "insert into pact.visite 
                     (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC) values 
                     ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', '$langues', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
@@ -267,7 +266,7 @@ try{
                 $ville = $_POST['ville'];
                 $code_postal= $_POST['codeP'];
                 
-                $stmt = $dbh->prepare(
+                $Ioffre = $dbh->prepare(
                     "insert into pact.restauration 
                     (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, ville, petit_dejeuner, brunch, dejeuner, diner, boissons, numero_voie, voie, code_postal, complement, idC) values 
                     ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', '$gamme_prix', '$ville', $petit_dejeuner, $brunch, $dejeuner, $diner, $boissons, $numero_voie, '$voie', $code_postal, '', $idC);"
@@ -287,7 +286,7 @@ try{
                 $ville = $_POST['ville'];
                 $code_postal= $_POST['codeP'];
                 
-                $stmt = $dbh->prepare(
+                $Ioffre = $dbh->prepare(
                     "insert into pact.parc_d_attraction 
                     (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC) values 
                     ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', $nbr_attractions, $age_min, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
@@ -298,38 +297,38 @@ try{
                 # code...
                 break;
         } 
-        $stmt->execute();
+        $Ioffre->execute();
 
 
         $idOffre;
         for ($i = 0; $i < 3; $i++) { //pour chaque images
-            if(isset($_POST['image'.$i])){
-                $img = $_POST['image'.$i];
-                $stmt = $dbh->prepare(
+            if(isset($_POST['image'.$i]) && $_POST['image'.$i] !== 'false'){
+                $image = $_POST['image'.$i];
+                $Iimage = $dbh->prepare(
                     "insert into pact.photo_offre 
                     (src_image, idO) values 
-                    ('$img', '$idOffre');"
+                    ('$image', '$idOffre');"
                 );   
-                $stmt->execute();
+                $Iimage->execute();
             }
         }
 
-        // insertion de la map
-        if (isset($_POST['mapPhoto'])){
-            $img = $_POST['mapPhoto'];
-            if ($categorie === 'parcAttraction'){
-                $stmt = $dbh->prepare(
-                    "UPDATE pact.parc_d_attraction SET src_image = '$img'
-                    WHERE ido = $idOffre;"
-                );
-            } else if ($categorie === 'restauration'){
-                $stmt = $dbh->prepare(
-                    "UPDATE pact.restauration SET src_image = '$img'
-                    WHERE ido = $idOffre;"
-                );
-            }
-            $stmt->execute();
-        }
+        // // insertion de la map
+        // if (isset($_POST['mapPhoto'])){
+        //     $image = $_POST['mapPhoto'];
+        //     if ($categorie === 'parcAttraction'){
+        //         $Umap = $dbh->prepare(
+        //             "UPDATE pact.parc_d_attraction SET src_image = '$img'
+        //             WHERE ido = $idOffre;"
+        //         );
+        //     } else if ($categorie === 'restauration'){
+        //         $Umap = $dbh->prepare(
+        //             "UPDATE pact.restauration SET src_image = '$img'
+        //             WHERE ido = $idOffre;"
+        //         );
+        //     }
+        //     $Umap->execute();
+        // }
 
 
         //ajout des tags 
@@ -337,12 +336,12 @@ try{
         $tags = tag_offre($_POST);
         for ($i=0; $i < sizeof($tags) ; $i++) { 
             $t = $tags[$i];
-            $stmt = $dbh->prepare(
+            $Stag = $dbh->prepare(
                 //récupération de l'idTag
                 "select idtag from pact._tag where libelle = '$t';"
             );
-            $stmt->execute();
-            $idtag = $stmt->fetchColumn();
+            $Stag->execute();
+            $idtag = $Stag->fetchColumn();
 
 
             if ($categorie === 'parcAttraction'){
@@ -356,7 +355,7 @@ try{
                     'idtag' => $idtag
                 ]);
                 if ($checkStmt->fetchColumn() == 0) {
-                    $stmt = $dbh->prepare(
+                    $Itag = $dbh->prepare(
                         //insertion    
                         "insert into pact._tags_parc_d_attraction(idO, idtag) values ($idOffre,$idtag);"
                     );
@@ -373,24 +372,24 @@ try{
                     'idtag' => $idtag
                 ]);
                 if ($checkStmt->fetchColumn() == 0) {
-                    $stmt = $dbh->prepare(
+                    $Itag = $dbh->prepare(
                         //insertion
                         "insert into pact._tags_$categorie(idO, idtag) values ($idOffre,$idtag);"
                     );
                 }
             }
             
-            $stmt->execute();
+            $Itag->execute();
         }
 
 
         //insertion de l'option :
         $option = option_offre($_POST);
-        $stmt = $dbh->prepare(
+        $Ioption = $dbh->prepare(
             "insert into pact._option_offre 
                 (idOption, idO) values ($option, $idOffre);"
         );
-        $stmt->execute();
+        $Ioption->execute();
 
         // Redirection vers /accueil.php
         header('Location: tableau_de_bord.php');
@@ -411,14 +410,23 @@ try{
 $photos = [];
 for ($i = 1; $i < 4; $i++) { //pour chaque images
     if (!empty($_FILES['file-upload'.$i]['name'])){
+        if ($_POST['image'.$i-1] !== 'false'){
+            unlink((glob("../images/image_offre/$idOffre-$i.*"))[0]);
+        }
         $extention = pathinfo($_FILES['file-upload'.$i]['name'])['extension'];
         move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idOffre.'-'.$i.'.'.$extention);
         $photos[] = 'image_offre/'.$idOffre.'-'.$i.'.'.$extention;
     } else {
         $img = glob("../images/image_offre/$idOffre-$i.*");
-        if (!empty($img)){
-            unlink($img[0]);
+        if (($_POST['image'.$i-1]== 'false')){
+            if(!empty($img)){
+                unlink($img[0]);
+                $photos[] = 'null';
+            }
+        } else {
+            $photos[] = $_POST['image'.$i-1];
         }
+        
     }
 }
 
@@ -450,6 +458,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
     } else if (!empty($parc)){
         unlink($parc[0]);
     }
+    $mapPhoto = 'null';
 }
 ?>
 
@@ -490,9 +499,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
         <!-- Carrousel -->
         <div class="container NoSelect">
             <div class="carousel">
-                <div class="carousel-inner">
-                    
-                    
+                <div class="carousel-inner">    
                     <?php
                     if (!empty($photos)){
                         foreach ($photos as $index => $photo): ?>
@@ -695,7 +702,10 @@ if (!empty($_FILES['map-file-upload']['name'])){
         foreach ($_POST as $key => $value) {
             // Si la valeur est un tableau (cas des champs checkbox ou similaires)
             if ($value !== ''){
-                ?><input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>"><?php
+                if (($key !== 'image0' && $key !== 'image1' && $key !== 'image2')){
+                    ?><input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>"><?php
+                }
+                
             }
             
         }
