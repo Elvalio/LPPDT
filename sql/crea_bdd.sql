@@ -33,6 +33,7 @@ create table pact._compte
   email varchar(50) not null,
   telephone varchar(10) not null,
   mdp varchar(25) not null,
+  clefApi varchar(64),
   
   -- FK
   idAdresse integer not null,
@@ -567,7 +568,7 @@ before update on pact._membre
 
 -- Membre
 create or replace view pact.membre as
-  select idC, pseudo, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._membre natural join pact._compte natural join pact._adresse;
+  select idC, pseudo, nom, prenom, email, telephone, mdp, clefApi, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._membre natural join pact._compte natural join pact._adresse;
   
 
 
@@ -579,7 +580,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  insert into pact._compte (nom, prenom, email, telephone, mdp, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.idAdresse) returning idC into new.idC;
+  insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._membre (idc, pseudo) values (new.idc, new.pseudo);
   RETURN OLD;
 end;
@@ -599,7 +600,7 @@ begin
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi = new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   -- on ne peut pas modifier le pseudo
   RETURN NEW;
 end;
@@ -625,7 +626,7 @@ instead of delete on pact.membre
   
 -- professionnel
 create or replace view pact.professionnel as
-  select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
+  select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, clefApi, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
   
 
 
@@ -637,7 +638,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  insert into pact._compte (nom, prenom, email, telephone, mdp, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.idAdresse) returning idC into new.idC;
+  insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._professionnel (idc, codePro, denomination_sociale) values (new.idc, new.codePro, new.denomination_sociale);
   RETURN OLD;
 end;
@@ -655,7 +656,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi=new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
   -- on ne peut pas modifier le code pro
   RETURN NEW;
@@ -675,8 +676,8 @@ create or replace view pact.secteur_public as
 create or replace function pact.insert_secteur_public()
   returns trigger as $$
 begin
-  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
-    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
+  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, clefApi, ville, numero_voie, voie, code_postal, complement) 
+    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
   select idC from pact.professionnel where codePro = new.codePro into new.idC;
   insert into pact._secteur_public (idC) values (new.idC);
   RETURN OLD;
@@ -695,7 +696,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi = new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
   -- on ne peut pas modifier le code pro
   RETURN NEW;
@@ -716,8 +717,8 @@ create or replace view pact.secteur_prive as
 create or replace function pact.insert_secteur_prive()
   returns trigger as $$
 begin
-  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
-    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
+  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, clefApi, ville, numero_voie, voie, code_postal, complement) 
+    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
   select idC from pact.professionnel where codePro = new.codePro into new.idC;
   insert into pact._secteur_prive (idC, iban, bic, siren, raison_sociale) values (new.idC, new.iban, new.bic, new.siren, new.raison_sociale);
   RETURN OLD;
@@ -736,7 +737,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi = new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
   update pact._secteur_prive set iban = new.iban, bic = new.bic, raison_sociale = new.raison_sociale where idC = old.idC;
   -- on ne peut pas modifier le code pro
