@@ -1,4 +1,4 @@
-<?php
+3<?php
 include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
@@ -470,12 +470,24 @@ try {
                     <?php
                 }
                 ?>
-                
+                <?php if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre") : ?>
+                    <div class="btn-signaler">
+                        <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                        <p>Signaler l'avis</p>
+                    </div>
+                <?php endif; ?>
             </div>
             <?php endforeach; }?>
             <!-- Ensure this is properly placed -->
         </article>
     </section>
+    <div id="popup">
+        <p>Votre signalement a bien été pris en compte.</p>
+        <div class="progress-bar">
+            <div></div>
+        </div>
+        <button class="close-btn">Fermer</button>
+    </div>
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>
