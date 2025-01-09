@@ -3,35 +3,61 @@ include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
 
+    if($_POST['type_form'] == 'supp-avis'){
 
-    try{
+        try{
 
-        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-        $note = (int)$_POST['nbr_etoile'];
-        $titre = $_POST['titre_avis'];
-        $com = $_POST['zone_avis'];
-        $ido = (int)$_GET['value'];
-        $idc = (int)$_COOKIE['user'];
-        $contexte = $_POST['options'];
+            $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+            $stmt = $dbh->prepare("DELETE FROM pact.avis WHERE idA = :ida");        
+            $stmt->bindParam(':ida', $_POST['id_avis']);
+            $stmt->execute();
+
+            $dbh=null;
+
+            header("Location: detail-offre.php?value=$_GET[value]");
+            exit;
+
+        }catch(PDOException $e){
+
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+
+        }
+
+    }else if($_POST['type_form'] == 'poste-avis'){
+
+        try{
+
+            $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+            $note = (int)$_POST['nbr_etoile'];
+            $titre = $_POST['titre_avis'];
+            $com = $_POST['zone_avis'];
+            $ido = (int)$_GET['value'];
+            $idc = (int)$_COOKIE['user'];
+            $contexte = $_POST['options'];
 
 
-        $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite, contexte)
-        VALUES (:idc, :ido, :titre, :note, :corps, NOW(), :contexte);
-        ");
-        $stmt->execute([
-            ':idc' => $idc,
-            ':ido' => $ido,
-            ':titre' => $titre,
-            ':note' => $note,
-            ':corps' => $com,
-            ':contexte' => $contexte
-        ]);
+            $stmt = $dbh->prepare("INSERT INTO pact.experience(idC, idO, titre_avis, note, corps, date_visite, contexte)
+            VALUES (:idc, :ido, :titre, :note, :corps, NOW(), :contexte);
+            ");
+            $stmt->execute([
+                ':idc' => $idc,
+                ':ido' => $ido,
+                ':titre' => $titre,
+                ':note' => $note,
+                ':corps' => $com,
+                ':contexte' => $contexte
+            ]);
 
-        $dbh=null;
+            $dbh=null;
 
-    }catch(PDOException $e){
-        print "Erreur !: " . $e->getMessage() . "<br/>";
-        die();
+            header("Location: detail-offre.php?value=$ido");
+            exit;
+
+        }catch(PDOException $e){
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
     }
 }
 
@@ -81,9 +107,22 @@ try {
     $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
 
     // Requête pour récupérer les avis associés à l'offre
-    $stmtAvis = $bdh->prepare("SELECT * FROM pact.experience WHERE idO = :idAnnonce");
-    $stmtAvis->execute([':idAnnonce' => $idAnnonce]);
-    $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
+    if(isset($_COOKIE['user'])){
+        $stmtAvis = $bdh->prepare("SELECT * FROM pact.experience WHERE idO = :idAnnonce and idC = :idCompte");
+        $stmtAvis->execute([':idAnnonce' => $idAnnonce, ':idCompte' => $_COOKIE['user']]);
+        $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
+        $stmtAvis = $bdh->prepare("SELECT * FROM pact.experience WHERE idO = :idAnnonce and idC != :idCompte");
+        $stmtAvis->execute([':idAnnonce' => $idAnnonce, ':idCompte' => $_COOKIE['user']]);
+        $tab = $stmtAvis->fetchall(PDO::FETCH_ASSOC);
+        foreach($tab as $val):
+        array_push($avis, $val);
+        endforeach;
+    }else{
+        $stmtAvis = $bdh->prepare("SELECT * FROM pact.experience WHERE idO = :idAnnonce");
+        $stmtAvis->execute([':idAnnonce' => $idAnnonce]);
+        $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 
     // Récupération du téléphone du professionnel
     $stmtTelephone = $bdh->prepare("
@@ -326,12 +365,12 @@ try {
                             id="etoile_note<?php echo $i?>">
                     <?php endfor;?>
                 </div>
-                
                         <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
+                        <input type="hidden" name="type_form" value="poste-avis">
                         <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
-                        <textarea maxlength="50" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                        <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                             required="required"></textarea>
-                        <textarea minlength="50" maxlength="750" type="text" name="zone_avis" id="ecrire_avis"
+                        <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
                             placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
                         <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                         <label for="options" id="titre-contexte">Contexte de la visite :</label>
@@ -344,13 +383,14 @@ try {
                         </select>
                         <input type="submit" id="bouton_publier" value="Publier">
                         </form>
-                <?php }
+                    <?php
+                }
                 }else{ ?>
                 <h3>Poster un avis :</h3>
                 <div class="notes_avis">
                     <?php for($i = 1; $i<6; $i++):?>
                         <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
-                            id="etoile_note<?php echo $i?>">
+                            id="etoile_note<?php echo $i; ?>">
                     <?php endfor;?>
                 </div>
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
@@ -368,12 +408,14 @@ try {
                         <option value="Seul">Seul</option>
                     </select>
                 <form method="POST" action="connexion.php" class="zone-btn-publier">
-                    <input type="submit" id="bouton_publier" value="Publier">
+                    <input type="submit" id="bouton_publier" value="Se connecter">
                 </form>
                 <?php } ?>
             </article>
             <?php   } ?>
-            <?php if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel): 
+            
+            <?php if ($nbrAvis > 0){ 
+                foreach ($avis as $avisIndividuel): 
                 
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
@@ -416,6 +458,19 @@ try {
                         <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
                     </p>
                 </div>
+                <?php
+                if(isset($_COOKIE['user']) && $avisIndividuel['idc'] == $_COOKIE['user']){
+                    ?>
+                    <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-supp">
+                        <input type="hidden" name="type_form" value="supp-avis">
+                        <input type="hidden" name="id_avis" value=<?php echo $avisIndividuel['ida']; ?>>
+                        <input type="button" name="bouton_supp" class="bouton-supp" value="Supprimer l'avis">
+                    </form>
+                    <hr>
+                    <?php
+                }
+                ?>
+                
             </div>
             <?php endforeach; }?>
             <!-- Ensure this is properly placed -->
