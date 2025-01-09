@@ -381,6 +381,21 @@ create table pact._option_offre(
   (idOption) references pact._option(idOption)
 );
 
+----------- REGISTRE -----------
+
+create table pact._registre(
+  -- enregistre toutes les dates de publication et de mise hors ligne pour ne pas les perdre
+  idRegistre serial,
+  date_publication date not null,
+  date_hors_ligne date not null,
+  idO integer,
+
+  constraint _registre_pk primary key (idRegistre),
+
+  constraint _registre_fk_offre foreign key
+  (idO) references pact._offre(idO)
+);
+
 ----------- FACTURATION -----------
 
 create table pact._facturation(
@@ -392,9 +407,9 @@ create table pact._facturation(
   date_facture date default now(),
   idO integer,
 
-  constraint _facturation_pk primary key (numFacture),
+  constraint _facturation_pk primary key (numFacture, idO),
 
-  constraint _facturation_fk_secteur_prive foreign key
+  constraint _facturation_fk_offre foreign key
   (idO) references pact._offre(idO)
 );
 
@@ -422,18 +437,17 @@ create table pact._experience(
 ----------- Reponse -----------
 
 create table pact._reponse(
-  --unsure beacuse of multiplicities
-  idMembre integer,
-  idPro integer,
-  corps varchar(200),
+  idA integer,
+  idC integer, -- id d'un professionnel
+  corps varchar(1000),
   
-  constraint _reponse_pk primary key(idMembre),
+  constraint _reponse_pk primary key(idA),
   
-  constraint _reponse_fk_membre foreign key
-  (idMembre) references pact._membre(idC),
+  constraint _reponse_fk_avis foreign key
+  (idA) references pact._avis(idA),
   
   constraint _reponse_fk_professionnel foreign key
-  (idPro) references pact._professionnel(idC)
+  (idC) references pact._professionnel(idC)
 );
 
 ----------- like/dislike -----------
@@ -486,8 +500,6 @@ alter table _recommande_pas add constraint xor_recommande_pas check (existe_reco
 ---------------------------------------------
 -------------Triggers tables-----------------
 ---------------------------------------------
-
---TODO test these triggers
 
 -------- This should freeze codePro
 create or replace function pact.mis_a_jour_professionnel()
