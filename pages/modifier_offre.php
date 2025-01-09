@@ -151,8 +151,9 @@ try{
     $stmt = $dbh->prepare(
         "SELECT *
             FROM pact.offre
-            WHERE ido = $idO;"
+            WHERE ido = :idO;"
     );
+    $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
 
     $stmt->execute();
 
@@ -164,7 +165,7 @@ try{
             $stmt = $dbh->prepare(
                 "SELECT *
                     FROM pact.activite
-                    WHERE ido = $idO;"
+                    WHERE ido = :idO;"
             );
             $tags_location = '_tags_activite';
             break;
@@ -172,7 +173,7 @@ try{
             $stmt = $dbh->prepare(
                 "SELECT *
                     FROM pact.visite
-                    WHERE ido = $idO;"
+                    WHERE ido = :idO;"
             );
             $tags_location = '_tags_visite';
             break;
@@ -180,7 +181,7 @@ try{
             $stmt = $dbh->prepare(
                 "SELECT *
                     FROM pact.spectacle
-                    WHERE ido = $idO;"
+                    WHERE ido = :idO;"
             );
             $tags_location = '_tags_spectacle';
             break;
@@ -188,7 +189,7 @@ try{
             $stmt = $dbh->prepare(
                 "SELECT *
                     FROM pact.parc_d_attraction
-                    WHERE ido = $idO;"
+                    WHERE ido = :idO;"
             );
             $tags_location = '_tags_parc_d_attraction';
             break;
@@ -196,21 +197,22 @@ try{
             $stmt = $dbh->prepare(
                 "SELECT *
                     FROM pact.restauration
-                    WHERE ido = $idO;" 
+                    WHERE ido = :idO;" 
             );
             $tags_location = '_tags_restauration';
             $isResto = true;
             break;
     }
 
+    $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
     $stmt->execute();
     $dataOffre = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $stmt = $dbh->prepare(
         "SELECT *
-         FROM pact.$tags_location natural join pact._tag where idO = $idO ;" 
+         FROM pact.$tags_location natural join pact._tag where idO = :idO ;" 
     );
-
+    $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
 
     $stmt->execute();
 
@@ -218,10 +220,10 @@ try{
     if ($_POST != []){
         switch ($categorie) {
             case 'Activite':
-                $titre = str_replace("'", "''",$_POST['titre']);
-                $resume = str_replace("'", "''", $_POST['resume']);
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $description = str_replace("'", "''",$_POST['description']);
+                $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -236,33 +238,52 @@ try{
                 $voie = implode(' ', $temp);
                 $code_postal= $_POST['codeP'];
 
+                //TODO : check if date_publication = now() id usefull
                 $stmt = $dbh->prepare(
                     "update pact.activite set 
-                        titre = '$titre', 
-                        resume = '$resume', 
-                        \"type\" = $type, 
-                        description = '$description',
-                        site_web = '$site',
-                        prix_min = $prix_min, 
-                        accessibilite = '$accessibilite', 
-                        date_publication = now(), 
-                        duree = interval '$duree', 
-                        age_min = $age_min,
-                        prestation_incluse = '$prestation_incluse', 
-                        prestation_excluse = '$prestation_excluse', 
-                        ville = '$ville', 
-                        numero_voie = $numero_voie , 
-                        voie = '$voie', 
-                        code_postal = $code_postal, 
+                        titre = :titre, 
+                        resume = :resume, 
+                        \"type\" = :type, 
+                        description = :description,
+                        site_web = :site,
+                        prix_min = :prix_min, 
+                        accessibilite = :accessibilite, 
+                        date_publication = now(),
+                        duree = cast(:duree as interval), 
+                        age_min = :age_min,
+                        prestation_incluse = :prestation_incluse, 
+                        prestation_excluse = :prestation_excluse, 
+                        ville = :ville, 
+                        numero_voie = :numero_voie , 
+                        voie = :voie, 
+                        code_postal = :code_postal, 
                         complement =''
-                    where idO = $idO;"
+                    where idO = :idO;"
                 );
+                $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
+                $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+                $stmt->bindParam(':site', $site, PDO::PARAM_STR);
+                $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
+                $stmt->bindParam(':accessibilite', $accessibilite, PDO::PARAM_STR);
+
+                $stmt->bindParam(':duree', $duree, PDO::PARAM_STR);
+                $stmt->bindParam(':age_min', $age_min, PDO::PARAM_STR);
+                $stmt->bindParam(':prestation_incluse', $prestation_incluse, PDO::PARAM_STR);
+                $stmt->bindParam(':prestation_excluse', $prestation_excluse, PDO::PARAM_STR);
+
+                $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+                $stmt->bindParam(':numero_voie', $numero_voie, PDO::PARAM_STR);
+                $stmt->bindParam(':voie', $voie, PDO::PARAM_STR);
+                $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_STR);
+                $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
                 break;
             case 'Spectacle':
-                $titre = str_replace("'", "''",$_POST['titre']);
-                $resume = str_replace("'", "''", $_POST['resume']);
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $description = str_replace("'", "''",$_POST['description']);
+                $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -280,30 +301,46 @@ try{
 
                 $stmt = $dbh->prepare(
                     "update pact.spectacle set 
-                        titre = '$titre', 
-                        resume = '$resume', 
-                        \"type\" = $type, 
-                        description = '$description',
-                        site_web = '$site',
-                        prix_min = $prix_min, 
-                        accessibilite = '$accessibilite', 
+                        titre = :titre, 
+                        resume = :resume, 
+                        \"type\" = :type, 
+                        description = :description,
+                        site_web = :site,
+                        prix_min = :prix_min, 
+                        accessibilite = :accessibilite, 
                         date_publication = now(), 
-                        duree = interval '$duree', 
-                        capacite = $capacite,
-                        ville = '$ville', 
-                        numero_voie = $numero_voie , 
-                        voie = '$voie', 
-                        code_postal = $code_postal, 
+                        duree = cast(:duree as interval), 
+                        capacite = :capacite,
+                        ville = :ville, 
+                        numero_voie = :numero_voie , 
+                        voie = :voie, 
+                        code_postal = :code_postal, 
                         complement =''
-                    where idO = $idO;"
+                    where idO = :idO;"
                 );
+                $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
+                $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+                $stmt->bindParam(':site', $site, PDO::PARAM_STR);
+                $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
+                $stmt->bindParam(':accessibilite', $accessibilite, PDO::PARAM_STR);
+
+                $stmt->bindParam(':duree', $duree, PDO::PARAM_STR);
+                $stmt->bindParam(':capacite', $capacite, PDO::PARAM_STR);
+
+                $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+                $stmt->bindParam(':numero_voie', $numero_voie, PDO::PARAM_STR);
+                $stmt->bindParam(':voie', $voie, PDO::PARAM_STR);
+                $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_STR);
+                $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
                 break;
 
             case 'Visite':
-                $titre = str_replace("'", "''",$_POST['titre']);
-                $resume = str_replace("'", "''", $_POST['resume']);
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $description = str_replace("'", "''",$_POST['description']);
+                $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -320,30 +357,46 @@ try{
                 $code_postal= $_POST['codeP'];
                 $stmt = $dbh->prepare(
                     "update pact.visite set 
-                        titre = '$titre', 
-                        resume = '$resume', 
-                        \"type\" = $type, 
-                        description = '$description',
-                        site_web = '$site',
-                        prix_min = $prix_min, 
-                        accessibilite = '$accessibilite', 
+                        titre = :titre, 
+                        resume = :resume, 
+                        \"type\" = :type, 
+                        description = :description,
+                        site_web = :site,
+                        prix_min = :prix_min, 
+                        accessibilite = :accessibilite, 
                         date_publication = now(), 
-                        duree = interval '$duree', 
-                        langues = '$langues',
-                        ville = '$ville', 
-                        numero_voie = $numero_voie, 
-                        voie = '$voie', 
-                        code_postal = $code_postal, 
+                        duree = cast(:duree as interval), 
+                        langues = :langues,
+                        ville = :ville, 
+                        numero_voie = :numero_voie,
+                        voie = :voie, 
+                        code_postal = :code_postal, 
                         complement =''
-                    where idO = $idO;"
+                    where idO = :idO;"
                 );
+                $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
+                $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+                $stmt->bindParam(':site', $site, PDO::PARAM_STR);
+                $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
+                $stmt->bindParam(':accessibilite', $accessibilite, PDO::PARAM_STR);
+
+                $stmt->bindParam(':duree', $duree, PDO::PARAM_STR);
+                $stmt->bindParam(':langues', $langues, PDO::PARAM_STR);
+
+                $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+                $stmt->bindParam(':numero_voie', $numero_voie, PDO::PARAM_STR);
+                $stmt->bindParam(':voie', $voie, PDO::PARAM_STR);
+                $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_STR);
+                $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
                 break;
 
             case 'Restauration':
-                $titre = str_replace("'", "''",$_POST['titre']);
-                $resume = str_replace("'", "''", $_POST['resume']);
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $description = str_replace("'", "''",$_POST['description']);
+                $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
@@ -366,37 +419,59 @@ try{
                 $code_postal= $_POST['codeP'];
                 $stmt = $dbh->prepare(
                     "update pact.restauration set 
-                        titre = '$titre', 
-                        resume = '$resume', 
-                        \"type\" = $type, 
-                        description = '$description',
-                        site_web = '$site',
-                        prix_min = $prix_min, 
-                        accessibilite = '$accessibilite', 
+                        titre = :titre, 
+                        resume = :resume, 
+                        \"type\" = :type, 
+                        description = :description,
+                        site_web = :site,
+                        prix_min = :prix_min, 
+                        accessibilite = :accessibilite, 
                         date_publication = now(),
-                        src_image = '$src_image',
-                        gamme_prix = '$gamme_prix',
-                        petit_dejeuner = $petit_dejeuner,
-                        brunch = $brunch, 
-                        dejeuner = $dejeuner, 
-                        diner = $diner, 
-                        boissons = $boissons,
-                        ville = '$ville', 
-                        numero_voie = $numero_voie , 
-                        voie = '$voie', 
-                        code_postal = $code_postal, 
+                        src_image = :src_image,
+                        gamme_prix = :gamme_prix,
+                        petit_dejeuner = :petit_dejeuner,
+                        brunch = :brunch, 
+                        dejeuner = :dejeuner, 
+                        diner = :diner, 
+                        boissons = :boissons,
+                        ville = :ville, 
+                        numero_voie = :numero_voie , 
+                        voie = :voie, 
+                        code_postal = :code_postal, 
                         complement =''
-                    where idO = $idO;"
+                    where idO = :idO;"
                 );
+                $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
+                $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+                $stmt->bindParam(':site', $site, PDO::PARAM_STR);
+                $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
+                $stmt->bindParam(':accessibilite', $accessibilite, PDO::PARAM_STR);
+
+                $stmt->bindParam(':src_image', $src_image, PDO::PARAM_STR);
+                $stmt->bindParam(':gamme_prix', $gamme_prix, PDO::PARAM_STR);
+                $stmt->bindParam(':petit_dejeuner', $petit_dejeuner, PDO::PARAM_STR);
+                $stmt->bindParam(':brunch', $brunch, PDO::PARAM_STR);
+                $stmt->bindParam(':dejeuner', $dejeuner, PDO::PARAM_STR);
+                $stmt->bindParam(':diner', $diner, PDO::PARAM_STR);
+                $stmt->bindParam(':boissons', $boissons, PDO::PARAM_STR);
+
+                $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+                $stmt->bindParam(':numero_voie', $numero_voie, PDO::PARAM_STR);
+                $stmt->bindParam(':voie', $voie, PDO::PARAM_STR);
+                $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_STR);
+                $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
                 break;
             case "Parc d'attraction":
-                $titre = str_replace("'", "''",$_POST['titre']);
-                $resume = str_replace("'", "''", $_POST['resume']);
+                $titre = $_POST['titre'];
+                $resume = $_POST['resume'];
                 $type = type_offre($_POST['offre']);
-                $description = str_replace("'", "''",$_POST['description']);
+                $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
                 $accessibilite = $_POST['accessibilite'];
+
                 $src_image = random_int(1, 1000); // need image source
                 $nbr_attractions = $_POST['nbattraction'];
                 $age_min = $_POST['age'];
@@ -411,24 +486,41 @@ try{
                 $code_postal= $_POST['codeP'];
                 $stmt = $dbh->prepare(
                     "update pact.parc_d_attraction set 
-                        titre = '$titre', 
-                        resume = '$resume', 
-                        \"type\" = $type, 
-                        description = '$description',
-                        site_web = '$site',
-                        site_web = '$site',
-                        prix_min = $prix_min, 
-                        accessibilite = '$accessibilite', 
+                        titre = :titre, 
+                        resume = :resume, 
+                        \"type\" = :type, 
+                        description = :description,
+                        site_web = :site,
+                        prix_min = :prix_min, 
+                        accessibilite = :accessibilite, 
                         date_publication = now(), 
-                        duree = interval '$duree', 
-                        langues = '$langues',
-                        ville = '$ville', 
-                        numero_voie = $numero_voie , 
-                        voie = '$voie',     
-                        code_postal = $code_postal, 
+                        src_image = :src_image, 
+                        nbr_attractions = :nbr_attractions,
+                        age_min = :age_min,
+                        ville = :ville, 
+                        numero_voie = :numero_voie , 
+                        voie = :voie,     
+                        code_postal = :code_postal, 
                         complement =''
-                    where idO = $idO;"
+                    where idO = :idO;"
                 );
+                $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
+                $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+                $stmt->bindParam(':site', $site, PDO::PARAM_STR);
+                $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
+                $stmt->bindParam(':accessibilite', $accessibilite, PDO::PARAM_STR);
+
+                $stmt->bindParam(':src_image', $src_image, PDO::PARAM_STR);
+                $stmt->bindParam(':nbr_attractions', $nbr_attractions, PDO::PARAM_STR);
+                $stmt->bindParam(':age_min', $age_min, PDO::PARAM_STR);
+
+                $stmt->bindParam(':ville', $ville, PDO::PARAM_STR);
+                $stmt->bindParam(':numero_voie', $numero_voie, PDO::PARAM_STR);
+                $stmt->bindParam(':voie', $voie, PDO::PARAM_STR);
+                $stmt->bindParam(':code_postal', $code_postal, PDO::PARAM_STR);
+                $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
                 break;
 
             default:
@@ -443,16 +535,19 @@ try{
         // retire option pour la modifier
         // ou si l'option à été retitrée par l'utilisateur
         $stmt = $dbh->prepare(
-            "delete from pact._option_offre where idO = $idO;"
+            "delete from pact._option_offre where idO = :idO;"
         );
+        $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
         $stmt->execute();
 
         // quand option est non nulle donc on ajoute l'option à l'offre
         if ($option != null) {
             $stmt = $dbh->prepare(
                 "insert into pact._option_offre 
-                    (idOption, idO) values ($option, $idO);"
+                    (idOption, idO) values (:option, :idO);"
             );
+            $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
+            $stmt->bindParam(':option', $option, PDO::PARAM_STR);
             $stmt->execute();
         }
        
@@ -470,27 +565,35 @@ try{
                 if (!empty($image)) {
                     //supprime image pour la remplacer
                     $image = $image[0];
+                    $src = "image_offre/$image";
                     $stmt = $dbh->prepare(
                         "delete from pact.photo_offre 
-                        where src_image = 'image_offre/$image';"
+                        where src_image = :src;"
                     );
+                    $stmt->bindParam(':src', $src, PDO::PARAM_STR);
                     $stmt->execute();
                     unlink("$dir/$image");
                 }
                 move_uploaded_file($_FILES['file-upload'.$i]['tmp_name'], '../images/image_offre/'.$idO.'-'.$i.'.'.$extention);
+                //TODO test
+                $src = "image_offre/$idO-$i.$extention";
                 $stmt = $dbh->prepare(
                     "insert into pact.photo_offre 
                     (src_image, idO) values 
-                    ('image_offre/$idO-$i.$extention', '$idO');"
+                    (:src, :idO);"
                 );
+                $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
+                $stmt->bindParam(':src', $src, PDO::PARAM_STR);
                 $stmt->execute();
             } else if ($_POST['statusImage'.$i] === 'true') {
                 // supprimer images
                 $image = $image[0];
+                $src = "image_offre/$image";
                 $stmt = $dbh->prepare(
                     "delete from pact.photo_offre 
-                    where src_image = 'image_offre/$image';"
+                    where src_image = :src;"
                 );
+                $stmt->bindParam(':src', $src, PDO::PARAM_STR);
                 $stmt->execute();
                 unlink("$dir/$image");
             } 
@@ -508,11 +611,13 @@ try{
                     $image = $image[0];
                     unlink("$dir/$image");
                 }
-                move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idO.'-plan.'.$extention);
+                $src = "image_offre/'.$idO.-plan.$extention";
+                move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/'.$src);
                 $stmt = $dbh->prepare(
-                    "UPDATE pact.parc_d_attraction SET src_image = 'image_offre/$idO-plan.$extention'
-                    WHERE ido = $idO;"
+                    "UPDATE pact.parc_d_attraction SET src_image = :src
+                    WHERE ido = :idO;"
                 );
+                $stmt->bindParam(':src', $src, PDO::PARAM_STR);
             } else if ($categorie === 'Restauration'){
                 $pattern = "/$idO-menu/";
                 $image = array_values(preg_grep($pattern, $images));
@@ -521,11 +626,13 @@ try{
                     $image = $image[0];
                     unlink("$dir/$image");
                 }
-                move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idO.'-menu.'.$extention);
+                $src = "image_offre/'.$idO.-menu.$extention";
+                move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/'.$src);
                 $stmt = $dbh->prepare(
-                    "UPDATE pact.restauration SET src_image = 'image_offre/$idO-menu.$extention'
-                    WHERE ido = $idO;"
+                    "UPDATE pact.restauration SET src_image = :src
+                    WHERE ido = :idO;"
                 );
+                $stmt->bindParam(':src', $src, PDO::PARAM_STR);
             }
             $stmt->execute();
         }
@@ -540,10 +647,12 @@ try{
             }
             // supprimer images
             $image = $image[0];
+            $src = "image_offre/$image";
             $stmt = $dbh->prepare(
                 "delete from pact.photo_offre 
-                where src_image = 'image_offre/$image';"
+                where src_image = :src;"
             );
+            $stmt->bindParam(':src', $src, PDO::PARAM_STR);
             $stmt->execute();
             unlink("$dir/$image");
         }
@@ -553,8 +662,9 @@ try{
         
         $stmt = $dbh->prepare(
             //récupération de l'idTag
-            "delete from pact.$tags_location where idO = $idO;"
+            "delete from pact.$tags_location where idO = :idO;"
         );
+        $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
         $stmt->execute();
         
 
@@ -562,8 +672,9 @@ try{
             $t = $tags[$i];
             $stmt = $dbh->prepare(
                 //récupération de l'idTag
-                "select idtag from pact._tag where libelle = '$t';"
+                "select idtag from pact._tag where libelle = :t;"
             );
+            $stmt->bindParam(':t', $t, PDO::PARAM_STR);
             $stmt->execute();
             $idtag = $stmt->fetchColumn();
             
@@ -579,8 +690,10 @@ try{
             if ($checkStmt->fetchColumn() == 0) {
                 $stmt = $dbh->prepare(
                     //insertion  
-                    "insert into pact.$tags_location(idO, idtag) values ($idO,$idtag);"
+                    "insert into pact.$tags_location(idO, idtag) values (:idO,:idtag);"
                 );
+                $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
+                $stmt->bindParam(':idtag', $idtag, PDO::PARAM_STR);
                 $stmt->execute();
             }
                         
