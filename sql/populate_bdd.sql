@@ -3,8 +3,7 @@ SET SCHEMA 'pact';
 
 -- MEMBRES --
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Anonyme', 'Ano', 'nyme', 'anonyme@gmail.com', '0123456789', 'NeTrouverPasCeMotDePasse', 'Ici', 1, 'rue de la rue', 22222, '');
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Jonnnie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');   
-insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Bobbie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');  
+insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Jonnnie', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, '');
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Zirconium', 'Prigent', 'Richard', 'richard.prigent@wanadoo.fr', '0758124278', 'N5W7mOliROdlXYtRep', 'Saint-Brieuc', 11, 'rue de la gare', 22000, '');
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('HolyCannolee', 'La Vedette', 'Hugo', 'hugo.lavedette@orange', '0652637537', 'hugolemeilleur!', 'Guingamp', 5, 'boulevard clémenceau', 22200, '');
 insert into pact.membre (pseudo, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values ('Kabibabie', 'Aquecouccou', 'Lillie', 'kabibaie@gmail.com', '0772368545', 'IDontLikeMakingPasswords', 'Lannion', 1, 'rue édouard branly', 22300, '');
@@ -155,7 +154,19 @@ insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, con
 
 
 -- FACTURE --
-
+/*
 insert into pact._facturation(numFacture, idO, date_facture) values (12345, 1, date_trunc('month', current_date));
 insert into pact._facturation(numFacture, idO, date_facture) values (12121, 6, date_trunc('month', current_date));
 insert into pact._facturation(numFacture, idO, date_facture) values (54321, 1, date_trunc('month', now() - interval '1 month'));
+*/
+
+--Dates--
+
+update pact.spectacle set date_publication = (now() - interval '2 days') where idO = 1;
+update pact.activite set date_publication = (now() - interval '3 days') where idO = 2;
+update pact.visite set date_publication = (now() - interval '4 days') where idO = 3;
+update pact.restauration set date_publication = (now() - interval '5 days') where idO = 4;
+update pact.parc_d_attraction set date_publication = (now() - interval '6 days') where idO = 5;
+update pact.activite set date_publication = (now() - interval '1 days') where idO = 6;
+update pact.visite set date_publication = (now() - interval '8 days') where idO = 7;
+update _option_offre set  date_lancement = now() - interval '1 day', duree_option = interval '7 day' where idO = 1;

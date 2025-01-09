@@ -183,11 +183,11 @@ include('../sql/connect_params.php');
             <div class="container-ligne">
                 <div class="container-info">
                     <label>IBAN</label>
-                    <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?>>
+                    <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?> readonly>
                 </div>
                 <div class="container-info">
                     <label>BIC</label>
-                    <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?>>
+                    <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?> readonly>
                 </div>
             </div>
             <?php } ?>

@@ -33,6 +33,7 @@ create table pact._compte
   email varchar(50) not null,
   telephone varchar(10) not null,
   mdp varchar(25) not null,
+  clefApi varchar(64),
   
   -- FK
   idAdresse integer not null,
@@ -381,6 +382,22 @@ create table pact._option_offre(
   (idOption) references pact._option(idOption)
 );
 
+----------- REGISTRE -----------
+
+create table pact._registre(
+  -- enregistre toutes les dates de publication et de mise hors ligne pour ne pas les perdre
+  -- registre des perodes où l'offre était en ligne
+  idRegistre serial,
+  date_publication date not null,
+  date_hors_ligne date not null,
+  idO integer,
+
+  constraint _registre_pk primary key (idRegistre),
+
+  constraint _registre_fk_offre foreign key
+  (idO) references pact._offre(idO)
+);
+
 ----------- FACTURATION -----------
 
 create table pact._facturation(
@@ -392,9 +409,9 @@ create table pact._facturation(
   date_facture date default now(),
   idO integer,
 
-  constraint _facturation_pk primary key (numFacture),
+  constraint _facturation_pk primary key (numFacture, idO),
 
-  constraint _facturation_fk_secteur_prive foreign key
+  constraint _facturation_fk_offre foreign key
   (idO) references pact._offre(idO)
 );
 
@@ -422,19 +439,47 @@ create table pact._experience(
 ----------- Reponse -----------
 
 create table pact._reponse(
-  --unsure beacuse of multiplicities
-  idMembre integer,
-  idPro integer,
-  corps varchar(200),
+  idA integer,
+  idC integer, -- id d'un professionnel
+  corps varchar(1000),
   
-  constraint _reponse_pk primary key(idMembre),
+  constraint _reponse_pk primary key(idA),
   
-  constraint _reponse_fk_membre foreign key
-  (idMembre) references pact._membre(idC),
+  constraint _reponse_fk_avis foreign key
+  (idA) references pact._avis(idA),
   
   constraint _reponse_fk_professionnel foreign key
-  (idPro) references pact._professionnel(idC)
+  (idC) references pact._professionnel(idC)
 );
+
+---Signalements---
+
+create table pact._signal_avis(
+  idA integer, -- id de l'avis signalé
+  idSignaleur integer,
+
+  constraint _signal_avis_pk primary key(idA, idSignaleur),
+
+  constraint _signal_avis_fk_avis foreign key
+  (idA) references pact._avis(idA),
+  
+  constraint _signal_avis_fk_compte foreign key
+  (idSignaleur) references pact._compte(idC)
+);
+
+create table pact._signal_reponse(
+  idA integer, --id de l'avis répondu
+  idSignaleur integer,
+
+  constraint _signal_reponse_pk primary key(idA, idSignaleur),
+
+  constraint _signal_reponse_fk_avis foreign key
+  (idA) references pact._reponse(idA),
+  
+  constraint _signal_reponse_fk_professionnel foreign key
+  (idSignaleur) references pact._compte(idC)
+);
+
 
 ----------- like/dislike -----------
 
@@ -487,8 +532,6 @@ alter table _recommande_pas add constraint xor_recommande_pas check (existe_reco
 -------------Triggers tables-----------------
 ---------------------------------------------
 
---TODO test these triggers
-
 -------- This should freeze codePro
 create or replace function pact.mis_a_jour_professionnel()
   returns trigger as $$
@@ -526,7 +569,7 @@ before update on pact._membre
 
 -- Membre
 create or replace view pact.membre as
-  select idC, pseudo, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._membre natural join pact._compte natural join pact._adresse;
+  select idC, pseudo, nom, prenom, email, telephone, mdp, clefApi, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._membre natural join pact._compte natural join pact._adresse;
   
 
 
@@ -538,7 +581,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  insert into pact._compte (nom, prenom, email, telephone, mdp, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.idAdresse) returning idC into new.idC;
+  insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._membre (idc, pseudo) values (new.idc, new.pseudo);
   RETURN OLD;
 end;
@@ -558,7 +601,7 @@ begin
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
 
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi = new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   -- on ne peut pas modifier le pseudo
   RETURN NEW;
 end;
@@ -584,7 +627,7 @@ instead of delete on pact.membre
   
 -- professionnel
 create or replace view pact.professionnel as
-  select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
+  select idC, codePro, denomination_sociale, nom, prenom, email, telephone, mdp, clefApi, idAdresse, ville, numero_voie, voie, code_postal, complement from pact._professionnel natural join pact._compte natural join pact._adresse;
   
 
 
@@ -596,7 +639,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  insert into pact._compte (nom, prenom, email, telephone, mdp, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.idAdresse) returning idC into new.idC;
+  insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._professionnel (idc, codePro, denomination_sociale) values (new.idc, new.codePro, new.denomination_sociale);
   RETURN OLD;
 end;
@@ -614,7 +657,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi=new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
   -- on ne peut pas modifier le code pro
   RETURN NEW;
@@ -634,8 +677,8 @@ create or replace view pact.secteur_public as
 create or replace function pact.insert_secteur_public()
   returns trigger as $$
 begin
-  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
-    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
+  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, clefApi, ville, numero_voie, voie, code_postal, complement) 
+    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
   select idC from pact.professionnel where codePro = new.codePro into new.idC;
   insert into pact._secteur_public (idC) values (new.idC);
   RETURN OLD;
@@ -654,7 +697,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi = new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
   -- on ne peut pas modifier le code pro
   RETURN NEW;
@@ -675,8 +718,8 @@ create or replace view pact.secteur_prive as
 create or replace function pact.insert_secteur_prive()
   returns trigger as $$
 begin
-  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) 
-    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
+  insert into pact.professionnel (codePro, denomination_sociale, nom, prenom, email, telephone, mdp, clefApi, ville, numero_voie, voie, code_postal, complement) 
+    values (new.codePro, new.denomination_sociale, new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.ville, new.numero_voie, new.voie, new.code_postal, new.complement);
   select idC from pact.professionnel where codePro = new.codePro into new.idC;
   insert into pact._secteur_prive (idC, iban, bic, siren, raison_sociale) values (new.idC, new.iban, new.bic, new.siren, new.raison_sociale);
   RETURN OLD;
@@ -695,7 +738,7 @@ begin
   else
     select idAdresse from pact._adresse where ville = new.ville and numero_voie = new.numero_voie and voie = new.voie and code_postal = new.code_postal and complement = new.complement into new.idAdresse;
   end if;
-  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, idAdresse = new.idAdresse where idC = old.idC;
+  update pact._compte set nom = new.nom, prenom = new.prenom, email = new.email, telephone = new.telephone, mdp = new.mdp, clefApi = new.clefApi, idAdresse = new.idAdresse where idC = old.idC;
   update pact._professionnel set denomination_sociale = new.denomination_sociale where idC = old.idC;
   update pact._secteur_prive set iban = new.iban, bic = new.bic, raison_sociale = new.raison_sociale where idC = old.idC;
   -- on ne peut pas modifier le code pro
@@ -1488,6 +1531,24 @@ begin
       insert into pact._facturation(numFacture, idO, date_facture) values (nFact, idOffre, i);
      end if;
    end loop;
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+
+/*
+Verifie si compte a bien saisit ses coords bancaires
+*/
+
+create or replace function pact.hasBank(idCompte integer)
+  returns boolean as $$
+declare
+  res boolean;
+begin
+  res = false;
+  if exists(select * from _secteur_prive where iban is not null and bic is not null and idC = idCompte) then
+     res = true;
+   end if;
   RETURN res;
 end;
 $$ language 'plpgsql';

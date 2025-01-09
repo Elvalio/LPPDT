@@ -550,6 +550,94 @@
   color: white;
 }
 
+/* Bouton signaler avis */
+
+#icone-signaler {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.btn-signaler {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 0px;
+  cursor: pointer;
+  font-size: 16px;
+  width: fit-content;
+  color: rgb(255, 0, 0) !important;
+  gap: 10px; /* Ajoute de l'espace entre les éléments */
+}
+
+.btn-signaler p {
+  font-family: TripSansRegular ;
+  color: red;
+}
+
+/* PopUp confirmation signalement */
+
+
+#popup {
+  position: fixed;
+  bottom: -100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  background-color: rgb(122, 146, 243);
+  color: #fff;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: bottom 0.5s ease;
+  text-align: center;
+  z-index: 1000;
+
+  font-family: TripSansRegular;
+}
+
+#popup.active {
+  bottom: 20px;
+}
+
+#popup .progress-bar {
+  position: relative;
+  height: 5px;
+  background-color: #ffffff;
+  margin-top: 10px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+#popup .progress-bar div {
+  height: 100%;
+  background-color: #76c7c0;
+  width: 0; /* Inversion de la largeur initiale */
+  animation: progress-reverse 4s linear; /* Utilisation de l'animation inversée */
+}
+
+@keyframes progress-reverse {
+  from {
+      width: 0; /* Départ de l'animation inversé */
+  }
+  to {
+      width: 100%; /* Fin de l'animation inversé */
+  }
+}
+
+#popup .close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#popup .close-btn:hover {
+  text-decoration: underline;
+}
+
 }
 
 @media (max-width: 800px) {
@@ -1047,6 +1135,93 @@ color: white;
   font-family: 'TripSansRegular';
 }
 
+/* Bouton signaler avis */
+
+#icone-signaler {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.btn-signaler {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 0px;
+  cursor: pointer;
+  font-size: 16px;
+  width: fit-content;
+  color: rgb(255, 0, 0) !important;
+  gap: 10px; /* Ajoute de l'espace entre les éléments */
+}
+
+.btn-signaler p {
+  font-family: TripSansRegular ;
+  color: red;
+}
+
+ /* PopUp confirmation signalement */
+
+
+  #popup {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    background-color: rgb(122, 146, 243);
+    color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    transition: bottom 0.5s ease;
+    text-align: center;
+    z-index: 1000;
+
+    font-family: TripSansRegular;
+}
+
+#popup.active {
+    bottom: 60px;
+}
+
+#popup .progress-bar {
+    position: relative;
+    height: 5px;
+    background-color: #ffffff;
+    margin-top: 10px;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#popup .progress-bar div {
+  height: 100%;
+  background-color: #76c7c0;
+  width: 0; /* Inversion de la largeur initiale */
+  animation: progress-reverse 4s linear; /* Utilisation de l'animation inversée */
+}
+
+@keyframes progress-reverse {
+  from {
+      width: 0; /* Départ de l'animation inversé */
+  }
+  to {
+      width: 100%; /* Fin de l'animation inversé */
+  }
+}
+
+#popup .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+#popup .close-btn:hover {
+    text-decoration: underline;
+}
 
 }
 

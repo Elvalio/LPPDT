@@ -7,6 +7,7 @@ if(document.getElementById("etoile_note1") !== null){
 
     let nbr_etoile = document.getElementById("nbr_etoile");
 
+
     etoile1.addEventListener("mouseover", modif_etoile);
     etoile2.addEventListener("mouseover", modif_etoile);
     etoile3.addEventListener("mouseover", modif_etoile);
@@ -140,4 +141,33 @@ function supp_avis(event) {
 
 boutons_supp.forEach(bouton => {
     bouton.addEventListener("click", supp_avis);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const signalButtons = document.querySelectorAll('.btn-signaler'); // Sélectionne tous les boutons "Signaler"
+    const popup = document.getElementById('popup');
+    const closeBtn = popup.querySelector('.close-btn');
+    const progressBar = popup.querySelector('.progress-bar div');
+
+    let timeout;
+
+    signalButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popup.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popup.classList.remove('active');
+            }, 4000);
+        });
+    });
+
+    closeBtn.addEventListener('click', () => {
+        popup.classList.remove('active');
+        clearTimeout(timeout);
+    });
 });
