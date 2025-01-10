@@ -21,7 +21,7 @@
                 $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_publication = now()  WHERE idO = $offre_id");
                 $stmt->execute();
             }else{
-                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_hors_ligne = now( WHERE idO = $offre_id");
+                $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_hors_ligne = now() WHERE idO = $offre_id");
                 $stmt->execute();
             }
 
