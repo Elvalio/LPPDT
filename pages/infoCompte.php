@@ -1,7 +1,6 @@
 <?php
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(0);
 
 include('../sql/connect_params.php');
 ?>
@@ -20,38 +19,43 @@ include('../sql/connect_params.php');
             document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             location.assign("accueil.php");
         }
-
-        function supprime() {
-            if (confirm("haiii :3")) {
-
-            }
-            else {
-                alert("nooooo");
-            }
-        }
     </script>
 </head>
     <?php
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
         try {
-            if ($_COOKIE['type_compte'] == "membre") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.membre WHERE idC = :id_user");
+            if ($_POST['delete'] == "oui") {
+                $stmt=$dbh->prepare("DELETE FROM pact.membre WHERE idC = :id_user");
                 $stmt->bindParam(':id_user', $_COOKIE['user']);
                 $stmt->execute();
+                ?>
+                <script>
+                    document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+                    document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+                    location.assign("accueil.php");
+                </script>
+                <?php
             }
-            else if ($_COOKIE['type_compte'] == "pro_public") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $_COOKIE['user']);
-                $stmt->execute();
-            }
-            else if ($_COOKIE['type_compte'] == "pro_prive") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $_COOKIE['user']);
-                $stmt->execute();
-            }
+            else {
+                if ($_COOKIE['type_compte'] == "membre") {
+                    $stmt=$dbh->prepare("SELECT * FROM pact.membre WHERE idC = :id_user");
+                    $stmt->bindParam(':id_user', $_COOKIE['user']);
+                    $stmt->execute();
+                }
+                else if ($_COOKIE['type_compte'] == "pro_public") {
+                    $stmt=$dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :id_user");
+                    $stmt->bindParam(':id_user', $_COOKIE['user']);
+                    $stmt->execute();
+                }
+                else if ($_COOKIE['type_compte'] == "pro_prive") {
+                    $stmt=$dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :id_user");
+                    $stmt->bindParam(':id_user', $_COOKIE['user']);
+                    $stmt->execute();
+                }
 
-            $compte = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $compte = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
 
         } catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -198,8 +202,8 @@ include('../sql/connect_params.php');
                 <div>
                     <button class="deco-btn" onclick="deconnexion()">Se déconnecter</button>
                 </div>
-                <form method="POST" action="infoCompte.php">
-                    <input type="hidden" name="delete" value="true">
+                <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="delete" value="oui">
                     <button type="submit" class="delete-btn">Supprimer le compte</button>
                 </form>
             </div>
