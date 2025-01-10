@@ -21,6 +21,7 @@ APIKey api_keys[] = {
     {"professional_api_key", "professional"},
     {"admin_api_key", "admin"}
 };
+
 // Fonction pour générer une clé d'API aléatoire
 void generate_api_key(char* api_key, size_t length) {
     const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -126,7 +127,7 @@ int main() {
         }
 
 
-        
+
 
         printf("Connexion acceptée\n");
         handle_client_request(client_socket);

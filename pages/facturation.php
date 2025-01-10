@@ -13,10 +13,6 @@ try {
     $stmt->execute([':userId' => $userID]);
     $factures = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if (!$factures) {
-        die("Vous n'avez aucune facture.");
-    }
-
 } catch (PDOException $e) {
     echo "Erreur : " . htmlspecialchars($e->getMessage());
     die();
@@ -75,7 +71,7 @@ function PrixOptionTTC($idOffre, $bdh) {
         <h1 class="titre-rouge">Facturation</h1>
     </header>
     <div>
-        <?php foreach ($factures as $facture) { ?>
+        <?php if ($factures) { foreach ($factures as $facture) { ?>
         <article class="facture-composant-liste">
             
                 <div class="facture-liste-facture">
@@ -146,6 +142,9 @@ function PrixOptionTTC($idOffre, $bdh) {
                     </div>
                 </div>
         </article> 
+        <?php } }
+        elseif (!$factures) {?>
+            <h2>Vous n'avez pas de factures</h2>
         <?php } ?>
     </div><?php include_once 'footer.php'; ?>
 </div>

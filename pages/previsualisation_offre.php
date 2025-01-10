@@ -313,22 +313,22 @@ try{
             }
         }
 
-        // // insertion de la map
-        // if (isset($_POST['mapPhoto'])){
-        //     $image = $_POST['mapPhoto'];
-        //     if ($categorie === 'parcAttraction'){
-        //         $Umap = $dbh->prepare(
-        //             "UPDATE pact.parc_d_attraction SET src_image = '$img'
-        //             WHERE ido = $idOffre;"
-        //         );
-        //     } else if ($categorie === 'restauration'){
-        //         $Umap = $dbh->prepare(
-        //             "UPDATE pact.restauration SET src_image = '$img'
-        //             WHERE ido = $idOffre;"
-        //         );
-        //     }
-        //     $Umap->execute();
-        // }
+        // insertion de la map
+        if (isset($_POST['mapPhoto'])){
+            $image = $_POST['mapPhoto'];
+            if ($categorie === 'parcAttraction'){
+                $Umap = $dbh->prepare(
+                    "UPDATE pact.parc_d_attraction SET src_image = '$img'
+                    WHERE ido = $idOffre;"
+                );
+            } else if ($categorie === 'restauration'){
+                $Umap = $dbh->prepare(
+                    "UPDATE pact.restauration SET src_image = '$img'
+                    WHERE ido = $idOffre;"
+                );
+            }
+            $Umap->execute();
+        }
 
 
         //ajout des tags 
@@ -421,7 +421,6 @@ for ($i = 1; $i < 4; $i++) { //pour chaque images
         if (($_POST['image'.$i-1]== 'false')){
             if(!empty($img)){
                 unlink($img[0]);
-                $photos[] = 'null';
             }
         } else {
             $photos[] = $_POST['image'.$i-1];
@@ -458,7 +457,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
     } else if (!empty($parc)){
         unlink($parc[0]);
     }
-    $mapPhoto = 'null';
+    $mapPhoto = '';
 }
 ?>
 
@@ -647,22 +646,33 @@ if (!empty($_FILES['map-file-upload']['name'])){
         </div>
         
         <?php 
-            if ($categorie === 'parcAttraction' && $mapPhoto !== '') { ?>
+            if ($categorie === 'parcAttraction' && isset($_POST['mapPhoto'])) { ?>
         <div>
             <br><br>
             <h3>Plan du parc : </h3>
             <img class="carte" src="<?php echo "../images/" . htmlspecialchars($mapPhoto); ?>" alt="plan">
         </div>
         <?php
-            } elseif ($categorie === 'restauration' && $mapPhoto !== '') { ?>
+            } else if ($categorie === 'parcAttraction'){ ?>
+                <div>
+                    <br><br>
+                    <h3>Plan du parc : </h3>
+                    <img class = carte src="../images/imagesReferences/placeholder.jpg" alt="plan">
+                </div> <?php
+
+            } elseif ($categorie === 'restauration' && isset($_POST['mapPhoto'])) { ?>
         <div>
             <br><br>
             <h3>Menu : </h3>
-            <img class="carte" src="<?php echo "../images/" . htmlspecialchars($mapPhoto); ?>" alt="carte">
+            <img class = carte src="../images/imagesReferences/placeholder.jpg" alt="Image">
         </div>
-        <?php
-                }
-            ?>
+        <?php }else if ($categorie === 'restauration'){ ?>
+            <div>
+                <br><br>
+                <h3>Menu : </h3>
+                <img class = carte src="../images/imagesReferences/placeholder.jpg" alt="plan">
+            </div> <?php } ?>
+        
 
 
     </article>
@@ -671,7 +681,10 @@ if (!empty($_FILES['map-file-upload']['name'])){
         foreach ($_POST as $key => $value) {
             // Si la valeur est un tableau (cas des champs checkbox ou similaires)
             if ($value !== ''){
-                ?><input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>"><?php
+                if (($key !== 'image0' && $key !== 'image1' && $key !== 'image2' && $key !== 'mapPhoto')){
+                    ?><input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>"><?php
+                }
+                
             }
             
         }
@@ -702,7 +715,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
         foreach ($_POST as $key => $value) {
             // Si la valeur est un tableau (cas des champs checkbox ou similaires)
             if ($value !== ''){
-                if (($key !== 'image0' && $key !== 'image1' && $key !== 'image2')){
+                if (($key !== 'image0' && $key !== 'image1' && $key !== 'image2' && $key !== 'mapPhoto')){
                     ?><input type="hidden" name="<?php echo $key; ?>" value="<?php echo $value; ?>"><?php
                 }
                 
