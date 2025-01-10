@@ -3,6 +3,7 @@
     <?php
     include_once'nav.php';
 
+use function PHPSTORM_META\type;
 
     include('../sql/connect_params.php');
 
@@ -17,7 +18,7 @@
             $offre_id = $_POST['offre_id'];
             $status = $_POST['status'] === 'checked' ? 'false' : 'true';
 
-            if($status){
+            if($status === 'true'){
                 $stmt = $dbh->prepare("UPDATE pact._offre SET en_ligne = $status, date_publication = now()  WHERE idO = $offre_id");
                 $stmt->execute();
             }else{
