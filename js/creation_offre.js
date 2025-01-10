@@ -393,8 +393,7 @@
                         // Trouver la première case non-vide pour la supprimer (à partir de la fin)
                         let i = rechercheImagePleine();
                         selectedImages[i].src = '../images/rien.png';
-                        // imagesASupp[i].value = 'false';
-                        // console.log(imagesASupp[i]);
+                        imagesASupp[i].value = 'false';
                         fileInputs[i].value = '';
                         currentImageCount--;
                         //MODIFIER OFFRE : change statut image
@@ -414,8 +413,7 @@
                         var img = selectedImages[selectedImageIndex];
                         if (img.getAttribute('src') !== '../images/rien.png'){
                             img.src = '../images/rien.png';
-                            // imagesASupp[selectedImageIndex].value = 'false';
-                            // console.log(imagesASupp[selectedImageIndex]);
+                            imagesASupp[selectedImageIndex].value = 'false';
                             fileInputs[selectedImageIndex].value = '';
                             //MODIFIER OFFRE : change statut image
                             if (statusImages.length !== 0) {

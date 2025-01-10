@@ -34,16 +34,17 @@ void send_user_messages(int client_fd, const char *receiver) {
     if (!file || !temp_file) {
         perror("fopen");
         send(client_fd, "Error accessing message file.\n", 30, 0);
-        return;
     }
 
     while (fgets(line, sizeof(line), file)) {
         char sender[BUFSIZE], dest[BUFSIZE], message[BUFSIZE];
         sscanf(line, "%[^|]|%[^|]|%[^\n]", sender, dest, message);
 
+        printf("--------%s----------%s------------", dest, receiver);
+
         if (strcmp(dest, receiver) == 0) {
             found = 1;
-            send(client_fd, line, strlen(line), 0);
+            send(client_fd, message, strlen(message), 0);
         } else {
             fprintf(temp_file, "%s", line); // Conserver les messages non destinés à cet utilisateur
         }
@@ -115,36 +116,60 @@ int main(void) {
         buffer[bytes_read] = '\0';
 
         if (strcmp(buffer, "SEND") == 0) {
+            char buffer[BUFSIZE];
             char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
-            printf("sender: %s receiver: %s message: %s\n", sender, receiver, message);
+            memset(buffer, 0, BUFSIZE);
+            memset(sender, 0, BUFSIZE);
+            memset(receiver, 0, BUFSIZE);
+            memset(message, 0, BUFSIZE);
 
-            // Recevoir le nom de l'expéditeur (sender)
-            recv(client_fd, sender, BUFSIZE - 1, 0);
-            sender[BUFSIZE - 1] = '\0';  // S'assurer que la chaîne est bien terminée
+            // Lire les données dans une boucle
+            int total_received = 0;
+            while (1) {
+                int bytes_received = recv(client_fd, buffer + total_received, BUFSIZE - total_received, 0);
+                if (bytes_received <= 0) {
+                    printf("Error or connection closed by client.\n");
+                    return EXIT_FAILURE;
+                }
+                total_received += bytes_received;
+
+                // Arrêter si on détecte un séparateur ou si le buffer est plein
+                if (strchr(buffer, '\n')) {
+                    break;
+                }
+            }
+
+            // Extraire les données
+            char *token = strtok(buffer, "\n");
+            if (token != NULL) {
+                strncpy(sender, token, BUFSIZE);
+                token = strtok(NULL, "\n");
+            }
+            if (token != NULL) {
+                strncpy(receiver, token, BUFSIZE);
+                token = strtok(NULL, "\n");
+            }
+            if (token != NULL) {
+                strncpy(message, token, BUFSIZE);
+            }
+
+            // Afficher les données reçues
             printf("Received sender: %s\n", sender);
-
-            // Recevoir le destinataire (receiver)
-            recv(client_fd, receiver, BUFSIZE - 1, 0);
-            receiver[BUFSIZE - 1] = '\0';  // S'assurer que la chaîne est bien terminée
             printf("Received receiver: %s\n", receiver);
-
-            // Recevoir le message
-            recv(client_fd, message, BUFSIZE - 1, 0);
-            message[BUFSIZE - 1] = '\0';  // S'assurer que la chaîne est bien terminée
-            printf("Received message: %s\n\n", message);
+            printf("Received message: %s\n", message);
 
             // Sauvegarder le message
             save_message(sender, receiver, message);
 
-            // Répondre que le message a été sauvegardé
+            // Répondre au client
             send(client_fd, "Message saved.\n", 16, 0);
-            
         } else if (strcmp(buffer, "RECEIVE") == 0) {
+            char buffer[BUFSIZE];
             char receiver[BUFSIZE];
-            recv(client_fd, receiver, BUFSIZE - 1, 0);
-            receiver[BUFSIZE - 1] = '\0';  // S'assurer que la chaîne est bien terminée
+            memset(buffer, 0, BUFSIZE);
+            memset(receiver, 0, BUFSIZE);
 
-            printf("Received receiver: %s\n", receiver);
+            recv(client_fd, receiver, BUFSIZE - 1, 0);
             send_user_messages(client_fd, receiver);
         } else {
             send(client_fd, "Invalid command.\n", 18, 0);
