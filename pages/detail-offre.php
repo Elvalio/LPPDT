@@ -469,14 +469,25 @@ try {
                     <hr>
                     <?php
                 }
-                ?>
-                <?php if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
+                if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
                     <div class="btn-signaler">
                         <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                         <p>Signaler l'avis</p>
                     </div>
                     
-                <?php endif; ?>
+                <?php endif;
+                if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
+                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                        ?>
+                        <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier">
+                            <input type="hidden" name="type_form" value="poste-reponse">
+                            <textarea minlength="30" maxlength="255" type="text" name="zone_reponse" id="ecrire_reponse" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer une réponse sur cette avis."></textarea>
+                            <input type="submit" id="bouton_publier" value="Publier">
+                        </form>
+                        <?php
+                    }
+                }
+                ?>
             </div>
             <?php endforeach; }?>
             <!-- Ensure this is properly placed -->
