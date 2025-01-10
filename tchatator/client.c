@@ -11,29 +11,31 @@
 #define BUFSIZE 1024
 
 void send_message(int socket_fd) {
-    char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
+char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
+    char buffer[3 * BUFSIZE];  // Tampon pour toutes les données
 
-    // Demander à l'utilisateur de saisir l'expéditeur
+    // Demander les informations
     printf("Your username: ");
     fgets(sender, BUFSIZE, stdin);
-    sender[strcspn(sender, "\n")] = '\0';  // Supprimer le retour à la ligne
+    sender[strcspn(sender, "\n")] = '\0';
 
-    // Demander à l'utilisateur de saisir le destinataire
     printf("Recipient username: ");
     fgets(receiver, BUFSIZE, stdin);
-    receiver[strcspn(receiver, "\n")] = '\0';  // Supprimer le retour à la ligne
+    receiver[strcspn(receiver, "\n")] = '\0';
 
-    // Demander à l'utilisateur de saisir le message
     printf("Your message: ");
     fgets(message, BUFSIZE, stdin);
-    message[strcspn(message, "\n")] = '\0';  // Supprimer le retour à la ligne
+    message[strcspn(message, "\n")] = '\0';
 
-    // Envoyer les informations via le socket
-    send(socket_fd, "SEND", 4, 0);  // Envoi du préfixe "SEND"
-    send(socket_fd, sender, strlen(sender) + 1, 0);  // Inclure le '\0'
-    send(socket_fd, receiver, strlen(receiver) + 1, 0);  // Inclure le '\0'
-    send(socket_fd, message, strlen(message) + 1, 0);  // Inclure le '\0'
+    // Concaténer toutes les données dans le buffer
+    snprintf(buffer, sizeof(buffer), "%s\n%s\n%s\n", sender, receiver, message);
+
+    // Envoyer toutes les données en une seule fois
+    send(socket_fd, "SEND", 4, 0);  // Envoi du préfixe "SEND"  
+    send(socket_fd, buffer, strlen(buffer), 0);
+
 }
+
 
 
 void receive_messages(int socket_fd) {
@@ -51,6 +53,7 @@ void receive_messages(int socket_fd) {
     while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
         buffer[bytes_read] = '\0';
         printf("%s", buffer);
+        printf("\n");
     }
 }
 
