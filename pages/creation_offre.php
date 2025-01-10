@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     
     
 }
-
+$photos = [];
 
 include('../sql/connect_params.php');
 include_once('nav.php'); 
@@ -169,9 +169,8 @@ error_reporting(E_ALL);
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
                                 <input id="submit-button" type="submit" class="FS" value="Prévisualiser" />
-                                <button class="FS" onclick="window.location.href='tableau_de_bord.php'">
-                                    <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
-                                    Retour
+                                <button class="FS" id="annuler">
+                                    Annuler
                                 </button>
                             </div>
                         </div>
@@ -290,8 +289,22 @@ error_reporting(E_ALL);
                                     <div id="map-image">
                                         <label>Plan du parc</label>
                                         <!-- Éléments pour afficher les images importées -->
-                                        <div id="map-image-container">
-                                            <img id="selected-image" src="../images/rien.png" alt="Image sélectionnée" />
+                                        <div id="map-image-container"> <?php
+                                        if (isset($_POST['mapPhoto'])){
+                                            if ($_POST['mapPhoto'] === ''){
+                                                $src = '../images/rien.png';
+                                                $photos[3] = 'false';
+                                            } else {
+                                                $src = '../images/'.$_POST['mapPhoto'];
+                                                $photos[3] = $_POST['mapPhoto'];
+                                            }
+                                            
+                                        }else {
+                                            $src ='../images/rien.png';
+                                            $photos[3] = 'false';
+                                        }?>
+                                    
+                                    <img id="selected-image" src="<?php echo $src ?>" alt="Image sélectionnée" />
                                         </div>
                                         <div id="map-file-container">
                                             <label for="map-file-upload" id="map-custom-file-upload">
@@ -388,48 +401,47 @@ error_reporting(E_ALL);
                                 <p id="message-prevention">Les images ne sont pas essentielles pour la poursuite de la création. <br> Vous pourrez les ajouter ou les modifier plus tard.</p>
                                 <!-- Éléments pour afficher les images importées -->
                                 <div id="image-container">
-                                    <?php $photos = [];
-                                    if (isset($_POST['image0'])){
+                                    <?php if (isset($_POST['image0'])){
                                         if ($_POST['image0'] === 'null'){
                                             $src = '../images/rien.png';
-                                            $photos[] = 'false';
+                                            $photos[0] = 'false';
                                         } else {
                                             $src = '../images/'.$_POST['image0'];
-                                            $photos[] = $_POST['image0'];
+                                            $photos[0] = $_POST['image0'];
                                         }
                                         
                                     }else {
                                         $src ='../images/rien.png';
-                                        $photos[] = 'false';
+                                        $photos[0] = 'false';
                                     }
                                     ?><img class="selected-image" src="<?php echo $src ?>" alt="Image sélectionnée1" /><?php
                                     if (isset($_POST['image1'])){
                                         if ($_POST['image1'] === 'null'){
                                             $src = '../images/rien.png';
-                                            $photos[] = 'false';
+                                            $photos[1] = 'false';
                                         } else {
                                             $src = '../images/'.$_POST['image1'];
-                                            $photos[] = $_POST['image1'];
+                                            $photos[1] = $_POST['image1'];
                                         }
                                         
                                     }else {
                                         $src ='../images/rien.png';
-                                        $photos[] = 'false';
+                                        $photos[1] = 'false';
                                     }?>
                                     
                                     <img class="selected-image" src="<?php echo $src ?>" alt="Image sélectionnée2" /><?php
                                     if (isset($_POST['image2'])){
                                         if ($_POST['image2'] === 'null'){
                                             $src = '../images/rien.png';
-                                            $photos[] = 'false';
+                                            $photos[2] = 'false';
                                         } else {
                                             $src = '../images/'.$_POST['image2'];
-                                            $photos[] = $_POST['image2'];
+                                            $photos[2] = $_POST['image2'];
                                         }
                                         
                                     }else {
                                         $src ='../images/rien.png';
-                                        $photos[] = 'false';
+                                        $photos[2] = 'false';
                                     }?>
                                     
                                     <img class="selected-image" src="<?php echo $src ?>" alt="Image sélectionnée3" />
@@ -439,8 +451,10 @@ error_reporting(E_ALL);
                     </div>
                 </div>    
                 <input type="hidden" name="image0" class="img" value="<?php echo $photos[0]; ?>">
-                <input type="hidden" name="image1" id="img1" value="<?php echo $photos[1]; ?>">
-                <input type="hidden" name="image2" id="img2" value="<?php echo $photos[2]; ?>">
+                <input type="hidden" name="image1" class="img" value="<?php echo $photos[1]; ?>">
+                <input type="hidden" name="image2" class="img" value="<?php echo $photos[2]; ?>">
+
+                <input type="hidden" name="mapPhoto" id="img" value="<?php echo $photos[3]; ?>">
             </form>
         </div>
 

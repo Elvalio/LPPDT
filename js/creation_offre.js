@@ -65,8 +65,17 @@
                 const mapImageContainer = document.getElementById('map-image-container').querySelector('img');
                 const mapTextBouton = document.getElementById("map-upload-text"); 
                 const mapIconBouton = document.querySelector('#map-custom-file-upload img');
+                const mapImagesASupp = document.getElementById('img');
                 
                 const mapStatus = document.getElementById("status-map"); 
+
+
+                ////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////// GESTION ANNULATION CREATION OFFRE /////////////////////
+                ////////////////////////////////////////////////////////////////////////////////////////
+                document.getElementById('annuler').addEventListener('click', function() {
+                    window.location.href = 'tableau_de_bord.php';
+                });
 
                 ////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////// GESTION DES CHAMPS PAR CATEGORIE /////////////////////
@@ -271,7 +280,6 @@
                     // Trouver la première case vide pour nextIndex
                     for (var i = 0; i < selectedImages.length; i++) {
                         if (!foundEmptySlot && selectedImages[i].getAttribute('src') === '../images/rien.png') {
-                            console.log(selectedImages[i].getAttribute('src'));
                             foundEmptySlot = true;
                             return i;
                         }
@@ -338,8 +346,6 @@
                                     if(selectedImages[selectedImageIndex].getAttribute('src') === '../images/rien.png'){
                                         currentImageCount++;
                                         selectedImages[selectedImageIndex].src = e.target.result;
-                                        // imagesASupp[selectedImageIndex].value = 'false';
-                                        // console.log(imagesASupp[selectedImageIndex]);
                                         selectedImages[selectedImageIndex].classList.remove('selected');
                                         //MODIFIER OFFRE : change statut image
                                         if (statusImages.length !== 0) {
@@ -353,8 +359,6 @@
                                         preventionMessage.style.display = 'none';
                                     } else { //sélectionné mais une image existe déjà
                                         selectedImages[selectedImageIndex].src = e.target.result;
-                                        // imagesASupp[selectedImageIndex].value = 'false';
-                                        // console.log(imagesASupp[selectedImageIndex]);
                                         selectedImages[selectedImageIndex].classList.remove('selected');
                                         selectedImageIndex = -1;
                                         // Trouver la première case vide pour nextIndex
@@ -362,8 +366,6 @@
                                     }                        
                                 }else{                          
                                     selectedImages[nextIndex].src = e.target.result;
-                                    // imagesASupp[nextIndex].value = 'true';
-                                    // console.log(imagesASupp[nextIndex]);
                                     
                                     currentImageCount++;
                                     //MODIFIER OFFRE : change statut image
@@ -442,8 +444,13 @@
                 ////////////////////////////////////////////////////////////////////////////////////////////
                 ////////////////////////// GESTION MAP /////////////////////////////////////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////////////
-
                 
+                //mettre a jour
+                if(mapImageContainer.getAttribute('src') !== '../images/rien.png'){
+                    mapTextBouton.textContent = 'Modifier';
+                    mapIconBouton.src = '../icons/changer.svg';
+                    mapFileDelete.style.display = 'flex';
+                }
 
                 // Fonction pour ajouter une image
                 mapFileUpload.addEventListener('change', function() {
@@ -461,6 +468,7 @@
                         reader.readAsDataURL(file);
                         mapTextBouton.textContent = 'Modifier';
                         mapIconBouton.src = '../icons/changer.svg';
+                        mapImagesASupp.value = 'false';
 
                         //MODIFIER OFFRE : change statut image
                         if (mapStatus !== null) {
@@ -474,6 +482,7 @@
                     mapTextBouton.textContent = 'Ajouter';
                     mapIconBouton.src = '../icons/plus.svg';
                     mapImageContainer.src = '../images/rien.png'; // Réinitialiser l'image
+                    mapImagesASupp.value = 'false';
                     mapFileDelete.style.display = 'none';
                     mapFileUpload.value = '';
 
@@ -488,7 +497,7 @@
             ////////////////////////// GESTION DES ERREURS//////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             const submitButton = document.getElementById('submit-button');
-            submitButton.disabled = true; // Désactive le bouton de soumission
+            
             //const forbiddenCodeKeywords = /(function|var|let|const|if|else|while|for|return|console|document|window|alert|eval|script|import|export|async|await|try|catch|finally|class|this|super|new|void|typeof|instanceof|throw|debugger|with|case|switch|default|break|continue|do|try|finally|yield|static|print|def|in|as|from|lambda|class|self|__init__|require|module|exports|package|import|public|private|protected|implements|extends|new|enum|throw|catch|finally|toString|JSON|Promise|Map|Set|WeakMap|WeakSet|Symbol|Math|parseInt|parseFloat|push|pop|shift|unshift|splice|slice|filter|map|reduce|forEach|every|some|indexOf|includes|lastIndexOf|join|sort|reverse|fill|flat|flatMap|Object|Array|Function|Boolean|Number|String|RegExp|Date|Error|Promise|Set|Map|WeakMap|WeakSet|Proxy|Reflect|Intl|eval|setTimeout|setInterval|clearTimeout|clearInterval|requestAnimationFrame|fetch|XMLHttpRequest|localStorage|sessionStorage|documentElement|createElement|createTextNode|getElementById|getElementsByClassName|getElementsByTagName|querySelector|querySelectorAll|print|include|require|namespace|do|try|catch|finally|yield|void|define|global|using|class|interface|method|static|delegate|event|addEventListener|prompt|file|input|document.createElement|document.write|document.getElementById|document.getElementsByClassName|document.getElementsByTagName)/i;
             // const forbiddenCodeKeywords = /(<br>)/i;
             function validateTitle() {
