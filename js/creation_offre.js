@@ -74,7 +74,7 @@
                 ///////////////////////////////// GESTION ANNULATION CREATION OFFRE /////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////////
                 document.getElementById('annuler').addEventListener('click', function() {
-                    window.location.href = 'tableau_de_bord.php';
+                    location.assign('tableau_de_bord.php');
                 });
 
                 ////////////////////////////////////////////////////////////////////////////////////////

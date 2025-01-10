@@ -169,7 +169,7 @@ error_reporting(E_ALL);
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
                                 <input id="submit-button" type="submit" class="FS" value="Prévisualiser" />
-                                <button class="FS" id="annuler">
+                                <button class="FS" id="annuler" type="button">
                                     Annuler
                                 </button>
                             </div>
