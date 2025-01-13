@@ -170,23 +170,6 @@ error_reporting(0); if (!empty($_POST)) {
                     </div>
                 </div>
                     <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Créer un compte</button>
-            <?php
-            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['type']) && $_POST['type'] === 'membre') {
-                function generateApiKey() {
-                    return bin2hex(random_bytes(64));
-                }
-
-                $apiKey = generateApiKey();
-
-                $stmt_api = $dbh->prepare(
-                    "INSERT INTO pact.compte(id_membre, api_key) VALUES (:id_membre, :api_key)"
-                );
-                $stmt_api->bindParam(':id_membre', $idC, PDO::PARAM_INT);
-                $stmt_api->bindParam(':api_key', $apiKey, PDO::PARAM_STR);
-                $stmt_api->execute();
-            }
-            
-            ?>
             </form>
             <div class="redirection-links">
                 <a href="connexion.php" class="Connexion">Déjà inscrit(e) ? Connectez-vous.</a>

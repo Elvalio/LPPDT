@@ -472,6 +472,19 @@
   font-family: "TripSansRegular";
 }
 
+#ecrire_reponse{
+  width : 90%;
+  height: 100px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 35px;
+  padding: 5px;
+  resize: none;
+  overflow: auto;
+  font-family: "TripSansRegular";
+}
+
+
 #titre_avis{
   width : 99%;
   border-radius: 5px;
@@ -948,6 +961,18 @@ resize: none;
 overflow: auto;
 font-family: "TripSansRegular";
 font-size: 17px;
+}
+
+#ecrire_reponse{
+  width : 100%;
+  height: 200px;
+  border-radius: 5px;
+  margin-top: 10px;
+  padding: 5px;
+  resize: none;
+  overflow: auto;
+  font-family: "TripSansRegular";
+  font-size: 17px;
 }
 
 #titre_avis{

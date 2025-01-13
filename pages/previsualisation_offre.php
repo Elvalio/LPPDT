@@ -4,9 +4,9 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
+// echo '<pre>';
+//     print_r($_POST);
+//     echo '</pre>';
 
 
 $idC = $_COOKIE['user'];
@@ -318,12 +318,12 @@ try{
             $image = $_POST['mapPhoto'];
             if ($categorie === 'parcAttraction'){
                 $Umap = $dbh->prepare(
-                    "UPDATE pact.parc_d_attraction SET src_image = '$img'
+                    "UPDATE pact.parc_d_attraction SET src_image = '$image'
                     WHERE ido = $idOffre;"
                 );
             } else if ($categorie === 'restauration'){
                 $Umap = $dbh->prepare(
-                    "UPDATE pact.restauration SET src_image = '$img'
+                    "UPDATE pact.restauration SET src_image = '$image'
                     WHERE ido = $idOffre;"
                 );
             }
@@ -387,9 +387,12 @@ try{
         $option = option_offre($_POST);
         $Ioption = $dbh->prepare(
             "insert into pact._option_offre 
-                (idOption, idO) values ($option, $idOffre);"
+                (idOption, idO) values (:option, :idOffre);"
         );
-        $Ioption->execute();
+        $Ioption->execute([
+            'idOffre' => $idOffre,
+            'option' => $option
+        ]);;
 
         // Redirection vers /accueil.php
         header('Location: tableau_de_bord.php');
@@ -421,6 +424,7 @@ for ($i = 1; $i < 4; $i++) { //pour chaque images
         if (($_POST['image'.$i-1]== 'false')){
             if(!empty($img)){
                 unlink($img[0]);
+                $photos[] = 'null';
             }
         } else {
             $photos[] = $_POST['image'.$i-1];
@@ -431,34 +435,58 @@ for ($i = 1; $i < 4; $i++) { //pour chaque images
 
 // insertion de la map
 $mapPhoto = '';
+
+$menu = glob("../images/image_offre/$idOffre-menu.*");
+$parc = glob("../images/image_offre/$idOffre-plan.*");
 if (!empty($_FILES['map-file-upload']['name'])){
-
-    $fileInfo = pathinfo($_FILES['map-file-upload']['name']);
-
+    if ($_POST['mapPhoto'] === 'false'){ // image remplacé, il faut supprimer l'ancienne
+        if(!empty($menu)){
+            unlink($menu[0]);
+        } 
+        if(!empty($parc)) {
+            unlink($parc[0]);
+        }
+        
+    }
+    $fileInfo = pathinfo($_FILES['map-file-upload']['name']); // création de la nouvelle image
     if (isset($fileInfo['extension'])){
         $extention = $fileInfo['extension'];
-
         if ($categorie === 'parcAttraction'){
             $mapPhoto = 'image_offre/'.$idOffre.'-plan.'.$extention;
-            move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-plan.'.$extention);
-            
+            move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-plan.'.$extention);   
         } else if ($categorie === 'restauration'){
             $mapPhoto = 'image_offre/'.$idOffre.'-menu.'.$extention;
-            move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-menu.'.$extention);
-            
+            move_uploaded_file($_FILES['map-file-upload']['tmp_name'], '../images/image_offre/'.$idOffre.'-menu.'.$extention); 
         }
     }
 
 } else {
-    $menu = glob("../images/image_offre/$idOffre-menu.*");
-    $parc = glob("../images/image_offre/$idOffre-plan.*");
-    if(!empty($menu)){
-        unlink($menu[0]);
-    } else if (!empty($parc)){
-        unlink($parc[0]);
+    
+    if(isset($_POST['mapPhoto'])){
+        if($_POST['mapPhoto'] === 'false'){
+            if(!empty($menu)){
+                unlink($menu[0]);
+            }
+            if (!empty($parc)){
+                unlink($parc[0]);
+            }
+            $mapPhoto = '';
+        }else if(!empty($menu) && $categorie === 'parcAttraction'){
+            $extension = pathinfo($menu[0], PATHINFO_EXTENSION);
+            rename($menu[0], '../images/image_offre/'.$idOffre.'-plan.'.$extension); 
+            $mapPhoto = 'image_offre/'.$idOffre.'-plan.'.$extension;
+              
+        } else if (!empty($parc) && $categorie === 'restauration') {
+            $extension = pathinfo($parc[0], PATHINFO_EXTENSION);
+            rename($parc[0], '../images/image_offre/'.$idOffre.'-menu.'.$extension); 
+            $mapPhoto = 'image_offre/'.$idOffre.'-menu.'.$extension;
+            
+        } else {
+            $mapPhoto = $_POST['mapPhoto'];
+        }
     }
-    $mapPhoto = '';
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -501,12 +529,17 @@ if (!empty($_FILES['map-file-upload']['name'])){
                 <div class="carousel-inner">    
                     <?php
                     if (!empty($photos)){
-                        foreach ($photos as $index => $photo): ?>
+                        foreach ($photos as $index => $photo): 
+                        if ($photo !== 'null'){ ?>
                             <div class="slide">
                                 <img src="<?php echo "../images/" . htmlspecialchars($photo); ?>"
                                     alt="Image <?php echo $index + 1; ?>">
                             </div>
-                        <?php endforeach; 
+                        <?php } else {?>
+                            <div class="slide">
+                                <img src="../images/imagesReferences/placeholder.jpg" alt="Image">
+                            </div>
+                        <?php } endforeach; 
                     } else { ?>
                         <div class="slide">
                             <img src="../images/imagesReferences/placeholder.jpg" alt="Image">
@@ -646,7 +679,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
         </div>
         
         <?php 
-            if ($categorie === 'parcAttraction' && isset($_POST['mapPhoto'])) { ?>
+            if ($categorie === 'parcAttraction' && $mapPhoto !== '') { ?>
         <div>
             <br><br>
             <h3>Plan du parc : </h3>
@@ -660,11 +693,13 @@ if (!empty($_FILES['map-file-upload']['name'])){
                     <img class = carte src="../images/imagesReferences/placeholder.jpg" alt="plan">
                 </div> <?php
 
-            } elseif ($categorie === 'restauration' && isset($_POST['mapPhoto'])) { ?>
+            } elseif ($categorie === 'restauration' && $mapPhoto !== '') { 
+                echo $mapPhoto?>
+            
         <div>
             <br><br>
             <h3>Menu : </h3>
-            <img class = carte src="../images/imagesReferences/placeholder.jpg" alt="Image">
+            <img class="carte" src="<?php echo "../images/" . htmlspecialchars($mapPhoto); ?>" alt="menu">
         </div>
         <?php }else if ($categorie === 'restauration'){ ?>
             <div>
@@ -696,8 +731,10 @@ if (!empty($_FILES['map-file-upload']['name'])){
             }
             
         }?>
-        <?php if (isset($mapPhoto) && $mapPhoto !== ''){?>
+        <?php if ($mapPhoto !== ''){?>
             <input type="hidden" name="mapPhoto" value="<?php echo $mapPhoto; ?>">
+        <?php } else { ?>
+            <input type="hidden" name="mapPhoto" value="<?php echo time(); ?>">
         <?php } ?>
         <input type="hidden" name="validation" value="true">
 
@@ -731,7 +768,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
             
         }
         
-        if (isset($mapPhoto) && $mapPhoto !== ''){?>
+        if (isset($mapPhoto)){?>
             <input type="hidden" name="mapPhoto" value="<?php echo $mapPhoto; ?>">
         <?php } 
         ?>

@@ -4,6 +4,8 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <stdbool.h>
+#include <postgresql/libpq-fe.h>
+
 
 #define PORT 8888
 #define BUFFER_SIZE 1024
@@ -21,32 +23,6 @@ APIKey api_keys[] = {
     {"professional_api_key", "professional"},
     {"admin_api_key", "admin"}
 };
-
-// Fonction pour générer une clé d'API aléatoire
-void generate_api_key(char* api_key, size_t length) {
-    const char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    for (size_t i = 0; i < length - 1; i++) {
-        int key = rand() % (int)(sizeof(charset) - 1);
-        api_key[i] = charset[key];
-    }
-    api_key[length - 1] = '\0';
-}
-
-// Fonction pour générer des clés d'API pour les comptes clients et professionnels
-/* void generate_api_keys() {
-    generate_api_key(api_keys[len(api_keys)].key, SIZE_KEY);
-    strcpy(api_keys[len(api_keys)].role, "client");
-
-    generate_api_key(api_keys[len(api_keys)].key, SIZE_KEY);
-    strcpy(api_keys[len(api_keys)].role, "professional");
-}
-
-// Appel de la fonction pour générer les clés d'API
-__attribute__((constructor))
-void init_api_keys() {
-    srand(time(NULL));
-    generate_api_keys();
-} */
 
 // Fonction pour valider une clé d'API
 const char* validate_api_key(const char* api_key) {
@@ -89,6 +65,49 @@ void handle_client_request(int client_socket) {
 }
 
 int main() {
+    // Chaîne de connexion : adapter avec vos informations
+    const char *conninfo = "host=lppdt.ventsdouest.dev port=5432 dbname=sae user=sae password=brute-quint3-jOUrnaux";
+    
+    // Créer la connexion
+    PGconn *conn = PQconnectdb(conninfo);
+
+    // Vérifier la connexion
+    if (PQstatus(conn) != CONNECTION_OK) {
+        fprintf(stderr, "Erreur de connexion à la base de données : %s", PQerrorMessage(conn));
+        PQfinish(conn);
+        return 1;
+    }
+
+    printf("Connexion réussie !\n");
+
+    // Exemple : Exécuter une requête
+    PGresult *res = PQexec(conn, "SELECT version()");
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de l'exécution de la requête : %s", PQerrorMessage(conn));
+        PQclear(res);
+        PQfinish(conn);
+        return 1;
+    }
+
+    // Récupérer les clés d'API dans la relation pact.compte
+    res = PQexec(conn, "SELECT clefApi, role FROM pact.compte");
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de l'exécution de la requête : %s", PQerrorMessage(conn));
+        PQclear(res);
+        PQfinish(conn);
+        return 1;
+    }
+
+    // Stocker les clés d'API récupérées dans la structure api_keys
+    int nrows = PQntuples(res);
+    for (int i = 0; i < nrows; i++) {
+        strncpy(api_keys[i].key, PQgetvalue(res, i, 0), SIZE_KEY - 1);
+        strncpy(api_keys[i].role, PQgetvalue(res, i, 1), sizeof(api_keys[i].role) - 1);
+    }
+
+    // Afficher le résultat
+    printf("Version de PostgreSQL : %s\n", PQgetvalue(res, 0, 0));
+
     int server_socket, client_socket;
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_len = sizeof(client_addr);
@@ -126,13 +145,19 @@ int main() {
             continue;
         }
 
-
+        // Afficher les clés d'API avec le nom du compte correspondant
+        for (int i = 0; i < nrows; i++) {
+            printf("Clé API : %s, Rôle : %s\n", api_keys[i].key, api_keys[i].role);
+        }
 
 
         printf("Connexion acceptée\n");
         handle_client_request(client_socket);
     }
 
+    // Libérer les ressources
+    PQclear(res);
+    PQfinish(conn);
     close(server_socket);
     return 0;
 }
