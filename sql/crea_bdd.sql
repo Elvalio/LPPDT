@@ -563,6 +563,22 @@ before update on pact._membre
   for each row execute procedure pact.mis_a_jour_membre();
 
 
+-- gestion du registre
+create or replace function pact.mis_a_jour_offre()
+  returns trigger as $$
+begin
+   if new.date_publication <> old.date_publication and old.date_hors_ligne is not null then
+     insert into pact._registre(date_publication, date_hors_ligne, idO) values (old.date_publication, old.date_hors_ligne, old.idO);
+     new.date_hors_ligne = null;
+   end if;
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_mis_a_jour_offre
+before update on pact._offre
+  for each row execute procedure pact.mis_a_jour_offre();
+
 ---------------------------------------------
 ------------------- Views ------------------- 
 ---------------------------------------------
@@ -888,6 +904,7 @@ $$ language 'plpgsql';
 create or replace trigger tg_insert_offre
 instead of insert on pact.offre
   for each row execute procedure pact.insert_offre();
+
 
 
 -- activite
@@ -1226,6 +1243,46 @@ instead of delete on pact.photo_offre
 --- facturation ---
 
 /*
+  Fonction compte le nombre de jours dans le registre pour un mois
+  date debut est le premier jour d'un mois donné (la date de facture)
+*/
+create or replace function pact.nbrJoursRegistre(idOffre integer, date_debut date)
+  returns integer as $$
+declare
+  comp integer;
+  date_fin date;
+  temprow record;
+  n integer;
+begin
+  comp = 0;
+  date_fin = date_trunc('month'::text, date_debut + '1 mon'::interval);
+  
+  FOR temprow IN
+    select * from _registre where ido =  idOffre
+  loop
+    --temprow.date_publication, temprow.date_hors_ligne
+    if (temprow.date_hors_ligne > date_fin) then
+      temprow.date_hors_ligne = date_fin;
+    end if;
+    
+    if (temprow.date_publication < date_debut) then
+      temprow.date_publication = date_debut;
+    end if;
+  
+    select(temprow.date_hors_ligne - temprow.date_publication) as days into n;
+    -- dans le cas où la date de mise hors ligne ne change pas mais elle n'est pas du même mois donc temprow.date_hors_ligne < temprow.date_publication
+    if (n < 0) then
+      n = 0;
+    end if;
+    comp = comp + n;
+
+  end loop;
+
+  RETURN comp;
+end;
+$$ language 'plpgsql';
+
+/*
 Compte le nombre de jours qu'une facture est active pour le mois
 */
 create or replace function pact.nbrJours(idOffre integer, date_fin date, idFacture integer)
@@ -1263,7 +1320,6 @@ begin
     if (date_offre_hors_ligne is null) OR (date_offre_hors_ligne > date_fin) then
       select(date_fin - date_debut) as days into n;
     else
-      -- make sure it doesn't take from previous month TODO
       select(date_offre_hors_ligne - date_debut) as days into n;
       -- corrige si la date de mise hors ligne est plus vielle que la date de debut
       if n<0 then
@@ -1271,6 +1327,7 @@ begin
       end if;
     end if;
   end if;
+  n = n + (select pact.nbrJoursRegistre(idOffre, date_facture));
   RETURN n;
 end;
 $$ language 'plpgsql';
@@ -1501,6 +1558,29 @@ begin
 end;
 $$ language 'plpgsql';
 
+/*
+  Génère numero de facture d'une offre
+*/
+create or replace function pact.genererNumF(idOffre integer)
+  returns integer as $$
+declare
+  id varchar(10);
+  nFact integer;
+begin
+  if length(max(idOffre)::text) < 2 then
+        id = concat('0', idOffre::text);
+      else
+        id = idOffre::text;
+      end if;
+      select substring(concat(floor((extract(epoch from now())+ random())*100),id),10) into nFact;
+  RETURN nFact;
+end;
+$$ language 'plpgsql';
+
+/*
+  Creer toutes les factures
+  revoie true si au moins une facture est crée, false sinon
+*/
 create or replace function pact.creerFactures(idOffre integer)
   returns boolean as $$
 declare
@@ -1508,33 +1588,37 @@ declare
   res boolean;
   date_debut date;
   query text;
-  nFact integer;
-  id varchar(10);
+  temprow record;
 begin
   res = false;
   
   select o.date_publication from pact.offre o where o.idO = idOffre into date_debut;
   
   for i in select date_trunc('month', current_date) - (dates*interval '1 month')
-      from generate_series(0,(extract(year from age(now(), date_debut)) * 12 + extract(month from age(now(), date_debut)))+1,1) dates
+      from generate_series(0,(extract(year from age(now(), date_debut)) * 12 + extract(month from age(now(), date_debut))),1) dates
    loop
-    if not pact.hasFacture(1, i) then
-      --creation du numero de facture
-      if length(max(idOffre)::text) < 2 then
-        id = concat('0', idOffre::text);
-      else
-        id = idOffre::text;
-      end if;
-      select substring(concat(floor((extract(epoch from now())+ random())*100),id),10) into id;
-      raise notice '% created for : %', id, i;
-      nFact = cast(id as bigint);
-      insert into pact._facturation(numFacture, idO, date_facture) values (nFact, idOffre, i);
-     end if;
+   
+    if not (select pact.hasFacture(idOffre, i)) then
+      res = true;
+      insert into pact._facturation(numFacture, idO, date_facture) values (pact.genererNumF(idOffre), idOffre, i);
+    end if;
+   end loop;
+   --TODO Test this
+   for temprow in 
+    select * from _registre where idO  = idOffre
+   loop
+      for i in select date_trunc('month', current_date) - (dates*interval '1 month')
+        from generate_series(0,(extract(year from age(now(), temprow.date_publication)) * 12 + extract(month from age(now(), temprow.date_publication))),1) dates
+      loop
+        if not (select pact.hasFacture(idOffre, i)) then
+          res = true;
+          insert into pact._facturation(numFacture, idO, date_facture) values (pact.genererNumF(idOffre), idOffre, i);
+        end if;
+      end loop;    
    end loop;
   RETURN res;
 end;
 $$ language 'plpgsql';
-
 
 /*
 Verifie si compte a bien saisit ses coords bancaires
