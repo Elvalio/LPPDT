@@ -58,7 +58,31 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
+    }else if($_POST['type_form'] == 'poste-reponse') {
+        try {
+            $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+            $ida = (int)$_POST['avis'];
+            $idc = (int)$_COOKIE['user'];
+            $corps = $_POST['zone_reponse'];
+
+            $stmt = $dbh->prepare("INSERT INTO pact._reponse(idA, idC, corps) VALUES (:ida, :idc, :corps)");
+            $stmt->execute([
+                ':ida' => $ida,
+                ':idc' => $idc,
+                ':corps' => $corps
+            ]);
+
+            $dbh=null;
+            $refresh = "Location: detail-offre.php?value=". $_POST['ido'];
+            header($refresh);
+            exit;
+
+        }catch(PDOException $e){
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
     }
+
 }
 
 
@@ -416,11 +440,14 @@ try {
             
             <?php if ($nbrAvis > 0){ 
                 foreach ($avis as $avisIndividuel): 
-                
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
-                $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);                
-                ?>
+                $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);      
+                
+                $stmtReponse = $bdh->prepare("SELECT * FROM pact._reponse WHERE idA = :idA");
+                $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
+                $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
+                ?> 
             <div class="alignement-conteneur-avis">
                 <div class="header-avis-profil">
                     <div class="profil">
@@ -458,6 +485,7 @@ try {
                         <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
                     </p>
                 </div>
+
                 <?php
                 if(isset($_COOKIE['user']) && $avisIndividuel['idc'] == $_COOKIE['user']){
                     ?>
@@ -469,22 +497,33 @@ try {
                     <hr>
                     <?php
                 }
+
                 if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
                     <div class="btn-signaler">
                         <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                         <p>Signaler l'avis</p>
                     </div>
-                    
                 <?php endif;
+
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
                     if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
-                        ?>
-                        <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier">
-                            <input type="hidden" name="type_form" value="poste-reponse">
-                            <textarea minlength="30" maxlength="255" type="text" name="zone_reponse" id="ecrire_reponse" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer une réponse sur cette avis."></textarea>
-                            <input type="submit" id="bouton_publier" value="Publier">
-                        </form>
-                        <?php
+                        if (isset($reponse['ida'])) { ?>
+                            <div class="commentaire-reponse">
+                                <p><?php
+                                echo nl2br(htmlspecialchars($reponse['corps'])) ?>
+                                </p>
+                            </div>
+                        <?php 
+                        } else { ?>
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier">
+                                <input type="hidden" name="type_form" value="poste-reponse">
+                                <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
+                                <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
+                                <textarea minlength="30" maxlength="255" type="text" name="zone_reponse" id="ecrire_reponse" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer une réponse sur cette avis."></textarea>
+                                <input type="submit" id="bouton_publier" value="Publier">
+                            </form>
+                            <?php
+                        }
                     }
                 }
                 ?>
