@@ -530,15 +530,12 @@ try {
                     <hr>
                     <?php
                 }
+
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
-                    <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
-                        <input type="hidden" name="type_form" value="signaler-avis">
-                        <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
-                        <button type="submit" class="btn-signaler">
-                            <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                            <p>Signaler l'avis</p>
-                        </button>
-                    </form>
+                    <div class="btn-signaler">
+                        <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                        <p>Signaler l'avis</p>
+                    </div>
                 <?php endif;
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
@@ -551,7 +548,8 @@ try {
                             </div>
                         <?php 
                         } else { ?>
-                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier">
+                            <button type="button" onclick="toggle_reponse();" id="btn-reponse">Ajouter une réponse</button>
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier" id="form_reponse" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
                                 <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
