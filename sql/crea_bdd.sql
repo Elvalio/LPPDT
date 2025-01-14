@@ -470,6 +470,7 @@ create table pact._signal_avis(
 create table pact._signal_reponse(
   idA integer, --id de l'avis répondu
   idSignaleur integer,
+  -- avec l'id de l'avis on peut ensuite faire une joiture avec la table reponse pour trouver la reponse signalée
 
   constraint _signal_reponse_pk primary key(idA, idSignaleur),
 
