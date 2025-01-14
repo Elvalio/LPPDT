@@ -532,10 +532,14 @@ try {
                 }
 
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
-                    <div class="btn-signaler">
-                        <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                        <p>Signaler l'avis</p>
-                    </div>
+                    <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
+                        <input type="hidden" name="type_form" value="signaler-avis">
+                        <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
+                        <button type="submit" class="btn-signaler">
+                            <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                            <p>Signaler l'avis</p>
+                        </button>
+                    </form>
                 <?php endif;
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
