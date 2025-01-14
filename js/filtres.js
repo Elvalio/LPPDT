@@ -813,10 +813,11 @@ document.addEventListener('DOMContentLoaded', function () {
             function animateCarte() {
                 const randomX = Math.random() * 400 - 200; // Entre -200 et 200
                 const randomY = Math.random() * 400 - 200; // Entre -200 et 200
+                const duration = Math.random() * 1000 + 500; // Entre 500ms et 1500ms
                 carte.animate([
                     { transform: `translate(${randomX}px, ${randomY}px)` }
                 ], {
-                    duration: 1500,
+                    duration: duration,
                     easing: 'ease-in-out',
                     fill: 'forwards'
                 }).onfinish = animateCarte; // Relance l'animation à la fin
