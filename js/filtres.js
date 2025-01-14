@@ -810,12 +810,18 @@ document.addEventListener('DOMContentLoaded', function () {
             }, delay);
 
             // Applique une animation continue de mouvement aléatoire
-            setInterval(() => {
-                const randomX = Math.random() * 400 - 200; // Entre -100 et 100
-                const randomY = Math.random() * 400 - 200; // Entre -100 et 100
-                carte.style.transition = 'transform 1.5s ease-in-out';
-                carte.style.transform = `translate(${randomX}px, ${randomY}px)`;
-            }, 2000);
+            function animateCarte() {
+                const randomX = Math.random() * 400 - 200; // Entre -200 et 200
+                const randomY = Math.random() * 400 - 200; // Entre -200 et 200
+                carte.animate([
+                    { transform: `translate(${randomX}px, ${randomY}px)` }
+                ], {
+                    duration: 1500,
+                    easing: 'ease-in-out',
+                    fill: 'forwards'
+                }).onfinish = animateCarte; // Relance l'animation à la fin
+            }
+            animateCarte();
         });
 
 
