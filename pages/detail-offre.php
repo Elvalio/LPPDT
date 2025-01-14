@@ -107,7 +107,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             exit;
     
         } catch (PDOException $e) {
-            if ($e->getCode() === '23505') { // Code SQLSTATE pour violation d'unicité
+            if ($e->getCode() === '23505') { // Code SAQLSTATE pour violation d'unicité
                 echo "<script>alert('Vous avez déjà signalé cet avis.');</script>";
             } else {
                 print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -530,6 +530,7 @@ try {
                     <hr>
                     <?php
                 }
+
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
                     <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
                         <input type="hidden" name="type_form" value="signaler-avis">
@@ -551,7 +552,8 @@ try {
                             </div>
                         <?php 
                         } else { ?>
-                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier">
+                            <button type="button" onclick="toggle_reponse();" id="btn-reponse">Ajouter une réponse</button>
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier" id="form_reponse" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
                                 <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
