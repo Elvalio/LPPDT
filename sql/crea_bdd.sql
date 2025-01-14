@@ -1258,7 +1258,7 @@ begin
   date_fin = date_trunc('month'::text, date_debut + '1 mon'::interval);
   
   FOR temprow IN
-    select * from _registre where ido =  idOffre
+    select * from pact._registre where ido =  idOffre
   loop
     --temprow.date_publication, temprow.date_hors_ligne
     if (temprow.date_hors_ligne > date_fin) then
@@ -1605,7 +1605,7 @@ begin
    end loop;
    --TODO Test this
    for temprow in 
-    select * from _registre where idO  = idOffre
+    select * from pact._registre where idO  = idOffre
    loop
       for i in select date_trunc('month', current_date) - (dates*interval '1 month')
         from generate_series(0,(extract(year from age(now(), temprow.date_publication)) * 12 + extract(month from age(now(), temprow.date_publication))),1) dates
