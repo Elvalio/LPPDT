@@ -171,3 +171,14 @@ document.addEventListener("DOMContentLoaded", () => {
         clearTimeout(timeout);
     });
 });
+
+
+function toggle_reponse() {
+    var form = document.getElementById("form_reponse");
+    if (form.style.display == "none") {
+        form.style.display = "inline";
+    }
+    else {
+        form.style.display = "none";
+    }
+}
