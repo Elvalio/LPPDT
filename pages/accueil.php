@@ -285,9 +285,11 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                                     <p>À la une</p>
                                 </div>
                             <?php } ?>
-                            <!-- <?php if ($value["option"] == "En relief") { ?>
-                                <img src="../images/cadre.png" alt="" class="ReliefIMG">
-                            <?php } ?> -->
+                            <?php if ($value["option"] == "En relief" || $value["option"] == "À la Une") { ?>
+                                <div class="ReliefIMG">
+                                    <img src="../images/ribon.png" alt="">
+                                </div>
+                            <?php } ?>
                             
                             <?php if ($value['src_image']) { ?>
                                 <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
