@@ -787,6 +787,13 @@ input[type="range"]::-ms-thumb {
     box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
 }
 
+/* .ReliefIMG {
+    position: absolute;
+    z-index: 1;
+    bottom: 2%;
+    left: 0;
+} */
+
 .carte_offre.lol {
     background-image: url(../images/gold.jpg);
     background-size: cover;

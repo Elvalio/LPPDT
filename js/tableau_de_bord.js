@@ -61,14 +61,15 @@ function validateAndSubmitForm(event) {
     let section = toggle.closest('section');
 
     // Vérification de l'IBAN et BIC avant la soumission du formulaire
-    var ibanBicIncomplets = true;  // Modifiez selon votre logique
+    // var ibanBicIncomplets = true;  // Modifiez selon votre logique
+    var ibanBicIncomplets = form.querySelector('input[name="status"]').getAttribute('iban-bic-data');
     var typeCompte = 'pro_prive';  // Modifiez selon votre logique
 
     console.log("iban_bic_incomplets : " + ibanBicIncomplets);
     console.log("type_compte : " + typeCompte);
 
     if (typeCompte === 'pro_prive' && ibanBicIncomplets) {
-        alert("Veuillez remplir vos coordonnées bancaires (IBAN et BIC) mettre cette offre en ligne.");
+        alert("Veuillez remplir vos coordonnées bancaires (IBAN et BIC) pour mettre cette offre en ligne.");
         return false; // Empêche la soumission du formulaire
     }
 
