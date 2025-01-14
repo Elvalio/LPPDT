@@ -52,6 +52,31 @@ use function PHPSTORM_META\type;
     
     $stmt->execute();
 
+    $iban_bic_incomplets = false;
+    
+    // Vérification si le type de compte est 'pro_prive'
+    if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] === 'pro_prive') {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (!isset($_COOKIE['user'])) {
+                die("Erreur : ID du compte introuvable dans les cookies.");
+            }
+            
+            $idc = $_COOKIE['user'];
+    
+            // Requête pour vérifier si l'IBAN et le BIC existent pour l'idC donné et ne sont pas null
+            $query = "SELECT iban, bic FROM pact._secteur_prive WHERE idC = :idC AND iban IS NOT NULL AND bic IS NOT NULL";
+            $stmt = $dbh->prepare($query);
+            $stmt->bindParam(':idC', $idc, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+            if (!$result) {
+                $iban_bic_incomplets = true;
+            }
+        }
+    }
+
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -88,7 +113,7 @@ use function PHPSTORM_META\type;
                             <a href="modifier_offre.php?value=<?php echo $valeur["ido"];?>">Modifier les informations</a>
                         </div>
                         <div class="hors_ligne">
-                            <form method="POST" action="tableau_de_bord.php" onsubmit="setCheckboxValue(this);">
+                            <form method="POST" action="tableau_de_bord.php" onsubmit="validateAndSubmitForm(this)">
                             <input type="hidden" name="status" value="checked">
                                 <label class="switch">
                                     <input type="checkbox" name="status" value="unchecked" <?php if ($valeur["en_ligne"] == 'false') echo 'checked'; ?>>
@@ -105,8 +130,8 @@ use function PHPSTORM_META\type;
                 <form action="creation_offre.php">
                     <input type="submit" value="Créer une nouvelle offre" id="creer_offre"/>
                 </form>
-                <script src="../js/tableau_de_bord.js">
-                </script>
+                <script src="../js/tableau_de_bord.js"></script>
+                <script src="../js/popup.js"></script>
                 <?php
 
                 include_once'footer.php';
