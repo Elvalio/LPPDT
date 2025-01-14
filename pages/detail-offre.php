@@ -107,8 +107,12 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             exit;
     
         } catch (PDOException $e) {
-            echo "Erreur !: " . htmlspecialchars($e->getMessage()) . "<br/>";
-            die();
+            if ($e->getCode() === '23505') { // Code SQLSTATE pour violation d'unicité
+                echo "<script>alert('Vous avez déjà signalé cet avis.');</script>";
+            } else {
+                print "Erreur !: " . $e->getMessage() . "<br/>";
+                die();
+            }
         }
     }
 
