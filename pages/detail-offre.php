@@ -536,12 +536,6 @@ try {
                         </button>
                     </form>
                 <?php endif;
-                if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
-                    <div class="btn-signaler">
-                        <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                        <p>Signaler l'avis</p>
-                    </div>
-                <?php endif;
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
                     if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
