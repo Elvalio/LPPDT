@@ -530,7 +530,7 @@ try {
                     <hr>
                     <?php
                 }
-                if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
+                if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
                     <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
                         <input type="hidden" name="type_form" value="signaler-avis">
                         <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
