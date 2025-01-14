@@ -1636,3 +1636,44 @@ begin
   RETURN res;
 end;
 $$ language 'plpgsql';
+
+
+------ TCHATATOR --------
+
+
+create table _discussion(
+  idDiscussion serial,
+  idClient integer,
+  idPro integer,
+  estBloque boolean,
+  
+  constraint _discussion_pk primary key (idDiscussion),
+  constraint _discussion_fk_membre foreign key
+  (idClient) references pact._membre(idC),
+  constraint _discussion_fk_professionnel foreign key
+  (idPro) references pact._professionnel(idC)
+);
+
+
+create table _message(
+  idMessage serial,
+  idDiscussion integer,
+  dateMessage date,
+  recu boolean,
+  supprime boolean,
+  texte varchar(1000),
+  
+  --FK
+  idEmmeteur integer,
+  idReceveur integer,
+  
+  constraint _message_pk primary key (idMessage),
+  
+  constraint _message_fk_discussion foreign key
+  (idDiscussion) references pact._discussion(idDiscussion),
+  
+  constraint _message_fk_compte_receveur foreign key
+  (idReceveur) references pact._compte(idC),
+  constraint _message_fk_compte_emmeteur foreign key
+  (idEmmeteur) references pact._compte(idC)
+);
