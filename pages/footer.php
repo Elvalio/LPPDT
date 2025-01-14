@@ -29,7 +29,7 @@
         </div>
         <hr>
         <div class="autres_liens">
-            <a href="mailto:PACT-TripEnArmor@proton.me">Contactez-nous</a>
+            <a href="mailto:PACT-TripEnArvor@proton.me">Contactez-nous</a>
             <a href="politique_confidentialite">Politique de Confidentialité</a>
             <a href="conditions_d_utilisation.php">Conditions Générales d'Utilisation</a>
             <a href="RGPD.php">RGPD</a>
