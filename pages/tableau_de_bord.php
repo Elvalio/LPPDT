@@ -7,6 +7,35 @@ use function PHPSTORM_META\type;
 
     include('../sql/connect_params.php');
 
+    //Récupère tous les avis
+    try {
+        $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
+    
+        $stmt = $dbh->prepare("SELECT * FROM pact.experience");
+        $stmt->execute();
+        $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+    
+    
+    //Récupère toutes les réponses
+    try {
+        $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
+    
+        $stmt = $dbh->prepare("SELECT * FROM pact._reponse");
+        $stmt->execute();
+        $reponse = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         if (isset($_POST['offre_id']) && isset($_POST['status'])) {
@@ -120,6 +149,26 @@ use function PHPSTORM_META\type;
                                 </label>
                                 <input type="hidden" name="offre_id" value="<?php echo $valeur["ido"]; ?>">
                             </form>
+                        </div>
+                        <div class="avis_non_rep">
+                            <?php
+                            $nbr_avis_non_rep = 0;
+                            foreach($avis as $av) {
+                                if ($av['ido'] == $valeur['ido']) {
+                                    $check = true;
+                                    foreach($reponse as $rep) {
+                                        if ($av['ida'] == $rep['ida']) {
+                                            $check = false;
+                                        }
+                                    }
+                                    if ($check) {
+                                        $nbr_avis_non_rep++;
+                                    }
+                                }
+                            }
+                            if ($nbr_avis_non_rep > 0) { ?>
+                                <p class="FS">Vous avez <?php echo (string)$nbr_avis_non_rep ?> avis non répondu</p>
+                            <?php } ?>
                         </div>
                     </div>
                 </section>
