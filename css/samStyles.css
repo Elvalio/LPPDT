@@ -517,6 +517,13 @@
   color: white;
 }
 
+#btn-reponse {
+  border: none;
+  margin-left: 40px;
+  color: lightslategray;
+  background-color: white;
+}
+
 #bouton_publier:hover {
   background-color: var(--bleu-rouge);
   transition: background-color 0.3s ease-in-out;
@@ -543,6 +550,14 @@
 
 .zone-btn-publier{
   width: 100%;
+}
+
+.dropdown-menu {
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: none;
 }
 
 .article-avis > h3{
@@ -591,8 +606,6 @@
   width: fit-content;
   color: rgb(255, 0, 0) !important;
   gap: 10px; /* Ajoute de l'espace entre les éléments */
-  border: none;
-  background-color: transparent;
 }
 
 .btn-signaler p {
