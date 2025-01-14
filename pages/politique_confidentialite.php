@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/cssFooter.css">
-    <title>Politique de Confidentialité - TripEnArmor</title>
+    <title>Politique de Confidentialité - TripEnArvor</title>
     <style>
         ul{
             padding-left: 20px;
@@ -16,7 +16,7 @@
 
 <header>
     <h1>Politique de Confidentialité</h1>
-    <p>Chez TripEnArmor, votre vie privée est essentielle. Voici comment nous protégeons vos données personnelles.</p>
+    <p>Chez TripEnArvor, votre vie privée est essentielle. Voici comment nous protégeons vos données personnelles.</p>
 </header>
 
 <main>
@@ -83,7 +83,7 @@
             <li>Demander la suppression de vos données personnelles.</li>
             <li>Vous opposer à l’utilisation de vos données pour des raisons légitimes.</li>
         </ul>
-        <p>Pour exercer ces droits, contactez-nous à <a href="mailto:privacy@tripenarmor.com">privacy@tripenarmor.com</a>.</p>
+        <p>Pour exercer ces droits, contactez-nous à <a href="mailto:privacy@tripenarvor.com">privacy@tripenarvor.com</a>.</p>
     </section>
 
     <section>
