@@ -96,7 +96,7 @@ error_reporting(0); if (!empty($_POST)) {
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
-        <div class="menu-links">
+        <div class="menu-links-crea-compte">
             <div class="inscription-membre TS-bold" id="link-membre">
                 <h1 class="TS-bold">Inscription</h1>
             </div>
@@ -107,8 +107,8 @@ error_reporting(0); if (!empty($_POST)) {
         <div class="form-container-page-creation-compte" id="form-membre">
             <form name="membre" action="creation_compte_formulaire.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="membre">
-                <div class="form-group">
-                    <div class="left-column">
+                <div class="form-group-crea-compte">
+                    <div class="left-column-crea-compte">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Colomb" id="nom-membre" name="nom" required>
                         <label class="erreur" id="erreurnom"></label>
@@ -125,21 +125,21 @@ error_reporting(0); if (!empty($_POST)) {
                         <input type="text" class="FS" placeholder="5 rue de  la gare" id="adresse-membre" name="adresse" required>
                         <label class="erreur" id="erreuradresse"></label>
 
-                        <div class="row">
-                            <div class="input-wrapper">
+                        <div class="row-crea-compte">
+                            <div class="input-wrapper-crea-compte">
                                 <label for="codepostal" class="FS">Code postal<span class="required">*</span></label>
                                 <input type="text" class="FS" placeholder="22300" id="codepostal-membre" name="codepostal" required>
                                 <label class="erreur" id="erreurcodep"></label>
                             </div>
 
-                            <div class="input-wrapper">
+                            <div class="input-wrapper-crea-compte">
                                 <label for="ville" class="FS">Ville<span class="required">*</span></label>
                                 <input type="text" class="FS" placeholder="Lannion" id="ville-membre" name="ville" required>
                                 <label class="erreur" id="erreurville"></label>
                             </div>
                         </div>
                     </div>
-                    <div class="right-column">
+                    <div class="right-column-crea-compte">
                         <label for="email" class="FS">E-mail<span class="required">*</span></label>
                         <input type="email" class="FS" placeholder="christophe.colomb@gmail.com" id="email-membre" name="email" required>
                         <label class="erreur" id="erreuremail"></label>
@@ -156,7 +156,7 @@ error_reporting(0); if (!empty($_POST)) {
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-membre" name="confirm_password" required>
                         <label class="erreur" id="erreurconmdp"></label>
                         
-                        <div class="checkbox">
+                        <div class="checkbox-crea-compte">
                             <input type="checkbox" id="terms" name="terms" required>
                             <span class="FS-bold">
                                 Accepter les 
@@ -171,7 +171,7 @@ error_reporting(0); if (!empty($_POST)) {
                 </div>
                     <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Créer un compte</button>
             </form>
-            <div class="redirection-links">
+            <div class="redirection-links-crea-compte">
                 <a href="connexion.php" class="Connexion">Déjà inscrit(e) ? Connectez-vous.</a>
                 <a href="creation_compte_pro_formulaire.php" class="Redirection_pro">Vous êtes un(e) professionnel(le) ? Cliquez ici.</a>
             </div>
