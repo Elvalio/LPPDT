@@ -84,7 +84,6 @@ if ($_POST!=[]) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Se connecter</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <link rel="stylesheet" type="text/css" href="../css/styleConnexion.css">
 </head>
 
     <div class="phone-element">

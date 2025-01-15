@@ -532,6 +532,36 @@ alter table _recommande_pas add constraint xor_recommande_pas check (existe_reco
 ---------------------------------------------
 -------------Triggers tables-----------------
 ---------------------------------------------
+create or replace function pact.genererApiKey(idCompte integer)
+  returns varchar(64) as $$
+declare
+  res varchar(64);
+  temp varchar(4);
+begin
+  
+  perform setseed(idCompte/100.0);
+  res = concat(substr(md5(random()::text), 1, 32),substr(md5(random()::text), 1, 29));
+  
+  if exists(select * from _membre where idC = idCompte) then
+    temp='mbr';
+  elsif  exists(select * from _professionnel where idC = idCompte) then
+    temp='pro';
+  end if;
+  raise notice '%', temp;
+  res =  concat(temp,res);
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.inserer_compte()
+  returns trigger as $$
+begin
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
 
 -------- This should freeze codePro
 create or replace function pact.mis_a_jour_professionnel()
@@ -600,6 +630,9 @@ begin
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._membre (idc, pseudo) values (new.idc, new.pseudo);
+  /*Clef api doit être fait après insertion car le début dépend de si elle existe dans la table pro ou membre*/
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
   RETURN OLD;
 end;
 $$ language 'plpgsql';
@@ -658,6 +691,9 @@ begin
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._professionnel (idc, codePro, denomination_sociale) values (new.idc, new.codePro, new.denomination_sociale);
+  /*Clef api doit être fait après insertion car le début dépend de si elle existe dans la table pro ou membre*/
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
   RETURN OLD;
 end;
 $$ language 'plpgsql';
@@ -1678,3 +1714,36 @@ create table _message(
   constraint _message_fk_compte_emmeteur foreign key
   (idEmmeteur) references pact._compte(idC)
 );
+
+/*
+Génère les clef API des compte memebres
+*/
+create or replace function pact.genererApiKey(idCompte integer)
+  returns varchar(64) as $$
+declare
+  res varchar(64);
+  temp varchar(4);
+begin
+  
+  perform setseed(idCompte/100.0);
+  res = concat(substr(md5(random()::text), 1, 32),substr(md5(random()::text), 1, 29));
+  
+  if exists(select * from _membre where idC = idCompte) then
+    temp='mbr';
+  elsif  exists(select * from _professionnel where idC = idCompte) then
+    temp='pro';
+  end if;
+  raise notice '%', temp;
+  res =  concat(temp,res);
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.inserer_compte()
+  returns trigger as $$
+begin
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
+  RETURN NEW;
+end;
+$$ language 'plpgsql';

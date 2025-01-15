@@ -1026,38 +1026,66 @@ try{
                                     </div>
                                 </div>
                                 <div id="type-option"  <?php echo (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] === 'pro_public') ? 'style="display: none"' : '';?>>
+                                <div id="type-option"  <?php echo  ((string)$_COOKIE['type_compte'] == 'pro_prive') ?  '' : 'style="display: none;"';?>>
                                     <!-- Champ "Type" -->
                                     <div id="type-container">
                                         <label>Type d'offre</label>
-
-                                        <div id="gratuit" <?php echo  (isset($_COOKIE['type_compte'])&&(string)$_COOKIE['type_compte'] === 'pro_public') ?  '' : 'style="display: none;"';?>>
-                                            <input type="radio" id="gratuit" name="offre" value="gratuit" <?php echo  ($dataOffre[0]['type'] == 1) ?  'checked' : '';?>/>
-                                            <label for="gratuit">Gratuit</label>
+                                        <!-- bulle info -->
+                                        <div id="bulle1" class="info-container" style="display:none">
+                                            <div class="info-icon">?</div>
+                                            <div class="info-tooltip">
+                                            - Standard : Type par défaut. <br> <br>
+                                            - Premium : permet en plus de « blacklister » un maximum de 3 Avis sur une Offre. <br> <br>
+                                            Attention : Un fois choisi, le type d'offre ne peut pas être changé.                                           </div>
                                         </div>
-                                        
-                                        
-                                        <div id="standard-premium" <?php echo  (isset($_COOKIE['type_compte'])&&(string)$_COOKIE['type_compte'] === 'pro_prive') ?  '' : 'style="display: none;"';?>>
-                                            <div id="standard">
-                                                <input type="radio" id="standard" name="offre" value="standard" <?php echo  ($dataOffre[0]['type'] == 2) ?  'checked' : '';?>/>
-                                                <label for="standard">Standard</label>
+                                        <!---------------->
+                                        <div id="standard-premium">
+                                            <div id="standard">                                                
+                                                <input type="radio" id="standard" name="offre" value="standard" disabled 
+                                                    <?php 
+                                                    echo isset($_POST['offre']) 
+                                                        ? ($_POST['offre'] == 'standard' ? 'checked' : '') 
+                                                        : (((string)$_COOKIE['type_compte'] == 'pro_prive') ? 'checked' : '');
+                                                    ?> 
+                                                />
+                                                
+                                                
+                                                
+                                                <label for="standard">Standard (2€/jour)</label>
                                             </div>
                                             <div id="premium">
-                                                <input type="radio" id="premium" name="offre" value="premium" <?php echo  ($dataOffre[0]['type'] == 3) ?  'checked' : '';?>/>
-                                                <label for="premium">Premium</label>
+                                                <!-- <input type="radio" id="premium" name="offre" value="premium" /> -->
+                                                <input type="radio" id="premium" name="offre" value="premium" disabled
+                                                    <?php 
+                                                    echo isset($_POST['offre']) 
+                                                        ? ($_POST['offre'] == 'premium' ? 'checked' : '') 
+                                                        : '';
+                                                    ?> 
+                                                />
+                                                <label for="premium">Premium (4€/jour)</label>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- Champ "Options" -->
                                     <div id="option-container">
                                         <label>Options</label>
+                                        <!-- bulle info -->
+                                        <div id="bulle2" class="info-container">
+                                            <div class="info-icon">?</div>
+                                            <div class="info-tooltip">
+                                            - À la une : Offre mis en avant sur l'accueil (comprend aussi l'option en relief). <br> <br>
+                                            - En relief : Offre mis en exergue à l'affichage dans la liste d'offres.                                
+                                            </div>
+                                        </div>
+                                        <!---------------->
                                         <div id="une-relief">
                                             <div id="une">
-                                                <input type="checkbox" id="une" name="une" value="À la Une" onclick="checkOnlyOne(this)" on <?php echo  ($dataOffre[0]["option"] == 'À la Une') ?  'checked' : '';?>/>
-                                                <label for="une">À la Une </label>
+                                                <input type="checkbox" id="une" name="une" value="À la Une" <?php echo isset($_POST['une']) && $_POST['une'] == 'À la Une' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
+                                                <label for="une">À la une (20€/semaine)</label>
                                             </div>
                                             <div id="relief">
-                                                <input type="checkbox" id="relief" name="relief" value="En relief" onclick="checkOnlyOne(this)" <?php echo  ($dataOffre[0]["option"] == 'En relief') ?  'checked' : '';?>/>
-                                                <label for="relief">En relief</label>
+                                                <input type="checkbox" id="relief" name="relief" value="En relief" <?php echo isset($_POST['relief']) && $_POST['relief'] == 'En relief' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
+                                                <label for="relief">En relief (10€/semaine)</label>
                                             </div>
                                         </div>
                                     </div>
@@ -1134,7 +1162,7 @@ try{
             
         </script>
         <script>
-
+            handleCategorieChange();
             // Affiche image de carte/menu si elle existe
             if (<?php echo empty($special) ?  'false' : 'true'?>) {
                 imageCarte = document.getElementById('selected-image');
