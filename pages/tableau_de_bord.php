@@ -116,7 +116,6 @@ use function PHPSTORM_META\type;
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
-        <link rel="stylesheet" href="../css/tableau_bord.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body class="BO">
