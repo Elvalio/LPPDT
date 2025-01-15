@@ -228,12 +228,9 @@ try {
 </head>
 
 <div class="desktop-element">
-<?php /*include_once 'nav.php';*/?>
+<?php include_once 'nav.php';?>
 </div>
-<?php
-    var_dump($alreadySignaled);
-    var_dump($_COOKIE['user']);
-?>
+
 <body class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
 
     <div class="body">
