@@ -24,6 +24,7 @@ if (isset($_GET['numFacture'])) {
         // (À personnaliser en fonction des données nécessaires dans votre template)
         $stmt = $dbh->prepare("
             SELECT 
+        f.*,o.*,
   f.nbrjours, 
   f.numfacture,
   f.date_facture AS date_emission,
