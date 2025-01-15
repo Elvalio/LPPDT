@@ -49,6 +49,44 @@ function PrixOptionTTC($idOffre, $bdh) {
     }
 }
 
+//executer la fonction BDD creerFactures(idOffre)
+function creerFactures($idOffre, $bdh) {
+    try {
+        // Préparez et exécutez la requête
+        $stmtCreerFactures = $bdh->prepare("SELECT pact.creerFactures(:idOffre)");
+        $stmtCreerFactures->execute([':idOffre' => $idOffre]);
+
+        // Récupérez le résultat
+        $result = $stmtCreerFactures->fetch(PDO::FETCH_ASSOC);
+
+        // Retournez la valeur ou une valeur par défaut si rien n'est trouvé
+        return $result["creerFactures"] ?? 0;
+    } catch (PDOException $e) {
+        // Gérez les erreurs
+        echo "Erreur lors de la création des factures : " . htmlspecialchars($e->getMessage());
+        return 0;
+    }
+}
+
+//boucle qui parcours les offres et qui appelle la fonction creerFactures pour chaque offre
+function creerFacturesPourToutesLesOffres($bdh) {
+    try {
+        // Préparez et exécutez la requête
+        $stmtOffres = $bdh->prepare("SELECT idO FROM pact.offre");
+        $stmtOffres->execute();
+        $offres = $stmtOffres->fetchAll(PDO::FETCH_ASSOC);
+
+        // Parcourez les offres et créez des factures pour chacune
+        foreach ($offres as $offre) {
+            creerFactures($offre['ido'], $bdh);
+        }
+    } catch (PDOException $e) {
+        // Gérez les erreurs
+        echo "Erreur lors de la création des factures pour toutes les offres : " . htmlspecialchars($e->getMessage());
+    }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +109,9 @@ function PrixOptionTTC($idOffre, $bdh) {
         <h1 class="titre-rouge">Facturation</h1>
     </header>
     <div>
-        <?php if ($factures) { foreach ($factures as $facture) { ?>
+        <?php
+        creerFacturesPourToutesLesOffres($bdh);
+        if ($factures) { foreach ($factures as $facture) { ?>
         <article class="facture-composant-liste">
             
                 <div class="facture-liste-facture">
