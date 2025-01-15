@@ -587,6 +587,19 @@ try {
                                 </p>
                             </div>
                         <?php 
+                        if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
+                            <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
+                                <input type="hidden" name="type_form" value="signaler-avis">
+                                <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
+                                <button type="submit" class="btn-signaler"  style="margin-left : 30px;"
+                                        <?php if ($alreadySignaled) echo 'disabled'; ?> 
+                                        style="<?php echo $alreadySignaled ? 'cursor: not-allowed; opacity: 0.5; margin-left : 30px;' : 'margin-left : 30px;'; ?>">
+                                    <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                                    <p><?php echo $alreadySignaled ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
+                                </button>
+                            </form>
+                        
+                        <?php endif;
                         } else { ?>
                             <button type="button" onclick="toggle_reponse();" id="btn-reponse">Ajouter une réponse</button>
                             <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier" id="form_reponse" style="display: none">
