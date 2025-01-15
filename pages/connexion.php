@@ -84,7 +84,6 @@ if ($_POST!=[]) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Se connecter</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <link rel="stylesheet" type="text/css" href="../css/styleConnexion.css">
 </head>
 
     <div class="phone-element">
@@ -92,41 +91,41 @@ if ($_POST!=[]) {
     </div>
 
 <body class="login-page">
-    <div class="container">
-        <div class="menu-links">
+    <div class="container-connexion">
+        <div class="menu-links-connexion">
             <div class="inscription-membre TS-bold" id="link-membre">
                 <h1 class="titre-connexion TS-bold">Connexion</h1>
             </div>
         </div>
-        <div class="form-container">
-            <button class="back-button" onclick="location.href='accueil.php';"> <img src="../icons/arrow-left-w.svg" alt="">Retour</button>
+        <div class="form-container-connexion">
+            <button class="back-button-connexion" onclick="location.href='accueil.php';"> <img src="../icons/arrow-left-w.svg" alt="">Retour</button>
 
-            <div class="logo-container">
-                <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo">
+            <div class="logo-container-connexion">
+                <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo-connexion">
             </div>
             <?php if (!empty($message_erreur)) { ?>
-            <p class="message-erreur"><?php echo $message_erreur; ?></p>
+            <p class="message-erreur-connexion"><?php echo $message_erreur; ?></p>
             <?php } ?>
 
             
 
             <form action="connexion.php" method="post" class="login-form">
-                <div class="form-group">
+                <div class="form-group-connexion">
                     <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
                     <label for="identifiant">Identifiant compte</label>
                     <input id="identifiant" name="identifiant" placeholder="Identifiant" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group-connexion">
                     <label for="password">Mot de passe</label>
                     <input type="password" id="password" name="password" placeholder="Mot de passe" required>
                 </div>
 
-                <button type="submit" class="submit-button">Se connecter</button>
+                <button type="submit" class="submit-button-connexion">Se connecter</button>
 
-                <div class="links">
-                    <!--<a href="#" class="mdpOublie">Mot de passe oublié ?</a>-->
-                    <a href="creation_compte_formulaire.php" class="inscription">S'inscrire</a>
+                <div class="links-connexion">
+                    <!--<a href="#" class="mdpOublie-connexion">Mot de passe oublié ?</a>-->
+                    <a href="creation_compte_formulaire.php" class="inscription-connexion">S'inscrire</a>
                 </div>
             </form>
         </div>

@@ -158,11 +158,11 @@ include('../sql/connect_params.php');
             ?> -->
             </header>
 
-    <div class="content">
-        <h1 class="TS titre">Paramètres De Compte</h1>
+    <div class="content-compte">
+        <h1 class="TS titre-compte">Paramètres De Compte</h1>
     
-        <div class="profile">
-            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
+        <div class="profile-compte">
+            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav-compte" id="pfp" height="150px" width="150px">
             <div>
                 <h2>
                     <?php
@@ -190,36 +190,36 @@ include('../sql/connect_params.php');
             </div>
         </div>
 
-        <form class="main-container" action="modifInfo.php" method="post" enctype="multipart/form-data">
-            <div class="container-ligne">
-                <div class="container-info">
+        <form class="main-container-compte" action="modifInfo.php" method="post" enctype="multipart/form-data">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Prénom</label>
                     <input type="text" name="prenom" value=<?php echo $compte[0]['prenom']; ?>>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Nom</label>
                     <input type="text" name="nom" value=<?php echo $compte[0]['nom']; ?>>
                 </div>
             </div>
             <hr>
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Téléphone</label>
                     <input type="text" name="telephone" value=<?php echo $compte[0]['telephone']; ?>>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Adresse Postale</label>
                     <input type="text" name="adresse" value="<?php echo htmlspecialchars($compte[0]['numero_voie'] . ' ' . $compte[0]['voie']); ?>">
                 </div>
             </div>
 
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Code Postal</label>
                     <input type="text" name="code_postal" value=<?php echo $compte[0]['code_postal']; ?>>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Ville</label>
                     <input type="text" name="ville" value=<?php echo $compte[0]['ville']; ?>>
                 </div>
@@ -227,8 +227,8 @@ include('../sql/connect_params.php');
             <?php if ($_COOKIE['type_compte'] == "pro_public") { ?>
             <hr>
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-lign-compte">
+                <div class="container-info-compte">
                     <label>Raison sociale</label>
                     <input type="text" name="denomination_sociale" value=<?php echo $compte[0]['denomination_sociale']; ?>>
                 </div>
@@ -237,24 +237,24 @@ include('../sql/connect_params.php');
             <?php if ($_COOKIE['type_compte'] == "pro_prive") { ?>
             <hr>
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Dénomination sociale</label>
                     <input type="text" name="raison_sociale" value=<?php echo $compte[0]['raison_sociale']; ?>>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Numéro SIREN</label>
                     <input type="text" value=<?php echo $compte[0]['siren']; ?> readonly>
                 </div>
             </div>
             <hr>
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>IBAN</label>
                     <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?>>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>BIC</label>
                     <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?>>
                 </div>
@@ -262,20 +262,20 @@ include('../sql/connect_params.php');
             <?php } ?>
             <hr>
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Entrer le mot de passe</label>
                     <input type="password" name="mdp" value=<?php echo $compte[0]['mdp']; ?>>
                 </div>
             </div>
-            <div class="container-ligne">
-                <button type="submit" class="edit-btn">Enregistrer les modifications</button>
-                <button type="reset" class="cancel-btn" onclick=annulation()>Annuler les modifications</button>
+            <div class="container-ligne-compte">
+                <button type="submit" class="edit-btn-compte">Enregistrer les modifications</button>
+                <button type="reset" class="cancel-btn-compte" onclick=annulation()>Annuler les modifications</button>
             </div>
         </form>
     </div>
 
-    <footer class="content">
+    <footer class="content-compte">
         <?php include_once 'footer.php'; ?>
     </footer>
     <footer class="phone-element">

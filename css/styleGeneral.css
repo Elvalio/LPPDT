@@ -430,11 +430,9 @@ p {
 }
 
 
-/*////////////////////////////////////////////////////////
-////////////////////////CSS CREATION COMPTE///////////////
-//////////////////////////////////////////////////////////*
-
-/* C'est le style css pour le titre des pages */
+/* ====================================== */
+/*          STYLE PAGE INSCRIPTION        */
+/* ====================================== */
 
 a {
     color: inherit;
@@ -678,16 +676,17 @@ a {
 .choix-entreprise-crea-compte {
     display: inline-block;
     align-items: center;
+    margin-bottom: 1em;
 }
 
 .element_prive1-crea-compte {
     display: none;
-    margin-top: 29px;
+    margin-top: 2.14em;
 }
 
 .element_prive2-crea-compte {
     display: none;
-    margin-top: 91px;
+    margin-top: 7em;
 }
 
 /* ===================================== */
@@ -802,4 +801,718 @@ a {
         text-decoration: none;
     }
 
+}
+
+/* =================================== */
+/*          STYLE PAGE CONNEXION       */
+/* =================================== */
+
+
+body {
+    background-color: #ffffff;
+    justify-content: center;
+    font-family: 'TripSansRegular', sans-serif;
+    height: 100vh;
+  }
+  
+  .back-button-connexion {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #3136ED;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 50px;
+    cursor: pointer;
+    font-family: 'TripSansBold';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .back-button-connexion:hover {
+    background-color: #5b60f3;
+  }
+  
+  
+  .logo-container-connexion {
+    margin-bottom: 20px;
+  }
+  
+  .logo-connexion {
+    width: 500px;
+  }
+  
+  .form-group-connexion {
+    margin-bottom: 15px;
+  }
+  
+  .form-group-connexion label {
+    font-family: 'TripSansBold';
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  
+
+  
+  .submit-button-connexion {
+    background-color: #3136ED;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 98%;
+    font-family: 'TripSansUltra';
+    margin-top: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .submit-button-connexion:hover {
+    background-color: #5b60f3;
+  }
+  
+  .links-connexion {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .links-connexion a {
+    font-family: 'TripSansRegular';
+    color: #000000;
+    
+    margin-right: 15px;
+  }
+  
+  .links-connexion a:hover {
+    text-decoration: underline;
+  }
+  
+  .message-erreur-connexion {
+    text-align: center;
+    color: lightcoral;
+    border: 1px solid lightcoral;
+    border-radius: 5px;
+  }
+  
+
+/* ===================================== */
+/*          VERSION DESKTOP              */
+/* ===================================== */
+
+@media (min-width: 800px) {
+  .login-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #ccc;
+    border-style: solid;
+    width: 95%;
+  }
+
+  .phone-element, .mobile-footer{
+    display: none;
+}
+
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .container-connexion {
+    text-align: center;
+    width: 42%;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .form-group-connexion input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .phone-element{
+    display: none;
+  }
+
+  .titre-connexion {
+    display: none;
+  }
+}
+
+/* ==================================== */
+/*          VERSION MOBILE              */
+/* ==================================== */
+
+@media (max-width: 800px) {
+
+  .liste_nav{
+    display: none;
+  }
+
+  .phone-element {
+    width: 100%;
+  }
+
+  body {
+    width: 100%;
+  }
+
+
+  .logo-connexion {
+    display: none !important;
+  }
+
+  .back-button-connexion {
+    display: none !important;
+  }
+
+  .login-form {
+    width: 95%;
+  }
+
+  .login-page {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .menu-links-connexion {
+    padding: 20px;
+}
+
+.menu-links-connexion div {
+    text-align: center; /* Alignement du texte */
+}
+
+  .container-connexion {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-left: 10px;
+  }
+
+  .form-container-connexion {
+    display: block;
+  }
+
+  .form-group-connexion input {
+    width: 90%;
+    padding: 10px;
+    border: none;               /* Remove all borders */
+    border-bottom: 1px solid #ccc; /* Only the bottom border */
+  }
+
+
+  .submit-button-connexion {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-family: 'TripSansUltra';
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+  /* Styling for "Mot de passe oublié" as a bordered button */
+  .mdpOublie-connexion {
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: black;
+    text-decoration: none;
+    text-align: center;  /* Center the text inside the button */
+    width: 100%;         /* Match the width of the "Se connecter" button */
+    box-sizing: border-box; /* Ensure padding doesn't overflow the width */
+    margin-bottom: 10px; /* Adds space between the two buttons */
+}
+  /* Styling for "S'inscrire" as a regular link */
+  .inscription-connexion {
+    display: inline-block;
+    color: black;
+    text-decoration: underline;
+    align-self: flex-end; /* Aligns "S'inscrire" to the right */
+}
+
+  /* Styling hover effects */
+  .mdpOublie-connexion:hover,
+  .inscription-connexion:hover {
+      opacity: 0.9;
+  }
+
+  /* Flex layout for the links below */
+  .links-connexion {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+}
+  .links-connexion a {
+      font-family: 'TripSansRegular';
+      color: #000000;
+  }
+
+  .links-connexion a:hover {
+      text-decoration: underline;
+  }
+  
+}
+
+/* ======================================== */
+/*         STYLE PAGE TABLEAU DE BORD       */
+/* ======================================== */
+
+
+
+.description-tableau-de-bord{
+    font-family: 'TripSansRegular';
+    font-size: 16px;
+    margin: 5px;
+    color: var(--gris-fonce);
+}
+
+.titre_offre-tableau-de-bord{
+    font-family: 'TripSansRegular';
+    color: var(--bleuFonce-rougeFonce);
+    font-size: 20px;
+}
+
+#button_hors_ligne-tableau-de-bord{
+    padding: 5px;
+}
+
+
+.section_offre-tableau-de-bord{
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    border-width: 1px;
+    border-color: var(--bleuFonce-rougeFonce);
+    border-style: solid;
+    margin: 20px;
+    box-shadow: 0 0 3px var(--gris-fonce);
+}
+
+.section_offre-tableau-de-bord > img{
+    width: 20%;
+    height: 160px;
+    margin: 10px;
+    object-fit: cover;
+
+}
+
+.section_offre-tableau-de-bord > div{
+    width: 100%;
+}
+
+.hors_ligne-tableau-de-bord{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin-right: 10px;
+}
+
+#icon_delete-tableau-de-bord{
+    width: 14px;
+    height: 14px;
+    margin-right: 3px;
+}
+
+
+.detail_modif-tableau-de-bord > a{
+    padding: 8px;
+    font-size: 15px;
+    margin: 5px;
+    border: solid 1px;
+    text-decoration: none;
+    color: black;
+    font-family: 'TripSansRegular';
+    border-radius: 5px;
+    border-width: 1px;
+    background-color: white;
+    box-shadow: 0 0 2px var(--gris-fonce);
+
+}
+
+.detail_modif-tableau-de-bord > a:hover{
+    background-color: rgb(162, 2, 31, .6);
+    transition: background-color 0.2s linear;
+    color: white;
+    cursor:pointer;
+}
+
+.detail_modif-tableau-de-bord{
+    display: flex;
+}
+
+.creer_offre-tableau-de-bord{
+    
+    background-color: white;
+    color: black;
+    margin-left: 20px;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    border-width: 1px;
+    box-shadow: 0 0 2px var(--gris-fonce);
+}
+
+.creer_offre-tableau-de-bord:hover{
+    background-color: var(--bleuFonce-rougeFonce);
+    border-color: var(--bleuFonce-rougeFonce);
+    cursor:pointer;
+    color: white;
+    transition: background-color 0.2s linear;
+}
+
+.titre_switch{
+    display: flex;
+    align-items: center;
+}
+
+
+/* The switch - the box around the slider */
+.switch-tableau-de-bord {
+    position: relative;
+    display: inline-block;
+    height: 34px; /* Maintain height, but width is flexible */
+  }
+  
+  /* Hide default HTML checkbox */
+  .switch-tableau-de-bord input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider-tableau-de-bord {
+    position: relative;
+    cursor: pointer;
+    display: inline-flex; /* Flexbox for content adjustment */
+    align-items: center;
+    padding: 0 40px; /* Space for text and button */
+    background-color: red;
+    transition: background-color 0.4s; /* Smooth background color transition */
+    border-radius: 34px; /* Rounded shape */
+    height: 100%; /* Match the height of the switch */
+    font-size: 16px; /* Default font size */
+    color: white;
+    font-family: Arial, sans-serif;
+    white-space: nowrap; /* Prevent text from wrapping */
+  }
+  
+  /* The round button */
+  .slider-tableau-de-bord:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%; /* Make the button round */
+    transition: transform 0.4s, left 0.4s; /* Smooth transitions */
+  }
+  
+  /* Default slider text (when unchecked) */
+  .slider-tableau-de-bord::after {
+    content: "Hors Ligne"; /* Default text */
+    position: relative;
+    transition: content 0.4s, margin-left 0.4s, margin-right 0.4s;
+  }
+  
+  /* When the checkbox is checked */
+  input:checked + .slider-tableau-de-bord {
+    background-color: green; /* Change background to red when checked */
+  }
+  
+  input:focus + .slider-tableau-de-bord {
+    box-shadow: 0 0 5px green; /* Add focus shadow */
+  }
+  
+  /* Change the text when checked */
+  input:checked + .slider-tableau-de-bord::after {
+    content: "En Ligne"; /* Text when checked */
+  }
+  
+  /* Move the round button when checked */
+  input:checked + .slider-tableau-de-bord:before {
+    transform: translateX(110px); /* Slide the button to the right */
+  }
+  
+  /* Rounded sliders */
+  .slider-tableau-de-bord.round {
+    border-radius: 34px; /* Keep the slider rounded */
+  }
+  
+  .slider-tableau-de-bord.round:before {
+    border-radius: 50%; /* Keep the button round */
+  }
+  
+/* =========================================================== */
+/*          STYLE PAGE INFO-COMPTE ET MODIF-INFOS COMPTE       */
+/* =========================================================== */
+
+/* Version desktop*/
+@media (min-width: 801px) {
+    .desktop-element {
+      display: block;
+    }
+  
+    .phone-element {    
+      display: none;
+    }
+}
+
+.content-compte {
+    margin: 0 0 0 50px;
+    padding: 20px;
+}
+
+.titre-compte {
+    margin-left: 60px;
+}
+
+
+.profile-compte {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile-compte h2 {
+    margin: 0;
+    font-family: 'FiraSansBold', Arial, sans-serif;
+    color: var(--bleuFonce-rougeFonce);
+    font-weight: 100;
+}
+
+.profile-compte p {
+    margin: 0;
+    font-family: 'FiraSansRegular', Arial, sans-serif;
+    color: #767676;
+}
+
+#pfp  {
+    margin: 50px 50px 0 70px;
+}
+
+.main-container-compte {
+    width: 70%;
+    margin-top: 30px;
+    margin-left: 50px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.container-ligne-compte{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.container-info-compte {
+    flex: 1 1 45%;
+    margin-bottom: 15px;
+}
+
+.container-info-compte label {
+    padding-left: 10px;
+    font-weight: bold;
+    font-family: 'FiraSansBold', Arial, sans-serif;
+    color: var(--noir);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.container-info-compte input {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #E4E4E4;
+    border-radius: 20px;
+    background-color: #E4E4E4;
+    color: var(--noir);
+    font-family: 'FiraSansRegular', Arial, sans-serif;
+}
+
+.edit-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 20px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.edit-btn-compte:hover {
+    background-color: var(--bleuFonce-rougeFonce);
+}
+
+.avis-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 10px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.avis-btn-compte:hover {
+    background-color: var(--bleuFonce-rougeFonce);
+}
+
+.cancel-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 20px;
+    background-color: var(--gris-clair);
+    color: var(--noir);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border-radius: 4px;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+.cancel-btn-compte:hover {
+    background-color: #C3C3C3;
+}
+
+.deco-btn-compte {
+    visibility: hidden;
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 30px;
+    background-color: var(--gris-clair);
+    color: var(--noir);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border-radius: 4px;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+.delete-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 30px;
+    background-color: var(--gris-clair);
+    color: var(--noir);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border-radius: 4px;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+.delete-btn-compte:hover {
+    background-color: #C3C3C3;
+}
+
+
+.div-page-compte > hr {
+    width: 80%;
+    height: 2px;
+    background-color: #E4E4E4;
+    border: 1px;
+    border-radius: 3px;
+}
+
+.form-page-compte > hr {
+    width: 80%;
+    height: 2px;
+    background-color: #E4E4E4;
+    border: 1px;
+    border-radius: 3px;
+}
+
+
+
+/* Version mobile*/
+@media (max-width: 800px) {
+    .phone-element {
+        display: flex;
+    }
+  
+    .desktop-element {
+        display: none;
+    }
+
+    .content-compte {
+        margin: 0 0 0 0;
+        padding: 0;
+    }
+
+    .titre-compte {
+        font-size: 40px;
+    }
+
+    .container-ligne-compte {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .container-info-compte > input {
+        background-color: #FFFFFF;
+        width: 95%;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .hr-compte {
+        visibility: hidden;
+    }
+
+    .deco-btn-compte {
+        visibility: visible;
+        display: block;
+        margin: 100px 100px 0 0;
+        padding: 10px 43px;
+        background-color: var(--gris-clair);
+        color: var(--noir);
+        font-family: 'TripSansBold', Arial, sans-serif;
+        text-align: center;
+        border-radius: 4px;
+        border-width: 2px;
+        cursor: pointer;
+    }
+
+    .deco-btn-compte:hover {
+        background-color: #C3C3C3;
+    }
+
+    .avis-btn-compte {
+        font-size: 12px;
+    }
+
+    .img-compte {
+        height: 110px;
+        width: 110px;
+    }
 }

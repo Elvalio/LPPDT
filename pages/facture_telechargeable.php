@@ -24,32 +24,31 @@ if (isset($_GET['numFacture'])) {
         // (À personnaliser en fonction des données nécessaires dans votre template)
         $stmt = $dbh->prepare("
             SELECT 
-            f.*,o.*,
-                f.nbrjours,
-                f.numfacture,
-                f.date_facture AS date_emission,
-                c.nom AS pro_nom,
-                a.numero_voie || ' ' || a.voie AS pro_adresse,
-                a.code_postal AS pro_code_postal,
-                a.ville AS pro_ville,
-                c.telephone AS pro_telephone,
-                c.email AS pro_email,
-                EXTRACT(DAY FROM AGE(o.date_hors_ligne, o.date_publication)) AS jours_publication,
-                t.nom_type AS abonnement_type,
-                o.option AS options,
-                o.titre AS titre_offre,
-                t.cout_HT AS abonnement_ht_unitaire,
-                t.cout_TTC AS abonnement_ttc_unitaire,
-                op.cout_ht AS total_options_ht,
-                op.cout_ttc AS total_options_ttc,
-                f.nbSemaines AS nbSemaines
-            FROM pact.facturation f
-            INNER JOIN pact.option_offre op ON f.idO = op.idO
-            INNER JOIN pact.offre o ON f.idC = o.idC
-            INNER JOIN pact._compte c ON o.idC = c.idC
-            INNER JOIN pact._adresse a ON c.idAdresse = a.idAdresse
-            INNER JOIN pact._type_offre t ON o.type = t.idT
-            WHERE f.numfacture = :numfacture AND f.idC = :userId;
+        f.*,o.*,
+  f.nbrjours, 
+  f.numfacture,
+  f.date_facture AS date_emission,
+  c.nom AS pro_nom,
+  a.numero_voie AS pro_num_adrese,
+  a.voie AS pro_adresse,
+  a.code_postal AS pro_code_postal,
+  a.ville AS pro_ville,
+  c.telephone AS pro_telephone,
+  c.email AS pro_email,
+  t.nom_type AS abonnement_type,
+  o.option AS options,
+  o.titre AS titre_offre,
+  t.cout_HT AS abonnement_ht_unitaire,
+  t.cout_TTC AS abonnement_ttc_unitaire,
+  op.cout_ht AS total_options_ht,
+  op.cout_ttc AS total_option
+FROM pact.facturation f
+  INNER JOIN pact._compte c ON f.idC = c.idC
+  INNER JOIN pact._adresse a ON c.idAdresse = a.idAdresse
+  LEFT JOIN pact.option_offre op ON f.idO = op.idO
+  INNER JOIN pact.offre o ON f.idO = o.idO
+  INNER JOIN pact._type_offre t ON o.type = t.idT
+  WHERE f.numfacture = :numfacture AND f.idC =  :userId;
         ");
         $stmt->bindParam(':numfacture', $numfacture, PDO::PARAM_INT);
         $stmt->bindParam(':userId', $userID, PDO::PARAM_INT);
@@ -57,6 +56,7 @@ if (isset($_GET['numFacture'])) {
         $facture_data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$facture_data) {
+            print_r($facture_data);
             throw new Exception("Aucune donnée trouvée pour l'offre ID: $ido");
         }
 
