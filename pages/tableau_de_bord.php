@@ -116,7 +116,6 @@ use function PHPSTORM_META\type;
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
-        <link rel="stylesheet" href="../css/tableau_bord.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body class="BO">
@@ -129,23 +128,23 @@ use function PHPSTORM_META\type;
                 <?php
                 foreach($result as $key => $valeur){
                 ?>
-                <section class="section_offre">
+                <section class="section_offre-tableau-de-bord">
                     <img src="../images/<?php echo !is_null($valeur["src_image"]) ?  $valeur["src_image"] : '../images/rien.png'?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>" placeholder="../images/imagesReferences/placeholder.php">
                     <div class="infos_offre">
-                        <div class="titre_switch">
-                            <p class="titre_offre"><strong><?php echo $valeur["titre"]; ?></strong></p>
+                        <div class="titre_switch-tableau-de-bord">
+                            <p class="titre_offre-tableau-de-bord"><strong><?php echo $valeur["titre"]; ?></strong></p>
                         </div>
-                        <p class="description"><?php echo $valeur["resume"]; ?></p>
-                        <div class="detail_modif">
+                        <p class="description-tableau-de-bord"><?php echo $valeur["resume"]; ?></p>
+                        <div class="detail_modif-tableau-de-bord">
                             <a href="detail-offre.php?value=<?php echo $valeur["ido"];?>">Voir les détails</a>
                             <a href="modifier_offre.php?value=<?php echo $valeur["ido"];?>">Modifier les informations</a>
                         </div>
-                        <div class="hors_ligne">
+                        <div class="hors_ligne-tableau-de-bord">
                             <form method="POST" action="tableau_de_bord.php" onsubmit="validateAndSubmitForm(this)">
                             <input type="hidden" name="status" value="checked" iban-bic-data=<?=$iban_bic_incomplets ?>>
-                                <label class="switch">
+                                <label class="switch-tableau-de-bord">
                                     <input type="checkbox" name="status" value="unchecked" <?php if ($valeur["en_ligne"] == 'false') echo 'checked'; ?>>
-                                    <span class="slider round"></span>
+                                    <span class="slider-tableau-de-bord round"></span>
                                 </label>
                                 <input type="hidden" name="offre_id" value="<?php echo $valeur["ido"]; ?>">
                             </form>
@@ -176,7 +175,7 @@ use function PHPSTORM_META\type;
                 }
                 ?>
                 <form action="creation_offre.php">
-                    <input type="submit" value="Créer une nouvelle offre" id="creer_offre"/>
+                    <input type="submit" value="Créer une nouvelle offre" class="creer_offre-tableau-de-bord"/>
                 </form>
                 <script src="../js/tableau_de_bord.js"></script>
                 <script src="../js/popup.js"></script>

@@ -10,7 +10,6 @@ include('../sql/connect_params.php');
 <head>
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <link rel="stylesheet" href="../css/styleEthan.css">
 
 
     <script>
@@ -85,11 +84,11 @@ include('../sql/connect_params.php');
             ?> -->
             </header>
 
-    <div class="content">
-        <h1 class="TS titre">Paramètres De Compte</h1>
+    <div class="content-compte">
+        <h1 class="TS titre-compte">Paramètres De Compte</h1>
     
-        <div class="profile">
-            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav" id="pfp" height="150px" width="150px">
+        <div class="profile-compte">
+            <img src="../images/59.png" alt="Logo déconnecter" class="img-compte" id="pfp" height="150px" width="150px">
             <div>
                 <br>
                 <h2>
@@ -117,31 +116,31 @@ include('../sql/connect_params.php');
                 </p>
                 <?php if ($_COOKIE['type_compte'] == "membre") { ?>
                 <form method="POST" action="mes-avis.php">
-                    <button type="submit" class="avis-btn">Afficher mes avis</button>
+                    <button type="submit" class="avis-btn-compte">Afficher mes avis</button>
                 </form>
                 <?php } ?>
             </div>
         </div>
 
-        <div class="main-container">
-            <div class="container-ligne">
-                <div class="container-info">
+        <div class="main-container-compte">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Prénom</label>
                     <input type="text" value=<?php echo $compte[0]['prenom']; ?> readonly>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Nom</label>
                     <input type="text" value=<?php echo $compte[0]['nom']; ?> readonly>
                 </div>
             </div>
-            <hr>
+            <hr class="hr-compte">
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Téléphone</label>
                     <input type="text" value=<?php echo $compte[0]['telephone']; ?> readonly>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Adresse Postale</label>
                     <?php
                     ?>
@@ -149,68 +148,68 @@ include('../sql/connect_params.php');
                 </div>
             </div>
 
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Code Postal</label>
                     <input type="text" value=<?php echo $compte[0]['code_postal']; ?> readonly>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Ville</label>
                     <input type="text" value=<?php echo $compte[0]['ville']; ?> readonly>
                 </div>
             </div>
             <?php if ($_COOKIE['type_compte'] == "pro_public") { ?>
-            <hr>
+            <hr class="hr-compte">
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Raison sociale</label>
                     <input type="text" value=<?php echo $compte[0]['denomination_sociale']; ?> readonly>
                 </div>
             </div>
             <?php } ?>
             <?php if ($_COOKIE['type_compte'] == "pro_prive") { ?>
-            <hr>
+            <hr class="hr-compte">
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>Dénomination sociale</label>
                     <input type="text" value=<?php echo $compte[0]['raison_sociale']; ?> readonly>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>Numéro SIREN</label>
                     <input type="text" value=<?php echo $compte[0]['siren']; ?> readonly>
                 </div>
             </div>
-            <hr>
+            <hr class="hr-compte">
             <br><br>
-            <div class="container-ligne">
-                <div class="container-info">
+            <div class="container-ligne-compte">
+                <div class="container-info-compte">
                     <label>IBAN</label>
                     <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?> readonly>
                 </div>
-                <div class="container-info">
+                <div class="container-info-compte">
                     <label>BIC</label>
                     <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?> readonly>
                 </div>
             </div>
             <?php } ?>
-            <div class="container-ligne">
+            <div class="container-ligne-compte">
                 <form method="POST" action="modifInfo.php">
-                    <button type="submit" class="edit-btn">Modifier les informations</button>
+                    <button type="submit" class="edit-btn-compte">Modifier les informations</button>
                 </form>
                 <div>
-                    <button class="deco-btn" onclick="deconnexion()">Se déconnecter</button>
+                    <button class="deco-btn-compte" onclick="deconnexion()">Se déconnecter</button>
                 </div>
                 <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="delete" value="oui">
-                    <button type="submit" class="delete-btn">Supprimer le compte</button>
+                    <button type="submit" class="delete-btn-compte">Supprimer le compte</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <footer class="content">
+    <footer class="content-compte">
         <?php include_once 'footer.php'; ?>
     </footer>
     <footer class="phone-element">
