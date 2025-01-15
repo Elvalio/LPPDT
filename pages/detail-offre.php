@@ -81,7 +81,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-    } else if ($_POST['type_form'] == 'signaler-avis') {
+    } /*else if ($_POST['type_form'] == 'signaler-avis') {
 
         try {
             $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
@@ -114,7 +114,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                 die();
             }
         }
-    }
+    }*/
 
 }
 
@@ -179,7 +179,22 @@ try {
         $stmtAvis->execute([':idAnnonce' => $idAnnonce]);
         $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
     }
-    
+    /*
+    // Requête pour griser tout les avis qui ont déjà été signalé par l'utilisateur
+    $idAvis = $avisIndividuel['ida'];
+    $idSignaleur = (int)$_COOKIE['user'];
+
+    $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+    $stmt = $bdh->prepare("
+        SELECT COUNT(*) FROM pact._signal_avis 
+        WHERE idA = :idA AND idSignaleur = :idSignaleur
+    ");
+    $stmt->execute([
+        ':idA' => $idAvis,
+        ':idSignaleur' => $idSignaleur
+    ]);
+    $alreadySignaled = $stmt->fetchColumn() > 0;
+    */
 
     // Récupération du téléphone du professionnel
     $stmtTelephone = $bdh->prepare("
@@ -216,6 +231,7 @@ try {
 </div>
 
 <body
+
     class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
     <div class="body">
         <section class="section-page part-annonce">
@@ -530,17 +546,20 @@ try {
                     <hr>
                     <?php
                 }
-
-                if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc']!=$_COOKIE['user']) : ?>
+                /*
+                if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
                     <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
                         <input type="hidden" name="type_form" value="signaler-avis">
                         <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
-                        <button type="submit" class="btn-signaler">
+                        <button type="submit" class="btn-signaler" 
+                                <?php if ($alreadySignaled) echo 'disabled'; ?> 
+                                style="<?php echo $alreadySignaled ? 'cursor: not-allowed; opacity: 0.5;' : ''; ?>">
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                            <p>Signaler l'avis</p>
+                            <p><?php echo $alreadySignaled ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
                         </button>
                     </form>
-                <?php endif;
+                
+                <?php endif*/;
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
                     if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {

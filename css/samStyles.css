@@ -606,6 +606,8 @@
   width: fit-content;
   color: rgb(255, 0, 0) !important;
   gap: 10px; /* Ajoute de l'espace entre les éléments */
+  border: none;
+  background-color: transparent;
 }
 
 .btn-signaler p {
@@ -1213,6 +1215,8 @@ color: white;
   width: fit-content;
   color: rgb(255, 0, 0) !important;
   gap: 10px; /* Ajoute de l'espace entre les éléments */
+  border: none;
+  background-color: transparent;
 }
 
 .btn-signaler p {
