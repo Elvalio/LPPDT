@@ -430,11 +430,9 @@ p {
 }
 
 
-/*////////////////////////////////////////////////////////
-////////////////////////CSS CREATION COMPTE///////////////
-//////////////////////////////////////////////////////////*
-
-/* C'est le style css pour le titre des pages */
+/* ====================================== */
+/*          STYLE PAGE INSCRIPTION        */
+/* ====================================== */
 
 a {
     color: inherit;
@@ -678,16 +676,17 @@ a {
 .choix-entreprise-crea-compte {
     display: inline-block;
     align-items: center;
+    margin-bottom: 1em;
 }
 
 .element_prive1-crea-compte {
     display: none;
-    margin-top: 29px;
+    margin-top: 2.14em;
 }
 
 .element_prive2-crea-compte {
     display: none;
-    margin-top: 91px;
+    margin-top: 7em;
 }
 
 /* ===================================== */
@@ -802,4 +801,271 @@ a {
         text-decoration: none;
     }
 
+}
+
+/* =================================== */
+/*          STYLE PAGE CONNEXION       */
+/* =================================== */
+
+
+body {
+    background-color: #ffffff;
+    justify-content: center;
+    font-family: 'TripSansRegular', sans-serif;
+    height: 100vh;
+  }
+  
+  .back-button-connexion {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #3136ED;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 50px;
+    cursor: pointer;
+    font-family: 'TripSansBold';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .back-button-connexion:hover {
+    background-color: #5b60f3;
+  }
+  
+  
+  .logo-container-connexion {
+    margin-bottom: 20px;
+  }
+  
+  .logo-connexion {
+    width: 500px;
+  }
+  
+  .form-group-connexion {
+    margin-bottom: 15px;
+  }
+  
+  .form-group-connexion label {
+    font-family: 'TripSansBold';
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  
+
+  
+  .submit-button-connexion {
+    background-color: #3136ED;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 98%;
+    font-family: 'TripSansUltra';
+    margin-top: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .submit-button-connexion:hover {
+    background-color: #5b60f3;
+  }
+  
+  .links-connexion {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .links-connexion a {
+    font-family: 'TripSansRegular';
+    color: #000000;
+    
+    margin-right: 15px;
+  }
+  
+  .links-connexion a:hover {
+    text-decoration: underline;
+  }
+  
+  .message-erreur-connexion {
+    text-align: center;
+    color: lightcoral;
+    border: 1px solid lightcoral;
+    border-radius: 5px;
+  }
+  
+
+/* ===================================== */
+/*          VERSION DESKTOP              */
+/* ===================================== */
+
+@media (min-width: 800px) {
+  .login-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #ccc;
+    border-style: solid;
+    width: 95%;
+  }
+
+  .phone-element, .mobile-footer{
+    display: none;
+}
+
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .container-connexion {
+    text-align: center;
+    width: 42%;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .form-group-connexion input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .phone-element{
+    display: none;
+  }
+
+  .titre-connexion {
+    display: none;
+  }
+}
+
+/* ==================================== */
+/*          VERSION MOBILE              */
+/* ==================================== */
+
+@media (max-width: 800px) {
+
+  .liste_nav{
+    display: none;
+  }
+
+  .phone-element {
+    width: 100%;
+  }
+
+  body {
+    width: 100%;
+  }
+
+
+  .logo-connexion {
+    display: none !important;
+  }
+
+  .back-button-connexion {
+    display: none !important;
+  }
+
+  .login-form {
+    width: 95%;
+  }
+
+  .login-page {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .menu-links-connexion {
+    padding: 20px;
+}
+
+.menu-links-connexion div {
+    text-align: center; /* Alignement du texte */
+}
+
+  .container-connexion {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-left: 10px;
+  }
+
+  .form-container-connexion {
+    display: block;
+  }
+
+  .form-group-connexion input {
+    width: 90%;
+    padding: 10px;
+    border: none;               /* Remove all borders */
+    border-bottom: 1px solid #ccc; /* Only the bottom border */
+  }
+
+
+  .submit-button-connexion {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-family: 'TripSansUltra';
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+  /* Styling for "Mot de passe oublié" as a bordered button */
+  .mdpOublie-connexion {
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: black;
+    text-decoration: none;
+    text-align: center;  /* Center the text inside the button */
+    width: 100%;         /* Match the width of the "Se connecter" button */
+    box-sizing: border-box; /* Ensure padding doesn't overflow the width */
+    margin-bottom: 10px; /* Adds space between the two buttons */
+}
+  /* Styling for "S'inscrire" as a regular link */
+  .inscription-connexion {
+    display: inline-block;
+    color: black;
+    text-decoration: underline;
+    align-self: flex-end; /* Aligns "S'inscrire" to the right */
+}
+
+  /* Styling hover effects */
+  .mdpOublie-connexion:hover,
+  .inscription-connexion:hover {
+      opacity: 0.9;
+  }
+
+  /* Flex layout for the links below */
+  .links-connexion {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+}
+  .links-connexion a {
+      font-family: 'TripSansRegular';
+      color: #000000;
+  }
+
+  .links-connexion a:hover {
+      text-decoration: underline;
+  }
+  
 }
