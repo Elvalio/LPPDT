@@ -630,6 +630,7 @@ begin
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._membre (idc, pseudo) values (new.idc, new.pseudo);
+  /*Clef api doit être fait après insertion car le début dépend de si elle existe dans la table pro ou membre*/
   new.clefApi = pact.genererApiKey(new.idC);
   update pact._compte set clefApi=new.clefApi where idC=new.idC;
   RETURN OLD;
@@ -690,6 +691,7 @@ begin
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._professionnel (idc, codePro, denomination_sociale) values (new.idc, new.codePro, new.denomination_sociale);
+  /*Clef api doit être fait après insertion car le début dépend de si elle existe dans la table pro ou membre*/
   new.clefApi = pact.genererApiKey(new.idC);
   update pact._compte set clefApi=new.clefApi where idC=new.idC;
   RETURN OLD;
