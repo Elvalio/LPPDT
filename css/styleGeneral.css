@@ -1262,3 +1262,257 @@ body {
     border-radius: 50%; /* Keep the button round */
   }
   
+/* =========================================================== */
+/*          STYLE PAGE INFO-COMPTE ET MODIF-INFOS COMPTE       */
+/* =========================================================== */
+
+/* Version desktop*/
+@media (min-width: 801px) {
+    .desktop-element {
+      display: block;
+    }
+  
+    .phone-element {    
+      display: none;
+    }
+}
+
+.content-compte {
+    margin: 0 0 0 50px;
+    padding: 20px;
+}
+
+.titre-compte {
+    margin-left: 60px;
+}
+
+
+.profile-compte {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.profile-compte h2 {
+    margin: 0;
+    font-family: 'FiraSansBold', Arial, sans-serif;
+    color: var(--bleuFonce-rougeFonce);
+    font-weight: 100;
+}
+
+.profile-compte p {
+    margin: 0;
+    font-family: 'FiraSansRegular', Arial, sans-serif;
+    color: #767676;
+}
+
+#pfp  {
+    margin: 50px 50px 0 70px;
+}
+
+.main-container-compte {
+    width: 70%;
+    margin-top: 30px;
+    margin-left: 50px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.container-ligne-compte{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.container-info-compte {
+    flex: 1 1 45%;
+    margin-bottom: 15px;
+}
+
+.container-info-compte label {
+    padding-left: 10px;
+    font-weight: bold;
+    font-family: 'FiraSansBold', Arial, sans-serif;
+    color: var(--noir);
+    margin-bottom: 5px;
+    display: block;
+}
+
+.container-info-compte input {
+    width: 50%;
+    padding: 8px;
+    border: 1px solid #E4E4E4;
+    border-radius: 20px;
+    background-color: #E4E4E4;
+    color: var(--noir);
+    font-family: 'FiraSansRegular', Arial, sans-serif;
+}
+
+.edit-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 20px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.edit-btn-compte:hover {
+    background-color: var(--bleuFonce-rougeFonce);
+}
+
+.avis-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 10px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.avis-btn-compte:hover {
+    background-color: var(--bleuFonce-rougeFonce);
+}
+
+.cancel-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 20px;
+    background-color: var(--gris-clair);
+    color: var(--noir);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border-radius: 4px;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+.cancel-btn-compte:hover {
+    background-color: #C3C3C3;
+}
+
+.deco-btn-compte {
+    visibility: hidden;
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 30px;
+    background-color: var(--gris-clair);
+    color: var(--noir);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border-radius: 4px;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+.delete-btn-compte {
+    display: block;
+    margin: 100px 100px 0 0;
+    padding: 10px 30px;
+    background-color: var(--gris-clair);
+    color: var(--noir);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border-radius: 4px;
+    border-width: 2px;
+    cursor: pointer;
+}
+
+.delete-btn-compte:hover {
+    background-color: #C3C3C3;
+}
+
+
+.div-page-compte > hr {
+    width: 80%;
+    height: 2px;
+    background-color: #E4E4E4;
+    border: 1px;
+    border-radius: 3px;
+}
+
+.form-page-compte > hr {
+    width: 80%;
+    height: 2px;
+    background-color: #E4E4E4;
+    border: 1px;
+    border-radius: 3px;
+}
+
+
+
+/* Version mobile*/
+@media (max-width: 800px) {
+    .phone-element {
+        display: flex;
+    }
+  
+    .desktop-element {
+        display: none;
+    }
+
+    .content-compte {
+        margin: 0 0 0 0;
+        padding: 0;
+    }
+
+    .titre-compte {
+        font-size: 40px;
+    }
+
+    .container-ligne-compte {
+        display: flex;
+        flex-direction: column;
+    }
+
+
+    .container-info-compte > input {
+        background-color: #FFFFFF;
+        width: 95%;
+        padding: 10px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .hr-compte {
+        visibility: hidden;
+    }
+
+    .deco-btn-compte {
+        visibility: visible;
+        display: block;
+        margin: 100px 100px 0 0;
+        padding: 10px 43px;
+        background-color: var(--gris-clair);
+        color: var(--noir);
+        font-family: 'TripSansBold', Arial, sans-serif;
+        text-align: center;
+        border-radius: 4px;
+        border-width: 2px;
+        cursor: pointer;
+    }
+
+    .deco-btn-compte:hover {
+        background-color: #C3C3C3;
+    }
+
+    .avis-btn-compte {
+        font-size: 12px;
+    }
+
+    .img-compte {
+        height: 110px;
+        width: 110px;
+    }
+}
