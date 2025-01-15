@@ -150,7 +150,6 @@ int main() {
             printf("Clé API : %s, Rôle : %s\n", api_keys[i].key, api_keys[i].role);
         }
 
-
         printf("Connexion acceptée\n");
         handle_client_request(client_socket);
     }
