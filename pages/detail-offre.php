@@ -81,7 +81,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-    } /*else if ($_POST['type_form'] == 'signaler-avis') {
+    } else if ($_POST['type_form'] == 'signaler-avis') {
 
         try {
             $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
@@ -114,7 +114,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                 die();
             }
         }
-    }*/
+    }
 
 }
 
@@ -179,6 +179,7 @@ try {
         $stmtAvis->execute([':idAnnonce' => $idAnnonce]);
         $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
     }
+
     /*
     // Requête pour griser tout les avis qui ont déjà été signalé par l'utilisateur
     $idAvis = $avisIndividuel['ida'];
@@ -227,12 +228,14 @@ try {
 </head>
 
 <div class="desktop-element">
-<?php include_once 'nav.php';?>
+<?php /*include_once 'nav.php';*/?>
 </div>
+<?php
+    var_dump($alreadySignaled);
+    var_dump($_COOKIE['user']);
+?>
+<body class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
 
-<body
-
-    class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
     <div class="body">
         <section class="section-page part-annonce">
         <header>
@@ -496,6 +499,23 @@ try {
                 $stmtReponse = $bdh->prepare("SELECT * FROM pact._reponse WHERE idA = :idA");
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
+
+                // Vérification avis deja signalé 
+
+                // Vérifier si l'avis a déjà été signalé par l'utilisateur connecté
+                $idAvis = $avisIndividuel['ida'];
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0; // Récupérer l'utilisateur depuis le cookie
+
+                $stmtSignal = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_avis 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignal->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaled = $stmtSignal->fetchColumn() > 0;
+        
                 ?> 
             <div class="alignement-conteneur-avis">
                 <div class="header-avis-profil">
@@ -546,7 +566,7 @@ try {
                     <hr>
                     <?php
                 }
-                /*
+                
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
                     <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
                         <input type="hidden" name="type_form" value="signaler-avis">
@@ -559,7 +579,7 @@ try {
                         </button>
                     </form>
                 
-                <?php endif*/;
+                <?php endif;
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
                     if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
