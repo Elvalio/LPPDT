@@ -706,7 +706,7 @@ input[type="range"]::-ms-thumb {
 
     .carte_offre div.alaune {
         position: absolute;
-        z-index: 2;
+        z-index: 4;
         
         background-color: plum;
         
@@ -723,6 +723,21 @@ input[type="range"]::-ms-thumb {
         color: rgb(94, 8, 94);
         font-size: 1em;
         font-weight: bold;
+    }
+    
+    .carte_offre div.ReliefIMG {
+        position: absolute;
+        z-index: 3;
+        width: fit-content;
+        height: fit-content;
+
+        /** NE PAS METTRE DE POSITION POUR QUE LES ABSOLUTES FONCTIONNENT !!!! **/
+    }
+    
+    .carte_offre div.ReliefIMG img {
+        width: 120px !important;
+        height: 120px !important;
+        object-fit: cover;
     }
 
 .carte_offre img {
@@ -780,11 +795,11 @@ input[type="range"]::-ms-thumb {
 }
 
 .enRelief {
-    background-image: url(../images/gold.jpg);
+    /* background-image: url(../images/gold.jpg);
     background-size: cover;
-    background-position: center;
+    background-position: center; */
     /* background-color: rgba(255, 255, 74, 0.3); */
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
 }
 
 .carte_offre.lol {

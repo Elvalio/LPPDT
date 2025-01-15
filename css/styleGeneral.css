@@ -428,3 +428,644 @@ p {
         display: none;
     }
 }
+
+
+/* ====================================== */
+/*          STYLE PAGE INSCRIPTION        */
+/* ====================================== */
+
+a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.menu-links-crea-compte {
+    padding: 20px ;
+}
+
+.menu-links-crea-compte div {
+    text-align: center; /* Alignement du texte */
+}
+
+/* Les 2 styles suivant déterminent la couleur du titre en fonction de la page */
+.inscription-membre {
+    color: #002292; /* Couleur de texte par défaut */
+}
+
+.inscription-pro {
+    color: #A2021F;
+}
+
+/* Ce conteneur permet de pouvoir ranger tout les éléments du formulaire à l'intérieur : toute la page sauf le bouton retour */
+.container-page-creation-compte {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+/* C'est la classe qui me permet de mettre en rouge les étoiles dans les labels du formulaire */
+.required {
+    color: #A2021F;
+}
+
+/* Le bouton retour en haut à gauche de la page */
+.bouton-retour-page-création-membre button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: fixed;
+	top: 30px;
+    left: 20px;
+    background-color: #3136ED;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-retour-page-création-membre button:hover {
+    background-color: #5b60f3; /* Couleur plus claire ou différente */
+}
+
+.bouton-retour-page-création-membre img,  .bouton-retour-page-création-pro img{
+    margin-right: 5px;
+}
+
+
+.bouton-retour-page-création-pro button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: fixed;
+	top: 30px;
+    left: 20px;
+    background-color: #A2021F;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-retour-page-création-pro button:hover {
+    background-color: #be1937;
+}
+
+/* Permet de bien définir la zone du formulaire */
+.form-container-page-creation-compte {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Sert à espacer les éléments à l'intérieur du formulaire */
+.form-group-crea-compte {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* Sert à définir une largeur pour les colonnes du formulaire */
+.left-column-crea-compte, .right-column-crea-compte {
+    width: 48%;
+}
+
+/* Style du bouton d'envoi du formulaire pour la page membre */
+.bouton-envoi-formulaire-crea-compte-page-membre {
+    background-color: #3136ED;
+    color: white;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-envoi-formulaire-crea-compte-page-membre:hover {
+    background-color: #5b60f3; /* Couleur plus claire ou différente */
+}
+
+/* Style du bouton d'envoi du formulaire pour la page pro */
+.bouton-envoi-formulaire-crea-compte-page-pro {
+    background-color: #A2021F;
+    color: white;
+    padding: 15px;
+    border: none;
+    width: 100%;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 20px;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+}
+
+.bouton-envoi-formulaire-crea-compte-page-pro:hover {
+    background-color: #be1937;
+}
+
+/* Les styles ci-dessous correspondent au éléments du formulaire qui se trouvent sur une même ligne : Code postal et ville par exemple */
+.row-crea-compte {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.input-wrapper-crea-compte {
+    flex: 1;
+    margin-right: 30px;
+}
+
+.input-wrapper-crea-compte:last-child {
+    margin-right: 0;
+}
+
+.erreur-crea-compte {
+    font-size: 12px;
+    color: red;
+}
+
+.form-container-page-creation-compte label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.form-container-page-creation-compte input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-container-page-creation-compte  input[type="radio"] {
+    padding: 0;
+    margin: 5px;
+}
+
+.checkbox-crea-compte {
+    display: flex;
+    align-items: center;
+    height: 15%;
+}
+
+.form-container-page-creation-compte  input[type="checkbox"] {
+    width: 5%;
+    padding: 0;
+    margin: 5px;
+}
+
+/* Conteneur des boutons radio */
+.radio-group-crea-compte {
+    display: flex;
+    align-items: center;
+}
+
+/* Style des options radio */
+.radio-option-crea-compte {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    gap: 10px;
+}
+
+/* Boutons radio */
+.radio-button-crea-compte {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.radio-label-crea-compte {
+    margin-right: 10px;
+}
+
+.redirection-links-crea-compte {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between; /* Positionne les liens aux extrémités */
+    align-items: center; /* Aligne verticalement les liens au centre */
+    width: 100%; /* Prend toute la largeur du parent */
+    padding: 10px; /* Ajoute un peu de marge interne */
+}
+.redirection-links-crea-compte a {
+    font-family: 'TripSansRegular';
+    color: #000000;
+}
+
+.form-info-crea-compte {
+    margin-top: 1em;
+    padding-bottom: 1.5em;
+    display: none;
+}
+
+.choix-entreprise-crea-compte {
+    display: inline-block;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.element_prive1-crea-compte {
+    display: none;
+    margin-top: 2.14em;
+}
+
+.element_prive2-crea-compte {
+    display: none;
+    margin-top: 7em;
+}
+
+/* ===================================== */
+/*          VERSION DESKTOP              */
+/* ===================================== */
+
+@media (min-width: 800px) {
+    .phone-element, .mobile-footer{
+        display: none;
+    }
+
+}
+
+
+/* ==================================== */
+/*          VERSION MOBILE              */
+/* ==================================== */
+
+@media (max-width: 800px) {
+    .container-page-creation-compte {
+        width: 100%;
+        padding: 0px;
+      }
+    .Redirection_pro {
+        display: none;
+    }
+    
+    .bouton-retour-page-création-membre {
+        display: none;
+    }
+
+    .phone-element {
+        width: 100%;
+    }
+
+    .bouton-envoi-formulaire-crea-compte-page-membre {
+        background-color: black;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .inscription-membre {
+        color: black;
+    }
+
+    .form-container-page-creation-compte {
+        max-width: 90%; /* Réduction supplémentaire sur petits écrans */
+        width: auto; /* Annulation de la largeur fixe */
+        padding: 15px;
+        box-shadow: none;
+    }
+
+    .form-group-crea-compte {
+        flex-direction: column; /* Forme une seule colonne */
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="tel"],
+    .form-group input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    border: none;               /* Remove all borders */
+    border-bottom: 1px solid #ccc; /* Only the bottom border */
+    border-radius: 0;
+    }
+
+    
+
+    .left-column-crea-compte, .right-column-crea-compte {
+        width: 95%; /* Colonne unique */
+    }
+
+    .row-crea-compte {
+        flex-direction: column;
+        gap: 0; /* Supprimer les écarts horizontaux */
+    }
+
+    .input-wrapper-crea-compte {
+        width: 100%;
+        margin-right: 0;
+    }
+
+
+
+    .checkbox-crea-compte {
+        margin-top: 20px;
+    }
+
+    .redirection-links-crea-compte {
+        margin-bottom: 3em;
+        display: inline-block;
+        padding: 10px;
+        border: none;
+        border: 1px solid black;
+        border-radius: 5px;
+        color: black;
+        text-align: center;
+        font-weight: 900;
+        width: auto;
+        box-sizing: border-box;
+        background-color: #ffffff;
+        transition: background-color 0.3s ease;
+
+    }
+
+    .redirection-links-crea-compte:hover {
+        background-color: #d3d3d3;
+    }
+
+    .redirection-links-crea-compte a {
+        text-decoration: none;
+    }
+
+}
+
+/* =================================== */
+/*          STYLE PAGE CONNEXION       */
+/* =================================== */
+
+
+body {
+    background-color: #ffffff;
+    justify-content: center;
+    font-family: 'TripSansRegular', sans-serif;
+    height: 100vh;
+  }
+  
+  .back-button-connexion {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #3136ED;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 50px;
+    cursor: pointer;
+    font-family: 'TripSansBold';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .back-button-connexion:hover {
+    background-color: #5b60f3;
+  }
+  
+  
+  .logo-container-connexion {
+    margin-bottom: 20px;
+  }
+  
+  .logo-connexion {
+    width: 500px;
+  }
+  
+  .form-group-connexion {
+    margin-bottom: 15px;
+  }
+  
+  .form-group-connexion label {
+    font-family: 'TripSansBold';
+    display: block;
+    margin-bottom: 5px;
+    text-align: left;
+  }
+  
+
+  
+  .submit-button-connexion {
+    background-color: #3136ED;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 98%;
+    font-family: 'TripSansUltra';
+    margin-top: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+  }
+
+  .submit-button-connexion:hover {
+    background-color: #5b60f3;
+  }
+  
+  .links-connexion {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .links-connexion a {
+    font-family: 'TripSansRegular';
+    color: #000000;
+    
+    margin-right: 15px;
+  }
+  
+  .links-connexion a:hover {
+    text-decoration: underline;
+  }
+  
+  .message-erreur-connexion {
+    text-align: center;
+    color: lightcoral;
+    border: 1px solid lightcoral;
+    border-radius: 5px;
+  }
+  
+
+/* ===================================== */
+/*          VERSION DESKTOP              */
+/* ===================================== */
+
+@media (min-width: 800px) {
+  .login-form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #ccc;
+    border-style: solid;
+    width: 95%;
+  }
+
+  .phone-element, .mobile-footer{
+    display: none;
+}
+
+  .login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .container-connexion {
+    text-align: center;
+    width: 42%;
+    padding: 20px;
+    align-items: center;
+  }
+
+  .form-group-connexion input {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .phone-element{
+    display: none;
+  }
+
+  .titre-connexion {
+    display: none;
+  }
+}
+
+/* ==================================== */
+/*          VERSION MOBILE              */
+/* ==================================== */
+
+@media (max-width: 800px) {
+
+  .liste_nav{
+    display: none;
+  }
+
+  .phone-element {
+    width: 100%;
+  }
+
+  body {
+    width: 100%;
+  }
+
+
+  .logo-connexion {
+    display: none !important;
+  }
+
+  .back-button-connexion {
+    display: none !important;
+  }
+
+  .login-form {
+    width: 95%;
+  }
+
+  .login-page {
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .menu-links-connexion {
+    padding: 20px;
+}
+
+.menu-links-connexion div {
+    text-align: center; /* Alignement du texte */
+}
+
+  .container-connexion {
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-left: 10px;
+  }
+
+  .form-container-connexion {
+    display: block;
+  }
+
+  .form-group-connexion input {
+    width: 90%;
+    padding: 10px;
+    border: none;               /* Remove all borders */
+    border-bottom: 1px solid #ccc; /* Only the bottom border */
+  }
+
+
+  .submit-button-connexion {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-family: 'TripSansUltra';
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-bottom: 10px;
+}
+
+  /* Styling for "Mot de passe oublié" as a bordered button */
+  .mdpOublie-connexion {
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: black;
+    text-decoration: none;
+    text-align: center;  /* Center the text inside the button */
+    width: 100%;         /* Match the width of the "Se connecter" button */
+    box-sizing: border-box; /* Ensure padding doesn't overflow the width */
+    margin-bottom: 10px; /* Adds space between the two buttons */
+}
+  /* Styling for "S'inscrire" as a regular link */
+  .inscription-connexion {
+    display: inline-block;
+    color: black;
+    text-decoration: underline;
+    align-self: flex-end; /* Aligns "S'inscrire" to the right */
+}
+
+  /* Styling hover effects */
+  .mdpOublie-connexion:hover,
+  .inscription-connexion:hover {
+      opacity: 0.9;
+  }
+
+  /* Flex layout for the links below */
+  .links-connexion {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+}
+  .links-connexion a {
+      font-family: 'TripSansRegular';
+      color: #000000;
+  }
+
+  .links-connexion a:hover {
+      text-decoration: underline;
+  }
+  
+}

@@ -131,7 +131,7 @@ error_reporting(0); if (!empty($_POST)) {
 
 <body>
     <!-- Bouton de retour -->
-    <a id="btnRetour" href="#">
+    <a id="btnRetour" href="creation_compte_formulaire.php">
         <div class="bouton-retour-page-création-pro">
             <button class="FS">
                 <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
@@ -141,7 +141,7 @@ error_reporting(0); if (!empty($_POST)) {
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
-        <div class="menu-links">
+        <div class="menu-links-crea-compte">
             <div class="inscription-pro TS-bold" id="link-pro">
                 <h1 class="TS-bold">Inscription pro</h1>
             </div>
@@ -151,8 +151,8 @@ error_reporting(0); if (!empty($_POST)) {
         <div class="form-container-page-creation-compte" id="form-pro-privee">
             <form name="privee" action="creation_compte_pro_formulaire.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="pro_prive">
-                <div class="form-group">
-                    <div class="left-column">
+                <div class="form-group-crea-compte">
+                    <div class="left-column-crea-compte">
                         <label for="nom" class="FS">Nom<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="Polo" id="nom-pro" name="nom" required>
                         
@@ -168,39 +168,39 @@ error_reporting(0); if (!empty($_POST)) {
                         <label for="num_SIREN" class="FS">Numéro de SIREN<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="ex : 362 521 879" id="num_SIREN-pro" name="num_SIREN" required>
 
-                        <div class="choix_entreprise FS">
+                        <div class="choix-entreprise-crea-compte FS">
                             <label for="type-entreprise">
                                 Type d'entreprise<span class="required">*</span>
                             </label>
-                            <div id="type-entreprise" class="radio-group FS">
-                                <input type="radio" name="type-entreprise" value="publique" class="radio-button">
-                                <span class="radio-label">Entreprise publique</span>
+                            <div id="type-entreprise" class="radio-group-crea-compte FS">
+                                <input type="radio" name="type-entreprise" value="publique" class="radio-button-crea-compte">
+                                <span class="radio-label-crea-compte">Entreprise publique</span>
 
-                                <input type="radio" name="type-entreprise" value="privee" class="radio-button" checked>
-                                <span class="radio-label">Entreprise privée
+                                <input type="radio" name="type-entreprise" value="privee" class="radio-button-crea-compte" checked>
+                                <span class="radio-label-crea-compte">Entreprise privée
                             </div>
                         </div>
 
-                        <div class="element_prive1 FS" id="elements-privee1">
+                        <div class="element_prive1-crea-compte FS" id="elements-privee1">
                             <label for="iban" class="FS">IBAN :</label>
                             <input type="text" id="iban" name="iban" placeholder="FRXX XXXX XXXX XXXX XXXX XXXX XXX">
                         </div>
                     </div>
 
-                    <div class="right-column">
+                    <div class="right-column-crea-compte">
                         <label for="telephone-pro" class="FS">Téléphone<span class="required">*</span></label>
                         <input type="tel" class="FS" placeholder="0637816458" id="telephone-pro" name="telephone" required>
 
                         <label for="adresse" class="FS">Adresse postale<span class="required">*</span></label>
                         <input type="text" class="FS" placeholder="5 rue de la gare" id="adresse-pro" name="adresse" required>
 
-                        <div class="row">
-                            <div class="input-wrapper">
+                        <div class="row-crea-compte">
+                            <div class="input-wrapper-crea-compte">
                                 <label for="codepostal" class="FS">Code postal<span class="required">*</span></label>
                                 <input type="text" class="FS" placeholder="22300" id="codepostal-pro" name="codepostal" required>
                             </div>
 
-                            <div class="input-wrapper">
+                            <div class="input-wrapper-crea-compte">
                                 <label for="ville" class="FS">Ville<span class="required">*</span></label>
                                 <input type="text" class="FS" placeholder="Lannion" id="ville-pro" name="ville" required>
                             </div>
@@ -212,7 +212,7 @@ error_reporting(0); if (!empty($_POST)) {
                         <label for="confirm_password" class="FS">Confirmer le Mot de passe<span class="required">*</span></label>
                         <input type="password" class="FS" placeholder="Confirmer votre mot de passe" id="confirm_password-pro" name="confirm_password" required>
 
-                        <div class="element_prive2 FS" id="elements-privee2">
+                        <div class="element_prive2-crea-compte FS" id="elements-privee2">
                             <label for="bic" class="FS">BIC :</label>
                             <input type="text" id="bic" name="bic" placeholder="ABCDFRPPXXX">
                         </div>
@@ -220,10 +220,10 @@ error_reporting(0); if (!empty($_POST)) {
                         
                     </div>
                 </div>
-                <div class="form-info">
+                <div class="form-info-crea-compte">
                     <p class="FS">Le BIC et l'IBAN ne sont pas obligatoire pour poursuivre. Vous pourrez les ajouter ou les modifier ultérieurement dans votre espace personnel.</p>
                 </div>
-                <div class="checkbox FS">
+                <div class="checkbox-crea-compte FS">
                     <input type="checkbox" id="terms" name="terms" required>
                     <span class="FS-bold">
                         Accepter les 
@@ -236,7 +236,7 @@ error_reporting(0); if (!empty($_POST)) {
                 <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-pro TS-bold">Créer un compte</button>
             </form>
             
-            <div class="redirection-links FS">
+            <div class="redirection-links-crea-compte FS">
                 <a href="connexion.php" class="Connexion">Déjà inscrit(e) ? Connectez-vous.</a>
             </div>
         </div>

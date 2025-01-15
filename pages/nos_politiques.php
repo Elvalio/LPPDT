@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/cssFooter.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <title>Nos Politiques - TripEnArmor</title>
+    <title>Nos Politiques - TripEnArvor</title>
 </head>
 <body class="FO main_style">
 <header>
