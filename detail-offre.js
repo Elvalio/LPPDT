@@ -94,3 +94,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     updateImageSources();
 });
+
+
+
+const overlay = document.getElementById('overlay');
+const popup = document.getElementById('popup_avis');
+const croix = document.getElementById('croix');
+const boutonPublier = document.getElementById('bouton_publier');
+
+boutonPublier.addEventListener('click', function() {
+    popup.classList.add("montrer");
+    overlay.classList.add("montrer");
+});
+
+document.getElementById('croix').addEventListener('click', function() {
+    popup.classList.remove("montrer"); // Désactive l'effet
+    overlay.classList.remove("montrer");
+});
+
+overlay.addEventListener('click', function () {
+    popup.classList.remove("montrer"); // Désactive l'effet
+    overlay.classList.remove("montrer");
+});
