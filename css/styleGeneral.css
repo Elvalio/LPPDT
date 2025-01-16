@@ -573,6 +573,26 @@ body {
         padding: 0px 20px 20px 20px;
     }
 
+
+    /* style avis */
+    .avis{
+        margin: 0px;
+        border-radius: 0px;
+    }
+
+    .h1-avis{
+        margin: 10px 0px 10px 25px !important;
+    }
+
+    .main-content-avis{
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .nav-bar-avis{
+        display: none;
+    }
+
 }
 
 p {
@@ -1914,7 +1934,110 @@ body {
 
 
 
-/* ========================== */
+/* =========================== */
+/*          STYLE AVIS         */
+/* =========================== */
 
-/* ========================== */
+.detail-compte-donnees{
+    display: flex;
+    flex-direction: column;
+}
 
+.ligne-info{
+    display: flex;
+    flex-direction: row;
+}
+
+#modif-infos{
+    width: 10%;
+}
+
+.note-date-publi{
+    display: flex;
+    align-items: center;
+}
+
+.avis{
+    border-radius: 5px;
+    border: solid;
+    border-width: 2px;
+    border-color: rgb(0, 34, 146, .6);
+    margin: 25px 0 25px 0;
+    padding: 10px;
+    box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.75);
+}
+
+
+.h1-avis{
+    margin-left: 25px;
+    margin-bottom: 40px;
+    font-family: 'TripSansBold';
+}
+
+
+.h3-avis{
+    font-family: 'TripSansBold';
+    color: var(--bleu-rouge);
+}
+
+.p-avis{
+    padding: 5px 0 5px 0 ;
+    font-family: 'TripSansRegular';
+    margin-bottom: 5px;
+}
+
+.avis > .note-date-publi > p{
+    padding-left: 5px;
+}
+
+
+.avis img{
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.mes-avis{
+    width: 100%;
+}
+
+.bouton-supp{
+    padding: 5px;
+    background-color: white;
+    border: 1px solid red;
+    color: red;
+    border-radius: 5px;
+    font-family: 'TripSansRegular';
+    height: 100%;
+    width: 100%;
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+}
+
+.bouton-supp:hover{
+    background-color: red;
+    transition: background-color 0.3s linear;
+    color: white;
+}
+
+
+.boutons-avis > a{
+    text-decoration: none;
+    color: var(--bleuFonce-rougeFonce);
+    background-color: white;
+    border: 1px solid rgb(0, 34, 146, .6);
+    padding: 5px;
+    border-radius: 5px;
+    font-family: 'TripSansRegular';
+    margin-left: 10px;
+    box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
+}
+
+.boutons-avis > a:hover{
+    background-color: rgb(83, 116, 244);
+    transition: background-color 0.3s linear;
+    color: white;
+}
+
+.boutons-avis{
+    display: flex;
+    justify-content: flex-start;
+}
