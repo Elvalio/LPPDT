@@ -132,7 +132,7 @@ use function PHPSTORM_META\type;
                     <img src="../images/<?php echo !is_null($valeur["src_image"]) ?  $valeur["src_image"] : '../images/rien.png'?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>" placeholder="../images/imagesReferences/placeholder.php">
                     <div class="infos_offre">
                         <div class="titre_switch-tableau-de-bord">
-                            <p class="titre_offre-tableau-de-bord"><strong><?php echo $valeur["titre"]; ?></strong></p>
+                            <p class="titre_offre-tableau-de-bord"><strong><?php echo $valeur["en_ligne"]; ?></strong></p>
                         </div>
                         <p class="description-tableau-de-bord"><?php echo $valeur["resume"]; ?></p>
                         <div class="detail_modif-tableau-de-bord">

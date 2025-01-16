@@ -12,7 +12,7 @@ include ('../sql/connect_params.php');
             $pdo = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             
-            if($status === 'true'){
+            if($status_offre === '1'){
                 $stmt = $pdo->prepare("UPDATE pact._offre SET en_ligne = :status_offre, date_publication = now()  WHERE idO = :id_offre");
                 $stmt->execute(['status_offre' => $status_offre, 'id_offre' => $id_offre]);
             }else{
