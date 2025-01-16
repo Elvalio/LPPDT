@@ -14,7 +14,7 @@
   }
   
   /* Pour les écrans de plus de 800px (version desktop) */
-  @media (min-width: 800px) {
+  @media (min-width: 801px) {
     .desktop-element {
       display: block; /* Affiche les éléments desktop */
     }
@@ -25,7 +25,7 @@
 
     html {
         scrollbar-gutter: stable;
-    }
+      }
       
   }
   

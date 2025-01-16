@@ -229,8 +229,7 @@ body {
     .inscription-pro {
         color: #A2021F;
     }
-
-    /* Style accueil */
+    
 
     html {
         scrollbar-gutter: stable;
@@ -2807,7 +2806,7 @@ h1{
     padding-top: 10px;
 }
 
-input, select{
+.input-accueil, select{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     height: 40px;
@@ -2839,7 +2838,7 @@ option {
 
 /********************************************************************************/
 
-.textarea-modif-crea-offre{
+textarea{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     font-size: 16px;
@@ -3005,12 +3004,3 @@ input:disabled {
     visibility: visible;
     opacity: 1;
 }
-
-
-
-/* ===================== */
-/*     STYLE ACCUEIL     */
-/* ===================== */
-
-
-
