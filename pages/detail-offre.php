@@ -114,6 +114,39 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
                 die();
             }
         }
+    } else if ($_POST['type_form'] == 'signaler-reponse') {
+
+        try {
+            $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+            
+            // Validation des données
+            $idSignaleur = (int)$_COOKIE['user'];
+            $idAvis = (int)$_POST['id_avis'];
+    
+            // Préparation et exécution de la requête
+            $stmt = $bdh->prepare("
+                INSERT INTO pact._signal_reponse (idA, idSignaleur)
+                VALUES (:idA, :idSignaleur);
+            ");
+            $stmt->execute([
+                ':idA' => $idAvis,
+                ':idSignaleur' => $idSignaleur
+            ]);
+    
+            $bdh = null; // Fermer la connexion
+    
+            // Redirection après insertion
+            header("Location: detail-offre.php?value=" . urlencode($_GET['value']));
+            exit;
+    
+        } catch (PDOException $e) {
+            if ($e->getCode() === '23505') { // Code SAQLSTATE pour violation d'unicité
+                echo "<script>alert('Vous avez déjà signalé cette réponse.');</script>";
+            } else {
+                print "Erreur !: " . $e->getMessage() . "<br/>";
+                die();
+            }
+        }
     }
 
 }
@@ -500,7 +533,7 @@ try {
                 // Vérification avis deja signalé 
 
                 // Vérifier si l'avis a déjà été signalé par l'utilisateur connecté
-                $idAvis = $avisIndividuel['ida'];
+                /*$idAvis = $avisIndividuel['ida'];
                 $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0; // Récupérer l'utilisateur depuis le cookie
 
                 $stmtSignal = $bdh->prepare("
@@ -512,7 +545,60 @@ try {
                     ':idSignaleur' => $idSignaleur
                 ]);
                 $alreadySignaled = $stmtSignal->fetchColumn() > 0;
-        
+
+                // Vérifier si une réponse  a déjà été signalé par l'utilisateur connecté
+                $idAvis = $avisIndividuel['ida'];
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0; // Récupérer l'utilisateur depuis le cookie
+
+                $stmtSignal = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_reponse 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignal->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaled = $stmtSignal->fetchColumn() > 0;
+                */
+
+                // Récupérer l'utilisateur depuis le cookie
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0;
+
+                // Vérification si l'avis a déjà été signalé
+                $idAvis = $avisIndividuel['ida'];
+
+                $stmtSignalAvis = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_avis 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalAvis->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledAvis = $stmtSignalAvis->fetchColumn() > 0;
+
+                // Vérification si une réponse liée à l'avis a déjà été signalée
+                $stmtSignalReponse = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_reponse 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalReponse->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
+
+                // Vérifier si l'utilisateur a signalé cet avis ou une de ses réponses
+                /*
+                if ($alreadySignaledAvis) {
+                    echo "L'avis a déjà été signalé par cet utilisateur.";
+                } elseif ($alreadySignaledReponse) {
+                    echo "Une réponse à cet avis a déjà été signalée par cet utilisateur.";
+                } else {
+                    echo "Cet utilisateur n'a pas encore signalé cet avis ou ses réponses.";
+                }
+                */
+
                 ?> 
             <div class="alignement-conteneur-avis">
                 <div class="header-avis-profil">
@@ -569,10 +655,10 @@ try {
                         <input type="hidden" name="type_form" value="signaler-avis">
                         <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
                         <button type="submit" class="btn-signaler" 
-                                <?php if ($alreadySignaled) echo 'disabled'; ?> 
-                                style="<?php echo $alreadySignaled ? 'cursor: not-allowed; opacity: 0.5;' : ''; ?>">
+                                <?php if ($alreadySignaledAvis) echo 'disabled'; ?> 
+                                style="<?php echo $alreadySignaledAvis ? 'cursor: not-allowed; opacity: 0.5;' : ''; ?>">
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                            <p><?php echo $alreadySignaled ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
+                            <p><?php echo $alreadySignaledAvis ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
                         </button>
                     </form>
                 
@@ -589,13 +675,12 @@ try {
                         <?php 
                         if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
                             <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
-                                <input type="hidden" name="type_form" value="signaler-avis">
+                                <input type="hidden" name="type_form" value="signaler-reponse">
                                 <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
-                                <button type="submit" class="btn-signaler"  style="margin-left : 30px;"
-                                        <?php if ($alreadySignaled) echo 'disabled'; ?> 
-                                        style="<?php echo $alreadySignaled ? 'cursor: not-allowed; opacity: 0.5; margin-left : 30px;' : 'margin-left : 30px;'; ?>">
+                                <button type="submit" class="btn-signaler" style="margin-left : 30px; <?php echo $alreadySignaledReponse ? 'cursor: not-allowed; opacity: 0.5;' : ''; ?>"
+                                        <?php if ($alreadySignaledReponse) echo 'disabled'; ?>>
                                     <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                                    <p><?php echo $alreadySignaled ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
+                                    <p><?php echo $alreadySignaledReponse ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
                                 </button>
                             </form>
                         
