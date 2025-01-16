@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Filtre et Tri</title>
-    <link rel="stylesheet" href="../css/styleFilter.css">
+    <link rel="stylesheet" href="../css/styleGeneral.css">
 </head>
 
 <body>
@@ -49,23 +49,23 @@
                     <div class="filtre-type mobile">
                         <div class="filtre-case">
                             <input type="checkbox" id="visite" name="Visite" />
-                            <label for="visite">Visite</label>
+                            <label class="label-filtre" for="visite">Visite</label>
                         </div>
                         <div class="filtre-case">
                             <input type="checkbox" id="spectacle" name="Spectacle" />
-                            <label for="spectacle">Spectacle</label>
+                            <label class="label-filtre" for="spectacle">Spectacle</label>
                         </div>
                         <div class="filtre-case">
                             <input type="checkbox" id="activite" name="Activite" />
-                            <label for="activite">Activité</label>
+                            <label class="label-filtre" for="activite">Activité</label>
                         </div>
                         <div class="filtre-case">
                             <input type="checkbox" id="restauration" name="Restauration" />
-                            <label for="restauration">Restauration</label>
+                            <label class="label-filtre" for="restauration">Restauration</label>
                         </div>
                         <div class="filtre-case">
                             <input type="checkbox" id="parc d'attraction" name="Parc d'attraction" />
-                            <label for="parc d'attraction">Parc d'attraction</label>
+                            <label class="label-filtre" for="parc d'attraction">Parc d'attraction</label>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                             <?php foreach ($lieux as $lieu) { ?>
                             <div class="filtre-case lieu">
                                 <input type="checkbox" id="<?php echo strtolower($lieu); ?>" name="<?php echo $lieu; ?>" />
-                                <label for="<?php echo strtolower($lieu); ?>"><?php echo $lieu; ?></label>
+                                <label class="label-filtre" for="<?php echo strtolower($lieu); ?>"><?php echo $lieu; ?></label>
                             </div>
                             <?php } ?>
                         </div>
@@ -97,14 +97,14 @@
                     </div>
                     <div class="filtre-temps mobile">
                         <div id="calendar-start">
-                            <label for="calendar-start">
+                            <label class="label-filtre" for="calendar-start">
                                 Au plus tôt
                             </label>
                             <input type="date" name="date-start" id="date-start" class="filtre-temps-start">
                         </div>
 
                         <div id="calendar-end">
-                            <label for="calendar-end">
+                            <label class="label-filtre" for="calendar-end">
                                 Au plus tard
                             </label>
                             <input type="date" name="date-end" id="date-end" class="filtre-temps-end">
@@ -170,7 +170,7 @@
                     <div class="filtre-ouvert mobile">
                         <div class="choixOuvert">
                             <input type="checkbox" name="ouverture" id="ouvert">
-                            <label for="ouvert">Ouvert</label>
+                            <label class="label-filtre" for="ouvert">Ouvert</label>
                         </div>
                     </div>
                 </div>
