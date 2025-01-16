@@ -632,11 +632,21 @@ try {
                         ?>
                     </div>
                 </div>
-                <div class="commentaire-consulte">
-                    <p>
-                        <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
-                    </p>
-                </div>
+                <?php if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
+                    if (!isset($reponse['ida'])) { ?>
+                        <div class="commentaire-consulte exergue">
+                            <p>
+                                <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                            </p>
+                        </div>
+                    <?php } else { ?>
+                        <div class="commentaire-consulte">
+                            <p>
+                                <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                            </p>
+                        </div>
+                    <?php } 
+                } ?>
 
                 <?php
                 if(isset($_COOKIE['user']) && $avisIndividuel['idc'] == $_COOKIE['user']){
