@@ -30,7 +30,6 @@ try{
 <head>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
-    <link rel="stylesheet" type="text/css" href="../css/styleHarry.css">
     <script src="../js/accueil.js"></script>
 
 

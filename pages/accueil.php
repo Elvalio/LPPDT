@@ -75,7 +75,6 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
 <head>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
-    <link rel="stylesheet" type="text/css" href="../css/styleHarry.css">
     <script src="../js/accueil.js"></script>
     <script type="module" src="../js/filtres.js"></script>
     <title>Accueil</title>
