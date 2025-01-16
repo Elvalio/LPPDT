@@ -1,5 +1,4 @@
 
-        <link rel="stylesheet" href="../css/styleNavBar.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
 
     <?php

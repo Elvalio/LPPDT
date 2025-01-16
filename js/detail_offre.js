@@ -1,3 +1,4 @@
+
 if(document.getElementById("etoile_note1") !== null){
     let etoile1 = document.getElementById("etoile_note1");
     let etoile2 = document.getElementById("etoile_note2");
@@ -173,15 +174,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function toggle_reponse() {
-    var form = document.getElementById("form_reponse");
-    if (form.style.display == "none") {
-        form.style.display = "inline";
+function toggle_reponse(n) {
+    var form = document.getElementsByClassName("form_reponse");
+    var rep = form[n];
+    if (rep.style.display == "none") {
+        rep.style.display = "inline";
     }
     else {
-        form.style.display = "none";
+        rep.style.display = "none";
     }
 }
+
 
 
 
@@ -269,3 +272,162 @@ dislikeButton.forEach(button => {
     });
     }
 );
+
+
+const signalerAvisBtn = document.querySelectorAll('[id^="btn_signaler_avis"]');
+// console.log(signalerAvisBtn);
+const signalerReponseBtn = document.querySelectorAll('[id^="btn_signaler_reponse"]');
+
+const popupWarn = document.getElementById('popup');
+const closeBtn = popupWarn.querySelector('.close-btn');
+const progressBar = popupWarn.querySelector('.progress-bar div');
+
+
+signalerAvisBtn.forEach(button => {
+    button.addEventListener("click", async () => {
+
+        datas = button.id.split('_');
+        console.log(datas);
+        console.log(event.target.id)
+        const data = {
+            id_compte: datas[3],
+            id_avis: datas[4],
+        };
+    
+        try {
+            
+            const response = await fetch('../pages/update_signal_avis.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+                let timeout;
+
+            // Désactiver le bouton et mettre à jour le style
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+            button.style.opacity = '0.5';
+            button.querySelector('p').textContent = 'Déjà signalé';
+            
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popupWarn.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popupWarn.classList.remove('active');
+            }, 4000);
+                
+                
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+    },
+
+    closeBtn.addEventListener('click', () => {
+        popupWarn.classList.remove('active');
+        clearTimeout(timeout);
+    })
+);
+
+
+
+signalerReponseBtn.forEach(button => {
+    button.addEventListener("click", async () => {
+
+        datas = button.id.split('_');
+        console.log(datas);
+        console.log(event.target.id)
+        const data = {
+            id_compte: datas[3],
+            id_avis: datas[4],
+        };
+    
+        try {
+            
+            const response = await fetch('../pages/update_signal_reponse.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+                let timeout;
+
+            // Désactiver le bouton et mettre à jour le style
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+            button.style.opacity = '0.5';
+            button.querySelector('p').textContent = 'Déjà signalé';
+
+            
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popupWarn.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popupWarn.classList.remove('active');
+            }, 4000);
+                
+                
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+    },
+
+    closeBtn.addEventListener('click', () => {
+        popupWarn.classList.remove('active');
+        clearTimeout(timeout);
+    })
+);
+/* 
+Popup confirmation signalement
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById('popup');
+    const closeBtn = popup.querySelector('.close-btn');
+    const progressBar = popup.querySelector('.progress-bar div');
+
+    let timeout;
+
+    signalButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popup.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popup.classList.remove('active');
+            }, 4000);
+        });
+    });
+
+    closeBtn.addEventListener('click', () => {
+        popup.classList.remove('active');
+        clearTimeout(timeout);
+    });
+});
+*/
