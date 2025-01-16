@@ -21,9 +21,17 @@
             flex-direction: column;
         }
 
-        .modal > form > div{
+        #option-modal{
+            display: flex;
+            flex-direction: column;
             padding: 1em;
+            justify-content: space-between;
         }
+
+        #option-modal > div, #option-modal > h3{
+            padding: 0.3em 0em;
+        }
+
         #error{
             color: red;
         }
@@ -32,35 +40,42 @@
 
 <body>
     <div class="modal" id="modal">
-        <h2>Lancement Option</h2>
-        <p>Vous avez choisit l'option X, avec un tarif hebdomadaire de x€</p>
         <form action="" method="post">
             <div>
-                <label for="date_lancement">Date de lancement (choisir un lundi): </label>
-                <input type="date" name="date_lancement" id="date_lancement" value="">
+                <h2>TEST</h2>
+                <p>Tarif</p>
+            </div>
+            <div id='option-modal'>
+                <h3>Lancement Option</h2>
+                <p>Vous avez choisit l'option X, avec un tarif hebdomadaire de x€</p>
                 <div>
-                    <span id="error"></span>
+                    <label for="date_lancement">Date de lancement (choisir un lundi): </label>
+                    <input type="date" name="date_lancement" id="date_lancement" value="">
+                    <div>
+                        <span id="error"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="semaine">Nombre de semaine(s) : </label>
+                    <select name="semaine" id="semaine">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            
+                <div>
+                    <a href="conditions_legales.php">Nos conditions légales</a>
+                </div>
+
+                <div>
+                    <input id="submit-button" type="submit" value="Valider"/>
+                    <input type="button" id="modal-close" value="Annuler">
                 </div>
             </div>
-
-            <div>
-                <label for="semaine">Nombre de semaine(s) : </label>
-                <select name="semaine" id="semaine">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
-            </div>
-        
-            <div>
-                <a href="conditions_legales.php">Nos conditions légales</a>
-            </div>
-
-            <div>
-                <input id="submit-button" type="submit" value="Valider"/>
-                <input type="button" id="modal-close" value="Annuler">
-            </div>
+            
         
         </form>
     </div>
