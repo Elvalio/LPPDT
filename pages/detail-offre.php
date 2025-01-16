@@ -709,6 +709,7 @@ try {
                     }
                 }
                 ?>
+                <div class="like-dislike">
                 <?php 
                         $stmt = $dbh->prepare("SELECT nbr_likes, nbr_dislikes FROM pact.avis WHERE idA = :idAvis");
                         $stmt->execute([':idAvis'=>$avisIndividuel['ida']]);
@@ -722,6 +723,7 @@ try {
                         <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>"><?php
                         echo $like_dislike['nbr_dislikes'];
                         ?></span>
+                </div>
             </div>
             <?php endforeach; }?>
             <!-- Ensure this is properly placed -->
