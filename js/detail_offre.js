@@ -182,3 +182,90 @@ function toggle_reponse() {
         form.style.display = "none";
     }
 }
+
+
+
+const likeButton = document.querySelectorAll('[id^="likeButton"]');
+const dislikeButton = document.querySelectorAll('[id^="dislikeButton"]');
+const likesCount = document.querySelectorAll('[id^="likesCount"]');
+const dislikesCount = document.querySelectorAll('[id^="dislikesCount"]');
+
+likeButton.forEach(button => {
+    button.addEventListener("click", async () => {
+
+        datas = event.target.id.split('_');
+        console.log(datas);
+        const data = {
+            id_compte: datas[1],
+            id_avis: datas[2],
+        };
+    
+        try {
+            
+            const response = await fetch('../pages/update_like.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+                
+                const result = await response.json();
+                console.log(result);
+                const likesCount = button.closest('.signaler-like').querySelector(`[id^="likesCount_${datas[2]}"]`);
+                console.log(likesCount);
+                if (result.nbr_likes !== undefined) {
+                    console.log(result.nbr_likes);
+                    likesCount.textContent = result.nbr_likes;
+                }
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+    }
+);
+
+dislikeButton.forEach(button => {
+    button.addEventListener("click", async () => {
+
+        datas = event.target.id.split('_');
+        console.log(datas);
+        const data = {
+            id_compte: datas[1],
+            id_avis: datas[2],
+        };
+    
+        try {
+            
+            const response = await fetch('../pages/update_dislike.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+                
+                const result = await response.json();
+                console.log(result);
+                const dislikesCount = button.closest('.signaler-like').querySelector(`[id^="dislikesCount_${datas[2]}"]`);
+                console.log(dislikesCount);
+                if (result.nbr_dislikes !== undefined) {
+                    console.log(result.nbr_dislikes);
+                    dislikesCount.textContent = result.nbr_dislikes;
+                }
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+    }
+);
