@@ -74,14 +74,20 @@ use function PHPSTORM_META\type;
 
     try{
 
-    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, MIN(p.src_image) AS src_image FROM pact.offre o
-    LEFT OUTER JOIN pact.photo_offre p ON o.idO = p.idO
-    WHERE o.idC = $user_cookie
-    GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne");
+    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, MIN(p.src_image) AS src_image, 
+        pact.prix_previsionnel_offre_TTC(o.idO) as ttc, pact.prix_previsionnel_offre_HT(o.idO) as ht,
+        op.cout_ht as opHT, op.cout_ttc as opTTC, op.nom_option,
+        o.cout_ht as mHT, o.cout_ttc as mTTC FROM pact.offre o
+        LEFT OUTER JOIN pact.photo_offre p ON o.idO = p.idO
+        LEFT OUTER JOIN pact._option op on o.idoption = op.idoption
+        WHERE o.idC = $user_cookie
+        GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne, op.cout_ht, op.cout_ttc, op.nom_option, o.cout_ht, o.cout_ttc"
+    );
     
     $stmt->execute();
 
     $iban_bic_incomplets = false;
+    $data_previsionel = "mHT-mTTC-HT-TTC-opHT-opTTC-nomOP";
     
     // Vérification si le type de compte est 'pro_prive'
     if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] === 'pro_prive') {
@@ -117,89 +123,8 @@ use function PHPSTORM_META\type;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
-        <style>
-            .modal{
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                padding: 25px;
-                background: white;
-                transform: translate(-50%, -50%);
-                border: solid var(--bleu-rouge) 1px;
-                border-radius: 5px;
-            }
-            .modal > form{
-                display: flex;
-                flex-direction: column;
-            }
-
-            #option-modal{
-                display: flex;
-                flex-direction: column;
-                padding-top: 1em;
-                justify-content: space-between;
-            }
-
-            #boutons-modal{
-                padding-top: 2em !important;
-            }
-
-            #option-modal > div, #option-modal > h3{
-                padding: 0.5em 0em;
-            }
-
-            #modal-footer{
-                padding-top: 1em;
-            }
-
-            #modal-footer > div{
-                padding-top: 0.5em;
-            }
-
-            #error{
-                color: red;
-            }
-
-            .btn-notif {
-                margin-right: 30px;
-                padding: 10px 20px;
-                background-color: var(--bleu-rouge);
-                color: var(--blanc);
-                font-family: 'TripSansBold', Arial, sans-serif;
-                text-align: center;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                text-decoration: none;
-            }
-
-            .modal > select {
-                border-radius: 4px;
-                border-width: 1.5px;
-                border-color: lightslategray;
-                color: rgb(150, 150, 150);
-            }
-
-            #date_lancement {
-                border-style: solid;
-                border-radius: 4px;
-                border-width: 1.5px;
-                border-color: lightslategray;
-            }
-
-            .titre-modal {
-                color: var(--bleu-rouge);
-                font-size:40px;
-                margin-bottom: 10px;
-                margin-left: 0px;
-            }
-
-            .texte-modal {
-                margin-bottom: 10px;
-            }
-    </style>
-
     </head>
+    
     <body class="BO FO">
         <div class="main-content">
             <header>
@@ -224,8 +149,9 @@ use function PHPSTORM_META\type;
                         <div class="hors_ligne-tableau-de-bord">
                             <form method="POST" action="tableau_de_bord.php" onsubmit="validateAndSubmitForm(this)">
                             <input type="hidden" name="status" value="checked" iban-bic-data=<?=$iban_bic_incomplets ?>>
+                            <input type="hidden" id="previsionnel" name="previsionnel" value="checked" mHT-mTTC-HT-TTC-opHT-opTTC-nomOP="<?php echo $valeur["mht"]."_".$valeur["mttc"]."_". $valeur["ht"]."_".$valeur["ttc"]."_".$valeur["opht"]."_".$valeur["opttc"]."_".$valeur["nom_option"]?>">
                                 <label class="switch-tableau-de-bord">
-                                    <input id="toggle_<?php echo $valeur["ido"]?>_<?php echo $valeur["en_ligne"]?>"type="checkbox" name="status" value="unchecked" <?php if ($valeur["en_ligne"] == 'false') echo 'checked'; ?>>
+                                    <input id="toggle_<?php echo $valeur["ido"]?>_<?php echo $valeur["en_ligne"]?>"type="checkbox" name="status" value="unchecked" <?php if ($valeur["en_ligne"] == 'false') echo 'checked'; ?> idOffre="<?php echo $valeur["ido"];?>">
                                     <span class="slider-tableau-de-bord round"></span>
                                 </label>
                                 <input type="hidden" name="offre_id" value="<?php echo $valeur["ido"]; ?>">
@@ -271,6 +197,7 @@ use function PHPSTORM_META\type;
         <div class="modal" id="modal">
         <form action="" method="post">
             <div id='tarif-modal'>
+                <input type="hidden" name="status" value="" id="modal-id">
                 <h2 class="titre-modal">Tarifs de votre offre.</h2>
                 <div id="tarif-modal">
                     <p>Tarif mensuel : X/HT X/TTC</p>
