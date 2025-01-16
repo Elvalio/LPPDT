@@ -1919,3 +1919,42 @@ body {
         padding: 0px 20px 20px 20px;
     }
 }
+
+
+
+/* ========================== */
+/*          STYLE FOOTER      */
+/* ========================== */
+
+
+
+.mobile-footer {
+    background-color: #000;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%; /* Assure que le footer occupe 100% de la largeur de l'écran */
+    max-width: 100%; /* Empêche le débordement en forçant la largeur maximale */
+    z-index: 1000;
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+    overflow: hidden; /* Empêche tout débordement d'éléments internes */
+}
+
+.menu-footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%; /* S'assure que le menu occupe toute la largeur du footer */
+    max-width: 100%;
+}
+
+.menu-item-footer {
+    flex: 1; /* Équilibre la taille des éléments du menu */
+    text-align: center; /* Centrer les icônes dans chaque menu-item */
+}
+
+.menu-item-footer img {
+    width: 30px;
+    height: auto;
+}
