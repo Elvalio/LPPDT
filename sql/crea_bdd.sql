@@ -1747,3 +1747,60 @@ begin
   RETURN NEW;
 end;
 $$ language 'plpgsql';
+
+
+------ PREVISIONNEL ------
+
+
+create or replace function pact.nbrJoursPrevisionnel(idOffre integer)
+  returns integer as $$
+declare
+  comp float;
+  date_debut date;
+  date_fin date;
+  n integer;
+begin
+  n = 0;
+  date_debut = now();
+  date_fin = date_trunc('month'::text, date_debut + '1 mon'::interval);
+  raise notice '%', date_fin;
+  select(date_fin - date_debut) as days into n;
+  RETURN n;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.prix_previsionnel_offre_TTC(idOffre integer)
+  returns float as $$
+declare
+  cout float;
+  comp float;
+  n integer;
+begin
+  comp = 0;
+  select o.cout_TTC from pact.offre o where o.idO = idOffre into cout;
+  select pact.nbrJoursPrevisionnel(idOffre) into n;
+  for counter in 1..n loop
+    comp = comp + cout;
+  end loop;
+  
+  RETURN comp;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.prix_previsionnel_offre_HT(idOffre integer)
+  returns float as $$
+declare
+  cout float;
+  comp float;
+  n integer;
+begin
+  comp = 0;
+  select o.cout_HT from pact.offre o where o.idO = idOffre into cout;
+  select pact.nbrJoursPrevisionnel(idOffre) into n;
+  for counter in 1..n loop
+    comp = comp + cout;
+  end loop;
+  
+  RETURN comp;
+end;
+$$ language 'plpgsql';
