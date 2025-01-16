@@ -3,7 +3,6 @@
 <head>
     <title>Avertissement Option</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <link rel="stylesheet" href="../css/styleEthan.css">
 
     <style>
         .modal{
