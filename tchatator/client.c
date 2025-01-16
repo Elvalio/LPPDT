@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <postgresql/libpq-fe.h>
 
 #define PORT 4242
 #define BUFSIZE 1024
@@ -15,11 +16,11 @@ char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
     char buffer[3 * BUFSIZE];  // Tampon pour toutes les données
 
     // Demander les informations
-    printf("Your username: ");
+    printf("Your id: ");
     fgets(sender, BUFSIZE, stdin);
     sender[strcspn(sender, "\n")] = '\0';
 
-    printf("Recipient username: ");
+    printf("Recipient id: ");
     fgets(receiver, BUFSIZE, stdin);
     receiver[strcspn(receiver, "\n")] = '\0';
 
@@ -28,7 +29,7 @@ char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
     message[strcspn(message, "\n")] = '\0';
 
     // Concaténer toutes les données dans le buffer
-    snprintf(buffer, sizeof(buffer), "%s\n%s\n%s\n", sender, receiver, message);
+    snprintf(buffer, sizeof(buffer), u8"%s\n%s\n%s\n", sender, receiver, message);
 
     // Envoyer toutes les données en une seule fois
     send(socket_fd, "SEND", 4, 0);  // Envoi du préfixe "SEND"  
@@ -42,7 +43,7 @@ void receive_messages(int socket_fd) {
     char username[BUFSIZE], buffer[BUFSIZE];
     int bytes_read;
 
-    printf("Your username: ");
+    printf("Your id: ");
     fgets(username, BUFSIZE, stdin);
     username[strcspn(username, "\n")] = '\0';
 
@@ -62,6 +63,8 @@ int main(void) {
     int socket_fd;
     int status;
     char choice[BUFSIZE];
+
+
 
     printf("---- CLIENT ----\n\n");
 

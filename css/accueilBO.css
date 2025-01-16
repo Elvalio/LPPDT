@@ -861,6 +861,27 @@ input[type="range"]::-ms-thumb {
 
 @media screen and (max-width: 800px) {
 
+    .carte_offre div.alaune {
+        position: absolute;
+        z-index: 4;
+        
+        background-color: plum;
+        
+        width: fit-content;
+        height: fit-content;
+
+        padding: 5px 10px;
+        margin: 150px 0 20px 0;
+        
+        border-radius: 50px;
+    }
+
+    .carte_offre div.alaune p {
+        color: rgb(94, 8, 94);
+        font-size: 1em;
+        font-weight: bold;
+    }
+
 
     .nav_space {
         flex-direction: column; /* Change la direction en colonne pour les petits écrans */
