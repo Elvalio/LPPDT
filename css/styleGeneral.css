@@ -1516,3 +1516,95 @@ body {
         width: 110px;
     }
 }
+
+
+
+/* ================================== */
+/*         STYLE PAGE DU FOOTER       */
+/* ================================== */
+
+
+
+.body-page-footer {
+    background-color: white;
+    color: #333;
+}
+
+.main_style-page-footer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.h1-page-footer, .h2-page-footer, .h4-page-footer {
+    color: #006B8F;
+    margin-bottom: 15px;
+}
+
+.h1-page-footer {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+.h2-page-footer {
+    font-size: 22px;
+}
+
+.p-page-footer {
+    margin-bottom: 15px;
+    line-height: 1.6;
+}
+
+.ul-page-footer {
+    list-style-type: disc;
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.a-page-footer {
+    color: #006B8F;
+    text-decoration: none;
+}
+
+.a-page-footer:hover {
+    text-decoration: underline;
+}
+
+.bouton-retour-page-footer {
+    display: flex; /* Utiliser flex pour aligner l'image et le texte */
+    align-items: center; /* Centre verticalement le contenu */
+    padding: 10px 30px; /* Padding à droite et à gauche */
+    cursor: pointer; /* Curseur en forme de main */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--bleu-rouge);
+    font-size: 16px;
+    width: fit-content;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .bouton-retour-page-footer:hover{
+    background-color: var(--turquoise-orange);
+    transition: background-color 0.2s linear;
+  }
+  
+  .bouton-retour-page-footer img{
+    height: 18px;
+    margin-right: 10px; /* Espace entre l'image et le texte */
+    width: auto; /* Largeur automatique pour garder le ratio */
+  }
+  
+  .bouton-retour-page-footer a {
+    text-decoration: none;
+    color: white;
+  }
+
+.spacer-page-footer {
+    height: 30px;
+}
