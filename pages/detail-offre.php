@@ -480,9 +480,9 @@ try {
                         <option value="Amis">Amis</option>
                         <option value="Seul">Seul</option>
                     </select>
-                <form method="POST" action="connexion.php" class="zone-btn-publier">
-                    <input type="submit" id="bouton_publier" value="Se connecter">
-                </form>
+                    <button id="bouton_publier" type="button">
+                        Valider
+                    </button>
                 <?php } ?>
             </article>
             <?php   } ?>
@@ -625,6 +625,40 @@ try {
             <div></div>
         </div>
         <button class="close-btn">Fermer</button>
+    </div>
+
+    <div id="overlay"></div>
+    <div id="popup_avis">
+        
+        <img id="logo" src="../logo/logo_reduit_vert.png">
+        <div id="group">
+            <div id="text">
+                <p id="debut">Vous souhaitez faire part de votre avis ?</p><p id="fin"> Connectez-vous</p>
+
+            </div>
+            <form action="connexion.php" method="post" class="login-form">
+
+                <div class="form-group">
+                    <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
+                    <label for="identifiant">Identifiant compte</label>
+                    <input id="identifiant" name="identifiant" placeholder="Identifiant" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                </div>
+
+                <button type="submit" id="connexion" class="submit-button">Se connecter</button>
+
+                <div class="links">
+                    <!--<a href="#" class="mdpOublie">Mot de passe oublié ?</a>-->
+                    <a href="creation_compte_formulaire.php" class="inscription">S'inscrire</a>
+                </div>
+
+            </form>
+        </div>
+        <img id="croix" src="../images/croix.png" alt="" class="close-popup">
     </div>
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
