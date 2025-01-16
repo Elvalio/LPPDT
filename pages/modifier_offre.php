@@ -717,14 +717,13 @@ try{
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Modification d'offre</title>
-        <link rel="stylesheet" href="../css/styleOffre.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <nav>
         <?php include_once 'nav.php';?>
     </nav>
     <body class="BO">
-        <div class="main-content"> 
+        <div class="main-content-crea-modif-offre"> 
             <h1 class="TS-bold">Modifiez votre offre</h1>            
             <form action="" method="post" enctype="multipart/form-data">
                 <div id="form-content" class="FS">
@@ -732,14 +731,14 @@ try{
                         <div id="left-part-content">
                             <div id="title-categorie">
                                 <!-- Champ "Titre" -->
-                                <div class="container" id="titre-container">
+                                <div class="container-crea-modif-offre" id="titre-container">
                                     <label for="titre">Titre de l'offre*</label>
                                     <p id="error-message-titre" class="error-message"></p>
                                     <input type="text" id="titre" class="FS" name="titre" placeholder="Roméo et Juliette" required value="<?php echo $dataOffre[0]["titre"];?>"/>
                                     
                                 </div>
                                 <!-- Champ "Catégorie" -->
-                                <div class="container categorie-container">
+                                <div class="container-crea-modif-offre categorie-container">
                                     <label for="categorie-offre">Catégorie de l'offre</label>
                                     <select id="categorie-offre" name="categorie" required class="FS" disabled>
                                     <?php switch ($categorie) {
@@ -776,20 +775,20 @@ try{
                                 </div>
                             </div>
                             <!-- Champ "Résumé" -->
-                            <div class="container" id="resume-container">
+                            <div class="container-crea-modif-offre" id="resume-container">
                                 <label for="resume">Résumé*</label>
                                 <p id="resume-error-message" class="error-message"></p>
                                 <textarea id="resume" class="FS" name="resume" placeholder="L'histoire d'amour et tragique de..." required><?php echo $dataOffre[0]["resume"];?></textarea>
                             </div>
                             <!-- Champ "Description" -->
-                            <div class="container" id="description-container">
+                            <div class="container-crea-modif-offre" id="description-container">
                                 <label for="description">Description*</label>
                                 <p id="description-error-message" class="error-message"></p>
                                 <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..." required><?php echo $dataOffre[0]["description"];?></textarea>
                             </div>
 
                             <!-- Champ "Site web" -->
-                            <div class="container" id="site-container">
+                            <div class="container-crea-modif-offre" id="site-container">
                                 <label for="site">Site web</label>
                                 <p id="site-error-message" class="error-message"></p>
                                 <input type="text" id="site" class="FS" name="site" placeholder="https://exemple.com" value = "<?php echo $dataOffre[0]["site_web"];?>">
@@ -898,20 +897,20 @@ try{
                         <div id="right-part-content">
                             <div id="top-right-part-content">
                                 <!-- Champ "Adresse" -->
-                                <div class="container" id="adresse-container">
+                                <div class="container-crea-modif-offre" id="adresse-container">
                                     <label for="adresse">Adresse*</label>
                                     <p id="adresse-error-message" class="error-message"></p>
                                     <input type="text" id="adresse" class="FS" name="adresse" placeholder="5 rue de l'exemple" required value="<?php echo $dataOffre[0]["numero_voie"] . " " . $dataOffre[0]["voie"];?>"/>
                                 </div>
                                 <div id="codeP-ville">
                                     <!-- Champ Code postal -->
-                                    <div class="container" id="codeP-container">
+                                    <div class="container-crea-modif-offre" id="codeP-container">
                                         <label for="codeP">Code Postal*</label>
                                         <p id="postal-code-error-message" class="error-message"></p>
                                         <input type="text" id="codeP" class="FS" name="codeP" placeholder="22100" required value="<?php echo $dataOffre[0]["code_postal"] ?>"/>
                                     </div>
                                     <!-- Champ "ville" -->
-                                    <div class="container" id="ville-container">
+                                    <div class="container-crea-modif-offre" id="ville-container">
                                         <label for="ville">Ville*</label>
                                         <p id="city-error-message" class="error-message"></p>
                                         <input type="text" id="ville" class="FS" name="ville" placeholder="Lannion" required value="<?php echo $dataOffre[0]["ville"] ?>" />
@@ -919,39 +918,39 @@ try{
                                 </div>
                                 
                                 <!-- Champ "Accesibilité" -->
-                                <div class="container" id="accessibilite-container">
+                                <div class="container-crea-modif-offre" id="accessibilite-container">
                                     <label for="accessibilite">Accessibilité*</label>
                                     <p id="accessibility-error-message" class="error-message"></p>
                                     <textarea id="accessibilite" class="FS" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo  (isset($dataOffre[0]['accessibilite'])) ?  $dataOffre[0]["accessibilite"] : '';?></textarea>
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">
-                                    <div class="container" id="duree-container">
+                                    <div class="container-crea-modif-offre" id="duree-container">
                                         <label for="duree">Durée*</label>
                                         <p id="duree-error-message" class="error-message"></p>
                                         <input type="text" id="duree" class="FS" name="duree" placeholder="01:10" required value="<?php echo  (isset($dataOffre[0]['duree'])) ?  substr($dataOffre[0]["duree"], 0, 5) : '';?>"/>
                                     </div>
-                                    <div class="container" id="nbattraction-container">
+                                    <div class="container-crea-modif-offre" id="nbattraction-container">
                                         <label for="nbattraction">Nombre d'attractions*</label>
                                         <p id="nbr_attractions-error-message" class="error-message"></p>
                                         <input type="text" id="nbattraction" class="FS" name="nbattraction" placeholder="25" required value="<?php echo  (isset($dataOffre[0]['nbr_attractions'])) ?  $dataOffre[0]["nbr_attractions"] : '';?>"/>
                                     </div>
-                                    <div class="container" id="prix-container">
+                                    <div class="container-crea-modif-offre" id="prix-container">
                                         <label for="prix">Prix minimum (€)*</label>
                                         <p id="prix-error-message" class="error-message"></p>
                                         <input type="text" id="prix" class="FS" name="prix" placeholder="25" required value="<?php echo  (isset($dataOffre[0]['prix_min'])) ?  $dataOffre[0]["prix_min"] : '';?>"/>
                                     </div>
-                                    <div class="container" id="age-container">
+                                    <div class="container-crea-modif-offre" id="age-container">
                                         <label for="age">Âge minimum*</label>
                                         <p id="age_min-error-message" class="error-message"></p>
                                         <input type="text" id="age" class="FS" name="age" placeholder="8" required value="<?php echo  (isset($dataOffre[0]['age_min'])) ?  $dataOffre[0]["age_min"] : '';?>"/>
                                     </div>
-                                    <div class="container" id="capacite-container">
+                                    <div class="container-crea-modif-offre" id="capacite-container">
                                         <label for="capacite">Capacité*</label>
                                         <p id="capacite-error-message" class="error-message"></p>
                                         <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required value="<?php echo  (isset($dataOffre[0]['capacite'])) ?  $dataOffre[0]["capacite"] : '';?>"/>
                                     </div>
-                                    <div class="container categorie-container" id="categorie-prix-container">
+                                    <div class="container-crea-modif-offre categorie-container" id="categorie-prix-container">
                                         <label for="categorie-prix">Gamme de prix*</label>
                                         <select id="categorie-prix" name="categorie-prix" class="FS">
                                             <option value="" disabled <?php echo  (isset($dataOffre[0]['gamme_prix']) && (string)$dataOffre[0]['gamme_prix'] == '') ?  'selected' : '';?> hidden id="first-option">Gamme de prix</option>
@@ -961,17 +960,17 @@ try{
                                         </select>
                                     </div>
                                 </div>
-                                <div class="container" id="pinclus-container">
+                                <div class="container-crea-modif-offre" id="pinclus-container">
                                     <label for="pinclus">Prestation incluse</label>
                                     <p id="pinclus-error-message" class="error-message"></p>
                                     <textarea id="pinclus" class="FS" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo  (isset($dataOffre[0]['prestation_incluse'])) ?  $dataOffre[0]["prestation_incluse"] : '';?></textarea>
                                 </div>
-                                <div class="container" id="pexclus-container">
+                                <div class="container-crea-modif-offre" id="pexclus-container">
                                     <label for="pexclus">Prestation excluse</label>
                                     <p id="pexclus-error-message" class="error-message"></p>
                                     <textarea id="pexclus" class="FS" name="pexclus" placeholder="Casque,.."><?php echo  (isset($dataOffre[0]['prestation_excluse'])) ?  $dataOffre[0]["prestation_excluse"] : '';?></textarea>
                                 </div>
-                                <div class="container" id="langue-container">
+                                <div class="container-crea-modif-offre" id="langue-container">
                                     <label for="langue">Langue</label>
                                     <p id="langue-error-message" class="error-message"></p>
                                     <input type="text" id="langue" class="FS" name="langue" placeholder="Saisir" value="<?php echo  (isset($dataOffre[0]['langues'])) ?  $dataOffre[0]["langues"] : '';?>"/>
