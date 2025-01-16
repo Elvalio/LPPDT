@@ -474,10 +474,10 @@ create table pact._signal_reponse(
 
   constraint _signal_reponse_pk primary key(idA, idSignaleur),
 
-  constraint _signal_reponse_fk_avis foreign key
+  constraint _signal_reponse_fk_reponse foreign key
   (idA) references pact._reponse(idA),
   
-  constraint _signal_reponse_fk_professionnel foreign key
+  constraint _signal_reponse_fk_compte foreign key
   (idSignaleur) references pact._compte(idC)
 );
 
