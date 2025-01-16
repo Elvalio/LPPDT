@@ -595,6 +595,8 @@ try {
                     <hr>
                     <?php
                 }
+
+                ?><div class="signaler-like"><?php
                 
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
                         <button type="button"
@@ -605,6 +607,26 @@ try {
                         </button>
                 
                 <?php endif;
+
+                if(isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc'] != $_COOKIE['user']){
+                ?><div class="like-dislike">
+                <?php 
+                        $stmt = $dbh->prepare("SELECT nbr_likes, nbr_dislikes FROM pact.avis WHERE idA = :idAvis");
+                        $stmt->execute([':idAvis'=>$avisIndividuel['ida']]);
+                        $like_dislike = $stmt->fetch(PDO::FETCH_ASSOC);
+                        ?>
+                        <img id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/like-plein.png" alt="Like" width="20" height="20" style="cursor: pointer;">
+                        <span id="likesCount_<?php echo $avisIndividuel['ida']?>"><?php
+                        echo $like_dislike['nbr_likes'];
+                        ?></span>
+                        <img id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/dislike-plein.png" alt="Dislike" width="20" height="20" style="cursor: pointer;">
+                        <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>"><?php
+                        echo $like_dislike['nbr_dislikes'];
+                        ?></span>
+                </div>
+                <?php }?>
+                </div>
+                <?php
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
                     if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
@@ -640,21 +662,6 @@ try {
                     }
                 }
                 ?>
-                <div class="like-dislike">
-                <?php 
-                        $stmt = $dbh->prepare("SELECT nbr_likes, nbr_dislikes FROM pact.avis WHERE idA = :idAvis");
-                        $stmt->execute([':idAvis'=>$avisIndividuel['ida']]);
-                        $like_dislike = $stmt->fetch(PDO::FETCH_ASSOC);
-                        ?>
-                        <img id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/like-plein.png" alt="Like" width="20" height="20" style="cursor: pointer;">
-                        <span id="likesCount_<?php echo $avisIndividuel['ida']?>"><?php
-                        echo $like_dislike['nbr_likes'];
-                        ?></span>
-                        <img id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/dislike-plein.png" alt="Dislike" width="20" height="20" style="cursor: pointer;">
-                        <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>"><?php
-                        echo $like_dislike['nbr_dislikes'];
-                        ?></span>
-                </div>
             </div>
             <?php
             $id_avis++;
