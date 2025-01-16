@@ -378,7 +378,7 @@ try {
         object-fit: cover;
         cursor: pointer;
         position: relative;
-        left: 8%;
+        left: 9%;
         bottom: 56%;
         padding: 1.5px;
         background-color: var(--bleuFonce-rougeFonce);
