@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <title>Facture N°<?= htmlspecialchars($facture_data['numfacture']) ?></title>
      <style>
-        <?php include_once("../css/creationFacturation.css"); 
-        include_once("../css/styleGeneral.css");?>
+        <?php include_once("../css/styleGeneral.css");?>
     </style>
 </head>
-<body class="BO">
-    <header>
+<body class="BO body-creation-facturation">
+    <header class="header-creation-facturation">
         <img src="../logo/logo_rouge.png" alt="PACT" id="logo">
         <div class="titre">
             <h1>Facture N°<?= htmlspecialchars($facture_data['numfacture']) ?></h1>
@@ -86,7 +85,7 @@
         </tfoot>
     </table>
 
-    <footer>
+    <footer class="footer-creation-facturation">
         <p>Merci pour votre confiance.</p>
     </footer>
 </body>
