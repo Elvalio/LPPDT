@@ -1,3 +1,4 @@
+
 if(document.getElementById("etoile_note1") !== null){
     let etoile1 = document.getElementById("etoile_note1");
     let etoile2 = document.getElementById("etoile_note2");
@@ -173,15 +174,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-function toggle_reponse() {
-    var form = document.getElementById("form_reponse");
-    if (form.style.display == "none") {
-        form.style.display = "inline";
+function toggle_reponse(n) {
+    var form = document.getElementsByClassName("form_reponse");
+    var rep = form[n];
+    if (rep.style.display == "none") {
+        rep.style.display = "inline";
     }
     else {
-        form.style.display = "none";
+        rep.style.display = "none";
     }
 }
+
 
 
 
