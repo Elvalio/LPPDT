@@ -3,7 +3,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Avis non répondu</title>
-        <link rel="stylesheet" href="../css/mes-avis.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     <body class="BO">
