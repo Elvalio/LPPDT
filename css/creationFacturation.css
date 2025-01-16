@@ -1,4 +1,4 @@
-body {
+.body-creation-facturation {
     font-family: Arial, sans-serif;
     margin: 3% 3%;
     display: flex;
@@ -14,12 +14,12 @@ table th, table td {
     text-align: left;
 }
 
-header, footer {
+.header-creation-facturation, .footer-creation-facturation {
     text-align: center;
     width: 100%;
 }
 
-header {
+.header-creation-facturation {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -33,11 +33,11 @@ header {
     align-items: center;
 }
 
-header h1 {
+.header-creation-facturation h1 {
     font-size: 2.2em;
 }
 
-header p {
+.header-creation-facturation p {
     font-size: 1.2em;
 }
 
@@ -90,3 +90,4 @@ table th {
     color: white;
 }
 
+/*<link rel="stylesheet" href="../css/creationFacturation.css"> */

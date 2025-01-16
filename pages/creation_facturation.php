@@ -92,13 +92,13 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Facture</title>
-    <link rel="stylesheet" href="../css/creationFacturation.css">
+
     <link rel="stylesheet" href="../css/styleGeneral.css">
 </head>
-<body class="BO">
-    <header>
+<body class="BO body-creation-facturation">
+    <header class="header-creation-facturation">
         <img src="../logo/logo_rouge.png" alt="PACT" id="logo">
-        <div class="titre">
+        <div class="titre-creation-facturation">
             <h1>Facture N°<?= $facture_data['numero_facture'] ?></h1>
             <p>Date d’émission : <?= date('d/m/Y', strtotime($facture_data['date_emission'])) ?></p>
         </div>
@@ -159,7 +159,7 @@ try {
         </tfoot>
     </table>
 
-    <footer>
+    <footer class="footer-creation-facturation">
         <p>Merci pour votre confiance.</p>
     </footer>
 </body>
