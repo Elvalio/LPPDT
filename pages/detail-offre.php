@@ -520,7 +520,9 @@ try {
             </article>
             <?php   } ?>
             
-            <?php if ($nbrAvis > 0){ 
+            <?php 
+            $id_avis = 0;
+            if ($nbrAvis > 0){
                 foreach ($avis as $avisIndividuel): 
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
@@ -696,8 +698,8 @@ try {
                         
                         <?php endif;
                         } else { ?>
-                            <button type="button" onclick="toggle_reponse();" id="btn-reponse">Ajouter une réponse</button>
-                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier" id="form_reponse" style="display: none">
+                            <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
                                 <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
@@ -725,7 +727,9 @@ try {
                         ?></span>
                 </div>
             </div>
-            <?php endforeach; }?>
+            <?php
+            $id_avis++;
+            endforeach; }?>
             <!-- Ensure this is properly placed -->
         </article>
     </section>
