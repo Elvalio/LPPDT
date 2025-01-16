@@ -33,14 +33,11 @@ document.getElementById('modal-close').addEventListener('click', function() {
     document.getElementById('modal').style.display = 'none';
     // Remet offre hors ligne
     var idOffre = document.getElementById('modal-id').value;
-    console.log(idOffre);
     var toggle = document.querySelectorAll('input[idoffre="'+idOffre+'"]')[0];
-    console.log(toggle);
     toggle.click();
 });
 
 document.getElementById('modal-submit-button').addEventListener('click', async () => {
-    console.log(check_actif());
     if (check_actif()) {
         if (document.getElementById('option-modal').style.display !== 'none') {
             var data = [document.getElementById('modal-id').value, document.getElementById('date_lancement').value, document.getElementById('semaine').value];
@@ -173,9 +170,6 @@ function validateAndSubmitForm(event) {
     var ibanBicIncomplets = form.querySelector('input[name="status"]').getAttribute('iban-bic-data');
     var typeCompte = 'pro_prive';  // Modifiez selon votre logique
 
-    console.log("iban_bic_incomplets : " + ibanBicIncomplets);
-    console.log("type_compte : " + typeCompte);
-
     if (typeCompte === 'pro_prive' && ibanBicIncomplets) {
         alert("Veuillez remplir vos coordonnées bancaires (IBAN et BIC) pour mettre cette offre en ligne.");
         return false; // Empêche la soumission du formulaire
@@ -236,7 +230,6 @@ toggles.forEach(toggle => {
     toggle.addEventListener("click", async () => {
 
         datas = event.target.id.split('_');
-        console.log(datas);
         const data = {
             id_offre: datas[1],
             status_offre: datas[2],
@@ -247,10 +240,6 @@ toggles.forEach(toggle => {
 
         var ibanBicIncomplets = form.querySelector('input[name="status"]').getAttribute('iban-bic-data');
         var typeCompte = getCookie("type_compte"); 
-
-        console.log("iban_bic_incomplets : " + ibanBicIncomplets);
-        console.log("type_compte : " + typeCompte);
-        console.log("data['status_offre'] : " + data['status_offre']);
 
         if (typeCompte === 'pro_prive' && ibanBicIncomplets && data['status_offre']  !== '0') {
             alert("Veuillez remplir vos coordonnées bancaires (IBAN et BIC) pour mettre cette offre en ligne.");
@@ -276,7 +265,7 @@ toggles.forEach(toggle => {
                 };
                 
                 document.querySelector("#tarif-modal > p").innerHTML = "Tarif mensuel : " + dataO['mHT'] + "€/HT " + dataO['mTTC'] + "€/TTC";
-                document.querySelector("#tarif-modal > p + p").innerHTML = "Tarif prévisonnel : " + dataO['HT'] + "/HT " + dataO['TTC'] +"/TTC";
+                document.querySelector("#tarif-modal > p + p").innerHTML = "Tarif prévisonnel : " + dataO['HT'] + "€/HT " + dataO['TTC'] +"€/TTC";
                 if (dataO['opHT'] === "") {
                     document.getElementById('option-modal').style.display = 'none';
                     
