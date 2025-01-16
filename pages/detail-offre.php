@@ -81,72 +81,6 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-    } else if ($_POST['type_form'] == 'signaler-avis') {
-
-        try {
-            $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-            
-            // Validation des données
-            $idSignaleur = (int)$_COOKIE['user'];
-            $idAvis = (int)$_POST['id_avis'];
-    
-            // Préparation et exécution de la requête
-            $stmt = $bdh->prepare("
-                INSERT INTO pact._signal_avis (idA, idSignaleur)
-                VALUES (:idA, :idSignaleur);
-            ");
-            $stmt->execute([
-                ':idA' => $idAvis,
-                ':idSignaleur' => $idSignaleur
-            ]);
-    
-            $bdh = null; // Fermer la connexion
-    
-            // Redirection après insertion
-            header("Location: detail-offre.php?value=" . urlencode($_GET['value']));
-            exit;
-    
-        } catch (PDOException $e) {
-            if ($e->getCode() === '23505') { // Code SAQLSTATE pour violation d'unicité
-                echo "<script>alert('Vous avez déjà signalé cet avis.');</script>";
-            } else {
-                print "Erreur !: " . $e->getMessage() . "<br/>";
-                die();
-            }
-        }
-    } else if ($_POST['type_form'] == 'signaler-reponse') {
-
-        try {
-            $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-            
-            // Validation des données
-            $idSignaleur = (int)$_COOKIE['user'];
-            $idAvis = (int)$_POST['id_avis'];
-    
-            // Préparation et exécution de la requête
-            $stmt = $bdh->prepare("
-                INSERT INTO pact._signal_reponse (idA, idSignaleur)
-                VALUES (:idA, :idSignaleur);
-            ");
-            $stmt->execute([
-                ':idA' => $idAvis,
-                ':idSignaleur' => $idSignaleur
-            ]);
-    
-            $bdh = null; // Fermer la connexion
-    
-            // Redirection après insertion
-            header("Location: detail-offre.php?value=" . urlencode($_GET['value']));
-            exit;
-    
-        } catch (PDOException $e) {
-            if ($e->getCode() === '23505') { // Code SAQLSTATE pour violation d'unicité
-                echo "<script>alert('Vous avez déjà signalé cette réponse.');</script>";
-            } else {
-                print "Erreur !: " . $e->getMessage() . "<br/>";
-                die();
-            }
-        }
     }
 
 }
@@ -562,7 +496,7 @@ try {
                 ]);
                 $alreadySignaled = $stmtSignal->fetchColumn() > 0;
                 */
-
+                /*
                 // Récupérer l'utilisateur depuis le cookie
                 $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0;
 
@@ -589,7 +523,7 @@ try {
                     ':idSignaleur' => $idSignaleur
                 ]);
                 $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
-
+                */
                 // Vérifier si l'utilisateur a signalé cet avis ou une de ses réponses
                 /*
                 if ($alreadySignaledAvis) {
@@ -663,16 +597,12 @@ try {
                 }
                 
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
-                    <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
-                        <input type="hidden" name="type_form" value="signaler-avis">
-                        <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
-                        <button type="submit" class="btn-signaler" 
-                                <?php if ($alreadySignaledAvis) echo 'disabled'; ?> 
-                                style="<?php echo $alreadySignaledAvis ? 'cursor: not-allowed; opacity: 0.5;' : ''; ?>">
+                        <button type="button"
+                            class="btn-signaler"
+                            id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                            <p><?php echo $alreadySignaledAvis ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
+                            <p>Signaler l'avis</p>
                         </button>
-                    </form>
                 
                 <?php endif;
 
@@ -686,17 +616,16 @@ try {
                             </div>
                         <?php 
                         if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
-                            <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-signaler">
-                                <input type="hidden" name="type_form" value="signaler-reponse">
-                                <input type="hidden" name="id_avis" value="<?php echo $avisIndividuel['ida']; ?>">
-                                <button type="submit" class="btn-signaler" style="margin-left : 30px; <?php echo $alreadySignaledReponse ? 'cursor: not-allowed; opacity: 0.5;' : ''; ?>"
-                                        <?php if ($alreadySignaledReponse) echo 'disabled'; ?>>
-                                    <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                                    <p><?php echo $alreadySignaledReponse ? 'Déjà signalé' : 'Signaler l\'avis'; ?></p>
-                                </button>
-                            </form>
+                            <button type="button" 
+                                class="btn-signaler"
+                                id="btn_signaler_reponse_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                style="margin-left : 30px;">
+                                <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                                <p>Signaler réponse</p>
+                            </button>
                         
                         <?php endif;
+                        
                         } else { ?>
                             <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
                             <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" style="display: none">
