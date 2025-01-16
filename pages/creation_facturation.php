@@ -92,7 +92,6 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Facture</title>
-
     <link rel="stylesheet" href="../css/styleGeneral.css">
 </head>
 <body class="BO body-creation-facturation">
