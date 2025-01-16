@@ -8,7 +8,7 @@
 </head>
 <body>
     <footer class="mobile-footer">
-        <nav class="menu-footer">
+        <nav class="menu-item-footer">
             <a href="../pages/accueil.php" class="menu-item-footer">
                 <img src="../icons/home.png" alt="Home Icon" id="homeIcon">
             </a>
