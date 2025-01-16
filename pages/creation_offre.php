@@ -60,13 +60,13 @@ error_reporting(E_ALL);
                             <div class="container-crea-modif-offre" id="resume-container">
                                 <label for="resume">Résumé*</label>
                                 <p id="resume-error-message" class="error-message"></p>
-                                <textarea id="resume" class="FS" name="resume" placeholder="L'histoire d'amour et tragique de..." required ><?php echo isset($_POST['resume']) ? $_POST['resume'] : ''; ?></textarea>
+                                <textarea id="resume" class="FS textarea-modif-crea-offre" name="resume" placeholder="L'histoire d'amour et tragique de..." required ><?php echo isset($_POST['resume']) ? $_POST['resume'] : ''; ?></textarea>
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container-crea-modif-offre" id="description-container">
                                 <label for="description">Description*</label>
                                 <p id="description-error-message" class="error-message"></p>
-                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..." required ><?php echo isset($_POST['description']) ? $_POST['description'] : ''; ?></textarea>
+                                <textarea id="description" class="FS textarea-modif-crea-offre" name="description" placeholder="Spectacle se déroulant au théatre du..." required ><?php echo isset($_POST['description']) ? $_POST['description'] : ''; ?></textarea>
                             </div>
 
                             <!-- Champ "Site web" -->
@@ -203,7 +203,7 @@ error_reporting(E_ALL);
                                 <div class="container-crea-modif-offre" id="accessibilite-container">
                                     <label for="accessibilite">Accessibilité*</label>
                                     <p id="accessibility-error-message" class="error-message"></p>
-                                    <textarea id="accessibilite" class="FS" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo isset($_POST['accessibilite']) ? $_POST['accessibilite'] : ''; ?></textarea>
+                                    <textarea id="accessibilite" class="FS textarea-modif-crea-offre" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo isset($_POST['accessibilite']) ? $_POST['accessibilite'] : ''; ?></textarea>
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">
@@ -245,12 +245,12 @@ error_reporting(E_ALL);
                                 <div class="container-crea-modif-offre" id="pinclus-container">
                                     <label for="pinclus">Prestation incluse</label>
                                     <p id="pinclus-error-message" class="error-message"></p>
-                                    <textarea id="pinclus" class="FS" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo isset($_POST['pinclus']) ? $_POST['pinclus'] : ''; ?></textarea>
+                                    <textarea id="pinclus" class="FS textarea-modif-crea-offre" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo isset($_POST['pinclus']) ? $_POST['pinclus'] : ''; ?></textarea>
                                 </div>
                                 <div class="container-crea-modif-offre" id="pexclus-container">
                                     <label for="pexclus">Prestation excluse</label>
                                     <p id="pexclus-error-message" class="error-message"></p>
-                                    <textarea id="pexclus" class="FS" name="pexclus" placeholder="Casque,.."><?php echo isset($_POST['pexclus']) ? $_POST['pexclus'] : ''; ?></textarea>
+                                    <textarea id="pexclus" class="FS textarea-modif-crea-offre" name="pexclus" placeholder="Casque,.."><?php echo isset($_POST['pexclus']) ? $_POST['pexclus'] : ''; ?></textarea>
                                 </div>
                                 <div class="container-crea-modif-offre" id="langue-container">
                                     <label for="langue">Langue</label>

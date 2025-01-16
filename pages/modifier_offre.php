@@ -778,13 +778,13 @@ try{
                             <div class="container-crea-modif-offre" id="resume-container">
                                 <label for="resume">Résumé*</label>
                                 <p id="resume-error-message" class="error-message"></p>
-                                <textarea id="resume" class="FS" name="resume" placeholder="L'histoire d'amour et tragique de..." required><?php echo $dataOffre[0]["resume"];?></textarea>
+                                <textarea id="resume" class="FS textarea-modif-crea-offre" name="resume" placeholder="L'histoire d'amour et tragique de..." required><?php echo $dataOffre[0]["resume"];?></textarea>
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container-crea-modif-offre" id="description-container">
                                 <label for="description">Description*</label>
                                 <p id="description-error-message" class="error-message"></p>
-                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..." required><?php echo $dataOffre[0]["description"];?></textarea>
+                                <textarea id="description" class="FS textarea-modif-crea-offre" name="description" placeholder="Spectacle se déroulant au théatre du..." required><?php echo $dataOffre[0]["description"];?></textarea>
                             </div>
 
                             <!-- Champ "Site web" -->
@@ -921,7 +921,7 @@ try{
                                 <div class="container-crea-modif-offre" id="accessibilite-container">
                                     <label for="accessibilite">Accessibilité*</label>
                                     <p id="accessibility-error-message" class="error-message"></p>
-                                    <textarea id="accessibilite" class="FS" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo  (isset($dataOffre[0]['accessibilite'])) ?  $dataOffre[0]["accessibilite"] : '';?></textarea>
+                                    <textarea id="accessibilite" class="FS textarea-modif-crea-offre" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo  (isset($dataOffre[0]['accessibilite'])) ?  $dataOffre[0]["accessibilite"] : '';?></textarea>
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">
@@ -963,12 +963,12 @@ try{
                                 <div class="container-crea-modif-offre" id="pinclus-container">
                                     <label for="pinclus">Prestation incluse</label>
                                     <p id="pinclus-error-message" class="error-message"></p>
-                                    <textarea id="pinclus" class="FS" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo  (isset($dataOffre[0]['prestation_incluse'])) ?  $dataOffre[0]["prestation_incluse"] : '';?></textarea>
+                                    <textarea id="pinclus" class="FS textarea-modif-crea-offre" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo  (isset($dataOffre[0]['prestation_incluse'])) ?  $dataOffre[0]["prestation_incluse"] : '';?></textarea>
                                 </div>
                                 <div class="container-crea-modif-offre" id="pexclus-container">
                                     <label for="pexclus">Prestation excluse</label>
                                     <p id="pexclus-error-message" class="error-message"></p>
-                                    <textarea id="pexclus" class="FS" name="pexclus" placeholder="Casque,.."><?php echo  (isset($dataOffre[0]['prestation_excluse'])) ?  $dataOffre[0]["prestation_excluse"] : '';?></textarea>
+                                    <textarea id="pexclus" class="FS textarea-modif-crea-offre" name="pexclus" placeholder="Casque,.."><?php echo  (isset($dataOffre[0]['prestation_excluse'])) ?  $dataOffre[0]["prestation_excluse"] : '';?></textarea>
                                 </div>
                                 <div class="container-crea-modif-offre" id="langue-container">
                                     <label for="langue">Langue</label>

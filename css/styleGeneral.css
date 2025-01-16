@@ -230,6 +230,12 @@ body {
         color: #A2021F;
     }
 
+    /* Style accueil */
+
+    html {
+        scrollbar-gutter: stable;
+    }
+
 
 
     
@@ -2833,7 +2839,7 @@ option {
 
 /********************************************************************************/
 
-textarea{
+.textarea-modif-crea-offre{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     font-size: 16px;
@@ -2999,3 +3005,12 @@ input:disabled {
     visibility: visible;
     opacity: 1;
 }
+
+
+
+/* ===================== */
+/*     STYLE ACCUEIL     */
+/* ===================== */
+
+
+
