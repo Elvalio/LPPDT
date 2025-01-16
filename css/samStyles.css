@@ -501,6 +501,7 @@
 
 #titre_avis{
   width : 99%;
+  height: 30px;
   border-radius: 5px;
   margin-top: 10px;
   padding: 5px;
@@ -681,6 +682,29 @@
 
 #popup .close-btn:hover {
   text-decoration: underline;
+}
+
+.signaler-like {
+  display: flex !important; /* Assurez-vous que c'est en flex */
+  flex-direction: row; /* Les éléments sont alignés horizontalement */
+  align-items: center; /* Alignez verticalement au centre si nécessaire */
+  justify-content: space-between; /* Espacement entre les éléments */
+}
+.like-dislike {
+  width: 50%; /* Ajustez selon vos besoins */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Alignez à droite */
+}
+.like-dislike > img{
+  margin-right: 5px;
+}
+.like-dislike > span{
+  margin-right: 5px;
+}
+.btn-signaler {
+  display: flex; /* S'assure que le bouton s'aligne correctement */
+  align-items: center;
 }
 
 }
@@ -1291,6 +1315,30 @@ color: white;
 #popup .close-btn:hover {
     text-decoration: underline;
 }
+
+.signaler-like {
+  display: flex !important; /* Assurez-vous que c'est en flex */
+  flex-direction: row; /* Les éléments sont alignés horizontalement */
+  align-items: center; /* Alignez verticalement au centre si nécessaire */
+  justify-content: space-between; /* Espacement entre les éléments */
+}
+.like-dislike {
+  width: 50%; /* Ajustez selon vos besoins */
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Alignez à droite */
+}
+.like-dislike > img{
+  margin-right: 5px;
+}
+.like-dislike > span{
+  margin-right: 5px;
+}
+.btn-signaler {
+  display: flex; /* S'assure que le bouton s'aligne correctement */
+  align-items: center;
+}
+
 
 }
 
