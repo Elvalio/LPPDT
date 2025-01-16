@@ -117,8 +117,90 @@ use function PHPSTORM_META\type;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
+        <style>
+            .modal{
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                padding: 25px;
+                background: white;
+                transform: translate(-50%, -50%);
+                border: solid var(--bleu-rouge) 1px;
+                border-radius: 5px;
+            }
+            .modal > form{
+                display: flex;
+                flex-direction: column;
+            }
+
+            #option-modal{
+                display: flex;
+                flex-direction: column;
+                padding-top: 1em;
+                justify-content: space-between;
+            }
+
+            #boutons-modal{
+                padding-top: 2em !important;
+            }
+
+            #option-modal > div, #option-modal > h3{
+                padding: 0.5em 0em;
+            }
+
+            #modal-footer{
+                padding-top: 1em;
+            }
+
+            #modal-footer > div{
+                padding-top: 0.5em;
+            }
+
+            #error{
+                color: red;
+            }
+
+            .btn-notif {
+                margin-right: 30px;
+                padding: 10px 20px;
+                background-color: var(--bleu-rouge);
+                color: var(--blanc);
+                font-family: 'TripSansBold', Arial, sans-serif;
+                text-align: center;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .modal > select {
+                border-radius: 4px;
+                border-width: 1.5px;
+                border-color: lightslategray;
+                color: rgb(150, 150, 150);
+            }
+
+            #date_lancement {
+                border-style: solid;
+                border-radius: 4px;
+                border-width: 1.5px;
+                border-color: lightslategray;
+            }
+
+            .titre-modal {
+                color: var(--bleu-rouge);
+                font-size:40px;
+                margin-bottom: 10px;
+                margin-left: 0px;
+            }
+
+            .texte-modal {
+                margin-bottom: 10px;
+            }
+    </style>
+
     </head>
-    <body class="BO">
+    <body class="BO FO">
         <div class="main-content">
             <header>
                 <h1>Vos offres</h1>
@@ -132,7 +214,7 @@ use function PHPSTORM_META\type;
                     <img src="../images/<?php echo !is_null($valeur["src_image"]) ?  $valeur["src_image"] : '../images/rien.png'?>" alt="<?php echo $valeur["titre"]; ?>" title="<?php echo $valeur["titre"]; ?>" placeholder="../images/imagesReferences/placeholder.php">
                     <div class="infos_offre">
                         <div class="titre_switch-tableau-de-bord">
-                            <p class="titre_offre-tableau-de-bord"><strong><?php echo $valeur["en_ligne"]; ?></strong></p>
+                            <p class="titre_offre-tableau-de-bord"><strong><?php echo $valeur["titre"]; ?></strong></p>
                         </div>
                         <p class="description-tableau-de-bord"><?php echo $valeur["resume"]; ?></p>
                         <div class="detail_modif-tableau-de-bord">
@@ -177,8 +259,7 @@ use function PHPSTORM_META\type;
                 <form action="creation_offre.php">
                     <input type="submit" value="Créer une nouvelle offre" class="creer_offre-tableau-de-bord"/>
                 </form>
-                <script src="../js/tableau_de_bord.js"></script>
-                <script src="../js/popup.js"></script>
+                
                 <?php
 
                 include_once'footer.php';
@@ -186,5 +267,57 @@ use function PHPSTORM_META\type;
                 ?>  
             </main>
         </div>
+
+        <div class="modal" id="modal">
+        <form action="" method="post">
+            <div id='tarif-modal'>
+                <h2 class="titre-modal">Tarifs de votre offre.</h2>
+                <div id="tarif-modal">
+                    <p>Tarif mensuel : X/HT X/TTC</p>
+                    <p>Tarif prévisonnel : X</p>
+                </div>
+            </div>
+            <div id='option-modal' style="display: block;">
+                <h2 class="titre-modal">Lancement Option</h2>
+                <p class="texte-modal">Vous avez choisit l'option X, avec un tarif hebdomadaire de x€</p>
+                <div>
+                    <label for="date_lancement">Date de lancement (choisir un lundi): </label>
+                    <input type="date" name="date_lancement" id="date_lancement" value="">
+                    <div>
+                        <span id="error"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="semaine">Nombre de semaine(s) : </label>
+                    <select name="semaine" id="semaine">
+                        <option value="null" disabled selected value hidden></option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+            </div>
+            <div id="modal-footer" class="texte-modal">
+                <div>
+                    <a href="conditions_legales.php" >Nos conditions légales</a>
+                </div>
+                <div>
+                    <input type="checkbox" id="condition1" name="condition1" value="condition1">
+                    <label for="conditions"> Vous avez lu et accepté les conditions légales.*</label><br>
+                    <input type="checkbox" id="condition2" name="condition2" value="condition2">
+                    <label for="conditions"> Vous êtes concient que la validation est un acte financièrement engageant.*</label><br>
+                </div>
+                <div id="boutons-modal">
+                    <input type="button" class="btn-notif" id="modal-submit-button" value="Valider"/>
+                    <input type="button" class="btn-notif" id="modal-close" value="Annuler">
+                </div>
+            </div>
+        </form>
+        </div>
+
+        <script src="../js/tableau_de_bord.js"></script>
+        <script src="../js/popup.js"></script>
     </body>
 </html>
