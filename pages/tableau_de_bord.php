@@ -143,7 +143,7 @@ use function PHPSTORM_META\type;
                             <form method="POST" action="tableau_de_bord.php" onsubmit="validateAndSubmitForm(this)">
                             <input type="hidden" name="status" value="checked" iban-bic-data=<?=$iban_bic_incomplets ?>>
                                 <label class="switch-tableau-de-bord">
-                                    <input type="checkbox" name="status" value="unchecked" <?php if ($valeur["en_ligne"] == 'false') echo 'checked'; ?>>
+                                    <input id="toggle_<?php echo $valeur["ido"]?>_<?php echo $valeur["en_ligne"]?>"type="checkbox" name="status" value="unchecked" <?php if ($valeur["en_ligne"] == 'false') echo 'checked'; ?>>
                                     <span class="slider-tableau-de-bord round"></span>
                                 </label>
                                 <input type="hidden" name="offre_id" value="<?php echo $valeur["ido"]; ?>">

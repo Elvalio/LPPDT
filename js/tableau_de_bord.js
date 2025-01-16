@@ -104,7 +104,7 @@ function validateAndSubmitForm(event) {
 }
 
 // Associer l'événement à chaque toggle
-toggles.forEach(toggle => {
+/*toggles.forEach(toggle => {
     if(!toggle.checked){
         toggle.closest('section').style.setProperty("opacity", 0.5);
     }
@@ -112,4 +112,39 @@ toggles.forEach(toggle => {
         event.preventDefault(); // Empêche la soumission par défaut du formulaire
         validateAndSubmitForm(event);
     });
-});
+});*/
+
+
+toggles.forEach(toggle => {
+    toggle.addEventListener("click", async () => {
+
+        datas = event.target.id.split('_');
+        console.log(datas);
+        const data = {
+            id_offre: datas[1],
+            status_offre: datas[2],
+        };
+    
+        try {
+            
+            const response = await fetch('../pages/update_tableau_de_bord.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+
+                console.log('Réponse reçue!');
+
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+    }
+);
