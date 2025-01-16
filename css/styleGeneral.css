@@ -114,7 +114,47 @@ body {
     padding: 0;
 }
 
-@media (min-width: 801px) {
+@media (min-width: 800px) {
+    .login-form {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      border-width: 1px;
+      border-color: #ccc;
+      border-style: solid;
+      width: 95%;
+    }
+  
+    .phone-element, .mobile-footer{
+      display: none;
+  }
+  
+    .login-page {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+  
+    .container-connexion {
+      text-align: center;
+      width: 42%;
+      padding: 20px;
+      align-items: center;
+    }
+  
+    .form-group-connexion input {
+      width: 95%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+  
+    .titre-connexion {
+      display: none;
+    }
+
     h1 {
         color: var(--bleuFonce-rougeFonce);
         font-size: 3.5em;
@@ -125,11 +165,7 @@ body {
         display: block;
       }
     
-      .phone-element {    
-        display: none;
-      }
-
-}
+  }
 
 @media (max-width: 800px) {
 
@@ -969,18 +1005,6 @@ a {
     margin-top: 7em;
 }
 
-/* ===================================== */
-/*          VERSION DESKTOP              */
-/* ===================================== */
-
-@media (min-width: 800px) {
-    .phone-element, .mobile-footer{
-        display: none;
-    }
-
-}
-
-
 /* =================================== */
 /*          STYLE PAGE CONNEXION       */
 /* =================================== */
@@ -1083,47 +1107,7 @@ body {
 /*          VERSION DESKTOP              */
 /* ===================================== */
 
-@media (min-width: 800px) {
-  .login-form {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    border-width: 1px;
-    border-color: #ccc;
-    border-style: solid;
-    width: 95%;
-  }
 
-  .phone-element, .mobile-footer{
-    display: none;
-}
-
-  .login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  }
-
-  .container-connexion {
-    text-align: center;
-    width: 42%;
-    padding: 20px;
-    align-items: center;
-  }
-
-  .form-group-connexion input {
-    width: 95%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-
-
-  .titre-connexion {
-    display: none;
-  }
-}
 
 
 /* ======================================== */
