@@ -715,11 +715,11 @@ try {
                         $stmt->execute([':idAvis'=>$avisIndividuel['ida']]);
                         $like_dislike = $stmt->fetch(PDO::FETCH_ASSOC);
                         ?>
-                        <img id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/like-vide.png" alt="Like" width="20" height="20" style="cursor: pointer;">
+                        <img id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/like-plein.png" alt="Like" width="20" height="20" style="cursor: pointer;">
                         <span id="likesCount_<?php echo $avisIndividuel['ida']?>"><?php
                         echo $like_dislike['nbr_likes'];
                         ?></span>
-                        <img id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/dislike-vide.png" alt="Dislike" width="20" height="20" style="cursor: pointer;">
+                        <img id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" src="../icons/dislike-plein.png" alt="Dislike" width="20" height="20" style="cursor: pointer;">
                         <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>"><?php
                         echo $like_dislike['nbr_dislikes'];
                         ?></span>
