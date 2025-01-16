@@ -1,7 +1,88 @@
 <?php
 include('../sql/connect_params.php');
 
+
+
 if($_SERVER['REQUEST_METHOD']==='POST'){
+
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
+    // connexion
+
+    $identifiant = trim($_POST['identifiant']);
+    $message_erreur = '';
+    $trouve = false;
+    try{
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
+            $user, $pass);
+
+        //verifie si membre
+
+        $stmt = $dbh->prepare(
+            "SELECT idC, pseudo, mdp FROM pact.membre WHERE pseudo = :pseudo;"
+        );
+        $stmt->bindParam(':pseudo', $identifiant, PDO::PARAM_STR);
+        
+            
+        $stmt->execute();
+        $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
+        if ($stmt!=[]) {
+            if ($stmt[0]['mdp'] == $_POST['password']) {
+                $idC = strval($stmt[0]['idc']);
+                setcookie("user", $idC, time() + 3600, '/');
+                setcookie("type_compte", 'membre', time() + 3600, '/');
+
+                $_COOKIE['user'] = $idC;
+                $_COOKIE['type_compte'] = 'membre';
+                $trouve = true;
+            }
+        }
+        
+        //verifie si professionnel
+
+        $identifiant = (int)$identifiant;
+
+        $stmt = $dbh->prepare(
+            "SELECT idC, codePro, mdp FROM pact.professionnel WHERE codePro = :codePro;"
+        );
+        $stmt->bindParam(':codePro', $identifiant, PDO::PARAM_INT);
+
+        $stmt->execute();
+        $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($stmt!=[]) {
+            if ($stmt[0]['mdp'] == $_POST['password']) {
+                $idC = strval($stmt[0]['idc']);
+                setcookie("user", $idC, time() + 3600, '/');
+
+                $stmt = $dbh->prepare(
+                    "select * from pact.professionnel where idC in (select idC from pact.secteur_prive where idC = $idC);"
+                );
+        
+                $stmt->execute();
+                $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if ($stmt!=[]) {
+                    setcookie("type_compte", 'pro_prive', time() + 3600, '/');
+                }else{
+                    setcookie("type_compte", 'pro_public', time() + 3600, '/');
+                }
+                $trouve = true;
+            }
+        }
+
+        if (!$trouve){
+            $message_erreur = "Nom d'utilisateur ou mot de passe incorrect, veuillez réessayer";
+        }
+
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+
 
     if($_POST['type_form'] == 'supp-avis'){
 
@@ -211,6 +292,8 @@ try {
     echo "Erreur : " . htmlspecialchars($e->getMessage());
     die();
 }
+
+echo $_COOKIE['user'];
 ?>
 
 <!DOCTYPE html>
@@ -287,7 +370,7 @@ try {
         flex-direction: column;
         justify-content: space-between;
         width: 50%;
-        height: 90%;
+        height: 95%;
     }
 
     .form-group.desktop label {
@@ -309,6 +392,7 @@ try {
         margin: 0;
         font-size: 1.3em;
         font-family: "TripSansRegular";
+        display: block;
 
     }
     #fin.desktop{
@@ -358,15 +442,15 @@ try {
         display: none;
         flex-direction: row;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
         background-color: var(--gris-clair);
         top: 50%; /* Place le centre de la popup au milieu de l'écran verticalement */
         left: 50%;
         transform: translate(-50%, -50%); /* Ajuste pour centrer */
         border-radius: 12px;
-        width: 50vw;
+        width: 60vw;
         height: 45vh;
-        padding: 25px;
+        padding: 15px 15px 15px 25px;
         z-index: 10;
     }
     
@@ -379,7 +463,7 @@ try {
         cursor: pointer;
         position: relative;
         left: 9%;
-        bottom: 56%;
+        bottom: 53%;
         padding: 1.5px;
         background-color: var(--bleuFonce-rougeFonce);
         border: 1px solid var(--blanc);
@@ -391,7 +475,7 @@ try {
     }
 
     .form-group.mobile {
-        margin-bottom: 15px;
+        margin-bottom: 7px;
     }
 
     #group.mobile{
@@ -400,7 +484,6 @@ try {
         justify-content: space-between;
         width: 100%;
         height: 90%;
-        padding-left: 18px; 
     }
 
     .form-group.mobile label {
@@ -413,22 +496,17 @@ try {
         width: 95%;
         padding: 10px;
         border: 1px solid #ccc;
-        border-radius: 5px; 
     }
 
     #debut.mobile{
-        text-align: center;
-        color: var(--bleuFonce-rougeFonce);
-        margin: 0;
-        font-size: 1.3em;
-        font-family: "TripSansRegular";
+        display: none;
     }
 
     #fin.mobile{
         text-align: center;
         color: var(--bleu-rouge);
         margin: 0;
-        font-size: 2em;
+        font-size: 1.7em;
         font-family: "TripSansBold";
     }
 
@@ -685,17 +763,22 @@ try {
                         <input type="hidden" name="type_form" value="poste-avis">
                         <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
                         <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
-                            required="required"></textarea>
+                            required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
                         <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
-                            placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                            placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."><?php echo isset($_POST['contenuAvis']) ? $_POST['contenuAvis'] : ''; ?></textarea>
                         <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                         <label for="options" id="titre-contexte">Contexte de la visite :</label>
                         <select id="options-contexte" name="options">
-                            <option value="Affaires">Affaires</option>
+                            <!-- <option value="Affaires">Affaires</option>
                             <option value="Couple">Couple</option>
                             <option value="Famille">Famille</option>
                             <option value="Amis">Amis</option>
-                            <option value="Seul">Seul</option>
+                            <option value="Seul">Seul</option> -->
+                            <option value="Affaires" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Affaires' ? 'selected' : '' ?>>Affaires</option>
+                            <option value="Couple" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Couple' ? 'selected' : '' ?>>Couple</option>
+                            <option value="Famille" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Famille' ? 'selected' : '' ?>>Famille</option>
+                            <option value="Amis" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Amis' ? 'selected' : '' ?>>Amis</option>
+                            <option value="Seul" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Seul' ? 'selected' : '' ?>>Seul</option>
 
                         </select>
                         <input type="submit" id="bouton_publier" value="Publier">
@@ -712,17 +795,17 @@ try {
                 </div>
                 <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
                 <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
-                    required="required"></textarea>
+                    required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
                 <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
-                    placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                    placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."><?php echo isset($_POST['contenuAvis']) ? $_POST['contenuAvis'] : ''; ?></textarea>
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                 <label for="options" id="titre-contexte">Contexte de la visite :</label>
                     <select id="options-contexte" name="options">
-                        <option value="Affaires">Affaires</option>
-                        <option value="Couple">Couple</option>
-                        <option value="Famille">Famille</option>
-                        <option value="Amis">Amis</option>
-                        <option value="Seul">Seul</option>
+                        <option value="Affaires" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Affaires' ? 'selected' : '' ?>>Affaires</option>
+                        <option value="Couple" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Couple' ? 'selected' : '' ?>>Couple</option>
+                        <option value="Famille" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Famille' ? 'selected' : '' ?>>Famille</option>
+                        <option value="Amis" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Amis' ? 'selected' : '' ?>>Amis</option>
+                        <option value="Seul" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Seul' ? 'selected' : '' ?>>Seul</option>
                     </select>
 
                     <button id="bouton_publier" type="button">
@@ -883,7 +966,7 @@ try {
                 <p id="debut">Vous souhaitez faire part de votre avis ?</p><p id="fin"> Connectez-vous</p>
 
             </div>
-            <form action="connexion.php" method="post">
+            <form id="formConnexion" action="detail-offreSOLO.php?value=<?php echo $offre['ido']?>" method="post">
 
                 <div class="form-group">
                     <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
@@ -895,6 +978,11 @@ try {
                     <label for="password">Mot de passe</label>
                     <input type="password" id="password" name="password" placeholder="Mot de passe" required>
                 </div>
+
+                <!-- <input type="hidden" id="etoile" name="etoile"> -->
+                <input type="hidden" id="titreAvis" name="titreAvis">
+                <input type="hidden" id="contenuAvis" name="contenuAvis">
+                <input type="hidden" id="contextAvis" name="contextAvis">
 
                 <button type="submit" id="connexion_popup" class="submit-button">Se connecter</button>
 
@@ -1001,7 +1089,6 @@ updateBodyClass();
 boutonPublier.addEventListener('click', function() {
     popup.classList.add("montrer");
     overlay.classList.add("montrer");
-    console.log("La");
 });
 
 document.getElementById('croix').addEventListener('click', function() {
@@ -1012,6 +1099,26 @@ document.getElementById('croix').addEventListener('click', function() {
 overlay.addEventListener('click', function () {
     popup.classList.remove("montrer"); // Désactive l'effet
     overlay.classList.remove("montrer");
+});
+
+
+
+
+// Récupérer le formulaire
+const form = document.getElementById('formConnexion');
+const titreAvisRedige = document.getElementById('titre_avis');
+const contenuAvisRedige = document.getElementById('ecrire_avis');
+const contextAvisRedige = document.getElementById('options-contexte');
+
+const titreAvisRecu = document.getElementById('titreAvis');
+const contenuAvisRecu = document.getElementById('contenuAvis');
+const contextAvisRecu = document.getElementById('contextAvis');
+
+// Ajouter un gestionnaire pour l'événement submit
+form.addEventListener('submit', function(event) {
+    titreAvisRecu.value = titreAvisRedige.value;
+    contenuAvisRecu.value = contenuAvisRedige.value;
+    contextAvisRecu.value = contextAvisRedige.value;
 });
 
 // Écoute des changements de taille de la fenêtre
