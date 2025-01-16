@@ -124,6 +124,32 @@ toggles.forEach(toggle => {
             id_offre: datas[1],
             status_offre: datas[2],
         };
+
+        let section = toggle.closest('section');
+
+        // Si la case est cochée, envoyez 'unchecked', sinon envoyez 'checked'
+        if (!toggle.checked) {
+            toggle.value = 'checked'; // Modifiez la valeur si elle est décochée
+        } else {
+            toggle.value = 'unchecked'; // Valeur par défaut si elle est cochée
+        }
+
+
+        if (!toggle.checked) {
+            toggle.value = 'checked'; // Modifiez la valeur si elle est décochée
+        } else {
+            toggle.value = 'unchecked'; // Valeur par défaut si elle est cochée
+        }
+    
+        if (toggle.checked) {
+            toggle.checked = true;
+            section.style.setProperty("opacity", 1);
+            data['status_offre'] = '1';
+        } else {
+                toggle.checked = false;
+                section.style.setProperty("opacity", 0.5);
+                data['status_offre'] = '0';
+            }
     
         try {
             
