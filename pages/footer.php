@@ -30,7 +30,7 @@
         <hr>
         <div class="autres_liens">
             <a href="mailto:PACT-TripEnArvor@proton.me">Contactez-nous</a>
-            <a href="politique_confidentialite">Politique de Confidentialité</a>
+            <a href="politique_confidentialite.php">Politique de Confidentialité</a>
             <a href="conditions_d_utilisation.php">Conditions Générales d'Utilisation</a>
             <a href="RGPD.php">RGPD</a>
             <img src="../images/logo_noir_reduit.png" alt="logo_noir_reduit" title="logo_noir_reduit" id="image_reduit">
