@@ -915,7 +915,7 @@ end;
 $$ language 'plpgsql';
 
 create or replace view pact.offre as
-  select  o.idO, o.titre, resume, "type", op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, 
+  select  o.idO, o.titre, resume, "type", op.idOption, op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, 
   accessibilite, categorie, date_creation, date_publication, date_hors_ligne, o.idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC from pact._offre o 
   inner join pact._type_offre t on "type" = idT
   inner join pact._adresse a on a.idAdresse = o.idAdresse
@@ -1427,7 +1427,7 @@ begin
     comp = comp + cout;
   end loop;
   
-  RETURN comp;
+  RETURN round(CAST(comp as numeric),2);
 end;
 $$ language 'plpgsql';
 
@@ -1471,7 +1471,7 @@ begin
     comp = 0;
   end if;
 
-  RETURN comp;
+  RETURN round(CAST(comp as numeric),2);
 end;
 $$ language 'plpgsql';
 
@@ -1801,6 +1801,6 @@ begin
     comp = comp + cout;
   end loop;
   
-  RETURN comp;
+  RETURN round(CAST(comp as numeric),2);
 end;
 $$ language 'plpgsql';

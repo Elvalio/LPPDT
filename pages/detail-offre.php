@@ -271,7 +271,7 @@ try {
     </title>
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <script src="../detail-offre.js" async></script>
+    <script src="../js/detail-offre-offre.js" async></script>
 </head>
 
 <div class="desktop-element">

@@ -262,7 +262,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -320,7 +320,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -376,7 +376,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -443,7 +443,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -506,7 +506,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -1038,23 +1038,20 @@ try{
                                             Attention : Un fois choisi, le type d'offre ne peut pas être changé.                                           </div>
                                         </div>
                                         <!---------------->
-                                        <div id="standard-premium">
+                                        <div id="standard-premium" style="color: grey;">
                                             <div id="standard">                                                
-                                                <input type="radio" id="standard" name="offre" value="standard" disabled 
+                                                <input type="radio" id="standard" name="offre" value="standard" style="cursor : not-allowed; pointer-events: none;" 
                                                     <?php 
                                                     echo isset($_POST['offre']) 
                                                         ? ($_POST['offre'] == 'standard' ? 'checked' : '') 
                                                         : (((string)$_COOKIE['type_compte'] == 'pro_prive') ? 'checked' : '');
                                                     ?> 
                                                 />
-                                                
-                                                
-                                                
                                                 <label for="standard">Standard (2€/jour)</label>
                                             </div>
                                             <div id="premium">
                                                 <!-- <input type="radio" id="premium" name="offre" value="premium" /> -->
-                                                <input type="radio" id="premium" name="offre" value="premium" disabled
+                                                <input type="radio" id="premium" name="offre" value="premium" style="cursor: not-allowed; pointer-events: none;"
                                                     <?php 
                                                     echo isset($_POST['offre']) 
                                                         ? ($_POST['offre'] == 'premium' ? 'checked' : '') 
@@ -1079,11 +1076,11 @@ try{
                                         <!---------------->
                                         <div id="une-relief">
                                             <div id="une">
-                                                <input type="checkbox" id="une" name="une" value="À la Une" <?php echo isset($_POST['une']) && $_POST['une'] == 'À la Une' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="une" name="une" value="À la Une" <?php echo isset($dataOffre[0]['option']) && $dataOffre[0]['option'] == 'À la Une' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
                                                 <label for="une">À la une (20€/semaine)</label>
                                             </div>
                                             <div id="relief">
-                                                <input type="checkbox" id="relief" name="relief" value="En relief" <?php echo isset($_POST['relief']) && $_POST['relief'] == 'En relief' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="relief" name="relief" value="En relief" <?php echo isset($dataOffre[0]['option']) && $dataOffre[0]['option'] == 'En relief' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
                                                 <label for="relief">En relief (10€/semaine)</label>
                                             </div>
                                         </div>

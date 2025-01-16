@@ -28,7 +28,7 @@ insert into pact.secteur_public (codePro, denomination_sociale, nom, prenom, ema
 
 
 -- PROFESSIONNEL SECTEUR PRIVE --
-insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'Denom', 'iban', 'bic', '125475842', 'Raison sociale', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, ''); 
+insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (1003, 'Denom', 'iban', '', '125475842', 'Raison sociale', 'Jon', 'Halford', 'jon.hal@gmail.com', '0651101267', 'skjosdkkvd', 'Lannion', 4, 'place du marchal', 22300, ''); 
 insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (212, 'Youpi Land', 'iban', 'bic', '144365479', 'Raison sociale', 'Portimao', 'Jean-Jacques', 'jeanjacsques.portimao@orange.fr', '0654620539', 'lQ6Jm896GfAz', 'Paimpol', 13, 'rue salvador allende', 22500, '');
 insert into pact.secteur_prive (codePro, denomination_sociale, iban, bic, siren, raison_sociale, nom, prenom, email, telephone, mdp, ville, numero_voie, voie, code_postal, complement) values (18, 'Sparadra', 'iban', 'bic', '682647654', 'Raison sociale', 'Modem', 'Nicola', 'modem.nicola@gmail.com', '0742576876', 'MjTdtLDapoUd', 'Guingamp', 18, 'rue valentin', 22200, '');
 
