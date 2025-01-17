@@ -312,3 +312,188 @@ dislikeButton.forEach(button => {
     });
     }
 );
+
+const signalerAvisBtn = document.querySelectorAll('[id^="btn_signaler_avis"]');
+console.log(signalerAvisBtn);
+const signalerReponseBtn = document.querySelectorAll('[id^="btn_signaler_reponse"]');
+
+const popupWarn = document.getElementById('popup');
+const closeBtn = popupWarn.querySelector('.close-btn');
+const progressBar = popupWarn.querySelector('.progress-bar div');
+
+
+document.querySelectorAll('.btn-signaler').forEach(button => {
+    // Récupérer l'état initial depuis localStorage
+    const buttonId = button.id; // Utiliser l'ID unique du bouton pour l'identifier
+    const isAlreadySignaled = localStorage.getItem(`signal_${buttonId}`) === 'true';
+
+    if (isAlreadySignaled) {
+        // Désactiver le bouton et mettre à jour le style s'il a déjà été signalé
+        button.disabled = true;
+        button.style.cursor = 'not-allowed';
+        button.style.opacity = '0.5';
+        button.querySelector('p').textContent = 'Déjà signalé';
+    }
+
+    // Ajouter l'écouteur d'événement pour le clic
+    button.addEventListener("click", async () => {
+        const datas = button.id.split('_');
+        console.log(datas);
+        console.log(event.target.id);
+
+        const data = {
+            id_compte: datas[3],
+            id_avis: datas[4],
+        };
+
+        try {
+            const response = await fetch('../pages/update_signal_avis.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                let timeout;
+
+                // Désactiver le bouton et mettre à jour le style
+                button.disabled = true;
+                button.style.cursor = 'not-allowed';
+                button.style.opacity = '0.5';
+                button.querySelector('p').textContent = 'Déjà signalé';
+
+                // Sauvegarder l'état dans localStorage
+                localStorage.setItem(`signal_${buttonId}`, 'true');
+
+                // Réinitialiser l'animation de la barre
+                const progressBar = document.querySelector('.progress-bar'); // Assurez-vous d'avoir cet élément dans le DOM
+                if (progressBar) {
+                    progressBar.style.animation = 'none';
+                    progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+                    progressBar.style.animation = ''; // Restaurer l'animation
+                }
+
+                // Afficher le popup de confirmation
+                const popupWarn = document.querySelector('.popup-warn'); // Assurez-vous d'avoir cet élément dans le DOM
+                if (popupWarn) {
+                    popupWarn.classList.add('active');
+                    clearTimeout(timeout);
+                    timeout = setTimeout(() => {
+                        popupWarn.classList.remove('active');
+                    }, 4000);
+                }
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+});
+
+// Gestion du bouton de fermeture du popup
+if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+        const popupWarn = document.querySelector('.popup-warn'); // Assurez-vous d'avoir cet élément dans le DOM
+        if (popupWarn) {
+            popupWarn.classList.remove('active');
+        }
+    });
+}
+
+
+
+
+signalerReponseBtn.forEach(button => {
+
+    
+    button.addEventListener("click", async () => {
+
+        datas = button.id.split('_');
+        console.log(datas);
+        console.log(event.target.id)
+        const data = {
+            id_compte: datas[3],
+            id_avis: datas[4],
+        };
+    
+        try {
+            
+            const response = await fetch('../pages/update_signal_reponse.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+                let timeout;
+
+            // Désactiver le bouton et mettre à jour le style
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+            button.style.opacity = '0.5';
+            button.querySelector('p').textContent = 'Déjà signalé';
+
+            
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popupWarn.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popupWarn.classList.remove('active');
+            }, 4000);
+                
+                
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+    },
+
+    closeBtn.addEventListener('click', () => {
+        popupWarn.classList.remove('active');
+        clearTimeout(timeout);
+    })
+);
+/* 
+Popup confirmation signalement
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById('popup');
+    const closeBtn = popup.querySelector('.close-btn');
+    const progressBar = popup.querySelector('.progress-bar div');
+
+    let timeout;
+
+    signalButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popup.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popup.classList.remove('active');
+            }, 4000);
+        });
+    });
+
+    closeBtn.addEventListener('click', () => {
+        popup.classList.remove('active');
+        clearTimeout(timeout);
+    });
+});
+*/

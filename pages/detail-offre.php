@@ -608,7 +608,41 @@ try {
                 ]);
                 $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
                 */
+                /*
+                // Récupération de l'ID de l'utilisateur (depuis les cookies)
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0;
+
+                // Récupération de l'ID de l'avis
+                $idAvis = $avisIndividuel['ida'];
+
+                // Vérification si l'avis a déjà été signalé
+                $stmtSignalAvis = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_avis 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalAvis->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledAvis = $stmtSignalAvis->fetchColumn() > 0;
+
+                // Vérification si une réponse liée à l'avis a déjà été signalée
+                $stmtSignalReponse = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_reponse 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalReponse->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
+
+                // Déterminer l'état du bouton en fonction des résultats
+                $buttonDisabled = $alreadySignaledAvis || $alreadySignaledReponse;
+                $buttonStyle = $buttonDisabled ? 'cursor: not-allowed; opacity: 0.5;' : '';
+                $buttonText = $alreadySignaledAvis ? 'Déjà signalé' : "Signaler l'avis";
                 // Vérifier si l'utilisateur a signalé cet avis ou une de ses réponses
+                */
                 /*
                 if ($alreadySignaledAvis) {
                     echo "L'avis a déjà été signalé par cet utilisateur.";
@@ -665,8 +699,15 @@ try {
                                 <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
                             </p>
                         </div>
-                    <?php }
-                } else { echo nl2br(htmlspecialchars($avisIndividuel['corps']));
+                    <?php } 
+                }else{
+                    ?>
+                        <div class="commentaire-consulte">
+                            <p>
+                                <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                            </p>
+                        </div>
+                    <?php
                 } ?>
 
                 <?php
@@ -680,11 +721,9 @@ try {
                     <hr>
                     <?php
                 }
-                ?>
 
-                <div class="signaler-like">
-
-                <?php
+                ?><div class="signaler-like"><?php
+                
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
                         <button type="button"
                             class="btn-signaler"
@@ -692,15 +731,13 @@ try {
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                             <p>Signaler l'avis</p>
                         </button>
+                
+                <?php endif;
 
-                
-                <?php endif; 
                 if(isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc'] != $_COOKIE['user']){
-                ?>
-                
-                <div class="like-dislike">
+                ?><div class="like-dislike">
                 <?php 
-                        $stmt = $bdh->prepare("SELECT nbr_likes, nbr_dislikes FROM pact.avis WHERE idA = :idAvis");
+                        $stmt = $dbh->prepare("SELECT nbr_likes, nbr_dislikes FROM pact.avis WHERE idA = :idAvis");
                         $stmt->execute([':idAvis'=>$avisIndividuel['ida']]);
                         $like_dislike = $stmt->fetch(PDO::FETCH_ASSOC);
                         ?>
@@ -713,9 +750,8 @@ try {
                         echo $like_dislike['nbr_dislikes'];
                         ?></span>
                 </div>
-                <?php } ?>
+                <?php }?>
                 </div>
-
                 <?php
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
@@ -735,7 +771,6 @@ try {
                                 <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                                 <p>Signaler réponse</p>
                             </button>
-
                         
                         <?php endif;
                         
