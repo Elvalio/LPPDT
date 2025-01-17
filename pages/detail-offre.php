@@ -3,6 +3,9 @@ include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
 
+    echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
     // connexion
 
     $identifiant = trim($_POST['identifiant']);
@@ -487,7 +490,7 @@ try {
                 </div>
                 <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
                         <input type="hidden" name="type_form" value="poste-avis">
-                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
                         <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                             required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
                         <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
@@ -513,7 +516,7 @@ try {
                             id="etoile_note<?php echo $i; ?>">
                     <?php endfor;?>
                 </div>
-                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
                 <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
                     required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
                 <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
@@ -781,7 +784,7 @@ try {
                         <input type="password" id="password" name="password" placeholder="Mot de passe" required>
                     </div>
 
-                    <!-- <input type="hidden" id="etoile" name="etoile"> -->
+                    <input type="hidden" id="etoile" name="etoile">
                     <input type="hidden" id="titreAvis" name="titreAvis">
                     <input type="hidden" id="contenuAvis" name="contenuAvis">
                     <input type="hidden" id="contextAvis" name="contextAvis">

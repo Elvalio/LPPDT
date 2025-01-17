@@ -193,19 +193,30 @@ overlay.addEventListener('click', function () {
 
 // Récupérer le formulaire
 const form = document.getElementById('formConnexion');
+const nbr_etoile = document.getElementById("nbr_etoile");
 const titreAvisRedige = document.getElementById('titre_avis');
 const contenuAvisRedige = document.getElementById('ecrire_avis');
 const contextAvisRedige = document.getElementById('options-contexte');
 
+const etoile = document.getElementById('etoile');
 const titreAvisRecu = document.getElementById('titreAvis');
 const contenuAvisRecu = document.getElementById('contenuAvis');
 const contextAvisRecu = document.getElementById('contextAvis');
+
+
 
 // Ajouter un gestionnaire pour l'événement submit
 form.addEventListener('submit', function(event) {
     titreAvisRecu.value = titreAvisRedige.value;
     contenuAvisRecu.value = contenuAvisRedige.value;
     contextAvisRecu.value = contextAvisRedige.value;
+    if(nbr_etoile.value !== ''){
+        etoile.value = nbr_etoile.value;
+    } else {
+        nbr_etoile.value = '1';
+    }
+    
+    
 });
 
 // Écoute des changements de taille de la fenêtre
