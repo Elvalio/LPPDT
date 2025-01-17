@@ -581,7 +581,7 @@ try {
                                 <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
                             </p>
                         </div>
-                    <?php } 
+                    <?php }
                 } else { echo nl2br(htmlspecialchars($avisIndividuel['corps']));
                 } ?>
 
@@ -599,7 +599,7 @@ try {
                 ?>
 
                 <div class="signaler-like">
-                
+
                 <?php
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
                         <button type="button"
@@ -608,9 +608,9 @@ try {
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                             <p>Signaler l'avis</p>
                         </button>
+
                 
-                
-                <?php endif;
+                <?php endif; 
                 if(isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc'] != $_COOKIE['user']){
                 ?>
                 
@@ -652,7 +652,7 @@ try {
                                 <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                                 <p>Signaler réponse</p>
                             </button>
-                        
+
                         
                         <?php endif;
                         
