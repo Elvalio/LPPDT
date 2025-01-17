@@ -320,14 +320,18 @@ try{
                 $Umap = $dbh->prepare(
                     "UPDATE pact.parc_d_attraction SET src_image = '$image'
                     WHERE ido = $idOffre;"
+                    
                 );
+                $Umap->execute();
             } else if ($categorie === 'restauration'){
                 $Umap = $dbh->prepare(
                     "UPDATE pact.restauration SET src_image = '$image'
                     WHERE ido = $idOffre;"
                 );
+                $Umap->execute();
             }
-            $Umap->execute();
+            
+            
         }
 
 
