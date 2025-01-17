@@ -262,7 +262,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -320,7 +320,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -376,7 +376,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -443,7 +443,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -506,7 +506,7 @@ try{
                 );
                 $stmt->bindParam(':titre', $titre, PDO::PARAM_STR);
                 $stmt->bindParam(':resume', $resume, PDO::PARAM_STR);
-                $stmt->bindParam(':type', $type, PDO::PARAM_STR);
+                $stmt->bindParam(':type', $type, PDO::PARAM_INT);
                 $stmt->bindParam(':description', $description, PDO::PARAM_STR);
                 $stmt->bindParam(':site', $site, PDO::PARAM_STR);
                 $stmt->bindParam(':prix_min', $prix_min, PDO::PARAM_STR);
@@ -778,13 +778,13 @@ try{
                             <div class="container-crea-modif-offre" id="resume-container">
                                 <label for="resume">Résumé*</label>
                                 <p id="resume-error-message" class="error-message"></p>
-                                <textarea id="resume" class="FS" name="resume" placeholder="L'histoire d'amour et tragique de..." required><?php echo $dataOffre[0]["resume"];?></textarea>
+                                <textarea id="resume" class="FS textarea-modif-crea-offre" name="resume" placeholder="L'histoire d'amour et tragique de..." required><?php echo $dataOffre[0]["resume"];?></textarea>
                             </div>
                             <!-- Champ "Description" -->
                             <div class="container-crea-modif-offre" id="description-container">
                                 <label for="description">Description*</label>
                                 <p id="description-error-message" class="error-message"></p>
-                                <textarea id="description" class="FS" name="description" placeholder="Spectacle se déroulant au théatre du..." required><?php echo $dataOffre[0]["description"];?></textarea>
+                                <textarea id="description" class="FS textarea-modif-crea-offre" name="description" placeholder="Spectacle se déroulant au théatre du..." required><?php echo $dataOffre[0]["description"];?></textarea>
                             </div>
 
                             <!-- Champ "Site web" -->
@@ -921,7 +921,7 @@ try{
                                 <div class="container-crea-modif-offre" id="accessibilite-container">
                                     <label for="accessibilite">Accessibilité*</label>
                                     <p id="accessibility-error-message" class="error-message"></p>
-                                    <textarea id="accessibilite" class="FS" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo  (isset($dataOffre[0]['accessibilite'])) ?  $dataOffre[0]["accessibilite"] : '';?></textarea>
+                                    <textarea id="accessibilite" class="FS textarea-modif-crea-offre" name="accessibilite" placeholder="Entrée du théatre accessible en fauteuil roulant et amménagé pour.." required><?php echo  (isset($dataOffre[0]['accessibilite'])) ?  $dataOffre[0]["accessibilite"] : '';?></textarea>
                                 </div>
                                 <!-- Champ "prix minimum" -->
                                 <div id="duree-prix-age">
@@ -963,12 +963,12 @@ try{
                                 <div class="container-crea-modif-offre" id="pinclus-container">
                                     <label for="pinclus">Prestation incluse</label>
                                     <p id="pinclus-error-message" class="error-message"></p>
-                                    <textarea id="pinclus" class="FS" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo  (isset($dataOffre[0]['prestation_incluse'])) ?  $dataOffre[0]["prestation_incluse"] : '';?></textarea>
+                                    <textarea id="pinclus" class="FS textarea-modif-crea-offre" name="pinclus" placeholder="Kayak, Pagaie, Gilet de sauvetage.."><?php echo  (isset($dataOffre[0]['prestation_incluse'])) ?  $dataOffre[0]["prestation_incluse"] : '';?></textarea>
                                 </div>
                                 <div class="container-crea-modif-offre" id="pexclus-container">
                                     <label for="pexclus">Prestation excluse</label>
                                     <p id="pexclus-error-message" class="error-message"></p>
-                                    <textarea id="pexclus" class="FS" name="pexclus" placeholder="Casque,.."><?php echo  (isset($dataOffre[0]['prestation_excluse'])) ?  $dataOffre[0]["prestation_excluse"] : '';?></textarea>
+                                    <textarea id="pexclus" class="FS textarea-modif-crea-offre" name="pexclus" placeholder="Casque,.."><?php echo  (isset($dataOffre[0]['prestation_excluse'])) ?  $dataOffre[0]["prestation_excluse"] : '';?></textarea>
                                 </div>
                                 <div class="container-crea-modif-offre" id="langue-container">
                                     <label for="langue">Langue</label>
@@ -1038,23 +1038,20 @@ try{
                                             Attention : Un fois choisi, le type d'offre ne peut pas être changé.                                           </div>
                                         </div>
                                         <!---------------->
-                                        <div id="standard-premium">
+                                        <div id="standard-premium" style="color: grey;">
                                             <div id="standard">                                                
-                                                <input type="radio" id="standard" name="offre" value="standard" disabled 
+                                                <input type="radio" id="standard" name="offre" value="standard" style="cursor : not-allowed; pointer-events: none;" 
                                                     <?php 
                                                     echo isset($_POST['offre']) 
                                                         ? ($_POST['offre'] == 'standard' ? 'checked' : '') 
                                                         : (((string)$_COOKIE['type_compte'] == 'pro_prive') ? 'checked' : '');
                                                     ?> 
                                                 />
-                                                
-                                                
-                                                
                                                 <label for="standard">Standard (2€/jour)</label>
                                             </div>
                                             <div id="premium">
                                                 <!-- <input type="radio" id="premium" name="offre" value="premium" /> -->
-                                                <input type="radio" id="premium" name="offre" value="premium" disabled
+                                                <input type="radio" id="premium" name="offre" value="premium" style="cursor: not-allowed; pointer-events: none;"
                                                     <?php 
                                                     echo isset($_POST['offre']) 
                                                         ? ($_POST['offre'] == 'premium' ? 'checked' : '') 
@@ -1079,11 +1076,11 @@ try{
                                         <!---------------->
                                         <div id="une-relief">
                                             <div id="une">
-                                                <input type="checkbox" id="une" name="une" value="À la Une" <?php echo isset($_POST['une']) && $_POST['une'] == 'À la Une' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="une" name="une" value="À la Une" <?php echo isset($dataOffre[0]['option']) && $dataOffre[0]['option'] == 'À la Une' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
                                                 <label for="une">À la une (20€/semaine)</label>
                                             </div>
                                             <div id="relief">
-                                                <input type="checkbox" id="relief" name="relief" value="En relief" <?php echo isset($_POST['relief']) && $_POST['relief'] == 'En relief' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
+                                                <input type="checkbox" id="relief" name="relief" value="En relief" <?php echo isset($dataOffre[0]['option']) && $dataOffre[0]['option'] == 'En relief' ? 'checked' : ''; ?> onclick="checkOnlyOne(this)"/>
                                                 <label for="relief">En relief (10€/semaine)</label>
                                             </div>
                                         </div>
