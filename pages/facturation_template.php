@@ -4,12 +4,11 @@
     <meta charset="UTF-8">
     <title>Facture N°<?= htmlspecialchars($facture_data['numfacture']) ?></title>
      <style>
-        <?php include_once("../css/creationFacturation.css"); 
-        include_once("../css/styleGeneral.css");?>
+        <?php include_once("../css/styleGeneral.css");?>
     </style>
 </head>
-<body class="BO">
-    <header>
+<body class="BO body-creation-facturation">
+    <header class="header-creation-facturation">
         <img src="../logo/logo_rouge.png" alt="PACT" id="logo">
         <div class="titre">
             <h1>Facture N°<?= htmlspecialchars($facture_data['numfacture']) ?></h1>
@@ -62,11 +61,15 @@
                         $stmtOption->execute([':idO' => $idO]);
                         $options = $stmtOption->fetchAll(PDO::FETCH_ASSOC);
                         
+                        $stmtSemaines = $dbh->prepare("SELECT COUNT(*) as nbSemaines FROM pact._option_offre WHERE idO = :idO AND date_lancement < now()");
+                        $stmtSemaines->execute([':idO' => $idO]);
+                        $nbSemaines = $stmtSemaines->fetch(PDO::FETCH_ASSOC)['nbSemaines'];
+
                         ?>
             <?php if (!empty($options[0])) { ?>
                 <tr>
-                    <td>Option « <?= $offre_titre ?> »</td>
-                    <td><?php echo $facture_data['nbSemaines'] ?> Semaine</td>
+                    <td>Option « <?= $option_titre ?> »</td>
+                    <td><?php echo $nbSemaines ?> Semaine</td>
                     <td><?= number_format($facture_data['total_options_ht'], 2, ',', ' ') ?> €/Semaine</td>
                     <td><?= number_format($offre_options_ht, 2, ',', ' ') ?> €</td>
                     <td><?= number_format($offre_options_ttc, 2, ',', ' ') ?> €</td>
@@ -82,7 +85,7 @@
         </tfoot>
     </table>
 
-    <footer>
+    <footer class="footer-creation-facturation">
         <p>Merci pour votre confiance.</p>
     </footer>
 </body>

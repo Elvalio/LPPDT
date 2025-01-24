@@ -106,7 +106,7 @@ function creerFacturesPourToutesLesOffres($bdh) {
     
     <div class="main-content facture_titre">
     <header>
-        <h1 class="titre-rouge">Facturation</h1>
+        <h1>Facturation</h1>
     </header>
     <div>
         <?php

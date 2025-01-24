@@ -10,7 +10,6 @@ include('../sql/connect_params.php');
 <head>
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <link rel="stylesheet" href="../css/styleEthan.css">
 
 
     <script>

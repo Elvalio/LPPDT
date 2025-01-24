@@ -474,10 +474,10 @@ create table pact._signal_reponse(
 
   constraint _signal_reponse_pk primary key(idA, idSignaleur),
 
-  constraint _signal_reponse_fk_avis foreign key
+  constraint _signal_reponse_fk_reponse foreign key
   (idA) references pact._reponse(idA),
   
-  constraint _signal_reponse_fk_professionnel foreign key
+  constraint _signal_reponse_fk_compte foreign key
   (idSignaleur) references pact._compte(idC)
 );
 
@@ -532,6 +532,36 @@ alter table _recommande_pas add constraint xor_recommande_pas check (existe_reco
 ---------------------------------------------
 -------------Triggers tables-----------------
 ---------------------------------------------
+create or replace function pact.genererApiKey(idCompte integer)
+  returns varchar(64) as $$
+declare
+  res varchar(64);
+  temp varchar(4);
+begin
+  
+  perform setseed(idCompte/100.0);
+  res = concat(substr(md5(random()::text), 1, 32),substr(md5(random()::text), 1, 29));
+  
+  if exists(select * from _membre where idC = idCompte) then
+    temp='mbr';
+  elsif  exists(select * from _professionnel where idC = idCompte) then
+    temp='pro';
+  end if;
+  raise notice '%', temp;
+  res =  concat(temp,res);
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.inserer_compte()
+  returns trigger as $$
+begin
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
 
 -------- This should freeze codePro
 create or replace function pact.mis_a_jour_professionnel()
@@ -600,6 +630,9 @@ begin
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._membre (idc, pseudo) values (new.idc, new.pseudo);
+  /*Clef api doit être fait après insertion car le début dépend de si elle existe dans la table pro ou membre*/
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
   RETURN OLD;
 end;
 $$ language 'plpgsql';
@@ -658,6 +691,9 @@ begin
   end if;
   insert into pact._compte (nom, prenom, email, telephone, mdp, clefApi, idAdresse) values (new.nom, new.prenom, new.email, new.telephone, new.mdp, new.clefApi, new.idAdresse) returning idC into new.idC;
   insert into pact._professionnel (idc, codePro, denomination_sociale) values (new.idc, new.codePro, new.denomination_sociale);
+  /*Clef api doit être fait après insertion car le début dépend de si elle existe dans la table pro ou membre*/
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
   RETURN OLD;
 end;
 $$ language 'plpgsql';
@@ -879,7 +915,7 @@ end;
 $$ language 'plpgsql';
 
 create or replace view pact.offre as
-  select  o.idO, o.titre, resume, "type", op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, 
+  select  o.idO, o.titre, resume, "type", op.idOption, op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, 
   accessibilite, categorie, date_creation, date_publication, date_hors_ligne, o.idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC from pact._offre o 
   inner join pact._type_offre t on "type" = idT
   inner join pact._adresse a on a.idAdresse = o.idAdresse
@@ -1391,7 +1427,7 @@ begin
     comp = comp + cout;
   end loop;
   
-  RETURN comp;
+  RETURN round(CAST(comp as numeric),2);
 end;
 $$ language 'plpgsql';
 
@@ -1435,7 +1471,7 @@ begin
     comp = 0;
   end if;
 
-  RETURN comp;
+  RETURN round(CAST(comp as numeric),2);
 end;
 $$ language 'plpgsql';
 
@@ -1678,3 +1714,93 @@ create table _message(
   constraint _message_fk_compte_emmeteur foreign key
   (idEmmeteur) references pact._compte(idC)
 );
+
+/*
+Génère les clef API des compte memebres
+*/
+create or replace function pact.genererApiKey(idCompte integer)
+  returns varchar(64) as $$
+declare
+  res varchar(64);
+  temp varchar(4);
+begin
+  
+  perform setseed(idCompte/100.0);
+  res = concat(substr(md5(random()::text), 1, 32),substr(md5(random()::text), 1, 29));
+  
+  if exists(select * from _membre where idC = idCompte) then
+    temp='mbr';
+  elsif  exists(select * from _professionnel where idC = idCompte) then
+    temp='pro';
+  end if;
+  raise notice '%', temp;
+  res =  concat(temp,res);
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.inserer_compte()
+  returns trigger as $$
+begin
+  new.clefApi = pact.genererApiKey(new.idC);
+  update pact._compte set clefApi=new.clefApi where idC=new.idC;
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+
+------ PREVISIONNEL ------
+
+
+create or replace function pact.nbrJoursPrevisionnel(idOffre integer)
+  returns integer as $$
+declare
+  comp float;
+  date_debut date;
+  date_fin date;
+  n integer;
+begin
+  n = 0;
+  date_debut = now();
+  date_fin = date_trunc('month'::text, date_debut + '1 mon'::interval);
+  raise notice '%', date_fin;
+  select(date_fin - date_debut) as days into n;
+  RETURN n;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.prix_previsionnel_offre_TTC(idOffre integer)
+  returns float as $$
+declare
+  cout float;
+  comp float;
+  n integer;
+begin
+  comp = 0;
+  select o.cout_TTC from pact.offre o where o.idO = idOffre into cout;
+  select pact.nbrJoursPrevisionnel(idOffre) into n;
+  for counter in 1..n loop
+    comp = comp + cout;
+  end loop;
+  
+  RETURN comp;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.prix_previsionnel_offre_HT(idOffre integer)
+  returns float as $$
+declare
+  cout float;
+  comp float;
+  n integer;
+begin
+  comp = 0;
+  select o.cout_HT from pact.offre o where o.idO = idOffre into cout;
+  select pact.nbrJoursPrevisionnel(idOffre) into n;
+  for counter in 1..n loop
+    comp = comp + cout;
+  end loop;
+  
+  RETURN round(CAST(comp as numeric),2);
+end;
+$$ language 'plpgsql';
