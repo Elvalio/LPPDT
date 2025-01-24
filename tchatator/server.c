@@ -1,5 +1,5 @@
 #include <errno.h>
-#include <netdb.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h>
@@ -8,10 +8,12 @@
 #include <stdlib.h>
 #include <postgresql/libpq-fe.h>
 #include <iconv.h>
+#include <netdb.h>
+#include <netinet/in.h>
 
 #define PORT "4242"
 #define BACKLOG 10
-#define BUFSIZE 1024
+#define BUFSIZE 4096
 
 // Fonction pour convertir une chaîne en UTF-8
 char* convert_to_utf8(const char* input, const char* from_encoding) {
@@ -122,8 +124,12 @@ void save_message(PGconn *conn, int discussion_id, int idClient, int idPro, int 
 void send_user_messages(PGconn *conn, int user_id, int client_fd) {
     char query[BUFSIZE];
     snprintf(query, BUFSIZE,
-             "SELECT texte FROM pact._message WHERE destinataire = %d AND recu = false AND supprime = false;",
-             user_id);
+         "SELECT texte, dateMessage, _compte.nom, _compte.prenom "
+         "FROM pact._message "
+         "JOIN pact._compte ON pact._message.idEmmeteur = pact._compte.idC "
+         "WHERE idReceveur = %d AND recu = false AND supprime = false;",
+         user_id);
+
 
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
@@ -139,7 +145,14 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd) {
     } else {
         for (int i = 0; i < rows; i++) {
             const char *message = PQgetvalue(res, i, 0);
-            send(client_fd, message, strlen(message), 0);
+            const char *dateMessage = PQgetvalue(res, i, 1);
+            const char *NomEmmeteurMessage = PQgetvalue(res, i, 2);
+            const char *PrenomEmmeteurMessage = PQgetvalue(res, i, 3);
+
+
+            char composed_message[BUFSIZE];
+            snprintf(composed_message, BUFSIZE, "[%s] - %s %s: %s", dateMessage, NomEmmeteurMessage, PrenomEmmeteurMessage, message);
+            send(client_fd, composed_message, strlen(composed_message), 0);
             send(client_fd, "\n", 1, 0);
         }
     }
@@ -147,7 +160,7 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd) {
 
     // Marquer les messages comme lus
     snprintf(query, BUFSIZE,
-             "UPDATE pact._message SET recu = true WHERE destinataire = %d AND recu = false;", user_id);
+             "UPDATE pact._message SET recu = true WHERE idReceveur = %d AND recu = false;", user_id);
     res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "Error updating message status: %s\n", PQerrorMessage(conn));
@@ -174,12 +187,7 @@ void fetch_all_data(PGconn *conn) {
     // Si la table est vide
     if (nRows == 0) {
         printf("La table est vide.\n");
-        fflush(stdout); // Force l'affichage immédiat
-        printf("test1\n");
-        fflush(stdout);
         PQclear(res);
-        printf("test2\n");
-        fflush(stdout);
         return;
     }
 
@@ -220,6 +228,8 @@ int main(void) {
     char buffer[BUFSIZE];
     int bytes_read;
 
+    int ret;
+
     const char *conninfo = "host=lppdt.ventsdouest.dev port=5432 dbname=sae user=sae password=brute-quint3-jOUrnaux";
     PGconn *conn = PQconnectdb(conninfo);
 
@@ -235,23 +245,27 @@ int main(void) {
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_flags = AI_PASSIVE;
-
+    // Obtenir les informations d'adresse pour le serveur
     if (getaddrinfo(NULL, PORT, &hints, &res) != 0) {
+        // Afficher un message d'erreur si getaddrinfo échoue
         perror("getaddrinfo");
-        return 1;
+        return 1; // Retourner 1 pour indiquer une erreur
     }
 
+    // Créer une socket avec les informations d'adresse obtenues
     socket_fd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
     if (socket_fd == -1) {
+        // Afficher un message d'erreur si la création de la socket échoue
         perror("socket");
-        return 2;
+        return 2; // Retourner 2 pour indiquer une erreur
     }
 
+    // Lier la socket à l'adresse et au port spécifiés
     if (bind(socket_fd, res->ai_addr, res->ai_addrlen) != 0) {
+        // Afficher un message d'erreur si la liaison échoue
         perror("bind");
-        return 3;
+        return 3; // Retourner 3 pour indiquer une erreur
     }
-
     listen(socket_fd, BACKLOG);
 
     while (1) {
@@ -264,10 +278,16 @@ int main(void) {
         printf("New client connected.\n");
 
         fetch_all_data(conn);
-        printf("test");
 
+
+        memset(buffer, 0, BUFSIZE); // Initialize buffer
         bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
         if (bytes_read <= 0) {
+            if (bytes_read == 0) {
+                printf("Client disconnected.\n");
+            } else {
+                perror("recv");
+            }
             close(client_fd);
             continue;
         }
@@ -276,13 +296,43 @@ int main(void) {
         if (strcmp(buffer, "SEND") == 0) {
             int sender_id, receiver_id;
             char message[BUFSIZE];
-            recv(client_fd, buffer, BUFSIZE - 1, 0);
-            char *token = strtok(buffer, "|");
+            ret = recv(client_fd, buffer, BUFSIZE - 1, 0);
+            if (ret <= 0) {
+                if (ret == 0) {
+                    fprintf(stderr, "Client déconnecté.\n");
+                } else {
+                    perror("recv");
+                }
+                close(client_fd);
+                continue;
+            }
+            buffer[ret] = '\0'; // Assurez la terminaison nulle
+
+            char *token = strtok(buffer, "\n");
+            if (token == NULL) {
+                fprintf(stderr, "Erreur : format incorrect (sender_id).\n");
+                close(client_fd);
+                continue;
+            }
             sender_id = atoi(token);
-            token = strtok(NULL, "|");
-            receiver_id = atoi(token);
+
             token = strtok(NULL, "\n");
-            strncpy(message, token, BUFSIZE);
+            if (token == NULL) {
+                fprintf(stderr, "Erreur : format incorrect (receiver_id).\n");
+                close(client_fd);
+                continue;
+            }
+            receiver_id = atoi(token);
+
+            token = strtok(NULL, "\n");
+            if (token == NULL) {
+                fprintf(stderr, "Erreur : format incorrect (message).\n");
+                close(client_fd);
+                continue;
+            }
+            strncpy(message, token, BUFSIZE - 1);
+            message[BUFSIZE - 1] = '\0'; // Nul-terminé
+
 
             int discussion_id = 0; // Mettre à 0 si la discussion doit être créée
             int idClient = sender_id; // Assumer que sender_id est le client

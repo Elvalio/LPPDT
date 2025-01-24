@@ -9,7 +9,7 @@
 #include <postgresql/libpq-fe.h>
 
 #define PORT 4242
-#define BUFSIZE 1024
+#define BUFSIZE 4096
 
 void send_message(int socket_fd) {
 char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
