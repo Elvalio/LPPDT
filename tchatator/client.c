@@ -54,8 +54,8 @@ void receive_messages(int socket_fd) {
     while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
         buffer[bytes_read] = '\0';
         printf("%s", buffer);
-        printf("\n");
     }
+    printf("\n");
 }
 
 int main(void) {
@@ -86,7 +86,7 @@ int main(void) {
     }
     printf("Connected to server.\n");
 
-    printf("Type 'SEND' to send a message or 'RECEIVE' to fetch messages: ");
+    printf("Type 'SEND' to send a message / 'RECEIVE' to fetch messages / 'CLEAR' to drop the data of message/discussion / 'AFFICHER' to show the messages : ");
     fgets(choice, BUFSIZE, stdin);
     choice[strcspn(choice, "\n")] = '\0';
 
@@ -94,8 +94,12 @@ int main(void) {
         send_message(socket_fd);
     } else if (strcmp(choice, "RECEIVE") == 0) {
         receive_messages(socket_fd);
+    } else if(strcmp(choice, "CLEAR") == 0) {
+        send(socket_fd, "CLEAR", 5, 0);
+    } else if(strcmp(choice, "AFFICHER") == 0) { 
+        send(socket_fd, "AFFICHER", 8, 0);
     } else {
-        printf("Invalid choice.\n");
+    printf("Invalid choice.\n");
     }
 
     close(socket_fd);

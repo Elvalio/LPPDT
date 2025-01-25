@@ -15,7 +15,14 @@
 #define BACKLOG 10
 #define BUFSIZE 4096
 
-// Fonction pour convertir une chaîne en UTF-8
+
+
+
+
+// ============================
+// Fonction: convert_to_utf8
+// Convertit une chaîne de caractères en UTF-8
+// ============================
 char* convert_to_utf8(const char* input, const char* from_encoding) {
     iconv_t cd = iconv_open("UTF-8", from_encoding);
     if (cd == (iconv_t)-1) {
@@ -48,24 +55,65 @@ char* convert_to_utf8(const char* input, const char* from_encoding) {
     return output;
 }
 
-// Fonction pour insérer un message dans la base de données
-void save_message(PGconn *conn, int discussion_id, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text) {
-    // Vérifier si la discussion existe
-    char check_discussion_query[BUFSIZE];
-    snprintf(check_discussion_query, BUFSIZE,
-             "SELECT 1 FROM pact._discussion WHERE idDiscussion = %d;", discussion_id);
 
-    PGresult *check_res = PQexec(conn, check_discussion_query);
-    if (PQresultStatus(check_res) != PGRES_TUPLES_OK) {
-        fprintf(stderr, "Error checking discussion: %s\n", PQerrorMessage(conn));
-        PQclear(check_res);
-        return;
+
+
+
+
+// ============================
+// Fonction: find_discussion
+// Trouve une discussion entre un client et un professionnel
+// ============================
+int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur) {
+    char query[BUFSIZE];
+
+    printf("SELECT DISCUSSION\n");
+
+    snprintf(query, BUFSIZE,
+             "SELECT idDiscussion FROM pact._discussion "
+             "WHERE (idClient = %d OR idPro = %d) AND estBloque = false;",
+             idClient, idPro);
+
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Error fetching discussion: %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
     }
 
-    // Si la discussion n'existe pas, la créer
-    if (PQntuples(check_res) == 0) {
-        PQclear(check_res);
+    int discussion_id = -1;
+    if (PQntuples(res) > 0) {
+        discussion_id = atoi(PQgetvalue(res, 0, 0));
+    }
+    PQclear(res);
 
+
+    printf("DISCUSSION ID : %d\n", discussion_id);
+    printf("FIN DE SELECT DISCUSSION\n");
+
+    return discussion_id;
+}
+
+
+
+
+
+// ============================
+// Fonction: save_message
+// Sauvegarde un message et crée une discussion si nécessaire
+// ============================
+void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text) {
+    // Trouver ou créer la discussion
+    int discussion_id = find_discussion(conn, idClient, idPro, idEmmeteur, idReceveur);
+
+    printf("INSERTION DISCUSSION\n");
+
+    printf("idClient : %d\n", idClient);
+    printf("idPro : %d\n", idPro);
+    printf("idEmmeteur : %d\n", idEmmeteur);
+    printf("idReceveur : %d\n", idReceveur);
+
+    if (discussion_id == -1) {
         char create_discussion_query[BUFSIZE];
         snprintf(create_discussion_query, BUFSIZE,
                  "INSERT INTO pact._discussion (idClient, idPro, estBloque) "
@@ -82,8 +130,6 @@ void save_message(PGconn *conn, int discussion_id, int idClient, int idPro, int 
         // Récupérer l'idDiscussion généré
         discussion_id = atoi(PQgetvalue(create_res, 0, 0));
         PQclear(create_res);
-    } else {
-        PQclear(check_res);
     }
 
     // Convertir le texte du message en UTF-8
@@ -104,6 +150,8 @@ void save_message(PGconn *conn, int discussion_id, int idClient, int idPro, int 
         return;
     }
 
+    printf("INSERTION MESSAGE\n");
+
     // Insérer le message
     char query[BUFSIZE];
     snprintf(query, BUFSIZE,
@@ -120,15 +168,37 @@ void save_message(PGconn *conn, int discussion_id, int idClient, int idPro, int 
 }
 
 
-// Fonction pour envoyer tous les messages d'un utilisateur
+
+
+
+// ============================
+// Fonction: send_user_messages
+// Envoie tous les messages reçu à l'utilisateur
+// ============================
 void send_user_messages(PGconn *conn, int user_id, int client_fd) {
     char query[BUFSIZE];
+    // snprintf(query, BUFSIZE,
+    //      "SELECT texte, dateMessage, _compte.nom, _compte.prenom "
+    //      "FROM pact._message "
+    //      "JOIN pact._compte ON pact._message.idEmmeteur = pact._compte.idC "
+    //      "WHERE idReceveur = %d AND recu = false AND supprime = false;",
+    //      user_id);
+
+
     snprintf(query, BUFSIZE,
-         "SELECT texte, dateMessage, _compte.nom, _compte.prenom "
-         "FROM pact._message "
-         "JOIN pact._compte ON pact._message.idEmmeteur = pact._compte.idC "
-         "WHERE idReceveur = %d AND recu = false AND supprime = false;",
-         user_id);
+         "SELECT msg.idMessage, msg.dateMessage, msg.texte, "
+         "emmeteur.nom AS nom_emmeteur, emmeteur.prenom AS prenom_emmeteur, "
+         "receveur.nom AS nom_receveur, receveur.prenom AS prenom_receveur, "
+         "emmeteur.idC AS id_emmeteur "
+         "FROM pact._message msg "
+         "JOIN pact._compte emmeteur ON msg.idEmmeteur = emmeteur.idC "
+         "JOIN pact._compte receveur ON msg.idReceveur = receveur.idC "
+         "WHERE msg.idDiscussion = ("
+         "    SELECT idDiscussion FROM pact._discussion "
+         "    WHERE (idClient = %d OR idPro = %d)"
+         ") "
+         "ORDER BY msg.idMessage ASC;",
+         user_id, user_id);
 
 
     PGresult *res = PQexec(conn, query);
@@ -144,19 +214,36 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd) {
         send(client_fd, "No messages for you.\n", 22, 0);
     } else {
         for (int i = 0; i < rows; i++) {
-            const char *message = PQgetvalue(res, i, 0);
+            const char *idMessage = PQgetvalue(res, i, 0);
             const char *dateMessage = PQgetvalue(res, i, 1);
-            const char *NomEmmeteurMessage = PQgetvalue(res, i, 2);
-            const char *PrenomEmmeteurMessage = PQgetvalue(res, i, 3);
+            const char *message = PQgetvalue(res, i, 2);
+            const char *NomEmmeteurMessage = PQgetvalue(res, i, 3);
+            const char *PrenomEmmeteurMessage = PQgetvalue(res, i, 4);
+            const char *NomReceveurMessage = PQgetvalue(res, i, 5);
+            const char *PrenomReceveurMessage = PQgetvalue(res, i, 6);
+            const char *idEmmeteurMessage = PQgetvalue(res, i, 7); // On récupère l'ID de l'émetteur
 
+            // Vérifiez si l'émetteur est l'utilisateur actuel
+            char formatted_nom[BUFSIZE];
+            printf("idEmmeteurMessage : %s\n", idEmmeteurMessage);
+            printf("user_id : %d\n", user_id);
+            if (atoi(idEmmeteurMessage) == user_id) { // user_id est votre propre ID
+                snprintf(formatted_nom, BUFSIZE, "Moi");
+            } else {
+                snprintf(formatted_nom, BUFSIZE, "%s %s", NomEmmeteurMessage, PrenomEmmeteurMessage);
+            }
 
+            // Composer le message final
             char composed_message[BUFSIZE];
-            snprintf(composed_message, BUFSIZE, "[%s] - %s %s: %s", dateMessage, NomEmmeteurMessage, PrenomEmmeteurMessage, message);
+            snprintf(composed_message, BUFSIZE, "[%s] - %-20s: %s", dateMessage, formatted_nom, message);
+
+            // Envoyer le message au client
             send(client_fd, composed_message, strlen(composed_message), 0);
             send(client_fd, "\n", 1, 0);
         }
     }
     PQclear(res);
+
 
     // Marquer les messages comme lus
     snprintf(query, BUFSIZE,
@@ -168,7 +255,62 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd) {
     PQclear(res);
 }
 
-// Fonction principale pour récupérer les données de toutes les tables
+
+
+
+
+
+// ============================
+// Fonction: verifier_type_compte
+// Vérifie si un identifiant correspond à un professionnel ou un client
+// ============================
+const char* verifier_type_compte(PGconn *conn, int id_compte) {
+    char query[BUFSIZE];
+    PGresult *res;
+
+    // Vérifier dans la table _professionnel
+    snprintf(query, BUFSIZE, "SELECT 1 FROM pact._professionnel WHERE idC = %d;", id_compte);
+    res = PQexec(conn, query);
+
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la vérification dans _professionnel : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return "Erreur";
+    }
+
+    if (PQntuples(res) > 0) {
+        PQclear(res);
+        return "Professionnel";
+    }
+    PQclear(res);
+
+    // Vérifier dans la table _membre
+    snprintf(query, BUFSIZE, "SELECT 1 FROM pact._membre WHERE idC = %d;", id_compte);
+    res = PQexec(conn, query);
+
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la vérification dans _membre : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return "Erreur";
+    }
+
+    if (PQntuples(res) > 0) {
+        PQclear(res);
+        return "Client";
+    }
+    PQclear(res);
+
+    // Si aucune correspondance trouvée
+    return "Inconnu";
+}
+
+
+
+
+// ============================
+// Fonction: fetch_all_data
+// Affiche toutes les données de la table _message
+// ============================
 void fetch_all_data(PGconn *conn) {
     const char *query = "SELECT * FROM pact._message;";
 
@@ -220,6 +362,40 @@ void fetch_all_data(PGconn *conn) {
 
 
 
+
+// ============================
+// Fonction: clear_tables
+// Vide les tables _message et _discussion
+// ============================
+void clear_tables(PGconn *conn) {
+    const char *clear_message_query = "DELETE FROM pact._message;";
+    PGresult *res = PQexec(conn, clear_message_query);
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error clearing _message table: %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return;
+    }
+    PQclear(res);
+
+    const char *clear_discussion_query = "DELETE FROM pact._discussion;";
+    res = PQexec(conn, clear_discussion_query);
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error clearing _discussion table: %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return;
+    }
+    PQclear(res);
+
+    printf("Tables _message and _discussion cleared successfully.\n");
+}
+
+
+
+
+// ============================
+// Fonction principale: main
+// Gère la boucle principale du serveur et la communication client
+// ============================
 int main(void) {
     struct addrinfo hints, *res;
     int socket_fd, client_fd;
@@ -333,14 +509,25 @@ int main(void) {
             strncpy(message, token, BUFSIZE - 1);
             message[BUFSIZE - 1] = '\0'; // Nul-terminé
 
+            int idPro = -1;
+            int idClient = -1;
 
-            int discussion_id = 0; // Mettre à 0 si la discussion doit être créée
-            int idClient = sender_id; // Assumer que sender_id est le client
-            int idPro = receiver_id;  // L'identifiant du professionnel associé
+            if (verifier_type_compte(conn, sender_id) == "Inconnu" || verifier_type_compte(conn, receiver_id) == "Inconnu") {
+                send(client_fd, "Erreur : ID de compte invalide.\n", 30, 0);
+                close(client_fd);
+                continue;
+            } else if (verifier_type_compte(conn, sender_id) == "Professionnel") {
+                idPro = sender_id;
+                idClient = receiver_id;
+            } else {
+                idClient = sender_id;
+                idPro = receiver_id;
+            }
+
             int idReceveur = receiver_id; // L'utilisateur qui recevra le message
             printf("Message from %d to %d: %s\n", sender_id, receiver_id, message);
 
-            save_message(conn, discussion_id, idClient, idPro, sender_id, idReceveur, message);
+            save_message(conn, idClient, idPro, sender_id, idReceveur, message);
 
             send(client_fd, "Message saved.\n", 16, 0);
         } else if (strcmp(buffer, "RECEIVE") == 0) {
@@ -349,13 +536,17 @@ int main(void) {
             sscanf(buffer, "%d", &user_id);
 
             send_user_messages(conn, user_id, client_fd);
+        } else if (strcmp(buffer, "CLEAR") == 0) {
+            clear_tables(conn);
+            send(client_fd, "Tables cleared.\n", 16, 0);
+
+        } else if (strcmp(buffer, "AFFICHER") == 0) {
+            fetch_all_data(conn);
         } else {
             send(client_fd, "Invalid command.\n", 18, 0);
         }
 
         close(client_fd);
-
-        fetch_all_data(conn);
 
     }
 
