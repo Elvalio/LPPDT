@@ -15,7 +15,7 @@
 #define BACKLOG 10
 #define BUFSIZE 4096
 
-
+#define LEN_MSG_HISTORY 3
 
 
 
@@ -175,31 +175,46 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
 // Fonction: send_user_messages
 // Envoie tous les messages reçu à l'utilisateur
 // ============================
-void send_user_messages(PGconn *conn, int user_id, int client_fd) {
+#define MAX_MESSAGES 3
+
+void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messages, int message_id) {
     char query[BUFSIZE];
-    // snprintf(query, BUFSIZE,
-    //      "SELECT texte, dateMessage, _compte.nom, _compte.prenom "
-    //      "FROM pact._message "
-    //      "JOIN pact._compte ON pact._message.idEmmeteur = pact._compte.idC "
-    //      "WHERE idReceveur = %d AND recu = false AND supprime = false;",
-    //      user_id);
-
-
-    snprintf(query, BUFSIZE,
-         "SELECT msg.idMessage, msg.dateMessage, msg.texte, "
-         "emmeteur.nom AS nom_emmeteur, emmeteur.prenom AS prenom_emmeteur, "
-         "receveur.nom AS nom_receveur, receveur.prenom AS prenom_receveur, "
-         "emmeteur.idC AS id_emmeteur "
-         "FROM pact._message msg "
-         "JOIN pact._compte emmeteur ON msg.idEmmeteur = emmeteur.idC "
-         "JOIN pact._compte receveur ON msg.idReceveur = receveur.idC "
-         "WHERE msg.idDiscussion = ("
-         "    SELECT idDiscussion FROM pact._discussion "
-         "    WHERE (idClient = %d OR idPro = %d)"
-         ") "
-         "ORDER BY msg.idMessage ASC;",
-         user_id, user_id);
-
+    
+    // Si un message_id est fourni, récupérer les messages précédents ce message_id
+    if (message_id > 0) {
+        snprintf(query, BUFSIZE,
+            "SELECT msg.idMessage, msg.dateMessage, msg.texte, "
+            "emmeteur.nom AS nom_emmeteur, emmeteur.prenom AS prenom_emmeteur, "
+            "receveur.nom AS nom_receveur, receveur.prenom AS prenom_receveur, "
+            "emmeteur.idC AS id_emmeteur "
+            "FROM pact._message msg "
+            "JOIN pact._compte emmeteur ON msg.idEmmeteur = emmeteur.idC "
+            "JOIN pact._compte receveur ON msg.idReceveur = receveur.idC "
+            "WHERE msg.idDiscussion = ("
+            "    SELECT idDiscussion FROM pact._discussion "
+            "    WHERE (idClient = %d OR idPro = %d)"
+            ") AND msg.idMessage < %d "
+            "ORDER BY msg.idMessage DESC "
+            "LIMIT %d;",
+            user_id, user_id, message_id, max_messages);
+    } else {
+        // Sinon, récupérer les messages les plus récents
+        snprintf(query, BUFSIZE,
+            "SELECT msg.idMessage, msg.dateMessage, msg.texte, "
+            "emmeteur.nom AS nom_emmeteur, emmeteur.prenom AS prenom_emmeteur, "
+            "receveur.nom AS nom_receveur, receveur.prenom AS prenom_receveur, "
+            "emmeteur.idC AS id_emmeteur "
+            "FROM pact._message msg "
+            "JOIN pact._compte emmeteur ON msg.idEmmeteur = emmeteur.idC "
+            "JOIN pact._compte receveur ON msg.idReceveur = receveur.idC "
+            "WHERE msg.idDiscussion = ("
+            "    SELECT idDiscussion FROM pact._discussion "
+            "    WHERE (idClient = %d OR idPro = %d)"
+            ") "
+            "ORDER BY msg.idMessage DESC "
+            "LIMIT %d;",
+            user_id, user_id, max_messages);
+    }
 
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
@@ -213,41 +228,34 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd) {
     if (rows == 0) {
         send(client_fd, "No messages for you.\n", 22, 0);
     } else {
-        for (int i = 0; i < rows; i++) {
+        for (int i = rows - 1; i >= 0; i--) { // Les messages sont récupérés en ordre descendant, les renvoyer en ordre ascendant
             const char *idMessage = PQgetvalue(res, i, 0);
             const char *dateMessage = PQgetvalue(res, i, 1);
             const char *message = PQgetvalue(res, i, 2);
             const char *NomEmmeteurMessage = PQgetvalue(res, i, 3);
             const char *PrenomEmmeteurMessage = PQgetvalue(res, i, 4);
-            const char *NomReceveurMessage = PQgetvalue(res, i, 5);
-            const char *PrenomReceveurMessage = PQgetvalue(res, i, 6);
-            const char *idEmmeteurMessage = PQgetvalue(res, i, 7); // On récupère l'ID de l'émetteur
+            const char *idEmmeteurMessage = PQgetvalue(res, i, 7);
 
-            // Vérifiez si l'émetteur est l'utilisateur actuel
             char formatted_nom[BUFSIZE];
-            printf("idEmmeteurMessage : %s\n", idEmmeteurMessage);
-            printf("user_id : %d\n", user_id);
-            if (atoi(idEmmeteurMessage) == user_id) { // user_id est votre propre ID
+            if (atoi(idEmmeteurMessage) == user_id) {
                 snprintf(formatted_nom, BUFSIZE, "Moi");
             } else {
                 snprintf(formatted_nom, BUFSIZE, "%s %s", NomEmmeteurMessage, PrenomEmmeteurMessage);
             }
 
-            // Composer le message final
             char composed_message[BUFSIZE];
-            snprintf(composed_message, BUFSIZE, "[%s] - %-20s: %s", dateMessage, formatted_nom, message);
+            snprintf(composed_message, BUFSIZE, "%s | [%s] - %-20s: %s", idMessage, dateMessage, formatted_nom, message);
 
-            // Envoyer le message au client
             send(client_fd, composed_message, strlen(composed_message), 0);
             send(client_fd, "\n", 1, 0);
         }
     }
     PQclear(res);
-
-
-    // Marquer les messages comme lus
+    
+    // Optionnel : Marquer les messages récupérés comme lus
     snprintf(query, BUFSIZE,
-             "UPDATE pact._message SET recu = true WHERE idReceveur = %d AND recu = false;", user_id);
+             "UPDATE pact._message SET recu = true "
+             "WHERE idReceveur = %d AND recu = false;", user_id);
     res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "Error updating message status: %s\n", PQerrorMessage(conn));
@@ -256,6 +264,84 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd) {
 }
 
 
+// ============================
+// Fonction: modifier_message
+// Modifie un message existant
+// ============================
+int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouveau_texte) {
+    // Vérifier si l'utilisateur est l'émetteur du message
+    char query_temp[BUFSIZE];
+    snprintf(query_temp, BUFSIZE,
+             "SELECT 1 FROM pact._message WHERE idMessage = %d AND idEmmeteur = %d;",
+             idMessage, user_id);
+    if (PQntuples(PQexec(conn, query_temp)) == 0) {
+        fprintf(stderr, "Error: user is not the sender of the message.\n");
+        return 0;
+    }
+
+
+    // Convertir le texte du message en UTF-8
+    char *utf8_text = convert_to_utf8(nouveau_texte, "ISO-8859-1"); // Adapter l'encodage source si nécessaire
+    if (!utf8_text) {
+        fprintf(stderr, "Error converting message text to UTF-8\n");
+        return -1;
+    }
+
+    // Échapper le texte pour PostgreSQL
+    char escaped_text[BUFSIZE * 2]; // Buffer pour contenir le texte échappé
+    int error = 0;
+    PQescapeStringConn(conn, escaped_text, utf8_text, strlen(utf8_text), &error);
+    free(utf8_text); // Libérer la mémoire du texte converti
+
+    if (error) {
+        fprintf(stderr, "Error escaping message text: %s\n", PQerrorMessage(conn));
+        return -1;
+    }
+
+    // Insérer le message
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE,
+             "UPDATE pact._message SET texte = '%s' WHERE idMessage = %d;",
+             escaped_text, idMessage);
+
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error updating message: %s\n", PQerrorMessage(conn));
+    }
+    printf("Message updated.\n");
+    PQclear(res);
+    return 1;
+}
+
+
+
+
+// ============================
+// Fonction: supprimer_message
+// Supprime un message existant
+// ============================
+int supprimer_message(PGconn *conn, int user_id, int idMessage) {
+    // Vérifier si l'utilisateur est l'émetteur du message
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE,
+             "SELECT 1 FROM pact._message WHERE idMessage = %d AND idEmmeteur = %d;",
+             idMessage, user_id);
+    if (PQntuples(PQexec(conn, query)) == 0) {
+        fprintf(stderr, "Error: user is not the sender of the message.\n");
+        return 0;
+    }
+
+    // Supprimer le message
+    snprintf(query, BUFSIZE,
+             "DELETE FROM pact._message WHERE idMessage = %d;", idMessage);
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error deleting message: %s\n", PQerrorMessage(conn));
+    }
+    printf("Message deleted.\n");
+    PQclear(res);
+    return 1;
+}
 
 
 
@@ -535,7 +621,74 @@ int main(void) {
             recv(client_fd, buffer, BUFSIZE - 1, 0);
             sscanf(buffer, "%d", &user_id);
 
-            send_user_messages(conn, user_id, client_fd);
+            send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, 0);
+            // Indicateur de fin d'envoi
+            send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+            while (1) {
+                recv(client_fd, buffer, BUFSIZE - 1, 0);
+                if (buffer[0] == '+') {
+                    int message_id;
+                    char message_id_str[BUFSIZE];
+                    recv(client_fd, message_id_str, BUFSIZE - 1, 0);
+                    message_id = atoi(message_id_str);
+
+                    printf("Fetching messages before message ID %d\n", message_id);
+                    send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, message_id);
+                    send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+                } else if (strncmp(buffer, "CHANGE", 6) == 0) {
+                    int message_id;
+                    sscanf(buffer + 7, "%d", &message_id); // Extraire l'ID après CHANGE
+
+                    printf("Message ID to change: %d\n", message_id);
+
+                    // Recevoir le nouveau message
+                    char new_message[BUFSIZE];
+                    recv(client_fd, new_message, BUFSIZE - 1, 0);
+                    new_message[strcspn(new_message, "\n")] = '\0';
+
+                    printf("Changing message ID %d to: %s\n", message_id, new_message);
+                    int ret = modifier_message(conn, user_id, message_id, new_message);
+                    if (ret == 1) {
+                        const char *msg = "Message updated.\n";
+                        send(client_fd, msg, strlen(msg), 0);
+                    } else if (ret == 0) {
+                        const char *msg = "You are not the sender of this message.\n";
+                        send(client_fd, msg, strlen(msg), 0);
+                    } else {
+                        const char *msg = "Error updating message.\n";
+                        send(client_fd, msg, strlen(msg), 0);
+                    }
+                    send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, 0);
+                    send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+                } else if (strncmp(buffer, "SUPPR", 5) == 0) {
+                    int message_id;
+                    sscanf(buffer + 6, "%d", &message_id); // Extraire l'ID après CHANGE
+
+
+                    printf("Deleting message ID %d\n", message_id);
+                    int ret = supprimer_message(conn, user_id, message_id);
+                    if (ret == 1) {
+                        const char *msg = "Message deleted.\n";
+                        send(client_fd, msg, strlen(msg), 0);
+                    } else if (ret == 0) {
+                        const char *msg = "You are not the sender of this message.\n";
+                        send(client_fd, msg, strlen(msg), 0);
+                    } else {
+                        const char *msg = "Error deleting message.\n";
+                        send(client_fd, msg, strlen(msg), 0);
+                    }
+                    send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, 0);
+                    send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+                } else if (buffer[0] == '-') {
+                    break;
+                } else {
+                    send(client_fd, "Invalid command.\n", 18, 0);
+                }
+            }
         } else if (strcmp(buffer, "CLEAR") == 0) {
             clear_tables(conn);
             send(client_fd, "Tables cleared.\n", 16, 0);

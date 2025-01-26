@@ -50,13 +50,87 @@ void receive_messages(int socket_fd) {
     send(socket_fd, "RECEIVE", 7, 0);
     send(socket_fd, username, strlen(username), 0);
 
-    printf("Messages for you:\n");
-    while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
-        buffer[bytes_read] = '\0';
-        printf("%s", buffer);
+    while (1) {
+        // Réception des messages
+        printf("Messages for you:\n\n");
+        while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
+            buffer[bytes_read] = '\0';
+
+            // Vérifier la fin du bloc
+            if (strcmp(buffer, "END_OF_BLOCK") == 0) {
+                break; // Fin des messages, on passe aux interactions utilisateur
+            }
+
+            printf("%s", buffer);
+        }
+        printf("\n");
+
+        // Interaction utilisateur
+        char choice[BUFSIZE];
+        printf("- TAP '+' TO SEE PREVIOUS MESSAGES\n- TAP 'CHANGE' TO CHANGE A PREVIOUS MESSAGE\n- TAP 'SUPPR' TO DELETE A PREVIOUS MESSAGE\n- TAP '-' TO QUIT\n ->  ");
+        fgets(choice, BUFSIZE, stdin);
+        choice[strcspn(choice, "\n")] = '\0';
+
+        if (choice[0] == '+') {
+            int message_id;
+            printf("Enter message ID: ");
+            scanf("%d", &message_id);
+            getchar(); // Consommer le caractère '\n' laissé par scanf
+
+            send(socket_fd, "+", 1, 0);
+            char message_id_str[BUFSIZE];
+            snprintf(message_id_str, BUFSIZE, "%d", message_id);
+            send(socket_fd, message_id_str, strlen(message_id_str), 0);
+        } else if (choice[0] == '-') {
+            break; // Quitter la boucle
+        } else if (strcmp(choice, "CHANGE") == 0) {
+            printf("Enter the message ID you want to change: ");
+            int message_id;
+            scanf("%d", &message_id);
+            getchar(); // Consommer le caractère '\n'
+
+            // Préparer la commande CHANGE avec l'ID
+            char command[BUFSIZE];
+            snprintf(command, BUFSIZE, "CHANGE %d", message_id);
+            send(socket_fd, command, strlen(command), 0);
+
+            printf("Enter the new message: ");
+            char new_message[BUFSIZE];
+            fgets(new_message, BUFSIZE, stdin);
+            new_message[strcspn(new_message, "\n")] = '\0';
+
+            // Envoyer le nouveau message
+            send(socket_fd, new_message, strlen(new_message), 0);
+
+            // Recevoir la réponse
+            char response[BUFSIZE];
+            int response_bytes_read = recv(socket_fd, response, BUFSIZE - 1, 0);
+            response[response_bytes_read] = '\0';
+            printf("\n%s\n", response);
+
+        } else if(strcmp(choice, "SUPPR") == 0) {
+            printf("Enter the message ID you want to delete: ");
+            int message_id;
+            scanf("%d", &message_id);
+            getchar(); // Consommer le caractère '\n' laissé par scanf
+
+            // Préparer la commande SUPPR avec l'ID
+            char command[BUFSIZE];
+            snprintf(command, BUFSIZE, "SUPPR %d", message_id);
+            send(socket_fd, command, strlen(command), 0);
+
+            // Recevoir la réponse
+            char response[BUFSIZE];
+            int response_bytes_read = recv(socket_fd, response, BUFSIZE - 1, 0);
+            response[response_bytes_read] = '\0';
+            printf("\n%s\n", response);
+            
+        } else {
+            printf("Invalid command.\n");
+        }
     }
-    printf("\n");
 }
+
 
 int main(void) {
     struct sockaddr_in sa;
