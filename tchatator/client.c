@@ -11,13 +11,11 @@
 #define PORT 4242
 #define BUFSIZE 4096
 
-void send_message(int socket_fd) {
-char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
+void send_message(int socket_fd, char *api_key) {
+    char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
     char buffer[3 * BUFSIZE];  // Tampon pour toutes les données
 
-    // Demander les informations
-    printf("Your id: ");
-    fgets(sender, BUFSIZE, stdin);
+    strncpy(sender, api_key, BUFSIZE);
     sender[strcspn(sender, "\n")] = '\0';
 
     printf("Recipient id: ");
@@ -39,19 +37,22 @@ char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
 
 
 
-void receive_messages(int socket_fd) {
+void receive_messages(int socket_fd, char *api_key) {
     char username[BUFSIZE], buffer[BUFSIZE];
     int bytes_read;
 
-    printf("Your id: ");
-    fgets(username, BUFSIZE, stdin);
+    strncpy(username, api_key, BUFSIZE);
     username[strcspn(username, "\n")] = '\0';
 
     send(socket_fd, "RECEIVE", 7, 0);
     send(socket_fd, username, strlen(username), 0);
 
+    system("clear");
+
     while (1) {
         // Réception des messages
+        system("clear");
+        printf("\n\n");
         printf("Messages for you:\n\n");
         while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
             buffer[bytes_read] = '\0';
@@ -67,7 +68,10 @@ void receive_messages(int socket_fd) {
 
         // Interaction utilisateur
         char choice[BUFSIZE];
-        printf("- TAP '+' TO SEE PREVIOUS MESSAGES\n- TAP 'CHANGE' TO CHANGE A PREVIOUS MESSAGE\n- TAP 'SUPPR' TO DELETE A PREVIOUS MESSAGE\n- TAP '-' TO QUIT\n ->  ");
+        printf("\n\n\n============================= MENU ==============================\n∥\t\t\t\t\t\t\t\t∥\n");
+            printf("∥          - '+'\t TO SEE THE PREVIOUS MESSAGES\t\t∥\n∥          - 'CHANGE'\t TO MODIFIY A PREVIOUS MESSAGE\t\t∥\n∥          - 'DELETE'\t TO DELETE A PREVIOUS MESSAGE\t\t∥\n∥          - '-'\t TO RETURN TO THE HOME MENU\t\t∥\n");
+            printf("∥\t\t\t\t\t\t\t\t∥\n=================================================================\n");
+        printf("\n>> ");
         fgets(choice, BUFSIZE, stdin);
         choice[strcspn(choice, "\n")] = '\0';
 
@@ -82,6 +86,7 @@ void receive_messages(int socket_fd) {
             snprintf(message_id_str, BUFSIZE, "%d", message_id);
             send(socket_fd, message_id_str, strlen(message_id_str), 0);
         } else if (choice[0] == '-') {
+            send(socket_fd, "-", 1, 0);
             break; // Quitter la boucle
         } else if (strcmp(choice, "CHANGE") == 0) {
             printf("Enter the message ID you want to change: ");
@@ -108,7 +113,7 @@ void receive_messages(int socket_fd) {
             response[response_bytes_read] = '\0';
             printf("\n%s\n", response);
 
-        } else if(strcmp(choice, "SUPPR") == 0) {
+        } else if(strcmp(choice, "DELETE") == 0) {
             printf("Enter the message ID you want to delete: ");
             int message_id;
             scanf("%d", &message_id);
@@ -116,7 +121,7 @@ void receive_messages(int socket_fd) {
 
             // Préparer la commande SUPPR avec l'ID
             char command[BUFSIZE];
-            snprintf(command, BUFSIZE, "SUPPR %d", message_id);
+            snprintf(command, BUFSIZE, "DELETE %d", message_id);
             send(socket_fd, command, strlen(command), 0);
 
             // Recevoir la réponse
@@ -160,21 +165,58 @@ int main(void) {
     }
     printf("Connected to server.\n");
 
-    printf("Type 'SEND' to send a message / 'RECEIVE' to fetch messages / 'CLEAR' to drop the data of message/discussion / 'AFFICHER' to show the messages : ");
-    fgets(choice, BUFSIZE, stdin);
-    choice[strcspn(choice, "\n")] = '\0';
+    printf("LOGIN YOUSELF WITH YOUR API KEY\n");
+    char api_key[BUFSIZE];
+    printf("API KEY: ");
+    fgets(api_key, BUFSIZE, stdin);
+    send(socket_fd, api_key, strlen(api_key), 0);
 
-    if (strcmp(choice, "SEND") == 0) {
-        send_message(socket_fd);
-    } else if (strcmp(choice, "RECEIVE") == 0) {
-        receive_messages(socket_fd);
-    } else if(strcmp(choice, "CLEAR") == 0) {
-        send(socket_fd, "CLEAR", 5, 0);
-    } else if(strcmp(choice, "AFFICHER") == 0) { 
-        send(socket_fd, "AFFICHER", 8, 0);
-    } else {
-    printf("Invalid choice.\n");
+    int bytes_received = recv(socket_fd, choice, BUFSIZE - 1, 0);
+    if (bytes_received < 0) {   
+        perror("recv");
+        close(socket_fd);
+        return 3;
     }
+    choice[bytes_received] = '\0';
+    printf("Received: %s\n", choice);
+
+    if (strcmp(choice, "API_KEY_INVALID") == 0) {
+        printf("API key invalid.\n");
+        close(socket_fd);
+        return 3;
+    } else if (strcmp(choice, "API_KEY_VALID") == 0) {
+        printf("API key valid.\n");
+        while (1) {
+            system("clear");
+            printf("\n\n");
+            printf("========================= MENU ==========================\n∥\t\t\t\t\t\t\t∥\n");
+            printf("∥          - 'SEND'\t TO SEND A MESSAGE      \t∥\n∥          - 'RECEIVE'\t TO FETCH MESSAGES      \t∥\n∥          - 'QUIT'\t TO QUIT THE SERVICE     \t∥\n");
+            printf("∥\t\t\t\t\t\t\t∥\n=========================================================\n");
+            printf("\n>> ");
+            fgets(choice, BUFSIZE, stdin);
+            choice[strcspn(choice, "\n")] = '\0';
+
+            if (strcmp(choice, "SEND") == 0) {
+                send_message(socket_fd, api_key);
+            } else if (strcmp(choice, "RECEIVE") == 0) {
+                receive_messages(socket_fd, api_key);
+            // } else if(strcmp(choice, "CLEAR") == 0) {
+            //     send(socket_fd, "CLEAR", 5, 0);
+            // } else if(strcmp(choice, "AFFICHER") == 0) { 
+            //     send(socket_fd, "AFFICHER", 8, 0);
+            } else if(strcmp(choice, "QUIT") == 0) {
+                system("clear");
+                break;
+            } else {
+                printf("Invalid choice.\n");
+            }
+        }
+    } else {
+        printf("Unknown response from server.\n");
+        close(socket_fd);
+        return 4;
+    }
+
 
     close(socket_fd);
     return 0;
