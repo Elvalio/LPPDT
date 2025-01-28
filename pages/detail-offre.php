@@ -3,8 +3,91 @@ include('../sql/connect_params.php');
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
 
-    if($_POST['type_form'] == 'supp-avis'){
+    // echo '<pre>';
+    // print_r($_POST);
+    // echo '</pre>';
+    // connexion
 
+    $identifiant = trim($_POST['identifiant']);
+    $message_erreur = '';
+    $trouve = false;
+    try{
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname",
+            $user, $pass);
+
+        //verifie si membre
+
+        $stmt = $dbh->prepare(
+            "SELECT idC, pseudo, mdp FROM pact.membre WHERE pseudo = :pseudo;"
+        );
+        $stmt->bindParam(':pseudo', $identifiant, PDO::PARAM_STR);
+        
+            
+        $stmt->execute();
+        $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        
+        if ($stmt!=[]) {
+            if ($stmt[0]['mdp'] == $_POST['password']) {
+                $idC = strval($stmt[0]['idc']);
+                setcookie("user", $idC, time() + 3600, '/');
+                setcookie("type_compte", 'membre', time() + 3600, '/');
+
+                $_COOKIE['user'] = $idC;
+                $_COOKIE['type_compte'] = 'membre';
+                $trouve = true;
+            }
+        }
+        
+        //verifie si professionnel
+
+        $identifiant = (int)$identifiant;
+
+        $stmt = $dbh->prepare(
+            "SELECT idC, codePro, mdp FROM pact.professionnel WHERE codePro = :codePro;"
+        );
+        $stmt->bindParam(':codePro', $identifiant, PDO::PARAM_INT);
+
+        $stmt->execute();
+        $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($stmt!=[]) {
+            if ($stmt[0]['mdp'] == $_POST['password']) {
+                $idC = strval($stmt[0]['idc']);
+                setcookie("user", $idC, time() + 3600, '/');
+
+                $_COOKIE['user'] = $idC;
+
+                $stmt = $dbh->prepare(
+                    "select * from pact.professionnel where idC in (select idC from pact.secteur_prive where idC = $idC);"
+                );
+        
+                $stmt->execute();
+                $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+                if ($stmt!=[]) {
+                    setcookie("type_compte", 'pro_prive', time() + 3600, '/');
+
+                    $_COOKIE['type_compte'] = 'pro_prive';
+                }else{
+                    setcookie("type_compte", 'pro_public', time() + 3600, '/');
+
+                    $_COOKIE['type_compte'] = 'pro_public';
+                }
+                $trouve = true;
+            }
+        }
+
+        if (!$trouve){
+            $message_erreur = "Nom d'utilisateur ou mot de passe incorrect, veuillez réessayer";
+        }
+
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+
+    if($_POST['type_form'] == 'supp-avis'){
         try{
 
             $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
@@ -191,7 +274,7 @@ try {
     </title>
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <script src="../detail-offre.js" async></script>
+    <script src="../js/detail-offre-offre.js" async></script>
 </head>
 
 <div class="desktop-element">
@@ -405,21 +488,21 @@ try {
                             id="etoile_note<?php echo $i?>">
                     <?php endfor;?>
                 </div>
-                        <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
+                <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
                         <input type="hidden" name="type_form" value="poste-avis">
-                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
                         <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
-                            required="required"></textarea>
+                            required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
                         <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
-                            placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                            placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."><?php echo isset($_POST['contenuAvis']) ? $_POST['contenuAvis'] : ''; ?></textarea>
                         <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                         <label for="options" id="titre-contexte">Contexte de la visite :</label>
                         <select id="options-contexte" name="options">
-                            <option value="Affaires">Affaires</option>
-                            <option value="Couple">Couple</option>
-                            <option value="Famille">Famille</option>
-                            <option value="Amis">Amis</option>
-                            <option value="Seul">Seul</option>
+                            <option value="Affaires" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Affaires' ? 'selected' : '' ?>>Affaires</option>
+                            <option value="Couple" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Couple' ? 'selected' : '' ?>>Couple</option>
+                            <option value="Famille" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Famille' ? 'selected' : '' ?>>Famille</option>
+                            <option value="Amis" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Amis' ? 'selected' : '' ?>>Amis</option>
+                            <option value="Seul" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Seul' ? 'selected' : '' ?>>Seul</option>
                         </select>
                         <input type="submit" id="bouton_publier" value="Publier">
                         </form>
@@ -433,20 +516,21 @@ try {
                             id="etoile_note<?php echo $i; ?>">
                     <?php endfor;?>
                 </div>
-                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="1">
+                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
                 <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
-                    required="required"></textarea>
+                    required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
                 <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
-                    placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."></textarea>
+                    placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."><?php echo isset($_POST['contenuAvis']) ? $_POST['contenuAvis'] : ''; ?></textarea>
                 <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                 <label for="options" id="titre-contexte">Contexte de la visite :</label>
                     <select id="options-contexte" name="options">
-                        <option value="Affaires">Affaires</option>
-                        <option value="Couple">Couple</option>
-                        <option value="Famille">Famille</option>
-                        <option value="Amis">Amis</option>
-                        <option value="Seul">Seul</option>
+                        <option value="Affaires" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Affaires' ? 'selected' : '' ?>>Affaires</option>
+                        <option value="Couple" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Couple' ? 'selected' : '' ?>>Couple</option>
+                        <option value="Famille" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Famille' ? 'selected' : '' ?>>Famille</option>
+                        <option value="Amis" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Amis' ? 'selected' : '' ?>>Amis</option>
+                        <option value="Seul" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Seul' ? 'selected' : '' ?>>Seul</option>
                     </select>
+
                     <button id="bouton_publier" type="button">
                         Valider
                     </button>
@@ -524,7 +608,41 @@ try {
                 ]);
                 $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
                 */
+                /*
+                // Récupération de l'ID de l'utilisateur (depuis les cookies)
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0;
+
+                // Récupération de l'ID de l'avis
+                $idAvis = $avisIndividuel['ida'];
+
+                // Vérification si l'avis a déjà été signalé
+                $stmtSignalAvis = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_avis 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalAvis->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledAvis = $stmtSignalAvis->fetchColumn() > 0;
+
+                // Vérification si une réponse liée à l'avis a déjà été signalée
+                $stmtSignalReponse = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_reponse 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalReponse->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
+
+                // Déterminer l'état du bouton en fonction des résultats
+                $buttonDisabled = $alreadySignaledAvis || $alreadySignaledReponse;
+                $buttonStyle = $buttonDisabled ? 'cursor: not-allowed; opacity: 0.5;' : '';
+                $buttonText = $alreadySignaledAvis ? 'Déjà signalé' : "Signaler l'avis";
                 // Vérifier si l'utilisateur a signalé cet avis ou une de ses réponses
+                */
                 /*
                 if ($alreadySignaledAvis) {
                     echo "L'avis a déjà été signalé par cet utilisateur.";
@@ -568,7 +686,7 @@ try {
                         ?>
                     </div>
                 </div>
-                <?php if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
+                <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
                     if (!isset($reponse['ida'])) { ?>
                         <div class="commentaire-consulte exergue">
                             <p>
@@ -582,6 +700,14 @@ try {
                             </p>
                         </div>
                     <?php } 
+                }else{
+                    ?>
+                        <div class="commentaire-consulte">
+                            <p>
+                                <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                            </p>
+                        </div>
+                    <?php
                 } ?>
 
                 <?php
@@ -650,7 +776,7 @@ try {
                         
                         } else { ?>
                             <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
-                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" style="display: none">
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
                                 <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
@@ -677,39 +803,46 @@ try {
         <button class="close-btn">Fermer</button>
     </div>
 
-    <div id="overlay"></div>
-    <div id="popup_avis">
-        
-        <img id="logo" src="../logo/logo_reduit_vert.png">
-        <div id="group">
-            <div id="text">
-                <p id="debut">Vous souhaitez faire part de votre avis ?</p><p id="fin"> Connectez-vous</p>
+    <?php if(!isset($_COOKIE['user'])){?>
+        <div id="overlay"></div>
+        <div id="popup_avis">
+            
+            <img id="logo" src="../logo/logo_reduit_vert.png">
+            <div id="group">
+                <div id="text">
+                    <p id="debut">Vous souhaitez faire part de votre avis ?</p><p id="fin"> Connectez-vous</p>
 
+                </div>
+                <form id="formConnexion" action="detail-offre.php?value=<?php echo $offre['ido']?>" method="post">
+
+                    <div class="form-group">
+                        <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
+                        <label for="identifiant">Identifiant compte</label>
+                        <input id="identifiant" name="identifiant" placeholder="Identifiant" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                    </div>
+
+                    <input type="hidden" id="etoile" name="etoile">
+                    <input type="hidden" id="titreAvis" name="titreAvis">
+                    <input type="hidden" id="contenuAvis" name="contenuAvis">
+                    <input type="hidden" id="contextAvis" name="contextAvis">
+
+                    <button type="submit" id="connexion_popup" class="submit-button">Se connecter</button>
+
+                    <div class="links">
+                        <!--<a href="#" class="mdpOublie">Mot de passe oublié ?</a>-->
+                        <a href="creation_compte_formulaire.php" class="inscription">S'inscrire</a>
+                    </div>
+
+                </form>
             </div>
-            <form action="connexion.php" method="post" class="login-form">
-
-                <div class="form-group">
-                    <!--Identifiant correspond au pseudo ou codePro, pas à l'idC-->
-                    <label for="identifiant">Identifiant compte</label>
-                    <input id="identifiant" name="identifiant" placeholder="Identifiant" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-                </div>
-
-                <button type="submit" id="connexion" class="submit-button">Se connecter</button>
-
-                <div class="links">
-                    <!--<a href="#" class="mdpOublie">Mot de passe oublié ?</a>-->
-                    <a href="creation_compte_formulaire.php" class="inscription">S'inscrire</a>
-                </div>
-
-            </form>
+            <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
-        <img id="croix" src="../images/croix.png" alt="" class="close-popup">
-    </div>
+    <?php } ?>
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>

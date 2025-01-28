@@ -332,9 +332,8 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>">
                         
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
-                            <?php if ($value["option"] == "À la Une") { ?>
-                                <img src="../images/etoiles.png" alt="A la Une" class="etoileALaUne">
-                            <?php } ?>
+
+
                         <div class="InfoOffreMobile">
                             <p class="titreAnnonce"><?php echo $value["titre"] ?></p>
 
@@ -373,6 +372,11 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                                     <img src="../images/imagesReferences/placeholder.jpg" alt="Image par défaut">
                                 <?php } ?>
                             </div>
+                            <?php if ($value["option"] == "À la Une") { ?>
+                            <div class="alaune">
+                                <p>À la une</p>
+                            </div>
+                        <?php } ?>
                         </div>
                         </a>
                     </div>
