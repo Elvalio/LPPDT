@@ -553,6 +553,8 @@ begin
 end;
 $$ language 'plpgsql';
 
+
+/*DEPRECIATED was used in a trigger but no longer usefull in current implementation*/
 create or replace function pact.inserer_compte()
   returns trigger as $$
 begin
@@ -1682,7 +1684,7 @@ create table _discussion(
   idDiscussion serial,
   idClient integer,
   idPro integer,
-  estBloque boolean,
+  estBloque boolean default false,
   
   constraint _discussion_pk primary key (idDiscussion),
   constraint _discussion_fk_membre foreign key
@@ -1695,14 +1697,15 @@ create table _discussion(
 create table _message(
   idMessage serial,
   idDiscussion integer,
-  dateMessage date,
-  recu boolean,
-  supprime boolean,
+  dateMessage timestamp default NOW(),
+  dateModif timestamp default null,
+  recu boolean default false,
+  supprime boolean default false,
   texte varchar(1000),
   
   --FK
-  idEmmeteur integer,
-  idReceveur integer,
+  idEmmeteur integer not null,
+  idReceveur integer not null,
   
   constraint _message_pk primary key (idMessage),
   
@@ -1714,6 +1717,10 @@ create table _message(
   constraint _message_fk_compte_emmeteur foreign key
   (idEmmeteur) references pact._compte(idC)
 );
+
+
+------ FONCTIONS ET TRIGGERS TCHATATOR -------
+
 
 /*
 Génère les clef API des compte memebres
@@ -1747,6 +1754,23 @@ begin
   RETURN NEW;
 end;
 $$ language 'plpgsql';
+
+
+/*Modifie la date de dernière modification*/
+
+create or replace function pact.mis_a_jour_message()
+  returns trigger as $$
+begin
+  if (old.texte != new.texte) then
+    new.dateModif = NOW();
+  end if;
+  RETURN NEW;
+end;
+$$ language 'plpgsql';
+
+create or replace trigger tg_update_message
+before update on pact._message
+  for each row execute procedure pact.mis_a_jour_message();
 
 
 ------ PREVISIONNEL ------
