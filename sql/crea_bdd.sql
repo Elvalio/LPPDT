@@ -1697,8 +1697,8 @@ create table _discussion(
 create table _message(
   idMessage serial,
   idDiscussion integer,
-  dateMessage date default current_date,
-  dateModif date default null,
+  dateMessage timestamp default NOW(),
+  dateModif timestamp default null,
   recu boolean default false,
   supprime boolean default false,
   texte varchar(1000),
@@ -1761,7 +1761,9 @@ $$ language 'plpgsql';
 create or replace function pact.mis_a_jour_message()
   returns trigger as $$
 begin
-  new.dateModif = current_date;
+  if (old.texte != new.texte) then
+    new.dateModif = NOW();
+  end if;
   RETURN NEW;
 end;
 $$ language 'plpgsql';
