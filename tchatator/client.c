@@ -45,8 +45,9 @@ void receive_messages(int socket_fd, char *api_key) {
     strncpy(username, api_key, BUFSIZE);
     username[strcspn(username, "\n")] = '\0';
 
+
     send(socket_fd, "RECEIVE", 7, 0);
-    send(socket_fd, username, strlen(username), 0);
+    // send(socket_fd, username, strlen(username), 0);
 
     system("clear");
 
@@ -70,8 +71,8 @@ void receive_messages(int socket_fd, char *api_key) {
         // Interaction utilisateur
         char choice[BUFSIZE];
         printf("\n\n\n============================= MENU ==============================\n∥\t\t\t\t\t\t\t\t∥\n");
-            printf("∥          - '+'\t TO SEE THE PREVIOUS MESSAGES\t\t∥\n∥          - 'CHANGE'\t TO MODIFIY A PREVIOUS MESSAGE\t\t∥\n∥          - 'DELETE'\t TO DELETE A PREVIOUS MESSAGE\t\t∥\n∥          - '-'\t TO RETURN TO THE HOME MENU\t\t∥\n");
-            printf("∥\t\t\t\t\t\t\t\t∥\n=================================================================\n");
+        printf("∥          - '+'\t TO SEE THE PREVIOUS MESSAGES\t\t∥\n∥          - 'CHANGE'\t TO MODIFIY A PREVIOUS MESSAGE\t\t∥\n∥          - 'DELETE'\t TO DELETE A PREVIOUS MESSAGE\t\t∥\n∥          - '-'\t TO RETURN TO THE HOME MENU\t\t∥\n");
+        printf("∥\t\t\t\t\t\t\t\t∥\n=================================================================\n");
         printf("\n>> ");
         fgets(choice, BUFSIZE, stdin);
         choice[strcspn(choice, "\n")] = '\0';
@@ -150,6 +151,7 @@ void print_menu_message() {
 
 void menu_message(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
     while (1) {
+        system("clear");
         print_menu_message();
         fgets(choice, BUFSIZE, stdin);
         choice[strcspn(choice, "\n")] = '\0';

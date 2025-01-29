@@ -27,7 +27,7 @@ int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int i
 void fetch_all_data(PGconn *conn);
 void clear_tables(PGconn *conn);
 void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text);
-void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messages, int message_id);
+void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messages, int message_id, int id_conv);
 int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouveau_texte);
 int supprimer_message(PGconn *conn, int user_id, int idMessage);
 const char *verifier_type_compte(PGconn *conn, int id_compte);
@@ -126,21 +126,27 @@ int main(void) {
             while (1) {
                 send_conversation_list(conn, api_key, client_fd);
                 send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+                printf("Conversation list sent.\n");
 
                 bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
                 if (bytes_read <= 0) {
                     perror("recv");
                     close(client_fd);
-                    continue;
+                    break;
                 }
                 buffer[bytes_read] = '\0';
+                printf("buffer : %s\n", buffer);
+                bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
 
+                buffer[bytes_read] = '\0';
+                printf("buffer : %s\n", buffer);
                 if (strcmp("QUIT", buffer) == 0) {
                     printf("Client disconnected.\n");
                     close(client_fd);
                     continue;
                 } else if (validConversation(conn, api_key, client_fd, buffer)) {
                     printf("Conversation selected: %s\n", buffer);
+                    int id_conv = atoi(buffer);
 
                     while (1) {
                         memset(buffer, 0, BUFSIZE);
@@ -192,11 +198,11 @@ int main(void) {
                             send(client_fd, "Message saved.\n", 16, 0);
 
                         } else if (strcmp(buffer, "RECEIVE") == 0) {
-                            int user_id;
-                            recv(client_fd, buffer, BUFSIZE - 1, 0);
-                            sscanf(buffer, "%d", &user_id);
+                            // int user_id;
+                            // recv(client_fd, buffer, BUFSIZE - 1, 0);
+                            // sscanf(buffer, "%d", &user_id);
 
-                            send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, 0);
+                            send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
                             // Indicateur de fin d'envoi
                             send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
@@ -209,7 +215,7 @@ int main(void) {
                                     message_id = atoi(message_id_str);
 
                                     printf("Fetching messages before message ID %d\n", message_id);
-                                    send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, message_id);
+                                    send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, message_id, id_conv);
                                     send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
                                 } else if (strncmp(buffer, "CHANGE", 6) == 0) {
@@ -224,7 +230,7 @@ int main(void) {
                                     new_message[strcspn(new_message, "\n")] = '\0';
 
                                     printf("Changing message ID %d to: %s\n", message_id, new_message);
-                                    int ret = modifier_message(conn, user_id, message_id, new_message);
+                                    int ret = modifier_message(conn, api_key, message_id, new_message);
                                     if (ret == 1) {
                                         const char *msg = "Message updated.\n";
                                         send(client_fd, msg, strlen(msg), 0);
@@ -235,7 +241,7 @@ int main(void) {
                                         const char *msg = "Error updating message.\n";
                                         send(client_fd, msg, strlen(msg), 0);
                                     }
-                                    send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, 0);
+                                    send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
                                     send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
                                 } else if (strncmp(buffer, "DELETE", 6) == 0) {
@@ -244,7 +250,7 @@ int main(void) {
 
 
                                     printf("Deleting message ID %d\n", message_id);
-                                    int ret = supprimer_message(conn, user_id, message_id);
+                                    int ret = supprimer_message(conn, api_key, message_id);
                                     if (ret == 1) {
                                         const char *msg = "Message deleted.\n";
                                         send(client_fd, msg, strlen(msg), 0);
@@ -255,7 +261,7 @@ int main(void) {
                                         const char *msg = "Error deleting message.\n";
                                         send(client_fd, msg, strlen(msg), 0);
                                     }
-                                    send_user_messages(conn, user_id, client_fd, LEN_MSG_HISTORY, 0);
+                                    send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
                                     send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
                                 } else if (buffer[0] == '-') {
@@ -283,6 +289,7 @@ int main(void) {
 
                 } else {
                     send(client_fd, "Invalid conversation ID.\n", 25, 0);
+                    printf("Invalid conversation ID.\n");
                     continue;
                 }
             }
@@ -457,7 +464,7 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
 // ============================
 #define MAX_MESSAGES 3
 
-void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messages, int message_id) {
+void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messages, int message_id, int id_conv) {
     char query[BUFSIZE];
     
     // Si un message_id est fourni, récupérer les messages précédents ce message_id
@@ -470,13 +477,10 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
             "FROM pact._message msg "
             "JOIN pact._compte emmeteur ON msg.idEmmeteur = emmeteur.idC "
             "JOIN pact._compte receveur ON msg.idReceveur = receveur.idC "
-            "WHERE msg.idDiscussion = ("
-            "    SELECT idDiscussion FROM pact._discussion "
-            "    WHERE (idClient = %d OR idPro = %d)"
-            ") AND msg.idMessage < %d "
+            "WHERE msg.idDiscussion = %d AND msg.idMessage < %d "
             "ORDER BY msg.idMessage DESC "
             "LIMIT %d;",
-            user_id, user_id, message_id, max_messages);
+            id_conv, message_id, max_messages);
     } else {
         // Sinon, récupérer les messages les plus récents
         snprintf(query, BUFSIZE,
@@ -487,13 +491,10 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
             "FROM pact._message msg "
             "JOIN pact._compte emmeteur ON msg.idEmmeteur = emmeteur.idC "
             "JOIN pact._compte receveur ON msg.idReceveur = receveur.idC "
-            "WHERE msg.idDiscussion = ("
-            "    SELECT idDiscussion FROM pact._discussion "
-            "    WHERE (idClient = %d OR idPro = %d)"
-            ") "
+            "WHERE msg.idDiscussion = %d "
             "ORDER BY msg.idMessage DESC "
             "LIMIT %d;",
-            user_id, user_id, max_messages);
+            id_conv, max_messages);
     }
 
     PGresult *res = PQexec(conn, query);
@@ -510,7 +511,9 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
     } else {
         for (int i = rows - 1; i >= 0; i--) { // Les messages sont récupérés en ordre descendant, les renvoyer en ordre ascendant
             const char *idMessage = PQgetvalue(res, i, 0);
-            const char *dateMessage = PQgetvalue(res, i, 1);
+            char dateMessage[11];
+            strncpy(dateMessage, PQgetvalue(res, i, 1), 10);
+            dateMessage[10] = '\0';
             const char *message = PQgetvalue(res, i, 2);
             const char *NomEmmeteurMessage = PQgetvalue(res, i, 3);
             const char *PrenomEmmeteurMessage = PQgetvalue(res, i, 4);
@@ -524,6 +527,8 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
             }
 
             char composed_message[BUFSIZE];
+            
+            printf("dateMessage : %s\n", dateMessage);
             snprintf(composed_message, BUFSIZE, "%s | [%s] - %-20s: %s", idMessage, dateMessage, formatted_nom, message);
 
             send(client_fd, composed_message, strlen(composed_message), 0);
@@ -835,7 +840,7 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
             } else {
                 snprintf(composed_message, BUFSIZE, "Discussion ID: %s | %s", idDiscussion, nom_prenom);
             }
-
+            printf("Sending conversation: %s\n", composed_message);
             send(client_fd, composed_message, strlen(composed_message), 0);
             send(client_fd, "\n", 1, 0);
         }
@@ -861,6 +866,7 @@ bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversat
     }
 
     int rows = PQntuples(res);
+    printf("rows : %d\n", rows);
     PQclear(res);
     return rows > 0;
 }
