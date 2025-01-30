@@ -13,22 +13,15 @@
 #define BUFSIZE 4096
 
 void send_message(int socket_fd, char *api_key) {
-    char sender[BUFSIZE], receiver[BUFSIZE], message[BUFSIZE];
-    char buffer[3 * BUFSIZE];  // Tampon pour toutes les données
-
-    strncpy(sender, api_key, BUFSIZE);
-    sender[strcspn(sender, "\n")] = '\0';
-
-    printf("Recipient id: ");
-    fgets(receiver, BUFSIZE, stdin);
-    receiver[strcspn(receiver, "\n")] = '\0';
+    char message[BUFSIZE];
+    char buffer[BUFSIZE];  // Tampon pour le message
 
     printf("Your message: ");
     fgets(message, BUFSIZE, stdin);
     message[strcspn(message, "\n")] = '\0';
 
-    // Concaténer toutes les données dans le buffer
-    snprintf(buffer, sizeof(buffer), u8"%s\n%s\n%s\n", sender, receiver, message);
+    // Copier le message dans le buffer
+    snprintf(buffer, sizeof(buffer), "%s\n", message);
 
     // Envoyer toutes les données en une seule fois
     send(socket_fd, "SEND", 4, 0);  // Envoi du préfixe "SEND"  
@@ -144,7 +137,7 @@ void print_menu_message() {
     system("clear");
     printf("\n\n");
     printf("========================= MENU ==========================\n∥\t\t\t\t\t\t\t∥\n");
-    printf("∥          - 'SEND'\t TO SEND A MESSAGE      \t∥\n∥          - 'RECEIVE'\t TO FETCH MESSAGES      \t∥\n∥          - 'QUIT'\t TO QUIT THE SERVICE     \t∥\n");
+    printf("∥          - 'SEND'\t TO SEND A MESSAGE      \t∥\n∥          - 'RECEIVE'\t TO FETCH MESSAGES      \t∥\n∥          - 'QUIT'\t TO RETURN TO THE CONV MENU\t∥\n");
     printf("∥\t\t\t\t\t\t\t∥\n=========================================================\n");
     printf("\n>> ");
 }
@@ -186,7 +179,7 @@ void menu_conv(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
     char buffer[BUFSIZE];
     int bytes_read;
     while (1) {
-        send(socket_fd, api_key, strlen(api_key), 0);
+        
         print_menu_conv(socket_fd, api_key);
 
         printf("\n\n");
@@ -212,6 +205,7 @@ void menu_conv(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
 
         if (strcmp(choice, "QUIT") == 0) {
             send(socket_fd, "QUIT", 4, 0);
+            printf("Disconnected from server.\n");
             break; // Quitter la boucle
         } else {
             send(socket_fd, choice, strlen(choice), 0);
