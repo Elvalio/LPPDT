@@ -11,11 +11,16 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <stdbool.h>
+#include <time.h>
+#include <stdarg.h>
 
+
+
+#define LOGFILE_PATH "./server.log"
 #define PORT "4242"
 #define BACKLOG 10
 #define BUFSIZE 4096
-
+#define MAX_MESSAGES 3
 #define LEN_MSG_HISTORY 3
 
 
@@ -35,6 +40,7 @@ int verif_connexion_apikey(PGconn *conn, char *api_key);
 void send_conversation_list(PGconn *conn, int user_id, int client_fd);
 bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversation_id);
 int recup_receiver(PGconn *conn, int id_user, int idConv);
+void write_log(const char *logfile, int client_id, const char *client_ip, const char *format, ...);
 
 
 // ============================
@@ -50,14 +56,19 @@ int main(void) {
     int bytes_read;
     int ret;
 
+    write_log(LOGFILE_PATH, -1, NULL, "Server started.");
+
     const char *conninfo = "host=lppdt.ventsdouest.dev port=5432 dbname=sae user=sae password=brute-quint3-jOUrnaux";
     PGconn *conn = PQconnectdb(conninfo);
 
     if (PQstatus(conn) != CONNECTION_OK) {
         fprintf(stderr, "Connection to database failed: %s\n", PQerrorMessage(conn));
         PQfinish(conn);
+        write_log(LOGFILE_PATH, -1, NULL, "Connection to the database failed.");
         return 1;
     }
+
+    write_log(LOGFILE_PATH, -1, NULL, "Connected to the database successfully.");
 
     printf("Connected to the database successfully.\n");
 
@@ -68,21 +79,27 @@ int main(void) {
 
     if (getaddrinfo(NULL, PORT, &hints, &res) != 0) {
         perror("getaddrinfo");
+        write_log(LOGFILE_PATH, -1, NULL, "Error getting address info.");
         return 1;
     }
 
     socket_fd = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
     if (socket_fd == -1) {
         perror("socket");
+        write_log(LOGFILE_PATH, -1, NULL, "Error creating socket.");
         return 2;
     }
 
     if (bind(socket_fd, res->ai_addr, res->ai_addrlen) != 0) {
         perror("bind");
+        write_log(LOGFILE_PATH, -1, NULL, "Error binding socket.");
         return 3;
     }
 
+
     listen(socket_fd, BACKLOG);
+
+    write_log(LOGFILE_PATH, -1, NULL, "Server is listening on port %s", PORT);
     printf("Server is listening on port %s\n", PORT);
 
     while (1) {
@@ -90,20 +107,27 @@ int main(void) {
         client_fd = accept(socket_fd, (struct sockaddr *)&client_addr, &addr_size);
         if (client_fd == -1) {
             perror("accept");
+            write_log(LOGFILE_PATH, -1, NULL, "Error accepting client connection.");
             continue;
         }
         printf("New client connected.\n");
 
+        write_log(LOGFILE_PATH, -1, NULL, "New client connected.");
+
         fetch_all_data(conn);
 
         printf("WAITING FOR CLIENT CONNEXION\n");
+        write_log(LOGFILE_PATH, -1, NULL, "Waiting for client connection.");
         bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
         if (bytes_read <= 0) {
             perror("recv");
             close(client_fd);
+            write_log(LOGFILE_PATH, -1, NULL, "Error receiving data from client.");
             continue;
         }
         buffer[bytes_read] = '\0';
+
+        write_log(LOGFILE_PATH, -1, NULL, "Received api_key from client: %s", buffer);
         printf("API KEY : %s\n", buffer);
 
         ret = verif_connexion_apikey(conn, buffer);
@@ -111,14 +135,17 @@ int main(void) {
         if (ret == -1) {
             send(client_fd, "Erreur lors de la vérification de la clé API.\n", 45, 0);
             close(client_fd);
+            write_log(LOGFILE_PATH, -1, NULL, "Error verifying API key.");
             continue;
         } else if (ret == 0) {
             send(client_fd, "API_KEY_INVALID", 15, 0);
             printf("API key invalid.\n");
+            write_log(LOGFILE_PATH, -1, NULL, "API key invalid.");
             close(client_fd);
             continue;
         } else {
             send(client_fd, "API_KEY_VALID", 13, 0);
+            write_log(LOGFILE_PATH, -1, NULL, "API key valid.");
             printf("API key valid.\n");
 
             int api_key = atoi(buffer);
@@ -127,6 +154,7 @@ int main(void) {
             while (1) {
                 memset(buffer, 0, BUFSIZE);
                 send_conversation_list(conn, api_key, client_fd);
+                write_log(LOGFILE_PATH, api_key, NULL, "Conversation list sent.");
                 send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
                 printf("Conversation list sent.\n");
 
@@ -134,6 +162,7 @@ int main(void) {
                 if (bytes_read <= 0) {
                     perror("recv");
                     close(client_fd);
+                    write_log(LOGFILE_PATH, api_key, NULL, "Error receiving id of the conversation selected from client.");
                     break;
                 }
                 // buffer[bytes_read] = '\0';
@@ -142,12 +171,15 @@ int main(void) {
 
                 buffer[bytes_read] = '\0';
                 printf("buffer : %s\n", buffer);
+                printf("quit == buffer : %s\n", strcmp("QUIT", buffer) == 0 ? "true" : "false");
                 if (strcmp("QUIT", buffer) == 0) {
                     printf("Client disconnected.\n");
                     close(client_fd);
-                    continue;
+                    write_log(LOGFILE_PATH, api_key, NULL, "Client disconnected.");
+                    break;
                 } else if (validConversation(conn, api_key, client_fd, buffer)) {
                     printf("Conversation selected: %s\n", buffer);
+                    write_log(LOGFILE_PATH, api_key, NULL, "Conversation selected: %s", buffer);
                     int id_conv = atoi(buffer);
 
                     while (1) {
@@ -159,11 +191,14 @@ int main(void) {
                                 perror("recv");
                             }
                             close(client_fd);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Error receiving command from client.");
                             break;
                         }
                         buffer[bytes_read] = '\0';
+                        write_log(LOGFILE_PATH, api_key, NULL, "Received command from client: %s", buffer);
 
                         if (strcmp(buffer, "SEND") == 0) {
+                            write_log(LOGFILE_PATH, api_key, NULL, "Received SEND command from client.");
                             int sender_id, receiver_id;
                             char message[BUFSIZE];
 
@@ -171,34 +206,44 @@ int main(void) {
                             if (bytes_read <= 0) {
                                 perror("recv");
                                 close(client_fd);
+                                write_log(LOGFILE_PATH, api_key, NULL, "Error receiving message from client.");
                                 break;
                             }
                             buffer[bytes_read] = '\0';
+                            write_log(LOGFILE_PATH, api_key, NULL, "Received message from client: %s", buffer);
 
                             strcpy(message, buffer);
                             receiver_id = recup_receiver(conn, api_key, id_conv);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Receiver ID: %d", receiver_id);
                             sender_id = api_key;
+                            write_log(LOGFILE_PATH, api_key, NULL, "Sender ID: %d", sender_id);
                             printf("Message from %d to %d: %s\n", sender_id, receiver_id, message);
 
                             int idPro = -1;
                             int idClient = -1;
 
                             const char *sender_type = verifier_type_compte(conn, sender_id);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Sender type: %s", sender_type);
                             const char *receiver_type = verifier_type_compte(conn, receiver_id);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Receiver type: %s", receiver_type);
 
                             if (!sender_type || !receiver_type || strcmp(sender_type, "Inconnu") == 0 || strcmp(receiver_type, "Inconnu") == 0) {
                                 send(client_fd, "Erreur : ID de compte invalide.\n", 30, 0);
+                                write_log(LOGFILE_PATH, api_key, NULL, "ID de compte receveur invalide.");
                                 continue;
                             } else if (strcmp(sender_type, "Professionnel") == 0) {
+                                write_log(LOGFILE_PATH, api_key, NULL, "Sender is a professional.");
                                 idPro = sender_id;
                                 idClient = receiver_id;
                             } else {
+                                write_log(LOGFILE_PATH, api_key, NULL, "Sender is a client.");
                                 idClient = sender_id;
                                 idPro = receiver_id;
                             }
 
                             save_message(conn, idClient, idPro, sender_id, receiver_id, message);
                             send(client_fd, "Message saved.\n", 16, 0);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Message saved.");
 
                         } else if (strcmp(buffer, "RECEIVE") == 0) {
                             // int user_id;
@@ -206,71 +251,95 @@ int main(void) {
                             // sscanf(buffer, "%d", &user_id);
 
                             send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Messages sent to client.");
                             // Indicateur de fin d'envoi
                             send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
                             while (1) {
                                 recv(client_fd, buffer, BUFSIZE - 1, 0);
+                                write_log(LOGFILE_PATH, api_key, NULL, "Received command from client for RECEIVE MENU: %s", buffer);
                                 if (buffer[0] == '+') {
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Received '+' command from client.");
                                     int message_id;
                                     char message_id_str[BUFSIZE];
                                     recv(client_fd, message_id_str, BUFSIZE - 1, 0);
                                     message_id = atoi(message_id_str);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Message ID: %d", message_id);
 
                                     printf("Fetching messages before message ID %d\n", message_id);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Fetching messages before message ID %d", message_id);
                                     send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, message_id, id_conv);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Messages sent to client.");
                                     send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
                                 } else if (strncmp(buffer, "CHANGE", 6) == 0) {
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Received CHANGE command from client.");
                                     int message_id;
                                     sscanf(buffer + 7, "%d", &message_id); // Extraire l'ID après CHANGE
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Message ID to change: %d", message_id);
 
                                     printf("Message ID to change: %d\n", message_id);
 
                                     // Recevoir le nouveau message
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Waiting for new message from client.");
                                     char new_message[BUFSIZE];
                                     recv(client_fd, new_message, BUFSIZE - 1, 0);
                                     new_message[strcspn(new_message, "\n")] = '\0';
+                                    write_log(LOGFILE_PATH, api_key, NULL, "New message: %s", new_message);
 
                                     printf("Changing message ID %d to: %s\n", message_id, new_message);
                                     int ret = modifier_message(conn, api_key, message_id, new_message);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Change message result: %d", ret);
                                     if (ret == 1) {
                                         const char *msg = "Message updated.\n";
+                                        write_log(LOGFILE_PATH, api_key, NULL, "Message updated.");
                                         send(client_fd, msg, strlen(msg), 0);
                                     } else if (ret == 0) {
                                         const char *msg = "You are not the sender of this message.\n";
+                                        write_log(LOGFILE_PATH, api_key, NULL, "You are not the sender of this message.");
                                         send(client_fd, msg, strlen(msg), 0);
                                     } else {
                                         const char *msg = "Error updating message.\n";
+                                        write_log(LOGFILE_PATH, api_key, NULL, "Error updating message.");
                                         send(client_fd, msg, strlen(msg), 0);
                                     }
                                     send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Messages sent to client.");
                                     send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
                                 } else if (strncmp(buffer, "DELETE", 6) == 0) {
                                     int message_id;
-                                    sscanf(buffer + 6, "%d", &message_id); // Extraire l'ID après CHANGE
+                                    sscanf(buffer + 6, "%d", &message_id);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Message ID to delete: %d", message_id);
 
 
                                     printf("Deleting message ID %d\n", message_id);
                                     int ret = supprimer_message(conn, api_key, message_id);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Delete message result: %d", ret);
                                     if (ret == 1) {
                                         const char *msg = "Message deleted.\n";
+                                        write_log(LOGFILE_PATH, api_key, NULL, "Message deleted.");
                                         send(client_fd, msg, strlen(msg), 0);
                                     } else if (ret == 0) {
                                         const char *msg = "You are not the sender of this message.\n";
+                                        write_log(LOGFILE_PATH, api_key, NULL, "You are not the sender of this message.");
                                         send(client_fd, msg, strlen(msg), 0);
                                     } else {
                                         const char *msg = "Error deleting message.\n";
+                                        write_log(LOGFILE_PATH, api_key, NULL, "Error deleting message.");
                                         send(client_fd, msg, strlen(msg), 0);
                                     }
                                     send_user_messages(conn, api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Messages sent to client.");
                                     send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
                                 } else if (buffer[0] == '-') {
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Received '-' command from client.");
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Leaving the RECEIVE menu.");
                                     break;
                                 } else {
                                     printf("Invalid command: %s\n", buffer);
+                                    write_log(LOGFILE_PATH, api_key, NULL, "Invalid command: %s", buffer);
                                     // send(client_fd, "Invalid command.\n", 18, 0);
                                 }
                             }
@@ -284,19 +353,23 @@ int main(void) {
 
                         } else if (strcmp(buffer, "QUIT") == 0) {
                             memset(buffer, 0, BUFSIZE);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Received QUIT command from client.");
                             send_conversation_list(conn, api_key, client_fd);
-                            send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);                            
+                            send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Client disconnected.");
                             break;
 
                         } else {
                             printf("Invalid command: %s\n", buffer);
                             send(client_fd, "Invalid command.\n", 18, 0);
+                            write_log(LOGFILE_PATH, api_key, NULL, "Invalid command: %s", buffer);
                         }
                         printf("buffer : %s\n", buffer);
                     }
 
                 } else {
                     send(client_fd, "Invalid conversation ID.\n", 25, 0);
+                    write_log(LOGFILE_PATH, api_key, NULL, "Invalid conversation ID.");
                     printf("Invalid conversation ID.\n");
                     continue;
                 }
@@ -306,7 +379,7 @@ int main(void) {
             
         }
     }
-
+    write_log(LOGFILE_PATH, -1, NULL, "Server stopped.");
     close(socket_fd);
     PQfinish(conn);
     return 0;
@@ -363,28 +436,32 @@ int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int i
     char query[BUFSIZE];
 
     printf("SELECT DISCUSSION\n");
+    write_log(LOGFILE_PATH, -1, NULL, "SELECT DISCUSSION");
 
     snprintf(query, BUFSIZE,
              "SELECT idDiscussion FROM pact._discussion "
              "WHERE (idClient = %d OR idPro = %d) AND estBloque = false;",
              idClient, idPro);
-
+    
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Error fetching discussion: %s\n", PQerrorMessage(conn));
         PQclear(res);
+        write_log(LOGFILE_PATH, -1, NULL, "Error fetching discussion.");
         return -1;
     }
 
     int discussion_id = -1;
     if (PQntuples(res) > 0) {
         discussion_id = atoi(PQgetvalue(res, 0, 0));
+        write_log(LOGFILE_PATH, -1, NULL, "Discussion found: %d", discussion_id);
     }
     PQclear(res);
 
-
     printf("DISCUSSION ID : %d\n", discussion_id);
+    write_log(LOGFILE_PATH, -1, NULL, "Discussion ID: %d", discussion_id);
     printf("FIN DE SELECT DISCUSSION\n");
+    write_log(LOGFILE_PATH, -1, NULL, "End of SELECT DISCUSSION");
 
     return discussion_id;
 }
@@ -399,9 +476,10 @@ int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int i
 // ============================
 void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text) {
     // Trouver ou créer la discussion
-    int discussion_id = find_discussion(conn, idClient, idPro, idEmmeteur, idReceveur);
+    int discussion_id = find_discussion(conn, idClient, idPro, idEmmeteur, idReceveur); 
 
     printf("INSERTION DISCUSSION\n");
+    write_log(LOGFILE_PATH, -1, NULL, "INSERTION DISCUSSION");
 
     printf("idClient : %d\n", idClient);
     printf("idPro : %d\n", idPro);
@@ -419,18 +497,21 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
         if (PQresultStatus(create_res) != PGRES_TUPLES_OK) {
             fprintf(stderr, "Error creating discussion: %s\n", PQerrorMessage(conn));
             PQclear(create_res);
+            write_log(LOGFILE_PATH, -1, NULL, "Error creating discussion.");
             return;
         }
 
         // Récupérer l'idDiscussion généré
         discussion_id = atoi(PQgetvalue(create_res, 0, 0));
         PQclear(create_res);
+        write_log(LOGFILE_PATH, -1, NULL, "Discussion created: %d", discussion_id);
     }
 
     // Convertir le texte du message en UTF-8
     char *utf8_text = convert_to_utf8(message_text, "ISO-8859-1"); // Adapter l'encodage source si nécessaire
     if (!utf8_text) {
         fprintf(stderr, "Error converting message text to UTF-8\n");
+        write_log(LOGFILE_PATH, -1, NULL, "Error converting message text to UTF-8");
         return;
     }
 
@@ -442,10 +523,13 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
 
     if (error) {
         fprintf(stderr, "Error escaping message text: %s\n", PQerrorMessage(conn));
+        write_log(LOGFILE_PATH, -1, NULL, "Error escaping message text.");
         return;
     }
 
+
     printf("INSERTION MESSAGE\n");
+    write_log(LOGFILE_PATH, -1, NULL, "INSERTION MESSAGE");
 
     // Insérer le message
     char query[BUFSIZE];
@@ -457,8 +541,13 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "Error inserting message: %s\n", PQerrorMessage(conn));
+        write_log(LOGFILE_PATH, -1, NULL, "Error inserting message.");
     }
+
+    write_log(LOGFILE_PATH, -1, NULL, "Message inserted.");
     printf("Message inserted.\n");
+
+    write_log(LOGFILE_PATH, -1, NULL, "End of INSERTION MESSAGE");
     PQclear(res);
 }
 
@@ -470,13 +559,14 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
 // Fonction: send_user_messages
 // Envoie tous les messages reçu à l'utilisateur
 // ============================
-#define MAX_MESSAGES 3
 
 void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messages, int message_id, int id_conv) {
     char query[BUFSIZE];
     
     // Si un message_id est fourni, récupérer les messages précédents ce message_id
+    write_log(LOGFILE_PATH, -1, NULL, "SEND USER MESSAGES");
     if (message_id > 0) {
+        write_log(LOGFILE_PATH, -1, NULL, "Message ID: %d", message_id);
         snprintf(query, BUFSIZE,
             "SELECT msg.idMessage, msg.dateMessage, msg.texte, "
             "emmeteur.nom AS nom_emmeteur, emmeteur.prenom AS prenom_emmeteur, "
@@ -490,6 +580,7 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
             "LIMIT %d;",
             id_conv, message_id, max_messages);
     } else {
+        write_log(LOGFILE_PATH, -1, NULL, "No message ID provided.");
         // Sinon, récupérer les messages les plus récents
         snprintf(query, BUFSIZE,
             "SELECT msg.idMessage, msg.dateMessage, msg.texte, "
@@ -510,13 +601,16 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
         fprintf(stderr, "Error fetching messages: %s\n", PQerrorMessage(conn));
         send(client_fd, "Error retrieving messages.\n", 27, 0);
         PQclear(res);
+        write_log(LOGFILE_PATH, -1, NULL, "Error fetching messages.");
         return;
     }
 
     int rows = PQntuples(res);
     if (rows == 0) {
         send(client_fd, "No messages for you.\n", 22, 0);
+        write_log(LOGFILE_PATH, -1, NULL, "No messages for user.");
     } else {
+        write_log(LOGFILE_PATH, -1, NULL, "Messages for user:");
         for (int i = rows - 1; i >= 0; i--) { // Les messages sont récupérés en ordre descendant, les renvoyer en ordre ascendant
             const char *idMessage = PQgetvalue(res, i, 0);
             char dateMessage[11];
@@ -533,14 +627,50 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
             } else {
                 snprintf(formatted_nom, BUFSIZE, "%s %s", NomEmmeteurMessage, PrenomEmmeteurMessage);
             }
-
-            char composed_message[BUFSIZE];
             
-            printf("dateMessage : %s\n", dateMessage);
-            snprintf(composed_message, BUFSIZE, "%-3s | [%s] - %-20s: %s", idMessage, dateMessage, formatted_nom, message);
+            char composed_message[BUFSIZE];
+
+            write_log(LOGFILE_PATH, -1, NULL, "%-3s | [%s] - %-20s: %s", idMessage, dateMessage, formatted_nom, message);
+            
+            // Vérifier si le message a été modifié
+            char modification_info[BUFSIZE] = "";
+            write_log(LOGFILE_PATH, -1, NULL, "Checking if message has been modified.");
+            snprintf(query, BUFSIZE,
+                     "SELECT EXTRACT(EPOCH FROM (NOW() - dateModif)) FROM pact._message WHERE idMessage = %s AND dateModif IS NOT NULL;", idMessage);
+            PGresult *mod_res = PQexec(conn, query);
+            if (PQresultStatus(mod_res) == PGRES_TUPLES_OK && PQntuples(mod_res) > 0) {
+                write_log(LOGFILE_PATH, -1, NULL, "Message has been modified.");
+                double seconds = atof(PQgetvalue(mod_res, 0, 0));
+                if (seconds < 60) {
+                    write_log(LOGFILE_PATH, -1, NULL, "Message modified a few seconds ago.");
+                    snprintf(modification_info, BUFSIZE, " (modifié il y a quelques secondes)");
+                } else if (seconds < 900) {
+                    write_log(LOGFILE_PATH, -1, NULL, "Message modified a few minutes ago.");
+                    snprintf(modification_info, BUFSIZE, " (modifié il y a quelques minutes)");
+                } else if (seconds < 3600) {
+                    write_log(LOGFILE_PATH, -1, NULL, "Message modified a few minutes ago.");
+                    int minutes = (int)(seconds / 60);
+                    int rounded_minutes = ((minutes + 7) / 15) * 15;
+                    snprintf(modification_info, BUFSIZE, " (modifié il y a %d min)", rounded_minutes);
+                } else if (seconds < 86400) {
+                    write_log(LOGFILE_PATH, -1, NULL, "Message modified a few hours ago.");
+                    int hours = (int)(seconds / 3600);
+                    snprintf(modification_info, BUFSIZE, " (modifié il y a %d heures)", hours);
+                } else {
+                    write_log(LOGFILE_PATH, -1, NULL, "Message modified a few days ago.");
+                    int days = (int)(seconds / 86400);
+                    snprintf(modification_info, BUFSIZE, " (modifié il y a %d jours)", days);
+                }
+            }
+            PQclear(mod_res);
+            write_log(LOGFILE_PATH, -1, NULL, "Message modification info: %s", modification_info);
+
+            snprintf(composed_message, BUFSIZE, "%-3s | [%s] - %-20s: %s%s", idMessage, dateMessage, formatted_nom, message, modification_info);
+            write_log(LOGFILE_PATH, -1, NULL, "Final message: %s", composed_message);
 
             send(client_fd, composed_message, strlen(composed_message), 0);
             send(client_fd, "\n", 1, 0);
+            write_log(LOGFILE_PATH, -1, NULL, "Message sent to client.");
         }
     }
     PQclear(res);
@@ -550,10 +680,13 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
              "UPDATE pact._message SET recu = true "
              "WHERE idReceveur = %d AND recu = false;", user_id);
     res = PQexec(conn, query);
+    write_log(LOGFILE_PATH, -1, NULL, "Messages marked as read.");
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "Error updating message status: %s\n", PQerrorMessage(conn));
+        write_log(LOGFILE_PATH, -1, NULL, "Error updating message status.");
     }
     PQclear(res);
+    write_log(LOGFILE_PATH, -1, NULL, "End of SEND USER MESSAGES");
 }
 
 
@@ -562,21 +695,26 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
 // Modifie un message existant
 // ============================
 int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouveau_texte) {
+    write_log(LOGFILE_PATH, -1, NULL, "MODIFIER MESSAGE");
+
     // Vérifier si l'utilisateur est l'émetteur du message
     char query_temp[BUFSIZE];
     snprintf(query_temp, BUFSIZE,
              "SELECT 1 FROM pact._message WHERE idMessage = %d AND idEmmeteur = %d;",
              idMessage, user_id);
+    write_log(LOGFILE_PATH, -1, NULL, "Checking if user is the sender of the message.");
     if (PQntuples(PQexec(conn, query_temp)) == 0) {
         fprintf(stderr, "Error: user is not the sender of the message.\n");
+        write_log(LOGFILE_PATH, -1, NULL, "User is not the sender of the message.");
         return 0;
     }
 
-
+    write_log(LOGFILE_PATH, -1, NULL, "User is the sender of the message.");
     // Convertir le texte du message en UTF-8
     char *utf8_text = convert_to_utf8(nouveau_texte, "ISO-8859-1"); // Adapter l'encodage source si nécessaire
     if (!utf8_text) {
         fprintf(stderr, "Error converting message text to UTF-8\n");
+        write_log(LOGFILE_PATH, -1, NULL, "Error converting message text to UTF-8");
         return -1;
     }
 
@@ -585,9 +723,10 @@ int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouve
     int error = 0;
     PQescapeStringConn(conn, escaped_text, utf8_text, strlen(utf8_text), &error);
     free(utf8_text); // Libérer la mémoire du texte converti
-
+    write_log(LOGFILE_PATH, -1, NULL, "Text escaped for PostgreSQL.");
     if (error) {
         fprintf(stderr, "Error escaping message text: %s\n", PQerrorMessage(conn));
+        write_log(LOGFILE_PATH, -1, NULL, "Error escaping message text.");
         return -1;
     }
 
@@ -598,10 +737,14 @@ int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouve
              escaped_text, idMessage);
 
     PGresult *res = PQexec(conn, query);
+    write_log(LOGFILE_PATH, -1, NULL, "Message updated.");
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "Error updating message: %s\n", PQerrorMessage(conn));
+        write_log(LOGFILE_PATH, -1, NULL, "Error updating message.");
     }
+    write_log(LOGFILE_PATH, -1, NULL, "Message updated.");
     printf("Message updated.\n");
+    write_log(LOGFILE_PATH, -1, NULL, "End of MODIFIER MESSAGE");
     PQclear(res);
     return 1;
 }
@@ -614,25 +757,34 @@ int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouve
 // Supprime un message existant
 // ============================
 int supprimer_message(PGconn *conn, int user_id, int idMessage) {
+    write_log(LOGFILE_PATH, -1, NULL, "SUPPRIMER MESSAGE");
+
     // Vérifier si l'utilisateur est l'émetteur du message
     char query[BUFSIZE];
     snprintf(query, BUFSIZE,
              "SELECT 1 FROM pact._message WHERE idMessage = %d AND idEmmeteur = %d;",
              idMessage, user_id);
+    write_log(LOGFILE_PATH, -1, NULL, "Checking if user is the sender of the message.");
     if (PQntuples(PQexec(conn, query)) == 0) {
         fprintf(stderr, "Error: user is not the sender of the message.\n");
+        write_log(LOGFILE_PATH, -1, NULL, "User is not the sender of the message.");
         return 0;
     }
-
+    write_log(LOGFILE_PATH, -1, NULL, "User is the sender of the message.");
     // Supprimer le message
     snprintf(query, BUFSIZE,
              "DELETE FROM pact._message WHERE idMessage = %d;", idMessage);
     PGresult *res = PQexec(conn, query);
+    write_log(LOGFILE_PATH, -1, NULL, "Try to delete message.");
     if (PQresultStatus(res) != PGRES_COMMAND_OK) {
         fprintf(stderr, "Error deleting message: %s\n", PQerrorMessage(conn));
+        write_log(LOGFILE_PATH, -1, NULL, "Error deleting message.");
     }
+    write_log(LOGFILE_PATH, -1, NULL, "Message deleted.");
     printf("Message deleted.\n");
     PQclear(res);
+
+    write_log(LOGFILE_PATH, -1, NULL, "End of SUPPRIMER MESSAGE");
     return 1;
 }
 
@@ -644,41 +796,51 @@ int supprimer_message(PGconn *conn, int user_id, int idMessage) {
 // Vérifie si un identifiant correspond à un professionnel ou un client
 // ============================
 const char* verifier_type_compte(PGconn *conn, int id_compte) {
+    write_log(LOGFILE_PATH, -1, NULL, "VERIFIER TYPE COMPTE");
+    
     char query[BUFSIZE];
     PGresult *res;
 
     // Vérifier dans la table _professionnel
     snprintf(query, BUFSIZE, "SELECT 1 FROM pact._professionnel WHERE idC = %d;", id_compte);
     res = PQexec(conn, query);
-
+    write_log(LOGFILE_PATH, -1, NULL, "Checking in _professionnel.");
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Erreur lors de la vérification dans _professionnel : %s\n", PQerrorMessage(conn));
         PQclear(res);
+        write_log(LOGFILE_PATH, -1, NULL, "Error checking in _professionnel.");
         return "Erreur";
     }
+    write_log(LOGFILE_PATH, -1, NULL, "Checked in _professionnel.");
 
     if (PQntuples(res) > 0) {
         PQclear(res);
+        write_log(LOGFILE_PATH, -1, NULL, "Professional found.");
         return "Professionnel";
     }
     PQclear(res);
+    write_log(LOGFILE_PATH, -1, NULL, "Professional not found.");
 
     // Vérifier dans la table _membre
+    write_log(LOGFILE_PATH, -1, NULL, "Checking in _membre.");
     snprintf(query, BUFSIZE, "SELECT 1 FROM pact._membre WHERE idC = %d;", id_compte);
     res = PQexec(conn, query);
 
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Erreur lors de la vérification dans _membre : %s\n", PQerrorMessage(conn));
         PQclear(res);
+        write_log(LOGFILE_PATH, -1, NULL, "Error checking in _membre.");
         return "Erreur";
     }
 
     if (PQntuples(res) > 0) {
         PQclear(res);
+        write_log(LOGFILE_PATH, -1, NULL, "Client found.");
         return "Client";
     }
     PQclear(res);
-
+    write_log(LOGFILE_PATH, -1, NULL, "Client not found.");
+    write_log(LOGFILE_PATH, -1, NULL, "End of VERIFIER TYPE COMPTE");
     // Si aucune correspondance trouvée
     return "Inconnu";
 }
@@ -690,8 +852,9 @@ const char* verifier_type_compte(PGconn *conn, int id_compte) {
 // Fonction: fetch_all_data
 // Affiche toutes les données de la table _message
 // ============================
-void fetch_all_data(PGconn *conn) {
+void fetch_all_data(PGconn *conn) {    
     const char *query = "SELECT * FROM pact._message;";
+
 
     PGresult *res = PQexec(conn, query);
 
@@ -772,29 +935,38 @@ void clear_tables(PGconn *conn) {
 
 
 int verif_connexion_apikey(PGconn *conn, char *api_key) {
+    write_log(LOGFILE_PATH, -1, NULL, "VERIF CONNEXION APIKEY");
     char query[BUFSIZE];
     int temp = atoi(api_key);
     
-
+    write_log(LOGFILE_PATH, -1, NULL, "Vérification API key: %d", temp);
     snprintf(query, BUFSIZE, "SELECT 1 FROM pact._compte WHERE idC = '%d';", temp);
     PGresult *res = PQexec(conn, query);
 
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        write_log(LOGFILE_PATH, -1, NULL, "Error fetching API key: %s", PQerrorMessage(conn));
         fprintf(stderr, "Error fetching API key: %s\n", PQerrorMessage(conn));
         PQclear(res);
         return -1;
     }
 
+
+    write_log(LOGFILE_PATH, -1, NULL, "API key found.");
     int rows = PQntuples(res);
     PQclear(res);
+
+    write_log(LOGFILE_PATH, -1, NULL, "End of VERIF CONNEXION APIKEY");
     return rows;
 }
 
 
 
 void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
+    write_log(LOGFILE_PATH, -1, NULL, "SEND CONVERSATION LIST");
+
     char query[BUFSIZE];
     printf("Fetching discussions for user %d\n", user_id);
+    write_log(LOGFILE_PATH, -1, NULL, "Fetching discussions for user %d", user_id);
     snprintf(query, BUFSIZE,
              "SELECT idDiscussion, idClient, idPro FROM pact._discussion "
              "WHERE idClient = %d OR idPro = %d;", user_id, user_id);
@@ -804,13 +976,17 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
         fprintf(stderr, "Error fetching discussions: %s\n", PQerrorMessage(conn));
         send(client_fd, "Error retrieving discussions.\n", 28, 0);
         PQclear(res);
+        write_log(LOGFILE_PATH, -1, NULL, "Error fetching discussions.");
         return;
     }
+    write_log(LOGFILE_PATH, -1, NULL, "Discussions fetched.");
 
     int rows = PQntuples(res);
     if (rows == 0) {
+        write_log(LOGFILE_PATH, -1, NULL, "No discussions for user.");
         send(client_fd, "No discussions for you.\n", 24, 0);
     } else {
+        write_log(LOGFILE_PATH, -1, NULL, "Discussions for user:");
         for (int i = 0; i < rows; i++) {
             const char *idDiscussion = PQgetvalue(res, i, 0);
             const char *idClient = PQgetvalue(res, i, 1);
@@ -818,50 +994,73 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
 
             char composed_message[BUFSIZE];
             snprintf(composed_message, BUFSIZE, "Discussion ID: %-3s | Client ID: %s | Pro ID: %s", idDiscussion, idClient, idPro);
+            write_log(LOGFILE_PATH, -1, NULL, "Sending conversation: %s", composed_message);
             char nom_prenom[BUFSIZE];
             int other_user_id = (atoi(idClient) == user_id) ? atoi(idPro) : atoi(idClient);
+            write_log(LOGFILE_PATH, -1, NULL, "Fetching user name for user %d", other_user_id);
 
             snprintf(query, BUFSIZE, "SELECT nom, prenom FROM pact._compte WHERE idC = %d;", other_user_id);
             PGresult *name_res = PQexec(conn, query);
             if (PQresultStatus(name_res) != PGRES_TUPLES_OK) {
                 fprintf(stderr, "Error fetching user name: %s\n", PQerrorMessage(conn));
                 PQclear(name_res);
+                write_log(LOGFILE_PATH, -1, NULL, "Error fetching user name.");
                 continue;
             }
+            write_log(LOGFILE_PATH, -1, NULL, "User name fetched.");
 
             if (PQntuples(name_res) > 0) {
+                write_log(LOGFILE_PATH, -1, NULL, "User name found.");
                 snprintf(nom_prenom, BUFSIZE, "%s %s", PQgetvalue(name_res, 0, 0), PQgetvalue(name_res, 0, 1));
             } else {
+                write_log(LOGFILE_PATH, -1, NULL, "User name not found.");
                 snprintf(nom_prenom, BUFSIZE, "Unknown");
             }
             PQclear(name_res);
+            write_log(LOGFILE_PATH, -1, NULL, "User name: %s", nom_prenom);
 
+
+            write_log(LOGFILE_PATH, -1, NULL, "Checking for new messages.");
             snprintf(query, BUFSIZE, "SELECT COUNT(*) FROM pact._message WHERE idDiscussion = %s AND idReceveur = %d AND recu = false;", idDiscussion, user_id);
             PGresult *msg_res = PQexec(conn, query);
             int new_messages = 0;
             if (PQresultStatus(msg_res) == PGRES_TUPLES_OK && PQntuples(msg_res) > 0) {
                 new_messages = atoi(PQgetvalue(msg_res, 0, 0));
+                write_log(LOGFILE_PATH, -1, NULL, "New messages found: %d", new_messages);
             }
+
             PQclear(msg_res);
+            write_log(LOGFILE_PATH, -1, NULL, "End of new messages check.");
+
+            write_log(LOGFILE_PATH, -1, NULL, "Composing conversation message.");
             if (new_messages > 0) {
                 if (new_messages == 1) {
+                    write_log(LOGFILE_PATH, -1, NULL, "1 new message found.");
                     snprintf(composed_message, BUFSIZE, "Discussion ID: %-3s | %s (%d new message)", idDiscussion, nom_prenom, new_messages);
                 } else {
+                    write_log(LOGFILE_PATH, -1, NULL, "%d new messages found.", new_messages);
                     snprintf(composed_message, BUFSIZE, "Discussion ID: %-3s | %s (%d new messages)", idDiscussion, nom_prenom, new_messages);    
                 }
             } else {
+                write_log(LOGFILE_PATH, -1, NULL, "No new messages found.");
                 snprintf(composed_message, BUFSIZE, "Discussion ID: %-3s | %s", idDiscussion, nom_prenom);
             }
+            write_log(LOGFILE_PATH, -1, NULL, "Sending conversation: %s", composed_message);
             printf("Sending conversation: %s\n", composed_message);
+            write_log(LOGFILE_PATH, -1, NULL, "Sending conversation to client.");
             send(client_fd, composed_message, strlen(composed_message), 0);
             send(client_fd, "\n", 1, 0);
+            
         }
     }
     PQclear(res);
+    write_log(LOGFILE_PATH, -1, NULL, "End of SEND CONVERSATION LIST");
 }
 
 
 bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversation_id) {
+    write_log(LOGFILE_PATH, -1, NULL, "VALID CONVERSATION");
+
     char query[BUFSIZE];
     int idChoose = atoi(conversation_id);
     snprintf(query, BUFSIZE,
@@ -869,21 +1068,30 @@ bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversat
              "WHERE idDiscussion = %d AND (idClient = %d OR idPro = %d);",
              idChoose, user_id, user_id);
 
+    write_log(LOGFILE_PATH, -1, NULL, "Checking conversation ID: %d", idChoose);
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        write_log(LOGFILE_PATH, -1, NULL, "Error fetching discussion: %s", PQerrorMessage(conn));
         fprintf(stderr, "Error fetching discussion: %s\n", PQerrorMessage(conn));
         send(client_fd, "Error retrieving discussion.\n", 28, 0);
         PQclear(res);
         return false;
     }
+    write_log(LOGFILE_PATH, -1, NULL, "Discussion fetched.");
 
     int rows = PQntuples(res);
     printf("rows : %d\n", rows);
+    write_log(LOGFILE_PATH, -1, NULL, "Rows: %d", rows);
     PQclear(res);
+    write_log(LOGFILE_PATH, -1, NULL, "End of discussion check.");
+    write_log(LOGFILE_PATH, -1, NULL, "Returning result: %s", rows > 0 ? "true" : "false");
+    write_log(LOGFILE_PATH, -1, NULL, "End of VALID CONVERSATION");
     return rows > 0;
 }
 
 int recup_receiver(PGconn *conn, int id_user, int idConv) {
+    write_log(LOGFILE_PATH, -1, NULL, "RECUP RECEIVER");
+
     printf("Fetching receiver for conversation %d\n", idConv);
     char query[BUFSIZE];
     snprintf(query, BUFSIZE,
@@ -894,22 +1102,59 @@ int recup_receiver(PGconn *conn, int id_user, int idConv) {
     "FROM pact._discussion "
     "WHERE idDiscussion = %d "
     "AND (%d = idClient OR %d = idPro);", id_user, id_user, idConv, id_user, id_user);
-
+    write_log(LOGFILE_PATH, -1, NULL, "Fetching receiver for conversation %d", idConv);
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        write_log(LOGFILE_PATH, -1, NULL, "Error fetching receiver: %s", PQerrorMessage(conn));
         fprintf(stderr, "Error fetching receiver: %s\n", PQerrorMessage(conn));
         PQclear(res);
         return -1;
     }
+    write_log(LOGFILE_PATH, -1, NULL, "Receiver fetched.");
 
     int rows = PQntuples(res);
     if (rows == 0) {
+        write_log(LOGFILE_PATH, -1, NULL, "No receiver found.");
         PQclear(res);
         return -1;
     }
 
     int idReceiver = atoi(PQgetvalue(res, 0, 0));
+    write_log(LOGFILE_PATH, -1, NULL, "Receiver ID: %d", idReceiver);
     PQclear(res);
     printf("Receiver ID: %d\n", idReceiver);
+    write_log(LOGFILE_PATH, -1, NULL, "End of RECUP RECEIVER");
     return idReceiver;
+}
+
+
+// Fonction pour écrire un message dans le fichier de log
+void write_log(const char *logfile, int client_id, const char *client_ip, const char *format, ...) {
+    FILE *log_file = fopen(logfile, "a");
+    if (!log_file) {
+        perror("Erreur ouverture log file");
+        return;
+    }
+
+    // Récupérer l'heure actuelle
+    time_t t = time(NULL);
+    struct tm *tm_info = localtime(&t);
+    char time_buffer[20];
+    strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%d %H:%M:%S", tm_info);
+
+    // Si `client_id` est 0, afficher une valeur vide
+    fprintf(log_file, "[%s] [%d] [%s] ", time_buffer, client_id ? client_id : 0, client_ip ? client_ip : "");
+    if (client_id >= 0) {
+        fprintf(log_file, "[%d] ", client_id);
+    } else {
+        fprintf(log_file, "[] ");
+    }
+    // Écrire le message
+    va_list args;
+    va_start(args, format);
+    vfprintf(log_file, format, args);
+    va_end(args);
+
+    fprintf(log_file, "\n");
+    fclose(log_file);
 }
