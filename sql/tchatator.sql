@@ -1,7 +1,7 @@
 SET SCHEMA 'pact';
 
 
--- Discussion pour le test tchatator
+-- Discussion n°1 pour le test tchatator
 
 -- Conversation entre le client "Jonnnie" et le Pro "Nicola Modem" de l'entreprise "LaVilleBlanche"
 -- Conversation à propos du Restaurant la Ville Blanche
@@ -79,4 +79,61 @@ SELECT pg_sleep(10);
 
 insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
 values ('Avec plaisir !', 1, 1, 13, true);
+SELECT pg_sleep(10);
+
+
+
+-- Discussion n°2 pour le test tchatator
+
+-- Conversation entre le client "Jonnnie" et le Pro "Jean-Jacques Portimao" de l'entreprise "Youpi Land"
+-- Conversation à propos du l'offre "Le village Gaulois"
+
+insert into _discussion(idClient, idPro) values (1, 12);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Bonjour, j''ai vu votre offre sur le village gaulois, pouvez-vous m''en dire plus ?', 2, 1, 12, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Bonjour Jonnie ! Bien sûr, c''est une immersion dans un village gaulois reconstitué avec animations.', 2, 12, 1, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Super ! Qu''est qu''il y a comme attractions le parc ?', 2, 1, 12, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Le parc a des spectacles et des ateliers artisanaux pour bien être immergé dans l''esprit gaulois.', 2, 12, 1, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Faut-il réserver à l''avance ?', 2, 1, 12, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Ce n''est pas obligatoire, mais conseillé en haute saison.', 2, 12, 1, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values (' Y a-t-il un parking sur place ?', 2, 1, 12, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Oui, un parking gratuit est disponible à l''entrée du parc.', 2, 12, 1, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Ça a l''air génial ! Je vais réserver pour ce week-end.', 2, 1, 12, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Super ! Vous pouvez réserver en ligne ou à l''accueil.', 2, 12, 1, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Merci pour toutes les infos, à bientôt !.', 2, 1, 12, true);
+SELECT pg_sleep(10);
+
+insert into _message(texte, idDiscussion, idEmmeteur, idReceveur, recu) 
+values ('Avec plaisir, à bientôt au Village Gaulois !', 2, 12, 1, true);
 SELECT pg_sleep(10);
