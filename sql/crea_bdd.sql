@@ -38,6 +38,11 @@ create table pact._compte
   -- FK
   idAdresse integer not null,
   image_compte integer,
+
+  -- TCHATATOR
+  estBan boolean default false,
+  estBloque boolean default false,
+  dateBlocage timestamp,
   
   constraint _compte_pk 
   primary key (idC),
@@ -532,6 +537,9 @@ alter table _recommande_pas add constraint xor_recommande_pas check (existe_reco
 ---------------------------------------------
 -------------Triggers tables-----------------
 ---------------------------------------------
+
+-- Compte
+
 create or replace function pact.genererApiKey(idCompte integer)
   returns varchar(64) as $$
 declare
@@ -1643,7 +1651,7 @@ begin
     end if;
    end loop;
    --TODO Test this
-   for temprow in 
+   for temprow in
     select * from pact._registre where idO  = idOffre
    loop
       for i in select date_trunc('month', current_date) - (dates*interval '1 month')
@@ -1684,7 +1692,9 @@ create table _discussion(
   idDiscussion serial,
   idClient integer,
   idPro integer,
+
   estBloque boolean default false,
+  dateBlocage timestamp,
   
   constraint _discussion_pk primary key (idDiscussion),
   constraint _discussion_fk_membre foreign key
@@ -1772,6 +1782,32 @@ create or replace trigger tg_update_message
 before update on pact._message
   for each row execute procedure pact.mis_a_jour_message();
 
+
+-- fait la gestion des blocages pour un utilisateur
+create or replace function pact.gestionBlocage(idCompte int) 
+  returns boolean as $$
+declare
+  f record;
+  res boolean;
+  dateBloc timestamp;
+begin
+    res = false;
+    for f in select idDiscussion, dateBlocage from pact._discussion where idClient = idCompte and estBloque=true loop
+      if (f.dateBlocage <= NOW() - INTERVAL '24 hours') then
+        res = true;
+        update pact._discussion set estBloque=false, dateBlocage = null where idDiscussion = f.idDiscussion;
+      end if;
+    end loop;
+    
+    select dateBlocage from pact._compte where idC = idCompte into dateBloc;
+    if (dateBloc <= NOW() - INTERVAL '24 hours') then
+      update pact._compte set estBloque=false, dateBlocage = null where idC = idCompte;
+      res = true;
+    end if;
+
+    RETURN res;
+end;
+$$ language plpgsql;
 
 ------ PREVISIONNEL ------
 
