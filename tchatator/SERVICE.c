@@ -18,7 +18,7 @@
 
 
 
-#define LOGFILE_PATH "./server.log"
+#define LOGFILE_PATH "./SERVICE.log"
 #define PORT "4242"
 #define BACKLOG 10
 #define BUFSIZE 4096
