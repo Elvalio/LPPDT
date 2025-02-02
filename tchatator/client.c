@@ -8,9 +8,18 @@
 #include <stdlib.h>
 #include <postgresql/libpq-fe.h>
 #include <stdbool.h>
+#include <sys/select.h>  // Pour select()
+
 
 #define PORT 4242
 #define BUFSIZE 4096
+
+static char user_type[BUFSIZE] = "";
+
+void set_user_type(char *type) {
+    strncpy(user_type, type, BUFSIZE);
+    user_type[strcspn(user_type, "\n")] = '\0';
+}
 
 void send_message(int socket_fd, char *api_key) {
     char message[BUFSIZE];
@@ -31,7 +40,7 @@ void send_message(int socket_fd, char *api_key) {
 
 
 
-void receive_messages(int socket_fd, char *api_key) {
+int receive_messages(int socket_fd, char *api_key) {
     char username[BUFSIZE], buffer[BUFSIZE];
     int bytes_read;
 
@@ -46,7 +55,6 @@ void receive_messages(int socket_fd, char *api_key) {
 
     while (1) {
         // Réception des messages
-        system("clear");
         printf("\n\n");
         printf("Messages for you:\n\n");
         while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
@@ -80,6 +88,7 @@ void receive_messages(int socket_fd, char *api_key) {
             char message_id_str[BUFSIZE];
             snprintf(message_id_str, BUFSIZE, "%d", message_id);
             send(socket_fd, message_id_str, strlen(message_id_str), 0);
+            system("clear");
         } else if (choice[0] == '-') {
             send(socket_fd, "-", 1, 0);
             break; // Quitter la boucle
@@ -107,6 +116,8 @@ void receive_messages(int socket_fd, char *api_key) {
             int response_bytes_read = recv(socket_fd, response, BUFSIZE - 1, 0);
             response[response_bytes_read] = '\0';
             printf("\n%s\n", response);
+            
+            system("clear");
 
         } else if(strcmp(choice, "DELETE") == 0) {
             printf("Enter the message ID you want to delete: ");
@@ -124,11 +135,15 @@ void receive_messages(int socket_fd, char *api_key) {
             int response_bytes_read = recv(socket_fd, response, BUFSIZE - 1, 0);
             response[response_bytes_read] = '\0';
             printf("\n%s\n", response);
+
+            system("clear");
             
         } else {
             printf("Invalid command.\n");
+            return -1;
         }
     }
+    return 0;
 }
 
 
@@ -142,23 +157,55 @@ void print_menu_message() {
     printf("\n>> ");
 }
 
+void print_menu_message_pro() {
+    system("clear");
+    printf("\n\n");
+    printf("========================= MENU ==========================\n∥\t\t\t\t\t\t\t∥\n");
+    printf("∥          - 'SEND'\t TO SEND A MESSAGE      \t∥\n∥          - 'RECEIVE'\t TO FETCH MESSAGES      \t∥\n∥          - 'QUIT'\t TO RETURN TO THE CONV MENU\t∥\n∥          - TAP 'BLOCK'\t TO BLOCK THE USER FOR 24H\t∥\n");
+    printf("∥\t\t\t\t\t\t\t∥\n=========================================================\n");
+    printf("\n>> ");
+}
+
 void menu_message(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
+    int result;
+    
     while (1) {
         system("clear");
-        print_menu_message();
+        // Recevoir le type d'utilisateur (MEMBRE, PRO, ADMIN)
+
+        if (strcmp(user_type, "MEMBRE") == 0) {
+            print_menu_message();
+        } else if (strcmp(user_type, "PRO") == 0) {
+            print_menu_message_pro();
+        } else if (strcmp(user_type, "ADMIN") == 0) {
+            print_menu_message();
+        } else {
+            printf("Unknown user type.\n");
+            return;
+        }
+        // printf("User type: %s\n", user_type);
         fgets(choice, BUFSIZE, stdin);
         choice[strcspn(choice, "\n")] = '\0';
 
         if (strcmp(choice, "SEND") == 0) {
             send_message(socket_fd, api_key);
         } else if (strcmp(choice, "RECEIVE") == 0) {
-            receive_messages(socket_fd, api_key);
+            result = receive_messages(socket_fd, api_key);
+            while (result == -1) {
+                print_menu_message();
+                result = receive_messages(socket_fd, api_key);
+            }
         // } else if(strcmp(choice, "CLEAR") == 0) {
         //     send(socket_fd, "CLEAR", 5, 0);
         // } else if(strcmp(choice, "AFFICHER") == 0) { 
         //     send(socket_fd, "AFFICHER", 8, 0);
         } else if(strcmp(choice, "QUIT") == 0) {
+            send(socket_fd, "QUIT", 4, 0);
             system("clear");
+            break;
+        } else if (strcmp(choice, "BLOCK") == 0 && (strcmp(user_type, "PRO"))) {
+            send(socket_fd, "BLOCK", 5, 0);
+            printf("User blocked for 24h.\n");
             break;
         } else {
             printf("Invalid choice.\n");
@@ -170,51 +217,152 @@ void print_menu_conv() {
     system("clear");
     printf("\n\n");
     printf("========================= MENU ==========================\n∥\t\t\t\t\t\t\t∥\n");
-    printf("∥          - TAP THE ID\t TO CHOOSE THE CONV      \t∥\n∥          - TAP 'QUIT'\t TO QUIT THE SERVICE     \t∥\n");
+    printf("∥          - TAP THE ID\t TO CHOOSE THE CONV      \t∥\n∥          - TAP 'NEW'\t TO CREATE A NEW CONV      \t∥\n∥          - TAP 'QUIT'\t TO QUIT THE SERVICE     \t∥\n");
+    printf("∥\t\t\t\t\t\t\t∥\n=========================================================\n");
+}
+
+void print_menu_conv_admin() {
+    system("clear");
+    printf("\n\n");
+    printf("========================= MENU ==========================\n∥\t\t\t\t\t\t\t∥\n");
+    printf("∥          - TAP THE ID\t TO CHOOSE THE CONV      \t∥\n∥          - TAP 'NEW'\t TO CREATE A NEW CONV      \t∥\n∥          - TAP 'QUIT'\t TO QUIT THE SERVICE     \t∥\n∥          - TAP 'BLOCK' TO BLOCK THE USER FOR 24H\t∥\n∥          - TAP 'BAN'\t TO BAN THE USER   \t\t∥\n");
     printf("∥\t\t\t\t\t\t\t∥\n=========================================================\n");
 }
 
 
-void menu_conv(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
+
+int menu_conv(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
     char buffer[BUFSIZE];
     int bytes_read;
-    while (1) {
-        
-        print_menu_conv(socket_fd, api_key);
+    fd_set read_fds;
+    struct timeval timeout;
 
+    while (1) {
+        // Afficher le menu en fonction du type d'utilisateur
+        if (strcmp(user_type, "MEMBRE") == 0) {
+            print_menu_conv();
+        } else if (strcmp(user_type, "PRO") == 0) {
+            print_menu_conv();
+        } else if (strcmp(user_type, "ADMIN") == 0) {
+            print_menu_conv_admin();
+        } else {
+            printf("Unknown user type.\n");
+            return -1;
+        }
         printf("\n\n");
 
-        while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
-            buffer[bytes_read] = '\0';
+        // Initialisation du set de descripteurs
+        FD_ZERO(&read_fds);
+        FD_SET(socket_fd, &read_fds);
 
-            // Vérifier la fin du bloc
-            if (strcmp(buffer, "END_OF_BLOCK") == 0) {
-                break; // Fin des messages, on passe aux interactions utilisateur
+        // Délai d'attente de 5 secondes max
+        timeout.tv_sec = 5;
+        timeout.tv_usec = 0;
+
+        // Vérifier si des données sont disponibles
+        int ready = select(socket_fd + 1, &read_fds, NULL, NULL, &timeout);
+        if (ready == -1) {
+            perror("select");
+            return -1;
+        } else if (ready == 0) {
+            printf("Aucune donnée reçue (timeout).\n");
+        } else {
+            // Des données sont disponibles, on peut appeler recv()
+            while ((bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0)) > 0) {
+                buffer[bytes_read] = '\0';
+
+                // Vérifier la fin du bloc
+                if (strcmp(buffer, "END_OF_BLOCK") == 0) {
+                    break;
+                }
+
+                printf("%s", buffer);
             }
 
-            printf("%s", buffer);
+            if (bytes_read == 0) {
+                printf("Connexion fermée par le serveur.\n");
+                close(socket_fd);
+                return -1;
+            } else if (bytes_read < 0) {
+                perror("recv");
+            }
         }
+
         printf("\n");
-
-        printf("CHOOSE YOUR CONVERSATION WITH THE ID OF THE CONVERSATION : \n");
-
+        printf("CHOOSE YOUR CONVERSATION WITH THE ID OF THE CONVERSATION\n");
+        printf("OR CREATE A NEW CONVERSATION WITH 'NEW'\n");
         printf("\n>> ");
-
         fgets(choice, BUFSIZE, stdin);
-        choice[strcspn(choice, "\n")] = '\0';
+        choice[strcspn(choice, "\n")] = '\0'; // Supprimer le \n
 
         if (strcmp(choice, "QUIT") == 0) {
             send(socket_fd, "QUIT", 4, 0);
-            printf("Disconnected from server.\n");
-            break; // Quitter la boucle
+            close(socket_fd);
+            return -1;
+        }  else if (strcmp(choice, "NEW") == 0) {
+            send(socket_fd, "NEW", 3, 0);
+            printf("Creating a new conversation...\n");
+            printf("Enter the pseudo of the member or the codePro of the professional: \n");
+            char pseudo[BUFSIZE];
+            fgets(pseudo, BUFSIZE, stdin);
+            pseudo[strcspn(pseudo, "\n")] = '\0';
+            send(socket_fd, pseudo, strlen(pseudo), 0);
+
+            bytes_read = recv(socket_fd, buffer, BUFSIZE - 1, 0);
+            if (bytes_read > 0) {
+                buffer[bytes_read] = '\0';
+                printf("Server response: %s\n", buffer);
+            } else {
+                perror("recv");
+            }
+
+            if (strcmp(buffer, "Invalid conversation informations.") == 0) {
+                printf("Invalid conversation informations.\n");
+            } else {
+                char message[BUFSIZE];
+                char buffer[BUFSIZE];  // Tampon pour le message
+
+                printf("Your message: ");
+                fgets(message, BUFSIZE, stdin);
+                message[strcspn(message, "\n")] = '\0';
+
+                // Copier le message dans le buffer
+                snprintf(buffer, sizeof(buffer), "%s\n", message);
+
+                // Envoyer toutes les données en une seule fois
+                send(socket_fd, buffer, strlen(buffer), 0);
+            }
+
+        } else if (strcmp(choice, "BAN") == 0 && strcmp(user_type, "ADMIN") == 0) {
+            send(socket_fd, "BAN", 3, 0);
+            printf("Enter the pseudo of the user you want to ban: ");
+            char pseudo[BUFSIZE];
+            fgets(pseudo, BUFSIZE, stdin);
+            pseudo[strcspn(pseudo, "\n")] = '\0';
+            send(socket_fd, pseudo, strlen(pseudo), 0);
+
+            printf("User banned.\n");
+        } else if (strcmp(choice, "BLOCK") == 0 && strcmp(user_type, "ADMIN") == 0) {
+            send(socket_fd, "BLOCK", 5, 0);
+            printf("Enter the pseudo of the user you want to block: ");
+            char pseudo[BUFSIZE];
+            fgets(pseudo, BUFSIZE, stdin);
+            pseudo[strcspn(pseudo, "\n")] = '\0';
+            send(socket_fd, pseudo, strlen(pseudo), 0);
+            
+            printf("User blocked for 24 hours.\n");
         } else {
             send(socket_fd, choice, strlen(choice), 0);
-            menu_message(choice, socket_fd, api_key);
+            recv(socket_fd, buffer, BUFSIZE - 1, 0);
+            if (strcmp(buffer, "blocked.\n") == 0) {
+                printf("The Professionnal blocked this conversation for 24 hours.\n");
+            } else {
+                menu_message(choice, socket_fd, api_key);
+            }
         }
-
-        
     }
 }
+
 
 
 
@@ -268,8 +416,29 @@ int main(void) {
     } else if (strcmp(choice, "API_KEY_VALID") == 0) {
         printf("API key valid.\n");
 
-        while (1) {
-            menu_conv(choice, socket_fd, api_key);
+        if (strcmp(user_type, "") == 0) {
+        char temp[BUFSIZE];
+        int bytes_received = recv(socket_fd, temp, BUFSIZE - 1, 0);
+        if (bytes_received < 0) {
+            perror("recv");
+            close(socket_fd);
+            return -1;
+        }
+        temp[bytes_received] = '\0';
+        set_user_type(temp);
+    }
+
+        recv(socket_fd, choice, BUFSIZE - 1, 0);
+        printf("%s\n", choice);
+        if (strcmp(choice, "You are connected.\n") == 0) {
+            while (1) {
+                if (menu_conv(choice, socket_fd, api_key) == -1) {
+                    break;
+                }
+            }
+        } else {
+            close(socket_fd);
+            return 0;
         }
         
     } else {

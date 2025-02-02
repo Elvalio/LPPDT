@@ -9,6 +9,7 @@
 #include <postgresql/libpq-fe.h>
 #include <iconv.h>
 #include <netdb.h>
+#include <netinet/tcp.h>
 #include <netinet/in.h>
 #include <stdbool.h>
 #include <time.h>
@@ -23,6 +24,7 @@
 #define BUFSIZE 4096
 #define MAX_MESSAGES 3
 #define LEN_MSG_HISTORY 3
+static const int LIST_ADMIN_KEY[] = {1, 2, 3};
 
 
 // ============================
@@ -32,7 +34,7 @@ char *convert_to_utf8(const char *input, const char *from_encoding);
 int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur);
 void fetch_all_data(PGconn *conn);
 void clear_tables(PGconn *conn);
-void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text);
+void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text, int client_fd);
 void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messages, int message_id, int id_conv);
 int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouveau_texte);
 int supprimer_message(PGconn *conn, int user_id, int idMessage);
@@ -42,6 +44,14 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd);
 bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversation_id);
 int recup_receiver(PGconn *conn, int id_user, int idConv);
 void write_log(const char *logfile, int client_id, const char *client_ip, const char *format, ...);
+char *verifier_type_compte_MENU(PGconn *conn, int static_api_key);
+int block_user(PGconn *conn, int idPro, int idClient, const char *type_compte);
+int ban_user(PGconn *conn, char *pseudo);
+void create_discussion(PGconn *conn, int idClient, int idPro);
+int chercheIDMembre(PGconn *conn,char *pseudo, int client_fd);
+int chercheIDPro(PGconn *conn, int codePro, int client_fd);
+bool estBloque(PGconn *conn, int id);
+bool estBan(PGconn *conn, int id);
 
 
 // Variable `static` pour garder l'état de --verbose
@@ -199,56 +209,301 @@ int main(int argc, char *argv[]) {
 
             set_api_key(atoi(buffer));
 
+            char query[BUFSIZE];
+            write_log(LOGFILE_PATH, static_api_key, ip_client, "Unlocking the account if 24h passed.");
+            snprintf(query, BUFSIZE, "SELECT pact.gestionBlocage(%d);", static_api_key);
+            PGresult *res = PQexec(conn, query);
+            if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+                fprintf(stderr, "Error executing gestionBlocage: %s\n", PQerrorMessage(conn));
+                write_log(LOGFILE_PATH, static_api_key, ip_client, "Error executing gestionBlocage.");
+                PQclear(res);
+                close(client_fd);
+                continue;
+            }
+            PQclear(res);
 
-            while (1) {
-                memset(buffer, 0, BUFSIZE);
-                send_conversation_list(conn, static_api_key, client_fd);
-                write_log(LOGFILE_PATH, static_api_key, ip_client, "Conversation list sent.");
-                send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
-                printf("Conversation list sent.\n");
+            const char *account_type = verifier_type_compte_MENU(conn, static_api_key);
+            write_log(LOGFILE_PATH, static_api_key, ip_client, "Account type: %s", account_type);
+            send(client_fd, account_type, strlen(account_type), 0);
 
-                bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
-                if (bytes_read <= 0) {
-                    perror("recv");
-                    close(client_fd);
-                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving id of the conversation selected from client.");
-                    break;
+            if (estBloque(conn, static_api_key) || estBan(conn, static_api_key)) {
+                if (estBan(conn, static_api_key)) {
+                    send(client_fd, "You have been banned by an administrator.\n", 30, 0);
+                    write_log(LOGFILE_PATH, static_api_key, ip_client, "User Banned.");
+                } else {
+                    send(client_fd, "You have been blocked by an admin for 24h.\n", 30, 0);
+                    write_log(LOGFILE_PATH, static_api_key, ip_client, "User blocked for 24h by ADMIN.");
                 }
-                // buffer[bytes_read] = '\0';
-                // printf("buffer : %s\n", buffer);
-                // bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
+                close(client_fd);
+                continue;
+            } else {
+                send(client_fd, "You are connected.\n", 19, 0);
+                while (1) {
+                    write_log(LOGFILE_PATH, static_api_key, ip_client, "BEGINNING OF MENU");
+                    memset(buffer, 0, BUFSIZE);
+                    send_conversation_list(conn, static_api_key, client_fd);
+                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Conversation list sent.");
+                    send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
 
-                buffer[bytes_read] = '\0';
-                printf("buffer : %s\n", buffer);
-                printf("quit == buffer : %s\n", strcmp("QUIT", buffer) == 0 ? "true" : "false");
-                if (strcmp("QUIT", buffer) == 0) {
-                    printf("Client disconnected.\n");
-                    close(client_fd);
-                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Client disconnected.");
-                    break;
-                } else if (validConversation(conn, static_api_key, client_fd, buffer)) {
-                    printf("Conversation selected: %s\n", buffer);
-                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Conversation selected: %s", buffer);
-                    int id_conv = atoi(buffer);
+                    bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
+                    if (bytes_read <= 0) {
+                        perror("recv");
+                        close(client_fd);
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving id of the conversation selected from client.");
+                        break;
+                    }
+                    // buffer[bytes_read] = '\0';
+                    // printf("buffer : %s\n", buffer);
+                    // bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
 
-                    while (1) {
+                    buffer[bytes_read] = '\0';
+                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Received conversation ID from client: %s", buffer);
+
+                    if (strcmp("QUIT", buffer) == 0) {
+                        printf("Client disconnected.\n");
+                        close(client_fd);
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Client disconnected.");
+                        break;
+                    } else if (validConversation(conn, static_api_key, client_fd, buffer)) {
+
+
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Conversation selected: %s", buffer);
+                        int id_conv = atoi(buffer);
+
+                        while (1) {
+                            bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
+                            if (bytes_read <= 0) {
+                                if (bytes_read == 0) {
+                                    printf("Client disconnected.\n");
+                                } else {
+                                    perror("recv");
+                                }
+                                close(client_fd);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving command from client.");
+                                break;
+                            }
+                            buffer[bytes_read] = '\0';
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Received command from client: %s", buffer);
+
+                            if (strcmp(buffer, "SEND") == 0) {
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Received SEND command from client.");
+                                int sender_id, receiver_id;
+                                char message[BUFSIZE];
+
+                                bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
+                                if (bytes_read <= 0) {
+                                    perror("recv");
+                                    close(client_fd);
+                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving message from client.");
+                                    break;
+                                }
+                                buffer[bytes_read] = '\0';
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Received message from client: %s", buffer);
+
+                                strcpy(message, buffer);
+                                receiver_id = recup_receiver(conn, static_api_key, id_conv);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver ID: %d", receiver_id);
+                                sender_id = static_api_key;
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender ID: %d", sender_id);
+                                printf("Message from %d to %d: %s\n", sender_id, receiver_id, message);
+
+                                int idPro = -1;
+                                int idClient = -1;
+
+                                const char *sender_type = verifier_type_compte(conn, sender_id);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender type: %s", sender_type);
+                                const char *receiver_type = verifier_type_compte(conn, receiver_id);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver type: %s", receiver_type);
+
+                                if (!sender_type || !receiver_type || strcmp(sender_type, "Inconnu") == 0 || strcmp(receiver_type, "Inconnu") == 0) {
+                                    send(client_fd, "Erreur : ID de compte invalide.\n", 30, 0);
+                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "ID de compte receveur invalide.");
+                                    continue;
+                                } else if (strcmp(sender_type, "Professionnel") == 0) {
+                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender is a professional.");
+                                    idPro = sender_id;
+                                    idClient = receiver_id;
+                                } else {
+                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender is a client.");
+                                    idClient = sender_id;
+                                    idPro = receiver_id;
+                                }
+
+                                save_message(conn, idClient, idPro, sender_id, receiver_id, message, client_fd);
+                                send(client_fd, "Message saved.\n", 16, 0);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Message saved.");
+                                
+                                
+                            } else if (strcmp(buffer, "RECEIVE") == 0) {
+                                // int user_id;
+                                // recv(client_fd, buffer, BUFSIZE - 1, 0);
+                                // sscanf(buffer, "%d", &user_id);
+
+                                send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
+                                // Indicateur de fin d'envoi
+                                send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+                                while (1) {
+                                    recv(client_fd, buffer, BUFSIZE - 1, 0);
+                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Received command from client for RECEIVE MENU: %s", buffer);
+                                    if (buffer[0] == '+') {
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received '+' command from client.");
+                                        int message_id;
+                                        char message_id_str[BUFSIZE];
+                                        recv(client_fd, message_id_str, BUFSIZE - 1, 0);
+                                        message_id = atoi(message_id_str);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID: %d", message_id);
+
+                                        printf("Fetching messages before message ID %d\n", message_id);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Fetching messages before message ID %d", message_id);
+                                        send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, message_id, id_conv);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
+                                        send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+                                    } else if (strncmp(buffer, "CHANGE", 6) == 0) {
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received CHANGE command from client.");
+                                        int message_id;
+                                        sscanf(buffer + 7, "%d", &message_id); // Extraire l'ID après CHANGE
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID to change: %d", message_id);
+
+                                        printf("Message ID to change: %d\n", message_id);
+
+                                        // Recevoir le nouveau message
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Waiting for new message from client.");
+                                        char new_message[BUFSIZE];
+                                        recv(client_fd, new_message, BUFSIZE - 1, 0);
+                                        new_message[strcspn(new_message, "\n")] = '\0';
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "New message: %s", new_message);
+
+                                        printf("Changing message ID %d to: %s\n", message_id, new_message);
+                                        int ret = modifier_message(conn, static_api_key, message_id, new_message);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Change message result: %d", ret);
+                                        if (ret == 1) {
+                                            const char *msg = "Message updated.\n";
+                                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Message updated.");
+                                            send(client_fd, msg, strlen(msg), 0);
+                                        } else if (ret == 0) {
+                                            const char *msg = "You are not the sender of this message.\n";
+                                            write_log(LOGFILE_PATH, static_api_key, ip_client, "You are not the sender of this message.");
+                                            send(client_fd, msg, strlen(msg), 0);
+                                        } else {
+                                            const char *msg = "Error updating message.\n";
+                                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error updating message.");
+                                            send(client_fd, msg, strlen(msg), 0);
+                                        }
+                                        send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
+                                        send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+                                    } else if (strncmp(buffer, "DELETE", 6) == 0) {
+                                        int message_id;
+                                        sscanf(buffer + 6, "%d", &message_id);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID to delete: %d", message_id);
+
+
+                                        printf("Deleting message ID %d\n", message_id);
+                                        int ret = supprimer_message(conn, static_api_key, message_id);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Delete message result: %d", ret);
+                                        if (ret == 1) {
+                                            const char *msg = "Message deleted.\n";
+                                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Message deleted.");
+                                            send(client_fd, msg, strlen(msg), 0);
+                                        } else if (ret == 0) {
+                                            const char *msg = "You are not the sender of this message.\n";
+                                            write_log(LOGFILE_PATH, static_api_key, ip_client, "You are not the sender of this message.");
+                                            send(client_fd, msg, strlen(msg), 0);
+                                        } else {
+                                            const char *msg = "Error deleting message.\n";
+                                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error deleting message.");
+                                            send(client_fd, msg, strlen(msg), 0);
+                                        }
+                                        send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
+                                        send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+
+                                    } else if (buffer[0] == '-') {
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received '-' command from client.");
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Leaving the RECEIVE menu.");
+                                        break;
+                                    } else {
+                                        printf("Invalid command: %s\n", buffer);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid command: %s", buffer);
+                                        send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
+                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
+                                    }
+                                }
+
+                            // } else if (strcmp(buffer, "CLEAR") == 0) {
+                            //     clear_tables(conn);
+                            //     send(client_fd, "Tables cleared.\n", 16, 0);
+
+                            // } else if (strcmp(buffer, "AFFICHER") == 0) {
+                            //     fetch_all_data(conn);
+
+                        } else if (strcmp(buffer, "BLOCK") == 0 && (strcmp(account_type, "PRO") == 0)) {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Received BLOCK command from client.");
+                            int idPro = static_api_key;
+                            int idClient = recup_receiver(conn, static_api_key, id_conv);
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver ID: %d", idClient);
+
+                            ret = block_user(conn, idPro, idClient, account_type);
+                            if (ret == 1) {
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion blocked.");
+                            } else {
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Error blocking discussion.");
+                            }
+
+                        } else if (strcmp(buffer, "QUIT") == 0) {
+                                memset(buffer, 0, BUFSIZE);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Received QUIT command from client.");
+                                send_conversation_list(conn, static_api_key, client_fd);
+                                send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+                                break;
+
+                            } else {
+                                printf("Invalid command: %s\n", buffer);
+                                send(client_fd, "Invalid command.\n", 18, 0);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid command: %s", buffer);
+                            }
+                            printf("buffer : %s\n", buffer);
+                        }
+
+                    } else if (strcmp(buffer, "NEW") == 0) {
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received NEW command from client.");
+                        int idPro = -1;
+                        int idMembre = -1;
+
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Waiting for conversation informations from client.");
                         bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
                         if (bytes_read <= 0) {
-                            if (bytes_read == 0) {
-                                printf("Client disconnected.\n");
-                            } else {
-                                perror("recv");
-                            }
+                            perror("recv");
                             close(client_fd);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving command from client.");
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving conversation informations for sending message from client.");
                             break;
                         }
                         buffer[bytes_read] = '\0';
-                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received command from client: %s", buffer);
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received conversation informations from client: %s", buffer);
+                        if (strcmp(account_type, "PRO") == 0) {
+                            char pseudo[BUFSIZE];
+                            strncpy(pseudo, buffer, BUFSIZE - 1);
+                            pseudo[BUFSIZE - 1] = '\0';
+                            idMembre = chercheIDMembre(conn, pseudo, client_fd);
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Member ID: %d", idMembre);
 
-                        if (strcmp(buffer, "SEND") == 0) {
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Received SEND command from client.");
-                            int sender_id, receiver_id;
+                        } else {
+                            int codePro;
+                            sscanf(buffer, "%d", &codePro);
+                            idPro = chercheIDPro(conn, codePro, client_fd);
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Professional ID: %d", idPro);
+
+                        }
+
+                        if (idPro == -1 && idMembre == -1) {
+                            send(client_fd, "Invalid conversation informations.\n", 34, 0);
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid conversation informations.");
+                        } else {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Message for creating a new conversation...");
                             char message[BUFSIZE];
 
                             bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
@@ -256,174 +511,76 @@ int main(int argc, char *argv[]) {
                                 perror("recv");
                                 close(client_fd);
                                 write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving message from client.");
+                                send(client_fd, "Error receiving message.\n", 24, 0);
                                 break;
                             }
                             buffer[bytes_read] = '\0';
                             write_log(LOGFILE_PATH, static_api_key, ip_client, "Received message from client: %s", buffer);
 
                             strcpy(message, buffer);
-                            receiver_id = recup_receiver(conn, static_api_key, id_conv);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver ID: %d", receiver_id);
-                            sender_id = static_api_key;
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender ID: %d", sender_id);
-                            printf("Message from %d to %d: %s\n", sender_id, receiver_id, message);
 
-                            int idPro = -1;
-                            int idClient = -1;
-
-                            const char *sender_type = verifier_type_compte(conn, sender_id);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender type: %s", sender_type);
-                            const char *receiver_type = verifier_type_compte(conn, receiver_id);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver type: %s", receiver_type);
-
-                            if (!sender_type || !receiver_type || strcmp(sender_type, "Inconnu") == 0 || strcmp(receiver_type, "Inconnu") == 0) {
-                                send(client_fd, "Erreur : ID de compte invalide.\n", 30, 0);
-                                write_log(LOGFILE_PATH, static_api_key, ip_client, "ID de compte receveur invalide.");
-                                continue;
-                            } else if (strcmp(sender_type, "Professionnel") == 0) {
-                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender is a professional.");
-                                idPro = sender_id;
-                                idClient = receiver_id;
+                            if (strcmp(account_type, "PRO") == 0) {
+                                save_message(conn, static_api_key, idMembre, static_api_key, idMembre, message, client_fd);
                             } else {
-                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender is a client.");
-                                idClient = sender_id;
-                                idPro = receiver_id;
+                                save_message(conn, idPro, static_api_key, idPro, static_api_key, message, client_fd);
                             }
-
-                            save_message(conn, idClient, idPro, sender_id, receiver_id, message);
-                            send(client_fd, "Message saved.\n", 16, 0);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Message saved.");
-
-                        } else if (strcmp(buffer, "RECEIVE") == 0) {
-                            // int user_id;
-                            // recv(client_fd, buffer, BUFSIZE - 1, 0);
-                            // sscanf(buffer, "%d", &user_id);
-
-                            send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
-                            // Indicateur de fin d'envoi
-                            send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
-
-                            while (1) {
-                                recv(client_fd, buffer, BUFSIZE - 1, 0);
-                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Received command from client for RECEIVE MENU: %s", buffer);
-                                if (buffer[0] == '+') {
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Received '+' command from client.");
-                                    int message_id;
-                                    char message_id_str[BUFSIZE];
-                                    recv(client_fd, message_id_str, BUFSIZE - 1, 0);
-                                    message_id = atoi(message_id_str);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID: %d", message_id);
-
-                                    printf("Fetching messages before message ID %d\n", message_id);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Fetching messages before message ID %d", message_id);
-                                    send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, message_id, id_conv);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
-                                    send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
-
-                                } else if (strncmp(buffer, "CHANGE", 6) == 0) {
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Received CHANGE command from client.");
-                                    int message_id;
-                                    sscanf(buffer + 7, "%d", &message_id); // Extraire l'ID après CHANGE
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID to change: %d", message_id);
-
-                                    printf("Message ID to change: %d\n", message_id);
-
-                                    // Recevoir le nouveau message
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Waiting for new message from client.");
-                                    char new_message[BUFSIZE];
-                                    recv(client_fd, new_message, BUFSIZE - 1, 0);
-                                    new_message[strcspn(new_message, "\n")] = '\0';
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "New message: %s", new_message);
-
-                                    printf("Changing message ID %d to: %s\n", message_id, new_message);
-                                    int ret = modifier_message(conn, static_api_key, message_id, new_message);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Change message result: %d", ret);
-                                    if (ret == 1) {
-                                        const char *msg = "Message updated.\n";
-                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Message updated.");
-                                        send(client_fd, msg, strlen(msg), 0);
-                                    } else if (ret == 0) {
-                                        const char *msg = "You are not the sender of this message.\n";
-                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "You are not the sender of this message.");
-                                        send(client_fd, msg, strlen(msg), 0);
-                                    } else {
-                                        const char *msg = "Error updating message.\n";
-                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error updating message.");
-                                        send(client_fd, msg, strlen(msg), 0);
-                                    }
-                                    send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
-                                    send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
-
-                                } else if (strncmp(buffer, "DELETE", 6) == 0) {
-                                    int message_id;
-                                    sscanf(buffer + 6, "%d", &message_id);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID to delete: %d", message_id);
-
-
-                                    printf("Deleting message ID %d\n", message_id);
-                                    int ret = supprimer_message(conn, static_api_key, message_id);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Delete message result: %d", ret);
-                                    if (ret == 1) {
-                                        const char *msg = "Message deleted.\n";
-                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Message deleted.");
-                                        send(client_fd, msg, strlen(msg), 0);
-                                    } else if (ret == 0) {
-                                        const char *msg = "You are not the sender of this message.\n";
-                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "You are not the sender of this message.");
-                                        send(client_fd, msg, strlen(msg), 0);
-                                    } else {
-                                        const char *msg = "Error deleting message.\n";
-                                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error deleting message.");
-                                        send(client_fd, msg, strlen(msg), 0);
-                                    }
-                                    send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
-                                    send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
-
-                                } else if (buffer[0] == '-') {
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Received '-' command from client.");
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Leaving the RECEIVE menu.");
-                                    break;
-                                } else {
-                                    printf("Invalid command: %s\n", buffer);
-                                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid command: %s", buffer);
-                                    // send(client_fd, "Invalid command.\n", 18, 0);
-                                }
-                            }
-
-                        // } else if (strcmp(buffer, "CLEAR") == 0) {
-                        //     clear_tables(conn);
-                        //     send(client_fd, "Tables cleared.\n", 16, 0);
-
-                        // } else if (strcmp(buffer, "AFFICHER") == 0) {
-                        //     fetch_all_data(conn);
-
-                        } else if (strcmp(buffer, "QUIT") == 0) {
-                            memset(buffer, 0, BUFSIZE);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Received QUIT command from client.");
-                            send_conversation_list(conn, static_api_key, client_fd);
-                            send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Client disconnected.");
-                            break;
-
-                        } else {
-                            printf("Invalid command: %s\n", buffer);
-                            send(client_fd, "Invalid command.\n", 18, 0);
-                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid command: %s", buffer);
                         }
-                        printf("buffer : %s\n", buffer);
-                    }
+                        
+                    } else if (strcmp(buffer, "BLOCK") == 0 && (strcmp(account_type, "ADMIN") == 0)) {
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received BLOCK command from client ADMIN.");
+                        int idPro = static_api_key;
+                        
+                        char pseudo[BUFSIZE];
+                        recv(client_fd, pseudo, BUFSIZE - 1, 0);
+                        pseudo[strcspn(pseudo, "\n")] = '\0';
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Pseudo to block: %s", pseudo);
 
-                } else {
-                    send(client_fd, "Invalid conversation ID.\n", 25, 0);
-                    write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid conversation ID.");
-                    printf("Invalid conversation ID.\n");
-                    continue;
+                        char query[BUFSIZE];
+                        snprintf(query, BUFSIZE, "SELECT idC FROM pact._membre WHERE pseudo = '%s';", pseudo);
+                        PGresult *res = PQexec(conn, query);
+                        if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+                            fprintf(stderr, "Erreur lors de la recherche de l'ID du membre : %s\n", PQerrorMessage(conn));
+                            PQclear(res);
+                            return -1;
+                        }
+                        if (PQntuples(res) == 0) {
+                            PQclear(res);
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Membre not found.");
+                            return -1;
+                        }
+                        int idMembre = atoi(PQgetvalue(res, 0, 0));
+                        PQclear(res);
+
+                        ret = block_user(conn, idPro, idMembre, account_type);
+                        if (ret == 1) {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion blocked.");
+                        } else {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error blocking discussion.");
+                        }
+
+                    } else if (strcmp(buffer, "BAN") == 0 && strcmp(account_type, "ADMIN") == 0) {
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received BAN command from client.");
+                        char pseudo[BUFSIZE];
+                        recv(client_fd, pseudo, BUFSIZE - 1, 0);
+                        pseudo[strcspn(pseudo, "\n")] = '\0';
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Pseudo to ban: %s", pseudo);
+
+                        ret = ban_user(conn, pseudo);
+                        if (ret == 1) {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "User banned.");
+                        } else {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error banning user.");
+                        }
+                    } else {
+                        printf("buffer : %s\n", buffer);
+                        send(client_fd, "Invalid conversation ID.\n", 25, 0);
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid conversation ID.");
+                        printf("Invalid conversation ID.\n");
+                        continue;
+                    }
                 }
+                write_log(LOGFILE_PATH, static_api_key, ip_client, "END OF MENU");
             }
-            
 
             
         }
@@ -523,7 +680,7 @@ int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int i
 // Fonction: save_message
 // Sauvegarde un message et crée une discussion si nécessaire
 // ============================
-void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text) {
+void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur, const char *message_text, int client_fd) {
     // Trouver ou créer la discussion
     int discussion_id = find_discussion(conn, idClient, idPro, idEmmeteur, idReceveur); 
 
@@ -554,6 +711,7 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
         discussion_id = atoi(PQgetvalue(create_res, 0, 0));
         PQclear(create_res);
         write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion created: %d", discussion_id);
+        send(client_fd, "New discussion created.\n", 24, 0);
     }
 
     // Convertir le texte du message en UTF-8
@@ -1048,7 +1206,7 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
             int other_user_id = (atoi(idClient) == user_id) ? atoi(idPro) : atoi(idClient);
             write_log(LOGFILE_PATH, static_api_key, ip_client, "Fetching user name for user %d", other_user_id);
 
-            snprintf(query, BUFSIZE, "SELECT nom, prenom FROM pact._compte WHERE idC = %d;", other_user_id);
+            snprintf(query, BUFSIZE, "SELECT nom, prenom, pseudo FROM pact._compte LEFT JOIN pact._membre ON pact._compte.idC = pact._membre.idC WHERE pact._compte.idC = %d;", other_user_id);
             PGresult *name_res = PQexec(conn, query);
             if (PQresultStatus(name_res) != PGRES_TUPLES_OK) {
                 fprintf(stderr, "Error fetching user name: %s\n", PQerrorMessage(conn));
@@ -1060,12 +1218,24 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
 
             if (PQntuples(name_res) > 0) {
                 write_log(LOGFILE_PATH, static_api_key, ip_client, "User name found.");
-                snprintf(nom_prenom, BUFSIZE, "%s %s", PQgetvalue(name_res, 0, 0), PQgetvalue(name_res, 0, 1));
+                snprintf(query, BUFSIZE, "SELECT 1 FROM pact._professionnel WHERE idC = %d;", other_user_id);
+                PGresult *pro_res = PQexec(conn, query);
+                if (PQresultStatus(pro_res) != PGRES_TUPLES_OK) {
+                    fprintf(stderr, "Error checking professional status: %s\n", PQerrorMessage(conn));
+                    PQclear(pro_res);
+                    snprintf(nom_prenom, BUFSIZE, "Unknown");
+                } else if (PQntuples(pro_res) > 0) {
+                    snprintf(nom_prenom, BUFSIZE, "%s %s", PQgetvalue(name_res, 0, 0), PQgetvalue(name_res, 0, 1));
+                } else {
+                    snprintf(nom_prenom, BUFSIZE, "%s", PQgetvalue(name_res, 0, 2));
+                }
+                PQclear(pro_res);
             } else {
                 write_log(LOGFILE_PATH, static_api_key, ip_client, "User name not found.");
                 snprintf(nom_prenom, BUFSIZE, "Unknown");
             }
             PQclear(name_res);
+            
             write_log(LOGFILE_PATH, static_api_key, ip_client, "User name: %s", nom_prenom);
 
 
@@ -1132,6 +1302,30 @@ bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversat
     printf("rows : %d\n", rows);
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Rows: %d", rows);
     PQclear(res);
+
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Checking if conversation is blocked.");
+    snprintf(query, BUFSIZE,
+            "SELECT estBloque FROM pact._discussion "
+            "WHERE idDiscussion = %d;", idChoose);
+    res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Error fetching blocked status: %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error fetching blocked status.");
+        return false;
+    }
+
+    if (PQntuples(res) > 0 && strcmp(PQgetvalue(res, 0, 0), "t") == 0) {
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Blocked conversation.");
+        send(client_fd, "blocked.\n", 9, 0);
+        return false;
+    }
+    send(client_fd, "not blocked.\n", 13, 0);
+
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Conversation not blocked.");
+    PQclear(res);
+
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of discussion check.");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Returning result: %s", rows > 0 ? "true" : "false");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of VALID CONVERSATION");
@@ -1219,4 +1413,244 @@ void write_log(const char *logfile, int client_id, const char *client_ip, const 
         va_end(args);
         printf("\n");
     }
+}
+
+
+char *verifier_type_compte_MENU(PGconn *conn, int api_key) {
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "VERIFIER TYPE COMPTE FOR MENU");
+    // Vérifier si la clé API est dans la liste des clés administratives
+    
+    int is_admin = 0;
+    for (size_t i = 0; i < sizeof(LIST_ADMIN_KEY) / sizeof(LIST_ADMIN_KEY[0]); i++) {
+        if (api_key == LIST_ADMIN_KEY[i]) {
+            is_admin = 1;
+            break;
+        }
+    }
+    if (is_admin) {
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Admin key found.");
+        return "ADMIN";
+    }
+    
+    char query[BUFSIZE];
+    PGresult *res;
+
+    // Vérifier dans la table _professionnel
+    snprintf(query, BUFSIZE, "SELECT 1 FROM pact._professionnel WHERE idC = %d;", api_key);
+    res = PQexec(conn, query);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Checking in _professionnel.");
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la vérification dans _professionnel : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error checking in _professionnel.");
+        return "Erreur";
+    }
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Checked in _professionnel.");
+
+    if (PQntuples(res) > 0) {
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Professional found.");
+        return "PRO";
+    }
+    PQclear(res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Professional not found.");
+
+    // Vérifier dans la table _membre
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Checking in _membre.");
+    snprintf(query, BUFSIZE, "SELECT 1 FROM pact._membre WHERE idC = %d;", api_key);
+    res = PQexec(conn, query);
+
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la vérification dans _membre : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error checking in _membre.");
+        return "Erreur";
+    }
+
+    if (PQntuples(res) > 0) {
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Client found.");
+        return "MEMBRE";
+    }
+    PQclear(res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Client not found.");
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of VERIFIER TYPE COMPTE FOR MENU");
+    // Si aucune correspondance trouvée
+    return "Inconnu";    
+}
+
+
+int block_user(PGconn *conn, int idPro, int idClient, const char *type_compte) {
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "BLOCK USER");
+
+
+    char block_query[BUFSIZE];
+    if (strcmp(type_compte, "PRO") == 0) {
+        int discussion_id = find_discussion(conn, idClient, idPro, static_api_key, idClient);
+        
+        if (discussion_id == -1) {
+            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error fetching discussion.");
+            return -1;
+        }
+
+        snprintf(block_query, BUFSIZE, "UPDATE pact._discussion SET estBloque = true, dateBlocage = now() WHERE idDiscussion = %d;", discussion_id);
+
+    } else {
+        snprintf(block_query, BUFSIZE, "UPDATE pact._compte SET estBloque = true, dateBlocage = now() WHERE idC = %d;", idClient);   
+    }
+    
+    PGresult *block_res = PQexec(conn, block_query);
+    if (PQresultStatus(block_res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error blocking discussion: %s\n", PQerrorMessage(conn));
+        PQclear(block_res);
+        return -1;
+    }
+
+    PQclear(block_res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of BLOCK USER");
+    return 1;
+}
+
+int ban_user(PGconn *conn, char *pseudo) { // A FAIRE !!!
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "BAN USER");
+
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE, "SELECT idC FROM pact._membre WHERE pseudo = '%s';", pseudo);
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la recherche de l'ID du membre : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
+    }
+    if (PQntuples(res) == 0) {
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Membre not found.");
+        return -1;
+    }
+    int idMembre = atoi(PQgetvalue(res, 0, 0));
+    PQclear(res);
+
+    snprintf(query, BUFSIZE, "UPDATE pact._compte SET estBan = true, dateBan = now() WHERE idC = %d;", idMembre);
+
+    PGresult *block_res = PQexec(conn, query);
+    if (PQresultStatus(block_res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error blocking discussion: %s\n", PQerrorMessage(conn));
+        PQclear(block_res);
+        return -1;
+    }
+
+    PQclear(block_res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of BLOCK USER");
+    return 1;
+}
+
+void create_discussion(PGconn *conn, int idClient, int idPro) {
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "CREATE DISCUSSION");
+
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE,
+             "INSERT INTO pact._discussion (idClient, idPro) VALUES (%d, %d);",
+             idClient, idPro);
+
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error creating discussion: %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return;
+    }
+    PQclear(res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion created.");
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of CREATE DISCUSSION");
+}
+
+int chercheIDMembre(PGconn *conn,char *pseudo,int client_fd) {
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE, "SELECT idC FROM pact._membre WHERE pseudo = '%s';", pseudo);
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la recherche de l'ID du membre : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
+    }
+    if (PQntuples(res) == 0) {
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Membre not found.");
+        send(client_fd, "Member/Pro not found.\n", 18, 0);
+        return -1;
+    }
+    int idMembre = atoi(PQgetvalue(res, 0, 0));
+    PQclear(res);
+    return idMembre;
+}
+
+int chercheIDPro(PGconn *conn,int codePro, int client_fd) {
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE, "SELECT idC FROM pact._professionnel WHERE codePro = '%d';", codePro);
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la recherche de l'ID du professionnel : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Professional not found.");
+        send(client_fd, "Member/Pro not found.\n", 18, 0);
+        return -1;
+    }
+    if (PQntuples(res) == 0) {
+        PQclear(res);
+        return -1;
+    }
+    int idPro = atoi(PQgetvalue(res, 0, 0));
+    PQclear(res);
+    return idPro;
+}
+
+
+bool estBloque(PGconn *conn, int id) {
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "EST BLOQUE");
+
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE, "SELECT estBloque FROM pact._compte WHERE idC = %d;", id);
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error fetching blocked status: %s", PQerrorMessage(conn));
+        fprintf(stderr, "Error fetching blocked status: %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return false;
+    }
+
+    if (PQntuples(res) == 0) {
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Account not found.");
+        PQclear(res);
+        return false;
+    }
+
+    bool blocked = strcmp(PQgetvalue(res, 0, 0), "t") == 0;
+    PQclear(res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of EST BLOQUE");
+    return blocked;
+}
+
+
+bool estBan(PGconn *conn, int id) {
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "EST BAN");
+
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE, "SELECT estBan FROM pact._compte WHERE idC = %d;", id);
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Error fetching banned status: %s", PQerrorMessage(conn));
+        fprintf(stderr, "Error fetching banned status: %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return false;
+    }
+
+    if (PQntuples(res) == 0) {
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Account not found.");
+        PQclear(res);
+        return false;
+    }
+
+    bool banned = strcmp(PQgetvalue(res, 0, 0), "t") == 0;
+    PQclear(res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of EST BAN");
+    return banned;
 }
