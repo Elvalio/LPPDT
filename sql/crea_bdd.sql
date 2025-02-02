@@ -580,7 +580,7 @@ begin
   if (new.codePro <> old.codePro) then
     raise exception 'Pas de mise à jour codePro';
   end if;  
-  RETURN OLD;
+  RETURN NEW;
 end;
 $$ language 'plpgsql';
 
@@ -595,7 +595,7 @@ begin
   if (new.pseudo <> old.pseudo) then
     raise exception 'Pas de mise à jour pseudo';
   end if;
-  RETURN OLD;
+  RETURN NEW;
 end;
 $$ language 'plpgsql';
 
