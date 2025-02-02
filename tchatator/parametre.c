@@ -1,46 +1,72 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <signal.h>
+#include <unistd.h>
 
-// ========================
-// Fichier de configuration
-// ========================
+#define CONFIG_FILE "config.txt"
 
-// Port d'écoute du serveur
-#define PORT "4242" // Port utilisé pour écouter les connexions entrantes
+// Variables globales pour les paramètres
+int port, backlog, bufsize, len_msg_history, ban_duration;
+int max_messages_per_min, max_msg_size, buffer_size, size_key;
 
-// Nombre maximal de connexions en attente
-#define BACKLOG 10 // Nombre de connexions mises en file d'attente avant d'être acceptées
+// Fonction pour charger la configuration depuis le fichier
+void load_config() {
+    FILE *file = fopen(CONFIG_FILE, "r");
+    if (!file) {
+        perror("Erreur d'ouverture du fichier de configuration");
+        return;
+    }
 
-// Taille maximale du buffer de réception
-#define BUFSIZE 4096 // Taille maximale du buffer utilisé pour recevoir les messages
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        char key[50];
+        int value;
 
-// Nombre maximal de messages renvoyés à un utilisateur
-#define LEN_MSG_HISTORY 3 // Nombre d'anciens messages récupérés lors d'une requête
+        if (sscanf(line, "%49[^=]=%d", key, &value) == 2) {
+            if (strcmp(key, "PORT") == 0) port = value;
+            else if (strcmp(key, "BACKLOG") == 0) backlog = value;
+            else if (strcmp(key, "BUFSIZE") == 0) bufsize = value;
+            else if (strcmp(key, "LEN_MSG_HISTORY") == 0) len_msg_history = value;
+            else if (strcmp(key, "BAN_DURATION") == 0) ban_duration = value;
+            else if (strcmp(key, "MAX_MESSAGES_PER_MIN") == 0) max_messages_per_min = value;
+            else if (strcmp(key, "MAX_MSG_SIZE") == 0) max_msg_size = value;
+            else if (strcmp(key, "BUFFER_SIZE") == 0) buffer_size = value;
+            else if (strcmp(key, "SIZE_KEY") == 0) size_key = value;
+        }
+    }
 
-// Durée de bannissement en secondes
-#define BAN_DURATION 3600 // Temps en secondes avant qu'un utilisateur banni puisse se reconnecter
+    fclose(file);
+    printf("Configuration rechargée avec succès !\n");
+}
 
-// Nombre maximal de messages envoyés par minute
-#define MAX_MESSAGES_PER_MIN 30 // Limite du nombre de messages qu'un utilisateur peut envoyer par minute
-
-// Taille maximale d'un message en caractères
-#define MAX_MSG_SIZE 1024 // Nombre maximal de caractères autorisés dans un message unique
-
-// Taille maximale du buffer de la clé d'API
-#define BUFFER_SIZE 1024 // Nombre maximale de caractères dans le buffer de la clé d'API
-
-// Taille de la clé d'API
-#define SIZE_KEY 64 // Taille de la clé d'API en caractères
+// Fonction pour recharger la configuration à reception du signal SIGHUP
+void signal_handler(int signum) {
+    if (signum == SIGHUP) {
+        printf("Signal SIGHUP reçu, rechargement de la configuration...\n");
+        load_config();
+    }
+}
 
 int main() {
-    printf("Configuration chargée :\n");
-    printf("Port : %s\n", PORT);
-    printf("Backlog : %d\n", BACKLOG);
-    printf("Taille du buffer : %d\n", BUFSIZE);
-    printf("Historique de messages : %d\n", LEN_MSG_HISTORY);
-    printf("Durée de bannissement : %d secondes\n", BAN_DURATION);
-    printf("Messages max par minute : %d\n", MAX_MESSAGES_PER_MIN);
-    printf("Taille max d'un message : %d caractères\n", MAX_MSG_SIZE);
-    printf("Taille du buffer de la clé d'API : %d\n", BUFFER_SIZE);
-    printf("Taille de la clé d'API : %d caractères\n", SIZE_KEY);
+    // Charge la config au démarrage
+    load_config();
+
+    // Capture du signal SIGHUP
+    signal(SIGHUP, signal_handler);
+
+    // Ca sert à rien en vrai t'as capté c'est pour garder le processus ouvert
+    while (1) {
+        printf("Serveur en écoute sur le port %d...\n", port);
+        sleep(10); 
+    }
+
     return 0;
 }
+
+// Compilation : gcc parametre.c -o parametre
+// Exécution : ./parametre
+
+// Pour recharger la configuration :
+// PID du processus : ps -a
+// Exécution du signal à récupérer : kill -SIGHUP <PID parametre>
