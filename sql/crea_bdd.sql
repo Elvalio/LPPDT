@@ -1745,7 +1745,7 @@ begin
   perform setseed(idCompte/100.0);
   res = concat(substr(md5(random()::text), 1, 32),substr(md5(random()::text), 1, 29));
   
-  if exists(select * from _membre where idC = idCompte) then
+  if exists(select * from pact._membre where idC = idCompte) then
     temp='mbr';
   elsif  exists(select * from _professionnel where idC = idCompte) then
     temp='pro';
