@@ -140,7 +140,7 @@
                             <?php if (isset($_COOKIE['type_compte'])) {?>
                                 
                                 <a href="infoCompte.php" class="nav-item">
-                                    <img src="../icons/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
+                                    <img src="../icons/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav connecte" id="img-profile">
                                     <div id="infoProfile">
                                         <p id="prenom" class="TS"><?php echo $nom . ' ' . $prenom ?></p>
                                         <p id="email" class="TS"><?php echo $email ?></p>
