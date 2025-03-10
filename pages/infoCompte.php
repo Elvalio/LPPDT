@@ -204,10 +204,10 @@ include('../sql/connect_params.php');
                 <div>
                     <button class="deco-btn-compte" onclick="deconnexion()">Se déconnecter</button>
                 </div>
-                <!-- <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
+                <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="delete" value="oui">
                     <button type="submit" class="delete-btn-compte">Supprimer le compte</button>
-                </form> -->
+                </form>
                 <button id="delete-btn-compte">
                     Supprimer le compte
                 </button>
