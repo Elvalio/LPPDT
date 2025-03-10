@@ -258,10 +258,12 @@ likeButton.forEach(button => {
                 const result = await response.json();
                 console.log(result);
                 const likesCount = button.closest('.like-dislike').querySelector(`[id^="likesCount_${datas[2]}"]`);
+                const dislikesCount = button.closest('.like-dislike').querySelector(`[id^="dislikesCount_${datas[2]}"]`);
                 console.log(likesCount);
                 if (result.nbr_likes !== undefined) {
                     console.log(result.nbr_likes);
                     likesCount.textContent = result.nbr_likes;
+                    dislikesCount.textContent = result.nbr_dislikes;
                 }
             } else {
                 console.error('Erreur HTTP:', response.status);
@@ -298,10 +300,12 @@ dislikeButton.forEach(button => {
                 const result = await response.json();
                 console.log(result);
                 const dislikesCount = button.closest('.like-dislike').querySelector(`[id^="dislikesCount_${datas[2]}"]`);
+                const likesCount = button.closest('.like-dislike').querySelector(`[id^="likesCount_${datas[2]}"]`);
                 console.log(dislikesCount);
                 if (result.nbr_dislikes !== undefined) {
                     console.log(result.nbr_dislikes);
                     dislikesCount.textContent = result.nbr_dislikes;
+                    likesCount.textContent = result.nbr_likes;
                 }
             } else {
                 console.error('Erreur HTTP:', response.status);
