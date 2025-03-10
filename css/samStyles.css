@@ -15,6 +15,14 @@
   src: url('./TripSans-Ultra.ttf') format('truetype');
 }
 
+.LikeButton, .DislikeButton {
+  transition: all 0.2s;
+}
+
+.LikeButton:active, .DislikeButton:active {
+  transform: scale(1.5) rotateY(-8deg);
+}
+
 @media (min-width: 801px) {
 
   .phone-element {
