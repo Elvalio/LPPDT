@@ -404,11 +404,12 @@ body {
       .phone-element {
         width: 100%;
       }
-    
+
+    /* Pose problème avec la largeur sur téléphone, la largeur est plus grande que l'écran et fait "scroller" horizontalement
       body {
         width: 100%;
       }
-    
+    */
     
       .logo-connexion {
         display: none !important;

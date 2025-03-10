@@ -126,7 +126,7 @@ function creerFacturesPourToutesLesOffres($bdh) {
                     </div>
                     <div>
                         <p class="facture_total">Total à payer :</p>
-                        <p class="facture_total"><?php echo htmlspecialchars($facture['prix_offre_ttc'] + $facture['prix_option_ttc']); ?>€/TTC</p>
+                        <p class="facture_total"><?php echo htmlspecialchars(number_format($facture['prix_offre_ttc'] + $facture['prix_option_ttc'],2)); ?>€/TTC</p>
                     </div>
                         <?php $offre = offre($facture['numfacture'], $bdh);?>
                     <a href="facture_telechargeable.php?numFacture=<?php echo htmlspecialchars($facture['numfacture']); ?>&userID=<?php echo $userID; ?>" class="telecharger facture-button" target="_blank">Télécharger</a>
@@ -171,12 +171,12 @@ function creerFacturesPourToutesLesOffres($bdh) {
                                                     ?></p>
                         </div>
                             <div class="facture-total facture-detail-element">
-                        <p class="montant_facture">Prix offre HT : <?php echo round($offre[0]['prix_offre_ht'],2) ?>€</p>
-                        <p class="montant_facture">Prix option HT : <?php echo round($offre[0]['prix_option_ht'],2) ?>€</p>
+                        <p class="montant_facture">Prix offre HT : <?php echo number_format($offre[0]['prix_offre_ht'],2) ?>€</p>
+                        <p class="montant_facture">Prix option HT : <?php echo number_format($offre[0]['prix_option_ht'],2) ?>€</p>
                         <br>
-                        <p class="montant_facture">Total HT : <?php echo round($offre[0]['prix_offre_ht'] + $offre[0]['prix_option_ht'],2) ?>€</p>
-                    <p class="montant_facture">TVA : <?php echo round($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'] - $offre[0]['prix_offre_ht'] - $offre[0]['prix_option_ht'],2) ?>€</p>
-                    <p class="montant_facture facture_total">Total TTC : <?php echo round($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'],2) ?>€</p>   
+                        <p class="montant_facture">Total HT : <?php echo number_format($offre[0]['prix_offre_ht'] + $offre[0]['prix_option_ht'],2) ?>€</p>
+                    <p class="montant_facture">TVA : <?php echo number_format($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'] - $offre[0]['prix_offre_ht'] - $offre[0]['prix_option_ht'],2) ?>€</p>
+                    <p class="montant_facture facture_total">Total TTC : <?php echo number_format($offre[0]['prix_offre_ttc'] + $offre[0]['prix_option_ttc'],2) ?>€</p>   
                     </div>
                     
                     </div>
