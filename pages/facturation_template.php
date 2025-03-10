@@ -57,19 +57,19 @@
             <?php
                         $idO = $offre[0]['ido'];
 
-                        $stmtOption = $bdh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement < now() and idO = :idO");
+                        $stmtOption = $dbh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement < now() and idO = :idO");
                         $stmtOption->execute([':idO' => $idO]);
                         $options = $stmtOption->fetchAll(PDO::FETCH_ASSOC);
-                        
+
                         $stmtSemaines = $dbh->prepare("SELECT COUNT(*) as nbSemaines FROM pact._option_offre WHERE idO = :idO AND date_lancement < now()");
                         $stmtSemaines->execute([':idO' => $idO]);
-                        $nbSemaines = $stmtSemaines->fetch(PDO::FETCH_ASSOC)['nbSemaines'];
+                        $stmtSemaines->fetch(PDO::FETCH_ASSOC);
 
                         ?>
             <?php if (!empty($options[0])) { ?>
                 <tr>
                     <td>Option « <?= $option_titre ?> »</td>
-                    <td><?php echo $nbSemaines ?> Semaine</td>
+                    <td><?php echo round($facture_data['nbrjours'] /7 ) ?> Semaine</td>
                     <td><?= number_format($facture_data['total_options_ht'], 2, ',', ' ') ?> €/Semaine</td>
                     <td><?= number_format($offre_options_ht, 2, ',', ' ') ?> €</td>
                     <td><?= number_format($offre_options_ttc, 2, ',', ' ') ?> €</td>
