@@ -130,8 +130,8 @@
                                         <p>Se déconnecter</p>
                                     </a>
                                 <?php } else { ?>
-                                    <a href="creation_compte_formulaire.php" class="nav-item" data-icon="deconnection">
-                                        <img src="../icons/icons-gris/icon-deconnection-gris.svg" alt="Logo Inscription" class="logo-nav">
+                                    <a href="creation_compte_formulaire.php" class="nav-item" data-icon="inscription">
+                                        <img src="../icons/icons-gris/icon-inscription-gris.svg" alt="Logo Inscription" class="logo-nav" width="28px">
                                         <p>S'inscrire</p>
                                     </a>
                                 <?php } ?>
@@ -140,7 +140,7 @@
                             <?php if (isset($_COOKIE['type_compte'])) {?>
                                 
                                 <a href="infoCompte.php" class="nav-item">
-                                    <img src="../images/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
+                                    <img src="../icons/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav" id="img-profile">
                                     <div id="infoProfile">
                                         <p id="prenom" class="TS"><?php echo $nom . ' ' . $prenom ?></p>
                                         <p id="email" class="TS"><?php echo $email ?></p>
@@ -162,7 +162,7 @@
                 </div>
             </div>
             
-        <script src="../nav.js"></script>
+        <script src="../js/nav.js"></script>
 
 
 
