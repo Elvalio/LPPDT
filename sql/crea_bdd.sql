@@ -550,9 +550,9 @@ begin
   perform setseed(idCompte/100.0);
   res = concat(substr(md5(random()::text), 1, 32),substr(md5(random()::text), 1, 29));
   
-  if exists(select * from _membre where idC = idCompte) then
+  if exists(select * from pact._membre where idC = idCompte) then
     temp='mbr';
-  elsif  exists(select * from _professionnel where idC = idCompte) then
+  elsif  exists(select * from pact._professionnel where idC = idCompte) then
     temp='pro';
   end if;
   raise notice '%', temp;
@@ -580,7 +580,7 @@ begin
   if (new.codePro <> old.codePro) then
     raise exception 'Pas de mise à jour codePro';
   end if;  
-  RETURN OLD;
+  RETURN NEW;
 end;
 $$ language 'plpgsql';
 
@@ -595,7 +595,7 @@ begin
   if (new.pseudo <> old.pseudo) then
     raise exception 'Pas de mise à jour pseudo';
   end if;
-  RETURN OLD;
+  RETURN NEW;
 end;
 $$ language 'plpgsql';
 
@@ -1745,7 +1745,7 @@ begin
   perform setseed(idCompte/100.0);
   res = concat(substr(md5(random()::text), 1, 32),substr(md5(random()::text), 1, 29));
   
-  if exists(select * from _membre where idC = idCompte) then
+  if exists(select * from pact._membre where idC = idCompte) then
     temp='mbr';
   elsif  exists(select * from _professionnel where idC = idCompte) then
     temp='pro';

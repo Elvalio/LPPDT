@@ -6,11 +6,11 @@
 
 #define CONFIG_FILE "config.txt"
 
-// Variables globales pour les paramètres
+// Variables globales
 int port, backlog, bufsize, len_msg_history, ban_duration;
 int max_messages_per_min, max_msg_size, buffer_size, size_key;
 
-// Fonction pour charger la configuration depuis le fichier
+// Fonction pour charger la config depuis le fichier
 void load_config() {
     FILE *file = fopen(CONFIG_FILE, "r");
     if (!file) {
@@ -19,10 +19,21 @@ void load_config() {
     }
 
     char line[256];
+
     while (fgets(line, sizeof(line), file)) {
+        // Supprimer les espaces et sauts de ligne en fin de ligne
+        line[strcspn(line, "\r\n")] = 0;
+
+        // Ignorer les lignes vides
+        if (strlen(line) == 0) continue;
+
+        // Ignorer les commentaires
+        if (line[0] == '#') continue;
+
         char key[50];
         int value;
 
+        // Extraction de la clé et de la valeur
         if (sscanf(line, "%49[^=]=%d", key, &value) == 2) {
             if (strcmp(key, "PORT") == 0) port = value;
             else if (strcmp(key, "BACKLOG") == 0) backlog = value;
@@ -40,7 +51,7 @@ void load_config() {
     printf("Configuration rechargée avec succès !\n");
 }
 
-// Fonction pour recharger la configuration à reception du signal SIGHUP
+// Fonction pour recharger la config
 void signal_handler(int signum) {
     if (signum == SIGHUP) {
         printf("Signal SIGHUP reçu, rechargement de la configuration...\n");
@@ -49,16 +60,16 @@ void signal_handler(int signum) {
 }
 
 int main() {
-    // Charge la config au démarrage
+    // Charger la config au démarrage
     load_config();
 
-    // Capture du signal SIGHUP
+    // Capturer le signal SIGHUP
     signal(SIGHUP, signal_handler);
 
-    // Ca sert à rien en vrai t'as capté c'est pour garder le processus ouvert
+    // Boucle de test
     while (1) {
         printf("Serveur en écoute sur le port %d...\n", port);
-        sleep(10); 
+        sleep(10);
     }
 
     return 0;
@@ -67,6 +78,6 @@ int main() {
 // Compilation : gcc parametre.c -o parametre
 // Exécution : ./parametre
 
-// Pour recharger la configuration :
-// PID du processus : ps -a
-// Exécution du signal à récupérer : kill -SIGHUP <PID parametre>
+// Pour recharger la configuration, il suffit d'envoyer le signal SIGHUP au processus
+// ps -a
+// kill -SIGHUP <pid du processus>
