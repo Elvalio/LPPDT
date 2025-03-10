@@ -64,7 +64,6 @@
                         $stmtSemaines = $dbh->prepare("SELECT COUNT(*) as nbSemaines FROM pact._option_offre WHERE idO = :idO AND date_lancement < now()");
                         $stmtSemaines->execute([':idO' => $idO]);
                         $stmtSemaines->fetch(PDO::FETCH_ASSOC);
-                        $nbSemaines = $options['duree_option'];
 
                         ?>
             <?php if (!empty($options[0])) { ?>
