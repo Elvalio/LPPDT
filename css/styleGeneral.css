@@ -2356,8 +2356,6 @@ body {
     color: red;
     border-radius: 5px;
     font-family: 'TripSansRegular';
-    height: 100%;
-    width: 100%;
     box-shadow: 0px 0px 2px 0px rgba(0,0,0,0.75);
 }
 
