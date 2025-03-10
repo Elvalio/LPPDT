@@ -1866,3 +1866,17 @@ begin
   RETURN round(CAST(comp as numeric),2);
 end;
 $$ language 'plpgsql';
+
+/*Retourne la date en string*/
+create or replace function pact.toStringDate(idAdr integer)
+  returns varchar as $$
+declare
+  adresse record;
+  res varchar;
+begin
+  res ='';
+  select numero_voie, voie, ville, code_postal from pact._adresse a where a.idadresse = idAdr into adresse;
+  res = CONCAT(adresse.numero_voie, ' ', adresse.voie, ' ', adresse.ville, ' ', adresse.code_postal);
+  RETURN res;
+end;
+$$ language 'plpgsql';
