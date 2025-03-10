@@ -2828,7 +2828,7 @@ h1{
     padding-top: 10px;
 }
 
-.input-accueil, select{
+input[type="text"], select{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     height: 40px;
