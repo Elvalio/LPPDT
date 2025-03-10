@@ -57,13 +57,14 @@
             <?php
                         $idO = $offre[0]['ido'];
 
-                        $stmtOption = $bdh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement < now() and idO = :idO");
+                        $stmtOption = $dbh->prepare("SELECT * FROM pact._option_offre WHERE date_lancement < now() and idO = :idO");
                         $stmtOption->execute([':idO' => $idO]);
                         $options = $stmtOption->fetchAll(PDO::FETCH_ASSOC);
-                        
+
                         $stmtSemaines = $dbh->prepare("SELECT COUNT(*) as nbSemaines FROM pact._option_offre WHERE idO = :idO AND date_lancement < now()");
                         $stmtSemaines->execute([':idO' => $idO]);
-                        $nbSemaines = $stmtSemaines->fetch(PDO::FETCH_ASSOC)['nbSemaines'];
+                        $stmtSemaines->fetch(PDO::FETCH_ASSOC);
+                        $nbSemaines = $options['duree_option'];
 
                         ?>
             <?php if (!empty($options[0])) { ?>
