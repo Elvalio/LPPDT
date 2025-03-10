@@ -2105,6 +2105,10 @@ body {
     height: 28px;
 }
 
+.inscription_icon img{
+    height: 30px;
+}
+
 #sidebar {
     display: flex;
     flex-direction: column;
@@ -2201,6 +2205,14 @@ body {
     border-radius: 12px;
 }
 
+#sidebar.active .logo-nav{
+    background-color: transparent;
+}
+
+#sidebar.active .actuel .logo-nav{
+    background-color: transparent;
+}
+
 #pact-item{
     padding: 0;
     background-color: transparent;
@@ -2234,10 +2246,6 @@ body {
 
 .FO.active .actuel{ 
     background-color: rgba(83, 116, 244, 0.1);
-}
-
-#sidebar.active .actuel  img{ 
-    background-color: transparent;
 }
 
 

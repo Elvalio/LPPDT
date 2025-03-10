@@ -77,7 +77,7 @@
 
                             <a href="tableau_de_bord.php" class="nav-item" data-icon="tableau-de-bord">
                                 <img src="../icons/icons-gris/icon-tableau-de-bord-gris.svg" alt="Logo tableau de bord" class="logo-nav">
-                                <p>Tableau de bord</p>
+                                <p>Mes offres</p>
                             </a>
                                                     
                             <a href="#" class="nav-item" data-icon="favoris">
@@ -130,8 +130,8 @@
                                         <p>Se déconnecter</p>
                                     </a>
                                 <?php } else { ?>
-                                    <a href="creation_compte_formulaire.php" class="nav-item" data-icon="inscription">
-                                        <img src="../icons/icons-gris/icon-inscription-gris.svg" alt="Logo Inscription" class="logo-nav" width="28px">
+                                    <a href="creation_compte_formulaire.php" class="nav-item inscription_icon" data-icon="inscription">
+                                        <img src="../icons/icons-gris/icon-inscription-gris.svg" alt="Logo Inscription" class="logo-nav">
                                         <p>S'inscrire</p>
                                     </a>
                                 <?php } ?>
