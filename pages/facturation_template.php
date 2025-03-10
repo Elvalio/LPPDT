@@ -69,7 +69,7 @@
             <?php if (!empty($options[0])) { ?>
                 <tr>
                     <td>Option « <?= $option_titre ?> »</td>
-                    <td><?php echo $stmtSemaines['nbSemaines'] ?> Semaine</td>
+                    <td><?php echo $facture_data['nbrjours'] /7 ?> Semaine</td>
                     <td><?= number_format($facture_data['total_options_ht'], 2, ',', ' ') ?> €/Semaine</td>
                     <td><?= number_format($offre_options_ht, 2, ',', ' ') ?> €</td>
                     <td><?= number_format($offre_options_ttc, 2, ',', ' ') ?> €</td>
