@@ -78,7 +78,13 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <script src="../js/accueil.js"></script>
     <script type="module" src="../js/filtres.js"></script>
     <title>Accueil</title>
-
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+      <!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
 
 </head>
 
@@ -267,7 +273,16 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                 </div>
             </div>
 
+            <div id="carte">
+                <div id="map"></div>
+                <div id="arrow_carte">
+                    <img src="../icons/arrow.svg" alt="Arrow Icon" class="rotate--90">
+                </div>
+            </div>
+
+            
             <main>
+
             <?php
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
@@ -401,7 +416,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         
             
     </body>
-</html>
+    <script src="../js/carteAccueil.js"></script>
+    </html>
+
 
 <?php
 
