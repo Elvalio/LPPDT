@@ -2177,9 +2177,7 @@ body {
     border-radius: 12px;
 }
 
-#sidebar.active .logo-nav:hover{
-    background-color: transparent;
-}
+
 
 #sidebar.active .nav-item {
     border-radius: 4px;
