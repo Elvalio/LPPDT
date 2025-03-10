@@ -181,7 +181,7 @@
 
     <!-- Menu Trier -->
 
-    <div id="sortMenu" class="hidden">
+    <div id="sortMenu">
         <button class="menu-item-tri" id="prixCroissant">Prix</button>
         <!-- <button class="menu-item-tri" id="prixDecroissant">Prix décroissant</button> -->
         <!-- <button class="menu-item-tri" id="presDeMoi">Plus proche</button>

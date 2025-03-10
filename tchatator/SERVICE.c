@@ -15,16 +15,19 @@
 #include <time.h>
 #include <stdarg.h>
 #include <getopt.h>
+#include <signal.h>
 
 
 
 #define LOGFILE_PATH "./SERVICE.log"
-#define PORT "4242"
-#define BACKLOG 10
-#define BUFSIZE 4096
-#define MAX_MESSAGES 3
-#define LEN_MSG_HISTORY 3
-static const int LIST_ADMIN_KEY[] = {1, 2, 3};
+#define CONFIG_FILE "PARAMETRES.txt"
+
+static const int LIST_ADMIN_KEY[] = {13};
+
+// Variables globales pour les paramètres
+char *PORT;
+int BACKLOG, BUFSIZE, LEN_MSG_HISTORY, BAN_DURATION;
+int MAX_MESSAGES, MAX_MSG_SIZE, BUFFER_SIZE, SIZE_KEY;
 
 
 // ============================
@@ -52,6 +55,10 @@ int chercheIDMembre(PGconn *conn,char *pseudo, int client_fd);
 int chercheIDPro(PGconn *conn, int codePro, int client_fd);
 bool estBloque(PGconn *conn, int id);
 bool estBan(PGconn *conn, int id);
+void load_config();
+void signal_handler(int signum);
+int unblock_user(PGconn *conn, int idPro, int idClient, const char *type_compte);
+int unban_user(PGconn *conn, char *pseudo);
 
 
 // Variable `static` pour garder l'état de --verbose
@@ -79,6 +86,7 @@ void set_api_key(int key) {
 // Gère la boucle principale du serveur et la communication client
 // ============================
 int main(int argc, char *argv[]) {
+    load_config();
     int opt;
     static struct option long_options[] = {
         {"verbose", no_argument, NULL, 'v'}, 
@@ -124,7 +132,7 @@ int main(int argc, char *argv[]) {
 
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Connected to the database successfully.");
 
-    printf("Connected to the database successfully.\n");
+    // printf("Connected to the database successfully.\n");
 
     memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
@@ -154,7 +162,7 @@ int main(int argc, char *argv[]) {
     listen(socket_fd, BACKLOG);
 
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Server is listening on port %s", PORT);
-    printf("Server is listening on port %s\n", PORT);
+    // printf("Server is listening on port %s\n", PORT);
 
     while (1) {
         addr_size = sizeof client_addr;
@@ -186,7 +194,7 @@ int main(int argc, char *argv[]) {
         buffer[bytes_read] = '\0';
 
         write_log(LOGFILE_PATH, static_api_key, ip_client, "Received api_key from client: %s", buffer);
-        printf("API KEY : %s\n", buffer);
+        // printf("API KEY : %s\n", buffer);
 
         ret = verif_connexion_apikey(conn, buffer);
         
@@ -197,14 +205,14 @@ int main(int argc, char *argv[]) {
             continue;
         } else if (ret == 0) {
             send(client_fd, "API_KEY_INVALID", 15, 0);
-            printf("API key invalid.\n");
+            // printf("API key invalid.\n");
             write_log(LOGFILE_PATH, static_api_key, ip_client, "API key invalid.");
             close(client_fd);
             continue;
         } else {
             send(client_fd, "API_KEY_VALID", 13, 0);
             write_log(LOGFILE_PATH, static_api_key, ip_client, "API key valid.");
-            printf("API key valid.\n");
+            // printf("API key valid.\n");
 
 
             set_api_key(atoi(buffer));
@@ -228,10 +236,10 @@ int main(int argc, char *argv[]) {
 
             if (estBloque(conn, static_api_key) || estBan(conn, static_api_key)) {
                 if (estBan(conn, static_api_key)) {
-                    send(client_fd, "You have been banned by an administrator.\n", 30, 0);
+                    send(client_fd, "You have been banned by an administrator.\n", 40, 0);
                     write_log(LOGFILE_PATH, static_api_key, ip_client, "User Banned.");
                 } else {
-                    send(client_fd, "You have been blocked by an admin for 24h.\n", 30, 0);
+                    send(client_fd, "You have been blocked by an admin for 24h.\n", 43, 0);
                     write_log(LOGFILE_PATH, static_api_key, ip_client, "User blocked for 24h by ADMIN.");
                 }
                 close(client_fd);
@@ -260,7 +268,7 @@ int main(int argc, char *argv[]) {
                     write_log(LOGFILE_PATH, static_api_key, ip_client, "Received conversation ID from client: %s", buffer);
 
                     if (strcmp("QUIT", buffer) == 0) {
-                        printf("Client disconnected.\n");
+                        // printf("Client disconnected.\n");
                         close(client_fd);
                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Client disconnected.");
                         break;
@@ -274,7 +282,7 @@ int main(int argc, char *argv[]) {
                             bytes_read = recv(client_fd, buffer, BUFSIZE - 1, 0);
                             if (bytes_read <= 0) {
                                 if (bytes_read == 0) {
-                                    printf("Client disconnected.\n");
+                                    // printf("Client disconnected.\n");
                                 } else {
                                     perror("recv");
                                 }
@@ -305,7 +313,7 @@ int main(int argc, char *argv[]) {
                                 write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver ID: %d", receiver_id);
                                 sender_id = static_api_key;
                                 write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender ID: %d", sender_id);
-                                printf("Message from %d to %d: %s\n", sender_id, receiver_id, message);
+                                // printf("Message from %d to %d: %s\n", sender_id, receiver_id, message);
 
                                 int idPro = -1;
                                 int idClient = -1;
@@ -355,7 +363,7 @@ int main(int argc, char *argv[]) {
                                         message_id = atoi(message_id_str);
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID: %d", message_id);
 
-                                        printf("Fetching messages before message ID %d\n", message_id);
+                                        // printf("Fetching messages before message ID %d\n", message_id);
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Fetching messages before message ID %d", message_id);
                                         send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, message_id, id_conv);
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
@@ -367,16 +375,22 @@ int main(int argc, char *argv[]) {
                                         sscanf(buffer + 7, "%d", &message_id); // Extraire l'ID après CHANGE
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID to change: %d", message_id);
 
-                                        printf("Message ID to change: %d\n", message_id);
+                                        // printf("Message ID to change: %d\n", message_id);
 
                                         // Recevoir le nouveau message
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Waiting for new message from client.");
                                         char new_message[BUFSIZE];
-                                        recv(client_fd, new_message, BUFSIZE - 1, 0);
-                                        new_message[strcspn(new_message, "\n")] = '\0';
+                                        bytes_read = recv(client_fd, new_message, BUFSIZE - 1, 0);
+                                        if (bytes_read <= 0) {
+                                            perror("recv");
+                                            close(client_fd);
+                                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error receiving new message from client.");
+                                            break;  
+                                        }
+                                        new_message[bytes_read] = '\0';
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "New message: %s", new_message);
 
-                                        printf("Changing message ID %d to: %s\n", message_id, new_message);
+                                        // printf("Changing message ID %d to: %s\n", message_id, new_message);
                                         int ret = modifier_message(conn, static_api_key, message_id, new_message);
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Change message result: %d", ret);
                                         if (ret == 1) {
@@ -402,7 +416,7 @@ int main(int argc, char *argv[]) {
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Message ID to delete: %d", message_id);
 
 
-                                        printf("Deleting message ID %d\n", message_id);
+                                        // printf("Deleting message ID %d\n", message_id);
                                         int ret = supprimer_message(conn, static_api_key, message_id);
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Delete message result: %d", ret);
                                         if (ret == 1) {
@@ -427,7 +441,7 @@ int main(int argc, char *argv[]) {
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Leaving the RECEIVE menu.");
                                         break;
                                     } else {
-                                        printf("Invalid command: %s\n", buffer);
+                                        // printf("Invalid command: %s\n", buffer);
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid command: %s", buffer);
                                         send_user_messages(conn, static_api_key, client_fd, LEN_MSG_HISTORY, 0, id_conv);
                                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Messages sent to client.");
@@ -454,6 +468,26 @@ int main(int argc, char *argv[]) {
                                 write_log(LOGFILE_PATH, static_api_key, ip_client, "Error blocking discussion.");
                             }
 
+                            send_conversation_list(conn, static_api_key, client_fd);
+                            send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+                            break;
+
+                        } else if (strcmp(buffer, "UNBLOCK") == 0 && (strcmp(account_type, "PRO") == 0)) {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Received UNBLOCK command from client.");
+                            int idPro = static_api_key;
+                            int idClient = recup_receiver(conn, static_api_key, id_conv);
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver ID: %d", idClient);
+
+                            ret = unblock_user(conn, idPro, idClient, account_type);
+                            if (ret == 1) {
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion unblocked.");
+                            } else {
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Error unblocking discussion.");
+                            }
+
+                            send_conversation_list(conn, static_api_key, client_fd);
+                            send(client_fd, "END_OF_BLOCK", strlen("END_OF_BLOCK"), 0);
+                            break;
                         } else if (strcmp(buffer, "QUIT") == 0) {
                                 memset(buffer, 0, BUFSIZE);
                                 write_log(LOGFILE_PATH, static_api_key, ip_client, "Received QUIT command from client.");
@@ -462,11 +496,11 @@ int main(int argc, char *argv[]) {
                                 break;
 
                             } else {
-                                printf("Invalid command: %s\n", buffer);
+                                // printf("Invalid command: %s\n", buffer);
                                 send(client_fd, "Invalid command.\n", 18, 0);
                                 write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid command: %s", buffer);
                             }
-                            printf("buffer : %s\n", buffer);
+                            // printf("buffer : %s\n", buffer);
                         }
 
                     } else if (strcmp(buffer, "NEW") == 0) {
@@ -503,6 +537,7 @@ int main(int argc, char *argv[]) {
                             send(client_fd, "Invalid conversation informations.\n", 34, 0);
                             write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid conversation informations.");
                         } else {
+                            send(client_fd, "Valid conversation informations.\n", 36, 0);
                             write_log(LOGFILE_PATH, static_api_key, ip_client, "Message for creating a new conversation...");
                             char message[BUFSIZE];
 
@@ -520,9 +555,12 @@ int main(int argc, char *argv[]) {
                             strcpy(message, buffer);
 
                             if (strcmp(account_type, "PRO") == 0) {
-                                save_message(conn, static_api_key, idMembre, static_api_key, idMembre, message, client_fd);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender is a professional.");
+                                save_message(conn, idMembre, static_api_key, static_api_key, idMembre, message, client_fd);
+                                
                             } else {
-                                save_message(conn, idPro, static_api_key, idPro, static_api_key, message, client_fd);
+                                write_log(LOGFILE_PATH, static_api_key, ip_client, "Sender is a client.");  
+                                save_message(conn, static_api_key, idPro, static_api_key, idPro, message, client_fd);
                             }
                         }
                         
@@ -571,13 +609,60 @@ int main(int argc, char *argv[]) {
                         } else {
                             write_log(LOGFILE_PATH, static_api_key, ip_client, "Error banning user.");
                         }
+                    } else if(strcmp(buffer, "UNBLOCK") == 0 && strcmp(account_type, "ADMIN") == 0) {
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received UNBLOCK command from client.");
+                        int idPro = static_api_key;
+                        char pseudo[BUFSIZE];
+                        recv(client_fd, pseudo, BUFSIZE - 1, 0);
+                        pseudo[strcspn(pseudo, "\n")] = '\0';
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Pseudo to unblock: %s", pseudo);
+
+                        char query[BUFSIZE];
+                        snprintf(query, BUFSIZE, "SELECT idC FROM pact._membre WHERE pseudo = '%s';", pseudo);
+                        PGresult *res = PQexec(conn, query);
+                        if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+                            fprintf(stderr, "Erreur lors de la recherche de l'ID du membre : %s\n", PQerrorMessage(conn));
+                            PQclear(res);
+                            return -1;
+                        }
+                        if (PQntuples(res) == 0) {
+                            PQclear(res);
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Membre not found.");
+                            return -1;
+                        }
+                        int idClient = atoi(PQgetvalue(res, 0, 0));
+                        PQclear(res);
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver ID: %d", idClient);
+
+                        ret = unblock_user(conn, idPro, idClient, account_type);
+                        if (ret == 1) {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion unblocked.");
+                        } else {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error unblocking discussion.");
+                        }
+                    } else if (strcmp(buffer, "UNBAN") == 0 && strcmp(account_type, "ADMIN") == 0) {
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Received UNBAN command from client.");
+                        char pseudo[BUFSIZE];
+                        recv(client_fd, pseudo, BUFSIZE - 1, 0);
+                        pseudo[strcspn(pseudo, "\n")] = '\0';
+                        write_log(LOGFILE_PATH, static_api_key, ip_client, "Pseudo to unban: %s", pseudo);
+
+                        ret = unban_user(conn, pseudo);
+                        if (ret == 1) {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "User unbanned.");
+                        } else {
+                            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error unbanning user.");
+                        }
                     } else {
-                        printf("buffer : %s\n", buffer);
+                        // printf("buffer : %s\n", buffer);
                         send(client_fd, "Invalid conversation ID.\n", 25, 0);
                         write_log(LOGFILE_PATH, static_api_key, ip_client, "Invalid conversation ID.");
-                        printf("Invalid conversation ID.\n");
+                        // printf("Invalid conversation ID.\n");
                         continue;
                     }
+
+                    // Capture du signal SIGHUP pour recharger les paramètres
+                    signal(SIGHUP, signal_handler);
                 }
                 write_log(LOGFILE_PATH, static_api_key, ip_client, "END OF MENU");
             }
@@ -641,14 +726,14 @@ char* convert_to_utf8(const char* input, const char* from_encoding) {
 int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idReceveur) {
     char query[BUFSIZE];
 
-    printf("SELECT DISCUSSION\n");
+    // printf("SELECT DISCUSSION\n");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "SELECT DISCUSSION");
-
     snprintf(query, BUFSIZE,
              "SELECT idDiscussion FROM pact._discussion "
-             "WHERE (idClient = %d OR idPro = %d) AND estBloque = false;",
-             idClient, idPro);
-    
+             "WHERE (idClient = %d AND idPro = %d) "
+             "OR (idClient = %d AND idPro = %d);",
+             idClient, idPro, idPro, idClient);
+
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Error fetching discussion: %s\n", PQerrorMessage(conn));
@@ -664,9 +749,9 @@ int find_discussion(PGconn *conn, int idClient, int idPro, int idEmmeteur, int i
     }
     PQclear(res);
 
-    printf("DISCUSSION ID : %d\n", discussion_id);
+    // printf("DISCUSSION ID : %d\n", discussion_id);
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion ID: %d", discussion_id);
-    printf("FIN DE SELECT DISCUSSION\n");
+    // printf("FIN DE SELECT DISCUSSION\n");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of SELECT DISCUSSION");
 
     return discussion_id;
@@ -684,13 +769,13 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
     // Trouver ou créer la discussion
     int discussion_id = find_discussion(conn, idClient, idPro, idEmmeteur, idReceveur); 
 
-    printf("INSERTION DISCUSSION\n");
+    // printf("INSERTION DISCUSSION\n");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "INSERTION DISCUSSION");
 
-    printf("idClient : %d\n", idClient);
-    printf("idPro : %d\n", idPro);
-    printf("idEmmeteur : %d\n", idEmmeteur);
-    printf("idReceveur : %d\n", idReceveur);
+    // printf("idClient : %d\n", idClient);
+    // printf("idPro : %d\n", idPro);
+    // printf("idEmmeteur : %d\n", idEmmeteur);
+    // printf("idReceveur : %d\n", idReceveur);
 
     if (discussion_id == -1) {
         char create_discussion_query[BUFSIZE];
@@ -735,7 +820,6 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
     }
 
 
-    printf("INSERTION MESSAGE\n");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "INSERTION MESSAGE");
 
     // Insérer le message
@@ -752,7 +836,6 @@ void save_message(PGconn *conn, int idClient, int idPro, int idEmmeteur, int idR
     }
 
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Message inserted.");
-    printf("Message inserted.\n");
 
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of INSERTION MESSAGE");
     PQclear(res);
@@ -828,6 +911,8 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
             const char *PrenomEmmeteurMessage = PQgetvalue(res, i, 4);
             const char *idEmmeteurMessage = PQgetvalue(res, i, 7);
 
+            // printf("message: %s\n", message);
+
             char formatted_nom[BUFSIZE];
             if (atoi(idEmmeteurMessage) == user_id) {
                 snprintf(formatted_nom, BUFSIZE, "Moi");
@@ -840,7 +925,8 @@ void send_user_messages(PGconn *conn, int user_id, int client_fd, int max_messag
             write_log(LOGFILE_PATH, static_api_key, ip_client, "%-3s | [%s] - %-20s: %s", idMessage, dateMessage, formatted_nom, message);
             
             // Vérifier si le message a été modifié
-            char modification_info[BUFSIZE] = "";
+            char modification_info[BUFSIZE];
+            strncpy(modification_info, "", BUFSIZE);
             write_log(LOGFILE_PATH, static_api_key, ip_client, "Checking if message has been modified.");
             snprintf(query, BUFSIZE,
                      "SELECT EXTRACT(EPOCH FROM (NOW() - dateModif)) FROM pact._message WHERE idMessage = %s AND dateModif IS NOT NULL;", idMessage);
@@ -950,7 +1036,7 @@ int modifier_message(PGconn *conn, int user_id, int idMessage, const char *nouve
         write_log(LOGFILE_PATH, static_api_key, ip_client, "Error updating message.");
     }
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Message updated.");
-    printf("Message updated.\n");
+    // printf("Message updated.\n");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of MODIFIER MESSAGE");
     PQclear(res);
     return 1;
@@ -988,7 +1074,7 @@ int supprimer_message(PGconn *conn, int user_id, int idMessage) {
         write_log(LOGFILE_PATH, static_api_key, ip_client, "Error deleting message.");
     }
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Message deleted.");
-    printf("Message deleted.\n");
+    // printf("Message deleted.\n");
     PQclear(res);
 
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of SUPPRIMER MESSAGE");
@@ -1077,34 +1163,133 @@ void fetch_all_data(PGconn *conn) {
 
     // Si la table est vide
     if (nRows == 0) {
-        printf("La table est vide.\n");
+        // printf("La table est vide.\n");
         PQclear(res);
         return;
     }
 
-    printf("\n========== Données de la table pact._message =========\n");
+    // printf("\n========== Données de la table pact._message =========\n");
     fflush(stdout);
 
     // Affichage des noms des colonnes
-    printf("| ");
+    // printf("| ");
     for (int i = 0; i < nFields; i++) {
-        printf("%-20s | ", PQfname(res, i));
+        // printf("%-20s | ", PQfname(res, i));
     }
-    printf("\n");
+    // printf("\n");
     fflush(stdout);
 
     // Affichage des lignes
     for (int i = 0; i < nRows; i++) {
-        printf("| ");
+        // printf("| ");
         for (int j = 0; j < nFields; j++) {
             if (PQgetisnull(res, i, j)) {
-                printf("%-20s | ", "NULL");
+                // printf("%-20s | ", "NULL");
             } else {
-                printf("%-20s | ", PQgetvalue(res, i, j));
+                // printf("%-20s | ", PQgetvalue(res, i, j));
             }
         }
-        printf("\n");
+        // printf("\n");
     }
+
+    // printf("=====================================================\n");
+    const char *query_discussion = "SELECT * FROM pact._discussion;";
+
+    PGresult *res_discussion = PQexec(conn, query_discussion);
+
+    if (PQresultStatus(res_discussion) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de l'exécution de la requête : %s\n", PQerrorMessage(conn));
+        PQclear(res_discussion);
+        return;
+    }
+
+    int nFields_discussion = PQnfields(res_discussion); // Nombre de colonnes
+    int nRows_discussion = PQntuples(res_discussion);  // Nombre de lignes
+
+    // Si la table est vide
+    if (nRows_discussion == 0) {
+        // printf("La table _discussion est vide.\n");
+        PQclear(res_discussion);
+        return;
+    }
+
+    // printf("\n========== Données de la table pact._discussion =========\n");
+    fflush(stdout);
+
+    // Affichage des noms des colonnes
+    // printf("| ");
+    for (int i = 0; i < nFields_discussion; i++) {
+        // printf("%-20s | ", PQfname(res_discussion, i));
+    }
+    // printf("\n");
+    fflush(stdout);
+
+    // Affichage des lignes
+    for (int i = 0; i < nRows_discussion; i++) {
+        // printf("| ");
+        for (int j = 0; j < nFields_discussion; j++) {
+            if (PQgetisnull(res_discussion, i, j)) {
+                // printf("%-20s | ", "NULL");
+            } else {
+                // printf("%-20s | ", PQgetvalue(res_discussion, i, j));
+            }
+        }
+        // printf("\n");
+    }
+
+    // printf("=====================================================\n");
+
+    PQclear(res_discussion);
+
+    // printf("=====================================================\n");
+
+    const char *query_compte = "SELECT * FROM pact._compte WHERE estBan = true;";
+
+    PGresult *res_compte = PQexec(conn, query_compte);
+
+    if (PQresultStatus(res_compte) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de l'exécution de la requête : %s\n", PQerrorMessage(conn));
+        PQclear(res_compte);
+        return;
+    }
+
+    int nFields_compte = PQnfields(res_compte); // Nombre de colonnes
+    int nRows_compte = PQntuples(res_compte);  // Nombre de lignes
+
+    // Si la table est vide
+    if (nRows_compte == 0) {
+        // printf("La table _compte est vide.\n");
+        PQclear(res_compte);
+        return;
+    }
+
+    // printf("\n========== Données de la table pact._compte =========\n");
+    fflush(stdout);
+
+    // Affichage des noms des colonnes
+    // printf("| ");
+    for (int i = 0; i < nFields_compte; i++) {
+        // printf("%-20s | ", PQfname(res_compte, i));
+    }
+    // printf("\n");
+    fflush(stdout);
+
+    // Affichage des lignes
+    for (int i = 0; i < nRows_compte; i++) {
+        // printf("| ");
+        for (int j = 0; j < nFields_compte; j++) {
+            if (PQgetisnull(res_compte, i, j)) {
+                // printf("%-20s | ", "NULL");
+            } else {
+                // printf("%-20s | ", PQgetvalue(res_compte, i, j));
+            }
+        }
+        // printf("\n");
+    }
+
+    // printf("=====================================================\n");
+
+    PQclear(res_compte);
 
     PQclear(res);
 }
@@ -1135,7 +1320,7 @@ void clear_tables(PGconn *conn) {
     }
     PQclear(res);
 
-    printf("Tables _message and _discussion cleared successfully.\n");
+    // printf("Tables _message and _discussion cleared successfully.\n");
 }
 
 
@@ -1172,7 +1357,7 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
     write_log(LOGFILE_PATH, static_api_key, ip_client, "SEND CONVERSATION LIST");
 
     char query[BUFSIZE];
-    printf("Fetching discussions for user %d\n", user_id);
+    // printf("Fetching discussions for user %d\n", user_id);
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Fetching discussions for user %d", user_id);
     snprintf(query, BUFSIZE,
              "SELECT idDiscussion, idClient, idPro FROM pact._discussion "
@@ -1265,7 +1450,7 @@ void send_conversation_list(PGconn *conn, int user_id, int client_fd) {
                 snprintf(composed_message, BUFSIZE, "Discussion ID: %-3s | %s", idDiscussion, nom_prenom);
             }
             write_log(LOGFILE_PATH, static_api_key, ip_client, "Sending conversation: %s", composed_message);
-            printf("Sending conversation: %s\n", composed_message);
+            // printf("Sending conversation: %s\n", composed_message);
             write_log(LOGFILE_PATH, static_api_key, ip_client, "Sending conversation to client.");
             send(client_fd, composed_message, strlen(composed_message), 0);
             send(client_fd, "\n", 1, 0);
@@ -1299,7 +1484,7 @@ bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversat
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion fetched.");
 
     int rows = PQntuples(res);
-    printf("rows : %d\n", rows);
+    // printf("rows : %d\n", rows);
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Rows: %d", rows);
     PQclear(res);
 
@@ -1316,16 +1501,16 @@ bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversat
     }
 
     if (PQntuples(res) > 0 && strcmp(PQgetvalue(res, 0, 0), "t") == 0) {
-        PQclear(res);
+        
         write_log(LOGFILE_PATH, static_api_key, ip_client, "Blocked conversation.");
         send(client_fd, "blocked.\n", 9, 0);
-        return false;
+
+    } else if (PQntuples(res) > 0 && strcmp(PQgetvalue(res, 0, 0), "f") == 0) {
+        
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Conversation not blocked.");
+        send(client_fd, "not blocked.\n", 13, 0);
     }
-    send(client_fd, "not blocked.\n", 13, 0);
-
-    write_log(LOGFILE_PATH, static_api_key, ip_client, "Conversation not blocked.");
     PQclear(res);
-
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of discussion check.");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Returning result: %s", rows > 0 ? "true" : "false");
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of VALID CONVERSATION");
@@ -1335,7 +1520,7 @@ bool validConversation(PGconn *conn, int user_id, int client_fd, char *conversat
 int recup_receiver(PGconn *conn, int id_user, int idConv) {
     write_log(LOGFILE_PATH, static_api_key, ip_client, "RECUP RECEIVER");
 
-    printf("Fetching receiver for conversation %d\n", idConv);
+    // printf("Fetching receiver for conversation %d\n", idConv);
     char query[BUFSIZE];
     snprintf(query, BUFSIZE,
     "SELECT CASE "
@@ -1365,7 +1550,7 @@ int recup_receiver(PGconn *conn, int id_user, int idConv) {
     int idReceiver = atoi(PQgetvalue(res, 0, 0));
     write_log(LOGFILE_PATH, static_api_key, ip_client, "Receiver ID: %d", idReceiver);
     PQclear(res);
-    printf("Receiver ID: %d\n", idReceiver);
+    // printf("Receiver ID: %d\n", idReceiver);
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of RECUP RECEIVER");
     return idReceiver;
 }
@@ -1494,9 +1679,11 @@ int block_user(PGconn *conn, int idPro, int idClient, const char *type_compte) {
         }
 
         snprintf(block_query, BUFSIZE, "UPDATE pact._discussion SET estBloque = true, dateBlocage = now() WHERE idDiscussion = %d;", discussion_id);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion blocked %d.", discussion_id);
 
     } else {
-        snprintf(block_query, BUFSIZE, "UPDATE pact._compte SET estBloque = true, dateBlocage = now() WHERE idC = %d;", idClient);   
+        snprintf(block_query, BUFSIZE, "UPDATE pact._compte SET estBloque = true, dateBlocage = now() WHERE idC = %d;", idClient);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "User blocked %d.", idClient);
     }
     
     PGresult *block_res = PQexec(conn, block_query);
@@ -1511,11 +1698,78 @@ int block_user(PGconn *conn, int idPro, int idClient, const char *type_compte) {
     return 1;
 }
 
-int ban_user(PGconn *conn, char *pseudo) { // A FAIRE !!!
+int ban_user(PGconn *conn, char *pseudo) {
     write_log(LOGFILE_PATH, static_api_key, ip_client, "BAN USER");
 
     char query[BUFSIZE];
     snprintf(query, BUFSIZE, "SELECT idC FROM pact._membre WHERE pseudo = '%s';", pseudo);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Fetching member ID.");
+    PGresult *res = PQexec(conn, query);
+    if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erreur lors de la recherche de l'ID du membre : %s\n", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
+    }
+    if (PQntuples(res) == 0) {
+        PQclear(res);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Membre not found.");
+        return -1;
+    }
+    int idMembre = atoi(PQgetvalue(res, 0, 0));
+    PQclear(res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Member ID: %d", idMembre);
+    snprintf(query, BUFSIZE, "UPDATE pact._compte SET estBan = true WHERE idC = %d;", idMembre);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Banning user.");
+    PGresult *block_res = PQexec(conn, query);
+    if (PQresultStatus(block_res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error blocking discussion: %s\n", PQerrorMessage(conn));
+        PQclear(block_res);
+        return -1;
+    }
+
+    PQclear(block_res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of BLOCK USER");
+    return 1;
+}
+
+int unblock_user(PGconn *conn, int idPro, int idClient, const char *type_compte) {
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "UNBLOCK USER");
+
+    char block_query[BUFSIZE];
+    if (strcmp(type_compte, "PRO") == 0) {
+        int discussion_id = find_discussion(conn, idClient, idPro, static_api_key, idClient);
+        
+        if (discussion_id == -1) {
+            write_log(LOGFILE_PATH, static_api_key, ip_client, "Error fetching discussion.");
+            return -1;
+        }
+
+        snprintf(block_query, BUFSIZE, "UPDATE pact._discussion SET estBloque = false, dateBlocage = null WHERE idDiscussion = %d;", discussion_id);
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Discussion unblocked.");
+
+    } else {
+        snprintf(block_query, BUFSIZE, "UPDATE pact._compte SET estBloque = false, dateBlocage = null WHERE idC = %d;", idClient);   
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "User unblocked.");
+    }
+    
+    PGresult *block_res = PQexec(conn, block_query);
+    if (PQresultStatus(block_res) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Error blocking discussion: %s\n", PQerrorMessage(conn));
+        PQclear(block_res);
+        return -1;
+    }
+
+    PQclear(block_res);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of UNBLOCK USER");
+    return 1;
+}
+
+int unban_user(PGconn *conn, char *pseudo) {
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "UNBAN USER");
+
+    char query[BUFSIZE];
+    snprintf(query, BUFSIZE, "SELECT idC FROM pact._membre WHERE pseudo = '%s';", pseudo);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Fetching member ID.");
     PGresult *res = PQexec(conn, query);
     if (PQresultStatus(res) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Erreur lors de la recherche de l'ID du membre : %s\n", PQerrorMessage(conn));
@@ -1530,7 +1784,11 @@ int ban_user(PGconn *conn, char *pseudo) { // A FAIRE !!!
     int idMembre = atoi(PQgetvalue(res, 0, 0));
     PQclear(res);
 
-    snprintf(query, BUFSIZE, "UPDATE pact._compte SET estBan = true, dateBan = now() WHERE idC = %d;", idMembre);
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Member ID: %d", idMembre);
+
+    snprintf(query, BUFSIZE, "UPDATE pact._compte SET estBan = false WHERE idC = %d;", idMembre);
+
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "Unbanning user.");
 
     PGresult *block_res = PQexec(conn, query);
     if (PQresultStatus(block_res) != PGRES_COMMAND_OK) {
@@ -1540,7 +1798,7 @@ int ban_user(PGconn *conn, char *pseudo) { // A FAIRE !!!
     }
 
     PQclear(block_res);
-    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of BLOCK USER");
+    write_log(LOGFILE_PATH, static_api_key, ip_client, "End of UNBAN USER");
     return 1;
 }
 
@@ -1653,4 +1911,51 @@ bool estBan(PGconn *conn, int id) {
     PQclear(res);
     write_log(LOGFILE_PATH, static_api_key, ip_client, "End of EST BAN");
     return banned;
+}
+
+void load_config() {
+    FILE *file = fopen(CONFIG_FILE, "r");
+    if (!file) {
+        perror("Erreur d'ouverture du fichier de configuration");
+        return;
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        // Supprimer les espaces et sauts de ligne en fin de ligne
+        line[strcspn(line, "\r\n")] = 0;
+
+        // Ignorer les lignes vides
+        if (strlen(line) == 0) continue;
+
+        // Ignorer les commentaires
+        if (line[0] == '#') continue;
+
+        char key[50];
+        int value;
+
+        // Extraction de la clé et de la valeur
+        if (sscanf(line, "%49[^=]=%d", key, &value) == 2) {
+            if (strcmp(key, "PORT") == 0) port = value;
+            else if (strcmp(key, "BACKLOG") == 0) backlog = value;
+            else if (strcmp(key, "BUFSIZE") == 0) bufsize = value;
+            else if (strcmp(key, "LEN_MSG_HISTORY") == 0) len_msg_history = value;
+            else if (strcmp(key, "BAN_DURATION") == 0) ban_duration = value;
+            else if (strcmp(key, "MAX_MESSAGES_PER_MIN") == 0) max_messages_per_min = value;
+            else if (strcmp(key, "MAX_MSG_SIZE") == 0) max_msg_size = value;
+            else if (strcmp(key, "BUFFER_SIZE") == 0) buffer_size = value;
+            else if (strcmp(key, "SIZE_KEY") == 0) size_key = value;
+        }
+    }
+
+    fclose(file);
+}
+
+// Fonction pour recharger la configuration à reception du signal SIGHUP
+void signal_handler(int signum) {
+    if (signum == SIGHUP) {
+        printf("Signal SIGHUP reçu, rechargement de la configuration...\n");
+        write_log(LOGFILE_PATH, static_api_key, ip_client, "Signal SIGHUP reçu, rechargement de la configuration...");
+        load_config();
+    }
 }
