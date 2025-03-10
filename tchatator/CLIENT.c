@@ -117,7 +117,6 @@ int receive_messages(int socket_fd, char *api_key) {
             response[response_bytes_read] = '\0';
             printf("\n%s\n", response);
             
-            system("clear");
 
         } else if(strcmp(choice, "DELETE") == 0) {
             printf("Enter the message ID you want to delete: ");
@@ -161,12 +160,12 @@ void print_menu_message_pro() {
     system("clear");
     printf("\n\n");
     printf("========================= MENU ==========================\n∥\t\t\t\t\t\t\t∥\n");
-    printf("∥          - 'SEND'\t TO SEND A MESSAGE      \t∥\n∥          - 'RECEIVE'\t TO FETCH MESSAGES      \t∥\n∥          - 'QUIT'\t TO RETURN TO THE CONV MENU\t∥\n∥          - TAP 'BLOCK'\t TO BLOCK THE USER FOR 24H\t∥\n");
+    printf("∥          - 'SEND'\t   TO SEND A MESSAGE      \t∥\n∥          - 'RECEIVE'\t   TO FETCH MESSAGES      \t∥\n∥          - 'QUIT'\t   TO RETURN TO THE CONV MENU\t∥\n∥          - TAP 'BLOCK'   TO BLOCK THE USER FOR 24H\t∥\n∥          - TAP 'UNBLOCK' TO UNBLOCK THE USER\t\t∥\n");
     printf("∥\t\t\t\t\t\t\t∥\n=========================================================\n");
     printf("\n>> ");
 }
 
-void menu_message(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
+void menu_message(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE], bool blocked) {
     int result;
     
     while (1) {
@@ -183,30 +182,41 @@ void menu_message(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
             printf("Unknown user type.\n");
             return;
         }
+
+        if (blocked && strcmp(user_type, "PRO") == 0) {
+            printf("This conversation is blocked ! You can only UNBLOCK the conversation or QUIT to change the conversation.\n");
+
+            printf("\n>> ");
+        } else if (blocked && strcmp(user_type, "MEMBRE") == 0) {
+            printf("This conversation is blocked ! You can only QUIT to change the conversation.\n");
+
+            printf("\n>> ");
+        }
         // printf("User type: %s\n", user_type);
         fgets(choice, BUFSIZE, stdin);
         choice[strcspn(choice, "\n")] = '\0';
 
-        if (strcmp(choice, "SEND") == 0) {
+        if (strcmp(choice, "SEND") == 0 && !blocked) {
             send_message(socket_fd, api_key);
-        } else if (strcmp(choice, "RECEIVE") == 0) {
+        } else if (strcmp(choice, "RECEIVE") == 0 && !blocked) {
             result = receive_messages(socket_fd, api_key);
             while (result == -1) {
                 print_menu_message();
                 result = receive_messages(socket_fd, api_key);
             }
-        // } else if(strcmp(choice, "CLEAR") == 0) {
-        //     send(socket_fd, "CLEAR", 5, 0);
-        // } else if(strcmp(choice, "AFFICHER") == 0) { 
-        //     send(socket_fd, "AFFICHER", 8, 0);
         } else if(strcmp(choice, "QUIT") == 0) {
             send(socket_fd, "QUIT", 4, 0);
             system("clear");
             break;
-        } else if (strcmp(choice, "BLOCK") == 0 && (strcmp(user_type, "PRO"))) {
+        } else if (strcmp(choice, "BLOCK") == 0 && (strcmp(user_type, "PRO") == 0) && !blocked) {
             send(socket_fd, "BLOCK", 5, 0);
             printf("User blocked for 24h.\n");
             break;
+        } else if (strcmp(choice, "UNBLOCK") == 0 && (strcmp(user_type, "PRO") == 0) && blocked) {
+            send(socket_fd, "UNBLOCK", 7, 0);
+            printf("User unblocked.\n");
+            break;
+
         } else {
             printf("Invalid choice.\n");
         }
@@ -225,7 +235,7 @@ void print_menu_conv_admin() {
     system("clear");
     printf("\n\n");
     printf("========================= MENU ==========================\n∥\t\t\t\t\t\t\t∥\n");
-    printf("∥          - TAP THE ID\t TO CHOOSE THE CONV      \t∥\n∥          - TAP 'NEW'\t TO CREATE A NEW CONV      \t∥\n∥          - TAP 'QUIT'\t TO QUIT THE SERVICE     \t∥\n∥          - TAP 'BLOCK' TO BLOCK THE USER FOR 24H\t∥\n∥          - TAP 'BAN'\t TO BAN THE USER   \t\t∥\n");
+    printf("∥          - TAP THE ID\t   TO CHOOSE THE CONV      \t∥\n∥          - TAP 'NEW'\t   TO CREATE A NEW CONV      \t∥\n∥          - TAP 'QUIT'\t   TO QUIT THE SERVICE     \t∥\n∥          - TAP 'BLOCK'   TO BLOCK THE USER FOR 24H\t∥\n∥          - TAP 'BAN'     TO BAN THE USER   \t\t∥\n∥          - TAP 'UNBLOCK' TO UNBLOCK THE USER   \t∥\n∥          - TAP 'UNBAN'   TO UNBAN THE USER   \t\t∥\n");
     printf("∥\t\t\t\t\t\t\t∥\n=========================================================\n");
 }
 
@@ -351,13 +361,40 @@ int menu_conv(char choice[BUFSIZE], int socket_fd, char api_key[BUFSIZE]) {
             send(socket_fd, pseudo, strlen(pseudo), 0);
             
             printf("User blocked for 24 hours.\n");
+        } else if (strcmp(choice, "UNBLOCK") == 0 && strcmp(user_type, "ADMIN") == 0) {
+            send(socket_fd, "UNBLOCK", 7, 0);
+            printf("Enter the pseudo of the user you want to unblock: ");
+            char pseudo[BUFSIZE];
+            fgets(pseudo, BUFSIZE, stdin);
+            pseudo[strcspn(pseudo, "\n")] = '\0';
+            send(socket_fd, pseudo, strlen(pseudo), 0);
+
+            printf("User unblocked.\n");
+
+        } else if (strcmp(choice, "UNBAN") == 0 && strcmp(user_type, "ADMIN") == 0) {
+            send(socket_fd, "UNBAN", 5, 0);
+            printf("Enter the pseudo of the user you want to unban: ");
+            char pseudo[BUFSIZE];
+            fgets(pseudo, BUFSIZE, stdin);
+            pseudo[strcspn(pseudo, "\n")] = '\0';
+            send(socket_fd, pseudo, strlen(pseudo), 0);
+
+            printf("User unbanned.\n");
+
         } else {
             send(socket_fd, choice, strlen(choice), 0);
             recv(socket_fd, buffer, BUFSIZE - 1, 0);
-            if (strcmp(buffer, "blocked.\n") == 0) {
-                printf("The Professionnal blocked this conversation for 24 hours.\n");
+            if (strstr(buffer, "blocked") != NULL) {
+                if (strstr(buffer, "not") != NULL) {
+                    menu_message(choice, socket_fd, api_key, false);
+                    continue;
+                } else {
+                    menu_message(choice, socket_fd, api_key, true);
+                }
             } else {
-                menu_message(choice, socket_fd, api_key);
+                printf("buffer: %s aaaa \n", buffer);
+                printf("Invalid choice.\n");
+                break;
             }
         }
     }
