@@ -1,8 +1,8 @@
 /* ============================== */
-/*           VARIABLES CSS        */
-/* ============================== */
-
-body.FO {
+ /*           VARIABLES CSS        */
+ /* ============================== */
+ 
+ body.FO {
     --vert-clair: #9ED4E7;    /* Vert clair */
     --turquoise-orange: #5374F4;     /* Turquoise */
     --bleu-rouge: #3136ED;          /*--bleuFonce-rougeFonce Bleu */
@@ -113,33 +113,33 @@ body {
       border-style: solid;
       width: 95%;
     }
-  
+
     .phone-element, .mobile-footer{
       display: none;
   }
-  
+
     .login-page {
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
     }
-  
+
     .container-connexion {
       text-align: center;
       width: 42%;
       padding: 20px;
       align-items: center;
     }
-  
+
     .form-group-connexion input {
       width: 95%;
       padding: 10px;
       border: 1px solid #ccc;
       border-radius: 5px;
     }
-  
-  
+
+
     .titre-connexion {
       display: none;
     }
@@ -229,7 +229,7 @@ body {
     .inscription-pro {
         color: #A2021F;
     }
-    
+
 
     html {
         scrollbar-gutter: stable;
@@ -237,7 +237,7 @@ body {
 
 
 
-    
+
   }
 
 @media (max-width: 800px) {
@@ -305,7 +305,7 @@ body {
     .Redirection_pro {
         display: none;
     }
-    
+
     .bouton-retour-page-création-membre {
         display: none;
     }
@@ -350,7 +350,7 @@ body {
     border-radius: 0;
     }
 
-    
+
 
     .left-column-crea-compte, .right-column-crea-compte {
         width: 95%; /* Colonne unique */
@@ -397,64 +397,64 @@ body {
         text-decoration: none;
     }
 
-    .liste_nav{
-        display: none;
-      }
-    
-      .phone-element {
-        width: 100%;
-      }
+.liste_nav {
+    display: none;
+}
 
-    /* Pose problème avec la largeur sur téléphone, la largeur est plus grande que l'écran et fait "scroller" horizontalement
-      body {
-        width: 100%;
-      }
-    */
-    
-      .logo-connexion {
-        display: none !important;
-      }
-    
-      .back-button-connexion {
-        display: none !important;
-      }
-    
-      .login-form {
-        width: 95%;
-      }
-    
+.phone-element {
+    width: 100%;
+}
+
+/* Pose problème avec la largeur sur téléphone, la largeur est plus grande que l'écran et fait "scroller" horizontalement
+   body {
+     width: 100%;
+   }
+*/
+
+.logo-connexion {
+    display: none !important;
+}
+
+.back-button-connexion {
+    display: none !important;
+}
+
+.login-form {
+    width: 95%;
+}
+
       .login-page {
         align-items: center;
         flex-direction: column;
       }
-    
+
       .menu-links-connexion {
         padding: 20px;
     }
-    
+
     .menu-links-connexion div {
         text-align: center; /* Alignement du texte */
     }
-    
+
       .container-connexion {
         align-items: center;
         justify-content: center;
         width: 100%;
         margin-left: 10px;
       }
-    
+
       .form-container-connexion {
         display: block;
       }
-    
+
       .form-group-connexion input {
         width: 90%;
         padding: 10px;
         border: none;               /* Remove all borders */
         border-bottom: 1px solid #ccc; /* Only the bottom border */
       }
-    
-    
+
+
       .submit-button-connexion {
         background-color: #000000;
         color: white;
@@ -468,7 +468,7 @@ body {
         margin-bottom: 10px;
         transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
     }
-    
+
       /* Styling for "Mot de passe oublié" as a bordered button */
       .mdpOublie-connexion {
         display: inline-block;
@@ -489,13 +489,13 @@ body {
         text-decoration: underline;
         align-self: flex-end; /* Aligns "S'inscrire" to the right */
     }
-    
+
       /* Styling hover effects */
       .mdpOublie-connexion:hover,
       .inscription-connexion:hover {
           opacity: 0.9;
       }
-    
+
       /* Flex layout for the links below */
       .links-connexion {
         margin-top: 15px;
@@ -506,16 +506,16 @@ body {
           font-family: 'TripSansRegular';
           color: #000000;
       }
-    
+
       .links-connexion a:hover {
           text-decoration: underline;
       }
-    
+
       .phone-element {
         display: flex;
         flex-direction: column;
     }
-  
+
     .desktop-element {
         display: none;
     }
@@ -614,18 +614,18 @@ body {
         margin: 0;
         font-family: Arial, sans-serif;
     }
-    
+
     body.no-scroll {
         overflow: hidden;
     }
-    
+
     /* Conteneur pour les boutons */
     .button-container {
         display: flex;
         gap: 10px; /* Espacement horizontal entre les boutons */
         margin: 20px 20px 0 20px; /* Espacement global autour des boutons sauf en bas */
     }
-    
+
     /* Boutons "Filtrer" et "Trier" */
     #filterButton, #sortButton {
         display: flex;
@@ -637,13 +637,13 @@ body {
         border: none;
         cursor: pointer;
     }
-    
+
     /* Icônes dans les boutons */
     #filterButton svg, #sortButton svg {
         width: 20px;
         height: 20px;
     }
-    
+
 
 
     /* Menu "Filtrer" */
@@ -662,7 +662,7 @@ body {
         flex-direction: column;
         /*
         max-height: 90%; /* Limiter la hauteur pour permettre le défilement */
-        
+
         overflow-y: auto; /* Défilement vertical */
         border-radius: 8px;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
@@ -675,34 +675,34 @@ body {
         border-bottom: 1px solid #ccc;
         font-size: 16px;
     }
-    
+
     .menu-header button {
         background: none;
         border: none;
         font-size: 20px;
         cursor: pointer;
     }
-    
+
     .menu-content {
         padding: 15px;
         overflow-y: auto;
     }
-    
+
     section {
         margin-bottom: 20px;
     }
-    
+
     .filter > p {
         font-size: 14px;
         margin-bottom: 10px;
         color: #555;
     }
-    
+
     .label-filtre {
         display: block;
         font-size: 14px;
     }
-    
+
     /*
     .filter-overlay {
         position: fixed;
@@ -715,7 +715,7 @@ body {
         z-index: 600; 
     }
     */
-    
+
     .all-filter {
         z-index: 501;  /* Plus petit que celui de #overlay-filtre */
     }
@@ -751,7 +751,7 @@ body {
         flex-direction: column;
         gap: 0.5rem; /* Espacement entre les divs de filtre de temps */
     }
-    
+
     #calendar-start,
     #calendar-end {
         display: flex;
@@ -791,18 +791,18 @@ body {
         display: flex !important;
         align-items: center;
     }
-    
+
     .titleFilter .arrow {
         margin-left: 10px;
         transition: transform 0.3s ease;
     }
-    
-    
+
+
 
     /* ============================== */
     /*           MENU TRIER           */
     /* ============================== */
-    
+
     /* Menu "Trier" */
     #sortMenu {
         display: none;
@@ -819,7 +819,7 @@ body {
         margin-top: 5px; /* Léger espacement entre le bouton et le menu */
         overflow: hidden;
     }
-    
+
     /* Animation d'apparition */
     @keyframes fadeIn {
         from {
@@ -831,7 +831,7 @@ body {
             transform: translateY(0);
         }
     }
-    
+
     /* Options du menu "Trier" */
     #sortMenu .menu-item-tri {
         display: block;
@@ -844,17 +844,17 @@ body {
         border: none;
         width: 100%;
     }
-    
+
     #sortMenu .menu-item-tri:hover {
         background-color: #f0f0f0;
     }
-    
+
     #sortMenu .menu-item-tri.active {
         font-weight: bold;
         color: var(--bleuFonce-rougeFonce);
         border-left: 2px solid var(--bleuFonce-rougeFonce);
     }
-    
+
     .filtre-lieu-case, .filtre-type {
         gap: 12px;
     }
@@ -964,7 +964,7 @@ p {
     background-color: var(--gris-clair);
     border-radius: 10px;
     margin-right: 5px;
-    
+
 }
 
 .header > .logo_recherche > div:focus-within{
@@ -1135,7 +1135,7 @@ a {
     align-items: center;
     margin-bottom: 20px;
     position: fixed;
-	top: 30px;
+    top: 30px;
     left: 20px;
     background-color: #3136ED;
     border: none;
@@ -1161,7 +1161,7 @@ a {
     align-items: center;
     margin-bottom: 20px;
     position: fixed;
-	top: 30px;
+    top: 30px;
     left: 20px;
     background-color: #A2021F;
     border: none;
@@ -1321,7 +1321,7 @@ body {
     font-family: 'TripSansRegular', sans-serif;
     height: 100vh;
   }
-  
+
   .back-button-connexion {
     position: absolute;
     top: 20px;
@@ -1343,56 +1343,56 @@ body {
   .back-button-connexion:hover {
     background-color: #5b60f3;
   }
-  
-  
+
+
   .logo-container-connexion {
     margin-bottom: 20px;
   }
-  
+
   .logo-connexion {
     width: 500px;
   }
-  
+
   .form-group-connexion {
     margin-bottom: 15px;
   }
-  
+
   .form-group-connexion label {
     font-family: 'TripSansBold';
     display: block;
     margin-bottom: 5px;
     text-align: left;
   }
-  
+
 
   .submit-button-connexion:hover {
     background-color: #5b60f3;
   }
-  
+
   .links-connexion {
     margin-top: 15px;
     display: flex;
     justify-content: space-between;
   }
-  
+
   .links-connexion a {
     font-family: 'TripSansRegular';
     color: #000000;
-    
+
     margin-right: 15px;
   }
-  
+
   .links-connexion a:hover {
     text-decoration: underline;
   }
-  
+
   .message-erreur-connexion {
     text-align: center;
     color: lightcoral;
     border: 1px solid lightcoral;
     border-radius: 5px;
   }
-  
+
 
 /* ======================================== */
 /*         STYLE PAGE TABLEAU DE BORD       */
@@ -1482,7 +1482,7 @@ body {
 }
 
 .creer_offre-tableau-de-bord{
-    
+
     background-color: white;
     color: black;
     margin-left: 20px;
@@ -1513,14 +1513,14 @@ body {
     display: inline-block;
     height: 34px; /* Maintain height, but width is flexible */
   }
-  
+
   /* Hide default HTML checkbox */
   .switch-tableau-de-bord input {
     opacity: 0;
     width: 0;
     height: 0;
   }
-  
+
   /* The slider */
   .slider-tableau-de-bord {
     position: relative;
@@ -1537,7 +1537,7 @@ body {
     font-family: Arial, sans-serif;
     white-space: nowrap; /* Prevent text from wrapping */
   }
-  
+
   /* The round button */
   .slider-tableau-de-bord:before {
     position: absolute;
@@ -1550,38 +1550,38 @@ body {
     border-radius: 50%; /* Make the button round */
     transition: transform 0.4s, left 0.4s; /* Smooth transitions */
   }
-  
+
   /* Default slider text (when unchecked) */
   .slider-tableau-de-bord::after {
     content: "Hors Ligne"; /* Default text */
     position: relative;
     transition: content 0.4s, margin-left 0.4s, margin-right 0.4s;
   }
-  
+
   /* When the checkbox is checked */
   input:checked + .slider-tableau-de-bord {
     background-color: green; /* Change background to red when checked */
   }
-  
+
   input:focus + .slider-tableau-de-bord {
     box-shadow: 0 0 5px green; /* Add focus shadow */
   }
-  
+
   /* Change the text when checked */
   input:checked + .slider-tableau-de-bord::after {
     content: "En Ligne"; /* Text when checked */
   }
-  
+
   /* Move the round button when checked */
   input:checked + .slider-tableau-de-bord:before {
     transform: translateX(110px); /* Slide the button to the right */
   }
-  
+
   /* Rounded sliders */
   .slider-tableau-de-bord.round {
     border-radius: 34px; /* Keep the slider rounded */
   }
-  
+
   .slider-tableau-de-bord.round:before {
     border-radius: 50%; /* Keep the button round */
   }
@@ -1666,7 +1666,7 @@ body {
             .texte-modal {
                 margin-bottom: 10px;
             }
-  
+
 /* =========================================================== */
 /*          STYLE PAGE INFO-COMPTE ET MODIF-INFOS COMPTE       */
 /* =========================================================== */
@@ -1809,7 +1809,7 @@ body {
     cursor: pointer;
 }
 
-.delete-btn-compte {
+#delete-btn-compte {
     display: block;
     margin: 100px 100px 0 0;
     padding: 10px 30px;
@@ -1822,8 +1822,26 @@ body {
     cursor: pointer;
 }
 
-.delete-btn-compte:hover {
+#delete-btn-compte:hover {
     background-color: #C3C3C3;
+}
+
+.confirm-delete-btn-compte {
+    display: block;
+    /* margin: 100px 100px 0 0; */
+    padding: 10px 20px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.confirm-delete-btn-compte:hover {
+    background-color: var(--bleuFonce-rougeFonce);
 }
 
 
@@ -1922,13 +1940,13 @@ body {
     background-color: var(--turquoise-orange);
     transition: background-color 0.2s linear;
   }
-  
+
   .bouton-retour-page-footer img{
     height: 18px;
     margin-right: 10px; /* Espace entre l'image et le texte */
     width: auto; /* Largeur automatique pour garder le ratio */
   }
-  
+
   .bouton-retour-page-footer a {
     text-decoration: none;
     color: white;
@@ -1961,7 +1979,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: right;
-    
+
 }
 
 .sphere img{
@@ -1992,7 +2010,7 @@ body {
 /**** animation image pact ***/
 #pact-item{
     height: 80px;
-    
+
 }
 
 /* Style de base pour les images */
@@ -2050,7 +2068,7 @@ body {
 #sidebar.active .image-default {
     display: none;  /* L'image 1 devient invisible */ 
     /* transition: opacity 0.2s ease; Appliquer une transition à l'apparition */
-    
+
 }
 
 /**** fin animation pact ***/
@@ -2109,13 +2127,13 @@ body {
     justify-content: space-between;
     height: fit-content;
     height: 100%;
-    
+
 }
 
 #top-items, #bottom-items{
     display: grid;
     gap: 10px; /* Espacement entre les enfants */
-    
+
 }
 
 #bottom-items{
@@ -2179,7 +2197,7 @@ body {
 .BO .actuel .logo-nav{ /*image du logo actuel*/
     background-color: rgba(222, 2, 43, 0.08);
     border-radius: 12px;
-    
+
 }
 
 .FO .actuel .logo-nav{
@@ -2211,7 +2229,7 @@ body {
 #sidebar.active .nav-item p {
     /*display: inline-block; /* le texte apparaît lorsque la sidebar est survolée */
     display: block;
-    
+
 }
 
 .BO.active .actuel{ 
@@ -2279,7 +2297,7 @@ body {
     width: 30px;
     height: auto;
 }
-   
+
 
 
 
@@ -2561,7 +2579,7 @@ table th {
     justify-content: space-between;
     min-height: 70px;
     margin-bottom: 30px;
-    
+
 }
 
 #titre-container, #ville-container{
@@ -2811,7 +2829,7 @@ h1{
     height: 40px;
     font-size: 16px;
     padding-left: 10px;
-    
+
 }
 
 /*************************gérer le select avec options*******************************/
