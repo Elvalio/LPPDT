@@ -677,6 +677,8 @@ create or replace function pact.delete_membre()
 begin
   update pact._experience set idC = 1 where idC = old.idC;
   delete from pact._membre where idC = old.idC;
+  delete from pact._recommande where idC = old.idC;
+  delete from pact._recommande_pas where idC = old.idC;
   return OLD;
 end;
 $$ language 'plpgsql';
@@ -1747,7 +1749,7 @@ begin
   
   if exists(select * from pact._membre where idC = idCompte) then
     temp='mbr';
-  elsif  exists(select * from _professionnel where idC = idCompte) then
+  elsif  exists(select * from pact._professionnel where idC = idCompte) then
     temp='pro';
   end if;
   raise notice '%', temp;
@@ -1862,5 +1864,19 @@ begin
   end loop;
   
   RETURN round(CAST(comp as numeric),2);
+end;
+$$ language 'plpgsql';
+
+/*Retourne la date en string*/
+create or replace function pact.toStringDate(idAdr integer)
+  returns varchar as $$
+declare
+  adresse record;
+  res varchar;
+begin
+  res ='';
+  select numero_voie, voie, ville, code_postal from pact._adresse a where a.idadresse = idAdr into adresse;
+  res = CONCAT(adresse.numero_voie, ' ', adresse.voie, ' ', adresse.ville, ' ', adresse.code_postal);
+  RETURN res;
 end;
 $$ language 'plpgsql';

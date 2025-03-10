@@ -85,13 +85,11 @@ error_reporting(0); if (!empty($_POST)) {
 
 <body>
     <!-- Bouton de retour -->
-    <a href="connexion.php">
-        <div class="bouton-retour-page-création-membre">
-            <button class="FS">
-                <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
-            </button>
-        </div>
-    </a>
+    <div class="bouton-retour-page-création-membre">
+        <button class="FS" onclick="history.back();">
+            <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
+        </button>
+    </div>
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">

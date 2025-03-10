@@ -830,4 +830,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // animerCartesBoiteDeNuit();
 
+    /* ===============================*/
+    /* ====== CARTE INTERACTIVE ====== */
+    /* ===============================*/
+
 });
