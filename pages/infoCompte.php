@@ -218,10 +218,6 @@ include('../sql/connect_params.php');
                         <div id="text">
                             <p>Voulez-vous vraiment supprimer votre compte ?</p>
                         </div>
-                        <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="delete" value="oui">
-                            <button type="submit" class="confirm-delete-btn-compte">Supprimer le compte</button>
-                        </form>
                     </div>
                     <img id="croix" src="../images/croix.png" alt="" class="close-popup">
                 </div>
