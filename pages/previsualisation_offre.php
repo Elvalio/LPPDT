@@ -4,10 +4,6 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-echo '<pre>';
-    print_r($_POST);
-    echo '</pre>';
-
 
 $idC = $_COOKIE['user'];
 $categorie = $_POST['categorie'];
@@ -255,8 +251,8 @@ try{
                 
                 $Ioffre = $dbh->prepare(
                     "insert into pact.parc_d_attraction 
-                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC) values 
-                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', $nbr_attractions, $age_min, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, idC) values 
+                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', $nbr_attractions, $age_min, '$ville', $numero_voie, '$voie', $code_postal, $idC);"
                 );
                 break;
     
@@ -664,8 +660,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
                     <img class = carte src="../images/imagesReferences/placeholder.jpg" alt="plan">
                 </div> <?php
 
-            } elseif ($categorie === 'restauration' && $mapPhoto !== '') { 
-                echo $mapPhoto?>
+            } elseif ($categorie === 'restauration' && $mapPhoto !== '') { ?>
             
         <div>
             <br><br>
