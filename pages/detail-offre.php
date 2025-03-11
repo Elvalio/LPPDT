@@ -141,7 +141,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-    }else if($_POST['type_form'] == 'poste-reponse') {
+    } else if($_POST['type_form'] == 'poste-reponse') {
         try {
             $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
             $ida = (int)$_POST['avis'];
@@ -658,7 +658,7 @@ try {
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
-                        <div>
+                        <div class="titre-contexte">
                             <div class="titre-date">
                                 <h4>
                                     <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
