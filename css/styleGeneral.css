@@ -2107,12 +2107,25 @@ body {
 
 /*************************************************************************************************/
 
+#sidebar.active #img-profile.connecte{
+    height: 38.4px;
+}
+
+#sidebar #img-profile.connecte{
+   height: 38.4px;
+}
+
+
 #sidebar.active #img-profile{
-     height: 35px;
+     height: 28px;
 }
 
 #sidebar #img-profile{
-    height: 35px;
+    height: 28px;
+}
+
+.inscription_icon img{
+    height: 30px;
 }
 
 #sidebar {
@@ -2174,6 +2187,10 @@ body {
     text-decoration: none;
 }
 
+.nav-item:nth-child(5){
+    margin-left: 12px;
+}
+
 .active .nav-item:hover {
     background-color: rgba(117, 117, 117, 0.1);
 }
@@ -2182,6 +2199,8 @@ body {
     background-color: rgba(117, 117, 117, 0.1);
     border-radius: 12px;
 }
+
+
 
 #sidebar.active .nav-item {
     border-radius: 4px;
@@ -2194,15 +2213,23 @@ body {
     color: var(--bleu-rouge)
 }
 
-.BO .actuel .logo-nav{ /*image du logo actuel*/
+#sidebar.BO .actuel .logo-nav{ /*image du logo actuel*/
     background-color: rgba(222, 2, 43, 0.08);
     border-radius: 12px;
 
 }
 
-.FO .actuel .logo-nav{
+#sidebar.FO .actuel .logo-nav{
     background-color: rgba(83, 116, 244, 0.1);
     border-radius: 12px;
+}
+
+#sidebar.active .logo-nav{
+    background-color: transparent;
+}
+
+#sidebar.active .actuel .logo-nav{
+    background-color: transparent;
 }
 
 #pact-item{
@@ -2238,10 +2265,6 @@ body {
 
 .FO.active .actuel{ 
     background-color: rgba(83, 116, 244, 0.1);
-}
-
-#sidebar.active .actuel  img{ 
-    background-color: transparent;
 }
 
 

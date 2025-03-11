@@ -719,6 +719,25 @@
   align-items: center;
 }
 
+.btn-blacklist{
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: none;
+}
+
+.btn-blacklist > p{
+  color: #1d1d1d;
+  font-family: 'TripSansRegular';
+  font-size: 16px;
+}
+
+.btn-blacklist > img{
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
 }
 
 @media (max-width: 800px) {
@@ -1353,6 +1372,25 @@ color: white;
 .btn-signaler {
   display: flex; /* S'assure que le bouton s'aligne correctement */
   align-items: center;
+}
+
+.btn-blacklist{
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: none;
+}
+
+.btn-blacklist > p{
+  color: #1d1d1d;
+  font-family: 'TripSansRegular';
+  font-size: 16px;
+}
+
+.btn-blacklist > img{
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
 }
 
 }
