@@ -70,7 +70,7 @@ error_reporting(E_ALL);
                             </div>
 
                             <!-- Champ "Site web" -->
-                            <div class="ontainer-crea-modif-offre" id="site-container">
+                            <div class="container-crea-modif-offre" id="site-container">
                                 <label for="site">Site web</label>
                                 <p id="site-error-message" class="error-message"></p>
                                 <input type="text" id="site" class="FS" name="site" placeholder="https://exemple.com" value="<?php echo isset($_POST['site']) ? $_POST['site'] : ''; ?>">
