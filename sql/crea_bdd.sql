@@ -8,7 +8,7 @@ create table pact._adresse(
   idAdresse serial,
   ville varchar(20) not null,
   numero_voie integer not null,
-  voie varchar(30) not null,
+  voie varchar(100) not null,
   code_postal integer not null,
   complement varchar(30),
 
@@ -110,6 +110,8 @@ create table pact._avis(
   --/nbr_dislike
   consulte boolean default false,
   blackliste boolean default false,
+  date_blackliste date,
+  duree_blackliste interval,
   
   constraint _avis_pk primary key (idA),
   
@@ -1867,7 +1869,6 @@ begin
 end;
 $$ language 'plpgsql';
 
-/*Retourne la date en string*/
 create or replace function pact.toStringDate(idAdr integer)
   returns varchar as $$
 declare
