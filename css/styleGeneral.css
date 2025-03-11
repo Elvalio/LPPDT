@@ -2894,6 +2894,7 @@ input[type="submit"]{
     padding: 0 60px;
     height: 40px;
     border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
 }
 
