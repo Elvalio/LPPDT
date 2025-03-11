@@ -469,6 +469,9 @@ try {
             <h3>Avis :
                 <?php echo $nbrAvis; ?>
             </h3>
+            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")): ?>
+                <button id="btn-blacklist" onclick="toggleBlacklist()">Afficher avis blacklisté : ?/3</button>
+            <?php endif; ?>
         </header>
         <article class="article-avis">
             <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ 
