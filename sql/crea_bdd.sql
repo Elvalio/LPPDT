@@ -8,7 +8,7 @@ create table pact._adresse(
   idAdresse serial,
   ville varchar(20) not null,
   numero_voie integer not null,
-  voie varchar(30) not null,
+  voie varchar(100) not null,
   code_postal integer not null,
   complement varchar(30),
 
@@ -110,6 +110,8 @@ create table pact._avis(
   --/nbr_dislike
   consulte boolean default false,
   blackliste boolean default false,
+  date_blackliste date,
+  duree_blackliste interval,
   
   constraint _avis_pk primary key (idA),
   
@@ -677,6 +679,8 @@ create or replace function pact.delete_membre()
 begin
   update pact._experience set idC = 1 where idC = old.idC;
   delete from pact._membre where idC = old.idC;
+  delete from pact._recommande where idC = old.idC;
+  delete from pact._recommande_pas where idC = old.idC;
   return OLD;
 end;
 $$ language 'plpgsql';
@@ -1747,7 +1751,7 @@ begin
   
   if exists(select * from pact._membre where idC = idCompte) then
     temp='mbr';
-  elsif  exists(select * from _professionnel where idC = idCompte) then
+  elsif  exists(select * from pact._professionnel where idC = idCompte) then
     temp='pro';
   end if;
   raise notice '%', temp;
@@ -1862,5 +1866,18 @@ begin
   end loop;
   
   RETURN round(CAST(comp as numeric),2);
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.toStringDate(idAdr integer)
+  returns varchar as $$
+declare
+  adresse record;
+  res varchar;
+begin
+  res ='';
+  select numero_voie, voie, ville, code_postal from pact._adresse a where a.idadresse = idAdr into adresse;
+  res = CONCAT(adresse.numero_voie, ' ', adresse.voie, ' ', adresse.ville, ' ', adresse.code_postal);
+  RETURN res;
 end;
 $$ language 'plpgsql';

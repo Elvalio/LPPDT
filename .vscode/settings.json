@@ -4,6 +4,7 @@
         "*.sqlbook": "sql",
         "*.ndjson": "jsonl",
         "*.dbclient-js": "javascript",
-        "tcp.h": "c"
+        "tcp.h": "c",
+        "stdbool.h": "c"
     }
 }
