@@ -1623,14 +1623,28 @@ hr {
 
 
 
-#croix.desktop {
+#croix_big.desktop {
   width: 15px;
   height: 15px;
   object-fit: cover;
   cursor: pointer;
   position: relative;
-  bottom: 56%;
-  left: 2%;
+  bottom: 60%;
+  left: 5%;
+  padding: 1.5px;
+  background-color: var(--bleuFonce-rougeFonce);
+  border: 1px solid var(--blanc);
+  border-radius: 25px;
+}
+
+#croix_small.desktop {
+  width: 15px;
+  height: 15px;
+  object-fit: cover;
+  cursor: pointer;
+  position: relative;
+  bottom: 63%;
+  left: 3%;
   padding: 1.5px;
   background-color: var(--bleuFonce-rougeFonce);
   border: 1px solid var(--blanc);
@@ -1757,7 +1771,7 @@ hr {
 
 
 
-#croix.mobile {
+#croix_big.mobile {
   width: 15px;
   height: 15px;
   object-fit: cover;
@@ -1770,6 +1784,21 @@ hr {
   border: 1px solid var(--blanc);
   border-radius: 25px;
 }
+
+#croix_small.desktop {
+  width: 15px;
+  height: 15px;
+  object-fit: cover;
+  cursor: pointer;
+  position: relative;
+  bottom: 63%;
+  left: 3%;
+  padding: 1.5px;
+  background-color: var(--bleuFonce-rougeFonce);
+  border: 1px solid var(--blanc);
+  border-radius: 25px;
+}
+
 
 #logo.mobile{
   display: none;
