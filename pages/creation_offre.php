@@ -328,8 +328,8 @@ error_reporting(E_ALL);
                                             <div class="info-icon">?</div>
                                             <div class="info-tooltip">
                                             - Standard : Type par défaut. <br> <br>
-                                            - Premium : permet en plus de « blacklister » un maximum de 3 Avis sur une Offre. <br> <br>
-                                            Attention : Un fois choisi, le type d'offre ne peut pas être changé.                                           </div>
+                                            - Premium : Permet en plus de « blacklister » un maximum de 3 avis sur une offre. <br> <br>
+                                            Attention : Une fois choisi, le type d'offre ne peut pas être changé.                                           </div>
                                         </div>
                                         <!---------------->
                                         <div id="standard-premium">

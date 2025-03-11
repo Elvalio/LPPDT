@@ -2605,7 +2605,7 @@ table th {
 
 }
 
-#titre-container, #ville-container{
+#titre-container{
     width: 440px;
 }
 
@@ -2645,7 +2645,7 @@ table th {
 }
 
 #adresse-container{
-    width: 425px;
+    width: 97%;
 }
 
 #duree-prix-age{
@@ -2892,6 +2892,8 @@ input[type="submit"]{
     background-color: var(--noir);
     color: white;
     padding: 0 60px;
+    height: 40px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
