@@ -15,13 +15,24 @@
   src: url('../polices/TripSans-Ultra.ttf') format('truetype');
 }
 
-.LikeButton, .DislikeButton {
-  transition: all 0.2s;
+/* Animation Like */
+.LikeButton:focus, .LikeButton:active {
+  transform: scale(1.5) translateY(-10px) rotate(-15deg);
 }
 
-.LikeButton:active, .DislikeButton:active {
-  transform: scale(1.5) rotateY(-8deg);
+/* Animation Dislike */
+.DislikeButton:focus, .DislikeButton:active {
+  transform: scale(1.5) translateY(10px) rotate(15deg);
 }
+
+.DislikeButton:active {
+  animation: dislikeAnim 0.5s;
+}
+
+.LikeButton:active {
+  animation: likeAnim 0.5s;
+}
+
 
 @media (min-width: 801px) {
 
