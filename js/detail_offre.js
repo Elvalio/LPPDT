@@ -321,6 +321,9 @@ const signalerAvisBtn = document.querySelectorAll('[id^="btn_signaler_avis"]');
 console.log(signalerAvisBtn);
 const signalerReponseBtn = document.querySelectorAll('[id^="btn_signaler_reponse"]');
 
+const blacklistBtn = document.querySelectorAll('[id^="btn_blacklist"]');
+console.log(blacklistBtn);
+
 const popupWarn = document.getElementById('popup');
 const closeBtn = popupWarn.querySelector('.close-btn');
 const progressBar = popupWarn.querySelector('.progress-bar div');
@@ -408,8 +411,6 @@ if (closeBtn) {
 }
 
 
-
-
 signalerReponseBtn.forEach(button => {
 
     
@@ -469,7 +470,75 @@ signalerReponseBtn.forEach(button => {
         clearTimeout(timeout);
     })
 );
-/* 
+
+/* popup blacklist*/
+
+//TEST DES DONNES DU FORMULAIRE
+function check_actif() {
+    var valide = true;
+    //TODO développer
+    if (document.getElementById('semaine') == null) {
+        valide = false;
+    }
+
+    return valide;
+}
+
+document.getElementById('modal').style.display = 'none';
+
+blacklistBtn.forEach(button => {
+    var menu = button.nextElementSibling;
+    button.addEventListener("click", async () => {
+        if (menu.style.display == 'none') {
+            menu.style.display = 'block';
+        }else{
+            menu.style.display = 'none';
+        }
+        
+        //document.getElementById('semaine').value = "";
+        //document.getElementById('modal').style.display = 'block';
+
+        datas = button.id.split('_');
+        console.log(datas);
+        console.log(event.target.id)
+        const data = {
+            id_compte: datas[3],
+            id_avis: datas[4],
+        };
+    });
+    },
+);
+
+document.getElementById('modal-submit-button').addEventListener('click', async () => {
+    if (check_actif()) {
+        if (document.getElementById('option-modal').style.display !== 'none') {
+            var data = [document.getElementById('modal-id').value, document.getElementById('semaine').value];
+            const response = await fetch('../pages/update_blacklist_avis.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+
+                console.log('Réponse reçue!');
+    
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        }
+        
+        document.getElementById('modal').style.display = 'none';
+
+    }
+});
+
+document.getElementById('modal-close').addEventListener('click', function() {
+    document.getElementById('modal').style.display = 'none';
+});
+
+/*
 Popup confirmation signalement
 
 

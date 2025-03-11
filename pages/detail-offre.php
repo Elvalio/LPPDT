@@ -685,8 +685,28 @@ try {
                         <?php endfor;
                         ?>
                     </div>
+                <?php 
+                if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
+                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                    //balcklister avis
+                        if (true) {?> 
+                            <div class="blacklist">
+                                <button type="button" 
+                                    class="btn-blacklist"
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    >
+                                    <img src="../icons/more.png" alt="Icône blacklist" id="icone-blacklist">
+                                </button>
+                                <div class="blacklist-content">
+                                    <a href="#">Blacklister</a>
+                                    <a href="#">Blacklister temporairement</a>
+                                </div>
+                            </div>
+                        <?php 
+                    } 
+                }}?>
                 </div>
-                <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
+                <?php  if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
                     if (!isset($reponse['ida'])) { ?>
                         <div class="commentaire-consulte exergue">
                             <p>
@@ -756,6 +776,9 @@ try {
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
                     if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                        
+                        
+                        
                         if (isset($reponse['ida'])) { ?>
                             <div class="commentaire-reponse">
                                 <p><?php
@@ -776,7 +799,6 @@ try {
                         
                         } else { ?>
                             <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
-                            <button type="button" id="btn-blacklist">Blacklister</button>
                             <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
@@ -844,6 +866,20 @@ try {
             <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
     <?php } ?>
+    <div class="modal" id="modal">
+        <input type="hidden" name="status" value="" id="modal-id">
+        <div id='option-modal'>
+            <h2 class="titre-modal">Blacklist Options</h2>
+            <div>
+                <label for="semaine">Nombre de semaine(s) : </label>
+                <input type="text" id="semaine" name="semaine">
+            </div>
+            <div id="boutons-modal">
+                <input type="button" class="btn-notif" id="modal-submit-button" value="Valider"/>
+                <input type="button" class="btn-notif" id="modal-close" value="Annuler">
+            </div>
+        </div>
+    </div>
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>
