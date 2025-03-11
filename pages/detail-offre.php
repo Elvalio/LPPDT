@@ -141,7 +141,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-    }else if($_POST['type_form'] == 'poste-reponse') {
+    } else if($_POST['type_form'] == 'poste-reponse') {
         try {
             $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
             $ida = (int)$_POST['avis'];
@@ -658,7 +658,7 @@ try {
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
-                        <div>
+                        <div class="titre-contexte">
                             <div class="titre-date">
                                 <h4>
                                     <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
@@ -731,6 +731,18 @@ try {
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                             <p>Signaler l'avis</p>
                         </button>
+                        <?php
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
+                            ?>
+                            <button type="button"
+                            class="btn-blacklist"
+                            id="btn_blacklist_<?php echo $_COOKIE['user'];?>">
+                            <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                            <p>Blacklister l'avis</p>
+                            </button>
+                        <?php
+                        }
+                        ?>
                 
                 <?php endif;
 
