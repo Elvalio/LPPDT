@@ -4,7 +4,7 @@
 
             function checkOnlyOne(checkbox) {
                 // Sélectionner toutes les cases à cocher dans le formulaire
-                var checkboxes = document.querySelectorAll('#une-relief input[type="checkbox"]');
+                var checkboxes = document.querySelectorAll('#une-relief titre[type="checkbox"]');
                 
                 // Parcourir chaque case à cocher
                 checkboxes.forEach(function(item) {
@@ -44,7 +44,7 @@
 
                 // Sélectionne les éléments nécessaires pour les 3 images
                 const boutonSuppression = document.getElementById('file-delete');
-                const fileInputs = document.querySelectorAll('.file-upload');
+                const filetitres = document.querySelectorAll('.file-upload');
                 const labelsBoutonAjout = document.querySelectorAll('.custom-file-upload'); // Les labels d'ajout d'image
                 const iconsBoutonAjout = document.querySelectorAll('.custom-file-upload img'); // Sélectionne l'image dans le label
                 const selectedImages = document.querySelectorAll('.selected-image'); // Récupère toutes les images
@@ -162,10 +162,10 @@
                             if (tagsToHideRestauration.includes(tagText)) {
                                 tag.style.display = 'none';
                                 // Récupérer l'attribut 'for' du label
-                                let inputId = tag.htmlFor; // équivalent à label.getAttribute('for')
+                                let titreId = tag.htmlFor; // équivalent à label.getAttribute('for')
 
-                                // Récupérer l'input correspondant via l'ID
-                                let checkbox = document.getElementById(inputId);
+                                // Récupérer l'titre correspondant via l'ID
+                                let checkbox = document.getElementById(titreId);
                                 checkbox.checked = false;
 
 
@@ -195,10 +195,10 @@
                             if (tagsToHideOther.includes(tagText)) {
                                 tag.style.display = 'none';
                                 // Récupérer l'attribut 'for' du label
-                                let inputId = tag.htmlFor; // équivalent à label.getAttribute('for')
+                                let titreId = tag.htmlFor; // équivalent à label.getAttribute('for')
 
-                                // Récupérer l'input correspondant via l'ID
-                                let checkbox = document.getElementById(inputId);
+                                // Récupérer l'titre correspondant via l'ID
+                                let checkbox = document.getElementById(titreId);
                                 checkbox.checked = false;
                             } else {
                                 tag.style.display = 'flex';
@@ -333,10 +333,10 @@
 
 
                 // Fonction pour afficher une image dans la première case vide
-                fileInputs.forEach(fileInput => {
-                    fileInput.addEventListener('change', function() {
-                        if (fileInput.files.length > 0) {
-                            var file = fileInput.files[0]; // Prend le fichier unique
+                filetitres.forEach(filetitre => {
+                    filetitre.addEventListener('change', function() {
+                        if (filetitre.files.length > 0) {
+                            var file = filetitre.files[0]; // Prend le fichier unique
                             var reader = new FileReader(); // Crée un lecteur de fichier
                         
                             reader.readAsDataURL(file); // Lire l'image sous forme de base64
@@ -396,7 +396,7 @@
                         let i = rechercheImagePleine();
                         selectedImages[i].src = '../images/rien.png';
                         imagesASupp[i].value = 'false';
-                        fileInputs[i].value = '';
+                        filetitres[i].value = '';
                         currentImageCount--;
                         //MODIFIER OFFRE : change statut image
                         if (statusImages.length !== 0) {
@@ -416,7 +416,7 @@
                         if (img.getAttribute('src') !== '../images/rien.png'){
                             img.src = '../images/rien.png';
                             imagesASupp[selectedImageIndex].value = 'false';
-                            fileInputs[selectedImageIndex].value = '';
+                            filetitres[selectedImageIndex].value = '';
                             //MODIFIER OFFRE : change statut image
                             if (statusImages.length !== 0) {
                                 statusImages[selectedImageIndex].value = 'true';
@@ -497,20 +497,57 @@
             ////////////////////////// GESTION DES ERREURS//////////////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
             const submitButton = document.getElementById('submit-button');
+            const titre = document.getElementById("titre");
+            const resume = document.getElementById("resume");
+            const description = document.getElementById("description");
+            const site = document.getElementById("site");
+            const adresse = document.getElementById("adresse");
+            const codeP = document.getElementById("codeP");
+            const ville = document.getElementById("ville");
+            const accessibilite = document.getElementById("accessibilite");
+            const prix = document.getElementById("prix");
+            const duree = document.getElementById("duree");
+            const age = document.getElementById("age");
+            const nbattraction = document.getElementById("nbattraction");
+            const capacite = document.getElementById("capacite");
+            const pinclus = document.getElementById("pinclus");
+            const pexclus = document.getElementById("pexclus");
+            const langue = document.getElementById("langue");
 
             function validateTitle(event) {
-                const caracteresInterdits = /[\/\\<>{}\[\]=+]/;
-                const caracteresInterditsListe = "/ \\ < > { } [ ] = +";
-
-                const input = document.getElementById("titre");
+                const caracteresInterdits = /[\/\\<>{}\[\]=+@:#`*]/;
+                const caracteresInterditsListe = "/ \\ < > { } [ ] = + @ : # ` *";
+                
                 const messageErreur = document.getElementById("error-message-titre");
 
-                if (input.value.trim() === "") {
-                    messageErreur.textContent = "Le titre ne peut pas être vide";
+                if (titre.value.trim() === "") {
+                    messageErreur.textContent = "Le titre est obligatoire";
                     messageErreur.style.display = "block";
                     submitButton.disabled = true; // Désactive le bouton
-                } else if (caracteresInterdits.test(input.value)) {
-                    let caractereInterdit = input.value.match(caracteresInterdits)[0];
+                } else if (caracteresInterdits.test(titre.value)) {
+                    let caractereInterdit = titre.value.match(caracteresInterdits)[0];
+                    messageErreur.textContent = `Le caractère " ${caractereInterdit} " est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateResume(event) {
+                const caracteresInterdits = /[\\<>{}\[\]=+`]/;
+                const caracteresInterditsListe = "\\ < > { } [ ] = + `";
+
+                const messageErreur = document.getElementById("resume-error-message");
+
+                if (resume.value.trim() === "") {
+                    messageErreur.textContent = "Le résumé est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton
+                } else if (caracteresInterdits.test(resume.value)) {
+                    let caractereInterdit = resume.value.match(caracteresInterdits)[0];
                     messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
                     messageErreur.style.display = "block";
                     submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
@@ -521,10 +558,351 @@
                 }
             }
 
+            function validateDescription(event) {
+                const caracteresInterdits = /[\\<>{}\[\]=+`]/;
+                const caracteresInterditsListe = "\\ < > { } [ ] = + `";
+
+                const messageErreur = document.getElementById("description-error-message");
+
+                if (description.value.trim() === "") {
+                    messageErreur.textContent = "La description est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton
+                } else if (caracteresInterdits.test(description.value)) {
+                    let caractereInterdit = description.value.match(caracteresInterdits)[0];
+                    messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateSite(event) {
+                const messageErreur = document.getElementById("site-error-message");
+                const submitButton = document.getElementById("submitButton");
+            
+                // Expression régulière pour vérifier une URL
+                const urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w]{2,}(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/i;
+            
+                if (site.value.trim() === "") {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Autorise le champ vide
+                } else if (!urlRegex.test(site.value)) {
+                    messageErreur.textContent = "Veuillez entrer une URL valide (ex: https://www.example.com)";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true;
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false;
+                }
+            }
+            
+
+            function validateAdresse(event) {
+                const caracteresInterdits = /[\/\\<>{}\[\]=+@:#`*]/;
+                const caracteresInterditsListe = "/ \\ < > { } [ ] = + @ : # ` *";
+                const formatValide = /^\d+\s+[A-Za-zÀ-ÖØ-öø-ÿ]/;
+
+                const messageErreur = document.getElementById("adresse-error-message");
+
+                if (adresse.value.trim() === "") {
+                    messageErreur.textContent = "L'adresse est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton
+                } else if (!formatValide.test(adresse.value)) {
+                    messageErreur.textContent = "Format incorrect. Exemple de format attendu : '12 rue de l'exemple'";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else if (caracteresInterdits.test(adresse.value)) {
+                    let caractereInterdit = adresse.value.match(caracteresInterdits)[0];
+                    messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateCodeP(event) {
+                const caracteresNonNumeriques = /[^0-9]/;
+
+                const messageErreur = document.getElementById("postal-code-error-message");
+                const inputLength = codeP.value.length; // Longueur du contenu dans le champ de saisie
+
+                // Vérifie si le champ est vide
+                if (codeP.value.trim() === "") {
+                    messageErreur.textContent = "Le code postal est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si vide
+                } else if (caracteresNonNumeriques.test(codeP.value)) {
+                    messageErreur.textContent = "Seuls les chiffres sont autorisés";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else if (inputLength !== 5) {
+                    messageErreur.textContent = "Le code postal doit contenir exactement 5 chiffres";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si pas exactement 5 chiffres
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateVille(event) {
+                const caracteresNonLettres = /[^a-zA-Z\s]/;
+
+                const messageErreur = document.getElementById("city-error-message");
+
+                // Vérifie si le champ est vide
+                if (ville.value.trim() === "") {
+                    messageErreur.textContent = "La ville est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si vide
+                } else if (caracteresNonLettres.test(ville.value)) {
+                    messageErreur.textContent = "Seuls les lettres sont autorisées";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateAcces(event) {
+                const caracteresInterdits = /[\\<>{}\[\]=+`]/;
+                const caracteresInterditsListe = "\\ < > { } [ ] = + `";
+
+                const messageErreur = document.getElementById("accessibility-error-message");
+
+                if (accessibilite.value.trim() === "") {
+                    messageErreur.textContent = "L'accessibilité est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton
+                } else if (caracteresInterdits.test(accessibilite.value)) {
+                    let caractereInterdit = accessibilite.value.match(caracteresInterdits)[0];
+                    messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validatePrix(event) {
+                const caracteresNonNumeriques = /[^0-9.,]/;
+
+                const messageErreur = document.getElementById("prix-error-message");
+
+                // Vérifie si le champ est vide
+                if (prix.value.trim() === "") {
+                    messageErreur.textContent = "Le prix minimum est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si vide
+                } else if (caracteresNonNumeriques.test(prix.value)) {
+                    messageErreur.textContent = "Seuls les chiffres, la virgule et le point sont autorisés";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else if (prix.value.endsWith(",") || prix.value.endsWith(".")) {
+                    messageErreur.textContent = "Le prix ne doit pas se terminer par une virgule ou un point";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si le prix se termine par un point ou une virgule
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateDuree(event) {
+                const formatHeure = /^([0-9][0-9]):([0-5][0-9])$/; 
+                const messageErreur = document.getElementById("duree-error-message");
+            
+                // Vérifie si le champ est vide
+                if (duree.value.trim() === "") {
+                    messageErreur.textContent = "La durée est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si vide
+                } else if (!formatHeure.test(duree.value)) {
+                    messageErreur.textContent = "Le format doit être HH:MM";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si le format est incorrect
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateAge(event) {
+                const caracteresNonNumeriques = /[^0-9]/;
+                const messageErreur = document.getElementById("age_min-error-message");
+                const inputLength = age.value.length; // Longueur du contenu dans le champ de saisie
+            
+                // Vérifie si le champ est vide
+                if (age.value.trim() === "") {
+                    messageErreur.textContent = "L'âge minimum est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si vide
+                } else if (caracteresNonNumeriques.test(age.value)) {
+                    messageErreur.textContent = "Seuls les chiffres sont autorisés";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si le format est incorrect
+                } else if (inputLength > 2) {
+                    messageErreur.textContent = "L'âge minimum ne peut pas contenir plus de deux chiffres";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si plus de 2 chiffres   
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateNbAttraction(event) {
+                const caracteresNonNumeriques = /[^0-9]/;
+                const messageErreur = document.getElementById("nbr_attractions-error-message");
+            
+                // Vérifie si le champ est vide
+                if (nbattraction.value.trim() === "") {
+                    messageErreur.textContent = "Le nombre d'attraction est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si vide
+                } else if (caracteresNonNumeriques.test(nbattraction.value)) {
+                    messageErreur.textContent = "Seuls les chiffres sont autorisés";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si le format est incorrect
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateCapacite(event) {
+                const caracteresNonNumeriques = /[^0-9]/;
+                const messageErreur = document.getElementById("capacite-error-message");
+            
+                // Vérifie si le champ est vide
+                if (capacite.value.trim() === "") {
+                    messageErreur.textContent = "Le nombre de places est obligatoire";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si vide
+                } else if (caracteresNonNumeriques.test(capacite.value)) {
+                    messageErreur.textContent = "Seuls les chiffres sont autorisés";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si le format est incorrect
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validatePinclus(event) {
+                const caracteresInterdits = /[\\<>{}\[\]=+`]/;
+                const caracteresInterditsListe = "\\ < > { } [ ] = + `";
+
+                const messageErreur = document.getElementById("pinclus-error-message");
+
+                if (pinclus.value.trim() === "") {
+                    messageErreur.style.display = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Désactive le bouton
+                } else if (!/^[A-Za-zÀ-ÖØ-öø-ÿ]/.test(pinclus.value)) {
+                    messageErreur.textContent = "Les prestations incluses doivent commencer par une lettre";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else if (caracteresInterdits.test(pinclus.value)) {
+                    let caractereInterdit = pinclus.value.match(caracteresInterdits)[0];
+                    messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validatePexclus(event) {
+                const caracteresInterdits = /[\\<>{}\[\]=+`]/;
+                const caracteresInterditsListe = "\\ < > { } [ ] = + `";
+
+                const messageErreur = document.getElementById("pexlus-error-message");
+
+                if (pexclus.value.trim() === "") {
+                    messageErreur.style.display = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = true; // Désactive le bouton
+                } else if (caracteresInterdits.test(pexclus.value)) {
+                    let caractereInterdit = pexclus.value.match(caracteresInterdits)[0];
+                    messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else if (!/^[A-Za-zÀ-ÖØ-öø-ÿ]/.test(pexclus.value)) {
+                    messageErreur.textContent = "Les prestations exluses doivent commencer par une lettre";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateLangue(event) {
+                const caracteresNonLettres = /[^a-zA-Z\s]/;
+
+                const messageErreur = document.getElementById("langue-error-message");
+
+                // Vérifie si le champ est vide
+                if (langue.value.trim() === "") {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Désactive le bouton si vide
+                } else if (caracteresNonLettres.test(langue.value)) {
+                    messageErreur.textContent = "Seuls les lettres sont autorisées";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            
+
+
 
             // Validation lorsque l'utilisateur quitte le champ de saisie (événement blur)
             document.getElementById('titre').addEventListener('input', validateTitle);
-
+            document.getElementById('resume').addEventListener('input', validateResume);
+            document.getElementById('description').addEventListener('input', validateDescription);
+            document.getElementById('site').addEventListener('input', validateSite);
+            document.getElementById('adresse').addEventListener('input', validateAdresse);
+            document.getElementById('codeP').addEventListener('input', validateCodeP);
+            document.getElementById('ville').addEventListener('input', validateVille);
+            document.getElementById('accessibilite').addEventListener('input', validateAcces);
+            document.getElementById('prix').addEventListener('input', validatePrix);
+            document.getElementById('duree').addEventListener('input', validateDuree);
+            document.getElementById('age').addEventListener('input', validateAge);
+            document.getElementById('nbattraction').addEventListener('input', validateNbAttraction);
+            document.getElementById('capacite').addEventListener('input', validateCapacite);
+            document.getElementById('pinclus').addEventListener('input', validatePinclus);
+            document.getElementById('pexclus').addEventListener('input', validatePexclus);
+            document.getElementById('langue').addEventListener('input', validateLangue);
 
             ////////////////////////////////////////////////////////////////////////////////////////////
             ////////////////////////////////////   MODIFIER OFFRE   ////////////////////////////////////

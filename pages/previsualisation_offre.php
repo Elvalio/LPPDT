@@ -4,19 +4,19 @@ include('../sql/connect_params.php');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-// echo '<pre>';
-//     print_r($_POST);
-//     echo '</pre>';
+echo '<pre>';
+    print_r($_POST);
+    echo '</pre>';
 
 
 $idC = $_COOKIE['user'];
 $categorie = $_POST['categorie'];
 
 
-$temp = explode(' ',trim(addslashes($_POST["adresse"])));
-$numero_voie = $temp[0];
-array_shift($temp);
-$voie = implode(' ', $temp);
+$temp = explode(' ', trim(($_POST["adresse"])));
+$numero_voie = $temp[0]; // Premier élément : numéro de la voie
+array_shift($temp); // Retirer le numéro de la voie pour ne garder que la voie
+$voie = ucfirst(htmlspecialchars(implode(' ', $temp))); // Voie avec majuscule et échappement HTML
 
 if(isset($_POST['site'])){
     if ($_POST['site'] !== ''){
@@ -173,15 +173,17 @@ try{
 
 
     if (isset($_POST['validation'])){
+        $titre = ucfirst(htmlspecialchars($_POST['titre']));
+        $resume = ucfirst(htmlspecialchars($_POST['resume']));
+        $type = type_offre($_POST['offre']);
+        $description = ucfirst(htmlspecialchars($_POST['description']));
+        $prix_min = $_POST['prix'];
+        $accessibilite = ucfirst(htmlspecialchars($_POST['accessibilite']));
+        $ville = ucfirst(htmlspecialchars($_POST['ville']));
+        $code_postal= $_POST['codeP'];
 
         switch ($categorie) {
             case 'activite':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
                 $age_min = $_POST['age'];
 
@@ -196,9 +198,6 @@ try{
                 } else {
                     $prestation_excluse = '';
                 }
-
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
     
                 $Ioffre = $dbh->prepare(
                     "insert into pact.activite 
@@ -208,16 +207,8 @@ try{
                 break;
     
             case 'spectacle':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
                 $capacite = $_POST['capacite'];
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
     
                 $Ioffre = $dbh->prepare(
                     "insert into pact.spectacle 
@@ -227,20 +218,12 @@ try{
                 break;
                 
             case 'visite':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
                 if (isset($_POST['langue'])){
                     $langues = $_POST['langue'];
                 } else {
                     $langues = '';
                 }
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
                 
                 $Ioffre = $dbh->prepare(
                     "insert into pact.visite 
@@ -250,12 +233,6 @@ try{
                 break;
     
             case 'restauration':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $src_image = time();
                 $gamme_prix = $_POST['categorie-prix'];
                 $petit_dejeuner = (isset($_POST['petit-dejeuner']) && ($_POST['petit-dejeuner'] == 'petit-dejeuner')) ? 'true' : 'false';
@@ -263,8 +240,6 @@ try{
                 $dejeuner = (isset($_POST['dejeuner']) && ($_POST['dejeuner'] == 'dejeuner')) ? 'true' : 'false';
                 $diner = (isset($_POST['diner']) && ($_POST['diner'] == 'diner')) ? 'true' : 'false';
                 $boissons = (isset($_POST['boissons']) && ($_POST['boissons'] == 'boissons')) ? 'true' : 'false';
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
                 
                 $Ioffre = $dbh->prepare(
                     "insert into pact.restauration 
@@ -274,17 +249,9 @@ try{
                 break;
     
             case 'parcAttraction':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $src_image = time();
                 $nbr_attractions = $_POST['nbattraction'];
                 $age_min = $_POST['age'];
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
                 
                 $Ioffre = $dbh->prepare(
                     "insert into pact.parc_d_attraction 
