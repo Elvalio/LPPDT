@@ -734,6 +734,18 @@ try {
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                             <p>Signaler l'avis</p>
                         </button>
+                        <?php
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
+                            ?>
+                            <button type="button"
+                            class="btn-blacklist"
+                            id="btn_blacklist_<?php echo $_COOKIE['user'];?>">
+                            <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                            <p>Blacklister l'avis</p>
+                            </button>
+                        <?php
+                        }
+                        ?>
                 
                 <?php endif;
 
