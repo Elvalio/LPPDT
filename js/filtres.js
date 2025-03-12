@@ -517,7 +517,29 @@ document.addEventListener('DOMContentLoaded', function () {
                             } else {
                                 stars = "Aucun avis";
                             }
-                        
+                            let adresseText = "";
+                            let buttonsText = "";
+                            if (isMobile) {
+                                adresseText += 
+                                `<a href="https://www.google.com/maps/dir//${adresse}" target="_blank" class="popup-address-lien">
+                                    <div class="popup-address">
+                                        <p class="popup-voie">📍 ${numero_voie} ${voie}</p>
+                                        <p class="popup-ville">${ville}, ${codeP}</p>
+                                    </div>
+                                </a>`;
+                                buttonsText +=
+                                `<div class="popup-extra-mobile-container">
+                                    <a href="https://www.google.com/maps/dir//${adresse}" target="_blank"><div class="popup-extra-mobile">Ouvrir Maps <img src="../icons/gmaps.png"></div></a>
+                                    <a href="https://lppdt.ventsdouest.dev/LPPDT/pages/detail-offre.php?value=${ido}"><div class="popup-extra-mobile">Voir les détails</div></a>
+                                </div>`;
+
+                            } else {
+                                adresseText += 
+                                `<div class="popup-address">
+                                    <p class="popup-voie">📍 ${numero_voie} ${voie}</p>
+                                    <p class="popup-ville">${ville}, ${codeP}</p>
+                                </div>`
+                            }
                         
 
 
@@ -533,10 +555,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                         </div>
                                     </div>
                                     <div class="popup-right">
-                                        <div class="popup-address">
-                                            <p class="popup-voie">📍 ${numero_voie} ${voie}</p>
-                                            <p class="popup-ville">${ville}, ${codeP}</p>
-                                        </div>
+                                        ${adresseText}
                                         <div class="popup-right-open">
                                             <div class="popup-right-stars">
                                                 <div class="popup-stars">${stars}</div>
@@ -545,8 +564,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                             <p class="popup-status ${element.classList.contains('ferme') ? 'ferme' : 'ouvert'}">${isOpen}</p>
                                         </div>
                                     </div>
-                                    ${isMobile ? `<a href="https://lppdt.ventsdouest.dev/LPPDT/pages/detail-offre.php?value=${ido}"><div class="popup-extra-mobile">Voir les détails</div></a>` : ''}
-
+                                    ${buttonsText}
+                                    
                                 </div>
                             `)
 
