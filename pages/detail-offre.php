@@ -666,7 +666,7 @@ try {
                                 <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
                             </div>
                             <div class="pseudo-contexte">
-                                <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <p class="ligne_sepa_contexte"><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
                                 <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>
