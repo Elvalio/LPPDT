@@ -631,7 +631,6 @@
 
 /* PopUp confirmation signalement */
 
-
 #popup {
   position: fixed;
   bottom: -100%;
@@ -1620,8 +1619,6 @@ hr {
   padding: 25px;
   z-index: 10;
 }
-
-
 
 #croix_big.desktop {
   width: 15px;
