@@ -230,6 +230,22 @@ try {
         $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Récupérer le blacklistage des avis
+foreach ($avis as &$avisIndividuel) {
+    $stmtBlackliste = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
+    $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
+    $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
+
+    if ($blacklisteData) {
+        $avisIndividuel['blackliste'] = $blacklisteData['blackliste']; // Ajout de la valeur blackliste à chaque avis
+    } else {
+        $avisIndividuel['blackliste'] = false; // Par défaut, non blacklisté
+    }
+
+
+    // var_dump($avisIndividuel);
+}
+unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
     /*
     // Requête pour griser tout les avis qui ont déjà été signalé par l'utilisateur
     $idAvis = $avisIndividuel['ida'];
@@ -469,8 +485,8 @@ try {
             <h3>Avis :
                 <?php echo $nbrAvis; ?>
             </h3>
-            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive")): ?>
-                <button id="btn-blacklist" onclick="toggleBlacklist()">Afficher avis blacklisté : ?/3</button>
+            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive")): ?>
+                <button id="btn-blacklist" onclick="toggleBlacklistButton()">Afficher avis blacklistés</button>
             <?php endif; ?>
         </header>
         <article class="article-avis">
@@ -553,6 +569,11 @@ try {
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
 
+                
+                // var_dump($avisIndividuel);
+                $classHidden = isset($avisIndividuel['blackliste']) && $avisIndividuel['blackliste'] ? 'hidden' : '';
+
+                
                 // Vérification avis deja signalé 
 
                 // Vérifier si l'avis a déjà été signalé par l'utilisateur connecté
@@ -657,7 +678,7 @@ try {
                 */
 
                 ?> 
-            <div class="alignement-conteneur-avis">
+            <div class="alignement-conteneur-avis <?= $classHidden ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">

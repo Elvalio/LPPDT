@@ -2446,6 +2446,10 @@ body {
     justify-content: flex-start;
 }
 
+.article-avis .hidden {
+    display: none;
+}
+
 /* =========================== */
 /*         STYLE FACTURE       */
 /* =========================== */
