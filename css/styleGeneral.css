@@ -2891,8 +2891,8 @@ h1{
     border: none;
     background-color: var(--noir);
     color: white;
-    padding: 0 60px;
-    height: 40px;
+    padding: 10px 60px;
+
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
@@ -2901,7 +2901,22 @@ h1{
 .boutonsPrevisualisation{
     display: flex;
     flex-direction: row;
-    
+    margin: 20px 0;
+    justify-content: space-between;
+    width: 400px;
+}
+
+.bouton-retour-prev {
+    display: flex; /* Utiliser flex pour aligner l'image et le texte */
+    align-items: center; /* Centre verticalement le contenu */
+    padding: 10px 30px; /* Padding à droite et à gauche */
+    cursor: pointer; /* Curseur en forme de main */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--turquoise-orange);
+    font-size: 16px;
+    width: fit-content;
+    justify-content: center;
 }
 
 .main-content-crea-modif-offre input[type="checkbox"], .main-content-crea-modif-offre input[type="radio"]{

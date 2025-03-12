@@ -558,8 +558,9 @@ if (!empty($_FILES['map-file-upload']['name'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prévisualisation</title>
-    <link rel="stylesheet" href="../css/samStyles.css">
+    
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleLisa.css">
     <script src="../js/previsualisation.js"></script>
     <script src="../detail-offre.js" async></script>
@@ -835,7 +836,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
         <?php } 
         ?>
 
-        <button class="bouton-retour NoSelect" type="submit">
+        <button class="bouton-retour-prev NoSelect FS" type="submit">
                 <img src="../icons/arrow-left-o.svg" alt="Retour">
                 Retour
         </button>
