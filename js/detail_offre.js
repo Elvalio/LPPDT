@@ -502,22 +502,22 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 */
 
+
 document.addEventListener("DOMContentLoaded", function () {
     const btnBlacklist = document.getElementById('btn-blacklist');
-    
+
     if (btnBlacklist) {
         btnBlacklist.addEventListener('click', function () {
-            const blacklistAvis = document.querySelectorAll('.alignement-conteneur-avis.hidden');
-            
-            blacklistAvis.forEach(avis => {
-                avis.classList.toggle('hidden'); // Ajoute ou enlève la classe "hidden"
-            });
+            // Ajoute une classe au body ou un élément parent
+            document.body.classList.toggle('show-blacklisted');
 
-            // Changer le texte du bouton
-            this.textContent = this.textContent.includes('Afficher') 
+            // Change le texte du bouton
+            this.textContent = document.body.classList.contains('show-blacklisted') 
                 ? 'Masquer avis blacklistés' 
                 : 'Afficher avis blacklistés';
         });
     }
 });
+
+
 

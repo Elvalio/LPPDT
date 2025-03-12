@@ -571,7 +571,7 @@ unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
 
                 
                 // var_dump($avisIndividuel);
-                $classHidden = isset($avisIndividuel['blackliste']) && $avisIndividuel['blackliste'] ? 'hidden' : '';
+                $classBlacklist = isset($avisIndividuel['blackliste']) && $avisIndividuel['blackliste'] ? 'blacklisted' : '';
 
                 
                 // Vérification avis deja signalé 
@@ -678,7 +678,7 @@ unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
                 */
 
                 ?> 
-            <div class="alignement-conteneur-avis <?= $classHidden ?>">
+            <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">

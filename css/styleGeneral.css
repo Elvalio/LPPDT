@@ -2446,9 +2446,14 @@ body {
     justify-content: flex-start;
 }
 
-.article-avis .hidden {
+.article-avis .blacklisted {
     display: none;
 }
+
+.show-blacklisted .article-avis .blacklisted {
+    display: block;
+}
+
 
 /* =========================== */
 /*         STYLE FACTURE       */
