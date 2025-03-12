@@ -2644,7 +2644,7 @@ table th {
     margin-bottom: 20px;
 }
 
-#adresse-container{
+#adresse-container, #complementAdresse-container{
     width: 97%;
 }
 
@@ -2887,7 +2887,7 @@ h1{
     resize: none;
 }
 
-.main-content-crea-modif-offre input[type="submit"]{
+.main-content-crea-modif-offre input[type="submit"], .bouton-valider{
     border: none;
     background-color: var(--noir);
     color: white;
@@ -2896,6 +2896,12 @@ h1{
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
+}
+
+.boutonsPrevisualisation{
+    display: flex;
+    flex-direction: row;
+    
 }
 
 .main-content-crea-modif-offre input[type="checkbox"], .main-content-crea-modif-offre input[type="radio"]{

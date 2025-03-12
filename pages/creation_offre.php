@@ -184,6 +184,11 @@ error_reporting(E_ALL);
                                     <p id="adresse-error-message" class="error-message"></p>
                                     <input type="text" id="adresse" class="FS" name="adresse" placeholder="5 rue de l'exemple" required value="<?php echo isset($_POST['adresse']) ? $_POST['adresse'] : ''; ?>"/>
                                 </div>
+                                <div class="container-crea-modif-offre" id="complementAdresse-container">
+                                    <label for="complement">Complément d'adresse</label>
+                                    <p id="complement-error-message" class="error-message"></p>
+                                    <input type="text" id="complement" class="FS" name="complement" placeholder="batiment B, salle 105" value="<?php echo isset($_POST['complement']) ? $_POST['complement'] : ''; ?>"/>
+                                </div>
                                 <div id="codeP-ville">
                                     <!-- Champ Code postal -->
                                     <div class="container-crea-modif-offre" id="codeP-container">

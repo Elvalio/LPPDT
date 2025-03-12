@@ -502,6 +502,7 @@
             const description = document.getElementById("description");
             const site = document.getElementById("site");
             const adresse = document.getElementById("adresse");
+            const complement = document.getElementById("complement");
             const codeP = document.getElementById("codeP");
             const ville = document.getElementById("ville");
             const accessibilite = document.getElementById("accessibilite");
@@ -604,8 +605,8 @@
             
 
             function validateAdresse(event) {
-                const caracteresInterdits = /[\/\\<>{}\[\]=+@:#`*]/;
-                const caracteresInterditsListe = "/ \\ < > { } [ ] = + @ : # ` *";
+                const caracteresInterdits = /[\/\\<>{}\[\]=+@:#`*,]/;
+                const caracteresInterditsListe = "/ \\ < > { } [ ] = + @ : # ` * ,";
                 const formatValide = /^\d+\s+[A-Za-zÀ-ÖØ-öø-ÿ]/;
 
                 const messageErreur = document.getElementById("adresse-error-message");
@@ -620,6 +621,32 @@
                     submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
                 } else if (caracteresInterdits.test(adresse.value)) {
                     let caractereInterdit = adresse.value.match(caracteresInterdits)[0];
+                    messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false; // Active le bouton si tout est correct
+                }
+            }
+
+            function validateComplement(event) {
+                const caracteresInterdits = /[\/\\<>{}\[\]=+@:#`*]/;
+                const caracteresInterditsListe = "/ \\ < > { } [ ] = + @ : # ` *";
+
+                const messageErreur = document.getElementById("complement-error-message");
+
+                if (complement.value.trim() === "") {
+                    messageErreur.textContent = "";
+                    messageErreur.style.display = "none";
+                    submitButton.disabled = false;
+                } else if (!/^[A-Za-zÀ-ÖØ-öø-ÿ]/.test(complement.value)) {
+                    messageErreur.textContent = "Le compléments d'adresse soit commencer par une lettre";
+                    messageErreur.style.display = "block";
+                    submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
+                } else if (caracteresInterdits.test(complement.value)) {
+                    let caractereInterdit = complement.value.match(caracteresInterdits)[0];
                     messageErreur.textContent = `Le caractère "${caractereInterdit}" est interdit. Caractères spéciaux interdits : ${caracteresInterditsListe}`;
                     messageErreur.style.display = "block";
                     submitButton.disabled = true; // Désactive le bouton si un caractère interdit est présent
@@ -892,6 +919,7 @@
             document.getElementById('description').addEventListener('input', validateDescription);
             document.getElementById('site').addEventListener('input', validateSite);
             document.getElementById('adresse').addEventListener('input', validateAdresse);
+            document.getElementById('complement').addEventListener('input', validateComplement);
             document.getElementById('codeP').addEventListener('input', validateCodeP);
             document.getElementById('ville').addEventListener('input', validateVille);
             document.getElementById('accessibilite').addEventListener('input', validateAcces);
