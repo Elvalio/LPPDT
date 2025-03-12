@@ -25,7 +25,7 @@ error_reporting(E_ALL);
         <title>Création d'offre</title>
 
         <link rel="stylesheet" href="../css/styleGeneral.css">
-        
+        <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
         
     </head>
     <body class="BO">
