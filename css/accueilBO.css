@@ -1230,6 +1230,8 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    border: none !important;
 }
 
 #carte #map {
@@ -1337,10 +1339,10 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
-    text-align: center;
+    justify-content: space-between;
 
     max-height: 50px;
+    width: 100%;
     padding: 0;
 
 }
@@ -1369,10 +1371,22 @@ input[type="range"]::-ms-thumb {
     margin: 0;
 }
 
-.popup-address,
+.popup-address {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    max-height: 50px;
+
+    gap: 7px;
+}
+
+.popup-voie, .popup-ville,
 .popup-desc {
     font-size: 12px;
-    margin: 0;
+    margin: 0 !important;
     color: #555;
 
 }

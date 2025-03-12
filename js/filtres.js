@@ -486,9 +486,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         marker.on('mouseover', function (e) {
                             let titre = element.getAttribute("data-titre");
                             let adresse = element.getAttribute("data-adresse");
+                            let codeP = element.getAttribute("data-code-postal");
+                            let numero_voie = element.getAttribute("data-numero-voie");
+                            let voie = element.getAttribute("data-voie");
+                            let ville = element.getAttribute("data-ville");
                             let image = element.getAttribute("data-image");
-                            console.log(element.getAttribute("data-note"));
                             let note = parseFloat(element.getAttribute("data-note"));
+                            let avis = parseInt(element.getAttribute("data-avis"));
                             let description = element.getAttribute("data-desc");
                             let prix = element.getAttribute("data-prix"); 
                             let isOpen = element.classList.contains("ferme") ? "🟢 Fermé" : "🟢 Ouvert";
@@ -496,21 +500,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             // Convertir la note en étoiles visuelles
                             let stars = "";
-                            console.log(note);
+
+                            if (avis !== 0) {
                             
-                            for (let i = 0; i < Math.floor(note); i++) {
-                                stars += `<img src="../icons/${etoiles}.png" alt="Étoile" class="popup-star">`;
+                                for (let i = 0; i < Math.floor(note); i++) {
+                                    stars += `<img src="../icons/${etoiles}.png" alt="Étoile" class="popup-star">`;
+                                }
+                            
+                                if (note % 1 >= 0.5) { // 🔹 Vérifie si la note a une partie décimale >= 0.5
+                                    stars += `<img src="../icons/demi_${etoiles}.png" alt="Demi Étoile" class="popup-star">`;
+                                }
+                            
+                                for (let i = Math.ceil(note); i < 5; i++) { // 🔹 Complète avec des étoiles vides
+                                    stars += `<img src="../icons/${etoiles}_vide.png" alt="Étoile Vide" class="popup-star">`;
+                                }
+                            } else {
+                                stars = "Aucun avis";
                             }
                         
-                            if (note % 1 >= 0.5) { // 🔹 Vérifie si la note a une partie décimale >= 0.5
-                                stars += `<img src="../icons/demi_${etoiles}.png" alt="Demi Étoile" class="popup-star">`;
-                            }
-                        
-                            for (let i = Math.ceil(note); i < 5; i++) { // 🔹 Complète avec des étoiles vides
-                                stars += `<img src="../icons/${etoiles}_vide.png" alt="Étoile Vide" class="popup-star">`;
-                            }
-                        
-                            console.log("Étoiles générées :", stars); // 🔹 Vérifier le contenu des étoiles
                         
 
 
@@ -526,7 +533,10 @@ document.addEventListener('DOMContentLoaded', function () {
                                         </div>
                                     </div>
                                     <div class="popup-right">
-                                        <p class="popup-address">📍 ${adresse}</p>
+                                        <div class="popup-address">
+                                            <p class="popup-voie">📍 ${numero_voie} ${voie}</p>
+                                            <p class="popup-ville">${ville}, ${codeP}</p>
+                                        </div>
                                         <div class="popup-right-open">
                                             <div class="popup-right-stars">
                                                 <div class="popup-stars">${stars}</div>
