@@ -417,8 +417,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         
             
     </body>
-    <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyBF8u35uxddQyZa1W94e5zpoTAFU79Nc1k"></script>
-    <script type="module" src="../js/filtres.js"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF8u35uxddQyZa1W94e5zpoTAFU79Nc1k"></script>
+    <script type="module" defer src="../js/filtres.js"></script>
+
     </html>
 
 
