@@ -220,7 +220,7 @@ include('../sql/connect_params.php');
                         </form>
                 </form>
                     </div>
-                    <img id="croix" src="../images/croix.png" alt="" class="close-popup">
+                    <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
                 </div>
             </div>
         </div>

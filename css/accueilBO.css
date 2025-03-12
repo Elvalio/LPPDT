@@ -1244,7 +1244,7 @@ input[type="range"]::-ms-thumb {
 }
 
 #carte #map.cache + #arrow_carte img {
-    transform: rotate(d90deg);
+    transform: rotate(90deg);
     transition: transform 0.2s ease-in-out;
 }
 
@@ -1283,4 +1283,128 @@ input[type="range"]::-ms-thumb {
     object-fit: cover;
 
     transition: transform 0.3s ease-in-out;
+}
+
+
+/* =========================================================== */
+/*                    DESIGN DES POP-UP                        */
+/* =========================================================== */
+.popupCarte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.popup-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    font-family: Arial, sans-serif;
+    
+    padding: 8px;
+    
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.popup-left {
+    flex-shrink: 0;
+}
+
+.popup-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.popup-center {
+    flex: 1;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    width: fit-content;
+    min-height: 100px;
+}
+
+.popup-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    max-height: 50px;
+    padding: 0;
+
+}
+
+.popup-right-stars {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    height: fit-content;
+
+    margin-bottom: -25px;
+}
+
+.popup-right-open {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.popup-address,
+.popup-desc {
+    font-size: 12px;
+    margin: 0;
+    color: #555;
+
+}
+
+.popup-stars {
+    display: flex;
+    gap: 2px;
+    height: 14px;
+}
+
+.popup-star {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+.popup-price {
+    height: 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #d9534f;
+}
+
+.popup-status {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.popup-status.ouvert {
+    color: #28a745;
+}
+
+.popup-status.ferme {
+    color: #d9534f;
 }

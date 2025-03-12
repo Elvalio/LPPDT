@@ -1,9 +1,29 @@
 import { closeSortMenu } from './scriptFilter.js';
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const trie_text = document.querySelector('.dropdown-toggle > p');
     const rechercheIMG = document.getElementsByClassName('rechercheLieuIMG');
     const SCREEN_MOBILE = 801; // Taille de l'écran pour le changement d'images
+
+    const arrow_carte = document.getElementById("arrow_carte")
+
+    const mapContainer = document.getElementById("map");
+
+    arrow_carte.addEventListener("click", function () {
+        mapContainer.classList.toggle("cache");
+    });
+
+    var map = L.map('map').setView([48.7321, -3.4591], 14);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+
+
+
 
     const categoriesFiltres = [
         'filtre-type',
@@ -413,9 +433,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Fonction pour afficher uniquement les offres filtrées
+    // Stocker les marqueurs pour les supprimer avant d'en ajouter de nouveaux
+    var markersLayer = L.layerGroup().addTo(map);
+
+    // Fonction pour afficher uniquement les offres filtrées
     function afficherResultats(offresVisibles) {
         trie(offresVisibles);
-    
+        
         const rechercheTexte = rechercheOffre.value.toLowerCase();
 
         offresVisibles = offresVisibles.filter(offre => {
@@ -425,16 +449,112 @@ document.addEventListener('DOMContentLoaded', function () {
             const offreDescription = offre.getAttribute('data-desc').toLowerCase();
             return offreTexte.includes(rechercheTexte) || offreCategorie.includes(rechercheTexte) || offreTitre.includes(rechercheTexte) || offreDescription.includes(rechercheTexte);
         });
-    
+
         offresVisibles.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
-    
+
         Array.from(offres).forEach(offre => {
             offre.style.display = offresVisibles.includes(offre) ? 'block' : 'none';
             offresVisibles.forEach((offreVisible, index) => {
                 offreVisible.style.order = index;
             });
         });
+
+        var geocoder = new google.maps.Geocoder();
+
+        // Supprimer tous les anciens marqueurs avant d'en ajouter de nouveaux
+        markersLayer.clearLayers();
+
+        offresVisibles.forEach(element => {
+            geocoder.geocode({ 'address': element.getAttribute("data-adresse") }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+
+                    if (latitude && longitude) {
+                        var marker = L.marker([latitude, longitude]).addTo(markersLayer);
+
+                        // Créer une seule popup par marqueur
+                        var popup = L.popup({ autoClose: false, closeOnClick: false, closeButton: false });
+
+                        // Gérer l'affichage de la popup lors du survol
+                        marker.on('mouseover', function (e) {
+                            let titre = element.getAttribute("data-titre");
+                            let adresse = element.getAttribute("data-adresse");
+                            let image = element.getAttribute("data-image");
+                            let note = parseInt(element.getAttribute("data-note"));
+                            let description = element.getAttribute("data-desc");
+                            let prix = element.getAttribute("data-prix"); 
+                            let isOpen = element.classList.contains("ferme") ? "🟢 Fermé" : "🟢 Ouvert";
+
+                            // Convertir la note en étoiles visuelles
+                            let stars = "";
+                            for (let i = 0; i < 5; i++) {
+                                stars += `<img src="../icons/${i < note ? 'etoile_rouge' : 'etoile_rouge_vide'}.png" alt="Étoile" class="popup-star">`;
+                            }
+
+                            popup.setLatLng(e.latlng).setContent(`
+                                <div class="popupCarte">
+                                    <h3 class="popup-title">${titre}</h3>
+                                    <div class="popup-container">
+                                        <div class="popup-left">
+                                            <img src="../images/${image}" class="popup-image" alt="${titre}">
+                                        </div>
+                                        <div class="popup-center">
+                                        <p class="popup-desc">${description}</p>
+                                        </div>
+                                        </div>
+                                        <div class="popup-right">
+                                            <p class="popup-address">📍 ${adresse}</p>
+                                            <div class="popup-right-open">
+                                                <div class="popup-right-stars">
+                                                    <div class="popup-stars">${stars}</div>
+                                                    <p class="popup-price">${prix}€</p>
+                                                </div>
+                                                <p class="popup-status ${element.classList.contains('ferme') ? 'ferme' : 'ouvert'}">${isOpen}</p>
+                                            </div>
+                                        </div>
+                                </div>
+                            `)
+                            marker.bindPopup(popup).openPopup();
+
+                        });
+                        
+
+                        // // Cacher la popup quand la souris quitte le marqueur
+                        marker.on('mouseout', function () {
+                            marker.closePopup();
+                        });
+                        
+                        marker.on('click', function () {
+                            const elementId = element.getAttribute('data-ido');
+                            const elementToScroll = document.getElementsByClassName(elementId)[0];
+                        
+                            if (elementToScroll) {
+                                // Défilement fluide vers l'élément
+                                elementToScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                                // Ajout de l'animation
+                                elementToScroll.style.transition = 'all 1s ease-in-out';
+                                elementToScroll.style.transform = 'scale(1.05) translateY(-15px)'; // Zoom léger et déplacement vers le haut
+                                elementToScroll.style.opacity = '1'; // Assurer visibilité
+                                elementToScroll.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Ajouter une ombre portée
+                        
+                                setTimeout(() => {
+                                    elementToScroll.style.transform = 'scale(1)'; // Retour à la taille normale
+                                }, 1000);
+                        
+                                setTimeout(() => {
+                                    elementToScroll.style.opacity = ''; // Reset de l'opacité (utile si fade-out prévu)
+                                }, 2000);
+                            }
+                        });
+                        
+                    }
+                }
+            });
+        });
     }
+
     
 
     // Initialisation
@@ -830,8 +950,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // animerCartesBoiteDeNuit();
 
-    /* ===============================*/
-    /* ====== CARTE INTERACTIVE ====== */
-    /* ===============================*/
+    /* ================================= */
+    /* ======= CARTE INTERACTIVE ======= */
+    /* ================================= */
+
+    
 
 });
