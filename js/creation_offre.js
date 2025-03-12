@@ -516,8 +516,8 @@
             const langue = document.getElementById("langue");
 
             function validateTitle(event) {
-                const caracteresInterdits = /[\/\\<>{}\[\]=+@:#`*]/;
-                const caracteresInterditsListe = "/ \\ < > { } [ ] = + @ : # ` *";
+                const caracteresInterdits = /[\/\\<>{}\[\]=+@:#`*;!?]/;
+                const caracteresInterditsListe = "/ \\ < > { } [ ] = + @ : # ` * ; ! ?";
                 
                 const messageErreur = document.getElementById("error-message-titre");
 
