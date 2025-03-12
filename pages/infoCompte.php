@@ -11,6 +11,7 @@ include('../sql/connect_params.php');
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/samStyles.css">
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
     
     <script src="../js/infoCompte.js" async></script>
 
@@ -220,7 +221,7 @@ include('../sql/connect_params.php');
                         </form>
                 </form>
                     </div>
-                    <img id="croix" src="../images/croix.png" alt="" class="close-popup">
+                    <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
                 </div>
             </div>
         </div>

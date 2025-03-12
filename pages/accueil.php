@@ -24,7 +24,12 @@ try{
     o.description, 
     h.heureOuverture, 
     h.heureFermeture,
-    h.ouvertWeekend
+    h.ouvertWeekend,
+    o.numero_voie,
+    o.voie,
+    o.ville,
+    o.code_postal,
+    pact.toStringDate(o.ido) AS adresse
 FROM 
     pact.offre o
 JOIN 
@@ -76,16 +81,16 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
     <script src="../js/accueil.js"></script>
-    <script type="module" src="../js/filtres.js"></script>
     <title>Accueil</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-     crossorigin=""/>
-      <!-- Make sure you put this AFTER Leaflet's CSS -->
- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-     crossorigin=""></script>
-
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+    
 </head>
 
 <html>
@@ -286,12 +291,12 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             <?php
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
-                    <div class="carte_offre desktop-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
+                    <div class="carte_offre desktop-element <?php echo $value["ido"] ?> <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
                     <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?> <?php if (isset($value["heureouverture"]) && isset($value["heurefermeture"])) {
                             $currentHour = date('H:i:s');
                             $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
                             echo $isOpen ? "ouvert" : "ferme";
-                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>">
+                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo floatval($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-adresse="<?php echo $value["adresse"] ?>" data-image="<?php echo $value['src_image'] ?>" data-ido="<?php echo $value["ido"] ?>" data-avis="<?php echo $value["nbravis"] ?>" data-numero-voie="<?php echo $value["numero_voie"] ?>" data-voie="<?php echo $value["voie"] ?>" data-ville="<?php echo $value["ville"] ?>" data-code-postal="<?php echo $value["code_postal"] ?>">
                         
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value["option"] == "À la Une") { ?>
@@ -344,7 +349,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             $currentHour = date('H:i:s');
                             $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
                             echo $isOpen ? "ouvert" : "ferme";
-                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>">
+                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo floatval($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-image="<?php echo $value['src_image'] ?>" data-adresse="<?php echo $value["adresse"] ?>"  data-image="<?php echo $value['src_image'] ?>" data-ido="<?php echo $value["ido"] ?>"data-avis="<?php echo $value["nbravis"] ?>" data-numero-voie="<?php echo $value["numero_voie"] ?>" data-voie="<?php echo $value["voie"] ?>" data-ville="<?php echo $value["ville"] ?>" data-code-postal="<?php echo $value["code_postal"] ?>">
                         
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
 
@@ -416,7 +421,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         
             
     </body>
-    <script src="../js/carteAccueil.js"></script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF8u35uxddQyZa1W94e5zpoTAFU79Nc1k"></script>
+    <script type="module" defer src="../js/filtres.js"></script>
+
     </html>
 
 

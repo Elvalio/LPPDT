@@ -2605,7 +2605,7 @@ table th {
 
 }
 
-#titre-container, #ville-container{
+#titre-container{
     width: 440px;
 }
 
@@ -2644,8 +2644,8 @@ table th {
     margin-bottom: 20px;
 }
 
-#adresse-container{
-    width: 425px;
+#adresse-container, #complementAdresse-container{
+    width: 97%;
 }
 
 #duree-prix-age{
@@ -2846,7 +2846,7 @@ h1{
     padding-top: 10px;
 }
 
-.input-accueil, select{
+.main-content-crea-modif-offre input[type="text"], .main-content-crea-modif-offre select{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     height: 40px;
@@ -2858,7 +2858,7 @@ h1{
 /*************************gérer le select avec options*******************************/
 
 /* Style du select */
-select {
+.main-content-crea-modif-offre select {
     color: rgb(150, 150, 150); /* "categorie de l'offre" en gris */
     font-size: 16px;
     padding: 5px;
@@ -2866,19 +2866,19 @@ select {
 }
 
 /* Style des options après sélection */
-select:valid {
+.main-content-crea-modif-offre select:valid {
     color: black; /* Options en noir quand une valeur est choisie */
 }
 
 /* S'assurer que les options ne soient pas grises */
-option {
+.main-content-crea-modif-offre option {
     color: black;
 }
 
 
 /********************************************************************************/
 
-textarea{
+.main-content-crea-modif-offre textarea{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     font-size: 16px;
@@ -2887,15 +2887,39 @@ textarea{
     resize: none;
 }
 
-input[type="submit"]{
+.main-content-crea-modif-offre input[type="submit"], .bouton-valider{
     border: none;
     background-color: var(--noir);
     color: white;
-    padding: 0 60px;
+    padding: 10px 60px;
+
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
 }
 
-input[type="checkbox"], input[type="radio"]{
+.boutonsPrevisualisation{
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+    justify-content: space-between;
+    width: 400px;
+}
+
+.bouton-retour-prev {
+    display: flex; /* Utiliser flex pour aligner l'image et le texte */
+    align-items: center; /* Centre verticalement le contenu */
+    padding: 10px 30px; /* Padding à droite et à gauche */
+    cursor: pointer; /* Curseur en forme de main */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--turquoise-orange);
+    font-size: 16px;
+    width: fit-content;
+    justify-content: center;
+}
+
+.main-content-crea-modif-offre input[type="checkbox"], .main-content-crea-modif-offre input[type="radio"]{
     height: 15px;
     width: 15px;
     margin-right: 5px;
@@ -2909,7 +2933,7 @@ input[type="checkbox"], input[type="radio"]{
     opacity: 0;
     }
 
-input[type=checkbox].hidden+label {
+.main-content-crea-modif-offre input[type=checkbox].hidden+label {
     color: rgba(117, 117, 117, 0.7);
     background-color: #f0f0f0;
     display: flex;
@@ -2925,7 +2949,7 @@ input[type=checkbox].hidden+label {
     user-select: none;
 }
 
-input[type=checkbox].hidden:checked+label {
+.main-content-crea-modif-offre input[type=checkbox].hidden:checked+label {
     color: white;
     background-color: black;  /* Couleur de fond lorsqu'il est sélectionné */
 }
@@ -2936,7 +2960,7 @@ input[type=checkbox].hidden:checked+label {
 
 /*******************************************/
 
-input[type="file"]{
+.main-content-crea-modif-offre input[type="file"]{
     display: none;
 }
 

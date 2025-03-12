@@ -1230,6 +1230,8 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    border: none !important;
 }
 
 #carte #map {
@@ -1244,7 +1246,7 @@ input[type="range"]::-ms-thumb {
 }
 
 #carte #map.cache + #arrow_carte img {
-    transform: rotate(d90deg);
+    transform: rotate(90deg);
     transition: transform 0.2s ease-in-out;
 }
 
@@ -1283,4 +1285,190 @@ input[type="range"]::-ms-thumb {
     object-fit: cover;
 
     transition: transform 0.3s ease-in-out;
+}
+
+
+/* =========================================================== */
+/*                    DESIGN DES POP-UP                        */
+/* =========================================================== */
+.popupCarte {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+.popup-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    font-family: Arial, sans-serif;
+    
+    padding: 8px;
+    
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.popup-left {
+    flex-shrink: 0;
+}
+
+.popup-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.popup-center {
+    flex: 1;
+    padding: 0 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    width: fit-content;
+    min-height: 100px;
+}
+
+.popup-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    max-height: 50px;
+    width: 100%;
+    padding: 0;
+
+}
+
+.popup-right-stars {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    height: fit-content;
+
+    margin-bottom: -25px;
+}
+
+.popup-right-open {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.popup-address-lien {
+    /* text-decoration: none; */
+    cursor: pointer;
+}
+
+.popup-address {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    max-height: 50px;
+
+    gap: 7px;
+}
+
+.popup-voie, .popup-ville,
+.popup-desc {
+    font-size: 12px;
+    margin: 0 !important;
+    color: #555;
+
+}
+
+.popup-stars {
+    display: flex;
+    gap: 2px;
+    height: 14px;
+}
+
+.popup-star {
+    width: 14px;
+    height: 14px;
+    margin: 0;
+}
+
+.popup-price {
+    height: 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--bleuFonce-rougeFonce);
+}
+
+.popup-status {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.popup-status.ouvert {
+    color: #28a745;
+}
+
+.popup-status.ferme {
+    color: #d9534f;
+}
+
+.popup-extra-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 100px;
+    /* max-width: 200px; */
+
+    color: var(--bleuFonce-rougeFonce);
+    
+    padding: 8px 12px;
+
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    
+    transition: transform 0.2s;
+}
+
+.popup-extra-mobile:hover {
+    transform: translateY(-2px);
+}
+
+.popupCarte a {
+    text-decoration: none;
+}
+
+.popup-extra-mobile img {
+    width: 15px;
+    height: 15px;
+    object-fit: cover;
+    margin-left: 5px;
+}
+
+.popup-extra-mobile-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
 }

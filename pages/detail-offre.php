@@ -275,6 +275,7 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 
 <div class="desktop-element">
