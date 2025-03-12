@@ -6,6 +6,7 @@
      <style>
         <?php include_once("../css/styleGeneral.css");?>
     </style>
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 <body class="BO body-creation-facturation">
     <header class="header-creation-facturation">

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
     <title>Nos Politiques - TripEnArvor</title>
 </head>
 <body class="FO main_style-page-footer">
