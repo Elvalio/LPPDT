@@ -1807,7 +1807,7 @@ hr {
   border-radius: 25px;
 }
 
-#croix_small.desktop {
+#croix_small.mobile {
   width: 15px;
   height: 15px;
   object-fit: cover;
