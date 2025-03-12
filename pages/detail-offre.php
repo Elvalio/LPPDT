@@ -351,7 +351,7 @@ try {
 
                     </div>
                     <p class="nb-avis-info-offre">
-                        <?php echo $nbrAvis . " Avis |"; ?>
+                        <?php echo $nbrAvis?>&#xA0;Avis
                     </p>
                 </div>
                 <div class="infos-accessibilite">

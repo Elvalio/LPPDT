@@ -194,10 +194,13 @@
 
 .infos-avis {
   display: flex;
+  padding-right: 10px; /* Ajout de padding à droite */
 }
 
 .infos-accessibilite {
   display: flex;
+  padding-left: 10px;
+  border-left: #353435 solid 2px; /* Ajout d'une bordure à gauche */
 }
 
 /* Définition du container pour gérer l'affichage de la description */
@@ -957,6 +960,7 @@ transform: rotate(-90deg);
   flex-direction: row; /* Aligne chaque section verticalement */
   align-items: center;
   gap: 10px;
+  padding-left: 10px;
 }
 
 .infos-avis {
