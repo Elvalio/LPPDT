@@ -2,6 +2,8 @@ import { closeSortMenu } from './scriptFilter.js';
 
 document.addEventListener('DOMContentLoaded', function () {
 
+    const body = document.querySelector('body');
+
     const trie_text = document.querySelector('.dropdown-toggle > p');
     const rechercheIMG = document.getElementsByClassName('rechercheLieuIMG');
     const SCREEN_MOBILE = 801; // Taille de l'écran pour le changement d'images
@@ -464,6 +466,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // Supprimer tous les anciens marqueurs avant d'en ajouter de nouveaux
         markersLayer.clearLayers();
 
+        let isMobile = ecran === 'mobile';
+        let isFO = body.classList.contains('FO');
+        let etoiles = (isMobile || isFO) ? 'etoile_bleue' : 'etoile_rouge';
+
         offresVisibles.forEach(element => {
             geocoder.geocode({ 'address': element.getAttribute("data-adresse") }, function (results, status) {
                 if (status == google.maps.GeocoderStatus.OK) {
@@ -481,16 +487,32 @@ document.addEventListener('DOMContentLoaded', function () {
                             let titre = element.getAttribute("data-titre");
                             let adresse = element.getAttribute("data-adresse");
                             let image = element.getAttribute("data-image");
-                            let note = parseInt(element.getAttribute("data-note"));
+                            console.log(element.getAttribute("data-note"));
+                            let note = parseFloat(element.getAttribute("data-note"));
                             let description = element.getAttribute("data-desc");
                             let prix = element.getAttribute("data-prix"); 
                             let isOpen = element.classList.contains("ferme") ? "🟢 Fermé" : "🟢 Ouvert";
+                            let ido = element.getAttribute("data-ido");
 
                             // Convertir la note en étoiles visuelles
                             let stars = "";
-                            for (let i = 0; i < 5; i++) {
-                                stars += `<img src="../icons/${i < note ? 'etoile_rouge' : 'etoile_rouge_vide'}.png" alt="Étoile" class="popup-star">`;
+                            console.log(note);
+                            
+                            for (let i = 0; i < Math.floor(note); i++) {
+                                stars += `<img src="../icons/${etoiles}.png" alt="Étoile" class="popup-star">`;
                             }
+                        
+                            if (note % 1 >= 0.5) { // 🔹 Vérifie si la note a une partie décimale >= 0.5
+                                stars += `<img src="../icons/demi_${etoiles}.png" alt="Demi Étoile" class="popup-star">`;
+                            }
+                        
+                            for (let i = Math.ceil(note); i < 5; i++) { // 🔹 Complète avec des étoiles vides
+                                stars += `<img src="../icons/${etoiles}_vide.png" alt="Étoile Vide" class="popup-star">`;
+                            }
+                        
+                            console.log("Étoiles générées :", stars); // 🔹 Vérifier le contenu des étoiles
+                        
+
 
                             popup.setLatLng(e.latlng).setContent(`
                                 <div class="popupCarte">
@@ -502,19 +524,22 @@ document.addEventListener('DOMContentLoaded', function () {
                                         <div class="popup-center">
                                         <p class="popup-desc">${description}</p>
                                         </div>
-                                        </div>
-                                        <div class="popup-right">
-                                            <p class="popup-address">📍 ${adresse}</p>
-                                            <div class="popup-right-open">
-                                                <div class="popup-right-stars">
-                                                    <div class="popup-stars">${stars}</div>
-                                                    <p class="popup-price">${prix}€</p>
-                                                </div>
-                                                <p class="popup-status ${element.classList.contains('ferme') ? 'ferme' : 'ouvert'}">${isOpen}</p>
+                                    </div>
+                                    <div class="popup-right">
+                                        <p class="popup-address">📍 ${adresse}</p>
+                                        <div class="popup-right-open">
+                                            <div class="popup-right-stars">
+                                                <div class="popup-stars">${stars}</div>
+                                                <p class="popup-price">${prix}€</p>
                                             </div>
+                                            <p class="popup-status ${element.classList.contains('ferme') ? 'ferme' : 'ouvert'}">${isOpen}</p>
                                         </div>
+                                    </div>
+                                    ${isMobile ? `<a href="https://lppdt.ventsdouest.dev/LPPDT/pages/detail-offre.php?value=${ido}"><div class="popup-extra-mobile">Voir les détails</div></a>` : ''}
+
                                 </div>
                             `)
+
                             marker.bindPopup(popup).openPopup();
 
                         });

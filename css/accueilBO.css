@@ -1393,7 +1393,7 @@ input[type="range"]::-ms-thumb {
     height: 14px;
     font-size: 13px;
     font-weight: bold;
-    color: #d9534f;
+    color: var(--bleuFonce-rougeFonce);
 }
 
 .popup-status {
@@ -1407,4 +1407,37 @@ input[type="range"]::-ms-thumb {
 
 .popup-status.ferme {
     color: #d9534f;
+}
+
+.popup-extra-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    width: 100%;
+    max-width: 200px;
+
+    color: var(--bleuFonce-rougeFonce);
+    
+    padding: 8px 12px;
+    margin-top: -25px;
+
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    
+    transition: transform 0.2s;
+    margin-top: 10px;
+}
+
+.popup-extra-mobile:hover {
+    transform: translateY(-2px);
+}
+
+.popupCarte a {
+    text-decoration: none;
 }

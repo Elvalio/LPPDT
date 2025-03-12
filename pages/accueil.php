@@ -292,7 +292,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             $currentHour = date('H:i:s');
                             $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
                             echo $isOpen ? "ouvert" : "ferme";
-                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-adresse="<?php echo $value["adresse"] ?>"  data-image="<?php echo $value['src_image'] ?>" data-ido="<?php echo $value["ido"] ?>">
+                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo floatval($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-adresse="<?php echo $value["adresse"] ?>"  data-image="<?php echo $value['src_image'] ?>" data-ido="<?php echo $value["ido"] ?>">
                         
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
                             <?php if ($value["option"] == "À la Une") { ?>
@@ -345,7 +345,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             $currentHour = date('H:i:s');
                             $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
                             echo $isOpen ? "ouvert" : "ferme";
-                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo toInteger($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-image="<?php echo $value['src_image'] ?>">
+                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo floatval($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-image="<?php echo $value['src_image'] ?>" data-adresse="<?php echo $value["adresse"] ?>"  data-image="<?php echo $value['src_image'] ?>" data-ido="<?php echo $value["ido"] ?>">
                         
                         <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
 
