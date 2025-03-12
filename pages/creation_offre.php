@@ -70,7 +70,7 @@ error_reporting(E_ALL);
                             </div>
 
                             <!-- Champ "Site web" -->
-                            <div class="ontainer-crea-modif-offre" id="site-container">
+                            <div class="container-crea-modif-offre" id="site-container">
                                 <label for="site">Site web</label>
                                 <p id="site-error-message" class="error-message"></p>
                                 <input type="text" id="site" class="FS" name="site" placeholder="https://exemple.com" value="<?php echo isset($_POST['site']) ? $_POST['site'] : ''; ?>">
@@ -184,6 +184,11 @@ error_reporting(E_ALL);
                                     <p id="adresse-error-message" class="error-message"></p>
                                     <input type="text" id="adresse" class="FS" name="adresse" placeholder="5 rue de l'exemple" required value="<?php echo isset($_POST['adresse']) ? $_POST['adresse'] : ''; ?>"/>
                                 </div>
+                                <div class="container-crea-modif-offre" id="complementAdresse-container">
+                                    <label for="complement">Complément d'adresse</label>
+                                    <p id="complement-error-message" class="error-message"></p>
+                                    <input type="text" id="complement" class="FS" name="complement" placeholder="batiment B, salle 105" value="<?php echo isset($_POST['complement']) ? $_POST['complement'] : ''; ?>"/>
+                                </div>
                                 <div id="codeP-ville">
                                     <!-- Champ Code postal -->
                                     <div class="container-crea-modif-offre" id="codeP-container">
@@ -228,7 +233,7 @@ error_reporting(E_ALL);
                                         <input type="text" id="age" class="FS" name="age" placeholder="8" required value="<?php echo isset($_POST['age']) ? $_POST['age'] : ''; ?>"/>
                                     </div>
                                     <div class="container-crea-modif-offre" id="capacite-container">
-                                        <label for="capacite">Capacité*</label>
+                                        <label for="capacite">Nombre de places*</label>
                                         <p id="capacite-error-message" class="error-message"></p>
                                         <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required value="<?php echo isset($_POST['capacite']) ? $_POST['capacite'] : ''; ?>"/>
                                     </div>
@@ -328,8 +333,8 @@ error_reporting(E_ALL);
                                             <div class="info-icon">?</div>
                                             <div class="info-tooltip">
                                             - Standard : Type par défaut. <br> <br>
-                                            - Premium : permet en plus de « blacklister » un maximum de 3 Avis sur une Offre. <br> <br>
-                                            Attention : Un fois choisi, le type d'offre ne peut pas être changé.                                           </div>
+                                            - Premium : Permet en plus de « blacklister » un maximum de 3 avis sur une offre. <br> <br>
+                                            Attention : Une fois choisi, le type d'offre ne peut pas être changé.                                           </div>
                                         </div>
                                         <!---------------->
                                         <div id="standard-premium">
