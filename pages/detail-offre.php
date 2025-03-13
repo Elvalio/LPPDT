@@ -676,7 +676,15 @@ try {
                                 <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
                             </div>
                             <div class="pseudo-contexte">
-                                <p class="ligne_sepa_contexte"><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
+                                    <p style="font-style: italic" class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } else { ?>
+                                    <p class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } ?>
                                 <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>
