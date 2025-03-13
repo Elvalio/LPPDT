@@ -209,6 +209,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
         // Tri par défaut (priorité aux offres "aLaUne")
         resultats.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
+        const estNouveaute = Array.from(boutonNouveau).some(bouton => bouton.classList.contains('active'));
+        if (estNouveaute) {
+            resultats = resultats.filter(offre => offre.classList.contains('Nouveaute'));
+        }
+        const aLaUne = Array.from(boutonALaUne).some(bouton => bouton.classList.contains('active'));
+        if (aLaUne) {
+            resultats = resultats.filter(offre => offre.classList.contains('aLaUne'));
+        }
         return resultats;
     }
     
@@ -671,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     const boutonNouveau = document.getElementsByClassName('boutonNouveau');
-    const boutonALaUne = document.getElementsByClassName('boutonALaUne');
+    const boutonALaUne = document.getElementsByClassName('boutonALaUne');   
     // boutons <p> Nouveau et A la une
 
     function filtrerParBouton() {

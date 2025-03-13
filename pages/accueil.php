@@ -1,5 +1,6 @@
 <?php
 
+const NB_OFFRES_NOUVEAUTES = 3;
 
 include('../sql/connect_params.php');
 
@@ -65,6 +66,10 @@ LEFT JOIN
     $prix_min = $sorted_resultat[0]["prix_min"];
     $prix_max = $sorted_resultat[count($sorted_resultat)-1]["prix_min"];
     $step = ($prix_max > 1000) ? 10 : 1;
+
+    $date_tab = array_column($resultat, 'date_publication');
+    array_multisort($date_tab, SORT_DESC, $resultat);
+    $date_tab = array_slice($date_tab, 0, NB_OFFRES_NOUVEAUTES);
 
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -167,7 +172,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         </div>
                     </div>
                     <div class="NouveauALaUne">
-                        <div class="boutonNouveau NoSelect" style="display: none;">
+                        <div class="boutonNouveau NoSelect">
                             <p class="FS">Nouveau</p>
                         </div>
                         <div class="boutonALaUne NoSelect">
@@ -302,7 +307,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             foreach ($resultat as $key => $value) { 
                 if ($value["en_ligne"]) { ?>
                     <div class="carte_offre desktop-element <?php echo $value["ido"] ?> <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
-                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?> <?php if (isset($value["heureouverture"]) && isset($value["heurefermeture"])) {
+                    <?php if (in_array($value["date_publication"], $date_tab)) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?> <?php if (isset($value["heureouverture"]) && isset($value["heurefermeture"])) {
                             $currentHour = date('H:i:s');
                             $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
                             echo $isOpen ? "ouvert" : "ferme";
@@ -355,7 +360,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     </div>
 
                     <div class="carte_offre phone-element <?php if ($value["option"] == "En relief") {echo "enRelief";} ?> <?php if ($value["option"] == "À la Une") {echo "aLaUne enRelief";}?>
-                    <?php if (strtotime($value["date_publication"]) >= strtotime('-1 week')) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?> <?php if (isset($value["heureouverture"]) && isset($value["heurefermeture"])) {
+                    <?php if (in_array($value["date_publication"], $date_tab)) {echo "Nouveaute";} ?> <?php echo $value["categorie"] ?> <?php echo $value["ville"] ?> note-<?php echo toInteger($value["moy_note"]) ?> <?php if (isset($value["heureouverture"]) && isset($value["heurefermeture"])) {
                             $currentHour = date('H:i:s');
                             $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
                             echo $isOpen ? "ouvert" : "ferme";
