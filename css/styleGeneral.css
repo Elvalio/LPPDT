@@ -1611,6 +1611,9 @@ body {
             }
 
             #boutons-modal{
+                display: flex;
+                flex-direction: row;
+                justify-content: right;
                 padding-top: 2em !important;
             }
 
@@ -1630,8 +1633,12 @@ body {
                 color: red;
             }
 
+            #modal-close{
+                background-color: black;
+            }
+
             .btn-notif {
-                margin-right: 30px;
+                margin-left: 30px;
                 padding: 10px 20px;
                 background-color: var(--bleu-rouge);
                 color: var(--blanc);

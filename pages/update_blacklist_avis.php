@@ -7,7 +7,11 @@ include ('../sql/connect_params.php');
 
     
     $id_avis = $data['id_avis'];
-    $duree = $data['duree'];
+    if (isset($data["duree"])) {
+        $duree = $data['duree'];
+    }else{
+        $duree = "";
+    }
     $blacklist = $data['blacklist'];
     try {
         $pdo = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);

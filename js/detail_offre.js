@@ -322,10 +322,6 @@ const signalerAvisBtn = document.querySelectorAll('[id^="btn_signaler_avis"]');
 console.log(signalerAvisBtn);
 const signalerReponseBtn = document.querySelectorAll('[id^="btn_signaler_reponse"]');
 
-const blacklistBtn = document.querySelectorAll('.btn-blacklist');
-const blacklistBtnRev = document.querySelectorAll('.btn-blacklist-rev');
-console.log(blacklistBtn);
-
 const popupWarn = document.getElementById('popup');
 const closeBtn = popupWarn.querySelector('.close-btn');
 const progressBar = popupWarn.querySelector('.progress-bar div');
@@ -469,11 +465,15 @@ signalerReponseBtn.forEach(button => {
 
 /* popup blacklist*/
 
-var modal = document.getElementById('modal');
+const blacklistBtn = document.querySelectorAll('.btn-blacklist');
+const blacklistBtnRev = document.querySelectorAll('.btn-blacklist-rev');
+const blacklistBtnIrr = document.querySelectorAll('.btn-blacklist-irr');
 
-var input_semaine = document.getElementById('semaine');
-var warning_semaine = document.getElementById('warning-semaine');
-var submit_blacklist = document.getElementById('modal-submit-button');
+const modal = document.getElementById('modal');
+
+const input_semaine = document.getElementById('semaine');
+const warning_semaine = document.getElementById('warning-semaine');
+const submit_blacklist = document.getElementById('modal-submit-button');
 
 
 input_semaine.style.maxWidth = "3em";
@@ -523,6 +523,39 @@ blacklistBtnRev.forEach(button => {
         datas = button.id.split('_');
 
         button.parentElement.style.display = 'none';
+    });
+    },
+);
+
+// Bouton pour blacklistage permanent
+blacklistBtnIrr.forEach(button => {
+    button.addEventListener("click", async () => {
+        datas = button.id.split('_');
+        button.parentElement.style.display = 'none';
+
+        var data = {
+            id_avis: datas[3],
+            blacklist: "true"
+        };
+
+        console.log(JSON.parse(JSON.stringify(data)));
+        console.log(JSON.stringify(data));
+
+        // met à jour la bdd pour blacklister
+        const response = await fetch('../pages/update_blacklist_avis.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+
+            console.log('Réponse reçue!');
+
+        } else {
+            console.error('Erreur HTTP:', response.status);
+        }
     });
     },
 );

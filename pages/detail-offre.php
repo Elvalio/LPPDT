@@ -686,27 +686,6 @@ try {
                         <?php endfor;
                         ?>
                     </div>
-                <?php 
-                if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
-                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
-                    //balcklister avis
-                        if (true) {?> 
-                            <div class="blacklist">
-                                <button type="button" 
-                                    class="btn-blacklist"
-                                    >
-                                    <img src="../icons/more.png" alt="Icône blacklist" id="icone-blacklist">
-                                </button>
-                                <div class="blacklist-content">
-                                    <button type="button" class="btn-blacklist-irr">Blacklister</button>
-                                    <button type="button" 
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                    class="btn-blacklist-rev">Blacklister temporairement</button>
-                                </div>
-                            </div>
-                        <?php 
-                    } 
-                }}?>
                 </div>
                 <?php  if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
                     if (!isset($reponse['ida'])) { ?>
@@ -756,12 +735,20 @@ try {
                         <?php
                         if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
                             ?>
-                            <button type="button"
-                            class="btn-blacklist"
-                            id="btn_blacklist_<?php echo $_COOKIE['user'];?>">
-                            <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                            <p>Blacklister l'avis</p>
-                            </button>
+                            <div class="blacklist">
+                                <button type="button" class="btn-blacklist">
+                                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                    <p>Blacklister l'avis</p>
+                                </button>
+                                <div class="blacklist-content">
+                                    <button type="button" class="btn-blacklist-irr"
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    >Blacklister</button>
+                                    <button type="button" 
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    class="btn-blacklist-rev">Blacklister temporairement</button>
+                                </div>
+                            </div>
                         <?php
                         }
                         ?>
