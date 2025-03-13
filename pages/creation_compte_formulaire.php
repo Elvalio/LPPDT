@@ -76,6 +76,7 @@ error_reporting(0); if (!empty($_POST)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 
 
@@ -85,13 +86,11 @@ error_reporting(0); if (!empty($_POST)) {
 
 <body>
     <!-- Bouton de retour -->
-    <a href="connexion.php">
-        <div class="bouton-retour-page-création-membre">
-            <button class="FS">
-                <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
-            </button>
-        </div>
-    </a>
+    <div class="bouton-retour-page-création-membre">
+        <button class="FS" onclick="history.back();">
+            <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
+        </button>
+    </div>
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">

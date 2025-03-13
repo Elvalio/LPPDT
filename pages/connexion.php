@@ -84,6 +84,7 @@ if ($_POST!=[]) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Se connecter</title>
     <link rel="stylesheet" type="text/css" href="../css/styleGeneral.css">
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 
     <div class="phone-element">
@@ -98,7 +99,9 @@ if ($_POST!=[]) {
             </div>
         </div>
         <div class="form-container-connexion">
-            <button class="back-button-connexion" onclick="location.href='accueil.php';"> <img src="../icons/arrow-left-w.svg" alt="">Retour</button>
+        <button class="back-button-connexion" onclick="history.back();">
+            <img src="../icons/arrow-left-w.svg" alt="">Retour
+        </button>
 
             <div class="logo-container-connexion">
                 <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo-connexion">

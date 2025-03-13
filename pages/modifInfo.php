@@ -11,7 +11,7 @@ include('../sql/connect_params.php');
 <head>
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 
     <script>
         function annulation() {

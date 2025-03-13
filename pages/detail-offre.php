@@ -141,7 +141,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-    }else if($_POST['type_form'] == 'poste-reponse') {
+    } else if($_POST['type_form'] == 'poste-reponse') {
         try {
             $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
             $ida = (int)$_POST['avis'];
@@ -275,6 +275,7 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 
 <div class="desktop-element">
@@ -350,7 +351,7 @@ try {
 
                     </div>
                     <p class="nb-avis-info-offre">
-                        <?php echo $nbrAvis . " Avis |"; ?>
+                        <?php echo $nbrAvis?>&#xA0;Avis
                     </p>
                 </div>
                 <div class="infos-accessibilite">
@@ -658,7 +659,7 @@ try {
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
-                        <div>
+                        <div class="titre-contexte">
                             <div class="titre-date">
                                 <h4>
                                     <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
@@ -666,7 +667,7 @@ try {
                                 <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
                             </div>
                             <div class="pseudo-contexte">
-                                <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <p class="ligne_sepa_contexte"><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
                                 <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>
@@ -731,6 +732,18 @@ try {
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                             <p>Signaler l'avis</p>
                         </button>
+                        <?php
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
+                            ?>
+                            <button type="button"
+                            class="btn-blacklist"
+                            id="btn_blacklist_<?php echo $_COOKIE['user'];?>">
+                            <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                            <p>Blacklister l'avis</p>
+                            </button>
+                        <?php
+                        }
+                        ?>
                 
                 <?php endif;
 
