@@ -2446,8 +2446,8 @@ body {
     justify-content: flex-start;
 }
 
-.article-avis .blacklisted {
-    display: none;
+.blacklisted {    
+    display: none ;
 }
 
 .show-blacklisted .article-avis .blacklisted {
