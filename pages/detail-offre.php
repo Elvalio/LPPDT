@@ -693,13 +693,14 @@ try {
                             <div class="blacklist">
                                 <button type="button" 
                                     class="btn-blacklist"
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
                                     >
                                     <img src="../icons/more.png" alt="Icône blacklist" id="icone-blacklist">
                                 </button>
                                 <div class="blacklist-content">
-                                    <a href="#">Blacklister</a>
-                                    <a href="#">Blacklister temporairement</a>
+                                    <button type="button" class="btn-blacklist-irr">Blacklister</button>
+                                    <button type="button" 
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    class="btn-blacklist-rev">Blacklister temporairement</button>
                                 </div>
                             </div>
                         <?php 
@@ -866,13 +867,15 @@ try {
             <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
     <?php } ?>
-    <div class="modal" id="modal">
+    <div class="modal" id="modal" style="display: none;">
         <input type="hidden" name="status" value="" id="modal-id">
         <div id='option-modal'>
             <h2 class="titre-modal">Blacklist Options</h2>
             <div>
                 <label for="semaine">Nombre de semaine(s) : </label>
                 <input type="text" id="semaine" name="semaine">
+                <br>
+                <p id="warning-semaine" name="warning-semaine" style="color: red;"></p>
             </div>
             <div id="boutons-modal">
                 <input type="button" class="btn-notif" id="modal-submit-button" value="Valider"/>
@@ -887,7 +890,7 @@ try {
     <footer>
         <?php include_once 'footer.php'; ?>
     </footer>
-        
+    
     <script src="../js/detail_offre.js"></script>
 </body>
 

@@ -6,24 +6,30 @@ include ('../sql/connect_params.php');
     $data = json_decode($input, true);
 
     
-    $id_compte = $data['id_compte'];
     $id_avis = $data['id_avis'];
-        try {
-            $pdo = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $duree = $data['duree'];
+    $blacklist = $data['blacklist'];
+    try {
+        $pdo = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            
-            $stmt = $pdo->prepare('INSERT INTO pact._signal_reponse (idA, idSignaleur) VALUES (:id_avis, :id_compte)');
-            $stmt->execute(['id_avis' => $id_avis, 'id_compte' => $id_compte]);
-
-            
-            header('Content-Type: application/json');
-            
-            exit;
-
-        } catch (PDOException $e) {
-            http_response_code(500);
-            echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
-            exit;
+        if ($duree === "") {
+            $duree = $duree . " weeks";
+            $stmt = $pdo->prepare("UPDATE pact._avis SET blackliste = :blacklist, date_blackliste = now() WHERE ida = :id_avis");
+            $stmt->execute(['blacklist' => $blacklist, 'id_avis' => $id_avis]);
+        }else{
+            $stmt = $pdo->prepare("UPDATE pact._avis SET blackliste = :blacklist, date_blackliste = now(), duree_blackliste = cast(:duree as interval) WHERE ida = :id_avis");
+            $stmt->execute(['blacklist' => $blacklist, 'duree' => $duree, 'id_avis' => $id_avis]);
         }
+        
+
+        
+        header('Content-Type: application/json');
+        exit;
+
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
+        exit;
+    }
 ?>

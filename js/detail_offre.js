@@ -321,7 +321,8 @@ const signalerAvisBtn = document.querySelectorAll('[id^="btn_signaler_avis"]');
 console.log(signalerAvisBtn);
 const signalerReponseBtn = document.querySelectorAll('[id^="btn_signaler_reponse"]');
 
-const blacklistBtn = document.querySelectorAll('[id^="btn_blacklist"]');
+const blacklistBtn = document.querySelectorAll('.btn-blacklist');
+const blacklistBtnRev = document.querySelectorAll('.btn-blacklist-rev');
 console.log(blacklistBtn);
 
 const popupWarn = document.getElementById('popup');
@@ -473,75 +474,98 @@ signalerReponseBtn.forEach(button => {
 
 /* popup blacklist*/
 
+var modal = document.getElementById('modal');
+
 //TEST DES DONNES DU FORMULAIRE
 function check_actif() {
     var valide = true;
-    //TODO développer
-    if (document.getElementById('semaine') == null) {
+    let semaine = document.getElementById('semaine').value;
+    console.log(semaine);
+    if (semaine === "" || isNaN(semaine)) {
+        console.log("semaine");
+        document.getElementById('warning-semaine').innerHTML = 'Saisir un chiffre';
         valide = false;
     }
 
     return valide;
 }
 
-document.getElementById('modal').style.display = 'none';
+const onClickOutside = (e) => {
+    if (!modal.contains(e.target) && modal.style.display == "block") {
+        modal.style.display = "none";
+        window.removeEventListener("click",onClickOutside);
+    }
+};
 
+// Bouton pour menu blacklistage
 blacklistBtn.forEach(button => {
     var menu = button.nextElementSibling;
     button.addEventListener("click", async () => {
         if (menu.style.display == 'none') {
-            menu.style.display = 'block';
+            menu.style.display = 'flex';
         }else{
             menu.style.display = 'none';
         }
-        
-        //document.getElementById('semaine').value = "";
-        //document.getElementById('modal').style.display = 'block';
-
-        datas = button.id.split('_');
-        console.log(datas);
-        console.log(event.target.id)
-        const data = {
-            id_compte: datas[3],
-            id_avis: datas[4],
-        };
     });
     },
 );
 
+// Bouton pour blacklistage temporaire
+blacklistBtnRev.forEach(button => {
+    button.addEventListener("click", async () => {
+        document.getElementById('semaine').value = "";
+        document.getElementById('warning-semaine').innerHTML = '';
+        
+        window.addEventListener("click",onClickOutside, true);
+        
+        modal.style.display = 'block';
+        datas = button.id.split('_');
+
+        button.parentElement.style.display = 'none';
+    });
+    },
+);
+
+// Bouron de soumission de la fenêtre modale
 document.getElementById('modal-submit-button').addEventListener('click', async () => {
     if (check_actif()) {
-        if (document.getElementById('option-modal').style.display !== 'none') {
-            var data = [document.getElementById('modal-id').value, document.getElementById('semaine').value];
-            const response = await fetch('../pages/update_blacklist_avis.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            if (response.ok) {
+        document.getElementById('warning-semaine').innerHTML = '';
+        var data = {
+            id_avis: datas[3],
+            duree: document.getElementById('semaine').value,
+            blacklist: "true"
+        };
+        console.log(JSON.parse(JSON.stringify(data)));
+        console.log(JSON.stringify(data));
 
-                console.log('Réponse reçue!');
-    
-            } else {
-                console.error('Erreur HTTP:', response.status);
-            }
+        // met à jour la bdd pour blacklister
+        const response = await fetch('../pages/update_blacklist_avis.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+
+            console.log('Réponse reçue!');
+
+        } else {
+            console.error('Erreur HTTP:', response.status);
         }
         
-        document.getElementById('modal').style.display = 'none';
+        modal.style.display = 'none';
 
     }
 });
 
+// bouton de fermeyture de la fenêtre modale
 document.getElementById('modal-close').addEventListener('click', function() {
-    document.getElementById('modal').style.display = 'none';
+    modal.style.display = 'none';
 });
 
 /*
 Popup confirmation signalement
-
-
 document.addEventListener("DOMContentLoaded", () => {
     const popup = document.getElementById('popup');
     const closeBtn = popup.querySelector('.close-btn');
