@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu Filtre et Tri</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 
 <body>
@@ -181,7 +182,7 @@
 
     <!-- Menu Trier -->
 
-    <div id="sortMenu" class="hidden">
+    <div id="sortMenu">
         <button class="menu-item-tri" id="prixCroissant">Prix</button>
         <!-- <button class="menu-item-tri" id="prixDecroissant">Prix décroissant</button> -->
         <!-- <button class="menu-item-tri" id="presDeMoi">Plus proche</button>

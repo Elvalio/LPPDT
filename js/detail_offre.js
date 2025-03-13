@@ -186,34 +186,35 @@ boutons_supp.forEach(bouton => {
     bouton.addEventListener("click", supp_avis);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-    const signalButtons = document.querySelectorAll('.btn-signaler'); // Sélectionne tous les boutons "Signaler"
-    const popup = document.getElementById('popup');
-    const closeBtn = popup.querySelector('.close-btn');
-    const progressBar = popup.querySelector('.progress-bar div');
+// document.addEventListener("DOMContentLoaded", () => {
+//     const signalButtons = document.querySelectorAll('.btn-signaler'); // Sélectionne tous les boutons "Signaler"
+//     const popup = document.getElementById('popup');
+//     const closeBtn = popup.querySelector('.close-btn');
+//     const progressBar = popup.querySelector('.progress-bar div');
 
-    let timeout;
+//     let timeout;
 
-    signalButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            // Réinitialiser l'animation de la barre
-            progressBar.style.animation = 'none';
-            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
-            progressBar.style.animation = ''; // Restaurer l'animation
+//     signalButtons.forEach((button) => {
+//         button.addEventListener('click', () => {
+//             // Réinitialiser l'animation de la barre
+//             progressBar.style.animation = 'none';
+//             progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+//             progressBar.style.animation = ''; // Restaurer l'animation
 
-            popup.classList.add('active');
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                popup.classList.remove('active');
-            }, 4000);
-        });
-    });
 
-    closeBtn.addEventListener('click', () => {
-        popup.classList.remove('active');
-        clearTimeout(timeout);
-    });
-});
+//             popup.classList.add('active');
+//             clearTimeout(timeout);
+//             timeout = setTimeout(() => {
+//                 popup.classList.remove('active');
+//             }, 4000);
+//         });
+//     });
+
+//     closeBtn.addEventListener('click', () => {
+//         popup.classList.remove('active');
+//         clearTimeout(timeout);
+//     });
+// });
 
 
 function toggle_reponse() {
@@ -355,45 +356,42 @@ document.querySelectorAll('.btn-signaler').forEach(button => {
         };
 
         try {
-            const response = await fetch('../pages/update_signal_avis.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            let confirmation = confirm("Voulez-vous signaler cet avis ?");
+            if (confirmation) {
+                const response = await fetch('../pages/update_signal_avis.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
 
-            if (response.ok) {
-                let timeout;
+                if (response.ok) {
+                    let timeout;
 
-                // Désactiver le bouton et mettre à jour le style
-                button.disabled = true;
-                button.style.cursor = 'not-allowed';
-                button.style.opacity = '0.5';
-                button.querySelector('p').textContent = 'Déjà signalé';
+                    // Désactiver le bouton et mettre à jour le style
+                    button.disabled = true;
+                    button.style.cursor = 'not-allowed';
+                    button.style.opacity = '0.5';
+                    button.querySelector('p').textContent = 'Déjà signalé';
 
-                // Sauvegarder l'état dans localStorage
-                localStorage.setItem(`signal_${buttonId}`, 'true');
+                    // Sauvegarder l'état dans localStorage
+                    localStorage.setItem(`signal_${buttonId}`, 'true');
 
-                // Réinitialiser l'animation de la barre
-                const progressBar = document.querySelector('.progress-bar'); // Assurez-vous d'avoir cet élément dans le DOM
-                if (progressBar) {
+                    // Réinitialiser l'animation de la barre
                     progressBar.style.animation = 'none';
                     progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
                     progressBar.style.animation = ''; // Restaurer l'animation
-                }
 
-                // Afficher le popup de confirmation
-                const popupWarn = document.querySelector('.popup-warn'); // Assurez-vous d'avoir cet élément dans le DOM
-                if (popupWarn) {
+                    // Afficher le popup de confirmation
                     popupWarn.classList.add('active');
                     clearTimeout(timeout);
                     timeout = setTimeout(() => {
                         popupWarn.classList.remove('active');
                     }, 4000);
+                } else {
+                    console.error('Erreur HTTP:', response.status);
                 }
-            } else {
-                console.error('Erreur HTTP:', response.status);
             }
         } catch (error) {
             console.error('Erreur réseau:', error);
@@ -404,10 +402,7 @@ document.querySelectorAll('.btn-signaler').forEach(button => {
 // Gestion du bouton de fermeture du popup
 if (closeBtn) {
     closeBtn.addEventListener('click', () => {
-        const popupWarn = document.querySelector('.popup-warn'); // Assurez-vous d'avoir cet élément dans le DOM
-        if (popupWarn) {
-            popupWarn.classList.remove('active');
-        }
+        popupWarn.classList.remove('active');
     });
 }
 

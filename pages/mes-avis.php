@@ -5,6 +5,7 @@
         <title>Mes avis</title>
         <link rel="stylesheet" href="../css/mes-avis.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
+        <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
     </head>
     <body class="FO">
         <nav class="nav-bar">
