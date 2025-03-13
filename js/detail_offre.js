@@ -471,14 +471,20 @@ signalerReponseBtn.forEach(button => {
 
 var modal = document.getElementById('modal');
 
+var input_semaine = document.getElementById('semaine');
+var warning_semaine = document.getElementById('warning-semaine');
+var submit_blacklist = document.getElementById('modal-submit-button');
+
+
+input_semaine.style.maxWidth = "3em";
+
 //TEST DES DONNES DU FORMULAIRE
 function check_actif() {
     var valide = true;
-    let semaine = document.getElementById('semaine').value;
+    let semaine = input_semaine.value;
     console.log(semaine);
-    if (semaine === "" || isNaN(semaine)) {
-        console.log("semaine");
-        document.getElementById('warning-semaine').innerHTML = 'Saisir un chiffre';
+    if (semaine === "" || isNaN(semaine) || semaine < 1 || semaine % 1 != 0) {
+        warning_semaine.style.visibility = 'visible';
         valide = false;
     }
 
@@ -508,8 +514,8 @@ blacklistBtn.forEach(button => {
 // Bouton pour blacklistage temporaire
 blacklistBtnRev.forEach(button => {
     button.addEventListener("click", async () => {
-        document.getElementById('semaine').value = "";
-        document.getElementById('warning-semaine').innerHTML = '';
+        input_semaine.value = "1";
+        warning_semaine.style.visibility = 'hidden';
         
         window.addEventListener("click",onClickOutside, true);
         
@@ -521,13 +527,21 @@ blacklistBtnRev.forEach(button => {
     },
 );
 
+input_semaine.addEventListener('input', async () =>{
+    if (!check_actif()) {
+        submit_blacklist.disabled = true;
+    }else{
+        submit_blacklist.disabled = false;
+    }
+})
+
 // Bouron de soumission de la fenêtre modale
-document.getElementById('modal-submit-button').addEventListener('click', async () => {
+submit_blacklist.addEventListener('click', async () => {
     if (check_actif()) {
-        document.getElementById('warning-semaine').innerHTML = '';
+        warning_semaine.style.visibility = 'hidden';
         var data = {
             id_avis: datas[3],
-            duree: document.getElementById('semaine').value,
+            duree: input_semaine.value,
             blacklist: "true"
         };
         console.log(JSON.parse(JSON.stringify(data)));

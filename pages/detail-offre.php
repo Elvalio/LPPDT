@@ -886,9 +886,9 @@ try {
             <h2 class="titre-modal">Blacklist Options</h2>
             <div>
                 <label for="semaine">Nombre de semaine(s) : </label>
-                <input type="text" id="semaine" name="semaine">
+                <input id="semaine" type="number" value="1" min="1"/>
                 <br>
-                <p id="warning-semaine" name="warning-semaine" style="color: red;"></p>
+                <p id="warning-semaine" name="warning-semaine" style="color: red;">Saisir un nombre valide</p>
             </div>
             <div id="boutons-modal">
                 <input type="button" class="btn-notif" id="modal-submit-button" value="Valider"/>
