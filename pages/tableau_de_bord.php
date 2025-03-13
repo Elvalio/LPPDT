@@ -74,14 +74,14 @@ use function PHPSTORM_META\type;
 
     try{
 
-    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, MIN(p.src_image) AS src_image, 
+    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, o.type, MIN(p.src_image) AS src_image, 
         pact.prix_previsionnel_offre_TTC(o.idO) as ttc, pact.prix_previsionnel_offre_HT(o.idO) as ht,
         op.cout_ht as opHT, op.cout_ttc as opTTC, op.nom_option,
         o.cout_ht as mHT, o.cout_ttc as mTTC FROM pact.offre o
         LEFT OUTER JOIN pact.photo_offre p ON o.idO = p.idO
         LEFT OUTER JOIN pact._option op on o.idoption = op.idoption
         WHERE o.idC = $user_cookie
-        GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne, op.cout_ht, op.cout_ttc, op.nom_option, o.cout_ht, o.cout_ttc"
+        GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne, o.type, op.cout_ht, op.cout_ttc, op.nom_option, o.cout_ht, o.cout_ttc"
     );
     
     $stmt->execute();
@@ -123,6 +123,7 @@ use function PHPSTORM_META\type;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
+        <link rel="shortcut icon" href="../logo/rouge.ico">
     </head>
     
     <body class="BO FO">
@@ -175,7 +176,11 @@ use function PHPSTORM_META\type;
                             }
                             if ($nbr_avis_non_rep > 0) { ?>
                                 <p class="FS">Vous avez <?php echo (string)$nbr_avis_non_rep ?> avis non répondu</p>
-                            <?php } ?>
+                            <?php } 
+                            if($valeur['type']==3){ ?>
+                                <p class="FS">Avis Blacklistés : <?php echo 0; ?> / 3</p>
+                            <?php }
+                            ?>
                         </div>
                     </div>
                 </section>

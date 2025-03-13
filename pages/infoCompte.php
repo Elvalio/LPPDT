@@ -10,13 +10,17 @@ include('../sql/connect_params.php');
 <head>
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-
+    <link rel="stylesheet" href="../css/samStyles.css">
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+    
+    <script src="../js/infoCompte.js" async></script>
 
     <script>
         function deconnexion() {
             document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
             location.assign("accueil.php");
+            
         }
     </script>
 </head>
@@ -201,10 +205,24 @@ include('../sql/connect_params.php');
                 <div>
                     <button class="deco-btn-compte" onclick="deconnexion()">Se déconnecter</button>
                 </div>
-                <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="delete" value="oui">
-                    <button type="submit" class="delete-btn-compte">Supprimer le compte</button>
+                <button id="delete-btn-compte">
+                    Supprimer le compte
+                </button>
+            </div>
+            <div id="overlay">
+                <div id="popup_suppr_compte">
+                    <div id="group">
+                        <div id="text">
+                            <p>Voulez-vous vraiment supprimer votre compte ?</p>
+                        </div>
+                        <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="delete" value="oui">
+                            <button type="submit" class="confirm-delete-btn-compte">Supprimer le compte</button>
+                        </form>
                 </form>
+                    </div>
+                    <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
+                </div>
             </div>
         </div>
     </div>

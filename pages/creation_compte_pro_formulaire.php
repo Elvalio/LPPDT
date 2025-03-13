@@ -126,17 +126,16 @@ error_reporting(0); if (!empty($_POST)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 
 <body>
     <!-- Bouton de retour -->
-    <a id="btnRetour" href="creation_compte_formulaire.php">
-        <div class="bouton-retour-page-création-pro">
-            <button class="FS">
-                <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
-            </button>
-        </div>
-    </a>
+    <div class="bouton-retour-page-création-pro" onclick="history.back();">
+        <button class="FS">
+            <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
+        </button>
+    </div>
 
     <!-- Liens de navigation pour choisir le formulaire -->
     <div class="container-page-creation-compte">
@@ -296,18 +295,6 @@ error_reporting(0); if (!empty($_POST)) {
 
         // Appeler la fonction au chargement pour initialiser l'état
         toggleElements();
-
-
-        // Récupère l'URL de la dernière page visitée
-        var previousPage = document.referrer;
-
-        // Vérifie si la page précédente existe et n'est pas la même que la page actuelle
-        if (previousPage && previousPage !== window.location.href) {
-            document.getElementById('btnRetour').href = previousPage;
-        } else {
-            // Si aucune page précédente n'existe, on peut rediriger vers une page par défaut
-            document.getElementById('btnRetour').href = 'creation_compte_formulaire.php'; // Remplacez par une page par défaut si nécessaire
-        }
 
 
         //Vérification des données avec regex
