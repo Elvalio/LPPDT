@@ -231,18 +231,25 @@ try {
     }
 
     // Récupérer le blacklistage des avis
-foreach ($avis as &$avisIndividuel) {
-    $stmtBlackliste = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
-    $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
-    $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
+    foreach ($avis as &$avisIndividuel) {
+        $stmtBlackliste = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
+        $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
+        $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
 
-    if ($blacklisteData) {
-        $avisIndividuel['blackliste'] = $blacklisteData['blackliste']; // Ajout de la valeur blackliste à chaque avis
-    } else {
+        if ($blacklisteData) {
+            $avisIndividuel['blackliste'] = $blacklisteData['blackliste']; // Ajout de la valeur blackliste à chaque avis
+        } else {
         $avisIndividuel['blackliste'] = false; // Par défaut, non blacklisté
     }
 
-
+    $queryBlacklist = $bdh->prepare("
+        SELECT COUNT(*) 
+        FROM pact._avis a
+        JOIN pact._experience e ON a.idA = e.idA
+        WHERE e.idO = :idO AND a.blackliste = true
+        ");
+    $queryBlacklist->execute(['idO' => $idO]);
+    $nbrAvisBlacklist = (int) $queryBlacklist->fetch(PDO::FETCH_ASSOC);
     // var_dump($avisIndividuel);
 }
 unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
@@ -483,7 +490,9 @@ unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
     <section class="section-page part-avis">
         <header class="header-avis">
             <h3>Avis :
-                <?php echo $nbrAvis; ?>
+                <?php
+                    echo $nbrAvis - $nbrAvisBlacklist; 
+                ?>
             </h3>
             <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive")): ?>
                 <button id="btn-blacklist" onclick="toggleBlacklistButton()">Afficher avis blacklistés</button>
