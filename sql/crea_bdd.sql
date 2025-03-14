@@ -1881,3 +1881,15 @@ begin
   RETURN res;
 end;
 $$ language 'plpgsql';
+
+
+create or replace function pact.nbrAvisBlacklistes(idOffre integer)
+  returns int as $$
+declare
+  res int;
+begin
+  select COUNT(*) from pact._avis a inner join pact._experience e on a.ida = e.ida where e.idO = idOffre and a.blackliste = True into res;
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
