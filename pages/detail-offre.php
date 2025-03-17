@@ -275,7 +275,16 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
-    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
 </head>
 
 <div class="desktop-element">
@@ -667,7 +676,15 @@ try {
                                 <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
                             </div>
                             <div class="pseudo-contexte">
-                                <p class="ligne_sepa_contexte"><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
+                                    <p style="font-style: italic" class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } else { ?>
+                                    <p class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } ?>
                                 <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>

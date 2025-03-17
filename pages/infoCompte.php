@@ -11,7 +11,16 @@ include('../sql/connect_params.php');
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/samStyles.css">
-    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
     
     <script src="../js/infoCompte.js" async></script>
 

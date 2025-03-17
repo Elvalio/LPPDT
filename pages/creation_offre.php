@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 $photos = [];
 
 include('../sql/connect_params.php');
-include_once('nav.php'); 
+
 
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -25,10 +25,21 @@ error_reporting(E_ALL);
         <title>Création d'offre</title>
 
         <link rel="stylesheet" href="../css/styleGeneral.css">
-        <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+        <?php 
+        if(isset($_COOKIE['type_compte'])){
+            if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+                <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+            }  else { ?>
+                <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+            }
+        } else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }?>
         
     </head>
     <body class="BO">
+        <div> <?php include_once('nav.php'); ?> </div>
+
         <div class="main-content-crea-modif-offre"> 
             <h1 class="TS-bold">Créez votre offre</h1>            
             <form action="previsualisation_offre.php" method="post" enctype="multipart/form-data">
