@@ -217,15 +217,15 @@ boutons_supp.forEach(bouton => {
 // });
 
 
-function toggle_reponse() {
-    var form = document.getElementById("form_reponse");
-    if (form.style.display == "none") {
+function toggle_reponse(id) {
+    var form = document.getElementById("form_reponse_" + id);
+    if (form.style.display === "none" || form.style.display === "") {
         form.style.display = "inline";
-    }
-    else {
+    } else {
         form.style.display = "none";
     }
 }
+
 
 
 
