@@ -545,6 +545,7 @@ blacklistBtnIrr.forEach(button => {
     },
 );
 
+// input pour la durée de blacklistage
 input_semaine.addEventListener('input', async () =>{
     if (!check_actif()) {
         submit_blacklist.disabled = true;
@@ -569,26 +570,29 @@ confirm_blacklist.addEventListener('click', async () => {
     };
     console.log(JSON.parse(JSON.stringify(data)));
     console.log(JSON.stringify(data));
+    try{
+        //cache le truc
+        modal.style.display = 'none';
+        modal_warning.style.display = "none";
+        document.getElementById('overlay').style.display = "none";
 
-    //cache le truc
-    modal.style.display = 'none';
-    modal_warning.style.display = "none";
-    document.getElementById('overlay').style.display = "none";
+        // met à jour la bdd pour blacklister
+        const response = await fetch('../pages/update_blacklist_avis.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
 
-    // met à jour la bdd pour blacklister
-    const response = await fetch('../pages/update_blacklist_avis.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    if (response.ok) {
+            console.log('Réponse reçue!');
 
-        console.log('Réponse reçue!');
-
-    } else {
-        console.error('Erreur HTTP:', response.status);
+        } else {
+            console.error('Erreur HTTP:', response.status);
+        }
+    } catch (error) {
+        console.error('Erreur réseau:', error);
     }
 });
 
