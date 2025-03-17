@@ -55,6 +55,22 @@ document.addEventListener('DOMContentLoaded', function () {
     // Initial call to set the correct value
     updateOffres();
 
+    Array.from(offres).forEach(offre => {
+        offre.addEventListener('click', function () {
+            const offreData = {
+                id: offre.getAttribute('data-ido'),
+                titre: offre.getAttribute('data-titre'),
+                adresse: offre.getAttribute('data-adresse'),
+                prix: offre.getAttribute('data-prix'),
+                note: offre.getAttribute('data-note'),
+                desc: offre.getAttribute('data-desc'),
+                image: offre.getAttribute('data-image'),
+                nbrAvis: offre.getAttribute('data-avis'),
+            };
+            ajouterHistorique(offreData);
+        });
+    });
+
     // Update the value on window resize
     window.addEventListener('resize', updateOffres);
 
@@ -1021,9 +1037,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // animerCartesBoiteDeNuit();
 
     /* ================================= */
-    /* ======= CARTE INTERACTIVE ======= */
+    /* ======= HISTORIQUE OFFRES ======= */
     /* ================================= */
 
+    function ajouterHistorique(offre) {
+        let historique = JSON.parse(localStorage.getItem("historique_offres")) || [];
+
+        console.log(historique);
     
+        // Vérifier si l'offre est déjà dans la liste, si oui, on la supprime avant de l'ajouter en premier
+        historique = historique.filter(o => o.id !== offre.id);
+    
+        // Ajouter l'offre au début du tableau
+        historique.unshift(offre);
+    
+        // Garder seulement les 10 dernières offres
+        historique = historique.slice(0, 10);
+    
+        // Sauvegarder dans le localStorage
+        localStorage.setItem("historique_offres", JSON.stringify(historique));
+    }
 
 });
