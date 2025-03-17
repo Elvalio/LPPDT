@@ -2618,7 +2618,7 @@ table th {
 }
 
 #description-container{
-    height: 256px;
+    height: 276px;
 }
 
 #type-container, #option-container{
@@ -2676,11 +2676,11 @@ table th {
 }
 
 #accessibilite-container, #resume-container{
-    height: 130px;
+    height: 150px;
 }
 
 #pinclus-container, #pexclus-container{
-    height: 86px;
+    height: 106px;
     display: none;
 }
 

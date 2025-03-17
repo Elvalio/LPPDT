@@ -73,9 +73,11 @@
                 ////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////// GESTION ANNULATION CREATION OFFRE /////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////////
-                document.getElementById('annuler').addEventListener('click', function() {
-                    location.assign('tableau_de_bord.php');
-                });
+                if(window.location.pathname.split("/").pop() == 'creation_offre.php'){
+                    document.getElementById('annuler').addEventListener('click', function() {
+                        location.assign('tableau_de_bord.php');
+                    });
+                }
 
                 ////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////// GESTION DES CHAMPS PAR CATEGORIE /////////////////////
