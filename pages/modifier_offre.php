@@ -718,7 +718,7 @@ try{
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Modification d'offre</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
-        <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+        <link rel="icon" type="image/png" href="../logo/logo_reduit_rouge.png">
     </head>
     <nav>
         <?php include_once 'nav.php';?>
