@@ -479,7 +479,10 @@ const submit_blacklist = document.getElementById('modal-submit-button');
 // popup de confimation finale
 const confirm_blacklist = document.getElementById('modal-warning-submit-button');
 
-input_semaine.style.maxWidth = "3em";
+if (input_semaine !== null) {
+    input_semaine.style.maxWidth = "3em";
+}
+
 
 //TEST DES DONNES DU FORMULAIRE
 function check_actif() {
