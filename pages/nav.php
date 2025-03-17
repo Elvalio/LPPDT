@@ -84,7 +84,7 @@
                                 <img src="../icons/icons-gris/icon-favoris-gris.svg" alt="Logo favoris" class="logo-nav">
                                 <p>Favoris</p>
                             </a>
-                            <a href="#" class="nav-item" data-icon="historique">
+                            <a href="historique.php" class="nav-item" data-icon="historique">
                                 <img src="../icons/icons-gris/icon-historique-gris.svg" alt="Logo historique" class="logo-nav">
                                 <p>Historique</p>
                             </a>
