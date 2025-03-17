@@ -223,6 +223,9 @@ body {
 
     /* Les 2 styles suivant déterminent la couleur du titre en fonction de la page */
     .inscription-membre {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         color: #002292; /* Couleur de texte par défaut */
     }
 
