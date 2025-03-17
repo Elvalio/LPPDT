@@ -18,10 +18,10 @@ include ('../sql/connect_params.php');
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         if ($duree === "") {
-            $duree = $duree . " weeks";
             $stmt = $pdo->prepare("UPDATE pact._avis SET blackliste = :blacklist, date_blackliste = now() WHERE ida = :id_avis");
             $stmt->execute(['blacklist' => $blacklist, 'id_avis' => $id_avis]);
         }else{
+            $duree = $duree . " weeks";
             $stmt = $pdo->prepare("UPDATE pact._avis SET blackliste = :blacklist, date_blackliste = now(), duree_blackliste = cast(:duree as interval) WHERE ida = :id_avis");
             $stmt->execute(['blacklist' => $blacklist, 'duree' => $duree, 'id_avis' => $id_avis]);
         }
