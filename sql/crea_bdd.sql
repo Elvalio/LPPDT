@@ -1893,14 +1893,25 @@ begin
 end;
 $$ language 'plpgsql';
 
-
-create or replace function pact.nbrAvisBlacklistes(idOffre integer)
-  returns int as $$
+/*
+  Géerer avis blacklistées
+  Fonction gère les blacklist temporaires
+*/
+create or replace function pact.geererBlacklist()
+  returns boolean as $$
 declare
-  res int;
+  i record;
+  res boolean;
 begin
-  select COUNT(*) from pact._avis a inner join pact._experience e on a.ida = e.ida where e.idO = idOffre and a.blackliste = True into res;
+  res = false;
+  
+  for i in select ida, blackliste, date_blackliste, duree_blackliste from pact._avis
+    loop
+    if (i.blackliste) then
+      res = true;
+      update pact._avis set blackliste = false where ida = i.ida and i.date_blackliste + i.duree_blackliste < now();
+    end if;
+  end loop;
   RETURN res;
 end;
 $$ language 'plpgsql';
-
