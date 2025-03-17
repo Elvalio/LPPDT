@@ -947,7 +947,7 @@ try{
                                         <input type="text" id="age" class="FS" name="age" placeholder="8" required value="<?php echo  (isset($dataOffre[0]['age_min'])) ?  $dataOffre[0]["age_min"] : '';?>"/>
                                     </div>
                                     <div class="container-crea-modif-offre" id="capacite-container">
-                                        <label for="capacite">Capacité*</label>
+                                        <label for="capacite">Nombre de places*</label>
                                         <p id="capacite-error-message" class="error-message"></p>
                                         <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required value="<?php echo  (isset($dataOffre[0]['capacite'])) ?  $dataOffre[0]["capacite"] : '';?>"/>
                                     </div>
