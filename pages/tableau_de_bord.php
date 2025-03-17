@@ -7,9 +7,10 @@ use function PHPSTORM_META\type;
 
     include('../sql/connect_params.php');
 
+    $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
+
     //Récupère tous les avis
     try {
-        $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
     
         $stmt = $dbh->prepare("SELECT * FROM pact.experience");
         $stmt->execute();
@@ -24,7 +25,6 @@ use function PHPSTORM_META\type;
     
     //Récupère toutes les réponses
     try {
-        $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
     
         $stmt = $dbh->prepare("SELECT * FROM pact._reponse");
         $stmt->execute();
@@ -41,7 +41,6 @@ use function PHPSTORM_META\type;
         if (isset($_POST['offre_id']) && isset($_POST['status'])) {
             
             try{
-            $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
     
             
             $offre_id = $_POST['offre_id'];
@@ -67,8 +66,6 @@ use function PHPSTORM_META\type;
             echo "<p>Erreur : les données du formulaire ne sont pas valides.</p>";
         }
     }
-
-    $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
 
     $user_cookie = $_COOKIE['user'];
 
