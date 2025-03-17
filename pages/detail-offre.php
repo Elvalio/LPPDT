@@ -231,28 +231,19 @@ try {
     }
 
     // Récupérer le blacklistage des avis
+    /*
     foreach ($avis as &$avisIndividuel) {
-        $stmtBlackliste = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
+        
+        $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
         $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
         $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
 
-        if ($blacklisteData) {
-            $avisIndividuel['blackliste'] = $blacklisteData['blackliste']; // Ajout de la valeur blackliste à chaque avis
-        } else {
-        $avisIndividuel['blackliste'] = false; // Par défaut, non blacklisté
-    }
 
-    $queryBlacklist = $bdh->prepare("
-        SELECT COUNT(*) 
-        FROM pact._avis a
-        JOIN pact._experience e ON a.idA = e.idA
-        WHERE e.idO = :idO AND a.blackliste = true
-        ");
-    $queryBlacklist->execute(['idO' => $idO]);
-    $nbrAvisBlacklist = (int) $queryBlacklist->fetch(PDO::FETCH_ASSOC);
-    // var_dump($avisIndividuel);
-}
-unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
+    
+        var_dump($blacklisteData); // Debugging si besoin
+    }
+    */
+    
     /*
     // Requête pour griser tout les avis qui ont déjà été signalé par l'utilisateur
     $idAvis = $avisIndividuel['ida'];
@@ -354,6 +345,7 @@ unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
                     <div class="etoiles">
                         <?php
                             $nbrAvis = $offre['nbravis'];
+                            $nbrAvisBlacklist = $offre['nbravisblacklistes'];
                             $fullStars = floor($offre["moy_note"]);
                             $halfStar = ($offre["moy_note"] - $fullStars >= 0.5) ? 1 : 0;
                             $emptyStars = 5 - $fullStars - $halfStar;
@@ -444,8 +436,7 @@ unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
                     </div>
                 </div>
                 <?php
-
-                        } ?>
+                        } ?>    
             </div>
             <!--<div class="horaires">
                         <h3>Horaires et tarifs :</h3>
@@ -491,11 +482,11 @@ unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
         <header class="header-avis">
             <h3>Avis :
                 <?php
-                    echo $nbrAvis - $nbrAvisBlacklist; 
+                    echo $nbrAvis;
                 ?>
             </h3>
             <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive")): ?>
-                <button id="btn-blacklist" onclick="toggleBlacklistButton()">Afficher avis blacklistés</button>
+                <button id="btn-blacklist" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
             <?php endif; ?>
         </header>
         <article class="article-avis">
@@ -578,9 +569,12 @@ unset($avisIndividuel); // Bonnes pratiques pour éviter des bugs de référence
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
 
+                $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+                $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
+                $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
                 
-                // var_dump($avisIndividuel);
-                $classBlacklist = isset($avisIndividuel['blackliste']) && $avisIndividuel['blackliste'] ? 'blacklisted' : '';
+                // var_dump($blacklisteData);
+                $classBlacklist = isset($blacklisteData['blackliste']) && $blacklisteData['blackliste'] ? 'blacklisted' : '';
             ?>
 
             <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
