@@ -816,7 +816,6 @@ try {
             <?php
             $id_avis++;
             endforeach; }?>
-            <!-- Ensure this is properly placed -->
         </article>
     </section>
     <div id="popup">
@@ -826,9 +825,9 @@ try {
         </div>
         <button class="close-btn">Fermer</button>
     </div>
-
+    <div id="overlay"></div>
     <?php if(!isset($_COOKIE['user'])){?>
-        <div id="overlay"></div>
+        
         <div id="popup_avis">
             
             <img id="logo" src="../logo/logo_reduit_vert.png">
@@ -883,6 +882,15 @@ try {
             </div>
         </div>
     </div>
+
+    <div class="modal" id="modal-warning" style="display: none;">
+        <h2 class="titre-modal">Êtes vous sûr?</h2>
+        <div id="boutons-modal">
+            <input type="button" class="btn-notif" id="modal-warning-submit-button" value="Valider"/>
+            <input type="button" class="btn-notif" id="modal-warning-close" value="Annuler">
+        </div>
+    </div>
+
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>

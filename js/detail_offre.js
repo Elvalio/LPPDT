@@ -470,11 +470,14 @@ const blacklistBtnRev = document.querySelectorAll('.btn-blacklist-rev');
 const blacklistBtnIrr = document.querySelectorAll('.btn-blacklist-irr');
 
 const modal = document.getElementById('modal');
+const modal_warning = document.getElementById('modal-warning');
 
 const input_semaine = document.getElementById('semaine');
 const warning_semaine = document.getElementById('warning-semaine');
 const submit_blacklist = document.getElementById('modal-submit-button');
 
+// popup de confimation finale
+const confirm_blacklist = document.getElementById('modal-warning-submit-button');
 
 input_semaine.style.maxWidth = "3em";
 
@@ -494,6 +497,7 @@ function check_actif() {
 const onClickOutside = (e) => {
     if (!modal.contains(e.target) && modal.style.display == "block") {
         modal.style.display = "none";
+        document.getElementById('overlay').style.display = "none";
         window.removeEventListener("click",onClickOutside);
     }
 };
@@ -520,6 +524,7 @@ blacklistBtnRev.forEach(button => {
         window.addEventListener("click",onClickOutside, true);
         
         modal.style.display = 'block';
+        document.getElementById('overlay').style.display = "block";
         datas = button.id.split('_');
 
         button.parentElement.style.display = 'none';
@@ -533,29 +538,9 @@ blacklistBtnIrr.forEach(button => {
         datas = button.id.split('_');
         button.parentElement.style.display = 'none';
 
-        var data = {
-            id_avis: datas[3],
-            blacklist: "true"
-        };
-
-        console.log(JSON.parse(JSON.stringify(data)));
-        console.log(JSON.stringify(data));
-
-        // met à jour la bdd pour blacklister
-        const response = await fetch('../pages/update_blacklist_avis.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.ok) {
-
-            console.log('Réponse reçue!');
-
-        } else {
-            console.error('Erreur HTTP:', response.status);
-        }
+        input_semaine.value = "";
+        modal_warning.style.display = "block";
+        document.getElementById('overlay').style.display = "block";
     });
     },
 );
@@ -568,43 +553,59 @@ input_semaine.addEventListener('input', async () =>{
     }
 })
 
-// Bouron de soumission de la fenêtre modale
+// Bouton de soumission de la fenêtre modale
 submit_blacklist.addEventListener('click', async () => {
     if (check_actif()) {
         warning_semaine.style.visibility = 'hidden';
-        var data = {
-            id_avis: datas[3],
-            duree: input_semaine.value,
-            blacklist: "true"
-        };
-        console.log(JSON.parse(JSON.stringify(data)));
-        console.log(JSON.stringify(data));
+        modal_warning.style.display = "block";
+    }
+});
 
-        // met à jour la bdd pour blacklister
-        const response = await fetch('../pages/update_blacklist_avis.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        });
-        if (response.ok) {
+confirm_blacklist.addEventListener('click', async () => {
+    var data = {
+        id_avis: datas[3],
+        duree: input_semaine.value,
+        blacklist: "true"
+    };
+    console.log(JSON.parse(JSON.stringify(data)));
+    console.log(JSON.stringify(data));
 
-            console.log('Réponse reçue!');
+    //cache le truc
+    modal.style.display = 'none';
+    modal_warning.style.display = "none";
+    document.getElementById('overlay').style.display = "none";
 
-        } else {
-            console.error('Erreur HTTP:', response.status);
-        }
-        
-        modal.style.display = 'none';
+    // met à jour la bdd pour blacklister
+    const response = await fetch('../pages/update_blacklist_avis.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    if (response.ok) {
 
+        console.log('Réponse reçue!');
+
+    } else {
+        console.error('Erreur HTTP:', response.status);
     }
 });
 
 // bouton de fermeyture de la fenêtre modale
 document.getElementById('modal-close').addEventListener('click', function() {
     modal.style.display = 'none';
+    document.getElementById('overlay').style.display = "none";
 });
+
+// bouton de fermeyture de la fenêtre modale
+document.getElementById('modal-warning-close').addEventListener('click', function() {
+    modal.style.display = 'none';
+    modal_warning.style.display = "none";
+    document.getElementById('overlay').style.display = "none";
+});
+
+// Confirmation de blackliste
 
 /*
 Popup confirmation signalement
