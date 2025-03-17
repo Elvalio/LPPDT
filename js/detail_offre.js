@@ -485,7 +485,6 @@ input_semaine.style.maxWidth = "3em";
 function check_actif() {
     var valide = true;
     let semaine = input_semaine.value;
-    console.log(semaine);
     if (semaine === "" || isNaN(semaine) || semaine < 1 || semaine % 1 != 0) {
         warning_semaine.style.visibility = 'visible';
         valide = false;
@@ -568,8 +567,7 @@ confirm_blacklist.addEventListener('click', async () => {
         duree: input_semaine.value,
         blacklist: "true"
     };
-    console.log(JSON.parse(JSON.stringify(data)));
-    console.log(JSON.stringify(data));
+
     try{
         //cache le truc
         modal.style.display = 'none';
@@ -585,9 +583,7 @@ confirm_blacklist.addEventListener('click', async () => {
             body: JSON.stringify(data)
         });
         if (response.ok) {
-
             console.log('Réponse reçue!');
-
         } else {
             console.error('Erreur HTTP:', response.status);
         }
