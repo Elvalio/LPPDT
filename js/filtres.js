@@ -209,6 +209,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
         // Tri par défaut (priorité aux offres "aLaUne")
         resultats.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
+        const estNouveaute = Array.from(boutonNouveau).some(bouton => bouton.classList.contains('active'));
+        if (estNouveaute) {
+            resultats = resultats.filter(offre => offre.classList.contains('Nouveaute'));
+        }
+        const aLaUne = Array.from(boutonALaUne).some(bouton => bouton.classList.contains('active'));
+        if (aLaUne) {
+            resultats = resultats.filter(offre => offre.classList.contains('aLaUne'));
+        }
         return resultats;
     }
     
@@ -461,10 +469,19 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+        // Instanciation du géocodeur Google
         var geocoder = new google.maps.Geocoder();
 
-        // Supprimer tous les anciens marqueurs avant d'en ajouter de nouveaux
-        markersLayer.clearLayers();
+        // Création du groupe de clusters (à la place de markersLayer)
+        // Tu peux configurer les options selon tes besoins.
+        var markersCluster = L.markerClusterGroup({
+            disableClusteringAtZoom: 18, // Au niveau du zoom 18, les clusters se désagrègent
+            spiderfyOnMaxZoom: true,     // Permet de séparer les marqueurs en "araignée" au zoom maximum
+            zoomToBoundsOnClick: true    // Zoom sur le cluster lorsqu'on clique dessus
+        });
+
+        // Supprimer tous les anciens marqueurs (si nécessaire)
+        markersCluster.clearLayers();
 
         let isMobile = ecran === 'mobile';
         let isFO = body.classList.contains('FO');
@@ -477,12 +494,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     var longitude = results[0].geometry.location.lng();
 
                     if (latitude && longitude) {
-                        var marker = L.marker([latitude, longitude]).addTo(markersLayer);
+                        // Création du marqueur sans l'ajouter directement à la carte
+                        var marker = L.marker([latitude, longitude]);
+                        markersCluster.addLayer(marker); // Ajout du marqueur au cluster
 
-                        // Créer une seule popup par marqueur
+                        // Création de la popup
                         var popup = L.popup({ autoClose: false, closeOnClick: false, closeButton: false });
 
-                        // Gérer l'affichage de la popup lors du survol
+                        // Affichage de la popup lors du survol du marqueur
                         marker.on('mouseover', function (e) {
                             let titre = element.getAttribute("data-titre");
                             let adresse = element.getAttribute("data-adresse");
@@ -498,25 +517,27 @@ document.addEventListener('DOMContentLoaded', function () {
                             let isOpen = element.classList.contains("ferme") ? "🟢 Fermé" : "🟢 Ouvert";
                             let ido = element.getAttribute("data-ido");
 
-                            // Convertir la note en étoiles visuelles
+                            // Conversion de la note en étoiles visuelles
                             let stars = "";
-
                             if (avis !== 0) {
-                            
+                                console.log(note);
                                 for (let i = 0; i < Math.floor(note); i++) {
                                     stars += `<img src="../icons/${etoiles}.png" alt="Étoile" class="popup-star">`;
                                 }
-                            
-                                if (note % 1 >= 0.5) { // 🔹 Vérifie si la note a une partie décimale >= 0.5
+                                if (note % 1 >= 0.5) {
                                     stars += `<img src="../icons/demi_${etoiles}.png" alt="Demi Étoile" class="popup-star">`;
+                                } else {
+                                    if (note !== 5) {
+                                        stars += `<img src="../icons/${etoiles}_vide.png" alt="Étoile Vide" class="popup-star">`;
+                                    }
                                 }
-                            
-                                for (let i = Math.ceil(note); i < 5; i++) { // 🔹 Complète avec des étoiles vides
+                                for (let i = Math.ceil(note); i < 5; i++) {
                                     stars += `<img src="../icons/${etoiles}_vide.png" alt="Étoile Vide" class="popup-star">`;
                                 }
                             } else {
                                 stars = "Aucun avis";
                             }
+                            
                             let adresseText = "";
                             let buttonsText = "";
                             if (isMobile) {
@@ -529,20 +550,21 @@ document.addEventListener('DOMContentLoaded', function () {
                                 </a>`;
                                 buttonsText +=
                                 `<div class="popup-extra-mobile-container">
-                                    <a href="https://www.google.com/maps/dir//${adresse}" target="_blank"><div class="popup-extra-mobile">Ouvrir Maps <img src="../icons/gmaps.png"></div></a>
-                                    <a href="https://lppdt.ventsdouest.dev/LPPDT/pages/detail-offre.php?value=${ido}"><div class="popup-extra-mobile">Voir les détails</div></a>
+                                    <a href="https://www.google.com/maps/dir//${adresse}" target="_blank">
+                                        <div class="popup-extra-mobile">Ouvrir Maps <img src="../icons/gmaps.png"></div>
+                                    </a>
+                                    <a href="https://lppdt.ventsdouest.dev/LPPDT/pages/detail-offre.php?value=${ido}">
+                                        <div class="popup-extra-mobile">Voir les détails</div>
+                                    </a>
                                 </div>`;
-
                             } else {
                                 adresseText += 
                                 `<div class="popup-address">
                                     <p class="popup-voie">📍 ${numero_voie} ${voie}</p>
                                     <p class="popup-ville">${ville}, ${codeP}</p>
-                                </div>`
+                                </div>`;
                             }
-                        
-
-
+                            
                             popup.setLatLng(e.latlng).setContent(`
                                 <div class="popupCarte">
                                     <h3 class="popup-title">${titre}</h3>
@@ -551,7 +573,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                             <img src="../images/${image}" class="popup-image" alt="${titre}">
                                         </div>
                                         <div class="popup-center">
-                                        <p class="popup-desc">${description}</p>
+                                            <p class="popup-desc">${description}</p>
                                         </div>
                                     </div>
                                     <div class="popup-right">
@@ -565,48 +587,42 @@ document.addEventListener('DOMContentLoaded', function () {
                                         </div>
                                     </div>
                                     ${buttonsText}
-                                    
                                 </div>
-                            `)
-
+                            `);
                             marker.bindPopup(popup).openPopup();
-
                         });
-                        
 
-                        // // Cacher la popup quand la souris quitte le marqueur
+                        // Fermer la popup quand la souris quitte le marqueur
                         marker.on('mouseout', function () {
                             marker.closePopup();
                         });
                         
+                        // Action lors du clic sur le marqueur
                         marker.on('click', function () {
                             const elementId = element.getAttribute('data-ido');
                             const elementToScroll = document.getElementsByClassName(elementId)[0];
-                        
                             if (elementToScroll) {
-                                // Défilement fluide vers l'élément
                                 elementToScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        
-                                // Ajout de l'animation
                                 elementToScroll.style.transition = 'all 1s ease-in-out';
-                                elementToScroll.style.transform = 'scale(1.05) translateY(-15px)'; // Zoom léger et déplacement vers le haut
-                                elementToScroll.style.opacity = '1'; // Assurer visibilité
-                                elementToScroll.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)'; // Ajouter une ombre portée
-                        
+                                elementToScroll.style.transform = 'scale(1.05) translateY(-15px)';
+                                elementToScroll.style.opacity = '1';
+                                elementToScroll.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
                                 setTimeout(() => {
-                                    elementToScroll.style.transform = 'scale(1)'; // Retour à la taille normale
+                                    elementToScroll.style.transform = 'scale(1)';
                                 }, 1000);
-                        
                                 setTimeout(() => {
-                                    elementToScroll.style.opacity = ''; // Reset de l'opacité (utile si fade-out prévu)
+                                    elementToScroll.style.opacity = '';
                                 }, 2000);
                             }
                         });
-                        
                     }
                 }
             });
         });
+
+        // Ajoute le groupe de clusters à la carte
+        map.addLayer(markersCluster);
+
     }
 
     
@@ -663,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     const boutonNouveau = document.getElementsByClassName('boutonNouveau');
-    const boutonALaUne = document.getElementsByClassName('boutonALaUne');
+    const boutonALaUne = document.getElementsByClassName('boutonALaUne');   
     // boutons <p> Nouveau et A la une
 
     function filtrerParBouton() {

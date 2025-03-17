@@ -19,6 +19,9 @@
             <div class="boutonALaUne NoSelect">
                 <p>À la Une</p>
             </div>
+            <div class="boutonNouveau NoSelect">
+                <p>Nouveau</p>
+            </div>
             <?php } ?>
             <hr>
         </header>

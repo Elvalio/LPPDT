@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
     <?php
-    include_once'nav.php';
+    
 
 use function PHPSTORM_META\type;
 
@@ -123,7 +123,16 @@ use function PHPSTORM_META\type;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
-        <link rel="shortcut icon" href="../logo/rouge.ico">
+        <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
     </head>
     
     <body class="BO FO">
@@ -131,6 +140,9 @@ use function PHPSTORM_META\type;
             <header>
                 <h1>Vos offres</h1>
                 <h2>Gérez vos offres ici</h2>
+                <div>
+                    <?php include_once'nav.php'; ?>
+                </div>
             </header>
             <main>
                 <?php
