@@ -111,7 +111,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
     }?>
     
-</head>
+</head> 
 
 <html>
     <?php 
@@ -316,9 +316,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                             $currentHour = date('H:i:s');
                             $isOpen = ($currentHour >= $value["heureouverture"] && $currentHour <= $value["heurefermeture"]);
                             echo $isOpen ? "ouvert" : "ferme";
-                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo floatval($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-adresse="<?php echo $value["adresse"] ?>" data-image="<?php echo $value['src_image'] ?>" data-ido="<?php echo $value["ido"] ?>" data-avis="<?php echo $value["nbravis"] ?>" data-numero-voie="<?php echo $value["numero_voie"] ?>" data-voie="<?php echo $value["voie"] ?>" data-ville="<?php echo $value["ville"] ?>" data-code-postal="<?php echo $value["code_postal"] ?>">
+                        } ?>" data-date="<?php echo $value["date_publication"] ?>" data-prix="<?php echo toInteger($value["prix_min"]) ?>" data-note="<?php echo floatval($value["moy_note"]) ?>" data-desc="<?php echo $value["description"] ?>" data-categorie="<?php echo $value["categorie"] ?>" data-titre="<?php echo $value["titre"] ?>" data-adresse="<?php echo $value["adresse"] ?>" data-image="<?php echo $value['src_image'] ?>" data-ido="<?php echo $value["ido"] ?>" data-avis="<?php echo $value["nbravis"] ?>" data-numero-voie="<?php echo $value["numero_voie"] ?>" data-voie="<?php echo $value["voie"] ?>" data-ville="<?php echo $value["ville"] ?>" data-code-postal="<?php echo $value["code_postal"] ?>" data-avis="<?php echo toInteger($value["nbravis"]); ?>">
                         
-                        <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>">
+                        <a href="detail-offre.php?value=<?php echo $value["ido"]; ?>" onclick="console.log('test');">
                             <?php if ($value["option"] == "À la Une") { ?>
                                 <div class="alaune">
                                     <p>À la une</p>
