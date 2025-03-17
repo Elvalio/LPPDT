@@ -1588,84 +1588,113 @@ body {
 
 
   .modal{
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                padding: 25px;
-                background: white;
-                transform: translate(-50%, -50%);
-                border: solid var(--bleu-rouge) 1px;
-                border-radius: 5px;
-            }
-            .modal > form{
-                display: flex;
-                flex-direction: column;
-            }
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        padding: 25px;
+        background: white;
+        transform: translate(-50%, -50%);
+        border: solid var(--bleu-rouge) 1px;
+        border-radius: 5px;
+        z-index: 10;
+    }
+    .modal > form{
+        display: flex;
+        flex-direction: column;
+    }
 
-            #option-modal{
-                display: flex;
-                flex-direction: column;
-                padding-top: 1em;
-                justify-content: space-between;
-            }
+    #option-modal{
+        display: flex;
+        flex-direction: column;
+        padding-top: 1em;
+        justify-content: space-between;
+    }
 
-            #boutons-modal{
-                padding-top: 2em !important;
-            }
+    #boutons-modal{
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+        padding-top: 2em !important;
+    }
 
-            #option-modal > div, #option-modal > h3{
-                padding: 0.5em 0em;
-            }
+    #option-modal > div, #option-modal > h3{
+        padding: 0.5em 0em;
+    }
 
-            #modal-footer{
-                padding-top: 1em;
-            }
+    #modal-footer{
+        padding-top: 1em;
+    }
 
-            #modal-footer > div{
-                padding-top: 0.5em;
-            }
+    #modal-footer > div{
+        padding-top: 0.5em;
+    }
 
-            #error{
-                color: red;
-            }
+    #error{
+        color: red;
+    }
 
-            .btn-notif {
-                margin-right: 30px;
-                padding: 10px 20px;
-                background-color: var(--bleu-rouge);
-                color: var(--blanc);
-                font-family: 'TripSansBold', Arial, sans-serif;
-                text-align: center;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                text-decoration: none;
-            }
+    #modal-close, #modal-warning-close{
+        background-color: black;
+    }
 
-            .modal > select {
-                border-radius: 4px;
-                border-width: 1.5px;
-                border-color: lightslategray;
-                color: rgb(150, 150, 150);
-            }
+    .btn-notif {
+        margin-left: 30px;
+        padding: 10px 20px;
+        background-color: var(--bleu-rouge);
+        color: var(--blanc);
+        font-family: 'TripSansBold', Arial, sans-serif;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
-            #date_lancement {
-                border-style: solid;
-                border-radius: 4px;
-                border-width: 1.5px;
-                border-color: lightslategray;
-            }
+    .modal > select {
+        border-radius: 4px;
+        border-width: 1.5px;
+        border-color: lightslategray;
+        color: rgb(150, 150, 150);
+    }
 
-            .titre-modal {
-                color: var(--bleu-rouge);
-                font-size:40px;
-                margin-bottom: 10px;
-                margin-left: 0px;
-            }
+    #date_lancement {
+        border-style: solid;
+        border-radius: 4px;
+        border-width: 1.5px;
+        border-color: lightslategray;
+    }
 
-            .texte-modal {
-                margin-bottom: 10px;
-            }
+    .titre-modal {
+        color: var(--bleu-rouge);
+        font-size:40px;
+        margin-bottom: 10px;
+        margin-left: 0px;
+    }
+
+    .texte-modal {
+        margin-bottom: 10px;
+    }
+
+    #modal-warning{
+        z-index: 11;
+    }
+
+    #modal-warning > .titre-modal{
+        margin-bottom: 0;
+    }
+
+    #modal-warning >  h2 + div{
+        margin-bottom: 0;
+        padding-top: 1em !important;
+        justify-content: space-between;
+        margin: 0 1.5em;
+    }
+
+    #modal-warning >  h2 + div > .btn-notif{
+        margin-bottom: 0;
+        padding-top: 1em !important;
+        margin-left: 0px;
+    }
 
 /* =========================================================== */
 /*          STYLE PAGE INFO-COMPTE ET MODIF-INFOS COMPTE       */

@@ -401,3 +401,239 @@ if (closeBtn) {
         popupWarn.classList.remove('active');
     });
 }
+
+
+signalerReponseBtn.forEach(button => {
+
+    
+    button.addEventListener("click", async () => {
+
+        datas = button.id.split('_');
+        console.log(datas);
+        console.log(event.target.id)
+        const data = {
+            id_compte: datas[3],
+            id_avis: datas[4],
+        };
+    
+        try {
+            
+            const response = await fetch('../pages/update_signal_reponse.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+    
+            if (response.ok) {
+                let timeout;
+
+            // Désactiver le bouton et mettre à jour le style
+            button.disabled = true;
+            button.style.cursor = 'not-allowed';
+            button.style.opacity = '0.5';
+            button.querySelector('p').textContent = 'Déjà signalé';
+
+            
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popupWarn.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popupWarn.classList.remove('active');
+            }, 4000);
+                
+                
+            } else {
+                console.error('Erreur HTTP:', response.status);
+            }
+        } catch (error) {
+            console.error('Erreur réseau:', error);
+        }
+    });
+    },
+
+    closeBtn.addEventListener('click', () => {
+        popupWarn.classList.remove('active');
+        clearTimeout(timeout);
+    })
+);
+
+/* popup blacklist*/
+
+const blacklistBtn = document.querySelectorAll('.btn-blacklist');
+const blacklistBtnRev = document.querySelectorAll('.btn-blacklist-rev');
+const blacklistBtnIrr = document.querySelectorAll('.btn-blacklist-irr');
+
+const modal = document.getElementById('modal');
+const modal_warning = document.getElementById('modal-warning');
+
+const input_semaine = document.getElementById('semaine');
+const warning_semaine = document.getElementById('warning-semaine');
+const submit_blacklist = document.getElementById('modal-submit-button');
+
+// popup de confimation finale
+const confirm_blacklist = document.getElementById('modal-warning-submit-button');
+
+input_semaine.style.maxWidth = "3em";
+
+//TEST DES DONNES DU FORMULAIRE
+function check_actif() {
+    var valide = true;
+    let semaine = input_semaine.value;
+    if (semaine === "" || isNaN(semaine) || semaine < 1 || semaine % 1 != 0) {
+        warning_semaine.style.visibility = 'visible';
+        valide = false;
+    }
+
+    return valide;
+}
+
+const onClickOutside = (e) => {
+    if (!modal.contains(e.target) && modal.style.display == "block") {
+        modal.style.display = "none";
+        document.getElementById('overlay').style.display = "none";
+        window.removeEventListener("click",onClickOutside);
+    }
+};
+
+// Bouton pour menu blacklistage
+blacklistBtn.forEach(button => {
+    var menu = button.nextElementSibling;
+    button.addEventListener("click", async () => {
+        if (menu.style.display == 'none') {
+            menu.style.display = 'flex';
+        }else{
+            menu.style.display = 'none';
+        }
+    });
+    },
+);
+
+// Bouton pour blacklistage temporaire
+blacklistBtnRev.forEach(button => {
+    button.addEventListener("click", async () => {
+        input_semaine.value = "1";
+        warning_semaine.style.visibility = 'hidden';
+        
+        window.addEventListener("click",onClickOutside, true);
+        
+        modal.style.display = 'block';
+        document.getElementById('overlay').style.display = "block";
+        datas = button.id.split('_');
+
+        button.parentElement.style.display = 'none';
+    });
+    },
+);
+
+// Bouton pour blacklistage permanent
+blacklistBtnIrr.forEach(button => {
+    button.addEventListener("click", async () => {
+        datas = button.id.split('_');
+        button.parentElement.style.display = 'none';
+
+        input_semaine.value = "";
+        modal_warning.style.display = "block";
+        document.getElementById('overlay').style.display = "block";
+    });
+    },
+);
+
+// input pour la durée de blacklistage
+input_semaine.addEventListener('input', async () =>{
+    if (!check_actif()) {
+        submit_blacklist.disabled = true;
+    }else{
+        submit_blacklist.disabled = false;
+    }
+})
+
+// Bouton de soumission de la fenêtre modale
+submit_blacklist.addEventListener('click', async () => {
+    if (check_actif()) {
+        warning_semaine.style.visibility = 'hidden';
+        modal_warning.style.display = "block";
+    }
+});
+
+confirm_blacklist.addEventListener('click', async () => {
+    var data = {
+        id_avis: datas[3],
+        duree: input_semaine.value,
+        blacklist: "true"
+    };
+
+    try{
+        //cache le truc
+        modal.style.display = 'none';
+        modal_warning.style.display = "none";
+        document.getElementById('overlay').style.display = "none";
+
+        // met à jour la bdd pour blacklister
+        const response = await fetch('../pages/update_blacklist_avis.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            console.log('Réponse reçue!');
+        } else {
+            console.error('Erreur HTTP:', response.status);
+        }
+    } catch (error) {
+        console.error('Erreur réseau:', error);
+    }
+});
+
+// bouton de fermeyture de la fenêtre modale
+document.getElementById('modal-close').addEventListener('click', function() {
+    modal.style.display = 'none';
+    document.getElementById('overlay').style.display = "none";
+});
+
+// bouton de fermeyture de la fenêtre modale
+document.getElementById('modal-warning-close').addEventListener('click', function() {
+    modal.style.display = 'none';
+    modal_warning.style.display = "none";
+    document.getElementById('overlay').style.display = "none";
+});
+
+// Confirmation de blackliste
+
+/*
+Popup confirmation signalement
+document.addEventListener("DOMContentLoaded", () => {
+    const popup = document.getElementById('popup');
+    const closeBtn = popup.querySelector('.close-btn');
+    const progressBar = popup.querySelector('.progress-bar div');
+
+    let timeout;
+
+    signalButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            // Réinitialiser l'animation de la barre
+            progressBar.style.animation = 'none';
+            progressBar.offsetHeight; // Déclenche un reflow pour redémarrer l'animation
+            progressBar.style.animation = ''; // Restaurer l'animation
+
+            popup.classList.add('active');
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                popup.classList.remove('active');
+            }, 4000);
+        });
+    });
+
+    closeBtn.addEventListener('click', () => {
+        popup.classList.remove('active');
+        clearTimeout(timeout);
+    });
+});
+*/

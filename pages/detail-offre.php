@@ -704,7 +704,7 @@ try {
                         ?>
                     </div>
                 </div>
-                <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
+                <?php  if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
                     if (!isset($reponse['ida'])) { ?>
                         <div class="commentaire-consulte exergue">
                             <p>
@@ -752,12 +752,20 @@ try {
                         <?php
                         if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
                             ?>
-                            <button type="button"
-                            class="btn-blacklist"
-                            id="btn_blacklist_<?php echo $_COOKIE['user'];?>">
-                            <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                            <p>Blacklister l'avis</p>
-                            </button>
+                            <div class="blacklist">
+                                <button type="button" class="btn-blacklist">
+                                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                    <p>Blacklister l'avis</p>
+                                </button>
+                                <div class="blacklist-content">
+                                    <button type="button" class="btn-blacklist-irr"
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    >Blacklister</button>
+                                    <button type="button" 
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    class="btn-blacklist-rev">Blacklister temporairement</button>
+                                </div>
+                            </div>
                         <?php
                         }
                         ?>
@@ -786,6 +794,9 @@ try {
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
                     if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                        
+                        
+                        
                         if (isset($reponse['ida'])) { ?>
                             <div class="commentaire-reponse">
                                 <p><?php
@@ -822,7 +833,6 @@ try {
             <?php
             $id_avis++;
             endforeach; }?>
-            <!-- Ensure this is properly placed -->
         </article>
     </section>
     <div id="popup">
@@ -832,9 +842,9 @@ try {
         </div>
         <button class="close-btn">Fermer</button>
     </div>
-
+    <div id="overlay"></div>
     <?php if(!isset($_COOKIE['user'])){?>
-        <div id="overlay"></div>
+        
         <div id="popup_avis">
             
             <img id="logo" src="../logo/logo_reduit_vert.png">
@@ -873,6 +883,31 @@ try {
             <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
     <?php } ?>
+    <div class="modal" id="modal" style="display: none;">
+        <input type="hidden" name="status" value="" id="modal-id">
+        <div id='option-modal'>
+            <h2 class="titre-modal">Blacklist Options</h2>
+            <div>
+                <label for="semaine">Nombre de semaine(s) : </label>
+                <input id="semaine" type="number" value="1" min="1"/>
+                <br>
+                <p id="warning-semaine" name="warning-semaine" style="color: red;">Saisir un nombre valide</p>
+            </div>
+            <div id="boutons-modal">
+                <input type="button" class="btn-notif" id="modal-submit-button" value="Valider"/>
+                <input type="button" class="btn-notif" id="modal-close" value="Annuler">
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal-warning" style="display: none;">
+        <h2 class="titre-modal">Êtes vous sûr?</h2>
+        <div id="boutons-modal">
+            <input type="button" class="btn-notif" id="modal-warning-submit-button" value="Valider"/>
+            <input type="button" class="btn-notif" id="modal-warning-close" value="Annuler">
+        </div>
+    </div>
+
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>
@@ -880,7 +915,7 @@ try {
     <footer>
         <?php include_once 'footer.php'; ?>
     </footer>
-        
+    
     <script src="../js/detail_offre.js"></script>
 </body>
 
