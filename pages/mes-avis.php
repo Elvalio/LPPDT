@@ -132,7 +132,7 @@
                         <p id="date-publi"><?php echo $a['date_publication']?></p>
                     </div>
                     <p id="commentaire"><?php echo $a['corps']?></p>
-                    <div class="boutons">
+                    <div class="boutons-avis">
                         <form method="POST" action="mes-avis.php" class="form-supp">
                             <input type="hidden" name="id_avis" value=<?php echo $a['ida']; ?>>
                             <input type="button" name="bouton_supp" class="bouton-supp" value="Supprimer l'avis">
