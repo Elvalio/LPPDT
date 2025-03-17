@@ -119,9 +119,12 @@
                                     
                                     <script>
                                         function deconnexion() {
-                                            document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-                                            document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
-                                            location.assign("accueil.php");
+                                            let confirmation = confirm("Voulez-vous vous déconnecter ?");
+                                            if (confirmation) {
+                                                document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+                                                document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+                                                location.assign("accueil.php");
+                                            }
                                         }
                                     </script>
                                     <a href="#" class="nav-item" data-icon="deconnection" onclick="deconnexion()">

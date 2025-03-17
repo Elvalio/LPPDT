@@ -275,6 +275,16 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
 </head>
 
 <div class="desktop-element">
@@ -350,7 +360,7 @@ try {
 
                     </div>
                     <p class="nb-avis-info-offre">
-                        <?php echo $nbrAvis . " Avis |"; ?>
+                        <?php echo $nbrAvis?>&#xA0;Avis
                     </p>
                 </div>
                 <div class="infos-accessibilite">
@@ -666,7 +676,15 @@ try {
                                 <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
                             </div>
                             <div class="pseudo-contexte">
-                                <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
+                                    <p style="font-style: italic" class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } else { ?>
+                                    <p class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } ?>
                                 <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>
@@ -732,7 +750,7 @@ try {
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user']){
                             ?>
                             <button type="button"
                             class="btn-blacklist"
@@ -788,7 +806,7 @@ try {
                         
                         } else { ?>
                             <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
-                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse" style="display: none">
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse_<?php echo $id_avis; ?>" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
                                 <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>

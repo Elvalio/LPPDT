@@ -7,6 +7,16 @@
     <title>À propos de nous - TripEnArvor</title>
     <style>
     </style>
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
 </head>
 <body class="FO main_style-page-footer">
 

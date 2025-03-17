@@ -1591,84 +1591,113 @@ body {
 
 
   .modal{
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                padding: 25px;
-                background: white;
-                transform: translate(-50%, -50%);
-                border: solid var(--bleu-rouge) 1px;
-                border-radius: 5px;
-            }
-            .modal > form{
-                display: flex;
-                flex-direction: column;
-            }
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        padding: 25px;
+        background: white;
+        transform: translate(-50%, -50%);
+        border: solid var(--bleu-rouge) 1px;
+        border-radius: 5px;
+        z-index: 10;
+    }
+    .modal > form{
+        display: flex;
+        flex-direction: column;
+    }
 
-            #option-modal{
-                display: flex;
-                flex-direction: column;
-                padding-top: 1em;
-                justify-content: space-between;
-            }
+    #option-modal{
+        display: flex;
+        flex-direction: column;
+        padding-top: 1em;
+        justify-content: space-between;
+    }
 
-            #boutons-modal{
-                padding-top: 2em !important;
-            }
+    #boutons-modal{
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+        padding-top: 2em !important;
+    }
 
-            #option-modal > div, #option-modal > h3{
-                padding: 0.5em 0em;
-            }
+    #option-modal > div, #option-modal > h3{
+        padding: 0.5em 0em;
+    }
 
-            #modal-footer{
-                padding-top: 1em;
-            }
+    #modal-footer{
+        padding-top: 1em;
+    }
 
-            #modal-footer > div{
-                padding-top: 0.5em;
-            }
+    #modal-footer > div{
+        padding-top: 0.5em;
+    }
 
-            #error{
-                color: red;
-            }
+    #error{
+        color: red;
+    }
 
-            .btn-notif {
-                margin-right: 30px;
-                padding: 10px 20px;
-                background-color: var(--bleu-rouge);
-                color: var(--blanc);
-                font-family: 'TripSansBold', Arial, sans-serif;
-                text-align: center;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                text-decoration: none;
-            }
+    #modal-close, #modal-warning-close{
+        background-color: black;
+    }
 
-            .modal > select {
-                border-radius: 4px;
-                border-width: 1.5px;
-                border-color: lightslategray;
-                color: rgb(150, 150, 150);
-            }
+    .btn-notif {
+        margin-left: 30px;
+        padding: 10px 20px;
+        background-color: var(--bleu-rouge);
+        color: var(--blanc);
+        font-family: 'TripSansBold', Arial, sans-serif;
+        text-align: center;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
 
-            #date_lancement {
-                border-style: solid;
-                border-radius: 4px;
-                border-width: 1.5px;
-                border-color: lightslategray;
-            }
+    .modal > select {
+        border-radius: 4px;
+        border-width: 1.5px;
+        border-color: lightslategray;
+        color: rgb(150, 150, 150);
+    }
 
-            .titre-modal {
-                color: var(--bleu-rouge);
-                font-size:40px;
-                margin-bottom: 10px;
-                margin-left: 0px;
-            }
+    #date_lancement {
+        border-style: solid;
+        border-radius: 4px;
+        border-width: 1.5px;
+        border-color: lightslategray;
+    }
 
-            .texte-modal {
-                margin-bottom: 10px;
-            }
+    .titre-modal {
+        color: var(--bleu-rouge);
+        font-size:40px;
+        margin-bottom: 10px;
+        margin-left: 0px;
+    }
+
+    .texte-modal {
+        margin-bottom: 10px;
+    }
+
+    #modal-warning{
+        z-index: 11;
+    }
+
+    #modal-warning > .titre-modal{
+        margin-bottom: 0;
+    }
+
+    #modal-warning >  h2 + div{
+        margin-bottom: 0;
+        padding-top: 1em !important;
+        justify-content: space-between;
+        margin: 0 1.5em;
+    }
+
+    #modal-warning >  h2 + div > .btn-notif{
+        margin-bottom: 0;
+        padding-top: 1em !important;
+        margin-left: 0px;
+    }
 
 /* =========================================================== */
 /*          STYLE PAGE INFO-COMPTE ET MODIF-INFOS COMPTE       */
@@ -2608,7 +2637,7 @@ table th {
 
 }
 
-#titre-container, #ville-container{
+#titre-container{
     width: 440px;
 }
 
@@ -2647,8 +2676,8 @@ table th {
     margin-bottom: 20px;
 }
 
-#adresse-container{
-    width: 425px;
+#adresse-container, #complementAdresse-container{
+    width: 97%;
 }
 
 #duree-prix-age{
@@ -2849,7 +2878,7 @@ h1{
     padding-top: 10px;
 }
 
-.input-accueil, select{
+.main-content-crea-modif-offre input[type="text"], .main-content-crea-modif-offre select{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     height: 40px;
@@ -2861,7 +2890,7 @@ h1{
 /*************************gérer le select avec options*******************************/
 
 /* Style du select */
-select {
+.main-content-crea-modif-offre select {
     color: rgb(150, 150, 150); /* "categorie de l'offre" en gris */
     font-size: 16px;
     padding: 5px;
@@ -2869,19 +2898,19 @@ select {
 }
 
 /* Style des options après sélection */
-select:valid {
+.main-content-crea-modif-offre select:valid {
     color: black; /* Options en noir quand une valeur est choisie */
 }
 
 /* S'assurer que les options ne soient pas grises */
-option {
+.main-content-crea-modif-offre option {
     color: black;
 }
 
 
 /********************************************************************************/
 
-textarea{
+.main-content-crea-modif-offre textarea{
     border: 1px solid #D9D9D9;
     border-radius: 8px;
     font-size: 16px;
@@ -2890,15 +2919,39 @@ textarea{
     resize: none;
 }
 
-input[type="submit"]{
+.main-content-crea-modif-offre input[type="submit"], .bouton-valider{
     border: none;
     background-color: var(--noir);
     color: white;
-    padding: 0 60px;
+    padding: 10px 60px;
+
+    border-radius: 8px;
+    font-size: 16px;
     cursor: pointer;
 }
 
-input[type="checkbox"], input[type="radio"]{
+.boutonsPrevisualisation{
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0;
+    justify-content: space-between;
+    width: 400px;
+}
+
+.bouton-retour-prev {
+    display: flex; /* Utiliser flex pour aligner l'image et le texte */
+    align-items: center; /* Centre verticalement le contenu */
+    padding: 10px 30px; /* Padding à droite et à gauche */
+    cursor: pointer; /* Curseur en forme de main */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--turquoise-orange);
+    font-size: 16px;
+    width: fit-content;
+    justify-content: center;
+}
+
+.main-content-crea-modif-offre input[type="checkbox"], .main-content-crea-modif-offre input[type="radio"]{
     height: 15px;
     width: 15px;
     margin-right: 5px;
@@ -2912,7 +2965,7 @@ input[type="checkbox"], input[type="radio"]{
     opacity: 0;
     }
 
-input[type=checkbox].hidden+label {
+.main-content-crea-modif-offre input[type=checkbox].hidden+label {
     color: rgba(117, 117, 117, 0.7);
     background-color: #f0f0f0;
     display: flex;
@@ -2928,7 +2981,7 @@ input[type=checkbox].hidden+label {
     user-select: none;
 }
 
-input[type=checkbox].hidden:checked+label {
+.main-content-crea-modif-offre input[type=checkbox].hidden:checked+label {
     color: white;
     background-color: black;  /* Couleur de fond lorsqu'il est sélectionné */
 }
@@ -2939,7 +2992,7 @@ input[type=checkbox].hidden:checked+label {
 
 /*******************************************/
 
-input[type="file"]{
+.main-content-crea-modif-offre input[type="file"]{
     display: none;
 }
 

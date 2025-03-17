@@ -1,9 +1,31 @@
 import { closeSortMenu } from './scriptFilter.js';
+
 document.addEventListener('DOMContentLoaded', function () {
+
+    const body = document.querySelector('body');
 
     const trie_text = document.querySelector('.dropdown-toggle > p');
     const rechercheIMG = document.getElementsByClassName('rechercheLieuIMG');
     const SCREEN_MOBILE = 801; // Taille de l'écran pour le changement d'images
+
+    const arrow_carte = document.getElementById("arrow_carte")
+
+    const mapContainer = document.getElementById("map");
+
+    arrow_carte.addEventListener("click", function () {
+        mapContainer.classList.toggle("cache");
+    });
+
+    var map = L.map('map').setView([48.7321, -3.4591], 14);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+
+
+
+
 
     const categoriesFiltres = [
         'filtre-type',
@@ -187,6 +209,14 @@ document.addEventListener('DOMContentLoaded', function () {
     
         // Tri par défaut (priorité aux offres "aLaUne")
         resultats.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
+        const estNouveaute = Array.from(boutonNouveau).some(bouton => bouton.classList.contains('active'));
+        if (estNouveaute) {
+            resultats = resultats.filter(offre => offre.classList.contains('Nouveaute'));
+        }
+        const aLaUne = Array.from(boutonALaUne).some(bouton => bouton.classList.contains('active'));
+        if (aLaUne) {
+            resultats = resultats.filter(offre => offre.classList.contains('aLaUne'));
+        }
         return resultats;
     }
     
@@ -413,9 +443,13 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Fonction pour afficher uniquement les offres filtrées
+    // Stocker les marqueurs pour les supprimer avant d'en ajouter de nouveaux
+    var markersLayer = L.layerGroup().addTo(map);
+
+    // Fonction pour afficher uniquement les offres filtrées
     function afficherResultats(offresVisibles) {
         trie(offresVisibles);
-    
+        
         const rechercheTexte = rechercheOffre.value.toLowerCase();
 
         offresVisibles = offresVisibles.filter(offre => {
@@ -425,16 +459,172 @@ document.addEventListener('DOMContentLoaded', function () {
             const offreDescription = offre.getAttribute('data-desc').toLowerCase();
             return offreTexte.includes(rechercheTexte) || offreCategorie.includes(rechercheTexte) || offreTitre.includes(rechercheTexte) || offreDescription.includes(rechercheTexte);
         });
-    
+
         offresVisibles.sort((a, b) => b.classList.contains('aLaUne') - a.classList.contains('aLaUne'));
-    
+
         Array.from(offres).forEach(offre => {
             offre.style.display = offresVisibles.includes(offre) ? 'block' : 'none';
             offresVisibles.forEach((offreVisible, index) => {
                 offreVisible.style.order = index;
             });
         });
+
+        // Instanciation du géocodeur Google
+        var geocoder = new google.maps.Geocoder();
+
+        // Création du groupe de clusters (à la place de markersLayer)
+        // Tu peux configurer les options selon tes besoins.
+        var markersCluster = L.markerClusterGroup({
+            disableClusteringAtZoom: 18, // Au niveau du zoom 18, les clusters se désagrègent
+            spiderfyOnMaxZoom: true,     // Permet de séparer les marqueurs en "araignée" au zoom maximum
+            zoomToBoundsOnClick: true    // Zoom sur le cluster lorsqu'on clique dessus
+        });
+
+        // Supprimer tous les anciens marqueurs (si nécessaire)
+        markersCluster.clearLayers();
+
+        let isMobile = ecran === 'mobile';
+        let isFO = body.classList.contains('FO');
+        let etoiles = (isMobile || isFO) ? 'etoile_bleue' : 'etoile_rouge';
+
+        offresVisibles.forEach(element => {
+            geocoder.geocode({ 'address': element.getAttribute("data-adresse") }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var latitude = results[0].geometry.location.lat();
+                    var longitude = results[0].geometry.location.lng();
+
+                    if (latitude && longitude) {
+                        // Création du marqueur sans l'ajouter directement à la carte
+                        var marker = L.marker([latitude, longitude]);
+                        markersCluster.addLayer(marker); // Ajout du marqueur au cluster
+
+                        // Création de la popup
+                        var popup = L.popup({ autoClose: false, closeOnClick: false, closeButton: false });
+
+                        // Affichage de la popup lors du survol du marqueur
+                        marker.on('mouseover', function (e) {
+                            let titre = element.getAttribute("data-titre");
+                            let adresse = element.getAttribute("data-adresse");
+                            let codeP = element.getAttribute("data-code-postal");
+                            let numero_voie = element.getAttribute("data-numero-voie");
+                            let voie = element.getAttribute("data-voie");
+                            let ville = element.getAttribute("data-ville");
+                            let image = element.getAttribute("data-image");
+                            let note = parseFloat(element.getAttribute("data-note"));
+                            let avis = parseInt(element.getAttribute("data-avis"));
+                            let description = element.getAttribute("data-desc");
+                            let prix = element.getAttribute("data-prix"); 
+                            let isOpen = element.classList.contains("ferme") ? "🟢 Fermé" : "🟢 Ouvert";
+                            let ido = element.getAttribute("data-ido");
+
+                            // Conversion de la note en étoiles visuelles
+                            let stars = "";
+                            if (avis !== 0) {
+                                console.log(note);
+                                for (let i = 0; i < Math.floor(note); i++) {
+                                    stars += `<img src="../icons/${etoiles}.png" alt="Étoile" class="popup-star">`;
+                                }
+                                if (note % 1 >= 0.5) {
+                                    stars += `<img src="../icons/demi_${etoiles}.png" alt="Demi Étoile" class="popup-star">`;
+                                } else {
+                                    if (note !== 5) {
+                                        stars += `<img src="../icons/${etoiles}_vide.png" alt="Étoile Vide" class="popup-star">`;
+                                    }
+                                }
+                                for (let i = Math.ceil(note); i < 5; i++) {
+                                    stars += `<img src="../icons/${etoiles}_vide.png" alt="Étoile Vide" class="popup-star">`;
+                                }
+                            } else {
+                                stars = "Aucun avis";
+                            }
+                            
+                            let adresseText = "";
+                            let buttonsText = "";
+                            if (isMobile) {
+                                adresseText += 
+                                `<a href="https://www.google.com/maps/dir//${adresse}" target="_blank" class="popup-address-lien">
+                                    <div class="popup-address">
+                                        <p class="popup-voie">📍 ${numero_voie} ${voie}</p>
+                                        <p class="popup-ville">${ville}, ${codeP}</p>
+                                    </div>
+                                </a>`;
+                                buttonsText +=
+                                `<div class="popup-extra-mobile-container">
+                                    <a href="https://www.google.com/maps/dir//${adresse}" target="_blank">
+                                        <div class="popup-extra-mobile">Ouvrir Maps <img src="../icons/gmaps.png"></div>
+                                    </a>
+                                    <a href="https://lppdt.ventsdouest.dev/LPPDT/pages/detail-offre.php?value=${ido}">
+                                        <div class="popup-extra-mobile">Voir les détails</div>
+                                    </a>
+                                </div>`;
+                            } else {
+                                adresseText += 
+                                `<div class="popup-address">
+                                    <p class="popup-voie">📍 ${numero_voie} ${voie}</p>
+                                    <p class="popup-ville">${ville}, ${codeP}</p>
+                                </div>`;
+                            }
+                            
+                            popup.setLatLng(e.latlng).setContent(`
+                                <div class="popupCarte">
+                                    <h3 class="popup-title">${titre}</h3>
+                                    <div class="popup-container">
+                                        <div class="popup-left">
+                                            <img src="../images/${image}" class="popup-image" alt="${titre}">
+                                        </div>
+                                        <div class="popup-center">
+                                            <p class="popup-desc">${description}</p>
+                                        </div>
+                                    </div>
+                                    <div class="popup-right">
+                                        ${adresseText}
+                                        <div class="popup-right-open">
+                                            <div class="popup-right-stars">
+                                                <div class="popup-stars">${stars}</div>
+                                                <p class="popup-price">${prix}€</p>
+                                            </div>
+                                            <p class="popup-status ${element.classList.contains('ferme') ? 'ferme' : 'ouvert'}">${isOpen}</p>
+                                        </div>
+                                    </div>
+                                    ${buttonsText}
+                                </div>
+                            `);
+                            marker.bindPopup(popup).openPopup();
+                        });
+
+                        // Fermer la popup quand la souris quitte le marqueur
+                        marker.on('mouseout', function () {
+                            marker.closePopup();
+                        });
+                        
+                        // Action lors du clic sur le marqueur
+                        marker.on('click', function () {
+                            const elementId = element.getAttribute('data-ido');
+                            const elementToScroll = document.getElementsByClassName(elementId)[0];
+                            if (elementToScroll) {
+                                elementToScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                elementToScroll.style.transition = 'all 1s ease-in-out';
+                                elementToScroll.style.transform = 'scale(1.05) translateY(-15px)';
+                                elementToScroll.style.opacity = '1';
+                                elementToScroll.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                                setTimeout(() => {
+                                    elementToScroll.style.transform = 'scale(1)';
+                                }, 1000);
+                                setTimeout(() => {
+                                    elementToScroll.style.opacity = '';
+                                }, 2000);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        // Ajoute le groupe de clusters à la carte
+        map.addLayer(markersCluster);
+
     }
+
     
 
     // Initialisation
@@ -489,7 +679,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     const boutonNouveau = document.getElementsByClassName('boutonNouveau');
-    const boutonALaUne = document.getElementsByClassName('boutonALaUne');
+    const boutonALaUne = document.getElementsByClassName('boutonALaUne');   
     // boutons <p> Nouveau et A la une
 
     function filtrerParBouton() {
@@ -830,8 +1020,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // animerCartesBoiteDeNuit();
 
-    /* ===============================*/
-    /* ====== CARTE INTERACTIVE ====== */
-    /* ===============================*/
+    /* ================================= */
+    /* ======= CARTE INTERACTIVE ======= */
+    /* ================================= */
+
+    
 
 });

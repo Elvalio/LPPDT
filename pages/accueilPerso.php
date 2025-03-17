@@ -31,6 +31,7 @@ try{
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
     <script src="../js/accueil.js"></script>
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 
 
 </head>

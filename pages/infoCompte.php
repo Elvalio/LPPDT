@@ -48,6 +48,28 @@ try{
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
+<link rel="stylesheet" href="../css/samStyles.css">
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
+    
+    <script src="../js/infoCompte.js" async></script>
+
+    <script>
+        function deconnexion() {
+            document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+            document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+            location.assign("accueil.php");
+            
+        }
+    </script>
 </head>
 
 <div class="desktop-element">
@@ -105,7 +127,7 @@ try{
                             </div>
                         </div>
                     </div>
-                    <div class="right-column-crea-compte">
+                  <div class="right-column-crea-compte">
                         <label for="email" class="FS">E-mail</label>
                         <input type="email" class="FS" value="<?php echo $compte['email'] ?>" id="email-membre" name="email" readonly>
 
@@ -124,6 +146,7 @@ try{
                             <?php } ?>
                         <?php } ?>
                     </div>
+                  <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
                 </div>
                     <button class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Modifier les Informations</button>
             </form>
