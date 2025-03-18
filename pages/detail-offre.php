@@ -592,7 +592,7 @@ try {
                 
                 // var_dump($blacklisteData);
                 $classBlacklist = isset($blacklisteData['blackliste']) && $blacklisteData['blackliste'] ? 'blacklisted' : '';
-            ?>
+            
           //vérifie si avis est blacklisté
                 $stmtCompte = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
                 $stmtCompte->execute([':idA' => $avisIndividuel['ida']]);
@@ -700,7 +700,7 @@ try {
                     echo "Cet utilisateur n'a pas encore signalé cet avis ou ses réponses.";
                 }
                 */
-
+            ?>
             <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
@@ -787,7 +787,7 @@ try {
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && $estBlackliste){
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && !$estBlackliste){
                             ?>
                             <div class="blacklist">
                                 <button type="button" class="btn-blacklist">
