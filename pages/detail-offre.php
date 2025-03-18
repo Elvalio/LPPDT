@@ -592,7 +592,7 @@ try {
                 
                 // var_dump($blacklisteData);
                 $classBlacklist = isset($blacklisteData['blackliste']) && $blacklisteData['blackliste'] ? 'blacklisted' : '';
-            ?>
+            
           //vérifie si avis est blacklisté
                 $stmtCompte = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
                 $stmtCompte->execute([':idA' => $avisIndividuel['ida']]);
@@ -700,7 +700,7 @@ try {
                     echo "Cet utilisateur n'a pas encore signalé cet avis ou ses réponses.";
                 }
                 */
-
+            ?>
             <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
