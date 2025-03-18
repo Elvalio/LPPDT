@@ -830,7 +830,7 @@ try {
                 <?php
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
-                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive" || $_COOKIE['type_compte'] == "membre")) {
                         if (isset($reponse['ida'])) { ?>
                             <div class="commentaire-reponse">
                                 <p><?php
