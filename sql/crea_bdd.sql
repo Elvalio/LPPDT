@@ -1909,7 +1909,7 @@ begin
     loop
     if (i.blackliste) then
       res = true;
-      update pact._avis set blackliste = false where ida = i.ida and i.date_blackliste + i.duree_blackliste < now();
+      update pact._avis set blackliste = false, duree_blackliste = null where ida = i.ida and i.date_blackliste + i.duree_blackliste < now();
     end if;
   end loop;
   RETURN res;
