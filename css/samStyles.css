@@ -15,13 +15,24 @@
   src: url('../polices/TripSans-Ultra.ttf') format('truetype');
 }
 
-.LikeButton, .DislikeButton {
-  transition: all 0.2s;
+/* Animation Like */
+.LikeButton:focus, .LikeButton:active {
+  transform: scale(1.5) translateY(-10px) rotate(-15deg);
 }
 
-.LikeButton:active, .DislikeButton:active {
-  transform: scale(1.5) rotateY(-8deg);
+/* Animation Dislike */
+.DislikeButton:focus, .DislikeButton:active {
+  transform: scale(1.5) translateY(10px) rotate(15deg);
 }
+
+.DislikeButton:active {
+  animation: dislikeAnim 0.5s;
+}
+
+.LikeButton:active {
+  animation: likeAnim 0.5s;
+}
+
 
 @media (min-width: 801px) {
 
@@ -183,10 +194,13 @@
 
 .infos-avis {
   display: flex;
+  padding-right: 10px; /* Ajout de padding à droite */
 }
 
 .infos-accessibilite {
   display: flex;
+  padding-left: 10px;
+  border-left: #353435 solid 2px; /* Ajout d'une bordure à gauche */
 }
 
 /* Définition du container pour gérer l'affichage de la description */
@@ -357,7 +371,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: baseline;
+  justify-content:space-between;
   margin-top: 20px;
 }
 
@@ -383,12 +397,19 @@
 .pseudo-contexte{
   display: flex;
   padding: 0px !important;
+  width: 200px;
+  justify-content: space-between;
 }
 
 .pseudo-contexte > p{
-  margin-right: 5px;
+  margin: 5px;
   opacity: 70%;
   font-family: 'TripSansRegular';
+}
+
+.ligne_sepa_contexte {
+  border-right: #383838 solid 2px;
+  padding-right: 45px;
 }
 
 .header-avis-profil {
@@ -614,6 +635,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 5px 0px 20px 0px;
   padding: 0px 0px;
   cursor: pointer;
   font-size: 16px;
@@ -629,8 +651,55 @@
   color: red;
 }
 
-/* PopUp confirmation signalement */
+/*Bouton blacklister avis*/
+.blacklist{
+  position: relative;
+}
+.btn-blacklist {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 0px;
+  cursor: pointer;
+  font-size: 16px;
+  width: fit-content;
+  color: rgb(152, 152, 152) !important;
+  gap: 10px; /* Ajoute de l'espace entre les éléments */
+  border: none;
+  background-color: transparent;
+  margin: 0.5em 0;
+}
 
+#icone-blacklist {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.blacklist-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 200px;
+  z-index: 1;
+  right: 0;
+  flex-direction: column;
+  justify-items: center;
+  align-items: stretch;
+}
+
+.blacklist-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border: none;
+  text-align: left;
+  text-decoration: none;
+  width : auto;
+}
+
+/* PopUp confirmation signalement */
 
 #popup {
   position: fixed;
@@ -940,6 +1009,7 @@ transform: rotate(-90deg);
   flex-direction: row; /* Aligne chaque section verticalement */
   align-items: center;
   gap: 10px;
+  padding-left: 10px;
 }
 
 .infos-avis {
@@ -1249,12 +1319,19 @@ color: white;
 .pseudo-contexte{
   display: flex;
   padding: 0px !important;
+  width: 200px;
+  justify-content: space-between;
 }
 
 .pseudo-contexte > p{
-  margin-right: 5px;
+  margin: 5px;
   opacity: 70%;
   font-family: 'TripSansRegular';
+}
+
+.ligne_sepa_contexte {
+  border-right: #383838 solid 2px;
+  padding-right: 45px;
 }
 
 /* Bouton signaler avis */
@@ -1621,16 +1698,28 @@ hr {
   z-index: 10;
 }
 
-
-
-#croix.desktop {
+#croix_big.desktop {
   width: 15px;
   height: 15px;
   object-fit: cover;
   cursor: pointer;
   position: relative;
-  bottom: 56%;
-  left: 2%;
+  bottom: 60%;
+  left: 5%;
+  padding: 1.5px;
+  background-color: var(--bleuFonce-rougeFonce);
+  border: 1px solid var(--blanc);
+  border-radius: 25px;
+}
+
+#croix_small.desktop {
+  width: 15px;
+  height: 15px;
+  object-fit: cover;
+  cursor: pointer;
+  position: relative;
+  bottom: 63%;
+  left: 3%;
   padding: 1.5px;
   background-color: var(--bleuFonce-rougeFonce);
   border: 1px solid var(--blanc);
@@ -1757,7 +1846,7 @@ hr {
 
 
 
-#croix.mobile {
+#croix_big.mobile {
   width: 15px;
   height: 15px;
   object-fit: cover;
@@ -1770,6 +1859,21 @@ hr {
   border: 1px solid var(--blanc);
   border-radius: 25px;
 }
+
+#croix_small.mobile {
+  width: 15px;
+  height: 15px;
+  object-fit: cover;
+  cursor: pointer;
+  position: relative;
+  bottom: 63%;
+  left: 3%;
+  padding: 1.5px;
+  background-color: var(--bleuFonce-rougeFonce);
+  border: 1px solid var(--blanc);
+  border-radius: 25px;
+}
+
 
 #logo.mobile{
   display: none;

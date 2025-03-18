@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
     <?php
-    include_once'nav.php';
+    
 
 use function PHPSTORM_META\type;
 
     include('../sql/connect_params.php');
 
-    //Récupère tous les avis
-    try {
-        $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
+    $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
+
     
+    try {
+
+        // met à jour les avis blacklistés
+        $stmt = $dbh->prepare("SELECT pact.geererBlacklist();");
+        $stmt->execute();
+        
+        //Récupère tous les avis
         $stmt = $dbh->prepare("SELECT * FROM pact.experience");
         $stmt->execute();
         $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -24,7 +30,6 @@ use function PHPSTORM_META\type;
     
     //Récupère toutes les réponses
     try {
-        $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
     
         $stmt = $dbh->prepare("SELECT * FROM pact._reponse");
         $stmt->execute();
@@ -41,7 +46,6 @@ use function PHPSTORM_META\type;
         if (isset($_POST['offre_id']) && isset($_POST['status'])) {
             
             try{
-            $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
     
             
             $offre_id = $_POST['offre_id'];
@@ -68,20 +72,18 @@ use function PHPSTORM_META\type;
         }
     }
 
-    $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
-
     $user_cookie = $_COOKIE['user'];
 
     try{
 
-    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, MIN(p.src_image) AS src_image, 
+    $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, o.type, MIN(p.src_image) AS src_image, 
         pact.prix_previsionnel_offre_TTC(o.idO) as ttc, pact.prix_previsionnel_offre_HT(o.idO) as ht,
         op.cout_ht as opHT, op.cout_ttc as opTTC, op.nom_option,
         o.cout_ht as mHT, o.cout_ttc as mTTC FROM pact.offre o
         LEFT OUTER JOIN pact.photo_offre p ON o.idO = p.idO
         LEFT OUTER JOIN pact._option op on o.idoption = op.idoption
         WHERE o.idC = $user_cookie
-        GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne, op.cout_ht, op.cout_ttc, op.nom_option, o.cout_ht, o.cout_ttc"
+        GROUP BY o.idO, o.titre, o.resume, o.idC, o.en_ligne, o.type, op.cout_ht, op.cout_ttc, op.nom_option, o.cout_ht, o.cout_ttc"
     );
     
     $stmt->execute();
@@ -123,6 +125,16 @@ use function PHPSTORM_META\type;
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Tableau de Bord</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
+        <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
     </head>
     
     <body class="BO FO">
@@ -130,6 +142,9 @@ use function PHPSTORM_META\type;
             <header>
                 <h1>Vos offres</h1>
                 <h2>Gérez vos offres ici</h2>
+                <div>
+                    <?php include_once'nav.php'; ?>
+                </div>
             </header>
             <main>
                 <?php
@@ -175,7 +190,11 @@ use function PHPSTORM_META\type;
                             }
                             if ($nbr_avis_non_rep > 0) { ?>
                                 <p class="FS">Vous avez <?php echo (string)$nbr_avis_non_rep ?> avis non répondu</p>
-                            <?php } ?>
+                            <?php } 
+                            if($valeur['type']==3){ ?>
+                                <p class="FS">Avis Blacklistés : <?php echo 0; ?> / 3</p>
+                            <?php }
+                            ?>
                         </div>
                     </div>
                 </section>

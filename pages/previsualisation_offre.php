@@ -5,18 +5,32 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
 // echo '<pre>';
-//     print_r($_POST);
-//     echo '</pre>';
-
+// print_r($_POST);
+// echo '</pre>';
 
 $idC = $_COOKIE['user'];
 $categorie = $_POST['categorie'];
 
 
-$temp = explode(' ',trim(addslashes($_POST["adresse"])));
-$numero_voie = $temp[0];
-array_shift($temp);
-$voie = implode(' ', $temp);
+$temp = explode(' ', trim(($_POST["adresse"])));
+$numero_voie = $temp[0]; // Premier élément : numéro de la voie
+array_shift($temp); // Retirer le numéro de la voie pour ne garder que la voie
+$voie = ucfirst(htmlspecialchars(implode(' ', $temp))); // Voie avec majuscule et échappement HTML
+$titre = ucfirst(htmlspecialchars($_POST['titre']));
+$resume = ucfirst(htmlspecialchars($_POST['resume']));
+$description = ucfirst(htmlspecialchars($_POST['description']));
+$prix_min = $_POST['prix'];
+$accessibilite = ucfirst(htmlspecialchars($_POST['accessibilite']));
+$ville = ucfirst(htmlspecialchars($_POST['ville']));
+$code_postal= $_POST['codeP'];
+
+if(isset($_POST['complement'])){
+    if($_POST['complement'] !== ''){
+        $complement = $_POST['complement'];
+    } else {
+        $complement = null;
+    }
+}
 
 if(isset($_POST['site'])){
     if ($_POST['site'] !== ''){
@@ -139,9 +153,7 @@ if (isset($_POST['validation'])){
             $resultat[] = $arr['kebab'];
         }
         return $resultat;
-    }
-
-    
+    } 
 }
 
 try{
@@ -173,125 +185,172 @@ try{
 
 
     if (isset($_POST['validation'])){
-
+        $type = type_offre($_POST['offre']);
         switch ($categorie) {
             case 'activite':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
                 $age_min = $_POST['age'];
-
-                if (isset($_POST['pinclus'])){
-                    $prestation_incluse = $_POST['pinclus'];
-                } else {
-                    $prestation_incluse = '';
-                }
-                
-                if (isset($_POST['pexclus'])){
-                    $prestation_excluse = $_POST['pexclus'];
-                } else {
-                    $prestation_excluse = '';
-                }
-
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
-    
+        
+                $prestation_incluse = isset($_POST['pinclus']) ? $_POST['pinclus'] : '';
+                $prestation_excluse = isset($_POST['pexclus']) ? $_POST['pexclus'] : '';
+        
                 $Ioffre = $dbh->prepare(
-                    "insert into pact.activite 
-                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC) values 
-                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', $age_min, '$prestation_incluse', '$prestation_excluse', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                    "INSERT INTO pact.activite 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC) 
+                    VALUES 
+                    (:titre, :resume, :type, :description, :site_web, :prix_min, :accessibilite, NOW(), NOW(), :duree::INTERVAL, :age_min, :prestation_incluse, :prestation_excluse, :ville, :numero_voie, :voie, :code_postal, :complement, :idC)"
                 );
-                break;
-    
+        
+                $Ioffre->bindParam(':titre', $titre);
+                $Ioffre->bindParam(':resume', $resume);
+                $Ioffre->bindParam(':type', $type);
+                $Ioffre->bindParam(':description', $description);
+                $Ioffre->bindParam(':site_web', $site);
+                $Ioffre->bindParam(':prix_min', $prix_min);
+                $Ioffre->bindParam(':accessibilite', $accessibilite);
+                $Ioffre->bindParam(':duree', $duree);
+                $Ioffre->bindParam(':age_min', $age_min);
+                $Ioffre->bindParam(':prestation_incluse', $prestation_incluse);
+                $Ioffre->bindParam(':prestation_excluse', $prestation_excluse);
+                $Ioffre->bindParam(':ville', $ville);
+                $Ioffre->bindParam(':numero_voie', $numero_voie);
+                $Ioffre->bindParam(':voie', $voie);
+                $Ioffre->bindParam(':code_postal', $code_postal);
+                $Ioffre->bindParam(':complement', $complement);
+                $Ioffre->bindParam(':idC', $idC);
+        
+                break; 
+
             case 'spectacle':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
                 $capacite = $_POST['capacite'];
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
-    
+            
                 $Ioffre = $dbh->prepare(
-                    "insert into pact.spectacle 
-                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, capacite, ville, numero_voie, voie, code_postal, complement, idC) values 
-                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', $capacite, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                    "INSERT INTO pact.spectacle 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, capacite, ville, numero_voie, voie, code_postal, complement, idC) 
+                    VALUES 
+                    (:titre, :resume, :type, :description, :site_web, :prix_min, :accessibilite, NOW(), NOW(), :duree::INTERVAL, :capacite, :ville, :numero_voie, :voie, :code_postal, :complement, :idC)"
                 );
+            
+                $Ioffre->bindParam(':titre', $titre);
+                $Ioffre->bindParam(':resume', $resume);
+                $Ioffre->bindParam(':type', $type);
+                $Ioffre->bindParam(':description', $description);
+                $Ioffre->bindParam(':site_web', $site);
+                $Ioffre->bindParam(':prix_min', $prix_min);
+                $Ioffre->bindParam(':accessibilite', $accessibilite);
+                $Ioffre->bindParam(':duree', $duree);
+                $Ioffre->bindParam(':capacite', $capacite);
+                $Ioffre->bindParam(':ville', $ville);
+                $Ioffre->bindParam(':numero_voie', $numero_voie);
+                $Ioffre->bindParam(':voie', $voie);
+                $Ioffre->bindParam(':code_postal', $code_postal);
+                $Ioffre->bindParam(':complement', $complement);
+                $Ioffre->bindParam(':idC', $idC);
+
                 break;
+                
                 
             case 'visite':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
                 $duree = $_POST['duree'];
-                if (isset($_POST['langue'])){
-                    $langues = $_POST['langue'];
-                } else {
-                    $langues = '';
-                }
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
-                
+                $langues = isset($_POST['langue']) ? $_POST['langue'] : '';
+            
                 $Ioffre = $dbh->prepare(
-                    "insert into pact.visite 
-                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC) values 
-                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), interval '$duree', '$langues', '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
+                    "INSERT INTO pact.visite 
+                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC) 
+                    VALUES 
+                    (:titre, :resume, :type, :description, :site_web, :prix_min, :accessibilite, NOW(), NOW(), :duree::INTERVAL, :langues, :ville, :numero_voie, :voie, :code_postal, :complement, :idC)"
                 );
+            
+                $Ioffre->bindParam(':titre', $titre);
+                $Ioffre->bindParam(':resume', $resume);
+                $Ioffre->bindParam(':type', $type);
+                $Ioffre->bindParam(':description', $description);
+                $Ioffre->bindParam(':site_web', $site);
+                $Ioffre->bindParam(':prix_min', $prix_min);
+                $Ioffre->bindParam(':accessibilite', $accessibilite);
+                $Ioffre->bindParam(':duree', $duree);
+                $Ioffre->bindParam(':langues', $langues);
+                $Ioffre->bindParam(':ville', $ville);
+                $Ioffre->bindParam(':numero_voie', $numero_voie);
+                $Ioffre->bindParam(':voie', $voie);
+                $Ioffre->bindParam(':code_postal', $code_postal);
+                $Ioffre->bindParam(':complement', $complement);
+                $Ioffre->bindParam(':idC', $idC);
+
                 break;
+                
     
-            case 'restauration':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
-                $src_image = time();
-                $gamme_prix = $_POST['categorie-prix'];
-                $petit_dejeuner = (isset($_POST['petit-dejeuner']) && ($_POST['petit-dejeuner'] == 'petit-dejeuner')) ? 'true' : 'false';
-                $brunch = (isset($_POST['brunch']) && ($_POST['brunch'] == 'brunch')) ? 'true' : 'false';
-                $dejeuner = (isset($_POST['dejeuner']) && ($_POST['dejeuner'] == 'dejeuner')) ? 'true' : 'false';
-                $diner = (isset($_POST['diner']) && ($_POST['diner'] == 'diner')) ? 'true' : 'false';
-                $boissons = (isset($_POST['boissons']) && ($_POST['boissons'] == 'boissons')) ? 'true' : 'false';
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
+                case 'restauration':
+                    $src_image = time();
+                    $gamme_prix = $_POST['categorie-prix'];
+                    $petit_dejeuner = isset($_POST['petit-dejeuner']) ? 'true' : 'false';
+                    $brunch = isset($_POST['brunch']) ? 'true' : 'false';
+                    $dejeuner = isset($_POST['dejeuner']) ? 'true' : 'false';
+                    $diner = isset($_POST['diner']) ? 'true' : 'false';
+                    $boissons = isset($_POST['boissons']) ? 'true' : 'false';
                 
-                $Ioffre = $dbh->prepare(
-                    "insert into pact.restauration 
-                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, ville, petit_dejeuner, brunch, dejeuner, diner, boissons, numero_voie, voie, code_postal, complement, idC) values 
-                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', '$gamme_prix', '$ville', $petit_dejeuner, $brunch, $dejeuner, $diner, $boissons, $numero_voie, '$voie', $code_postal, '', $idC);"
-                );
-                break;
+                    $Ioffre = $dbh->prepare(
+                        "INSERT INTO pact.restauration 
+                        (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, ville, petit_dejeuner, brunch, dejeuner, diner, boissons, numero_voie, voie, code_postal, complement, idC) 
+                        VALUES 
+                        (:titre, :resume, :type, :description, :site_web, :prix_min, :accessibilite, NOW(), NOW(), :src_image, :gamme_prix, :ville, :petit_dejeuner, :brunch, :dejeuner, :diner, :boissons, :numero_voie, :voie, :code_postal, :complement, :idC)"
+                    );
+                
+                    $Ioffre->bindParam(':titre', $titre);
+                    $Ioffre->bindParam(':resume', $resume);
+                    $Ioffre->bindParam(':type', $type);
+                    $Ioffre->bindParam(':description', $description);
+                    $Ioffre->bindParam(':site_web', $site);
+                    $Ioffre->bindParam(':prix_min', $prix_min);
+                    $Ioffre->bindParam(':accessibilite', $accessibilite);
+                    $Ioffre->bindParam(':src_image', $src_image);
+                    $Ioffre->bindParam(':gamme_prix', $gamme_prix);
+                    $Ioffre->bindParam(':ville', $ville);
+                    $Ioffre->bindParam(':petit_dejeuner', $petit_dejeuner);
+                    $Ioffre->bindParam(':brunch', $brunch);
+                    $Ioffre->bindParam(':dejeuner', $dejeuner);
+                    $Ioffre->bindParam(':diner', $diner);
+                    $Ioffre->bindParam(':boissons', $boissons);
+                    $Ioffre->bindParam(':numero_voie', $numero_voie);
+                    $Ioffre->bindParam(':voie', $voie);
+                    $Ioffre->bindParam(':code_postal', $code_postal);
+                    $Ioffre->bindParam(':complement', $complement);
+                    $Ioffre->bindParam(':idC', $idC);
+
+                    break;                
     
-            case 'parcAttraction':
-                $titre = $_POST['titre'];
-                $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
-                $description = $_POST['description'];
-                $prix_min = $_POST['prix'];
-                $accessibilite = $_POST['accessibilite'];
-                $src_image = time();
-                $nbr_attractions = $_POST['nbattraction'];
-                $age_min = $_POST['age'];
-                $ville = $_POST['ville'];
-                $code_postal= $_POST['codeP'];
+                case 'parcAttraction':
+                    $src_image = time();
+                    $nbr_attractions = $_POST['nbattraction'];
+                    $age_min = $_POST['age'];
                 
-                $Ioffre = $dbh->prepare(
-                    "insert into pact.parc_d_attraction 
-                    (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC) values 
-                    ('$titre', '$resume', '$type', '$description', '$site', $prix_min, '$accessibilite', now(), now(), '$src_image', $nbr_attractions, $age_min, '$ville', $numero_voie, '$voie', $code_postal, '', $idC);"
-                );
-                break;
+                    $Ioffre = $dbh->prepare(
+                        "INSERT INTO pact.parc_d_attraction 
+                        (titre, resume, \"type\", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC) 
+                        VALUES 
+                        (:titre, :resume, :type, :description, :site_web, :prix_min, :accessibilite, NOW(), NOW(), :src_image, :nbr_attractions, :age_min, :ville, :numero_voie, :voie, :code_postal, :complement, :idC)"
+                    );
+                
+                    $Ioffre->bindParam(':titre', $titre);
+                    $Ioffre->bindParam(':resume', $resume);
+                    $Ioffre->bindParam(':type', $type);
+                    $Ioffre->bindParam(':description', $description);
+                    $Ioffre->bindParam(':site_web', $site);
+                    $Ioffre->bindParam(':prix_min', $prix_min);
+                    $Ioffre->bindParam(':accessibilite', $accessibilite);
+                    $Ioffre->bindParam(':src_image', $src_image);
+                    $Ioffre->bindParam(':nbr_attractions', $nbr_attractions);
+                    $Ioffre->bindParam(':age_min', $age_min);
+                    $Ioffre->bindParam(':ville', $ville);
+                    $Ioffre->bindParam(':numero_voie', $numero_voie);
+                    $Ioffre->bindParam(':voie', $voie);
+                    $Ioffre->bindParam(':code_postal', $code_postal);
+                    $Ioffre->bindParam(':complement', $complement);
+                    $Ioffre->bindParam(':idC', $idC);
+
+                    break;
+                    
     
             default:
                 # code...
@@ -499,11 +558,22 @@ if (!empty($_FILES['map-file-upload']['name'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prévisualisation</title>
-    <link rel="stylesheet" href="../css/samStyles.css">
+    
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleLisa.css">
     <script src="../js/previsualisation.js"></script>
     <script src="../detail-offre.js" async></script>
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
     
 </head>
 <body class="body main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>" >
@@ -697,8 +767,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
                     <img class = carte src="../images/imagesReferences/placeholder.jpg" alt="plan">
                 </div> <?php
 
-            } elseif ($categorie === 'restauration' && $mapPhoto !== '') { 
-                echo $mapPhoto?>
+            } elseif ($categorie === 'restauration' && $mapPhoto !== '') { ?>
             
         <div>
             <br><br>
@@ -746,7 +815,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
 
 
 
-    <div class="Boutons">
+    <div class="boutonsPrevisualisation">
             <button class="FS bouton-valider" type="submit">
                 Valider
             </button>
@@ -777,7 +846,7 @@ if (!empty($_FILES['map-file-upload']['name'])){
         <?php } 
         ?>
 
-        <button class="bouton-retour NoSelect" type="submit">
+        <button class="bouton-retour-prev NoSelect FS" type="submit">
                 <img src="../icons/arrow-left-o.svg" alt="Retour">
                 Retour
         </button>

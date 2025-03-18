@@ -141,7 +141,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){
             print "Erreur !: " . $e->getMessage() . "<br/>";
             die();
         }
-    }else if($_POST['type_form'] == 'poste-reponse') {
+    } else if($_POST['type_form'] == 'poste-reponse') {
         try {
             $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
             $ida = (int)$_POST['avis'];
@@ -182,6 +182,10 @@ try {
     $stmt = $bdh->prepare("SELECT * FROM pact.offre WHERE ido = :idAnnonce");
     $stmt->execute([':idAnnonce' => $idAnnonce]);
     $offre = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    // met à jour les avis blacklistés
+    $stmt = $bdh->prepare("SELECT pact.geererBlacklist()");
+    $stmt->execute();
 
     if (!$offre) {
         die("Aucune offre trouvée.");
@@ -289,6 +293,16 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
 </head>
 
 <div class="desktop-element">
@@ -365,7 +379,7 @@ try {
 
                     </div>
                     <p class="nb-avis-info-offre">
-                        <?php echo $nbrAvis . " Avis |"; ?>
+                        <?php echo $nbrAvis?>&#xA0;Avis
                     </p>
                 </div>
                 <div class="infos-accessibilite">
@@ -563,6 +577,7 @@ try {
             $id_avis = 0;
             if ($nbrAvis > 0){
                 foreach ($avis as $avisIndividuel): 
+                
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
                 $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);      
@@ -571,19 +586,126 @@ try {
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
 
-                $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+  $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
                 $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
                 $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
                 
                 // var_dump($blacklisteData);
                 $classBlacklist = isset($blacklisteData['blackliste']) && $blacklisteData['blackliste'] ? 'blacklisted' : '';
             ?>
+          //vérifie si avis est blacklisté
+                $stmtCompte = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
+                $stmtCompte->execute([':idA' => $avisIndividuel['ida']]);
+                $estBlackliste = $stmtCompte->fetch(PDO::FETCH_ASSOC)["blackliste"];
+
+                // Vérification avis deja signalé 
+
+                // Vérifier si l'avis a déjà été signalé par l'utilisateur connecté
+                /*$idAvis = $avisIndividuel['ida'];
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0; // Récupérer l'utilisateur depuis le cookie
+
+                $stmtSignal = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_avis 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignal->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaled = $stmtSignal->fetchColumn() > 0;
+
+                // Vérifier si une réponse  a déjà été signalé par l'utilisateur connecté
+                $idAvis = $avisIndividuel['ida'];
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0; // Récupérer l'utilisateur depuis le cookie
+
+                $stmtSignal = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_reponse 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignal->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaled = $stmtSignal->fetchColumn() > 0;
+                */
+                /*
+                // Récupérer l'utilisateur depuis le cookie
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0;
+
+                // Vérification si l'avis a déjà été signalé
+                $idAvis = $avisIndividuel['ida'];
+
+                $stmtSignalAvis = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_avis 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalAvis->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledAvis = $stmtSignalAvis->fetchColumn() > 0;
+
+                // Vérification si une réponse liée à l'avis a déjà été signalée
+                $stmtSignalReponse = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_reponse 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalReponse->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
+                */
+                /*
+                // Récupération de l'ID de l'utilisateur (depuis les cookies)
+                $idSignaleur = isset($_COOKIE['user']) ? (int)$_COOKIE['user'] : 0;
+
+                // Récupération de l'ID de l'avis
+                $idAvis = $avisIndividuel['ida'];
+
+                // Vérification si l'avis a déjà été signalé
+                $stmtSignalAvis = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_avis 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalAvis->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledAvis = $stmtSignalAvis->fetchColumn() > 0;
+
+                // Vérification si une réponse liée à l'avis a déjà été signalée
+                $stmtSignalReponse = $bdh->prepare("
+                    SELECT COUNT(*) FROM pact._signal_reponse 
+                    WHERE idA = :idA AND idSignaleur = :idSignaleur
+                ");
+                $stmtSignalReponse->execute([
+                    ':idA' => $idAvis,
+                    ':idSignaleur' => $idSignaleur
+                ]);
+                $alreadySignaledReponse = $stmtSignalReponse->fetchColumn() > 0;
+
+                // Déterminer l'état du bouton en fonction des résultats
+                $buttonDisabled = $alreadySignaledAvis || $alreadySignaledReponse;
+                $buttonStyle = $buttonDisabled ? 'cursor: not-allowed; opacity: 0.5;' : '';
+                $buttonText = $alreadySignaledAvis ? 'Déjà signalé' : "Signaler l'avis";
+                // Vérifier si l'utilisateur a signalé cet avis ou une de ses réponses
+                */
+                /*
+                if ($alreadySignaledAvis) {
+                    echo "L'avis a déjà été signalé par cet utilisateur.";
+                } elseif ($alreadySignaledReponse) {
+                    echo "Une réponse à cet avis a déjà été signalée par cet utilisateur.";
+                } else {
+                    echo "Cet utilisateur n'a pas encore signalé cet avis ou ses réponses.";
+                }
+                */
 
             <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
-                        <div>
+                        <div class="titre-contexte">
                             <div class="titre-date">
                                 <h4>
                                     <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
@@ -591,7 +713,15 @@ try {
                                 <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
                             </div>
                             <div class="pseudo-contexte">
-                                <p><?php echo htmlspecialchars($avisIndividuel['pseudo']); ?></p>
+                                <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
+                                    <p style="font-style: italic" class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } else { ?>
+                                    <p class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                    </p>
+                                <?php } ?>
                                 <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>
@@ -657,14 +787,22 @@ try {
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && $estBlackliste){
                             ?>
-                            <button type="button"
-                            class="btn-blacklist"
-                            id="btn_blacklist_<?php echo $_COOKIE['user'];?>">
-                            <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                            <p>Blacklister l'avis</p>
-                            </button>
+                            <div class="blacklist">
+                                <button type="button" class="btn-blacklist">
+                                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                    <p>Blacklister l'avis</p>
+                                </button>
+                                <div class="blacklist-content">
+                                    <button type="button" class="btn-blacklist-irr"
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    >Blacklister</button>
+                                    <button type="button" 
+                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                    class="btn-blacklist-rev">Blacklister temporairement</button>
+                                </div>
+                            </div>
                         <?php
                         }
                         ?>
@@ -713,7 +851,7 @@ try {
                         
                         } else { ?>
                             <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
-                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse" style="display: none">
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse_<?php echo $id_avis; ?>" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
                                 <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
@@ -780,6 +918,34 @@ try {
             <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
     <?php } ?>
+
+    <?php if(isset($_COOKIE['user']) && $_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] ){?>
+        <div id="overlay"></div>
+        <div class="modal" id="modal" style="display: none;">
+            <input type="hidden" name="status" value="" id="modal-id">
+            <div id='option-modal'>
+                <h2 class="titre-modal">Blacklist Options</h2>
+                <div>
+                    <label for="semaine">Nombre de semaine(s) : </label>
+                    <input id="semaine" type="number" value="1" min="1"/>
+                    <br>
+                    <p id="warning-semaine" name="warning-semaine" style="color: red;">Saisir un nombre valide</p>
+                </div>
+                <div id="boutons-modal">
+                    <input type="button" class="btn-notif" id="modal-submit-button" value="Valider"/>
+                    <input type="button" class="btn-notif" id="modal-close" value="Annuler">
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modal-warning" style="display: none;">
+            <h2 class="titre-modal">Êtes vous sûr?</h2>
+            <div id="boutons-modal">
+                <input type="button" class="btn-notif" id="modal-warning-submit-button" value="Valider"/>
+                <input type="button" class="btn-notif" id="modal-warning-close" value="Annuler">
+            </div>
+        </div>
+    <?php } ?>  
     <footer class="phone-element">
         <?php include_once 'footerNav.php'; ?>
     </footer>

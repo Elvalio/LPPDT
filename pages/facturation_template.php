@@ -6,6 +6,7 @@
      <style>
         <?php include_once("../css/styleGeneral.css");?>
     </style>
+    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
 </head>
 <body class="BO body-creation-facturation">
     <header class="header-creation-facturation">
@@ -69,7 +70,7 @@
             <?php if (!empty($options[0])) { ?>
                 <tr>
                     <td>Option « <?= $option_titre ?> »</td>
-                    <td><?php echo round($facture_data['nbrjours'] /7 ) ?> Semaine</td>
+                    <td><?php if (round($facture_data['nbrjours'] /7) > 0) {echo round($facture_data['nbrjours'] /7);} else echo 1; ?> Semaine</td>
                     <td><?= number_format($facture_data['total_options_ht'], 2, ',', ' ') ?> €/Semaine</td>
                     <td><?= number_format($offre_options_ht, 2, ',', ' ') ?> €</td>
                     <td><?= number_format($offre_options_ttc, 2, ',', ' ') ?> €</td>
