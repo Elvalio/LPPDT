@@ -9,9 +9,14 @@ use function PHPSTORM_META\type;
 
     $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
 
-    //Récupère tous les avis
-    try {
     
+    try {
+
+        // met à jour les avis blacklistés
+        $stmt = $dbh->prepare("SELECT pact.geererBlacklist();");
+        $stmt->execute();
+        
+        //Récupère tous les avis
         $stmt = $dbh->prepare("SELECT * FROM pact.experience");
         $stmt->execute();
         $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -70,9 +75,6 @@ use function PHPSTORM_META\type;
     $user_cookie = $_COOKIE['user'];
 
     try{
-        // met à jour les avis blacklistés
-        $stmt = $bdh->prepare("SELECT pact.geererBlacklist()");
-        $stmt->execute();
 
     $stmt=$dbh->prepare("SELECT o.idO, o.titre, o.resume, o.idC, o.en_ligne, o.type, MIN(p.src_image) AS src_image, 
         pact.prix_previsionnel_offre_TTC(o.idO) as ttc, pact.prix_previsionnel_offre_HT(o.idO) as ht,
