@@ -497,8 +497,9 @@ function check_actif() {
 }
 
 const onClickOutside = (e) => {
-    if (!modal.contains(e.target) && modal.style.display == "block") {
+    if ((!modal.contains(e.target) && !modal_warning.contains(e.target)) && modal.style.display == "block") {
         modal.style.display = "none";
+        modal_warning.style.display = "none";
         document.getElementById('overlay').style.display = "none";
         window.removeEventListener("click",onClickOutside);
     }

@@ -183,6 +183,10 @@ try {
     $stmt->execute([':idAnnonce' => $idAnnonce]);
     $offre = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // met à jour les avis blacklistés
+    $stmt = $bdh->prepare("SELECT pact.geererBlacklist()");
+    $stmt->execute();
+
     if (!$offre) {
         die("Aucune offre trouvée.");
     }
@@ -552,6 +556,7 @@ try {
             $id_avis = 0;
             if ($nbrAvis > 0){
                 foreach ($avis as $avisIndividuel): 
+                
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
                 $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);      
@@ -559,6 +564,11 @@ try {
                 $stmtReponse = $bdh->prepare("SELECT * FROM pact._reponse WHERE idA = :idA");
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
+
+                //vérifie si avis est blacklisté
+                $stmtCompte = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
+                $stmtCompte->execute([':idA' => $avisIndividuel['ida']]);
+                $estBlackliste = $stmtCompte->fetch(PDO::FETCH_ASSOC)["blackliste"];
 
                 // Vérification avis deja signalé 
 
@@ -750,7 +760,7 @@ try {
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user']){
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && $estBlackliste){
                             ?>
                             <div class="blacklist">
                                 <button type="button" class="btn-blacklist">

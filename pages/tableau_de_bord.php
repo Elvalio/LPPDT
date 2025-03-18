@@ -9,9 +9,14 @@ use function PHPSTORM_META\type;
 
     $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
 
-    //Récupère tous les avis
-    try {
     
+    try {
+
+        // met à jour les avis blacklistés
+        $stmt = $dbh->prepare("SELECT pact.geererBlacklist();");
+        $stmt->execute();
+        
+        //Récupère tous les avis
         $stmt = $dbh->prepare("SELECT * FROM pact.experience");
         $stmt->execute();
         $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
