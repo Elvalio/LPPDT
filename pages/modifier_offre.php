@@ -1097,44 +1097,42 @@ try{
                             <div id="bottom-right-part-content">
                             <!---- Champs ajout 3 images --->
                             <div id="file-container">
-                                    <!---- Bouton 1 --->
-                                    <label for="file-upload1" class="custom-file-upload">
-                                        <img src="../icons/plus.svg" alt="Bouton Image">
-                                        <p class="upload-text">Ajouter une image 1</p>
-                                    </label>
-                                    <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg"/>
+                                <!---- Bouton 1 --->
+                                <label for="file-upload1" class="custom-file-upload">
+                                    <img src="../icons/plus.svg" alt="Bouton Image">
+                                    <p class="upload-text">Ajouter une image 1</p>
+                                </label>
+                                <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg"/>
 
-                                    <!---- Bouton 2 --->
-                                    <label for="file-upload2" class="custom-file-upload">
-                                        <img src="../icons/plus.svg" alt="Bouton Image">
-                                        <p class="upload-text">Ajouter une image 2</p>
-                                    </label>
-                                    <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg"/>
-                                    <!---- Bouton 3 --->
-                                    <label for="file-upload3" class="custom-file-upload">
-                                        <img src="../icons/plus.svg" alt="Bouton Image">
-                                        <p class="upload-text">Ajouter une image 3</p>
-                                    </label>
-                                    <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg"/>
+                                <!---- Bouton 2 --->
+                                <label for="file-upload2" class="custom-file-upload">
+                                    <img src="../icons/plus.svg" alt="Bouton Image">
+                                    <p class="upload-text">Ajouter une image 2</p>
+                                </label>
+                                <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg"/>
+                                <!---- Bouton 3 --->
+                                <label for="file-upload3" class="custom-file-upload">
+                                    <img src="../icons/plus.svg" alt="Bouton Image">
+                                    <p class="upload-text">Ajouter une image 3</p>
+                                </label>
+                                <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg"/>
 
-                                    <button id="file-delete" type="button">
-                                        <img src="../icons/moins.svg" alt="Bouton Image">
-                                        Supprimer une image
-                                    </button>
-                                </div>
-                                <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
-                                <p id="message-prevention"></p>
-                                <!-- Éléments pour afficher les images importées -->
-                                <div id="image-container">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
-                                    <input class="status-image" type="hidden" id="statusImage1" name="statusImage1" value="false">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée2" />
-                                    <input class="status-image" type="hidden" id="statusImage2" name="statusImage2" value="false">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée3" />
-                                    <input class="status-image" type="hidden" id="statusImage3" name="statusImage3" value="false">
-                                </div>
-                            <!-- Formulaire caché pour le téléchargement d'images -->
-                            
+                                <button id="file-delete" type="button">
+                                    <img src="../icons/moins.svg" alt="Bouton Image">
+                                    Supprimer une image
+                                </button>
+                            </div>
+                            <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
+                            <p id="message-prevention"></p>
+                            <!-- Éléments pour afficher les images importées -->
+                            <div id="image-container">
+                                <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
+                                <input class="status-image" type="hidden" id="statusImage1" name="statusImage1" value="false">
+                                <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée2" />
+                                <input class="status-image" type="hidden" id="statusImage2" name="statusImage2" value="false">
+                                <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée3" />
+                                <input class="status-image" type="hidden" id="statusImage3" name="statusImage3" value="false">
+                            </div>
                         </div>
                     </div>
                 </div>      
@@ -1158,17 +1156,21 @@ try{
             $pattern = "/$idO-[a-z]/i";
             $special = array_values(preg_grep($pattern, $files));
         ?>
-        
 
-        <script src="../js/creation_offre.js">
-            
-        </script>
+        <script src="../js/creation_offre.js"></script>
         <script>
+            //status-image : si false = existe pas
+            const statusMap = document.getElementById('status-map');
+            const statusImg1 = document.getElementById('statusImage1');
+            const statusImg2 = document.getElementById('statusImage1');
+            const statusImg3 = document.getElementById('statusImage1');
+
             handleCategorieChange();
             // Affiche image de carte/menu si elle existe
             if (<?php echo empty($special) ?  'false' : 'true'?>) {
                 imageCarte = document.getElementById('selected-image');
                 imageCarte.src = '../images/image_offre/<?php echo isset($special[0]) ?  $special[0] : ''?>';
+                statusMap.value = 'true';
                 
                 //affiche boutons modifier et supprimer
                 mapFileDelete.style.display = 'flex';
@@ -1183,6 +1185,7 @@ try{
                 if (isset($matches[$i])){
             ?>
             selectedImages[<?php echo $i?>].src = '../images/image_offre/<?php echo $matches[$i]?>';
+            statusImg<?php echo $i + 1?>.value = 'true';
             currentImageCount++;
             <?php }}?>
 
@@ -1192,9 +1195,6 @@ try{
                 boutonSuppression.style.display = 'flex';
             }
             toggleFileUpload(); // affiche/cache bouton ajouter
-
-            //status-image : if false then not deleted, else it was deleted
         </script>
-        
     </body>
 </html>

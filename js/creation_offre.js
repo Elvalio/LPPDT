@@ -52,7 +52,7 @@
                 const texteBoutonAjout = document.querySelectorAll('.upload-text'); // Les textes des boutons d'ajout
                 const errorMessageSupprimer = document.getElementById('error-message-supprimer');
                 const preventionMessage = document.getElementById('message-prevention');
-                const imagesASupp = document.querySelectorAll('.img'); // Récupère toutes les images
+                // const imagesASupp = document.querySelectorAll('.img'); // Récupère toutes les images
 
                 var currentImageCount = 0; // Nombre d'images actuellement affichées
                 var selectedImageIndex = -1; // Index de l'image sélectionnée pour la suppression
@@ -351,13 +351,14 @@
                                         selectedImages[selectedImageIndex].classList.remove('selected');
                                         //MODIFIER OFFRE : change statut image
                                         if (statusImages.length !== 0) {
-                                            statusImages[selectedImageIndex].value = 'false';
+                                            statusImages[selectedImageIndex].value = 'modifier';
                                         }
                                         selectedImageIndex = -1;
 
                                         // Trouver la première case vide pour nextIndex
                                         nextIndex = rechercheImageVide();
                                         boutonSuppression.style.display = 'flex';
+                                        errorMessageSupprimer.style.display = 'none'
                                         preventionMessage.style.display = 'none';
                                     } else { //sélectionné mais une image existe déjà
                                         selectedImages[selectedImageIndex].src = e.target.result;
@@ -372,7 +373,7 @@
                                     currentImageCount++;
                                     //MODIFIER OFFRE : change statut image
                                     if (statusImages.length !== 0) {
-                                        statusImages[nextIndex].value = 'false';
+                                        statusImages[nextIndex].value = 'modifier';
                                     }
                                     if (currentImageCount > nextIndex){
                                         nextIndex = currentImageCount;
@@ -380,6 +381,7 @@
                                         nextIndex++;
                                     }
                                     boutonSuppression.style.display = 'flex';
+                                    errorMessageSupprimer.style.display = 'none'
                                     preventionMessage.style.display = 'none';
                                 }
                                 toggleFileUpload(); // Vérifier si on doit masquer le bouton d'ajout                       
@@ -397,12 +399,12 @@
                         // Trouver la première case non-vide pour la supprimer (à partir de la fin)
                         let i = rechercheImagePleine();
                         selectedImages[i].src = '../images/rien.png';
-                        imagesASupp[i].value = 'false';
+                        // imagesASupp[i].value = 'false';
                         filetitres[i].value = '';
                         currentImageCount--;
                         //MODIFIER OFFRE : change statut image
                         if (statusImages.length !== 0) {
-                            statusImages[i].value = 'true';
+                            statusImages[i].value = 'supprime';
                         }
                         if (currentImageCount === 0 ){
                             boutonSuppression.style.display = 'none';
@@ -417,15 +419,16 @@
                         var img = selectedImages[selectedImageIndex];
                         if (img.getAttribute('src') !== '../images/rien.png'){
                             img.src = '../images/rien.png';
-                            imagesASupp[selectedImageIndex].value = 'false';
+                            // imagesASupp[selectedImageIndex].value = 'false';
                             filetitres[selectedImageIndex].value = '';
                             //MODIFIER OFFRE : change statut image
                             if (statusImages.length !== 0) {
-                                statusImages[selectedImageIndex].value = 'true';
+                                statusImages[selectedImageIndex].value = 'supprime';
                             }
                             img.classList.remove('selected');
                             currentImageCount--;
                             selectedImageIndex = -1;
+                            errorMessageSupprimer.style.display = 'none'
                         } else {
                             errorMessageSupprimer.style.display = 'block'; 
                         }
