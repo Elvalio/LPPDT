@@ -760,7 +760,7 @@ try {
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && $estBlackliste){
+                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && !$estBlackliste){
                             ?>
                             <div class="blacklist">
                                 <button type="button" class="btn-blacklist">
