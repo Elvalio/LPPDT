@@ -137,7 +137,7 @@ use function PHPSTORM_META\type;
     }?>
     </head>
     
-    <body class="BO FO">
+    <body class="BO">
         <div class="main-content">
             <header>
                 <h1>Vos offres</h1>
