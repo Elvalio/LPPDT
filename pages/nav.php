@@ -63,41 +63,40 @@
                 print "Erreur !: " . $e->getMessage() . "<br/>";
                 die();
             }
-        }
 
 
 
-
-        // Vérification de si il y a des avis non répondu
-        $nbr_avis = 0;
-        foreach($avis as $a) {
-            $check = true;
-            foreach($reponse as $rep) {
-                if($a['ida'] == $rep['ida']) {
-                    $check = false;
+            // Vérification de si il y a des avis non répondu
+            $nbr_avis = 0;
+            foreach($avis as $a) {
+                $check = true;
+                foreach($reponse as $rep) {
+                    if($a['ida'] == $rep['ida']) {
+                        $check = false;
+                    }
                 }
-            }
-            if ($check) {
+                if ($check) {
 
-                $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+                    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
-                try{
+                    try{
 
-                    $stmt=$dbh->prepare("SELECT * FROM pact.offre WHERE idO = :id_offre");
-                    $stmt->bindParam(':id_offre', $a['ido']);
-                    $stmt->execute();
+                        $stmt=$dbh->prepare("SELECT * FROM pact.offre WHERE idO = :id_offre");
+                        $stmt->bindParam(':id_offre', $a['ido']);
+                        $stmt->execute();
         
-                    $offre = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $offre = $stmt->fetch(PDO::FETCH_ASSOC);
                 
-                } catch (PDOException $e) {
-                    print "Erreur !: " . $e->getMessage() . "<br/>";
+                    } catch (PDOException $e) {
+                        print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
-                }
+                    }
 
-                $dbh = null;
+                    $dbh = null;
 
-                if ($offre['idc'] == $_COOKIE['user']) {
-                    $nbr_avis++;
+                    if ($offre['idc'] == $_COOKIE['user']) {
+                        $nbr_avis++;
+                    }
                 }
             }
         }
@@ -159,17 +158,19 @@
 
                         </div>
                         <div id="bottom-items">
-                            <?php if ($nbr_avis > 0) { ?>
-                                <a href="avis_non_rep.php" class="nav-item" data-icon="notification-avec-notif">
-                                    <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
-                                    <p>Notifications</p>
-                                </a>
-                            <?php } else { ?>
-                                <a href="avis_non_rep.php" class="nav-item" data-icon="notification-sans-notif">
-                                    <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
-                                    <p>Notifications</p>
-                                </a>
-                            <?php } ?>
+                            <?php if (isset($_COOKIE['user']) && $_COOKIE['type_compte'] != 'membre') {
+                                if ($nbr_avis > 0) { ?>
+                                    <a href="avis_non_rep.php" class="nav-item" data-icon="notification-avec-notif">
+                                        <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
+                                        <p>Notifications</p>
+                                    </a>
+                                <?php } else { ?>
+                                    <a href="avis_non_rep.php" class="nav-item" data-icon="notification-sans-notif">
+                                        <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
+                                        <p>Notifications</p>
+                                    </a>
+                                <?php } 
+                            } ?>
 
                                 <?php if (isset($_COOKIE['type_compte'])) { ?>
                                 <a href="infoCompte.php" class="nav-item" data-icon="parametre">
