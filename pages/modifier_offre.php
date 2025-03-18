@@ -585,7 +585,7 @@ try{
                 $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
                 $stmt->bindParam(':src', $src, PDO::PARAM_STR);
                 $stmt->execute();
-            } else if ($_POST['statusImage'.$i] === 'true') {
+            } else if ($_POST['statusImage'.$i] === 'supprime') {
                 // supprimer images
                 $image = $image[0];
                 $src = "image_offre/$image";
