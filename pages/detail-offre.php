@@ -485,8 +485,10 @@ try {
                     echo $nbrAvis;
                 ?>
             </h3>
-            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive")): ?>
-                <button id="btn-blacklist" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist > 0) : ?>
+                <button id="btn-blacklist" data-nbr-avis-blacklist="<?php echo $nbrAvisBlacklist; ?>" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php elseif(isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist == 0) : ?>
+                <button id="btn-blacklist" style="cursor: not-allowed;" disabled>Aucun avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
             <?php endif; ?>
         </header>
         <article class="article-avis">
