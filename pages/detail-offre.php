@@ -183,6 +183,10 @@ try {
     $stmt->execute([':idAnnonce' => $idAnnonce]);
     $offre = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // met à jour les avis blacklistés
+    $stmt = $bdh->prepare("SELECT pact.geererBlacklist()");
+    $stmt->execute();
+
     if (!$offre) {
         die("Aucune offre trouvée.");
     }
