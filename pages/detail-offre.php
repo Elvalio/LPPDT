@@ -575,7 +575,7 @@ try {
             
             <?php 
             $id_avis = 0;
-            if ($nbrAvis > 0){
+            if ($nbrAvis > 0 || $nbrAvisBlacklist > 0) {
                 foreach ($avis as $avisIndividuel): 
                 
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
