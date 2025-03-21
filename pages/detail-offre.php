@@ -586,7 +586,7 @@ try {
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
 
-  $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+                $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
                 $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
                 $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
                 
@@ -787,23 +787,34 @@ try {
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && !$estBlackliste){
-                            ?>
-                            <div class="blacklist">
-                                <button type="button" class="btn-blacklist">
-                                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                                    <p>Blacklister l'avis</p>
-                                </button>
-                                <div class="blacklist-content">
-                                    <button type="button" class="btn-blacklist-irr"
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                    >Blacklister</button>
-                                    <button type="button" 
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                    class="btn-blacklist-rev">Blacklister temporairement</button>
+                        if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
+                            if ($estBlackliste) {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist" style="cursor: not-allowed; opacity: 0.5;" disabled>
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Avis déjà blacklisté</p>
+                                    </button>
                                 </div>
-                            </div>
-                        <?php
+                                <?php
+                            } else {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist">
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Blacklister l'avis</p>
+                                    </button>
+                                    <div class="blacklist-content">
+                                        <button type="button" class="btn-blacklist-irr"
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        >Blacklister</button>
+                                        <button type="button" 
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        class="btn-blacklist-rev">Blacklister temporairement</button>
+                                    </div>
+                                </div>
+                                <?php
+                            }
                         }
                         ?>
                 
