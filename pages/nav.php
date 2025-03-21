@@ -49,7 +49,7 @@
             try{
                 $stmt = $dbh->prepare("SELECT * FROM pact.experience");
                 $stmt->execute();
-                $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $avis_nav = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }catch(PDOException $e){
                 print "Erreur !: " . $e->getMessage() . "<br/>";
                 die();
@@ -58,7 +58,7 @@
             try{
                 $stmt = $dbh->prepare("SELECT * FROM pact._reponse");
                 $stmt->execute();
-                $reponse = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                $reponse_nav = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }catch(PDOException $e){
                 print "Erreur !: " . $e->getMessage() . "<br/>";
                 die();
@@ -67,11 +67,11 @@
 
 
             // Vérification de si il y a des avis non répondu
-            $nbr_avis = 0;
-            foreach($avis as $a) {
+            $nbr_avis_nav = 0;
+            foreach($avis_nav as $a_nav) {
                 $check = true;
-                foreach($reponse as $rep) {
-                    if($a['ida'] == $rep['ida']) {
+                foreach($reponse_nav as $rep_nav) {
+                    if($a_nav['ida'] == $rep_nav['ida']) {
                         $check = false;
                     }
                 }
@@ -82,20 +82,19 @@
                     try{
 
                         $stmt=$dbh->prepare("SELECT * FROM pact.offre WHERE idO = :id_offre");
-                        $stmt->bindParam(':id_offre', $a['ido']);
+                        $stmt->bindParam(':id_offre', $a_nav['ido']);
                         $stmt->execute();
         
-                        $offre = $stmt->fetch(PDO::FETCH_ASSOC);
+                        $offre_nav = $stmt->fetch(PDO::FETCH_ASSOC);
                 
                     } catch (PDOException $e) {
                         print "Erreur !: " . $e->getMessage() . "<br/>";
                     die();
                     }
 
-                    $dbh = null;
 
-                    if ($offre['idc'] == $_COOKIE['user']) {
-                        $nbr_avis++;
+                    if ($offre_nav['idc'] == $_COOKIE['user']) {
+                        $nbr_avis_nav++;
                     }
                 }
             }
@@ -159,7 +158,7 @@
                         </div>
                         <div id="bottom-items">
                             <?php if (isset($_COOKIE['user']) && $_COOKIE['type_compte'] != 'membre') {
-                                if ($nbr_avis > 0) { ?>
+                                if ($nbr_avis_nav > 0) { ?>
                                     <a href="avis_non_rep.php" class="nav-item" data-icon="notification-avec-notif">
                                         <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
                                         <p>Notifications</p>
