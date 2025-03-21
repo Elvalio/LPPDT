@@ -53,3 +53,40 @@ overlay.addEventListener('click', function () {
     popup.classList.remove("montrer"); // Désactive l'effet
     overlay.classList.remove("montrer");
 });
+
+
+
+// test photo profile
+
+document.getElementById("photo-profil").addEventListener("click", function() {
+    document.getElementById("insert-image").click();
+});
+
+document.getElementById("upload-photo").addEventListener("change", function(event) {
+    let file = event.target.files[0];
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("photo-profil").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+
+        // Envoyer l'image au serveur via AJAX
+        let formData = new FormData();
+        formData.append("image-profil", file);
+
+        fetch("upload.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("Image mise à jour avec succès !");
+            } else {
+                alert("Erreur lors de l'upload !");
+            }
+        })
+        .catch(error => console.error("Erreur:", error));
+    }
+});

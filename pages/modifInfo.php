@@ -154,10 +154,10 @@ try{
                         
                         <?php if($Cmembre){ ?>
                             <label for="pseudo" class="FS">Pseudonyme</label>
-                            <input type="text" class="FS" value="<?php echo $compte['pseudo'] ?>" id="pseudo-membre" name="pseudo" readonly>
+                            <input type="text" class="FS" value="<?php echo $compte['pseudo'] ?>" id="pseudo-membre" name="pseudo">
                         <?php }else if($Cpro_prive){ ?>
                             <label for="codepro" class="BO">Code Professionnel</label>
-                            <input type="text" class="BO" value="<?php echo $compte['codepro'] ?>" id="codepro" name="codepro" readonly>
+                            <input type="text" class="BO" value="<?php echo $compte['codepro'] ?>" id="codepro" name="codepro">
                         <?php } ?>
 
                         <label for="adresse" class="FS">Adresse postale<span class="required"></span></label>
@@ -186,13 +186,13 @@ try{
 
                         <?php if(!$Cmembre){?>
                             <label for="denomination" class="BO">Dénomination</label>
-                            <input type="text" class="BO" value="<?php echo $compte['denomination_sociale'] ?>" id="denomination" name="denomination" readonly>
+                            <input type="text" class="BO" value="<?php echo $compte['denomination_sociale'] ?>" id="denomination" name="denomination">
                             <?php if($Cpro_prive){ ?>
                                 <label for="iban" class="BO">Iban</label>
-                                <input type="text" class="BO" value="<?php echo $compte['iban'] ?>" id="iban" name="iban" readonly>
+                                <input type="text" class="BO" value="<?php echo $compte['iban'] ?>" id="iban" name="iban">
 
                                 <label for="siren" class="BO">Siren</label>
-                                <input type="text" class="BO" value="<?php echo $compte['siren'] ?>" id="siren" name="siren" readonly>
+                                <input type="text" class="BO" value="<?php echo $compte['siren'] ?>" id="siren" name="siren">
                             <?php } ?>
                         <?php } ?>
 
