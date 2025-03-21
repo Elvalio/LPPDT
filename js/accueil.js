@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const items_filters = document.querySelectorAll('.filter.desktop');
     const fleche_filtre = document.querySelector('.filtrer-bouton > img');
     const main = document.querySelector('main');
+    const carte = document.querySelector('#carte');
 
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.classList.remove('show');
             });
             main.classList.remove('active_filter');
+            carte.classList.remove('active_filter');
         }
     }
 
@@ -63,8 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (filtres.classList.contains('active')) {
             main.classList.toggle('active_filter');
+            carte.classList.toggle('active_filter');
         } else {
             main.classList.toggle('active_filter');
+            carte.classList.toggle('active_filter');
             await sleep(250);
         }
 
@@ -72,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (filtres.classList.contains('active')) {
             main.classList.toggle('active_filter');
+            carte.classList.toggle('active_filter');
             items_filters.forEach((item) => {
                 item.classList.add('show');
             });
@@ -80,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.classList.remove('show');
             });
             main.classList.toggle('active_filter');
+            carte.classList.toggle('active_filter');
         }
     });
 

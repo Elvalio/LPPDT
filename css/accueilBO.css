@@ -1234,6 +1234,11 @@ input[type="range"]::-ms-thumb {
     border: none !important;
 }
 
+#carte.active_filter {
+    margin-top: 170px;
+    transition: margin-top 0.3s ease-in-out;
+}
+
 #carte #map {
     height: 400px;
     width: 100%;
