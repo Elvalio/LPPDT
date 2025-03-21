@@ -569,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     <a href="https://www.google.com/maps/dir//${adresse}" target="_blank">
                                         <div class="popup-extra-mobile">Ouvrir Maps <img src="../icons/gmaps.png"></div>
                                     </a>
-                                    <a href="https://lppdt.ventsdouest.dev/LPPDT/pages/detail-offre.php?value=${ido}">
+                                    <a href="detail-offre.php?value=${ido}">
                                         <div class="popup-extra-mobile">Voir les détails</div>
                                     </a>
                                 </div>`;
