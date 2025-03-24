@@ -219,7 +219,7 @@ try{
                         <input type="password" class="FS" id="password2-membre" name="password2" >
                     </div>
                 </div>
-                    <button id="info-compte-bouton-confirmer" type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Confirmer les modifications</button>
+                    <button id="info-compte-bouton-confirmer" type="submit" class="bouton-envoi-formulaire-modif-compte TS-bold">Confirmer les modifications</button>
             </form>
         </div>
     </div>
