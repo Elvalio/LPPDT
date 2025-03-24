@@ -952,9 +952,7 @@ try {
             </div>
             <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
-    <?php } ?>
-
-    <?php if(isset($_COOKIE['user']) && $_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] ){?>
+    <?php } else if(isset($_COOKIE['user']) && $_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] ){?>
         <div id="overlay"></div>
         <div class="modal" id="modal" style="display: none;">
             <input type="hidden" name="status" value="" id="modal-id">
