@@ -644,6 +644,9 @@ document.addEventListener("DOMContentLoaded", function () {
             // Ajoute une classe au body ou un élément parent
             document.body.classList.toggle('show-blacklisted');
 
+            // Ajoute ou retire la classe "clicked" au bouton
+            this.classList.toggle('clicked');
+
             // Change le texte du bouton
             this.textContent = document.body.classList.contains('show-blacklisted') 
                 ? `Masquer avis blacklistés (${nbrAvisBlacklist})` 
@@ -651,6 +654,5 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
 
 

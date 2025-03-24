@@ -499,10 +499,12 @@ try {
                     echo $nbrAvis;
                 ?>
             </h3>
-            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist > 0) : ?>
-                <button id="btn-blacklist" data-nbr-avis-blacklist="<?php echo $nbrAvisBlacklist; ?>" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
-            <?php elseif(isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist == 0) : ?>
-                <button id="btn-blacklist" style="cursor: not-allowed;" disabled>Aucun avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php if (isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "pro_prive") : ?>
+                <?php if ($nbrAvisBlacklist > 0) : ?>
+                    <button id="btn-blacklist" data-nbr-avis-blacklist="<?php echo $nbrAvisBlacklist; ?>" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+                <?php else : ?>
+                    <button id="btn-blacklist" style="cursor: not-allowed;" disabled>Aucun avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+                <?php endif; ?>
             <?php endif; ?>
         </header>
         <article class="article-avis">
@@ -780,12 +782,15 @@ try {
                 ?><div class="signaler-like"><?php
                 
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
-                        <button type="button"
-                            class="btn-signaler"
-                            id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
-                            <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                            <p>Signaler l'avis</p>
-                        </button>
+                            <div class="signaler">
+                                <button type="button"
+                                    class="btn-signaler"
+                                    id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
+                                    <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                                    <p>Signaler l'avis</p>
+                                </button>
+                            </div>
+
                         <?php
                         if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
                             if ($estBlackliste) {
