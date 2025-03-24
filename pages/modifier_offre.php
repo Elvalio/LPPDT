@@ -1021,7 +1021,7 @@ try{
                                                 <img src="../icons/plus.svg" alt="Bouton Image">
                                                 <p id="map-upload-text">Ajouter</p>
                                             </label>
-                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png"/>
+                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png, .jpg, .jpeg, .gif"/>
                                             <input type="hidden" id="status-map" name="status-map" value="false">
                                             <button id="map-file-delete" type="button">
                                                 <img src="../icons/moins.svg" alt="Bouton Image">
@@ -1102,20 +1102,20 @@ try{
                                     <img src="../icons/plus.svg" alt="Bouton Image">
                                     <p class="upload-text">Ajouter une image 1</p>
                                 </label>
-                                <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg"/>
+                                <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg, .jpeg, .gif"/>
 
                                 <!---- Bouton 2 --->
                                 <label for="file-upload2" class="custom-file-upload">
                                     <img src="../icons/plus.svg" alt="Bouton Image">
                                     <p class="upload-text">Ajouter une image 2</p>
                                 </label>
-                                <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg"/>
+                                <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg, .jpeg, .gif"/>
                                 <!---- Bouton 3 --->
                                 <label for="file-upload3" class="custom-file-upload">
                                     <img src="../icons/plus.svg" alt="Bouton Image">
                                     <p class="upload-text">Ajouter une image 3</p>
                                 </label>
-                                <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg"/>
+                                <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg, .jpeg, .gif"/>
 
                                 <button id="file-delete" type="button">
                                     <img src="../icons/moins.svg" alt="Bouton Image">
