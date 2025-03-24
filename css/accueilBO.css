@@ -1230,8 +1230,14 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: column;
     align-items: center;
+    transform: translateY(0);
 
     border: none !important;
+}
+
+#carte.active_filter {
+    transform: translateY(170px);
+    transition: all 0.3s ease-in-out;
 }
 
 #carte #map {
