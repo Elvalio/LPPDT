@@ -235,17 +235,16 @@ const likesCount = document.querySelectorAll('[id^="likesCount"]');
 const dislikesCount = document.querySelectorAll('[id^="dislikesCount"]');
 
 likeButton.forEach(button => {
-    button.addEventListener("click", async () => {
-
-        datas = event.target.id.split('_');
+    button.addEventListener("click", async (event) => {
+        // Use event.currentTarget to get the button element, not a child element
+        const datas = event.currentTarget.id.split('_');
         console.log(datas);
         const data = {
             id_compte: datas[1],
             id_avis: datas[2],
         };
-    
+
         try {
-            
             const response = await fetch('../pages/update_like.php', {
                 method: 'POST',
                 headers: {
@@ -253,16 +252,13 @@ likeButton.forEach(button => {
                 },
                 body: JSON.stringify(data)
             });
-    
+
             if (response.ok) {
-                
                 const result = await response.json();
                 console.log(result);
                 const likesCount = button.closest('.like-dislike').querySelector(`[id^="likesCount_${datas[2]}"]`);
                 const dislikesCount = button.closest('.like-dislike').querySelector(`[id^="dislikesCount_${datas[2]}"]`);
-                console.log(likesCount);
                 if (result.nbr_likes !== undefined) {
-                    console.log(result.nbr_likes);
                     likesCount.textContent = result.nbr_likes;
                     dislikesCount.textContent = result.nbr_dislikes;
                 }
@@ -273,21 +269,18 @@ likeButton.forEach(button => {
             console.error('Erreur réseau:', error);
         }
     });
-    }
-);
+});
 
 dislikeButton.forEach(button => {
-    button.addEventListener("click", async () => {
-
-        datas = event.target.id.split('_');
+    button.addEventListener("click", async (event) => {
+        const datas = event.currentTarget.id.split('_');
         console.log(datas);
         const data = {
             id_compte: datas[1],
             id_avis: datas[2],
         };
-    
+
         try {
-            
             const response = await fetch('../pages/update_dislike.php', {
                 method: 'POST',
                 headers: {
@@ -295,16 +288,13 @@ dislikeButton.forEach(button => {
                 },
                 body: JSON.stringify(data)
             });
-    
+
             if (response.ok) {
-                
                 const result = await response.json();
                 console.log(result);
                 const dislikesCount = button.closest('.like-dislike').querySelector(`[id^="dislikesCount_${datas[2]}"]`);
                 const likesCount = button.closest('.like-dislike').querySelector(`[id^="likesCount_${datas[2]}"]`);
-                console.log(dislikesCount);
                 if (result.nbr_dislikes !== undefined) {
-                    console.log(result.nbr_dislikes);
                     dislikesCount.textContent = result.nbr_dislikes;
                     likesCount.textContent = result.nbr_likes;
                 }
@@ -315,8 +305,8 @@ dislikeButton.forEach(button => {
             console.error('Erreur réseau:', error);
         }
     });
-    }
-);
+});
+
 
 const signalerAvisBtn = document.querySelectorAll('[id^="btn_signaler_avis"]');
 console.log(signalerAvisBtn);

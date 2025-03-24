@@ -754,12 +754,36 @@ try {
                         $stmt->execute([':idAvis'=>$avisIndividuel['ida']]);
                         $like_dislike = $stmt->fetch(PDO::FETCH_ASSOC);
                         ?>
-                        <img id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" class="LikeButton" src="../icons/like-plein.png" alt="Like" width="20" height="20" style="cursor: pointer;">
+
+                        <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+                        <button id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" class="LikeButton" style="border: none; background: none; cursor: pointer;">
+                            <dotlottie-player id="likeAnimation_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>"
+                                src="https://lottie.host/7296a538-6074-4c20-9eb2-fcd9a8494cf7/WYlTqi09st.lottie"
+                                background="transparent" speed="1"
+                                style="width: 60px; height: 60px"
+                                direction="1" playMode="normal">
+                            </dotlottie-player>
+                        </button>
+
                         <span id="likesCount_<?php echo $avisIndividuel['ida']?>"><?php
                         echo $like_dislike['nbr_likes'];
+
+
+
                         ?></span>
-                        <img id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" class="DislikeButton" src="../icons/dislike-plein.png" alt="Dislike" width="20" height="20" style="cursor: pointer;">
-                        <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>"><?php
+                        <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.3.0/dist/dotlottie-wc.js" type="module"></script>
+
+<button id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" class="DislikeButton" style="border: none; background: none; cursor: pointer;">
+    <dotlottie-wc 
+        id="dislikeAnimation_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>"
+        src="https://lottie.host/5df25556-9851-4371-a225-93a7536c8766/3bTi7yuX0T.lottie"
+        background="transparent"
+        speed="1"
+        style="width: 60px; height: 60px">
+    </dotlottie-wc>
+</button>           
+                        <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>">
+                        <?php
                         echo $like_dislike['nbr_dislikes'];
                         ?></span>
                 </div>
