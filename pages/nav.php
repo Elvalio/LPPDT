@@ -29,6 +29,19 @@
                 // Récupérer la première ligne du résultat
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+                
+                $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
+                $stmt->bindValue(':idc', $_COOKIE['user'], PDO::PARAM_INT);
+                $stmt->execute();
+
+                $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
+                $stmt->bindParam(':idimage', $image_profil['image_compte']);
+                $stmt->execute();
+
+                $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
                 if ($row) {
                     // Récupérer les valeurs des trois colonnes
                     $nom = $row['nom'];
@@ -205,7 +218,7 @@
                             <?php if (isset($_COOKIE['type_compte'])) {?>
                                 
                                 <a href="infoCompte.php" class="nav-item">
-                                    <img src="../icons/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav connecte" id="img-profile">
+                                    <img src="../images/<?php echo $image_profil['src_image']?>" alt="Logo déconnecter" class="logo-nav connecte" id="img-profile">
                                     <div id="infoProfile">
                                         <p id="prenom" class="TS"><?php echo $nom . ' ' . $prenom ?></p>
                                         <p id="email" class="TS"><?php echo $email ?></p>

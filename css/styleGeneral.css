@@ -2108,11 +2108,15 @@ body {
 /*************************************************************************************************/
 
 #sidebar.active #img-profile.connecte{
-    height: 38.4px;
+    height: 28px;
+    width: 28px;
+    border-radius: 45%;
 }
 
 #sidebar #img-profile.connecte{
-   height: 38.4px;
+   height: 28px;
+   width: 28px;
+   border-radius: 45%;
 }
 
 
