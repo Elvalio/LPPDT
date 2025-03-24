@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const pactItem = document.querySelector("#pact-item");
     const bouton = document.querySelector(".sphere");
     const itemToHideFO = ['tableau-de-bord', 'facturation', 'creation', 'notification-avec-notif'];
-    const itemEnConstruction = ['favoris', 'historique'];
+    const itemEnConstruction = ['favoris'];
     const accueilItem = document.querySelector('[data-icon="accueil"]');
     const tableauDeBordItem = document.querySelector('[data-icon="tableau-de-bord"]');
     const creationOffreItem = document.querySelector('[data-icon="creation"]');
