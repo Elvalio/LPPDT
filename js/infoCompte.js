@@ -36,10 +36,10 @@ function updateBodyClass() {
 }
 
 
-updateBodyClass();
+//updateBodyClass();
 
 
-boutonSupprimer.addEventListener('click', function() {
+/*boutonSupprimer.addEventListener('click', function() {
     popup.classList.add("montrer");
     overlay.classList.add("montrer");
 });
@@ -52,17 +52,22 @@ document.getElementById('croix_small').addEventListener('click', function() {
 overlay.addEventListener('click', function () {
     popup.classList.remove("montrer"); // Désactive l'effet
     overlay.classList.remove("montrer");
+});*/
+
+
+
+// Changement photo profil
+
+let modif_photo_profil = document.getElementById("photo-profil");
+let fileInput = document.getElementById("insert-image");
+let boutonConfirmer = document.getElementById("info-compte-bouton-confirmer");
+let selectedFile = null;
+
+modif_photo_profil.addEventListener("click", function() {
+    fileInput.click();
 });
 
-
-
-// test photo profile
-
-document.getElementById("photo-profil").addEventListener("click", function() {
-    document.getElementById("insert-image").click();
-});
-
-document.getElementById("upload-photo").addEventListener("change", function(event) {
+fileInput.addEventListener("change", function(event) {
     let file = event.target.files[0];
     if (file) {
         let reader = new FileReader();
@@ -70,12 +75,17 @@ document.getElementById("upload-photo").addEventListener("change", function(even
             document.getElementById("photo-profil").src = e.target.result;
         };
         reader.readAsDataURL(file);
+        selectedFile = file; // Stocker temporairement le fichier
+    }
+});
 
-        // Envoyer l'image au serveur via AJAX
-        let formData = new FormData();
-        formData.append("image-profil", file);
+boutonConfirmer.addEventListener("click", function(event) {
 
-        fetch("upload.php", {
+    if (selectedFile) {
+            let formData = new FormData();
+        formData.append("image-profil", selectedFile);
+
+        fetch("update-photo-profil.php", {
             method: "POST",
             body: formData
         })
@@ -88,5 +98,6 @@ document.getElementById("upload-photo").addEventListener("change", function(even
             }
         })
         .catch(error => console.error("Erreur:", error));
+
     }
 });

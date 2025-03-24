@@ -17,7 +17,21 @@ try{
         $stmt->execute();
             
         $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
+        $stmt->bindParam(':idc', $_COOKIE['user']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
+        $stmt->bindParam(':idimage', $image_profil['image_compte']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
         $Cmembre = True;
+
     }else if($_COOKIE['type_compte'] == "pro_public"){
         $stmt = $dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :idc");
         $stmt->bindParam(':idc', $_COOKIE['user']);
@@ -48,7 +62,7 @@ try{
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <link rel="stylesheet" href="../css/test.css">
+    <link rel="stylesheet" href="../css/info-compte.css">
     <link rel="stylesheet" href="../css/samStyles.css">
     <?php 
     if(isset($_COOKIE['type_compte'])){
@@ -85,8 +99,7 @@ try{
     <div class="container-page-info-compte">
             <div class="compte-titre-photo-profil TS-bold" id="link-membre" >
                 <h1 class="TS-bold">Paramètre de Compte</h1>
-                <img id="photo-profil" class="compte-photo-profil" src="../images/59.png" alt="icone-membre" class="icone-membre" width="160px" height="160px" >
-                <input type="file" id="insert-image" accept="image/*" style="display: none;">
+                <img id="photo-profil" class="compte-photo-profil" src="../images/<?php echo $image_profil['src_image'] ?>" alt="icone-membre" class="icone-membre" width="160px" height="160px" >
             </div>
         <div class="compte-container-main-page" id="form-membre">
                 <div class="compte-details-section">
@@ -144,11 +157,14 @@ try{
                     </div>
                   <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
                 </div>
-                    <button class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Modifier les Informations</button>
+                <div class="info-compte-buttons">
+                    <a class="bouton-modif-avis TS-bold" href="modifInfo.php" >Modifier les Informations</a>
                     <?php
                     if($_COOKIE['type_compte'] == "membre"){ ?>
-                        <button class="bouton-mes-avis">Voir mes avis</button>
+                        <a class="bouton-modif-avis TS-bold" href="mes-avis.php" >Voir mes avis</a>
                     <?php } ?>
+                    <a href="#" class="info-compte-bouton-deconnecter" data-icon="deconnection" onclick="deconnexion()">Se déconnecter</a>
+                </div>
         </div>
     </div>
 </body>

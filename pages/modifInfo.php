@@ -73,6 +73,19 @@ try{
         $stmt->execute();
             
         $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
+        $stmt->bindParam(':idc', $_COOKIE['user']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
+        $stmt->bindParam(':idimage', $image_profil['image_compte']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
         $Cmembre = True;
     }else if($_COOKIE['type_compte'] == "pro_public"){
         $stmt = $dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :idc");
@@ -104,6 +117,7 @@ try{
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
+    <link rel="stylesheet" href="../css/info-compte.css">
 <?php 
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
@@ -135,79 +149,83 @@ try{
         <div class="menu-links-crea-compte">
             <div class="inscription-membre TS-bold" id="link-membre">
                 <h1 class="TS-bold">Paramètre de Compte</h1>
+                <img id="photo-profil" class="compte-photo-profil" src="../images/<?php echo $image_profil['src_image'] ?>" alt="icone-membre" class="icone-membre" width="160px" height="160px" >
+                <input type="file" id="insert-image" accept="image/*" style="display: none;">
             </div>
         </div>
 
 
         <!-- Formulaire pour l'inscription membre -->
         <div class="form-container-page-creation-compte" id="form-membre">
-            <form name="membre" action="test_modif_compte.php" method="post" enctype="multipart/form-data">
+            <form name="membre" action="infoCompte.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="membre">
                 <div class="form-group-crea-compte">
                     <div class="left-column-crea-compte">
-                        <label for="nom" class="FS">Nom<span class="required"></span></label>
+                        <label name="nom" class="FS">Nom<span class="required"></span></label>
                         <input type="text" class="FS" value="<?php echo $compte['nom']?>" id="nom-membre" name="nom" >
                         
                         
-                        <label for="prenom" class="FS">Prénom<span class="required"></span></label>
+                        <label name="prenom" class="FS">Prénom<span class="required"></span></label>
                         <input type="text" class="FS" value="<?php echo $compte['prenom'] ?>" id="prenom-membre" name="prenom" >
                         
                         <?php if($Cmembre){ ?>
-                            <label for="pseudo" class="FS">Pseudonyme</label>
+                            <label name="pseudo" class="FS">Pseudonyme</label>
                             <input type="text" class="FS" value="<?php echo $compte['pseudo'] ?>" id="pseudo-membre" name="pseudo">
                         <?php }else if($Cpro_prive){ ?>
-                            <label for="codepro" class="BO">Code Professionnel</label>
+                            <label name="codepro" class="BO">Code Professionnel</label>
                             <input type="text" class="BO" value="<?php echo $compte['codepro'] ?>" id="codepro" name="codepro">
                         <?php } ?>
 
-                        <label for="adresse" class="FS">Adresse postale<span class="required"></span></label>
+                        <label name="adresse" class="FS">Adresse postale<span class="required"></span></label>
                         <input type="text" class="FS" value="<?php echo $compte['numero_voie'] . ' ' . $compte['voie']?>" id="adresse-membre" name="adresse" >
 
-                        <div class="row-param-compte">
+                        <div class="row-info-compte">
                             <div class="input-wrapper-crea-compte">
-                                <label for="codepostal" class="FS">Code postal<span class="required"></span></label>
+                                <label name="codepostal" class="FS">Code postal<span class="required"></span></label>
                                 <input type="text" class="FS" value="<?php echo $compte['code_postal'] ?>" id="codepostal-membre" name="codepostal" >
                                 
                             </div>
 
                             <div class="input-wrapper-crea-compte">
-                                <label for="ville" class="FS">Ville<span class="required"></span></label>
+                                <label name="ville" class="FS">Ville<span class="required"></span></label>
                                 <input type="text" class="FS" value="<?php echo $compte['ville'] ?>" id="ville-membre" name="ville" >
 
                             </div>
                         </div>
                     </div>
                     <div class="right-column-crea-compte">
-                        <label for="email" class="FS">E-mail<span class="required"></span></label>
+                        <label name="email" class="FS">E-mail<span class="required"></span></label>
                         <input type="email" class="FS" value="<?php echo $compte['email'] ?>" id="email-membre" name="email" >
 
-                        <label for="telephone" class="FS">Téléphone<span class="required"></span></label>
+                        <label name="telephone" class="FS">Téléphone<span class="required"></span></label>
                         <input type="tel" class="FS" value="<?php echo $compte['telephone'] ?>" id="telephone-membre" name="telephone" >
 
                         <?php if(!$Cmembre){?>
-                            <label for="denomination" class="BO">Dénomination</label>
+                            <label name="denomination" class="BO">Dénomination</label>
                             <input type="text" class="BO" value="<?php echo $compte['denomination_sociale'] ?>" id="denomination" name="denomination">
                             <?php if($Cpro_prive){ ?>
-                                <label for="iban" class="BO">Iban</label>
+                                <label name="iban" class="BO">Iban</label>
                                 <input type="text" class="BO" value="<?php echo $compte['iban'] ?>" id="iban" name="iban">
 
-                                <label for="siren" class="BO">Siren</label>
+                                <label name="siren" class="BO">Siren</label>
                                 <input type="text" class="BO" value="<?php echo $compte['siren'] ?>" id="siren" name="siren">
                             <?php } ?>
                         <?php } ?>
 
-                        <label for="password" class="FS">Mot de passe<span class="required"><?php echo "  " . $message_erreur ?></span></label>
+                        <label name="password" class="FS">Mot de passe<span class="required"><?php echo "  " . $message_erreur ?></span></label>
                         <input type="password" class="FS" id="password-membre" name="password" >
 
-                        <label for="password2" class="FS">Confirmer le mot de passe<span class="required"><?php echo "  " . $message_erreur ?></span></label>
+                        <label name="password2" class="FS">Confirmer le mot de passe<span class="required"><?php echo "  " . $message_erreur ?></span></label>
                         <input type="password" class="FS" id="password2-membre" name="password2" >
                     </div>
                 </div>
-                    <button type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Confirmer les modifications</button>
+                    <button id="info-compte-bouton-confirmer" type="submit" class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Confirmer les modifications</button>
             </form>
         </div>
     </div>
 </body>
+
+<script src="../js/infoCompte.js" async></script>
 
 <?php include_once'footerNav.php' ?>
 </html>
