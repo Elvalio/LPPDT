@@ -153,6 +153,12 @@ input:focus {
     margin: 10px;
 }
 
+.trier:hover, .search:hover {
+    border: 1px solid #D9D9D9;
+    box-shadow: 0 0 0 1px rgba(217, 217, 217, 0.5);
+    transition: 0.3s all;
+}
+
 .filtrer-bouton {
     display: flex;
     flex-direction: row;
@@ -163,6 +169,7 @@ input:focus {
     width: 100px;
     height: 40px;
     align-self: center;
+    transition: all .27s ease;
 }
 
 .filtrer-bouton:hover {
@@ -655,7 +662,6 @@ input[type="range"]::-ms-thumb {
 }
 
 .NouveauALaUne div {
-    display: inline-flex; /* Utilisation de inline-flex pour s'adapter à la largeur du contenu */
     align-items: center; /* Centrer verticalement le texte et l'image */
     gap: 8px; /* Espacement entre le texte et l'image */
     background-color: #F5F5F5;
@@ -663,8 +669,44 @@ input[type="range"]::-ms-thumb {
     width: fit-content;
     height: fit-content;
     padding: 5px 8px; /* Espacement intérieur pour le texte */
-    /* margin: 2px; */
-    transition: background-color 0.3s, color 0.3s;
+    margin: 2px; 
+
+    /* border: 0.125em solid #1A1A1A;
+    border-radius: 0.9375em; */
+    box-sizing: border-box; 
+    cursor: pointer;
+    display: inline-block;
+    line-height: normal;
+    outline: none;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    will-change: transform;
+}
+
+.NouveauALaUne div:hover {
+    box-shadow: none;
+    transform: translateY(0);
+    animation: bounce 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+
+}
+
+@keyframes bounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.05) rotate(2deg); }
+    50% { transform: scale(0.95) rotate(2deg); }
+    70% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+  }
+   
+.NouveauALaUne div.active {
+    color: #fff;
+    background-color: #1A1A1A;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
 }
 
 .NouveauALaUne div p {
@@ -676,9 +718,6 @@ input[type="range"]::-ms-thumb {
     display: block; /* Affiche l'image lorsque la classe 'show' est ajoutée */
 }
 
-.NouveauALaUne div.active {
-    background-color: #2C2C2C; /* Changer la couleur du fond lorsqu'actif */
-}
 .NouveauALaUne div.active p {
     color: #F5F5F5; /* Couleur du texte en mode actif */
 }
@@ -1230,13 +1269,21 @@ input[type="range"]::-ms-thumb {
     display: flex;
     flex-direction: column;
     align-items: center;
+    transform: translateY(0);
 
     border: none !important;
+}
+
+#carte.active_filter {
+  transform: translateY(170px);
+    transition: all 0.3s ease-in-out;
 }
 
 #carte #map {
     height: 400px;
     width: 100%;
+
+    z-index: 0;
 
     transition: height 0.4s ease-in;
 }

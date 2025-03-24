@@ -5,13 +5,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const pactItem = document.querySelector("#pact-item");
     const bouton = document.querySelector(".sphere");
     const itemToHideFO = ['tableau-de-bord', 'facturation', 'creation', 'notification-avec-notif'];
-    const itemEnConstruction = ['favoris', 'historique', 'notification-avec-notif'];
+    const itemEnConstruction = ['favoris'];
     const accueilItem = document.querySelector('[data-icon="accueil"]');
     const tableauDeBordItem = document.querySelector('[data-icon="tableau-de-bord"]');
     const creationOffreItem = document.querySelector('[data-icon="creation"]');
+    const notificationAvecItem = document.querySelector('[data-icon="notification-avec-notif"]');
+    const notificationSansItem = document.querySelector('[data-icon="notification-sans-notif"]');
 
     function changerApparenceIcon(p, it, im, ic){
-        if (p === currentPage || (it === accueilItem && currentPage === 'detail-offre.php') || (it === tableauDeBordItem && currentPage === 'modifier_offre.php') || (it === creationOffreItem && currentPage === 'previsualisation_offre.php')) {
+        if (p === currentPage || (it === accueilItem && currentPage === 'detail-offre.php') || (it === tableauDeBordItem && currentPage === 'modifier_offre.php') || (it === creationOffreItem && currentPage === 'previsualisation_offre.php') || (it === notificationAvecItem && currentPage === 'avis_non_rep.php') || (it === notificationSansItem && currentPage === 'avis_non_rep.php')) {
             it.classList.add('actuel');
             if(sidebar.classList.contains("FO")){
                 im.src = `../icons/icons-bleu/icon-${ic}-bleu.svg`;  // Chemin pour l'icône actif

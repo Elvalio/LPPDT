@@ -189,6 +189,7 @@ create table pact._offre(
   prix_min float,
   --/moy_note
   --/nbrAvis
+  --/nbrAvisBlacklistes
   accessibilite varchar(200),
   categorie varchar(30), -- need to be frozen
   date_creation date default now(),
@@ -910,8 +911,18 @@ create or replace function pact.count_avis(idOffre integer)
 declare
   comp integer;
 begin
-  select count(*) from pact._experience e where e.idO = idOffre into comp;
+  select count(*) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre and a.blackliste = False into comp;
   RETURN comp;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.nbrAvisBlacklistes(idOffre integer)
+  returns int as $$
+declare
+  res int;
+begin
+  select COUNT(*) from pact._avis a inner join pact._experience e on a.ida = e.ida where e.idO = idOffre and a.blackliste = True into res;
+  RETURN res;
 end;
 $$ language 'plpgsql';
 
@@ -920,7 +931,7 @@ create or replace function pact.moy_notes(idOffre integer)
 declare
   comp float;
 begin
-  select avg(a.note) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre  into comp;
+  select avg(a.note) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre and a.blackliste = False into comp;
   if (comp is null) then
     comp = 0;
   end if;
@@ -929,7 +940,7 @@ end;
 $$ language 'plpgsql';
 
 create or replace view pact.offre as
-  select  o.idO, o.titre, resume, "type", op.idOption, op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, 
+  select  o.idO, o.titre, resume, "type", op.idOption, op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, pact.nbrAvisBlacklistes(o.idO) as nbrAvisBlacklistes, 
   accessibilite, categorie, date_creation, date_publication, date_hors_ligne, o.idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC from pact._offre o 
   inner join pact._type_offre t on "type" = idT
   inner join pact._adresse a on a.idAdresse = o.idAdresse
@@ -1878,6 +1889,29 @@ begin
   res ='';
   select numero_voie, voie, ville, code_postal from pact._adresse a where a.idadresse = idAdr into adresse;
   res = CONCAT(adresse.numero_voie, ' ', adresse.voie, ' ', adresse.ville, ' ', adresse.code_postal);
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+/*
+  Géerer avis blacklistées
+  Fonction gère les blacklist temporaires
+*/
+create or replace function pact.geererBlacklist()
+  returns boolean as $$
+declare
+  i record;
+  res boolean;
+begin
+  res = false;
+  
+  for i in select ida, blackliste, date_blackliste, duree_blackliste from pact._avis
+    loop
+    if (i.blackliste) then
+      res = true;
+      update pact._avis set blackliste = false, duree_blackliste = null where ida = i.ida and i.date_blackliste + i.duree_blackliste < now();
+    end if;
+  end loop;
   RETURN res;
 end;
 $$ language 'plpgsql';

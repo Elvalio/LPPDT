@@ -1,4 +1,3 @@
-<?php include_once 'nav.php' ?>
 <?php
 include('../sql/connect_params.php');
 try {
@@ -98,7 +97,16 @@ function creerFacturesPourToutesLesOffres($bdh) {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <title>Facturation</title>
-    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
 
 </head>
 
@@ -108,6 +116,7 @@ function creerFacturesPourToutesLesOffres($bdh) {
     <div class="main-content facture_titre">
     <header>
         <h1>Facturation</h1>
+        <div> <?php include_once 'nav.php' ?> </div>
     </header>
     <div>
         <?php
