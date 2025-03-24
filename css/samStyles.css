@@ -1697,14 +1697,14 @@ hr {
   z-index: 10;
 }
 
-#croix_big.desktop {
+#croix.desktop {
   width: 15px;
   height: 15px;
   object-fit: cover;
   cursor: pointer;
   position: relative;
-  bottom: 60%;
-  left: 5%;
+  bottom: 56%;
+  left: 2%;
   padding: 1.5px;
   background-color: var(--bleuFonce-rougeFonce);
   border: 1px solid var(--blanc);
@@ -1845,7 +1845,7 @@ hr {
 
 
 
-#croix_big.mobile {
+#croix.mobile {
   width: 15px;
   height: 15px;
   object-fit: cover;
