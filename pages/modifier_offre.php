@@ -222,7 +222,7 @@ try{
             case 'Activite':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -282,7 +282,7 @@ try{
             case 'Spectacle':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -339,7 +339,7 @@ try{
             case 'Visite':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -395,7 +395,7 @@ try{
             case 'Restauration':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -466,7 +466,7 @@ try{
             case "Parc d'attraction":
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -1021,7 +1021,7 @@ try{
                                                 <img src="../icons/plus.svg" alt="Bouton Image">
                                                 <p id="map-upload-text">Ajouter</p>
                                             </label>
-                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png"/>
+                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png, .jpg, .jpeg, .gif"/>
                                             <input type="hidden" id="status-map" name="status-map" value="false">
                                             <button id="map-file-delete" type="button">
                                                 <img src="../icons/moins.svg" alt="Bouton Image">
@@ -1048,8 +1048,8 @@ try{
                                             <div id="standard">                                                
                                                 <input type="radio" id="standard" name="offre" value="standard" style="cursor : not-allowed; pointer-events: none;" 
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'standard' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'standard' ? 'checked' : '') 
                                                         : (((string)$_COOKIE['type_compte'] == 'pro_prive') ? 'checked' : '');
                                                     ?> 
                                                 />
@@ -1059,8 +1059,8 @@ try{
                                                 <!-- <input type="radio" id="premium" name="offre" value="premium" /> -->
                                                 <input type="radio" id="premium" name="offre" value="premium" style="cursor: not-allowed; pointer-events: none;"
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'premium' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'premium' ? 'checked' : '') 
                                                         : '';
                                                     ?> 
                                                 />
@@ -1102,20 +1102,20 @@ try{
                                     <img src="../icons/plus.svg" alt="Bouton Image">
                                     <p class="upload-text">Ajouter une image 1</p>
                                 </label>
-                                <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg"/>
+                                <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg, .jpeg, .gif"/>
 
                                 <!---- Bouton 2 --->
                                 <label for="file-upload2" class="custom-file-upload">
                                     <img src="../icons/plus.svg" alt="Bouton Image">
                                     <p class="upload-text">Ajouter une image 2</p>
                                 </label>
-                                <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg"/>
+                                <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg, .jpeg, .gif"/>
                                 <!---- Bouton 3 --->
                                 <label for="file-upload3" class="custom-file-upload">
                                     <img src="../icons/plus.svg" alt="Bouton Image">
                                     <p class="upload-text">Ajouter une image 3</p>
                                 </label>
-                                <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg"/>
+                                <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg, .jpeg, .gif"/>
 
                                 <button id="file-delete" type="button">
                                     <img src="../icons/moins.svg" alt="Bouton Image">
