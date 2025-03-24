@@ -15,24 +15,6 @@
   src: url('../polices/TripSans-Ultra.ttf') format('truetype');
 }
 
-/* Animation Like */
-.LikeButton:focus, .LikeButton:active {
-  transform: scale(1.5) translateY(-10px) rotate(-15deg);
-}
-
-/* Animation Dislike */
-.DislikeButton:focus, .DislikeButton:active {
-  transform: scale(1.5) translateY(10px) rotate(15deg);
-}
-
-.DislikeButton:active {
-  animation: dislikeAnim 0.5s;
-}
-
-.LikeButton:active {
-  animation: likeAnim 0.5s;
-}
-
 
 @media (min-width: 801px) {
 
@@ -553,8 +535,7 @@
 
 #btn-reponse {
   border: none;
-  margin-left: 41px;
-  margin-top: 10px;
+  margin: 0px 0px 30px 41px;
   color: lightslategray;
   background-color: white;
 }
@@ -1698,14 +1679,14 @@ hr {
   z-index: 10;
 }
 
-#croix_big.desktop {
+#croix.desktop {
   width: 15px;
   height: 15px;
   object-fit: cover;
   cursor: pointer;
   position: relative;
-  bottom: 60%;
-  left: 5%;
+  bottom: 56%;
+  left: 2%;
   padding: 1.5px;
   background-color: var(--bleuFonce-rougeFonce);
   border: 1px solid var(--blanc);
@@ -1846,7 +1827,7 @@ hr {
 
 
 
-#croix_big.mobile {
+#croix.mobile {
   width: 15px;
   height: 15px;
   object-fit: cover;
