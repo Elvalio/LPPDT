@@ -9,9 +9,14 @@ use function PHPSTORM_META\type;
 
     $dbh = new PDO("$driver:host=$server; port=$port; dbname=$dbname", $user, $pass);
 
-    //Récupère tous les avis
-    try {
     
+    try {
+
+        // met à jour les avis blacklistés
+        $stmt = $dbh->prepare("SELECT pact.geererBlacklist();");
+        $stmt->execute();
+        
+        //Récupère tous les avis
         $stmt = $dbh->prepare("SELECT * FROM pact.experience");
         $stmt->execute();
         $avis = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -22,7 +27,18 @@ use function PHPSTORM_META\type;
         die();
     }
     
-    
+    try {
+
+        // Récupère le nombre d'avis blacklistés
+        $stmt = $dbh->prepare("SELECT ido, nbravisblacklistes FROM pact.offre");
+        $stmt->execute();
+        $nbr_avis_blacklistes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+
+
     //Récupère toutes les réponses
     try {
     
@@ -132,7 +148,7 @@ use function PHPSTORM_META\type;
     }?>
     </head>
     
-    <body class="BO FO">
+    <body class="BO">
         <div class="main-content">
             <header>
                 <h1>Vos offres</h1>
@@ -186,9 +202,16 @@ use function PHPSTORM_META\type;
                             if ($nbr_avis_non_rep > 0) { ?>
                                 <p class="FS">Vous avez <?php echo (string)$nbr_avis_non_rep ?> avis non répondu</p>
                             <?php } 
-                            if($valeur['type']==3){ ?>
-                                <p class="FS">Avis Blacklistés : <?php echo 0; ?> / 3</p>
-                            <?php }
+                            if($valeur['type'] == 3) {
+                                foreach($nbr_avis_blacklistes as $blacklist) {
+                                    if ($blacklist['ido'] == $valeur['ido']) {
+                                        ?>
+                                        <p class="FS">Avis Blacklistés : <?php echo $blacklist['nbravisblacklistes']; ?> / 3</p>
+                                        <?php
+                                        break;
+                                    }
+                                }
+                            }
                             ?>
                         </div>
                     </div>

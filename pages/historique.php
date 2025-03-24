@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
     <?php
-    include_once'nav.php';
 
 
     include('../sql/connect_params.php');
@@ -84,69 +83,33 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <?php
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-            <body class="BO"> <?php   
-            $etoile = "rouge";
+            <body class="BO"> <?php
         }  else { ?>
             <body class="FO"> <?php
-            $etoile = "bleue";
         }
     } else { ?>
         <body class="FO"> <?php
-        $etoile = "bleue";
 
     }?>
-        <div class="main-content">
+        <div class="main-content historique">
             <header>
-                <h1>Historique</h1>
+                <nav class="desktop-element">
+                    <h1>Historique</h1>
+                    <?php include_once'nav.php'; ?>
+                </nav>
+                <header class="phone-element">
+                    <?php
+                    include 'header.php';
+                    ?>
             </header>
             <main id="historique">
 
-            <!-- <?php
-            foreach ($resultat as $key => $value) { 
-                if ($value["en_ligne"]) { ?>
-                <div class="offre_historique_container">
-                    <div class="infoText">
-                        <h2><?php echo $value["titre"] ?></h2>
-                        <p><?php echo $value["description"] ?></p>
-                        <p><?php echo $value["adresse"] ?> - <?php echo $value["prix_min"]; ?>€</p>
-                    </div>
-                    <div class="infoIMG">
-                        <div class="etoiles">
-                            <?php 
-                            if ($value["moy_note"] != null && $value["nbravis"] != 0) {
-                                for ($i = 0; $i < floor($value["moy_note"]); $i++) { ?>
-                                    <img src="../icons/etoile_<?php echo $etoile; ?>.png" alt="Etoile">
-                                <?php }
-
-                                if ($value["moy_note"] - floor($value["moy_note"]) >= 0.5) { ?>
-                                    <img src="../icons/demi_etoile_<?php echo $etoile; ?>.png" alt="Demi Etoile">
-                                <?php 
-                                    $i++;
-                                }
-
-                                for (; $i < 5; $i++) { ?>
-                                    <img src="../icons/etoile_<?php echo $etoile; ?>_vide.png" alt="Etoile Vide">
-                            <?php }} ?>
-                            <?php if ($value["moy_note"] != null && $value["nbravis"] != 0) { ?>
-                                <p class="textAvis">(<?php echo $value["nbravis"] ?>)</p> 
-                            <?php } ?>
-                        </div>
-                        <?php if ($value['src_image']) { ?>
-                                <img src="../images/<?php echo $value['src_image']; ?>" alt="Photo offre">
-                            <?php } else { ?>
-                                <img src="../images/imagesReferences/placeholder.jpg" alt="Image par défaut">
-                            <?php } ?>
-                    </div>
-                </div>
-                <?php } } ?> -->
                 <div id="historique_container"></div>
-                
-                
+
                 <?php
-
                 include_once'footer.php';
-
                 ?>  
+
             </main>
         </div>
 
@@ -164,8 +127,16 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         }
 
         historique.forEach(offre => {
+            let offreLink = document.createElement("a");
+            offreLink.href = `detail-offre.php?value=${offre.id}`; // Remplace par le bon lien
+            offreLink.style.textDecoration = "none"; // Supprime le soulignement par défaut
+
             let offreDiv = document.createElement("div");
             offreDiv.classList.add("offre_historique_container");
+
+            if (window.innerWidth < 800 && offre.desc.length > 60) {
+                offre.desc = offre.desc.substring(0, 60) + "...";
+            }
 
             offreDiv.innerHTML = `
                 <div class="infoText">
@@ -176,14 +147,19 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                 <div class="infoIMG">
                     <div class="etoiles">
                         ${genererEtoiles(offre.note)}
-                        <p class="textAvis"> (${offre.nbrAvis})</p>
+                        <p class="textAvis">(${offre.nbrAvis})</p>
                     </div>
                     <img src="../images/${offre.image || 'imagesReferences/placeholder.jpg'}" alt="Photo offre">
                 </div>
             `;
 
-            container.appendChild(offreDiv);
+            // Ajoute la div dans le lien <a>
+            offreLink.appendChild(offreDiv);
+
+            // Ajoute le lien <a> dans le conteneur
+            container.appendChild(offreLink);
         });
+
     });
 
     // Générer les étoiles en fonction de la note

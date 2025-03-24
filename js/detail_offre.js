@@ -497,8 +497,9 @@ function check_actif() {
 }
 
 const onClickOutside = (e) => {
-    if (!modal.contains(e.target) && modal.style.display == "block") {
+    if ((!modal.contains(e.target) && !modal_warning.contains(e.target)) && (modal.style.display == "block"|| modal_warning.style.display == "block")) {
         modal.style.display = "none";
+        modal_warning.style.display = "none";
         document.getElementById('overlay').style.display = "none";
         window.removeEventListener("click",onClickOutside);
     }
@@ -537,9 +538,10 @@ blacklistBtnRev.forEach(button => {
 // Bouton pour blacklistage permanent
 blacklistBtnIrr.forEach(button => {
     button.addEventListener("click", async () => {
+        
         datas = button.id.split('_');
         button.parentElement.style.display = 'none';
-
+        window.addEventListener("click",onClickOutside, true);
         input_semaine.value = "";
         modal_warning.style.display = "block";
         document.getElementById('overlay').style.display = "block";
@@ -640,3 +642,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 */
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    const btnBlacklist = document.getElementById('btn-blacklist');
+
+    if (btnBlacklist) {
+        const nbrAvisBlacklist = btnBlacklist.getAttribute('data-nbr-avis-blacklist');
+        
+        btnBlacklist.addEventListener('click', function () {
+            // Ajoute une classe au body ou un élément parent
+            document.body.classList.toggle('show-blacklisted');
+
+            // Change le texte du bouton
+            this.textContent = document.body.classList.contains('show-blacklisted') 
+                ? `Masquer avis blacklistés (${nbrAvisBlacklist})` 
+                : `Afficher avis blacklistés (${nbrAvisBlacklist})`;
+        });
+    }
+});
+
+
+

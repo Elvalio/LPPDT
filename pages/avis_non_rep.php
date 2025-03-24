@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="../css/styleGeneral.css">
         <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
     </head>
-    <body class="BO">
+    <body class="BO main-content" >
         <nav class="nav-bar-avis">
         <?php
         include_once 'nav.php'; ?>
@@ -42,6 +42,7 @@
             <section class="mes-avis">
             <h1 class="h1-avis">Avis non répondu</h1>
                 <?php
+                $nbr_avis = 0;
                 foreach($avis as $a) {
                     $check = true;
                     foreach($reponse as $rep) {
@@ -51,7 +52,6 @@
                     }
                     if ($check) { ?>
                             <?php
-
 
                             $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
@@ -71,6 +71,7 @@
                             $dbh = null;
 
                             if ($offre['idc'] == $_COOKIE['user']) {
+                                $nbr_avis++;
                                 $fullstar = $a['note'];
                                 $emptystar = 5-$a['note'];
                                 ?>
@@ -95,8 +96,10 @@
                             <?php
                             }
                         }
-                    } 
-                ?>
+                    }
+                if ($nbr_avis == 0) { ?>
+                    <p class="no_avis">Vous n'avez pas d'avis non répondu</p>
+                <?php } ?>
             </section>
         </div>
     </body>

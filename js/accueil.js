@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.classList.remove('show');
             });
             main.classList.remove('active_filter');
+            carte.classList.remove('active_filter');
         }
     }
 

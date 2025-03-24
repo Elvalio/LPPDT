@@ -183,6 +183,10 @@ try {
     $stmt->execute([':idAnnonce' => $idAnnonce]);
     $offre = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // met à jour les avis blacklistés
+    $stmt = $bdh->prepare("SELECT pact.geererBlacklist()");
+    $stmt->execute();
+
     if (!$offre) {
         die("Aucune offre trouvée.");
     }
@@ -230,6 +234,20 @@ try {
         $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Récupérer le blacklistage des avis
+    /*
+    foreach ($avis as &$avisIndividuel) {
+        
+        $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+        $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
+        $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
+
+
+    
+        var_dump($blacklisteData); // Debugging si besoin
+    }
+    */
+    
     /*
     // Requête pour griser tout les avis qui ont déjà été signalé par l'utilisateur
     $idAvis = $avisIndividuel['ida'];
@@ -341,6 +359,7 @@ try {
                     <div class="etoiles">
                         <?php
                             $nbrAvis = $offre['nbravis'];
+                            $nbrAvisBlacklist = $offre['nbravisblacklistes'];
                             $fullStars = floor($offre["moy_note"]);
                             $halfStar = ($offre["moy_note"] - $fullStars >= 0.5) ? 1 : 0;
                             $emptyStars = 5 - $fullStars - $halfStar;
@@ -431,8 +450,7 @@ try {
                     </div>
                 </div>
                 <?php
-
-                        } ?>
+                        } ?>    
             </div>
             <!--<div class="horaires">
                         <h3>Horaires et tarifs :</h3>
@@ -477,8 +495,15 @@ try {
     <section class="section-page part-avis">
         <header class="header-avis">
             <h3>Avis :
-                <?php echo $nbrAvis; ?>
+                <?php
+                    echo $nbrAvis;
+                ?>
             </h3>
+            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist > 0) : ?>
+                <button id="btn-blacklist" data-nbr-avis-blacklist="<?php echo $nbrAvisBlacklist; ?>" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php elseif(isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist == 0) : ?>
+                <button id="btn-blacklist" style="cursor: not-allowed;" disabled>Aucun avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php endif; ?>
         </header>
         <article class="article-avis">
             <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ 
@@ -550,8 +575,9 @@ try {
             
             <?php 
             $id_avis = 0;
-            if ($nbrAvis > 0){
+            if ($nbrAvis > 0 || $nbrAvisBlacklist > 0) {
                 foreach ($avis as $avisIndividuel): 
+                
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
                 $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);      
@@ -559,6 +585,18 @@ try {
                 $stmtReponse = $bdh->prepare("SELECT * FROM pact._reponse WHERE idA = :idA");
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
+
+                $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+                $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
+                $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
+                
+                // var_dump($blacklisteData);
+                $classBlacklist = isset($blacklisteData['blackliste']) && $blacklisteData['blackliste'] ? 'blacklisted' : '';
+            
+          //vérifie si avis est blacklisté
+                $stmtCompte = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
+                $stmtCompte->execute([':idA' => $avisIndividuel['ida']]);
+                $estBlackliste = $stmtCompte->fetch(PDO::FETCH_ASSOC)["blackliste"];
 
                 // Vérification avis deja signalé 
 
@@ -662,9 +700,8 @@ try {
                     echo "Cet utilisateur n'a pas encore signalé cet avis ou ses réponses.";
                 }
                 */
-
-                ?> 
-            <div class="alignement-conteneur-avis">
+            ?>
+            <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
                         <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
@@ -750,23 +787,34 @@ try {
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user']){
-                            ?>
-                            <div class="blacklist">
-                                <button type="button" class="btn-blacklist">
-                                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                                    <p>Blacklister l'avis</p>
-                                </button>
-                                <div class="blacklist-content">
-                                    <button type="button" class="btn-blacklist-irr"
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                    >Blacklister</button>
-                                    <button type="button" 
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                    class="btn-blacklist-rev">Blacklister temporairement</button>
+                        if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
+                            if ($estBlackliste) {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist" style="cursor: not-allowed; opacity: 0.5;" disabled>
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Avis déjà blacklisté</p>
+                                    </button>
                                 </div>
-                            </div>
-                        <?php
+                                <?php
+                            } else {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist">
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Blacklister l'avis</p>
+                                    </button>
+                                    <div class="blacklist-content">
+                                        <button type="button" class="btn-blacklist-irr"
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        >Blacklister</button>
+                                        <button type="button" 
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        class="btn-blacklist-rev">Blacklister temporairement</button>
+                                    </div>
+                                </div>
+                                <?php
+                            }
                         }
                         ?>
                 
@@ -793,7 +841,7 @@ try {
                 <?php
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
-                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive" || $_COOKIE['type_compte'] == "membre")) {
                         if (isset($reponse['ida'])) { ?>
                             <div class="commentaire-reponse">
                                 <p><?php

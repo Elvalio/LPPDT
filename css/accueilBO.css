@@ -1236,7 +1236,7 @@ input[type="range"]::-ms-thumb {
 }
 
 #carte.active_filter {
-    transform: translateY(170px);
+  transform: translateY(170px);
     transition: all 0.3s ease-in-out;
 }
 
