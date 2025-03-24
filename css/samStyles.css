@@ -553,8 +553,7 @@
 
 #btn-reponse {
   border: none;
-  margin-left: 41px;
-  margin-top: 10px;
+  margin: 0px 0px 30px 41px;
   color: lightslategray;
   background-color: white;
 }
