@@ -1646,6 +1646,11 @@ body {
     text-decoration: none;
 }
 
+
+.btn-notif:disabled {
+    background-color: lightgrey;
+}
+
 .modal > select {
     border-radius: 4px;
     border-width: 1.5px;
@@ -1690,6 +1695,21 @@ body {
     margin-bottom: 0;
     padding-top: 1em !important;
     margin-left: 0px;
+}
+
+/*Style code input*/
+
+#code-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#code-form > input{
+    width: 3em;
+    height: 3em;
+    text-align: center;
+    font-size: large;
 }
   
 /* =========================================================== */
@@ -3142,4 +3162,37 @@ input:disabled {
 .infoIMG .textAvis {
     font-size: 2em;
     font-weight: lighter;
+}
+
+/*AUTHENTIKATOR*/
+
+.auth > section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth h1{
+    margin: 0;
+    padding: 0;
+}
+
+.auth button{
+    padding: 10px 20px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.auth button + button{
+    margin-left: 5em;
+}
+
+.auth a, .auth a:hover, .auth a:visited{
+    text-decoration: none;
 }

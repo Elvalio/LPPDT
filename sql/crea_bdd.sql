@@ -34,6 +34,7 @@ create table pact._compte
   telephone varchar(10) not null,
   mdp varchar(25) not null,
   clefApi varchar(64),
+  secretOTP varchar(103),
   
   -- FK
   idAdresse integer not null,
