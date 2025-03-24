@@ -222,7 +222,7 @@ try{
             case 'Activite':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -282,7 +282,7 @@ try{
             case 'Spectacle':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -339,7 +339,7 @@ try{
             case 'Visite':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -395,7 +395,7 @@ try{
             case 'Restauration':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -466,7 +466,7 @@ try{
             case "Parc d'attraction":
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -1048,8 +1048,8 @@ try{
                                             <div id="standard">                                                
                                                 <input type="radio" id="standard" name="offre" value="standard" style="cursor : not-allowed; pointer-events: none;" 
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'standard' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'standard' ? 'checked' : '') 
                                                         : (((string)$_COOKIE['type_compte'] == 'pro_prive') ? 'checked' : '');
                                                     ?> 
                                                 />
@@ -1059,8 +1059,8 @@ try{
                                                 <!-- <input type="radio" id="premium" name="offre" value="premium" /> -->
                                                 <input type="radio" id="premium" name="offre" value="premium" style="cursor: not-allowed; pointer-events: none;"
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'premium' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'premium' ? 'checked' : '') 
                                                         : '';
                                                     ?> 
                                                 />
