@@ -175,6 +175,9 @@ if ($idAnnonce === 0) {
     die("ID d'annonce invalide.");
 }
 
+
+$id_compte = 0;
+$id_avis = 0;
 try {
     $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
