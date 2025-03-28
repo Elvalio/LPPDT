@@ -1,6 +1,0 @@
-{
-    "require": {
-        "dompdf/dompdf": "^3.0",
-        "spomky-labs/otphp": "^11.3"
-    }
-}
