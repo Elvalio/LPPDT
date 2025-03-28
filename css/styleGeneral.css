@@ -1982,15 +1982,7 @@ body {
     color: #333;
 }
 
-.main_style-page-footer {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
+
 
 .h1-page-footer, .h2-page-footer, .h4-page-footer {
     color: #006B8F;
@@ -3465,4 +3457,12 @@ main#historique .offre_historique_container {
 
 .auth a, .auth a:hover, .auth a:visited{
     text-decoration: none;
+}
+
+/*  Style de CSS pour la page des politiques de confidentialité  */
+.container-page-footer {
+    padding: 20px;
+    margin: 2em;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
 }
