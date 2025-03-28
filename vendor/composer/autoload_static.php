@@ -4,62 +4,49 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitea7ee33ecb8fce09cb73799c9e20361e
+class ComposerStaticInit2c57e264be1581eeecfd6aa2c0acbb78
 {
+    public static $files = array (
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'P' => 
         array (
-            'Svg\\' => 4,
-            'Sabberworm\\CSS\\' => 15,
+            'Psr\\Clock\\' => 10,
+            'ParagonIE\\ConstantTime\\' => 23,
         ),
-        'M' => 
+        'O' => 
         array (
-            'Masterminds\\' => 12,
-        ),
-        'F' => 
-        array (
-            'FontLib\\' => 8,
-        ),
-        'D' => 
-        array (
-            'Dompdf\\' => 7,
+            'OTPHP\\' => 6,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Svg\\' => 
+        'Psr\\Clock\\' => 
         array (
-            0 => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg',
+            0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
-        'Sabberworm\\CSS\\' => 
+        'ParagonIE\\ConstantTime\\' => 
         array (
-            0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
+            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
         ),
-        'Masterminds\\' => 
+        'OTPHP\\' => 
         array (
-            0 => __DIR__ . '/..' . '/masterminds/html5/src',
-        ),
-        'FontLib\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/dompdf/php-font-lib/src/FontLib',
-        ),
-        'Dompdf\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
+            0 => __DIR__ . '/..' . '/spomky-labs/otphp/src',
         ),
     );
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Dompdf\\Cpdf' => __DIR__ . '/..' . '/dompdf/dompdf/lib/Cpdf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitea7ee33ecb8fce09cb73799c9e20361e::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitea7ee33ecb8fce09cb73799c9e20361e::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitea7ee33ecb8fce09cb73799c9e20361e::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2c57e264be1581eeecfd6aa2c0acbb78::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2c57e264be1581eeecfd6aa2c0acbb78::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit2c57e264be1581eeecfd6aa2c0acbb78::$classMap;
 
         }, null, ClassLoader::class);
     }

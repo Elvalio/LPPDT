@@ -1,6 +1,52 @@
 <?php
 include('../sql/connect_params.php');
+use OTPHP\TOTP;
 
+if (isset($_REQUEST["id"]) && $_REQUEST["id"]!=null) {
+    require (dirname(__DIR__). '/vendor/autoload.php');
+    $id = $_REQUEST["id"];
+    try{
+        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+
+        $stmt = $dbh->prepare(
+            "SELECT idC FROM pact._membre WHERE pseudo = :pseudo;"
+        );
+        $stmt->bindParam(':pseudo', $id, PDO::PARAM_STR);
+        $stmt->execute();
+        $idC = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]["idc"];
+        if ($idC==null && is_int($idC)) {
+            $stmt = $dbh->prepare(
+                "SELECT idC FROM pact._professionnel WHERE codePro = :codePro;"
+            );
+            $stmt->bindParam(':codePro', $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+            $idC = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]["idC"];
+        }
+        if ($idC!=null) {
+            //get secret
+            $stmt = $dbh->prepare("SELECT secretOtp FROM pact._compte WHERE idC = :idc");
+            $stmt->bindParam(':idc', $idC);
+            $stmt->execute();
+            $secret = $stmt->fetch(PDO::FETCH_ASSOC)["secretotp"];
+        }
+        //echo $secret;
+        if (!isset($_REQUEST["otp"])) {
+            // pour la vérification du secret
+            echo $secret !== null ? "true" : "false";
+        }else{
+            // pour vérification du code envoyé
+            $otp = TOTP::createFromSecret($secret);
+            echo $otp->now() === $_REQUEST["otp"] ? "true" : "false";
+        }
+        
+    } catch (PDOException $e) {
+        print "Erreur !: " . $e->getMessage() . "<br/>";
+        die();
+    }
+    
+
+}else{
 if ($_POST!=[]) {
     $identifiant = trim($_POST['identifiant']);
     $message_erreur = '';
@@ -100,7 +146,7 @@ if ($_POST!=[]) {
         <?php include_once 'header.php' ?>
     </div>
 
-<body class="login-page">
+<body class="login-page FO">
     <div class="container-connexion">
         <div class="menu-links-connexion">
             <div class="inscription-membre TS-bold" id="link-membre">
@@ -108,9 +154,9 @@ if ($_POST!=[]) {
             </div>
         </div>
         <div class="form-container-connexion">
-        <button class="back-button-connexion" onclick="history.back();">
-            <img src="../icons/arrow-left-w.svg" alt="">Retour
-        </button>
+            <button class="back-button-connexion" onclick="history.back();">
+                <img src="../icons/arrow-left-w.svg" alt="">Retour
+            </button>
 
             <div class="logo-container-connexion">
                 <img src="../logo/logo_vert.png" alt="Logo Vert" class="logo-connexion">
@@ -133,7 +179,7 @@ if ($_POST!=[]) {
                     <input type="password" id="password" name="password" placeholder="Mot de passe" required>
                 </div>
 
-                <button type="submit" class="submit-button-connexion">Se connecter</button>
+                <button type="button" class="submit-button-connexion" id="submit-button">Se connecter</button>
 
                 <div class="links-connexion">
                     <!--<a href="#" class="mdpOublie-connexion">Mot de passe oublié ?</a>-->
@@ -143,5 +189,8 @@ if ($_POST!=[]) {
         </div>
     </div>
             <?php include_once 'footerNav.php' ?>
+
+<script src="../js/connexion.js"></script>
 </body>
 </html>
+<?php }?>
