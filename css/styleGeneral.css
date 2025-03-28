@@ -1629,6 +1629,10 @@ body {
                 color: red;
             }
 
+            #modal-close, #modal-warning-close{
+                background-color: black;
+            }
+
             .btn-notif {
                 margin-right: 30px;
                 padding: 10px 20px;
@@ -1641,6 +1645,11 @@ body {
                 cursor: pointer;
                 text-decoration: none;
             }
+
+
+.btn-notif:disabled {
+    background-color: lightgrey;
+}
 
             .modal > select {
                 border-radius: 4px;
@@ -1663,9 +1672,105 @@ body {
                 margin-left: 0px;
             }
 
-            .texte-modal {
-                margin-bottom: 10px;
-            }
+.texte-modal {
+    margin-bottom: 10px;
+}
+
+#modal-warning{
+    z-index: 11;
+}
+
+#modal-warning > .titre-modal{
+    margin-bottom: 0;
+}
+
+#modal-warning >  h2 + div{
+    margin-bottom: 0;
+    padding-top: 1em !important;
+    justify-content: space-between;
+    margin: 0 1.5em;
+}
+
+#modal-warning >  h2 + div > .btn-notif{
+    margin-bottom: 0;
+    padding-top: 1em !important;
+    margin-left: 0px;
+}
+
+/*Style code input*/
+
+#code-form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#code-form > input{
+    width: 3em;
+    height: 3em;
+    text-align: center;
+    font-size: large;
+}
+
+/*Copy popup*/
+    /* popup container */
+    .smallPopup {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    /* popup */
+    .smallPopup .smallPopupText {
+        visibility: hidden;
+        width: 160px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 8px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -80px;
+    }
+
+    /* Popup flèche */
+    .smallPopup .smallPopupText::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+
+    /* toggle */
+    .smallPopup .showSmallPopup {
+        visibility: visible;
+        -webkit-animation: fadeIn 3s;
+        animation: fadeIn 3s;
+        animation-timing-function: cubic-bezier(1, 0, 0, 1);
+        -webkit-animation-timing-function: cubic-bezier(1, 0, 0, 1);
+    }
+
+    /* animations popup */
+    @-webkit-keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity: 1;}
+        from {opacity: 1;}
+        to {opacity: 0;}
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0;}
+        to {opacity:1 ;}
+        from {opacity: 1;}
+        to {opacity: 0;}
+    } 
 
 /* =========================================================== */
 /*          STYLE PAGE INFO-COMPTE ET MODIF-INFOS COMPTE       */
@@ -2108,11 +2213,15 @@ body {
 /*************************************************************************************************/
 
 #sidebar.active #img-profile.connecte{
-    height: 38.4px;
+    height: 28px;
+    width: 28px;
+    border-radius: 45%;
 }
 
 #sidebar #img-profile.connecte{
-   height: 38.4px;
+   height: 28px;
+   width: 28px;
+   border-radius: 45%;
 }
 
 
@@ -3187,6 +3296,69 @@ main#historique .offre_historique_container {
     font-weight: lighter;
 }
 
+#historique_container .deleteButton {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  #historique_container .deleteButton svg {
+    width: 44%;
+  }
+  #historique_container .deleteButton:hover {
+    background-color: rgb(237, 56, 56);
+    overflow: visible;
+  }
+  #historique_container .bin path {
+    transition: all 0.2s;
+  }
+  #historique_container .deleteButton:hover .bin path {
+    fill: #fff;
+  }
+  #historique_container .deleteButton:active {
+    transform: scale(0.98);
+  }
+  #historique_container .tooltip {
+    --tooltip-color: rgb(41, 41, 41);
+    position: absolute;
+    top: -40px;
+    background-color: var(--tooltip-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 8px 12px;
+    font-weight: 600;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.105);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+  #historique_container .tooltip::before {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    content: "";
+    background-color: var(--tooltip-color);
+    bottom: -10%;
+  }
+  #historique_container .deleteButton:hover .tooltip {
+    opacity: 1;
+  }
+  
+
 /* Adaptation pour mobile */
 @media screen and (max-width: 800px) {
     #historique_container {
@@ -3259,4 +3431,38 @@ main#historique .offre_historique_container {
     .historique.main-content {
         margin-left: 0;
     }
+}
+
+
+/*AUTHENTIKATOR*/
+
+.auth > section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.auth h1{
+    margin: 0;
+    padding: 0;
+}
+
+.auth button{
+    padding: 10px 20px;
+    background-color: var(--bleu-rouge);
+    color: var(--blanc);
+    font-family: 'TripSansBold', Arial, sans-serif;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.auth button + div{
+    margin-left: 5em;
+}
+
+.auth a, .auth a:hover, .auth a:visited{
+    text-decoration: none;
 }

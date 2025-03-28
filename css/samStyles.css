@@ -396,7 +396,7 @@
 
 .header-avis-profil {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -1686,7 +1686,7 @@ hr {
   cursor: pointer;
   position: relative;
   bottom: 56%;
-  left: 2%;
+  left: 4%;
   padding: 1.5px;
   background-color: var(--bleuFonce-rougeFonce);
   border: 1px solid var(--blanc);
@@ -1751,7 +1751,7 @@ hr {
   text-align: center;
   color: var(--bleu-rouge);
   margin: 0;
-  font-size: 2em;
+  font-size: 2.3em;
   font-family: "TripSansBold";
 }
 
@@ -1776,17 +1776,6 @@ hr {
 #connexion_popup.desktop:hover {
   background-color: var(--bleu-rouge);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 #popup_avis.mobile{
   position: fixed;
@@ -1833,7 +1822,7 @@ hr {
   object-fit: cover;
   cursor: pointer;
   position: relative;
-  left: 9%;
+  left: 6%;
   bottom: 53%;
   padding: 1.5px;
   background-color: var(--bleuFonce-rougeFonce);
@@ -1882,6 +1871,7 @@ hr {
   width: 95%;
   padding: 10px;
   border: 1px solid #ccc;
+  border-radius: 5px;
   height: 16px;
 }
 
@@ -1893,7 +1883,7 @@ hr {
   text-align: center;
   color: var(--bleu-rouge);
   margin: 0;
-  font-size: 1.7em;
+  font-size: 2.5em;
   font-family: "TripSansBold";
 }
 

@@ -776,7 +776,7 @@ class Block extends AbstractFrameReflower
     }
 
     /**
-     * @param BlockFrameDecorator $block
+     * @param BlockFrameDecorator|null $block
      */
     function reflow(?BlockFrameDecorator $block = null)
     {
