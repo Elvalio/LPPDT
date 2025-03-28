@@ -3014,21 +3014,47 @@ input:disabled {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    padding: 20px 80px;
-    gap: 20px;
+    padding: 10px 20px;
+    gap: 25px;
 }
 
+.historique.main-content h1 {
+    color: var(--bleuFonce-rougeFonce);
+    padding: 20px 0;
+}
+
+/* Version par défaut (Desktop) */
 .offre_historique_container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 15px;
     border: 1px solid var(--bleuFonce-rougeFonce);
     border-radius: 15px;
-
     width: 100%;
-    height: 200px;
+    height: 180px;
+}
+
+main#historique a {
+    width: 100%;
+
+}
+
+main#historique .offre_historique_container {
+    transition: all 0.10s linear;
+}
+
+/* Effet au survol */
+#historique_container .offre_historique_container:hover {
+    transform: translateY(-3px); /* Légère élévation */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* Ombre subtile */
+}
+
+/* Optionnel : effet au clic */
+#historique_container .offre_historique_container:active {
+    transform: translateY(0px); /* Retour à la position initiale */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Ombre plus faible */
 }
 
 .infoText {
@@ -3049,6 +3075,7 @@ input:disabled {
 .infoText p {
     font-size: 1.15em;
     color: var(--noir);
+    width: 100%;
 }
 
 .infoText p+p{
@@ -3089,4 +3116,141 @@ input:disabled {
 .infoIMG .textAvis {
     font-size: 2em;
     font-weight: lighter;
+}
+
+#historique_container .deleteButton {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    background-color: transparent;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  #historique_container .deleteButton svg {
+    width: 44%;
+  }
+  #historique_container .deleteButton:hover {
+    background-color: rgb(237, 56, 56);
+    overflow: visible;
+  }
+  #historique_container .bin path {
+    transition: all 0.2s;
+  }
+  #historique_container .deleteButton:hover .bin path {
+    fill: #fff;
+  }
+  #historique_container .deleteButton:active {
+    transform: scale(0.98);
+  }
+  #historique_container .tooltip {
+    --tooltip-color: rgb(41, 41, 41);
+    position: absolute;
+    top: -40px;
+    background-color: var(--tooltip-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 8px 12px;
+    font-weight: 600;
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.105);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.5s;
+  }
+  #historique_container .tooltip::before {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    content: "";
+    background-color: var(--tooltip-color);
+    bottom: -10%;
+  }
+  #historique_container .deleteButton:hover .tooltip {
+    opacity: 1;
+  }
+  
+
+/* Adaptation pour mobile */
+@media screen and (max-width: 800px) {
+    #historique_container {
+        padding: 0px;
+    }
+
+    .historique.main-content h1 {
+        font-size: 1.5em;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .offre_historique_container {
+        flex-direction: row;  /* Passage en colonne */
+        align-items: flex-start;
+        height: 150px;
+        width: 300px;
+        padding: 10px;
+    }
+
+    .infoText {
+        width: 100%;
+        text-align: left;
+    }
+
+
+    .infoText h2 {
+        font-size: 1.15em;  /* Réduction de la taille */
+    }
+
+    .infoText h2+p {
+        height: 50px;
+        overflow-y: hidden;
+    }
+
+    .infoText p {
+        font-size: 0.8em;
+    }
+
+    .infoText p+p {
+        font-size: 0.7em;
+    }
+
+    .infoIMG {
+        width: 100%;
+        margin: 10px 0;
+        align-items: center;
+    }
+
+    .infoIMG img {
+        width: 85%;  /* Prend toute la largeur */
+        height: auto;
+        max-height: 150px;
+    }
+
+    .infoIMG .etoiles {
+        gap: 5px;
+    }
+
+    .infoIMG .etoiles img {
+        width: 14px;  /* Étoiles plus petites */
+        height: 14px;
+        object-fit: cover;
+    }
+
+    .infoIMG .textAvis {
+        font-size: 1.05em;
+    }
+
+    .historique.main-content {
+        margin-left: 0;
+    }
 }
