@@ -1,4 +1,4 @@
-(function () {
+document.addEventListener('DOMContentLoaded', function () { (function () {
     "use strict"; // Correction de la faute de frappe
     const slideTimeout = 3500; // Temps d'affichage de chaque slide
     const prev = document.querySelector('#prev');
@@ -77,7 +77,7 @@
     });
 })();
 
-document.addEventListener('DOMContentLoaded', function () {
+
     // Code pour changer les images en fonction de la taille de l'écran
     function updateImageSources() {
         const etoiles = document.querySelectorAll('img[alt="Etoile"], img[alt="Etoile Vide"]');
