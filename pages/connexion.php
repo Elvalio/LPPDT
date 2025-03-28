@@ -1,6 +1,6 @@
 <?php
 include('../sql/connect_params.php');
-
+echo dirname(__DIR__). '/vendor/autoload.php';
 require (dirname(__DIR__). '/vendor/autoload.php');
 use OTPHP\TOTP;
 
