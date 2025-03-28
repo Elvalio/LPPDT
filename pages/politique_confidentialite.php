@@ -116,11 +116,8 @@
                 avec une date de mise à jour claire.
             </p>
         </section>
-        <button class="bouton-retour-page-footer">
-            <a href="./accueil.php">
-                <img src="../icons/arrow-left-w.svg" alt="Retour">
-                Retour
-            </a>
+        <button class="bouton-retour-page-footer" onclick="history.back();">
+            <img src="../icons/arrow-left-w.svg" alt="Retour"> Retour
         </button>
     </div>
 </main>

@@ -103,11 +103,8 @@
             <p class="p-page-footer">Email : <a href="PACT-TripEnArmor@proton.me">PACT-TripEnArmor@proton.me</a></p>
             <p class="p-page-footer">Si vous estimez que vos droits ne sont pas respectés, vous pouvez introduire une réclamation auprès de l'autorité de contrôle compétente (en France : <a href="https://www.cnil.fr">CNIL</a>).</p>
         </section>
-        <button class="bouton-retour-page-footer">
-            <a href="./accueil.php">
-                <img src="../icons/arrow-left-w.svg" alt="Retour">
-                Retour
-            </a>
+        <button class="bouton-retour-page-footer" onclick="history.back();">
+            <img src="../icons/arrow-left-w.svg" alt="Retour"> Retour
         </button>
     </div>
 </main>
