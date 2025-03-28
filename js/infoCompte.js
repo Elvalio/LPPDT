@@ -36,10 +36,10 @@ function updateBodyClass() {
 }
 
 
-updateBodyClass();
+//updateBodyClass();
 
 
-boutonSupprimer.addEventListener('click', function() {
+/*boutonSupprimer.addEventListener('click', function() {
     popup.classList.add("montrer");
     overlay.classList.add("montrer");
 });
@@ -52,4 +52,52 @@ document.getElementById('croix_small').addEventListener('click', function() {
 overlay.addEventListener('click', function () {
     popup.classList.remove("montrer"); // Désactive l'effet
     overlay.classList.remove("montrer");
+});*/
+
+
+
+// Changement photo profil
+
+let modif_photo_profil = document.getElementById("photo-profil");
+let fileInput = document.getElementById("insert-image");
+let boutonConfirmer = document.getElementById("info-compte-bouton-confirmer");
+let selectedFile = null;
+
+modif_photo_profil.addEventListener("click", function() {
+    fileInput.click();
+});
+
+fileInput.addEventListener("change", function(event) {
+    let file = event.target.files[0];
+    if (file) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById("photo-profil").src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+        selectedFile = file; // Stocker temporairement le fichier
+    }
+});
+
+boutonConfirmer.addEventListener("click", function(event) {
+
+    if (selectedFile) {
+            let formData = new FormData();
+        formData.append("image-profil", selectedFile);
+
+        fetch("update-photo-profil.php", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                console.log("Image mise à jour avec succès !");
+            } else {
+                alert("Erreur lors de l'upload !");
+            }
+        })
+        .catch(error => console.error("Erreur:", error));
+
+    }
 });

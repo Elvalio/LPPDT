@@ -352,8 +352,8 @@ error_reporting(E_ALL);
                                             <div id="standard">                                                
                                                 <input type="radio" id="standard" name="offre" value="standard" 
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'standard' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'standard' ? 'checked' : '') 
                                                         : (((string)$_COOKIE['type_compte'] == 'pro_prive') ? 'checked' : '');
                                                     ?> 
                                                 />
@@ -366,8 +366,8 @@ error_reporting(E_ALL);
                                                 <!-- <input type="radio" id="premium" name="offre" value="premium" /> -->
                                                 <input type="radio" id="premium" name="offre" value="premium" 
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'premium' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'premium' ? 'checked' : '') 
                                                         : '';
                                                     ?> 
                                                 />

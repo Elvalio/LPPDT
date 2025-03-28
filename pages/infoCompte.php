@@ -17,7 +17,21 @@ try{
         $stmt->execute();
             
         $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
+        $stmt->bindParam(':idc', $_COOKIE['user']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
+        $stmt->bindParam(':idimage', $image_profil['image_compte']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
         $Cmembre = True;
+
     }else if($_COOKIE['type_compte'] == "pro_public"){
         $stmt = $dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :idc");
         $stmt->bindParam(':idc', $_COOKIE['user']);
@@ -48,7 +62,8 @@ try{
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-<link rel="stylesheet" href="../css/samStyles.css">
+    <link rel="stylesheet" href="../css/info-compte.css">
+    <link rel="stylesheet" href="../css/samStyles.css">
     <?php 
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
@@ -81,20 +96,14 @@ try{
 <body class = "<?php if($_COOKIE['type_compte'] == "membre"){echo "FO";}else{echo "BO";}?>">
 
     <!-- Liens de navigation pour choisir le formulaire -->
-    <div class="container-page-creation-compte">
-        <div class="menu-links-crea-compte">
-            <div class="inscription-membre TS-bold" id="link-membre" >
-                <img src="../images/59.png" alt="icone-membre" class="icone-membre" width="160px" height="160px" >
+    <div class="container-page-info-compte">
+            <div class="compte-titre-photo-profil TS-bold" id="link-membre" >
                 <h1 class="TS-bold">Paramètre de Compte</h1>
+                <img id="photo-profil" class="compte-photo-profil" src="../images/<?php echo $image_profil['src_image'] ?>" alt="icone-membre" class="icone-membre" width="160px" height="160px" >
             </div>
-        </div>
-
-        <!-- Formulaire pour l'inscription membre -->
-        <div class="form-container-page-creation-compte" id="form-membre">
-            <form name="membre" action="modifInfo.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="type" value="membre">
-                <div class="form-group-crea-compte">
-                    <div class="left-column-crea-compte">
+        <div class="compte-container-main-page" id="form-membre">
+                <div class="compte-details-section">
+                    <div class="left-column-info-compte">
                         <label for="nom" class="FS">Nom</label>
                         <input type="text" class="FS" value="<?php echo $compte['nom']?>" id="nom-membre" name="nom" readonly>
                         
@@ -113,21 +122,21 @@ try{
                         <label for="adresse" class="FS">Adresse postale</label>
                         <input type="text" class="FS" value="<?php echo $compte['numero_voie'] . ' ' . $compte['voie']?>" id="adresse-membre" name="adresse" readonly>
 
-                        <div class="row-crea-compte">
-                            <div class="input-wrapper-crea-compte">
+                        <div class="row-info-compte">
+                            <div class="input-wrapper-info-compte">
                                 <label for="codepostal" class="FS">Code postal</label>
                                 <input type="text" class="FS" value="<?php echo $compte['code_postal'] ?>" id="codepostal-membre" name="codepostal" readonly>
                                 
                             </div>
 
-                            <div class="input-wrapper-crea-compte">
+                            <div class="input-wrapper-info-compte">
                                 <label for="ville" class="FS">Ville</label>
                                 <input type="text" class="FS" value="<?php echo $compte['ville'] ?>" id="ville-membre" name="ville" readonly>
                                 
                             </div>
                         </div>
                     </div>
-                  <div class="right-column-crea-compte">
+                  <div class="right-column-info-compte">
                         <label for="email" class="FS">E-mail</label>
                         <input type="email" class="FS" value="<?php echo $compte['email'] ?>" id="email-membre" name="email" readonly>
 
@@ -148,8 +157,14 @@ try{
                     </div>
                   <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
                 </div>
-                    <button class="bouton-envoi-formulaire-crea-compte-page-membre TS-bold">Modifier les Informations</button>
-            </form>
+                <div class="info-compte-buttons">
+                    <a class="bouton-modif-avis TS-bold" href="modifInfo.php" >Modifier les Informations</a>
+                    <?php
+                    if($_COOKIE['type_compte'] == "membre"){ ?>
+                        <a class="bouton-modif-avis TS-bold" href="mes-avis.php" >Voir mes avis</a>
+                    <?php } ?>
+                    <a href="#" class="info-compte-bouton-deconnecter" data-icon="deconnection" onclick="deconnexion()">Se déconnecter</a>
+                </div>
         </div>
     </div>
 </body>

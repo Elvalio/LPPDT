@@ -29,6 +29,19 @@
                 // Récupérer la première ligne du résultat
                 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+                
+                $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
+                $stmt->bindValue(':idc', $_COOKIE['user'], PDO::PARAM_INT);
+                $stmt->execute();
+
+                $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
+                $stmt->bindParam(':idimage', $image_profil['image_compte']);
+                $stmt->execute();
+
+                $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
                 if ($row) {
                     // Récupérer les valeurs des trois colonnes
                     $nom = $row['nom'];
@@ -42,6 +55,61 @@
                 print "Erreur !: " . $e->getMessage() . "<br/>";
                 echo "</pre>";
                 die();
+            }
+
+
+            // Récupération des avis et des réponse
+            try{
+                $stmt = $dbh->prepare("SELECT * FROM pact.experience");
+                $stmt->execute();
+                $avis_nav = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }catch(PDOException $e){
+                print "Erreur !: " . $e->getMessage() . "<br/>";
+                die();
+            }
+
+            try{
+                $stmt = $dbh->prepare("SELECT * FROM pact._reponse");
+                $stmt->execute();
+                $reponse_nav = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }catch(PDOException $e){
+                print "Erreur !: " . $e->getMessage() . "<br/>";
+                die();
+            }
+
+
+
+            // Vérification de si il y a des avis non répondu
+            $nbr_avis_nav = 0;
+            foreach($avis_nav as $a_nav) {
+                $check = true;
+                foreach($reponse_nav as $rep_nav) {
+                    if($a_nav['ida'] == $rep_nav['ida']) {
+                        $check = false;
+                    }
+                }
+                if ($check) {
+
+                    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+
+                    try{
+
+                        $stmt=$dbh->prepare("SELECT * FROM pact.offre WHERE idO = :id_offre");
+                        $stmt->bindParam(':id_offre', $a_nav['ido']);
+                        $stmt->execute();
+        
+                        $offre_nav = $stmt->fetch(PDO::FETCH_ASSOC);
+                
+                    } catch (PDOException $e) {
+                        print "Erreur !: " . $e->getMessage() . "<br/>";
+                    die();
+                    }
+
+
+                    if ($offre_nav['idc'] == $_COOKIE['user']) {
+                        $nbr_avis_nav++;
+                    }
+                }
             }
         }
         
@@ -102,13 +170,20 @@
 
                         </div>
                         <div id="bottom-items">
-                                <a href="#" class="nav-item" data-icon="notification-avec-notif">
-                                    <div class="notification-container">
+                            <?php if (isset($_COOKIE['user']) && $_COOKIE['type_compte'] != 'membre') {
+                                if ($nbr_avis_nav > 0) { ?>
+                                    <a href="avis_non_rep.php" class="nav-item" data-icon="notification-avec-notif">
                                         <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
                                         <p>Notifications</p>
-                                        <div class="notification-badge">2</div>
-                                    </div>   
-                                </a>
+                                    </a>
+                                <?php } else { ?>
+                                    <a href="avis_non_rep.php" class="nav-item" data-icon="notification-sans-notif">
+                                        <img src="../icons/icons-gris/icon-notification-avec-notif-gris.svg" alt="Logo notification" class="logo-nav">
+                                        <p>Notifications</p>
+                                    </a>
+                                <?php } 
+                            } ?>
+
                                 <?php if (isset($_COOKIE['type_compte'])) { ?>
                                 <a href="infoCompte.php" class="nav-item" data-icon="parametre">
                                     <img src="../icons/icons-gris/icon-parametre-gris.svg" alt="Logo paramètres" class="logo-nav">
@@ -143,7 +218,7 @@
                             <?php if (isset($_COOKIE['type_compte'])) {?>
                                 
                                 <a href="infoCompte.php" class="nav-item">
-                                    <img src="../icons/IconProfilConnecte.png" alt="Logo déconnecter" class="logo-nav connecte" id="img-profile">
+                                    <img src="../images/<?php echo $image_profil['src_image']?>" alt="Logo déconnecter" class="logo-nav connecte" id="img-profile">
                                     <div id="infoProfile">
                                         <p id="prenom" class="TS"><?php echo $nom . ' ' . $prenom ?></p>
                                         <p id="email" class="TS"><?php echo $email ?></p>

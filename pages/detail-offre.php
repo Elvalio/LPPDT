@@ -175,6 +175,9 @@ if ($idAnnonce === 0) {
     die("ID d'annonce invalide.");
 }
 
+
+$id_compte = 0;
+$id_avis = 0;
 try {
     $bdh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
@@ -216,6 +219,17 @@ try {
     $stmtPhotos = $bdh->prepare("SELECT src_image FROM pact.photo_offre WHERE idO = :idAnnonce");
     $stmtPhotos->execute([':idAnnonce' => $idAnnonce]);
     $photos = $stmtPhotos->fetchAll(PDO::FETCH_ASSOC);
+
+    $pdo = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    $stmt = $pdo->prepare('SELECT * FROM pact._recommande WHERE idA = :id_avis AND idC = :id_compte');
+    $stmt->execute(['id_compte' => $id_compte, 'id_avis' => $id_avis]);
+    $like_compte = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $stmt = $pdo->prepare('SELECT * FROM pact._recommande_pas WHERE idA = :id_avis AND idC = :id_compte');
+    $stmt->execute(['id_compte' => $id_compte, 'id_avis' => $id_avis]);
+    $like_compte = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Requête pour récupérer les avis associés à l'offre
     if(isset($_COOKIE['user'])){
@@ -306,58 +320,59 @@ try {
 </head>
 
 <div class="desktop-element">
-<?php include_once 'nav.php';?>
+    <?php include_once 'nav.php';?>
 </div>
 
-<body class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
+<body
+    class="main-content <?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'BO' : 'FO'; ?>">
 
     <div class="body">
         <section class="section-page part-annonce">
-        <header>
-            <h1 class="titre-rouge">
-                <?php echo htmlspecialchars($offre['titre']); ?>
-            </h1>
-            <h2 class="sous-titre">
-                <?php echo htmlspecialchars($offre['ville']); ?> |
-                <?php echo htmlspecialchars($telephone); ?>
-                <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($spectacle[0]['duree'], 0, 5)); ?>
-                <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($activite[0]['duree'], 0, 5)); ?>
-                <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($visite[0]['duree'], 0, 5)); ?>
+            <header>
+                <h1 class="titre-rouge">
+                    <?php echo htmlspecialchars($offre['titre']); ?>
+                </h1>
+                <h2 class="sous-titre">
+                    <?php echo htmlspecialchars($offre['ville']); ?> |
+                    <?php echo htmlspecialchars($telephone); ?>
+                    <?php if (!empty($spectacle[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($spectacle[0]['duree'], 0, 5)); ?>
+                    <?php if (!empty($activite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($activite[0]['duree'], 0, 5)); ?>
+                    <?php if (!empty($visite[0]['duree'])) echo " | Durée : " . htmlspecialchars(substr($visite[0]['duree'], 0, 5)); ?>
 
-                <?php if (!empty($activite[0]['age_min'])) echo " | Âge : " . $activite[0]['age_min'] . " ans"; ?>
-                <?php if (!empty($parc_actraction[0]['age_min'])) echo " | Âge : " . $parc_actraction[0]['age_min'] . " ans"; ?>
+                    <?php if (!empty($activite[0]['age_min'])) echo " | Âge : " . $activite[0]['age_min'] . " ans"; ?>
+                    <?php if (!empty($parc_actraction[0]['age_min'])) echo " | Âge : " . $parc_actraction[0]['age_min'] . " ans"; ?>
 
-                <?php   if (!empty($restaurant[0]['gamme_prix'])) {echo " | Prix : " . htmlspecialchars($restaurant[0]['gamme_prix']);}
+                    <?php   if (!empty($restaurant[0]['gamme_prix'])) {echo " | Prix : " . htmlspecialchars($restaurant[0]['gamme_prix']);}
                         elseif (!empty($offre['prix_min'])) {echo " | Prix : " . htmlspecialchars($offre['prix_min']) . " €";} 
                 ?>
 
-                <?php echo htmlspecialchars($offre['gamme_prix'] ?? ''); ?>
-            </h2>
+                    <?php echo htmlspecialchars($offre['gamme_prix'] ?? ''); ?>
+                </h2>
 
-            <!-- Carrousel -->
-            <div class="container NoSelect">
-                <div class="carousel">
-                    <div class="carousel-inner">
-                        <?php foreach ($photos as $index => $photo): ?>
-                        <div class="slide">
-                            <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
-                                alt="Image <?php echo $index + 1; ?>">
+                <!-- Carrousel -->
+                <div class="container NoSelect">
+                    <div class="carousel">
+                        <div class="carousel-inner">
+                            <?php foreach ($photos as $index => $photo): ?>
+                            <div class="slide">
+                                <img src="../images/<?php echo htmlspecialchars($photo['src_image']); ?>"
+                                    alt="Image <?php echo $index + 1; ?>">
+                            </div>
+                            <?php endforeach; ?>
                         </div>
-                        <?php endforeach; ?>
+                        <div class="carousel-controls NoSelect">
+                            <button id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
+                            <button id="next"><img src="../images/fleche.png" alt="Suivant"></button>
+                        </div>
+                        <div class="carousel-dots NoSelect"></div>
                     </div>
-                    <div class="carousel-controls NoSelect">
-                        <button id="prev"><img src="../images/fleche.png" alt="Précédent"></button>
-                        <button id="next"><img src="../images/fleche.png" alt="Suivant"></button>
-                    </div>
-                    <div class="carousel-dots NoSelect"></div>
                 </div>
-            </div>
 
-            <!-- Informations -->
-            <div class="infos-offre">
-                <div class="infos-avis">
-                    <div class="etoiles">
-                        <?php
+                <!-- Informations -->
+                <div class="infos-offre">
+                    <div class="infos-avis">
+                        <div class="etoiles">
+                            <?php
                             $nbrAvis = $offre['nbravis'];
                             $nbrAvisBlacklist = $offre['nbravisblacklistes'];
                             $fullStars = floor($offre["moy_note"]);
@@ -365,53 +380,56 @@ try {
                             $emptyStars = 5 - $fullStars - $halfStar;
                         ?>
 
-                        <?php for ($i = 0; $i < $fullStars; $i++): ?>
-                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png" alt="Étoile">
-                        <?php endfor; ?>
+                            <?php for ($i = 0; $i < $fullStars; $i++): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
+                                alt="Étoile">
+                            <?php endfor; ?>
 
-                        <?php if ($halfStar): ?>
-                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'demi_etoile_rouge' : 'demi_etoile_bleue'; ?>.png" alt="Demi Étoile">
-                        <?php endif; ?>
+                            <?php if ($halfStar): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'demi_etoile_rouge' : 'demi_etoile_bleue'; ?>.png"
+                                alt="Demi Étoile">
+                            <?php endif; ?>
 
-                        <?php for ($i = 0; $i < $emptyStars; $i++): ?>
-                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png" alt="Étoile Vide">
-                        <?php endfor; ?>
+                            <?php for ($i = 0; $i < $emptyStars; $i++): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
+                                alt="Étoile Vide">
+                            <?php endfor; ?>
 
+                        </div>
+                        <p class="nb-avis-info-offre">
+                            <?php echo $nbrAvis?>&#xA0;Avis
+                        </p>
                     </div>
-                    <p class="nb-avis-info-offre">
-                        <?php echo $nbrAvis?>&#xA0;Avis
-                    </p>
+                    <div class="infos-accessibilite">
+
+                        <img src="../images/Wheelchair.png" alt="Accessibilité">
+                        <p>
+                            <?php echo htmlspecialchars($offre['accessibilite']); ?>
+                        </p>
+                    </div>
                 </div>
-                <div class="infos-accessibilite">
+            </header>
 
-                    <img src="../images/Wheelchair.png" alt="Accessibilité">
-                    <p>
-                        <?php echo htmlspecialchars($offre['accessibilite']); ?>
-                    </p>
-                </div>
-            </div>
-        </header>
+            <!-- Description -->
+            <article class="description-offre">
+                <h3>Description :</h3>
+                <p>
+                    <?php echo nl2br(htmlspecialchars($offre['description'])); ?>
+                </p>
+            </article>
 
-        <!-- Description -->
-        <article class="description-offre">
-            <h3>Description :</h3>
-            <p>
-                <?php echo nl2br(htmlspecialchars($offre['description'])); ?>
-            </p>
-        </article>
-
-        <article class="part-contact">
-            <div class="side-contact">
-                <div>
-                    <h3>Contact :</h3>
-                    <div class="element-contact">
-                        <?php 
+            <article class="part-contact">
+                <div class="side-contact">
+                    <div>
+                        <h3>Contact :</h3>
+                        <div class="element-contact">
+                            <?php 
                         $address = $offre['numero_voie'] . $offre['voie'] . $offre['ville'] . $offre['code_postal'];
                         ?>
-                        <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
-                            <img src="../images/maison.png" alt="icon maison (localisation)">
-                            <p class="lien">
-                                <?php
+                            <a href="https://www.google.com/maps/dir// <?php echo $address ?>">
+                                <img src="../images/maison.png" alt="icon maison (localisation)">
+                                <p class="lien">
+                                    <?php
                                 echo $offre['numero_voie'];
                                 echo " ";
                                 echo $offre['voie'];
@@ -421,38 +439,39 @@ try {
                                 echo $offre['code_postal'];
 
                             ?>
-                            </p>
-                        </a>
-                    </div>
-                    <div class="element-contact">
-                        <a href="tel:<?php 
+                                </p>
+                            </a>
+                        </div>
+                        <div class="element-contact">
+                            <a href="tel:<?php 
                             echo htmlspecialchars($telephone);
                                 ?> ">
-                            <img src="../images/telephone.png" alt="icon telephone">
-                            <p class="lien">
-                                <?php 
+                                <img src="../images/telephone.png" alt="icon telephone">
+                                <p class="lien">
+                                    <?php 
                                         echo htmlspecialchars($telephone);
                                     ?>
-                            </p>
-                        </a>
-                    </div>
+                                </p>
+                            </a>
+                        </div>
 
-                    <?php
+                        <?php
                         if (!empty($offre['site_web'])) { ?>
-                    <div class="element-contact">
-                        <a href=" <?php echo $offre['site_web']; ?>">
-                            <img src="../images/pc.png" alt="icon pc (lien vers le site)">
-                            <p class="lien">
-                                <?php
+                        <div class="element-contact">
+                            <a href=" <?php echo $offre['site_web']; ?>">
+                                <img src="../images/pc.png" alt="icon pc (lien vers le site)">
+                                <p class="lien">
+                                    <?php
                             echo $offre['site_web']; ?>
-                            </p>
-                        </a>
+                                </p>
+                            </a>
+                        </div>
                     </div>
+                  <?php
+
+                        } ?>
                 </div>
-                <?php
-                        } ?>    
-            </div>
-            <!--<div class="horaires">
+                <!--<div class="horaires">
                         <h3>Horaires et tarifs :</h3>
                         <div>
                             <img src="../images/Delivery Time.png" alt="icon heure">
@@ -464,7 +483,7 @@ try {
                         </div>
                     </div>-->
 
-            <!--
+                <!--
             </div>
             <?php 
                     if (!empty($parc_actraction[0]['src_image'])) { ?>
@@ -481,8 +500,7 @@ try {
                 ?>
             </div>
             -->
-
-        </article>
+ </article>
         <button class="desktop-element bouton-retour NoSelect">
             <a href="./accueil.php">
                 <img src="../icons/arrow-left-o.svg" alt="Retour">
@@ -506,7 +524,7 @@ try {
             <?php endif; ?>
         </header>
         <article class="article-avis">
-            <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ 
+            <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){
                     if (isset($_COOKIE['user'])){
                     $avis_publie = false;
                     if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel):
@@ -515,67 +533,81 @@ try {
                         }
                     endforeach;}
                     if(!$avis_publie){ ?>
-            <article class="poster_avis">
-                <h3>Poster un avis :</h3>
-                <div class="notes_avis">
-                    <?php for($i = 1; $i<6; $i++):?>
+                <article class="poster_avis">
+                    <h3>Poster un avis :</h3>
+                    <div class="notes_avis">
+                        <?php for($i = 1; $i<6; $i++):?>
                         <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
                             id="etoile_note<?php echo $i?>">
-                    <?php endfor;?>
-                </div>
-                <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>" class="zone-btn-publier">
+                        <?php endfor;?>
+                    </div>
+                    <form method="POST" action="detail-offre.php?value=<?php echo $offre['ido']?>"
+                        class="zone-btn-publier">
                         <input type="hidden" name="type_form" value="poste-avis">
-                        <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
-                        <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                        <input type="hidden" id="nbr_etoile" name="nbr_etoile"
+                            value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
+                        <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis"
+                            placeholder="Titre de l'avis"
                             required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
                         <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
                             placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."><?php echo isset($_POST['contenuAvis']) ? $_POST['contenuAvis'] : ''; ?></textarea>
                         <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
                         <label for="options" id="titre-contexte">Contexte de la visite :</label>
                         <select id="options-contexte" name="options">
-                            <option value="Affaires" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Affaires' ? 'selected' : '' ?>>Affaires</option>
-                            <option value="Couple" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Couple' ? 'selected' : '' ?>>Couple</option>
-                            <option value="Famille" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Famille' ? 'selected' : '' ?>>Famille</option>
-                            <option value="Amis" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Amis' ? 'selected' : '' ?>>Amis</option>
-                            <option value="Seul" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Seul' ? 'selected' : '' ?>>Seul</option>
+                            <option value="Affaires" <?=isset($_POST['contextAvis']) &&
+                                $_POST['contextAvis']==='Affaires' ? 'selected' : '' ?>>Affaires</option>
+                            <option value="Couple" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Couple'
+                                ? 'selected' : '' ?>>Couple</option>
+                            <option value="Famille" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Famille'
+                                ? 'selected' : '' ?>>Famille</option>
+                            <option value="Amis" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Amis'
+                                ? 'selected' : '' ?>>Amis</option>
+                            <option value="Seul" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Seul'
+                                ? 'selected' : '' ?>>Seul</option>
                         </select>
                         <input type="submit" id="bouton_publier" value="Publier">
-                        </form>
+                    </form>
                     <?php
                 }
                 }else{ ?>
-                <h3>Poster un avis :</h3>
-                <div class="notes_avis">
-                    <?php for($i = 1; $i<6; $i++):?>
+                    <h3>Poster un avis :</h3>
+                    <div class="notes_avis">
+                        <?php for($i = 1; $i<6; $i++):?>
                         <img src="../icons/etoile_bleue_vide.png" width="35px" height="35px"
                             id="etoile_note<?php echo $i; ?>">
-                    <?php endfor;?>
-                </div>
-                <input type="hidden" id="nbr_etoile" name="nbr_etoile" value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
-                <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
-                    required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
-                <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
-                    placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."><?php echo isset($_POST['contenuAvis']) ? $_POST['contenuAvis'] : ''; ?></textarea>
-                <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
-                <label for="options" id="titre-contexte">Contexte de la visite :</label>
+                        <?php endfor;?>
+                    </div>
+                    <input type="hidden" id="nbr_etoile" name="nbr_etoile"
+                        value="<?php echo isset($_POST['etoile']) ? $_POST['etoile'] : ''; ?>">
+                    <textarea maxlength="30" type="text" name="titre_avis" id="titre_avis" placeholder="Titre de l'avis"
+                        required="required"><?php echo isset($_POST['titreAvis']) ? $_POST['titreAvis'] : ''; ?></textarea>
+                    <textarea minlength="30" maxlength="255" type="text" name="zone_avis" id="ecrire_avis"
+                        placeholder="Veuillez écrire dans cette zone pour pouvoir déposer un avis sur cette offre."><?php echo isset($_POST['contenuAvis']) ? $_POST['contenuAvis'] : ''; ?></textarea>
+                    <!--<input type="file" accept=".png, .jpeg, .svg, .webp" id="image_avis" name="image_avis">-->
+                    <label for="options" id="titre-contexte">Contexte de la visite :</label>
                     <select id="options-contexte" name="options">
-                        <option value="Affaires" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Affaires' ? 'selected' : '' ?>>Affaires</option>
-                        <option value="Couple" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Couple' ? 'selected' : '' ?>>Couple</option>
-                        <option value="Famille" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Famille' ? 'selected' : '' ?>>Famille</option>
-                        <option value="Amis" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Amis' ? 'selected' : '' ?>>Amis</option>
-                        <option value="Seul" <?= isset($_POST['contextAvis']) && $_POST['contextAvis'] === 'Seul' ? 'selected' : '' ?>>Seul</option>
+                        <option value="Affaires" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Affaires'
+                            ? 'selected' : '' ?>>Affaires</option>
+                        <option value="Couple" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Couple'
+                            ? 'selected' : '' ?>>Couple</option>
+                        <option value="Famille" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Famille'
+                            ? 'selected' : '' ?>>Famille</option>
+                        <option value="Amis" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Amis'
+                            ? 'selected' : '' ?>>Amis</option>
+                        <option value="Seul" <?=isset($_POST['contextAvis']) && $_POST['contextAvis']==='Seul'
+                            ? 'selected' : '' ?>>Seul</option>
                     </select>
 
                     <button id="bouton_publier" type="button">
                         Valider
                     </button>
-                <?php } ?>
-            </article>
-            <?php   } ?>
-            
-            <?php 
+                    <?php } ?>
+                </article>
+                <?php   } ?>
+
+                <?php 
             $id_avis = 0;
-            if ($nbrAvis > 0){
+            if ($nbrAvis > 0 || $nbrAvisBlacklist > 0) {
                 foreach ($avis as $avisIndividuel): 
                 
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
@@ -586,7 +618,7 @@ try {
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
 
-  $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+                $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
                 $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
                 $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
                 
@@ -700,7 +732,7 @@ try {
                     echo "Cet utilisateur n'a pas encore signalé cet avis ou ses réponses.";
                 }
                 */
-            ?>
+?>
             <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
@@ -725,47 +757,46 @@ try {
                                 <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>
-                    </div>
-                    <div class="etoile-avis-detail-offre">
-                        <?php
+                        <div class="etoile-avis-detail-offre">
+                            <?php
                         $full = (int) $avisIndividuel['note'];
                         $empty = 5 - $full;
                         for ($i = 0; $i < $full; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
-                            width="20px" height="20px" alt="Étoile">
-                        <?php endfor; ?>
-                        <?php for ($i = 0; $i < $empty; $i++): ?>
-                        <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
-                            width="20px" height="20px" alt="Étoile Vide">
-                        <?php endfor;
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge' : 'etoile_bleue'; ?>.png"
+                                width="20px" height="20px" alt="Étoile">
+                            <?php endfor; ?>
+                            <?php for ($i = 0; $i < $empty; $i++): ?>
+                            <img src="../icons/<?php echo ($_COOKIE['type_compte'] ?? '') === 'pro_public' || ($_COOKIE['type_compte'] ?? '') === 'pro_prive' ? 'etoile_rouge_vide' : 'etoile_bleue_vide'; ?>.png"
+                                width="20px" height="20px" alt="Étoile Vide">
+                            <?php endfor;
                         ?>
+                        </div>
                     </div>
-                </div>
-                <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
+                    <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
                     if (!isset($reponse['ida'])) { ?>
-                        <div class="commentaire-consulte exergue">
-                            <p>
-                                <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
-                            </p>
-                        </div>
+                    <div class="commentaire-consulte exergue">
+                        <p>
+                            <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                        </p>
+                    </div>
                     <?php } else { ?>
-                        <div class="commentaire-consulte">
-                            <p>
-                                <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
-                            </p>
-                        </div>
+                    <div class="commentaire-consulte">
+                        <p>
+                            <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                        </p>
+                    </div>
                     <?php } 
                 }else{
                     ?>
-                        <div class="commentaire-consulte">
-                            <p>
-                                <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
-                            </p>
-                        </div>
+                    <div class="commentaire-consulte">
+                        <p>
+                            <?php echo nl2br(htmlspecialchars($avisIndividuel['corps'])); ?>
+                        </p>
+                    </div>
                     <?php
                 } ?>
 
-                <?php
+                    <?php
                 if(isset($_COOKIE['user']) && $avisIndividuel['idc'] == $_COOKIE['user']){
                     ?>
                     <form method="POST" action="detail-offre.php?value=<?php echo $idAnnonce; ?>" class="form-supp">
@@ -777,80 +808,244 @@ try {
                     <?php
                 }
 
-                ?><div class="signaler-like"><?php
+                ?>
+                    <div class="signaler-like">
+                        <?php
                 
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
-                        <button type="button"
-                            class="btn-signaler"
+                        <button type="button" class="btn-signaler"
                             id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
                             <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
                             <p>Signaler l'avis</p>
                         </button>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] && !$estBlackliste){
-                            ?>
-                            <div class="blacklist">
-                                <button type="button" class="btn-blacklist">
-                                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                                    <p>Blacklister l'avis</p>
-                                </button>
-                                <div class="blacklist-content">
-                                    <button type="button" class="btn-blacklist-irr"
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                    >Blacklister</button>
-                                    <button type="button" 
-                                    id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                    class="btn-blacklist-rev">Blacklister temporairement</button>
+
+                       if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
+                            if ($estBlackliste) {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist" style="cursor: not-allowed; opacity: 0.5;" disabled>
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Avis déjà blacklisté</p>
+                                    </button>
                                 </div>
-                            </div>
-                        <?php
-                        }
+                                <?php
+                            } else {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist">
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Blacklister l'avis</p>
+                                    </button>
+                                    <div class="blacklist-content">
+                                        <button type="button" class="btn-blacklist-irr"
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        >Blacklister</button>
+                                        <button type="button" 
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        class="btn-blacklist-rev">Blacklister temporairement</button>
+                                    </div>
+                                </div>
+                                <?php
+                            } }
                         ?>
-                
-                <?php endif;
+
+                        <?php endif;
 
                 if(isset($_COOKIE['type_compte']) && $_COOKIE['type_compte'] == "membre" && $avisIndividuel['idc'] != $_COOKIE['user']){
-                ?><div class="like-dislike">
-                <?php 
-                        $stmt = $dbh->prepare("SELECT nbr_likes, nbr_dislikes FROM pact.avis WHERE idA = :idAvis");
+                ?>
+                        <div class="like-dislike">
+                            <?php 
+                        $stmt = $dbh->prepare("SELECT * FROM pact.avis WHERE idA = :idAvis");
                         $stmt->execute([':idAvis'=>$avisIndividuel['ida']]);
                         $like_dislike = $stmt->fetch(PDO::FETCH_ASSOC);
                         ?>
-                        <img id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" class="LikeButton" src="../icons/like-plein.png" alt="Like" width="20" height="20" style="cursor: pointer;">
-                        <span id="likesCount_<?php echo $avisIndividuel['ida']?>"><?php
+
+                            <!-- From Uiverse.io by catraco -->
+                            <label class="container_like LikeButton">
+                                <input checked="checked" type="checkbox"
+                                    id="likeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>">
+                                <svg viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg"
+                                    class="thumbs-up-regular">
+                                    <path
+                                        d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z">
+                                    </path>
+                                </svg>
+                                <svg viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg"
+                                    class="thumbs-up-solid">
+                                    <path
+                                        d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z">
+                                    </path>
+                                </svg>
+                            </label>
+                            <style>
+                                /*------ Settings ------*/
+                                .container_like {
+                                    --color: rgb(138, 170, 219);
+                                    --size: 30px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    cursor: pointer;
+                                    font-size: var(--size);
+                                    user-select: none;
+                                    fill: var(--color);
+                                    margin-right: 10px;
+                                }
+
+                                .container_like .thumbs-up-solid {
+                                    animation: keyframes-fill .5s;
+                                }
+
+                                .container_like .thumbs-up-regular {
+                                    display: none;
+                                    animation: keyframes-fill .5s;
+                                }
+
+                                /* ------ On check event ------ */
+                                .container_like input:checked~.thumbs-up-regular {
+                                    display: block;
+                                }
+
+                                .container_like input:checked~.thumbs-up-solid {
+                                    display: none;
+                                }
+
+                                /* ------ Hide the default checkbox ------ */
+                                .container_like input {
+                                    opacity: 0;
+                                    cursor: pointer;
+                                    height: 0;
+                                    width: 0;
+                                }
+
+                                /* ------ Animation ------ */
+                                @keyframes keyframes-fill {
+                                    0% {
+                                        transform: scale(0);
+                                        opacity: 0;
+                                    }
+
+                                    50% {
+                                        transform: scale(1.2) rotate(-10deg);
+                                    }
+                                }
+                            </style>
+
+                            <span id="likesCount_<?php echo $avisIndividuel['ida']?>">
+                                <?php
                         echo $like_dislike['nbr_likes'];
-                        ?></span>
-                        <img id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>" class="DislikeButton" src="../icons/dislike-plein.png" alt="Dislike" width="20" height="20" style="cursor: pointer;">
-                        <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>"><?php
+
+
+
+                        ?>
+                            </span>
+                            <!-- From Uiverse.io by catraco -->
+                            <label class="container_dislike DislikeButton">
+                                <input checked="checked" type="checkbox"
+                                    id="dislikeButton_<?php echo $_COOKIE['user']?>_<?php echo $avisIndividuel['ida']?>">
+                                <svg viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg"
+                                    class="thumbs-up-regular">
+                                    <path
+                                        d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z">
+                                    </path>
+                                </svg>
+                                <svg viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg"
+                                    class="thumbs-up-solid">
+                                    <path
+                                        d="M313.4 32.9c26 5.2 42.9 30.5 37.7 56.5l-2.3 11.4c-5.3 26.7-15.1 52.1-28.8 75.2H464c26.5 0 48 21.5 48 48c0 18.5-10.5 34.6-25.9 42.6C497 275.4 504 288.9 504 304c0 23.4-16.8 42.9-38.9 47.1c4.4 7.3 6.9 15.8 6.9 24.9c0 21.3-13.9 39.4-33.1 45.6c.7 3.3 1.1 6.8 1.1 10.4c0 26.5-21.5 48-48 48H294.5c-19 0-37.5-5.6-53.3-16.1l-38.5-25.7C176 420.4 160 390.4 160 358.3V320 272 247.1c0-29.2 13.3-56.7 36-75l7.4-5.9c26.5-21.2 44.6-51 51.2-84.2l2.3-11.4c5.2-26 30.5-42.9 56.5-37.7zM32 192H96c17.7 0 32 14.3 32 32V448c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z">
+                                    </path>
+                                </svg>
+                            </label>
+                            <style>
+                                /*------ Settings ------*/
+                                .container_dislike {
+                                    --color: rgb(250, 127, 127);
+                                    --size: 30px;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                    cursor: pointer;
+                                    font-size: var(--size);
+                                    user-select: none;
+                                    fill: var(--color);
+                                    margin-right: 10px;
+                                    margin-left: 20px;
+                                    transform: scale(-1);
+                                }
+                                .container_dislike .thumbs-up-solid {
+                                    animation: keyframes-fill .5s;
+                                }
+
+                                .container_dislike .thumbs-up-regular {
+                                    display: none;
+                                    animation: keyframes-fill .5s;
+                                }
+
+                                /* ------ On check event ------ */
+                                .container_dislike input:checked~.thumbs-up-regular {
+                                    display: block;
+                                }
+
+                                .container_dislike input:checked~.thumbs-up-solid {
+                                    display: none;
+                                }
+                                                                
+
+                                /* ------ Hide the default checkbox ------ */
+                                .container_dislike input {
+                                    opacity: 0;
+                                    cursor: pointer;
+                                    height: 0;
+                                    width: 0;
+                                }
+
+                                /* ------ Animation ------ */
+                                @keyframes keyframes-fill {
+                                    0% {
+                                        transform: scale(0);
+                                        opacity: 0;
+                                    }
+
+                                    50% {
+                                        transform: scale(1.2) rotate(-10deg);
+                                    }
+                                }
+                            </style>
+
+
+                            <span id="dislikesCount_<?php echo $avisIndividuel['ida']?>">
+                                <?php
                         echo $like_dislike['nbr_dislikes'];
-                        ?></span>
-                </div>
-                <?php }?>
-                </div>
-                <?php
+                        ?>
+                            </span>
+                        </div>
+                        <?php }?>
+                    </div>
+                    <?php
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
-                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive" || $_COOKIE['type_compte'] == "membre")) {
                         if (isset($reponse['ida'])) { ?>
-                            <div class="commentaire-reponse">
-                                <p><?php
+                    <div class="commentaire-reponse">
+                        <p>
+                            <?php
                                 echo nl2br(htmlspecialchars($reponse['corps'])) ?>
-                                </p>
-                            </div>
-                        <?php 
+                        </p>
+                    </div>
+                    <?php 
                         if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
-                            <button type="button" 
-                                class="btn-signaler"
-                                id="btn_signaler_reponse_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                style="margin-left : 30px;">
-                                <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                                <p>Signaler réponse</p>
-                            </button>
-                        
-                        <?php endif;
+                    <button type="button" class="btn-signaler"
+                        id="btn_signaler_reponse_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                        style="margin-left : 30px;">
+                        <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                        <p>Signaler réponse</p>
+                    </button>
+
+                    <?php endif;
                         
                         } else { ?>
-                            <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
+<button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
                             <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse_<?php echo $id_avis; ?>" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
@@ -863,29 +1058,30 @@ try {
                     }
                 }
                 ?>
-            </div>
-            <?php
+                </div>
+                <?php
             $id_avis++;
             endforeach; }?>
-            <!-- Ensure this is properly placed -->
-        </article>
-    </section>
-    <div id="popup">
-        <p>Votre signalement a bien été pris en compte.</p>
-        <div class="progress-bar">
-            <div></div>
+                <!-- Ensure this is properly placed -->
+            </article>
+        </section>
+        <div id="popup">
+            <p>Votre signalement a bien été pris en compte.</p>
+            <div class="progress-bar">
+                <div></div>
+            </div>
+            <button class="close-btn">Fermer</button>
         </div>
-        <button class="close-btn">Fermer</button>
-    </div>
 
-    <?php if(!isset($_COOKIE['user'])){?>
+        <?php if(!isset($_COOKIE['user'])){?>
         <div id="overlay"></div>
         <div id="popup_avis">
-            
+
             <img id="logo" src="../logo/logo_reduit_vert.png">
             <div id="group">
                 <div id="text">
-                    <p id="debut">Vous souhaitez faire part de votre avis ?</p><p id="fin"> Connectez-vous</p>
+                    <p id="debut">Vous souhaitez faire part de votre avis ?</p>
+                    <p id="fin"> Connectez-vous</p>
 
                 </div>
                 <form id="formConnexion" action="detail-offre.php?value=<?php echo $offre['ido']?>" method="post">
@@ -917,7 +1113,7 @@ try {
             </div>
             <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
-    <?php } ?>
+<?php } ?>
 
     <?php if(isset($_COOKIE['user']) && $_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] ){?>
         <div id="overlay"></div>
@@ -953,7 +1149,7 @@ try {
     <footer>
         <?php include_once 'footer.php'; ?>
     </footer>
-        
+
     <script src="../js/detail_offre.js"></script>
 </body>
 
