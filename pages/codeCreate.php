@@ -100,16 +100,22 @@ try{
                 $stmt -> bindParam(':secretOtp', $secret);
                 $stmt -> bindParam(':idC', $_COOKIE['user']);
                 $stmt ->execute();
+
+                $dbh = null;
                 ?>
         </article>
         <article>
-            
                 <button><a href="infoCompte.php" >RETOUR</a></button>
             
-
-            <button id="copy_secret">Copier code</button>
+                <div class="smallPopup" id="copyDiv">
+                    <button id="copy_secret" value="<?php echo $secret?>">Copier code</button>
+                    <span class="smallPopupText" id="copyPopup">Code copié dans le presse papier</span>
+                </div>
+                
         </article>
     </section>
+    
+<script src="../js/codeCreate.js"></script>
 </body>
 
 <?php include_once'footerNav.php' ?>
