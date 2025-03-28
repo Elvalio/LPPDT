@@ -10,42 +10,57 @@ $Cpro_prive = False;
 try{
     $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
-    if($_COOKIE['type_compte'] == "membre") {
-
-        $stmt = $dbh->prepare("SELECT * FROM pact.membre WHERE idC = :idc");
-        $stmt->bindParam(':idc', $_COOKIE['user']);
+    if ($_POST['delete'] == "oui") {
+        $stmt=$dbh->prepare("DELETE FROM pact.membre WHERE idC = :id_user");
+        $stmt->bindParam(':id_user', $_COOKIE['user']);
         $stmt->execute();
+        ?>
+        <script>
+            document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+            document.cookie = "type_compte=; expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;";
+            location.assign("accueil.php");
+        </script>
+        <?php
+    }
+
+    else {
+        if($_COOKIE['type_compte'] == "membre") {
+
+            $stmt = $dbh->prepare("SELECT * FROM pact.membre WHERE idC = :idc");
+            $stmt->bindParam(':idc', $_COOKIE['user']);
+            $stmt->execute();
             
-        $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+            $compte = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
-        $stmt->bindParam(':idc', $_COOKIE['user']);
-        $stmt->execute();
+            $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
+            $stmt->bindParam(':idc', $_COOKIE['user']);
+            $stmt->execute();
 
-        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+            $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
-        $stmt->bindParam(':idimage', $image_profil['image_compte']);
-        $stmt->execute();
+            $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
+            $stmt->bindParam(':idimage', $image_profil['image_compte']);
+            $stmt->execute();
 
-        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+            $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $Cmembre = True;
+            $Cmembre = True;
 
-    }else if($_COOKIE['type_compte'] == "pro_public"){
-        $stmt = $dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :idc");
-        $stmt->bindParam(':idc', $_COOKIE['user']);
-        $stmt->execute();
+        }else if($_COOKIE['type_compte'] == "pro_public"){
+            $stmt = $dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :idc");
+            $stmt->bindParam(':idc', $_COOKIE['user']);
+            $stmt->execute();
 
-        $compte = $stmt->fetch(PDO::FETCH_ASSOC);
-        $Cpro_public = True;
-    }else{
-        $stmt = $dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :idc");
-        $stmt->bindParam(':idc', $_COOKIE['user']);
-        $stmt->execute();
+            $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+            $Cpro_public = True;
+        }else{
+            $stmt = $dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :idc");
+            $stmt->bindParam(':idc', $_COOKIE['user']);
+            $stmt->execute();
 
-        $compte = $stmt->fetch(PDO::FETCH_ASSOC);
-        $Cpro_prive = True;
+            $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+            $Cpro_prive = True;
+        }
     }
 
 }catch (PDOException $e) {
@@ -164,7 +179,25 @@ try{
                         <a class="bouton-modif-avis TS-bold" href="mes-avis.php" >Voir mes avis</a>
                     <?php } ?>
                     <a href="#" class="info-compte-bouton-deconnecter" data-icon="deconnection" onclick="deconnexion()">Se déconnecter</a>
+
+                    <button id="delete-btn-compte" class="bouton-modif-avis TS-bold">
+                        Supprimer le compte
+                    </button>
                 </div>
+                <div id="overlay">
+                <div id="popup_suppr_compte">
+                    <div id="group">
+                        <div id="text">
+                            <p>Voulez-vous vraiment supprimer votre compte ?</p>
+                        </div>
+                        <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
+                            <input type="hidden" name="delete" value="oui">
+                            <button type="submit" class="confirm-delete-btn-compte">Supprimer le compte</button>
+                        </form>
+                    </div>
+                    <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
+                </div>
+            </div>
         </div>
     </div>
 </body>
