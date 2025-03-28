@@ -92,11 +92,11 @@
         }
     </style>
 </head>
-<body>
+<body class="FO">
 
     <div class="container-page-creation-compte">
         <header>
-            <h1>Conditions Générales d'Utilisation</h1>
+            <h1 class="FS-bold">Conditions Générales d'Utilisation</h1>
         </header>
 
         <main>
