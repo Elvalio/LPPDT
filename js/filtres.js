@@ -727,14 +727,14 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.from(boutonALaUne).forEach(bouton => {
         bouton.addEventListener('click', function () {
             bouton.classList.toggle('active');
-            if (this.classList.contains('active')) {
-                this.style.backgroundColor = '#2C2C2C';
-                this.querySelector('p').style.color = '#F5F5F5';
+            // if (this.classList.contains('active')) {
+            //     this.style.backgroundColor = '#2C2C2C';
+            //     this.querySelector('p').style.color = '#F5F5F5';
                 
-            } else {
-                this.style.backgroundColor = '#F5F5F5';
-                this.querySelector('p').style.color = '#757575';
-            }
+            // } else {
+            //     this.style.backgroundColor = '#F5F5F5';
+            //     this.querySelector('p').style.color = '#757575';
+            // }
             filtrerParBouton();
         });
     });
