@@ -24,7 +24,7 @@
 <body class="FO">
 
 <header>
-    <h1 class="h1-page-footer">Politique de Confidentialité</h1>
+    <h1 class="FS-bold">Politique de Confidentialité</h1>
     
 </header>
 
