@@ -722,6 +722,46 @@ input[type="range"]::-ms-thumb {
     color: #F5F5F5; /* Couleur du texte en mode actif */
 }
 
+@media (max-width: 800px) {
+    /* Conteneur pour les boutons */
+.boutons-navigation {
+    display: flex;
+    justify-content: center; /* Centre les boutons horizontalement */
+    gap: 10px; /* Espacement entre les boutons */
+    margin: 10px;
+}
+
+/* Style des boutons */
+.boutonALaUne, .boutonNouveau {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px; /* Largeur des boutons */
+    height: 50px; /* Hauteur des boutons */
+    background-color: var(--gris-clair); /* Couleur par défaut */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Texte des boutons */
+.boutonALaUne p, .boutonNouveau p {
+    font-family: 'TripSansBold';
+    color: var(--noir); /* Couleur du texte par défaut */
+    margin: 0;
+}
+
+/* Bouton actif */
+.boutonALaUne.active, .boutonNouveau.active {
+    background-color: var(--turquoise-orange); /* Couleur de fond lorsqu'actif */
+    color: white; /* Couleur du texte lorsqu'actif */
+}
+
+/* Texte du bouton actif */
+.boutonALaUne.active p, .boutonNouveau.active p {
+    color: white;
+}
+}
 /* =========================================================== */
 /*           STYLES POUR CHACUNE DES OFFRES (DESKTOP)          */
 /* =========================================================== */
