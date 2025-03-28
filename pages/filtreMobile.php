@@ -201,7 +201,7 @@
     </div>
 
 
-    <script src="../js/scriptFilter.js"></script>
+    <script type="module" src="../js/scriptFilter.js"></script>
 </body>
 
 </html>

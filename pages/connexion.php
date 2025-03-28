@@ -1,10 +1,9 @@
 <?php
 include('../sql/connect_params.php');
-echo dirname(__DIR__). '/vendor/autoload.php';
-require (dirname(__DIR__). '/vendor/autoload.php');
 use OTPHP\TOTP;
 
-if ($_REQUEST["id"]!=null) {
+if (isset($_REQUEST["id"]) && $_REQUEST["id"]!=null) {
+    require (dirname(__DIR__). '/vendor/autoload.php');
     $id = $_REQUEST["id"];
     try{
         $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);

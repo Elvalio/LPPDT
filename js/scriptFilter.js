@@ -42,7 +42,7 @@ function closeSortMenu() {
 }
 
 // Exporter la fonction pour qu'elle soit accessible depuis un autre fichier
-export { closeSortMenu };
+// export { closeSortMenu };
 
 // Fermer le menu "Filtrer" en cliquant en dehors
 document.addEventListener('click', (event) => {

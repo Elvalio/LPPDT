@@ -25,7 +25,7 @@
 <body class="FO">
 
     <header>
-        <h1 class="h1-page-footer">Conditions Générales de Ventes</h1>
+        <h1 class="FS-bold">Conditions Générales de Ventes</h1>
     </header>
 
     <main>
