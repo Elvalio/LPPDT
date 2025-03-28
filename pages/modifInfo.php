@@ -1,17 +1,133 @@
-<?php 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+<?php ini_set('display_errors', 1);
+error_reporting(E_ALL); 
+error_reporting(0); 
+include("../sql/connect_params.php");
 
-include('../sql/connect_params.php');
-?>
+$message_erreur = "";
+
+$dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+
+if(isset($_POST['password'])){
+    if($_POST['password'] == $_POST['password2']){
+        try{
+            $stmt = $dbh -> prepare("SELECT * FROM pact.membre WHERE idC = :idc AND mdp = :password");
+            $stmt -> bindParam(':idc', $_COOKIE['user']);
+            $stmt -> bindParam(':password', $_POST['password']);
+            $stmt -> execute();
+            $stmt = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch (PDOException $e) {
+            print "Erreur !: " . $e->getMessage() . "<br/>";
+            die();
+        }
+        if($stmt != []){
+            try{
+                $stmt = $dbh -> prepare("UPDATE pact.membre SET nom = :nom, prenom = :prenom, 
+                pseudo = :pseudo, email = :email, telephone = :telephone, 
+                numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, 
+                ville = :ville WHERE idC = :idc");
+                $stmt -> bindParam(':nom', $_POST['nom']);
+                $stmt -> bindParam(':prenom', $_POST['prenom']);
+                $stmt -> bindParam(':pseudo', $_POST['pseudo']);
+                $stmt -> bindParam(':email', $_POST['email']);
+                $stmt -> bindParam(':telephone', $_POST['telephone']);
+                
+                $temp = explode(" ",$_POST["adresse"]);
+                $num_adresse = $temp[0];
+                array_shift($temp);
+                $adresse = implode(" ", $temp);
+
+                $stmt->bindParam(':numero_voie', $num_adresse);
+                $stmt->bindParam(':voie', $adresse);
+
+
+                $stmt -> bindParam(':code_postal', $_POST['codepostal']);
+                $stmt -> bindParam(':ville', $_POST['ville']);
+                $stmt -> bindParam(':idc', $_COOKIE['user']);
+                $stmt -> execute();
+                header('Location: test_compte.php');
+            }catch (PDOException $e) {
+                print "Erreur !: " . $e->getMessage() . "<br/>";
+                die();
+            }
+        }else{
+            $message_erreur = "(Mot de passe incorrect)";
+        }
+    }else{
+        $message_erreur = "(Les mots de passe ne correspondent pas)";
+    }
+
+}else{
+    $message_erreur = "Veuillez saisir votre mot de passe";
+}
+$Cmembre = False;
+$Cpro_public = False;
+$Cpro_prive = False;
+
+try{
+    $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+
+    if($_COOKIE['type_compte'] == "membre") {
+
+        $stmt = $dbh->prepare("SELECT * FROM pact.membre WHERE idC = :idc");
+        $stmt->bindParam(':idc', $_COOKIE['user']);
+        $stmt->execute();
+            
+        $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
+        $stmt->bindParam(':idc', $_COOKIE['user']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
+        $stmt->bindParam(':idimage', $image_profil['image_compte']);
+        $stmt->execute();
+
+        $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $Cmembre = True;
+    }else if($_COOKIE['type_compte'] == "pro_public"){
+        $stmt = $dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :idc");
+        $stmt->bindParam(':idc', $_COOKIE['user']);
+        $stmt->execute();
+
+        $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+        $Cpro_public = True;
+    }else{
+        $stmt = $dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :idc");
+        $stmt->bindParam(':idc', $_COOKIE['user']);
+        $stmt->execute();
+
+        $compte = $stmt->fetch(PDO::FETCH_ASSOC);
+        $Cpro_prive = True;
+    }
+
+}catch (PDOException $e) {
+    print "Erreur !: " . $e->getMessage() . "<br/>";
+    die();
+}
+    $dbh = null;
+    ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
-
+    <link rel="stylesheet" href="../css/info-compte.css">
+<?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
 
     <script>
         function annulation() {
@@ -19,266 +135,97 @@ include('../sql/connect_params.php');
         }
     </script>
 </head>
+
+<div class="desktop-element">
     <?php
-        $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
+    include_once'nav.php';
+    ?>
+</div>
 
-        if ($_POST != []) {
-            if ($_COOKIE['type_compte'] == "membre") {
-                try {
-                    $stmt = $dbh->prepare("UPDATE pact.membre SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, mdp = :mdp WHERE idC = :id_user");
-                    $stmt->bindParam(':prenom', $_POST['prenom']);
-                    $stmt->bindParam(':nom', $_POST['nom']);
-                    $stmt->bindParam(':telephone', $_POST['telephone']);
+<body class = "<?php if($_COOKIE['type_compte'] == "membre"){echo "FO";}else{echo "BO";}?>">
 
-                    $temp = explode(" ",$_POST["adresse"]);
-                    $num_adresse = $temp[0];
-                    array_shift($temp);
-                    $adresse = implode(" ", $temp);
-
-                    $stmt->bindParam(':numero_voie', $num_adresse);
-                    $stmt->bindParam(':voie', $adresse);
-                    $stmt->bindParam(':code_postal', $_POST['code_postal']);
-                    $stmt->bindParam(':ville', $_POST['ville']);
-                    $stmt->bindParam(':mdp', $_POST['mdp']);
-                    $stmt->bindParam(':id_user', $_COOKIE['user']);
-                    $stmt->execute();
-    
-                } catch (PDOException $e) {
-                    print "Erreur !: " . $e->getMessage() . "<br/>";
-                    die();
-                }
-            }
-
-            else if ($_COOKIE['type_compte'] == "pro_public") {
-                try {
-                    $stmt = $dbh->prepare("UPDATE pact.secteur_public SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :denomination_sociale, mdp = :mdp WHERE idC = :id_user");
-                    $stmt->bindParam(':prenom', $_POST['prenom']);
-                    $stmt->bindParam(':nom', $_POST['nom']);
-                    $stmt->bindParam(':telephone', $_POST['telephone']);
-
-                    $temp = explode(" ",$_POST["adresse"]);
-                    $num_adresse = $temp[0];
-                    array_shift($temp);
-                    $adresse = implode(" ", $temp);
-
-                    $stmt->bindParam(':numero_voie', $num_adresse);
-                    $stmt->bindParam(':voie', $adresse);
-                    $stmt->bindParam(':code_postal', $_POST['code_postal']);
-                    $stmt->bindParam(':ville', $_POST['ville']);
-                    $stmt->bindParam(':denomination_sociale', $_POST['denomination_sociale']);
-                    $stmt->bindParam(':mdp', $_POST['mdp']);
-                    $stmt->bindParam(':id_user', $_COOKIE['user']);
-                    $stmt->execute();
-                    
-                } catch (PDOException $e) {
-                    print "Erreur !: " . $e->getMessage() . "<br/>";
-                    die();
-                }
-            }
-
-            else if ($_COOKIE['type_compte'] == "pro_prive") {
-                try {
-                    $stmt = $dbh->prepare("UPDATE pact.secteur_prive SET prenom = :prenom, nom = :nom, telephone = :telephone, numero_voie = :numero_voie, voie = :voie, code_postal = :code_postal, ville = :ville, denomination_sociale = :raison_sociale, raison_sociale = :raison_sociale, siren = :siren, iban = :iban, bic = :bic, mdp = :mdp WHERE idC = :id_user");
-                    $stmt->bindParam(':prenom', $_POST['prenom']);
-                    $stmt->bindParam(':nom', $_POST['nom']);
-                    $stmt->bindParam(':telephone', $_POST['telephone']);
-
-                    $temp = explode(" ",$_POST["adresse"]);
-                    $num_adresse = $temp[0];
-                    array_shift($temp);
-                    $adresse = implode(" ", $temp);
-
-                    $stmt->bindParam(':numero_voie', $num_adresse);
-                    $stmt->bindParam(':voie', $adresse);
-                    $stmt->bindParam(':code_postal', $_POST['code_postal']);
-                    $stmt->bindParam(':ville', $_POST['ville']);
-                    $stmt->bindParam(':raison_sociale', $_POST['raison_sociale']);
-                    $stmt->bindParam(':siren', $_POST['siren']);
-                    $stmt->bindParam(':iban', $_POST['iban']);
-                    $stmt->bindParam(':bic', $_POST['bic']);
-                    $stmt->bindParam(':mdp', $_POST['mdp']);
-                    $stmt->bindParam(':id_user', $_COOKIE['user']);
-                    $stmt->execute();
-                    
-                } catch (PDOException $e) {
-                    print "Erreur !: " . $e->getMessage() . "<br/>";
-                    die();
-                }
-            }
-            ?>
-                <script>
-                    location.assign("infoCompte.php");
-                </script>
-            <?php
-        }
-
-        try {
-            if ($_COOKIE['type_compte'] == "membre") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.membre WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $_COOKIE['user']);
-                $stmt->execute();
-            }
-            else if ($_COOKIE['type_compte'] == "pro_public") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_public WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $_COOKIE['user']);
-                $stmt->execute();
-            }
-            else if ($_COOKIE['type_compte'] == "pro_prive") {
-                $stmt=$dbh->prepare("SELECT * FROM pact.secteur_prive WHERE idC = :id_user");
-                $stmt->bindParam(':id_user', $_COOKIE['user']);
-                $stmt->execute();
-            }
-        
-            $compte = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        } catch (PDOException $e) {
-            print "Erreur !: " . $e->getMessage() . "<br/>";
-            die();
-        }
-
-
-        if(isset($_COOKIE['type_compte'])){
-            if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-                <body class="BO"> <?php   
-            }  else { ?>
-                <body class="FO"> <?php
-            }
-        } else { ?>
-            <body class="FO"> <?php
-        }?>
-            <nav class="desktop-element">
-            <?php 
-                include_once 'nav.php'; 
-            ?>
-            </nav>
-            <header class="phone-element">
-            <!-- <?php
-                include 'header.php';
-            ?> -->
-            </header>
-
-    <div class="content-compte">
-        <h1 class="TS titre-compte">Paramètres De Compte</h1>
-    
-        <div class="profile-compte">
-            <img src="../images/59.png" alt="Logo déconnecter" class="logo-nav-compte" id="pfp" height="150px" width="150px">
-            <div>
-                <h2>
-                    <?php
-                        if ($_COOKIE['type_compte'] == "membre") {
-                            echo $compte[0]['pseudo'];
-                        }
-                        else {
-                            echo $compte[0]['prenom'] . ' ' . $compte[0]['nom'];
-                        }
-                    ?>
-                </h2>
-                <p>
-                    <?php 
-                        if($_COOKIE['type_compte'] == "membre") {
-                            echo "Membre";
-                        }
-                        else if ($_COOKIE['type_compte'] == "pro_public"){
-                            echo "Professionnel Public";
-                        }
-                        else if ($_COOKIE['type_compte'] == "pro_prive"){
-                            echo "Professionnel Privé";
-                        }
-                    ?>
-                </p>
+    <!-- Liens de navigation pour choisir le formulaire -->
+    <div class="container-page-creation-compte">
+        <div class="menu-links-crea-compte">
+            <div class="inscription-membre TS-bold" id="link-membre">
+                <h1 class="TS-bold">Paramètre de Compte</h1>
+                <img id="photo-profil" class="compte-photo-profil" src="../images/<?php echo $image_profil['src_image'] ?>" alt="icone-membre" class="icone-membre" width="160px" height="160px" >
+                <input type="file" id="insert-image" accept="image/*" style="display: none;">
             </div>
         </div>
 
-        <form class="main-container-compte" action="modifInfo.php" method="post" enctype="multipart/form-data">
-            <div class="container-ligne-compte">
-                <div class="container-info-compte">
-                    <label>Prénom</label>
-                    <input type="text" name="prenom" value=<?php echo $compte[0]['prenom']; ?>>
-                </div>
-                <div class="container-info-compte">
-                    <label>Nom</label>
-                    <input type="text" name="nom" value=<?php echo $compte[0]['nom']; ?>>
-                </div>
-            </div>
-            <hr>
-            <br><br>
-            <div class="container-ligne-compte">
-                <div class="container-info-compte">
-                    <label>Téléphone</label>
-                    <input type="text" name="telephone" value=<?php echo $compte[0]['telephone']; ?>>
-                </div>
-                <div class="container-info-compte">
-                    <label>Adresse Postale</label>
-                    <input type="text" name="adresse" value="<?php echo htmlspecialchars($compte[0]['numero_voie'] . ' ' . $compte[0]['voie']); ?>">
-                </div>
-            </div>
 
-            <div class="container-ligne-compte">
-                <div class="container-info-compte">
-                    <label>Code Postal</label>
-                    <input type="text" name="code_postal" value=<?php echo $compte[0]['code_postal']; ?>>
+        <!-- Formulaire pour l'inscription membre -->
+        <div class="form-container-page-creation-compte" id="form-membre">
+            <form name="membre" action="infoCompte.php" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="membre">
+                <div class="form-group-crea-compte">
+                    <div class="left-column-crea-compte">
+                        <label name="nom" class="FS">Nom<span class="required"></span></label>
+                        <input type="text" class="FS" value="<?php echo $compte['nom']?>" id="nom-membre" name="nom" >
+                        
+                        
+                        <label name="prenom" class="FS">Prénom<span class="required"></span></label>
+                        <input type="text" class="FS" value="<?php echo $compte['prenom'] ?>" id="prenom-membre" name="prenom" >
+                        
+                        <?php if($Cmembre){ ?>
+                            <label name="pseudo" class="FS">Pseudonyme</label>
+                            <input type="text" class="FS" value="<?php echo $compte['pseudo'] ?>" id="pseudo-membre" name="pseudo">
+                        <?php }else if($Cpro_prive){ ?>
+                            <label name="codepro" class="BO">Code Professionnel</label>
+                            <input type="text" class="BO" value="<?php echo $compte['codepro'] ?>" id="codepro" name="codepro">
+                        <?php } ?>
+
+                        <label name="adresse" class="FS">Adresse postale<span class="required"></span></label>
+                        <input type="text" class="FS" value="<?php echo $compte['numero_voie'] . ' ' . $compte['voie']?>" id="adresse-membre" name="adresse" >
+
+                        <div class="row-info-compte">
+                            <div class="input-wrapper-crea-compte">
+                                <label name="codepostal" class="FS">Code postal<span class="required"></span></label>
+                                <input type="text" class="FS" value="<?php echo $compte['code_postal'] ?>" id="codepostal-membre" name="codepostal" >
+                                
+                            </div>
+
+                            <div class="input-wrapper-crea-compte">
+                                <label name="ville" class="FS">Ville<span class="required"></span></label>
+                                <input type="text" class="FS" value="<?php echo $compte['ville'] ?>" id="ville-membre" name="ville" >
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-column-crea-compte">
+                        <label name="email" class="FS">E-mail<span class="required"></span></label>
+                        <input type="email" class="FS" value="<?php echo $compte['email'] ?>" id="email-membre" name="email" >
+
+                        <label name="telephone" class="FS">Téléphone<span class="required"></span></label>
+                        <input type="tel" class="FS" value="<?php echo $compte['telephone'] ?>" id="telephone-membre" name="telephone" >
+
+                        <?php if(!$Cmembre){?>
+                            <label name="denomination" class="BO">Dénomination</label>
+                            <input type="text" class="BO" value="<?php echo $compte['denomination_sociale'] ?>" id="denomination" name="denomination">
+                            <?php if($Cpro_prive){ ?>
+                                <label name="iban" class="BO">Iban</label>
+                                <input type="text" class="BO" value="<?php echo $compte['iban'] ?>" id="iban" name="iban">
+
+                                <label name="siren" class="BO">Siren</label>
+                                <input type="text" class="BO" value="<?php echo $compte['siren'] ?>" id="siren" name="siren">
+                            <?php } ?>
+                        <?php } ?>
+
+                        <label name="password" class="FS">Mot de passe<span class="required"><?php echo "  " . $message_erreur ?></span></label>
+                        <input type="password" class="FS" id="password-membre" name="password" >
+
+                        <label name="password2" class="FS">Confirmer le mot de passe<span class="required"><?php echo "  " . $message_erreur ?></span></label>
+                        <input type="password" class="FS" id="password2-membre" name="password2" >
+                    </div>
                 </div>
-                <div class="container-info-compte">
-                    <label>Ville</label>
-                    <input type="text" name="ville" value=<?php echo $compte[0]['ville']; ?>>
-                </div>
-            </div>
-            <?php if ($_COOKIE['type_compte'] == "pro_public") { ?>
-            <hr>
-            <br><br>
-            <div class="container-lign-compte">
-                <div class="container-info-compte">
-                    <label>Raison sociale</label>
-                    <input type="text" name="denomination_sociale" value=<?php echo $compte[0]['denomination_sociale']; ?>>
-                </div>
-            </div>
-            <?php } ?>
-            <?php if ($_COOKIE['type_compte'] == "pro_prive") { ?>
-            <hr>
-            <br><br>
-            <div class="container-ligne-compte">
-                <div class="container-info-compte">
-                    <label>Dénomination sociale</label>
-                    <input type="text" name="raison_sociale" value=<?php echo $compte[0]['raison_sociale']; ?>>
-                </div>
-                <div class="container-info-compte">
-                    <label>Numéro SIREN</label>
-                    <input type="text" value=<?php echo $compte[0]['siren']; ?> readonly>
-                </div>
-            </div>
-            <hr>
-            <br><br>
-            <div class="container-ligne-compte">
-                <div class="container-info-compte">
-                    <label>IBAN</label>
-                    <input type="text" name="iban" value=<?php echo $compte[0]['iban']; ?>>
-                </div>
-                <div class="container-info-compte">
-                    <label>BIC</label>
-                    <input type="text" name="bic" value=<?php echo $compte[0]['bic']; ?>>
-                </div>
-            </div>
-            <?php } ?>
-            <hr>
-            <br><br>
-            <div class="container-ligne-compte">
-                <div class="container-info-compte">
-                    <label>Entrer le mot de passe</label>
-                    <input type="password" name="mdp" value=<?php echo $compte[0]['mdp']; ?>>
-                </div>
-            </div>
-            <div class="container-ligne-compte">
-                <button type="submit" class="edit-btn-compte">Enregistrer les modifications</button>
-                <button type="reset" class="cancel-btn-compte" onclick=annulation()>Annuler les modifications</button>
-            </div>
-        </form>
+                    <button id="info-compte-bouton-confirmer" type="submit" class="bouton-envoi-formulaire-modif-compte TS-bold">Confirmer les modifications</button>
+            </form>
+        </div>
     </div>
-
-    <footer class="content-compte">
-        <?php include_once 'footer.php'; ?>
-    </footer>
-    <footer class="phone-element">
-        <?php include_once 'footerNav.php'; ?>
-    </footer>
 </body>
+
+<script src="../js/infoCompte.js" async></script>
+
+<?php include_once'footerNav.php' ?>
 </html>

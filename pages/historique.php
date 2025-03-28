@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
     <?php
-    include_once'nav.php';
 
 
     include('../sql/connect_params.php');
@@ -84,31 +83,33 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <?php
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
-            <body class="BO"> <?php   
-            $etoile = "rouge";
+            <body class="BO"> <?php
         }  else { ?>
             <body class="FO"> <?php
-            $etoile = "bleue";
         }
     } else { ?>
         <body class="FO"> <?php
-        $etoile = "bleue";
 
     }?>
-        <div class="main-content">
+        <div class="main-content historique">
             <header>
-                <h1>Historique</h1>
+                <nav class="desktop-element">
+                    <h1>Historique</h1>
+                    <?php include_once'nav.php'; ?>
+                </nav>
+                <header class="phone-element">
+                    <?php
+                    include 'header.php';
+                    ?>
             </header>
             <main id="historique">
 
                 <div id="historique_container"></div>
-                
-                
+
                 <?php
-
                 include_once'footer.php';
-
                 ?>  
+
             </main>
         </div>
 
@@ -148,7 +149,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                 <div class="infoIMG">
                     <div class="etoiles">
                         ${genererEtoiles(offre.note)}
-                        <p class="textAvis"> (${offre.nbrAvis})</p>
+                        <p class="textAvis">(${offre.nbrAvis})</p>
                     </div>
                     <img src="../images/${offre.image || 'imagesReferences/placeholder.jpg'}" alt="Photo offre">
                 </div>
@@ -180,13 +181,11 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                 </button>
             `;
 
-             // Ajoute la div dans le lien <a>
             offreLink.appendChild(offreDiv);
 
             // Ajoute le lien <a> dans le conteneur
             container.appendChild(offreLink);
-
-            offreLink.addEventListener("click", () => {
+          offreLink.addEventListener("click", () => {
                 ajouterHistorique(offre);
             });
 
@@ -211,6 +210,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             });
 
         });
+
     });
 
     // Générer les étoiles en fonction de la note

@@ -8,7 +8,7 @@ create table pact._adresse(
   idAdresse serial,
   ville varchar(20) not null,
   numero_voie integer not null,
-  voie varchar(30) not null,
+  voie varchar(100) not null,
   code_postal integer not null,
   complement varchar(30),
 
@@ -34,6 +34,7 @@ create table pact._compte
   telephone varchar(10) not null,
   mdp varchar(25) not null,
   clefApi varchar(64),
+  secretOTP varchar(103),
   
   -- FK
   idAdresse integer not null,
@@ -110,6 +111,8 @@ create table pact._avis(
   --/nbr_dislike
   consulte boolean default false,
   blackliste boolean default false,
+  date_blackliste date,
+  duree_blackliste interval,
   
   constraint _avis_pk primary key (idA),
   
@@ -187,6 +190,7 @@ create table pact._offre(
   prix_min float,
   --/moy_note
   --/nbrAvis
+  --/nbrAvisBlacklistes
   accessibilite varchar(200),
   categorie varchar(30), -- need to be frozen
   date_creation date default now(),
@@ -677,6 +681,8 @@ create or replace function pact.delete_membre()
 begin
   update pact._experience set idC = 1 where idC = old.idC;
   delete from pact._membre where idC = old.idC;
+  delete from pact._recommande where idC = old.idC;
+  delete from pact._recommande_pas where idC = old.idC;
   return OLD;
 end;
 $$ language 'plpgsql';
@@ -906,8 +912,18 @@ create or replace function pact.count_avis(idOffre integer)
 declare
   comp integer;
 begin
-  select count(*) from pact._experience e where e.idO = idOffre into comp;
+  select count(*) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre and a.blackliste = False into comp;
   RETURN comp;
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.nbrAvisBlacklistes(idOffre integer)
+  returns int as $$
+declare
+  res int;
+begin
+  select COUNT(*) from pact._avis a inner join pact._experience e on a.ida = e.ida where e.idO = idOffre and a.blackliste = True into res;
+  RETURN res;
 end;
 $$ language 'plpgsql';
 
@@ -916,7 +932,7 @@ create or replace function pact.moy_notes(idOffre integer)
 declare
   comp float;
 begin
-  select avg(a.note) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre  into comp;
+  select avg(a.note) from pact._experience e inner join pact.avis a on e.idA = a.idA where e.idO = idOffre and a.blackliste = False into comp;
   if (comp is null) then
     comp = 0;
   end if;
@@ -925,7 +941,7 @@ end;
 $$ language 'plpgsql';
 
 create or replace view pact.offre as
-  select  o.idO, o.titre, resume, "type", op.idOption, op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, 
+  select  o.idO, o.titre, resume, "type", op.idOption, op.nom_option as option, nom_type, t.cout_HT, t.cout_TTC, description, site_web, prix_min, pact.moy_notes(o.idO) as moy_note, pact.count_avis(o.idO) as nbrAvis, pact.nbrAvisBlacklistes(o.idO) as nbrAvisBlacklistes, 
   accessibilite, categorie, date_creation, date_publication, date_hors_ligne, o.idAdresse, ville, numero_voie, voie, code_postal, complement, en_ligne, idC from pact._offre o 
   inner join pact._type_offre t on "type" = idT
   inner join pact._adresse a on a.idAdresse = o.idAdresse
@@ -1747,7 +1763,7 @@ begin
   
   if exists(select * from pact._membre where idC = idCompte) then
     temp='mbr';
-  elsif  exists(select * from _professionnel where idC = idCompte) then
+  elsif  exists(select * from pact._professionnel where idC = idCompte) then
     temp='pro';
   end if;
   raise notice '%', temp;
@@ -1862,5 +1878,41 @@ begin
   end loop;
   
   RETURN round(CAST(comp as numeric),2);
+end;
+$$ language 'plpgsql';
+
+create or replace function pact.toStringDate(idAdr integer)
+  returns varchar as $$
+declare
+  adresse record;
+  res varchar;
+begin
+  res ='';
+  select numero_voie, voie, ville, code_postal from pact._adresse a where a.idadresse = idAdr into adresse;
+  res = CONCAT(adresse.numero_voie, ' ', adresse.voie, ' ', adresse.ville, ' ', adresse.code_postal);
+  RETURN res;
+end;
+$$ language 'plpgsql';
+
+/*
+  Géerer avis blacklistées
+  Fonction gère les blacklist temporaires
+*/
+create or replace function pact.geererBlacklist()
+  returns boolean as $$
+declare
+  i record;
+  res boolean;
+begin
+  res = false;
+  
+  for i in select ida, blackliste, date_blackliste, duree_blackliste from pact._avis
+    loop
+    if (i.blackliste) then
+      res = true;
+      update pact._avis set blackliste = false, duree_blackliste = null where ida = i.ida and i.date_blackliste + i.duree_blackliste < now();
+    end if;
+  end loop;
+  RETURN res;
 end;
 $$ language 'plpgsql';

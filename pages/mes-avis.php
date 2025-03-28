@@ -5,6 +5,16 @@
         <title>Mes avis</title>
         <link rel="stylesheet" href="../css/mes-avis.css">
         <link rel="stylesheet" href="../css/styleGeneral.css">
+        <?php 
+        if(isset($_COOKIE['type_compte'])){
+            if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+                <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+            }  else { ?>
+                <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+            }
+        } else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }?>
     </head>
     <body class="FO">
         <nav class="nav-bar">
@@ -122,7 +132,7 @@
                         <p id="date-publi"><?php echo $a['date_publication']?></p>
                     </div>
                     <p id="commentaire"><?php echo $a['corps']?></p>
-                    <div class="boutons">
+                    <div class="boutons-avis">
                         <form method="POST" action="mes-avis.php" class="form-supp">
                             <input type="hidden" name="id_avis" value=<?php echo $a['ida']; ?>>
                             <input type="button" name="bouton_supp" class="bouton-supp" value="Supprimer l'avis">

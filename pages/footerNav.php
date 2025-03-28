@@ -11,10 +11,11 @@
             <a href="../pages/accueil.php" class="menu-item-footer">
                 <img src="../icons/home.png" alt="Home Icon" id="homeIcon">
             </a>
-            <!--
-            <a href="../pages/en-construction.php" class="menu-item-footer">
+            
+            <a href="../pages/historique.php" class="menu-item-footer">
                 <img src="../icons/recent.png" alt="Clock Icon" id="clockIcon">
             </a>
+            <!--
             <a href="../pages/en-construction.php" class="menu-item-footer">
                 <img src="../icons/notification.png" alt="Bell Icon" id="bellIcon">
             </a>

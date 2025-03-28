@@ -222,7 +222,7 @@ try{
             case 'Activite':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -282,7 +282,7 @@ try{
             case 'Spectacle':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -339,7 +339,7 @@ try{
             case 'Visite':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -395,7 +395,7 @@ try{
             case 'Restauration':
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -466,7 +466,7 @@ try{
             case "Parc d'attraction":
                 $titre = $_POST['titre'];
                 $resume = $_POST['resume'];
-                $type = type_offre($_POST['offre']);
+                $type = type_offre($_POST['type']);
                 $description = $_POST['description'];
                 $site = trim($_POST['site']);
                 $prix_min = $_POST['prix'];
@@ -585,7 +585,7 @@ try{
                 $stmt->bindParam(':idO', $idO, PDO::PARAM_STR);
                 $stmt->bindParam(':src', $src, PDO::PARAM_STR);
                 $stmt->execute();
-            } else if ($_POST['statusImage'.$i] === 'true') {
+            } else if ($_POST['statusImage'.$i] === 'supprime') {
                 // supprimer images
                 $image = $image[0];
                 $src = "image_offre/$image";
@@ -718,6 +718,7 @@ try{
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Modification d'offre</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
+        <link rel="icon" type="image/png" href="../logo/logo_reduit_rouge.png">
     </head>
     <nav>
         <?php include_once 'nav.php';?>
@@ -902,6 +903,11 @@ try{
                                     <p id="adresse-error-message" class="error-message"></p>
                                     <input type="text" id="adresse" class="FS" name="adresse" placeholder="5 rue de l'exemple" required value="<?php echo $dataOffre[0]["numero_voie"] . " " . $dataOffre[0]["voie"];?>"/>
                                 </div>
+                                <div class="container-crea-modif-offre" id="complementAdresse-container">
+                                    <label for="complement">Complément d'adresse</label>
+                                    <p id="complement-error-message" class="error-message"></p>
+                                    <input type="text" id="complement" class="FS" name="complement" placeholder="batiment B, salle 105" value="<?php echo isset($_POST['complement']) ? $_POST['complement'] : ''; ?>"/>
+                                </div>
                                 <div id="codeP-ville">
                                     <!-- Champ Code postal -->
                                     <div class="container-crea-modif-offre" id="codeP-container">
@@ -946,7 +952,7 @@ try{
                                         <input type="text" id="age" class="FS" name="age" placeholder="8" required value="<?php echo  (isset($dataOffre[0]['age_min'])) ?  $dataOffre[0]["age_min"] : '';?>"/>
                                     </div>
                                     <div class="container-crea-modif-offre" id="capacite-container">
-                                        <label for="capacite">Capacité*</label>
+                                        <label for="capacite">Nombre de places*</label>
                                         <p id="capacite-error-message" class="error-message"></p>
                                         <input type="text" id="capacite" class="FS" name="capacite" placeholder="230" required value="<?php echo  (isset($dataOffre[0]['capacite'])) ?  $dataOffre[0]["capacite"] : '';?>"/>
                                     </div>
@@ -1015,7 +1021,7 @@ try{
                                                 <img src="../icons/plus.svg" alt="Bouton Image">
                                                 <p id="map-upload-text">Ajouter</p>
                                             </label>
-                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png"/>
+                                            <input type="file" id="map-file-upload" name="map-file-upload" accept=".png, .jpg, .jpeg, .gif"/>
                                             <input type="hidden" id="status-map" name="status-map" value="false">
                                             <button id="map-file-delete" type="button">
                                                 <img src="../icons/moins.svg" alt="Bouton Image">
@@ -1042,8 +1048,8 @@ try{
                                             <div id="standard">                                                
                                                 <input type="radio" id="standard" name="offre" value="standard" style="cursor : not-allowed; pointer-events: none;" 
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'standard' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'standard' ? 'checked' : '') 
                                                         : (((string)$_COOKIE['type_compte'] == 'pro_prive') ? 'checked' : '');
                                                     ?> 
                                                 />
@@ -1053,8 +1059,8 @@ try{
                                                 <!-- <input type="radio" id="premium" name="offre" value="premium" /> -->
                                                 <input type="radio" id="premium" name="offre" value="premium" style="cursor: not-allowed; pointer-events: none;"
                                                     <?php 
-                                                    echo isset($_POST['offre']) 
-                                                        ? ($_POST['offre'] == 'premium' ? 'checked' : '') 
+                                                    echo isset($_POST['type']) 
+                                                        ? ($_POST['type'] == 'premium' ? 'checked' : '') 
                                                         : '';
                                                     ?> 
                                                 />
@@ -1091,44 +1097,42 @@ try{
                             <div id="bottom-right-part-content">
                             <!---- Champs ajout 3 images --->
                             <div id="file-container">
-                                    <!---- Bouton 1 --->
-                                    <label for="file-upload1" class="custom-file-upload">
-                                        <img src="../icons/plus.svg" alt="Bouton Image">
-                                        <p class="upload-text">Ajouter une image 1</p>
-                                    </label>
-                                    <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg"/>
+                                <!---- Bouton 1 --->
+                                <label for="file-upload1" class="custom-file-upload">
+                                    <img src="../icons/plus.svg" alt="Bouton Image">
+                                    <p class="upload-text">Ajouter une image 1</p>
+                                </label>
+                                <input type="file" id="file-upload1" class="file-upload" name="file-upload1" accept=".png, .jpg, .jpeg, .gif"/>
 
-                                    <!---- Bouton 2 --->
-                                    <label for="file-upload2" class="custom-file-upload">
-                                        <img src="../icons/plus.svg" alt="Bouton Image">
-                                        <p class="upload-text">Ajouter une image 2</p>
-                                    </label>
-                                    <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg"/>
-                                    <!---- Bouton 3 --->
-                                    <label for="file-upload3" class="custom-file-upload">
-                                        <img src="../icons/plus.svg" alt="Bouton Image">
-                                        <p class="upload-text">Ajouter une image 3</p>
-                                    </label>
-                                    <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg"/>
+                                <!---- Bouton 2 --->
+                                <label for="file-upload2" class="custom-file-upload">
+                                    <img src="../icons/plus.svg" alt="Bouton Image">
+                                    <p class="upload-text">Ajouter une image 2</p>
+                                </label>
+                                <input type="file" id="file-upload2" class="file-upload" name="file-upload2" accept=".png, .jpg, .jpeg, .gif"/>
+                                <!---- Bouton 3 --->
+                                <label for="file-upload3" class="custom-file-upload">
+                                    <img src="../icons/plus.svg" alt="Bouton Image">
+                                    <p class="upload-text">Ajouter une image 3</p>
+                                </label>
+                                <input type="file" id="file-upload3" class="file-upload" name="file-upload3" accept=".png, .jpg, .jpeg, .gif"/>
 
-                                    <button id="file-delete" type="button">
-                                        <img src="../icons/moins.svg" alt="Bouton Image">
-                                        Supprimer une image
-                                    </button>
-                                </div>
-                                <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
-                                <p id="message-prevention"></p>
-                                <!-- Éléments pour afficher les images importées -->
-                                <div id="image-container">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
-                                    <input class="status-image" type="hidden" id="statusImage1" name="statusImage1" value="false">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée2" />
-                                    <input class="status-image" type="hidden" id="statusImage2" name="statusImage2" value="false">
-                                    <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée3" />
-                                    <input class="status-image" type="hidden" id="statusImage3" name="statusImage3" value="false">
-                                </div>
-                            <!-- Formulaire caché pour le téléchargement d'images -->
-                            
+                                <button id="file-delete" type="button">
+                                    <img src="../icons/moins.svg" alt="Bouton Image">
+                                    Supprimer une image
+                                </button>
+                            </div>
+                            <p id="error-message-supprimer" style="color: red; display: none;">Vous ne pouvez pas supprimer une image inexistante !</p>
+                            <p id="message-prevention"></p>
+                            <!-- Éléments pour afficher les images importées -->
+                            <div id="image-container">
+                                <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée1" />
+                                <input class="status-image" type="hidden" id="statusImage1" name="statusImage1" value="false">
+                                <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée2" />
+                                <input class="status-image" type="hidden" id="statusImage2" name="statusImage2" value="false">
+                                <img class="selected-image" src="../images/rien.png" alt="Image sélectionnée3" />
+                                <input class="status-image" type="hidden" id="statusImage3" name="statusImage3" value="false">
+                            </div>
                         </div>
                     </div>
                 </div>      
@@ -1152,17 +1156,21 @@ try{
             $pattern = "/$idO-[a-z]/i";
             $special = array_values(preg_grep($pattern, $files));
         ?>
-        
 
-        <script src="../js/creation_offre.js">
-            
-        </script>
+        <script src="../js/creation_offre.js"></script>
         <script>
+            //status-image : si false = existe pas
+            const statusMap = document.getElementById('status-map');
+            const statusImg1 = document.getElementById('statusImage1');
+            const statusImg2 = document.getElementById('statusImage1');
+            const statusImg3 = document.getElementById('statusImage1');
+
             handleCategorieChange();
             // Affiche image de carte/menu si elle existe
             if (<?php echo empty($special) ?  'false' : 'true'?>) {
                 imageCarte = document.getElementById('selected-image');
                 imageCarte.src = '../images/image_offre/<?php echo isset($special[0]) ?  $special[0] : ''?>';
+                statusMap.value = 'true';
                 
                 //affiche boutons modifier et supprimer
                 mapFileDelete.style.display = 'flex';
@@ -1177,6 +1185,7 @@ try{
                 if (isset($matches[$i])){
             ?>
             selectedImages[<?php echo $i?>].src = '../images/image_offre/<?php echo $matches[$i]?>';
+            statusImg<?php echo $i + 1?>.value = 'true';
             currentImageCount++;
             <?php }}?>
 
@@ -1186,9 +1195,6 @@ try{
                 boutonSuppression.style.display = 'flex';
             }
             toggleFileUpload(); // affiche/cache bouton ajouter
-
-            //status-image : if false then not deleted, else it was deleted
         </script>
-        
     </body>
 </html>
