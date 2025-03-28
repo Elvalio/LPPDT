@@ -3175,18 +3175,32 @@ input:disabled {
 /*     STYLE PAGE HISTORIQUE     */
 /* ============================= */
 
+div.historiqueHeaderBis {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 7% 15px 5%;
+    max-width: 95%;
+    margin-left: 20px;
+}
+
 #historique_container {
+
+    width: 95%;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 10px 40px;
     gap: 25px;
 }
 
 .historique.main-content h1 {
     color: var(--bleuFonce-rougeFonce);
     padding: 20px 0;
+    margin-left: 0;
 }
 
 /* Version par défaut (Desktop) */
@@ -3195,15 +3209,17 @@ input:disabled {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
+    padding: 15px 15px 25px 15px;
     border: 1px solid var(--bleuFonce-rougeFonce);
     border-radius: 15px;
-    width: 100%;
+    width: 95%;
     height: 180px;
+
+    margin-left: 20px;
 }
 
 main#historique a {
-    width: 100%;
+    width: 95%;
 
 }
 
@@ -3345,6 +3361,72 @@ main#historique .offre_historique_container {
   #historique_container .deleteButton:hover .tooltip {
     opacity: 1;
   }
+
+  div.buttonsHistory {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  button#deleteHistory {
+    width: 200px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #e62222;
+   }
+   
+   button#deleteHistory, button#deleteHistory span {
+    transition: 200ms;
+   }
+   
+   button#deleteHistory .text {
+    transform: translateX(20px);
+    color: white;
+    font-weight: bold;
+   }
+   
+   button#deleteHistory .icon {
+    position: absolute;
+    border-left: 1px solid #c41b1b;
+    transform: translateX(160px);
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   button#deleteHistory svg {
+    width: 15px;
+    fill: #eee;
+   }
+   
+   button#deleteHistory:hover {
+    background: #ff3636;
+   }
+   
+   button#deleteHistory:hover .text {
+    color: transparent;
+   }
+   
+   button#deleteHistory:hover .icon {
+    width: 150px;
+    border-left: none;
+    transform: translateX(25px);
+   }
+   
+   button#deleteHistory:focus {
+    outline: none;
+   }
+   
+   button#deleteHistory:active .icon svg {
+    transform: scale(0.8);
+   }
   
 
 /* Adaptation pour mobile */
@@ -3365,6 +3447,7 @@ main#historique .offre_historique_container {
         height: 150px;
         width: 300px;
         padding: 10px;
+        justify-content: center;
     }
 
     .infoText {
@@ -3418,6 +3501,10 @@ main#historique .offre_historique_container {
 
     .historique.main-content {
         margin-left: 0;
+    }
+
+    main#historique a {
+        width: initial;
     }
 }
 
