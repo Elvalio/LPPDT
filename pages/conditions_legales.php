@@ -183,11 +183,8 @@
                     résidence du Client ou du siège social de TripEnArvor.
                 </p>
             </section>
-            <button class="bouton-retour-page-footer">
-            <a href="./accueil.php">
-                <img src="../icons/arrow-left-w.svg" alt="Retour">
-                Retour
-            </a>
-        </button>
+            <button class="bouton-retour-page-footer" onclick="history.back();">
+                <img src="../icons/arrow-left-w.svg" alt="Retour"> Retour
+            </button>
         </div>
     </main>

@@ -813,11 +813,13 @@ try {
                         <?php
                 
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
-                        <button type="button" class="btn-signaler"
-                            id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
-                            <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                            <p>Signaler l'avis</p>
-                        </button>
+                        <div class="signaler">
+                            <button type="button" class="btn-signaler"
+                                id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
+                                  <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                                <p>Signaler l'avis</p>
+                            </button>
+                        </div>
                         <?php
 
                        if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
@@ -1059,6 +1061,7 @@ try {
                 }
                 ?>
                 </div>
+            </div>
                 <?php
             $id_avis++;
             endforeach; }?>

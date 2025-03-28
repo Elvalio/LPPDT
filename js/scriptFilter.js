@@ -8,13 +8,11 @@ const sortMenuItems = document.querySelectorAll('#sortMenu .menu-item');
 const overlayFiltre = document.getElementById('overlay-filtre');
 
 overlayFiltre.style.display = 'none'; // Cache l'overlay au chargement de la page
-console.log("test");
 
 // Ouvrir le menu "Filtrer"
 filterButton.addEventListener('click', () => {
     menu.style.left = '0';
     overlayFiltre.style.display = 'block';
-    console.log("test 2");
     document.body.classList.add('no-scroll'); // Empêche le scroll sur la page principale
 });
 
