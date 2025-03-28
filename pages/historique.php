@@ -112,7 +112,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
 
             </main>
         </div>
-
+        <footer>
+        <?php include_once 'footerNav.php'; ?>
+        </footer>
     </body>
 
     <script>
