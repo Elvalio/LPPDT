@@ -621,16 +621,21 @@ document.addEventListener('DOMContentLoaded', function () {
                             const elementToScroll = document.getElementsByClassName(elementId)[0];
                             if (elementToScroll) {
                                 elementToScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                let tempTransition = elementToScroll.style.transition;
+                                let tempOpacity = elementToScroll.style.opacity;
+                                let tempBoxShadow = elementToScroll.style.boxShadow;
+                                let tempTransform = elementToScroll.style.transform;
                                 elementToScroll.style.transition = 'all 1s ease-in-out';
                                 elementToScroll.style.transform = 'scale(1.05) translateY(-15px)';
                                 elementToScroll.style.opacity = '1';
                                 elementToScroll.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
                                 setTimeout(() => {
-                                    elementToScroll.style.transform = 'scale(1) translateY(0)';
-                                    elementToScroll.style.boxShadow = '';
+                                    elementToScroll.style.transform = tempTransform;
+                                    elementToScroll.style.boxShadow = tempBoxShadow;
                                 }, 1000);
                                 setTimeout(() => {
-                                    elementToScroll.style.opacity = '';
+                                    elementToScroll.style.opacity = tempOpacity;
+                                    elementToScroll.style.transition = tempTransition;
                                 }, 2000);
                             }
                         });
