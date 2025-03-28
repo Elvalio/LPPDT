@@ -626,7 +626,8 @@ document.addEventListener('DOMContentLoaded', function () {
                                 elementToScroll.style.opacity = '1';
                                 elementToScroll.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
                                 setTimeout(() => {
-                                    elementToScroll.style.transform = 'scale(1)';
+                                    elementToScroll.style.transform = 'scale(1) translateY(0)';
+                                    elementToScroll.style.boxShadow = '';
                                 }, 1000);
                                 setTimeout(() => {
                                     elementToScroll.style.opacity = '';
