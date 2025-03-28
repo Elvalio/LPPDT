@@ -274,10 +274,10 @@ try{
             <input type="file" id="insert-image" accept="image/*" style="display: none;">
         </div>
 
-        <div class="form-container-page-modif-compte" id="form-modif">
+        <div class="compte-container-main-page" id="form-modif">
             <form name="modifcompte" action="modifInfo.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="type" value="membre">
-                <div class="form-group-info-compte">
+                <div class="compte-details-section">
                     <div class="left-column-info-compte">
                         <label name="nom" class="FS">Nom<span class="required"></span></label>
                         <input type="text" class="FS" value="<?php echo $compte['nom']?>" id="nom-membre" name="nom" >
@@ -297,28 +297,28 @@ try{
                             <input type="text" class="BO" value="<?php echo $compte['bic'] ?>" id="bic" name="bic">
                         <?php } ?>
 
-                        <label name="adresse" class="FS">Adresse postale<span class="required"></span></label>
+                        <label name="adresse" class="FS">Adresse postale</label>
                         <input type="text" class="FS" value="<?php echo $compte['numero_voie'] . ' ' . $compte['voie']?>" id="adresse-membre" name="adresse" >
 
                         <div class="row-info-compte">
                             <div class="input-wrapper-info-compte">
-                                <label name="codepostal" class="FS">Code postal<span class="required"></span></label>
+                                <label name="codepostal" class="FS">Code postal</label>
                                 <input type="text" class="FS" value="<?php echo $compte['code_postal'] ?>" id="codepostal-membre" name="codepostal" >
                                 
                             </div>
 
                             <div class="input-wrapper-info-compte">
-                                <label name="ville" class="FS">Ville<span class="required"></span></label>
+                                <label name="ville" class="FS">Ville</label>
                                 <input type="text" class="FS" value="<?php echo $compte['ville'] ?>" id="ville-membre" name="ville" >
 
                             </div>
                         </div>
                     </div>
                     <div class="right-column-info-compte">
-                        <label name="email" class="FS">E-mail<span class="required"></span></label>
+                        <label name="email" class="FS">E-mail</label>
                         <input type="email" class="FS" value="<?php echo $compte['email'] ?>" id="email-membre" name="email" >
 
-                        <label name="telephone" class="FS">Téléphone<span class="required"></span></label>
+                        <label name="telephone" class="FS">Téléphone</label>
                         <input type="tel" class="FS" value="<?php echo $compte['telephone'] ?>" id="telephone-membre" name="telephone" >
 
                         <?php if(!$Cmembre){?>
