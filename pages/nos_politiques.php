@@ -18,7 +18,7 @@
 </head>
 <body class="FO">
 <header>
-    <h1 class="h1-page-footer">Nos Politiques</h1>
+    <h1 class="FS-bold">Nos Politiques</h1>
 </header>
 
 <main>

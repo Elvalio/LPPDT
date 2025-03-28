@@ -21,7 +21,7 @@
 <body class="FO">
 
 <header>
-    <h1 class="h1-page-footer">À propos de nous</h1>
+    <h1 class="FS-bold">À propos de nous</h1>
 </header>
 
 <main>

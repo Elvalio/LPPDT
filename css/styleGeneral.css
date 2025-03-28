@@ -1984,16 +1984,11 @@ body {
 
 
 
-.h1-page-footer, .h2-page-footer, .h4-page-footer {
+.h2-page-footer, .h4-page-footer {
     color: #006B8F;
     margin-bottom: 15px;
 }
 
-.h1-page-footer {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 30px;
-}
 
 .h2-page-footer {
     font-size: 22px;
