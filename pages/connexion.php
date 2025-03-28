@@ -1,7 +1,7 @@
 <?php
 include('../sql/connect_params.php');
 
-require (__DIR__. '/../vendor/autoload.php');
+require (__DIR__. '/vendor/autoload.php');
 use OTPHP\TOTP;
 
 if ($_REQUEST["id"]!=null) {
