@@ -186,6 +186,10 @@ try {
     $stmt->execute([':idAnnonce' => $idAnnonce]);
     $offre = $stmt->fetch(PDO::FETCH_ASSOC);
 
+    // met à jour les avis blacklistés
+    $stmt = $bdh->prepare("SELECT pact.geererBlacklist()");
+    $stmt->execute();
+
     if (!$offre) {
         die("Aucune offre trouvée.");
     }
@@ -244,6 +248,20 @@ try {
         $avis = $stmtAvis->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Récupérer le blacklistage des avis
+    /*
+    foreach ($avis as &$avisIndividuel) {
+        
+        $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+        $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
+        $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
+
+
+    
+        var_dump($blacklisteData); // Debugging si besoin
+    }
+    */
+    
     /*
     // Requête pour griser tout les avis qui ont déjà été signalé par l'utilisateur
     $idAvis = $avisIndividuel['ida'];
@@ -289,7 +307,16 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
-    <link rel="icon" type="image/png" href="../logo/logo_reduit_vert.png">
+    <?php 
+    if(isset($_COOKIE['type_compte'])){
+        if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
+        }  else { ?>
+            <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+        }
+    } else { ?>
+        <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/bleu.ico"> <?php
+    }?>
 </head>
 
 <div class="desktop-element">
@@ -347,6 +374,7 @@ try {
                         <div class="etoiles">
                             <?php
                             $nbrAvis = $offre['nbravis'];
+                            $nbrAvisBlacklist = $offre['nbravisblacklistes'];
                             $fullStars = floor($offre["moy_note"]);
                             $halfStar = ($offre["moy_note"] - $fullStars >= 0.5) ? 1 : 0;
                             $emptyStars = 5 - $fullStars - $halfStar;
@@ -439,7 +467,7 @@ try {
                             </a>
                         </div>
                     </div>
-                    <?php
+                  <?php
 
                         } ?>
                 </div>
@@ -472,25 +500,31 @@ try {
                 ?>
             </div>
             -->
+ </article>
+        <button class="desktop-element bouton-retour NoSelect">
+            <a href="./accueil.php">
+                <img src="../icons/arrow-left-o.svg" alt="Retour">
+                Retour
+            </a>
+        </button>
+    </section>
 
-            </article>
-            <button class="desktop-element bouton-retour NoSelect">
-                <a href="./accueil.php">
-                    <img src="../icons/arrow-left-o.svg" alt="Retour">
-                    Retour
-                </a>
-            </button>
-        </section>
-
-        <!-- Avis -->
-        <section class="section-page part-avis">
-            <header class="header-avis">
-                <h3>Avis :
-                    <?php echo $nbrAvis; ?>
-                </h3>
-            </header>
-            <article class="article-avis">
-                <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){ 
+    <!-- Avis -->
+    <section class="section-page part-avis">
+        <header class="header-avis">
+            <h3>Avis :
+                <?php
+                    echo $nbrAvis;
+                ?>
+            </h3>
+            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist > 0) : ?>
+                <button id="btn-blacklist" data-nbr-avis-blacklist="<?php echo $nbrAvisBlacklist; ?>" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php elseif(isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist == 0) : ?>
+                <button id="btn-blacklist" style="cursor: not-allowed;" disabled>Aucun avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php endif; ?>
+        </header>
+        <article class="article-avis">
+            <?php if(!isset($_COOKIE['type_compte']) || $_COOKIE['type_compte'] == "membre"){
                     if (isset($_COOKIE['user'])){
                     $avis_publie = false;
                     if ($nbrAvis > 0){ foreach ($avis as $avisIndividuel):
@@ -573,8 +607,9 @@ try {
 
                 <?php 
             $id_avis = 0;
-            if ($nbrAvis > 0){
+            if ($nbrAvis > 0 || $nbrAvisBlacklist > 0) {
                 foreach ($avis as $avisIndividuel): 
+                
                 $stmtCompte = $bdh->prepare("SELECT * FROM pact.membre WHERE idC = :idC");
                 $stmtCompte->execute([':idC' => $avisIndividuel['idc']]);
                 $compte = $stmtCompte->fetch(PDO::FETCH_ASSOC);      
@@ -582,6 +617,18 @@ try {
                 $stmtReponse = $bdh->prepare("SELECT * FROM pact._reponse WHERE idA = :idA");
                 $stmtReponse->execute([':idA' => $avisIndividuel['ida']]);
                 $reponse = $stmtReponse->fetch(PDO::FETCH_ASSOC);
+
+                $stmtBlackliste = $bdh->prepare("SELECT * FROM pact.avis WHERE idA = :idA");
+                $stmtBlackliste->execute([':idA' => $avisIndividuel['ida']]);
+                $blacklisteData = $stmtBlackliste->fetch(PDO::FETCH_ASSOC);
+                
+                // var_dump($blacklisteData);
+                $classBlacklist = isset($blacklisteData['blackliste']) && $blacklisteData['blackliste'] ? 'blacklisted' : '';
+            
+          //vérifie si avis est blacklisté
+                $stmtCompte = $bdh->prepare("SELECT blackliste FROM pact._avis WHERE idA = :idA");
+                $stmtCompte->execute([':idA' => $avisIndividuel['ida']]);
+                $estBlackliste = $stmtCompte->fetch(PDO::FETCH_ASSOC)["blackliste"];
 
                 // Vérification avis deja signalé 
 
@@ -685,29 +732,29 @@ try {
                     echo "Cet utilisateur n'a pas encore signalé cet avis ou ses réponses.";
                 }
                 */
-
-                ?>
-                <div class="alignement-conteneur-avis">
-                    <div class="header-avis-profil">
-                        <div class="profil">
-                            <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
-                            <div class="titre-contexte">
-                                <div class="titre-date">
-                                    <h4>
-                                        <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
-                                    </h4>
-                                    <p>
-                                        <?php echo htmlspecialchars($avisIndividuel['date_visite']); ?>
+?>
+            <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
+                <div class="header-avis-profil">
+                    <div class="profil">
+                        <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
+                        <div class="titre-contexte">
+                            <div class="titre-date">
+                                <h4>
+                                    <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
+                                </h4>
+                                <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
+                            </div>
+                            <div class="pseudo-contexte">
+                                <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
+                                    <p style="font-style: italic" class="ligne_sepa_contexte">
+                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
                                     </p>
-                                </div>
-                                <div class="pseudo-contexte">
+                                <?php } else { ?>
                                     <p class="ligne_sepa_contexte">
                                         <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
                                     </p>
-                                    <p>
-                                        <?php echo htmlspecialchars($avisIndividuel['contexte']); ?>
-                                    </p>
-                                </div>
+                                <?php } ?>
+                                <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
                             </div>
                         </div>
                         <div class="etoile-avis-detail-offre">
@@ -774,14 +821,35 @@ try {
                             </button>
                         </div>
                         <?php
-                        if($_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3){
-                            ?>
-                        <button type="button" class="btn-blacklist" id="btn_blacklist_<?php echo $_COOKIE['user'];?>">
-                            <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                            <p>Blacklister l'avis</p>
-                        </button>
-                        <?php
-                        }
+
+                       if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
+                            if ($estBlackliste) {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist" style="cursor: not-allowed; opacity: 0.5;" disabled>
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Avis déjà blacklisté</p>
+                                    </button>
+                                </div>
+                                <?php
+                            } else {
+                                ?>
+                                <div class="blacklist">
+                                    <button type="button" class="btn-blacklist">
+                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                                        <p>Blacklister l'avis</p>
+                                    </button>
+                                    <div class="blacklist-content">
+                                        <button type="button" class="btn-blacklist-irr"
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        >Blacklister</button>
+                                        <button type="button" 
+                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                                        class="btn-blacklist-rev">Blacklister temporairement</button>
+                                    </div>
+                                </div>
+                                <?php
+                            } }
                         ?>
 
                         <?php endif;
@@ -959,7 +1027,7 @@ try {
                     <?php
 
                 if (isset($_COOKIE['type_compte'], $_COOKIE['user'])) {
-                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) {
+                    if (($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive" || $_COOKIE['type_compte'] == "membre")) {
                         if (isset($reponse['ida'])) { ?>
                     <div class="commentaire-reponse">
                         <p>
@@ -979,18 +1047,15 @@ try {
                     <?php endif;
                         
                         } else { ?>
-                    <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une
-                        réponse</button>
-                    <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>"
-                        class="zone-btn-publier form_reponse" id="form_reponse" style="display: none">
-                        <input type="hidden" name="type_form" value="poste-reponse">
-                        <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
-                        <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
-                        <textarea minlength="30" maxlength="255" type="text" name="zone_reponse" id="ecrire_reponse"
-                            placeholder="Veuillez écrire dans cette zone pour pouvoir déposer une réponse sur cette avis."></textarea>
-                        <input type="submit" id="bouton_publier" value="Publier">
-                    </form>
-                    <?php
+<button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
+                            <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse_<?php echo $id_avis; ?>" style="display: none">
+                                <input type="hidden" name="type_form" value="poste-reponse">
+                                <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
+                                <input type="hidden" name="ido" value=<?php echo $avisIndividuel['ido']?>>
+                                <textarea minlength="30" maxlength="255" type="text" name="zone_reponse" id="ecrire_reponse" placeholder="Veuillez écrire dans cette zone pour pouvoir déposer une réponse sur cette avis."></textarea>
+                                <input type="submit" id="bouton_publier" value="Publier">
+                            </form>
+                            <?php
                         }
                     }
                 }
@@ -1051,10 +1116,38 @@ try {
             </div>
             <img id="croix" src="../images/croix.png" alt="" class="close-popup">
         </div>
-        <?php } ?>
-        <footer class="phone-element">
-            <?php include_once 'footerNav.php'; ?>
-        </footer>
+<?php } ?>
+
+    <?php if(isset($_COOKIE['user']) && $_COOKIE['type_compte'] == "pro_prive" && $offre['type']==3 && $offre['idc'] == $_COOKIE['user'] ){?>
+        <div id="overlay"></div>
+        <div class="modal" id="modal" style="display: none;">
+            <input type="hidden" name="status" value="" id="modal-id">
+            <div id='option-modal'>
+                <h2 class="titre-modal">Blacklist Options</h2>
+                <div>
+                    <label for="semaine">Nombre de semaine(s) : </label>
+                    <input id="semaine" type="number" value="1" min="1"/>
+                    <br>
+                    <p id="warning-semaine" name="warning-semaine" style="color: red;">Saisir un nombre valide</p>
+                </div>
+                <div id="boutons-modal">
+                    <input type="button" class="btn-notif" id="modal-submit-button" value="Valider"/>
+                    <input type="button" class="btn-notif" id="modal-close" value="Annuler">
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" id="modal-warning" style="display: none;">
+            <h2 class="titre-modal">Êtes vous sûr?</h2>
+            <div id="boutons-modal">
+                <input type="button" class="btn-notif" id="modal-warning-submit-button" value="Valider"/>
+                <input type="button" class="btn-notif" id="modal-warning-close" value="Annuler">
+            </div>
+        </div>
+    <?php } ?>  
+    <footer class="phone-element">
+        <?php include_once 'footerNav.php'; ?>
+    </footer>
     </div>
     <footer>
         <?php include_once 'footer.php'; ?>
