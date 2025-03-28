@@ -395,12 +395,11 @@
 }
 
 .header-avis-profil {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  display: block !important;
+
+  width: auto;
   margin-bottom: 10px;
+  padding: 20px;
 }
 
 .commentaire-consulte {
@@ -604,6 +603,44 @@
   color: white;
 }
 
+/* Boutton afficher avis blacklistés */
+
+/* Style général pour le bouton */
+#btn-blacklist {
+  background-color: #d30027; /* Couleur de fond rouge */
+  color: white; /* Couleur du texte */
+  border: 2px solid white; /* Bordure blanche */
+  box-shadow: inset 0 0 0 2px #d30027; /* Bordure vers l'intérieur */
+  border-radius: 5px; /* Coins arrondis */
+  padding: 10px 20px; /* Espacement interne */
+  font-family: 'TripSansBold'; /* Police personnalisée */
+  font-size: 16px; /* Taille de la police */
+  cursor: pointer; /* Curseur en forme de main */
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease, border 0.2s ease; /* Transition pour hover et active */
+}
+
+/* Effet au survol */
+#btn-blacklist:hover {
+  background-color: #b80020; /* Couleur de fond légèrement plus foncée */
+  transform: scale(1.05); /* Agrandissement léger */
+}
+
+/* Style pour le bouton désactivé */
+#btn-blacklist:disabled {
+  background-color: #cccccc; /* Couleur de fond grise */
+  color: #666666; /* Couleur du texte grise */
+  cursor: not-allowed; /* Curseur interdit */
+  opacity: 0.7; /* Transparence */
+}
+
+/* Style pour le bouton lorsqu'il est cliqué */
+#btn-blacklist.clicked {
+  background-color: white; /* Fond blanc */
+  color: #d30027; /* Texte en rouge */
+  box-shadow: inset 0 0 0 2px #d30027; /* Bordure rouge vers l'intérieur */
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Transition douce */
+}
+
 /* Bouton signaler avis */
 
 #icone-signaler {
@@ -613,23 +650,30 @@
 }
 
 .btn-signaler {
-  display: flex;
+  display: flex; /* S'assure que le bouton s'aligne correctement */
   align-items: center;
   justify-content: space-between;
-  margin: 5px 0px 20px 0px;
-  padding: 0px 0px;
+  border: none;
+  padding: 0.5em;
   cursor: pointer;
   font-size: 16px;
   width: fit-content;
+  height: fit-content;
   color: rgb(255, 0, 0) !important;
   gap: 10px; /* Ajoute de l'espace entre les éléments */
-  border: none;
   background-color: transparent;
+  border-radius: 8px; /* Ajout d'une bordure arrondie */
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease, border 0.2s ease; /* Transition pour hover et active */
+
 }
 
 .btn-signaler p {
   font-family: TripSansRegular ;
   color: red;
+}
+
+.btn-signaler:hover {
+  background-color: rgba(255, 0, 0, 0.333);
 }
 
 /*Bouton blacklister avis*/
@@ -640,7 +684,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 0px;
   cursor: pointer;
   font-size: 16px;
   width: fit-content;
@@ -648,7 +691,13 @@
   gap: 10px; /* Ajoute de l'espace entre les éléments */
   border: none;
   background-color: transparent;
-  margin: 0.5em 0;
+  padding: 0.5em;
+  border-radius: 8px; /* Ajout d'une bordure arrondie */
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease, border 0.2s ease; /* Transition pour hover et active */
+}
+
+.btn-blacklist:hover {
+  background-color: rgba(152, 152, 152, 0.333);
 }
 
 #icone-blacklist {
@@ -678,6 +727,10 @@
   text-align: left;
   text-decoration: none;
   width : auto;
+}
+
+.blacklist-content button:hover {
+    background-color: #949494; /* Fond gris clair */
 }
 
 /* PopUp confirmation signalement */
@@ -744,8 +797,8 @@
 
 .signaler-like {
   display: flex !important; /* Assurez-vous que c'est en flex */
-  flex-direction: row; /* Les éléments sont alignés horizontalement */
-  align-items: center; /* Alignez verticalement au centre si nécessaire */
+  flex-direction: row; /* Les éléments sont alignés verticalement */
+  align-items: center; /* Alignez horizontalement au centre si nécessaire */
   justify-content: space-between; /* Espacement entre les éléments */
 }
 
@@ -764,10 +817,7 @@
   margin-right: 5px;
 }
 
-.btn-signaler {
-  display: flex; /* S'assure que le bouton s'aligne correctement */
-  align-items: center;
-}
+
 
 .btn-blacklist{
   display: flex;
@@ -788,6 +838,9 @@
   margin-right: 5px;
 }
 
+.blacklisted {
+  display : none;
+}
 }
 
 @media (max-width: 800px) {
@@ -1168,12 +1221,10 @@ color: white;
 }
 
 .header-avis-profil {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
   width: 100%;
   margin-bottom: 10px;
+  padding: 20px;
 }
 
 .commentaire-consulte {
@@ -1449,6 +1500,10 @@ color: white;
   width: 20px;
   height: 20px;
   margin-right: 5px;
+}
+
+.blacklisted {
+  display : none;
 }
 
 }
