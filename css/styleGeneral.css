@@ -3452,8 +3452,14 @@ main#historique .offre_historique_container {
 
 /* Adaptation pour mobile */
 @media screen and (max-width: 800px) {
+
+    #logo {
+        width: auto;
+        margin-bottom: 10px;
+    }
+
     #historique_container {
-        padding: 0px;
+        padding: auto;
     }
 
     .historique.main-content h1 {
@@ -3521,7 +3527,8 @@ main#historique .offre_historique_container {
     }
 
     .historique.main-content {
-        margin-left: 0;
+        margin: 0px !important;
+        padding: 0px !important;   
     }
 
     main#historique a {
