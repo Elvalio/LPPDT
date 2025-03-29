@@ -8,7 +8,7 @@
 
 .compte-container-main-page label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 5px !important;
     font-size: 16px;
     margin-right: 10px;
     font-weight: bold;
@@ -18,20 +18,62 @@
 .compte-container-main-page input {
     width: 100%;
     padding: 10px;
+    margin-bottom: 20px !important;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-container-page-modif-compte label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.form-container-page-modif-compte input {
+    width: 100%;
+    padding: 10px;
     margin-bottom: 20px;
     border-radius: 5px;
     border: 1px solid #ccc;
 }
 
-.compte-container-main-page  input[type="radio"] {
-    padding: 0;
-    margin: 5px;
+.form-group-info-compte {
+    display: flex;
+    justify-content: space-between;
 }
 
-.compte-container-main-page  input[type="checkbox"] {
-    width: 5%;
-    padding: 0;
-    margin: 5px;
+.left-column-info-compte > input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px !important;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.right-column-info-compte > input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px !important;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.left-column-info-compte > label{
+    display: block;
+    margin-bottom: 5px !important;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.left-column-info-compte > label{
+    display: block;
+    margin-bottom: 5px !important;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
 }
 
 /* Sert à espacer les éléments à l'intérieur du formulaire */
@@ -68,6 +110,35 @@
     align-items: center;
 }
 
+.form-container-page-modif-compte label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.form-container-page-modif-compte input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-group-info-compte {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.boutonA2F{
+    color: white;
+    border: 0px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 @media (min-width: 800px){
 
     .container-page-info-compte {
@@ -96,7 +167,6 @@
 
 
     .bouton-modif-avis {
-        background-color: #3136ED;
         color: white;
         padding: 15px;
         border: none;
@@ -111,16 +181,11 @@
         width: 50%;
     }
 
-    .bouton-modif-avis:hover {
-        background-color: #5b60f3; /* Couleur plus claire ou différente */
-    }
-
     .info-compte-bouton-deconnecter{
         display: none;
     }
 
     .bouton-envoi-formulaire-modif-compte {
-        background-color: #3136ED;
         color: white;
         padding: 15px;
         border: none;
@@ -130,6 +195,17 @@
         border-radius: 20px;
         margin-top: 20px;
         transition: background-color 0.3s ease, color 0.3s ease; /* Transition fluide */
+    }
+
+    .form-container-page-modif-compte {
+        max-width: 90%; /* Réduction supplémentaire sur petits écrans */
+        width: auto; /* Annulation de la largeur fixe */
+        padding: 15px;
+        box-shadow: none;
+        background-color: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
 }
@@ -215,6 +291,21 @@
         border-radius: 5px;
         text-align: center;
         text-decoration: none;
+    }
+
+    .form-group-info-compte {
+        flex-direction: column; /* Forme une seule colonne */
+    }
+
+    .form-group-info-compte input[type="text"],
+    .form-group-info-compte input[type="email"],
+    .form-group-info-compte input[type="tel"],
+    .form-group-info-compte input[type="password"] {
+    width: 95%;
+    padding: 10px;
+    border: none;               /* Remove all borders */
+    border-bottom: 1px solid #ccc; /* Only the bottom border */
+    border-radius: 0;
     }
 
 }
