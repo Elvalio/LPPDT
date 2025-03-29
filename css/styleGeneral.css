@@ -1936,23 +1936,6 @@ body {
     cursor: pointer;
 }
 
-#delete-btn-compte {
-    display: block;
-    margin: 100px 100px 0 0;
-    padding: 10px 30px;
-    background-color: var(--gris-clair);
-    color: var(--noir);
-    font-family: 'TripSansBold', Arial, sans-serif;
-    text-align: center;
-    border-radius: 4px;
-    border-width: 2px;
-    cursor: pointer;
-}
-
-#delete-btn-compte:hover {
-    background-color: #C3C3C3;
-}
-
 .confirm-delete-btn-compte {
     display: block;
     /* margin: 100px 100px 0 0; */
