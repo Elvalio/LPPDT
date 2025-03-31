@@ -1511,15 +1511,23 @@ padding: 10px 10px;
 }
 
 .facture-composant-liste {
-display: flex;
-flex-direction: column;
-margin-top: 20px;
-background-color: #99530317;
-padding: 10px;
-border-radius: 10px;
-border: 2px solid var(--bleuFonce-rougeFonce);
-font-family: 'TripSansRegular';
-box-shadow: 1px 1px 5px #383838;
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  background-color: #99530317;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--bleuFonce-rougeFonce);
+  font-family: 'TripSansRegular';
+  box-shadow: 1px 1px 5px #383838;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 92%;
+  margin: 30px auto;
+}
+
+.facture-composant-liste:hover {
+  transform: scale(1.01);
+  box-shadow: 3px 3px 10px #1d1d1d;
 }
 
 .facture-offre {
