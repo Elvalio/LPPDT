@@ -1,13 +1,6 @@
 // import { closeSortMenu } from './scriptFilter.js';
 
 
-
-// Include the Leaflet MarkerCluster library
-// Add this in your HTML file: 
-// <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
-// <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
-// <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-
 document.addEventListener('DOMContentLoaded', function () {
 
     const body = document.querySelector('body');

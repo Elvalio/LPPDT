@@ -90,10 +90,21 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="anonymous"/>
+
+    <!-- Scripts JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="anonymous"></script>
     
     <!-- MarkerCluster CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
+    
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    
+    <!-- Votre script personnalisé doit être chargé après Leaflet et MarkerCluster -->
+    <script defer src="../js/accueil.js"></script>
+            
     
     <title>Accueil</title>
 
@@ -435,16 +446,6 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             <footer class="phone-element">
                 <?php include_once'footerNav.php'; ?>
             </footer>
-        <!-- Scripts JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin="anonymous"></script>
-    
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    
-    <!-- Votre script personnalisé doit être chargé après Leaflet et MarkerCluster -->
-    <script defer src="../js/accueil.js"></script>
-            
     </body>
     <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF8u35uxddQyZa1W94e5zpoTAFU79Nc1k"></script>
 
