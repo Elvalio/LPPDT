@@ -453,11 +453,10 @@
 }
 
 .etoile-avis-detail-offre {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 20px;
-  margin-top: 20px;
+  display: block; /* Force le dernier élément à occuper toute la ligne */
+  width: 100%; /* S'assure qu'il prend toute la largeur disponible */
+  margin-top: 10px; /* Ajoute un espacement au-dessus si nécessaire */
+  text-align: center;
 }
 
 .poster_avis{
@@ -1203,11 +1202,26 @@ color: white;
 }
 
 .profil {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: baseline;
+  display: flex; /* Active Flexbox */
+  flex-direction: column; /* Aligne les éléments verticalement */
+  align-items: center; /* Centre les éléments horizontalement */
+  width: 100%; /* La div prend toute la largeur disponible */
   margin-top: 20px;
+}
+
+.profil > .container-profil {
+  width: 100%; /* Prend toute la largeur disponible */
+  display: flex; /* Active Flexbox pour aligner les enfants */
+  align-items: center; /* Centre verticalement les enfants */
+  justify-content: left; /* Répartit les éléments horizontalement */
+}
+
+.profil > .etoile-avis-detail-offre {
+  width: 100%; /* Prend toute la largeur disponible */
+  display: flex; /* Active Flexbox pour aligner les étoiles */
+  justify-content: center; /* Centre les étoiles horizontalement */
+  margin-top: 10px; /* Ajoute un espacement au-dessus */
+  gap: 5px; /* Ajoute un espacement entre les étoiles */
 }
 
 .profil div {
@@ -1224,8 +1238,17 @@ color: white;
   display: block;
   width: 100%;
   margin-bottom: 10px;
-  padding: 20px;
+  /* padding: 20px; */
 }
+
+.container-profil {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
 
 .commentaire-consulte {
   display: flex;
@@ -1277,13 +1300,6 @@ color: white;
   flex-direction: column;
 }
 
-.etoile-avis-detail-offre {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 20px;
-  margin-top: 20px;
-}
 
 .poster_avis{
   width: 100%;
@@ -1334,18 +1350,26 @@ color: white;
   margin-bottom: 5px;
 }
 
-.titre-date{
-  display: flex;
-  padding: 0px !important;
+.titre-date {
+  display: flex; /* Active Flexbox */
+  flex-direction: column; /* Aligne les éléments verticalement */
+  align-items: flex-start; /* Aligne les éléments à gauche */
+  gap: 5px; /* Ajoute un espacement entre le titre et la date */
+  width: 100%; /* S'assure que la div prend toute la largeur disponible */
+  margin-left: -5px !important; /* Ajuste la marge à gauche pour un meilleur alignement */
 }
 
-.titre-date > h4{
-  margin-right: 5px;
+.titre-date > h4 {
+  flex: 0; /* Permet au titre de prendre uniquement la place nécessaire */
+  white-space: normal; /* Permet au titre de retourner à la ligne si nécessaire */
+  margin: 0; /* Supprime les marges par défaut */
 }
 
-.titre-date > p{
-  opacity: 70%;
-  font-family: 'TripSansRegular';
+.titre-date > p {
+  flex: 0; /* Permet à la date de prendre uniquement la place nécessaire */
+  opacity: 70%; /* Style existant pour la date */
+  font-family: 'TripSansRegular'; /* Style existant pour la date */
+  margin: 0; /* Supprime les marges par défaut */
 }
 
 .pseudo-contexte{
