@@ -1936,23 +1936,6 @@ body {
     cursor: pointer;
 }
 
-#delete-btn-compte {
-    display: block;
-    margin: 100px 100px 0 0;
-    padding: 10px 30px;
-    background-color: var(--gris-clair);
-    color: var(--noir);
-    font-family: 'TripSansBold', Arial, sans-serif;
-    text-align: center;
-    border-radius: 4px;
-    border-width: 2px;
-    cursor: pointer;
-}
-
-#delete-btn-compte:hover {
-    background-color: #C3C3C3;
-}
-
 .confirm-delete-btn-compte {
     display: block;
     /* margin: 100px 100px 0 0; */
@@ -3452,8 +3435,14 @@ main#historique .offre_historique_container {
 
 /* Adaptation pour mobile */
 @media screen and (max-width: 800px) {
+
+    #logo {
+        width: auto;
+        margin-bottom: 10px;
+    }
+
     #historique_container {
-        padding: 0px;
+        padding: auto;
     }
 
     .historique.main-content h1 {
@@ -3521,7 +3510,8 @@ main#historique .offre_historique_container {
     }
 
     .historique.main-content {
-        margin-left: 0;
+        margin: 0px !important;
+        padding: 0px !important;   
     }
 
     main#historique a {
