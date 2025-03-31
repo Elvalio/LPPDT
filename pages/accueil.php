@@ -1,6 +1,6 @@
 <?php
 
-const NB_OFFRES_NOUVEAUTES = 3;
+const NB_OFFRES_NOUVEAUTES = 10;
 
 include('../sql/connect_params.php');
 
@@ -86,28 +86,17 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
     
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="anonymous"/>
 
-    <!-- Scripts JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin="anonymous"></script>
-    
-    <!-- MarkerCluster CSS -->
+          
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
     
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    
-    <!-- Votre script personnalisé doit être chargé après Leaflet et MarkerCluster -->
-    <script defer src="../js/accueil.js"></script>
-            
     
     <title>Accueil</title>
-
+    
     <?php 
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
@@ -132,6 +121,15 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     } else { ?>
         <body class="FO"> <?php
     }?>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    
+    <script src="../js/accueil.js"></script>
+    <script type="module" src="../js/filtres.js"></script>
+
+            
         <nav class="desktop-element">
          <?php include_once'nav.php'; ?>
         </nav>
