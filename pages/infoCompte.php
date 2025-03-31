@@ -206,7 +206,6 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
                             <?php } ?>
                         <?php } ?>
                     </div>
-                  <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
                 </div>
                 <div class="info-compte-buttons">
                     <a class="bouton-modif-avis TS-bold" href="modifInfo.php" >Modifier les Informations</a>
