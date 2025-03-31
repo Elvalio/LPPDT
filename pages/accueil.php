@@ -70,7 +70,7 @@ LEFT JOIN
     $date_tab = array_column($resultat, 'date_publication');
     array_multisort($date_tab, SORT_DESC, $resultat);
     $date_tab = array_slice($date_tab, 0, NB_OFFRES_NOUVEAUTES);
-
+    
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
     die();

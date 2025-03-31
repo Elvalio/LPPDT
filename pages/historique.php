@@ -185,7 +185,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <path fill="#B5BAC1" d="M2 13H48L47.6742 21.28H2.32031L2 13Z"></path>
                 </svg>
 
-                <span class="tooltip">Delete</span>
+                <span class="tooltip">Supprimer</span>
                 </button>
             `;
 
