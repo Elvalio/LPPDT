@@ -1,9 +1,8 @@
 // import { closeSortMenu } from './scriptFilter.js';
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
-
+    
     const body = document.querySelector('body');
 
     const trie_text = document.querySelector('.dropdown-toggle > p');

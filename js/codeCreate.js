@@ -26,7 +26,7 @@ copyButton.addEventListener("click", async () =>{
 })
 
 function post(path, params, method='post') {
-    //fonnction qui effectue un post sur une page
+    //fonction qui effectue un post sur une page
     const form = document.createElement('form');
     form.method = method;
     form.action = path;
@@ -49,8 +49,6 @@ function post(path, params, method='post') {
 
 remakeQR.addEventListener("click", async () =>{
     remakeQR.childNodes[0].classList.toggle("imageRotation");
-
-    console.log(document.cookie);
 
     post('', {reset: 'true'});
 
