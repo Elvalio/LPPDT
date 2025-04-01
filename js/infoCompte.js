@@ -36,10 +36,10 @@ function updateBodyClass() {
 }
 
 
-//updateBodyClass();
+/*updateBodyClass();
 
 
-/*boutonSupprimer.addEventListener('click', function() {
+boutonSupprimer.addEventListener('click', function() {
     popup.classList.add("montrer");
     overlay.classList.add("montrer");
 });
@@ -112,30 +112,33 @@ function closePopup() {
     document.getElementById('overlay').style.display = 'none';
 }
 
-function checkPassword() {
-    let password1 = document.getElementById('password1-popup');
+async function checkPassword() {
+    let password1 = document.getElementById('password-popup');
     let password2 = document.getElementById('password2-popup');
     const data = {
         password1: password1.value,
         password2: password2.value
     };
-    if (password1 === password2) {
+    if (data['password1'] === data['password2']) {
+        console.log('test');
         try{
             const response = await fetch('', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({password1, password2})
+                body: JSON.stringify({data})
             });
 
             if(response.ok){
+                console.log('testbon');
                 window.location.href = "../pages/codeCreate.php";
             }else{
+                console.log('testnon');
                 console.error('Erreur HTTP:', response.status);
             }
         }catch{
             console.error('Erreur réseau:', error);
         }
-        }
+    }
 }

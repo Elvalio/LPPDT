@@ -122,12 +122,25 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
             .bouton-modif-avis:hover {
                 background-color: #5b60f3; /* Couleur plus claire ou différente */
             }
+            .boutonA2F{
+                background-color: #3136ED;
+            }
+            .boutonA2F:hover {
+                background-color: #5b60f3; /* Couleur plus claire ou différente */
+            }
         <?php }else{ ?>
             .bouton-modif-avis{
                 background-color: #ED3631;
             }
 
             .bouton-modif-avis:hover {
+                background-color: #A2021F; /* Couleur plus claire ou différente */
+            }
+
+            .boutonA2F{
+                background-color: #ED3631;
+            }
+            .boutonA2F:hover {
                 background-color: #A2021F; /* Couleur plus claire ou différente */
             }
         <?php } ?>
