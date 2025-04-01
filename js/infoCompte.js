@@ -101,3 +101,41 @@ boutonConfirmer.addEventListener("click", function(event) {
 
     }
 });
+
+
+function openPopup() {
+    document.getElementById('popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+}
+function closePopup() {
+    document.getElementById('popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+}
+
+function checkPassword() {
+    let password1 = document.getElementById('password1-popup');
+    let password2 = document.getElementById('password2-popup');
+    const data = {
+        password1: password1.value,
+        password2: password2.value
+    };
+    if (password1 === password2) {
+        try{
+            const response = await fetch('', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({password1, password2})
+            });
+
+            if(response.ok){
+                window.location.href = "../pages/codeCreate.php";
+            }else{
+                console.error('Erreur HTTP:', response.status);
+            }
+        }catch{
+            console.error('Erreur réseau:', error);
+        }
+        }
+}

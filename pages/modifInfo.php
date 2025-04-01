@@ -2,6 +2,7 @@
 error_reporting(E_ALL); 
 error_reporting(0); 
 include("../sql/connect_params.php");
+require (__DIR__. '/../vendor/autoload.php');
 
 $message_erreur = "";
 
@@ -338,8 +339,6 @@ try{
 
                         <label name="password2" class="FS">Confirmer le mot de passe<span class="required"><?php echo "  " . $message_erreur ?></span></label>
                         <input type="password" class="FS" id="password2-membre" name="password2" >
-
-                        <button class="boutonA2F TS-bold">Activer l'authentification à deux facteurs</button>
                     </div>
                 </div>
                     <button id="info-compte-bouton-confirmer" type="submit" class="bouton-envoi-formulaire-modif-compte TS-bold">Confirmer les modifications</button>
@@ -348,7 +347,7 @@ try{
     </div>
 </body>
 
-<script src="../js/infoCompte.js" async></script>
+<script src="../js/infoCompte.js"></script>
 
 <?php include_once'footerNav.php' ?>
 </html>
