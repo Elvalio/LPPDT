@@ -3436,13 +3436,16 @@ main#historique .offre_historique_container {
 /* Adaptation pour mobile */
 @media screen and (max-width: 800px) {
 
+    div.historiqueHeaderBis {
+        flex-wrap: wrap;
+    }
     #logo {
         width: auto;
         margin-bottom: 10px;
     }
 
     #historique_container {
-        padding: auto;
+        padding: 0px !important;
     }
 
     .historique.main-content h1 {
@@ -3455,7 +3458,7 @@ main#historique .offre_historique_container {
         flex-direction: row;  /* Passage en colonne */
         align-items: flex-start;
         height: 150px;
-        width: 300px;
+        width: auto;
         padding: 10px;
         justify-content: center;
     }
