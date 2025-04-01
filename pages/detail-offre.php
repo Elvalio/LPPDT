@@ -307,6 +307,19 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
+    <script src="../js/detail-offre.js" async></script>
+    
+    <!-- Je ne sais pas pourquoi, mais cette fonction refuse de fonctionner si je ne l'inclut pas dans le script, même si il est inclut dans detail-offre.js -->
+    <script>
+    function toggle_reponse(id) {
+        var form = document.getElementById("form_reponse_" + id);
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "inline";
+        } else {
+            form.style.display = "none";
+        }
+    }
+    </script>
     <?php 
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
@@ -1047,7 +1060,7 @@ try {
                     <?php endif;
                         
                         } else { ?>
-<button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
+                            <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>)" id="btn-reponse">Ajouter une réponse</button>
                             <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse_<?php echo $id_avis; ?>" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
@@ -1153,7 +1166,6 @@ try {
         <?php include_once 'footer.php'; ?>
     </footer>
 
-    <script src="../js/detail_offre.js"></script>
 </body>
 
 </html>
