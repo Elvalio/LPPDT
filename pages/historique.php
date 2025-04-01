@@ -214,6 +214,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     historique = historique.filter(offreFiltree => offreFiltree.id !== offre.id);
                     localStorage.setItem("historique_offres", JSON.stringify(historique));
                     offreDiv.remove();
+                    if (historique.length === 0) {
+                        container.innerHTML = "<p>Aucune offre consultée récemment.</p>";
+                    }
                 }, 500);
             });
 
