@@ -4,6 +4,8 @@ const identifiant = document.getElementById('identifiant');
 
 const divConnexion = document.getElementsByClassName('form-container-connexion')[0];
 
+var nombreEssais = 0;
+
 submitButton.addEventListener("click", async () => {
     var xmlhttp = new XMLHttpRequest();
     var res = "";
@@ -87,6 +89,20 @@ submitButton.addEventListener("click", async () => {
             });
         });
 
+        var cookieErreur = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("otp="))
+        ?.split("=")[1];
+
+        if (identifiant.value === cookieErreur) {
+            otpError.style.opacity = "1";
+            otpError.innerHTML = "Trop d'essais réesayer plus tard";
+            otpSubmitButton.disabled = true;
+            fields.forEach(field =>{
+                field.disabled = "disabled";
+            });
+        }
+
         // handle input
         fields.forEach((field, index) => {
             field.addEventListener('input', () => {
@@ -157,7 +173,6 @@ function checkOTP(){
     var rep = "";
     xmlhttp.onload = function() {
         rep = this.responseText;
-        //console.log("OTP est correct : " + rep);
     }
     
     xmlhttp.open("GET", "connexion.php?id=" + identifiant.value + "&otp=" + codeOTP, false); // not async
@@ -170,6 +185,21 @@ function checkOTP(){
     }else{
         otpError.innerHTML = "Code OTP invalide";
         otpError.style.opacity = "1";
+        nombreEssais= nombreEssais + 1;
+    }
+    // si nombre d'essais est supérieur à 3
+    if (nombreEssais>=3) {
+        fields.forEach(field =>{
+            field.disabled = "disabled";
+        });
+        otpError.innerHTML = "Trop d'essais réessayer plus tard";
+        document.getElementById('modal-submit').disabled = "disabled";
+
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time +  5*60*1000; // expire après 5 minutes
+        now.setTime(expireTime);
+        document.cookie = 'otp='+identifiant.value+';expires='+now.toUTCString()+';path=/';
     }
     return res;
 }

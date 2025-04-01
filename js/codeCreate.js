@@ -50,8 +50,6 @@ function post(path, params, method='post') {
 remakeQR.addEventListener("click", async () =>{
     remakeQR.childNodes[0].classList.toggle("imageRotation");
 
-    console.log(document.cookie);
-
     post('', {reset: 'true'});
 
 })
