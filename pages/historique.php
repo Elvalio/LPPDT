@@ -76,7 +76,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tableau de Bord</title>
+        <title>Historique</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     
@@ -91,16 +91,28 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         <body class="FO"> <?php
 
     }?>
-        <div class="main-content historique">
-            <header>
-                <nav class="desktop-element">
-                    <h1>Historique</h1>
-                    <?php include_once'nav.php'; ?>
-                </nav>
-                <header class="phone-element">
+    <header class="phone-element">
                     <?php
                     include 'header.php';
                     ?>
+    </header>
+        <div class="main-content historique">
+            <header class="historiqueHeader">
+                <nav class="desktop-element">
+                    <?php include_once'nav.php'; ?>
+                </nav>
+                <div class="historiqueHeaderBis">
+                    <h1>Historique</h1>
+                    <div class="buttonsHistory">
+                        <button class="noselect" id="deleteHistory"><span class="text">Effacer l'historique</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
+                    </div>
+                </div>
+                
+                <header class="phone-element historique">
+                    <?php
+                    include 'header.php';
+                    ?>
+                </header>
             </header>
             <main id="historique">
 
@@ -112,7 +124,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
 
             </main>
         </div>
-
+        <footer>
+        <?php include_once 'footerNav.php'; ?>
+        </footer>
     </body>
 
     <script type="module">
@@ -177,7 +191,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <path fill="#B5BAC1" d="M2 13H48L47.6742 21.28H2.32031L2 13Z"></path>
                 </svg>
 
-                <span class="tooltip">Delete</span>
+                <span class="tooltip">Supprimer</span>
                 </button>
             `;
 
@@ -206,9 +220,43 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     historique = historique.filter(offreFiltree => offreFiltree.id !== offre.id);
                     localStorage.setItem("historique_offres", JSON.stringify(historique));
                     offreDiv.remove();
+                    if (historique.length === 0) {
+                        container.innerHTML = "<p>Aucune offre consultée récemment.</p>";
+                    }
                 }, 500);
             });
 
+        });
+
+        const deleteHistoryButton = document.getElementById("deleteHistory");
+        deleteHistoryButton.addEventListener("click", () => {
+            let offres = container.querySelectorAll(".offre_historique_container");
+            let transitionPromises = [];
+
+            offres.forEach(offreDiv => {
+            offreDiv.style.transition = "transform 0.2s ease-in-out, opacity 0.5s ease-in-out !important";
+            offreDiv.style.transform = "scale(1.06)";
+
+            let promise = new Promise(resolve => {
+                setTimeout(() => {
+                offreDiv.style.transform = "scale(0)";
+                offreDiv.style.opacity = "0";
+                }, 150);
+
+                setTimeout(() => {
+                resolve();
+                }, 650); // Wait for the transition to complete
+            });
+
+            transitionPromises.push(promise);
+            });
+
+            Promise.all(transitionPromises).then(() => {
+            offres.forEach(offreDiv => offreDiv.remove());
+            historique = [];
+            localStorage.setItem("historique_offres", JSON.stringify(historique));
+            container.innerHTML = "<p>Aucune offre consultée récemment.</p>";
+            });
         });
 
     });

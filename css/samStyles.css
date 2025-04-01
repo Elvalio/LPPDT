@@ -350,43 +350,57 @@
 }
 
 .profil {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content:space-between;
-  margin-top: 20px;
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les éléments */
+  justify-content: flex-start; /* Aligne les éléments à gauche */
+  gap: 20px; /* Ajoute un espacement entre les éléments */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.profil div {
-  padding-left: 10px;
-  font-family: 'TripSansBold';
+.profil > .container-profil {
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les enfants */
+  justify-content: flex-start; /* Aligne les enfants à gauche */
+  gap: 10px; /* Ajoute un espacement entre les enfants */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.titre-date{
-  display: flex;
-  padding: 0px !important;
+.titre-date {
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les éléments */
+  gap: 5px; /* Ajoute un espacement entre le titre et la date */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.titre-date > h4{
-  margin-right: 5px;
+.titre-date > h4 {
+  margin: 0; /* Supprime les marges par défaut */
+  white-space: nowrap; /* Empêche le titre de retourner à la ligne */
+  overflow: hidden; /* Coupe le texte qui dépasse */
+  text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
 }
 
-.titre-date > p{
-  opacity: 70%;
-  font-family: 'TripSansRegular';
+.titre-date > p {
+  margin: 0; /* Supprime les marges par défaut */
+  white-space: nowrap; /* Empêche la date de retourner à la ligne */
+  opacity: 70%; /* Style existant pour la date */
+  font-family: 'TripSansRegular'; /* Style existant pour la date */
 }
 
-.pseudo-contexte{
-  display: flex;
-  padding: 0px !important;
-  width: 200px;
-  justify-content: space-between;
+.pseudo-contexte {
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les éléments */
+  gap: 10px; /* Ajoute un espacement entre les éléments */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.pseudo-contexte > p{
-  margin: 5px;
-  opacity: 70%;
-  font-family: 'TripSansRegular';
+.pseudo-contexte > p {
+  margin: 0; /* Supprime les marges par défaut */
+  opacity: 70%; /* Style existant pour le texte */
+  font-family: 'TripSansRegular'; /* Style existant pour le texte */
 }
 
 .ligne_sepa_contexte {
@@ -395,12 +409,11 @@
 }
 
 .header-avis-profil {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
+  display: block !important;
+
+  width: auto;
   margin-bottom: 10px;
+  padding: 20px;
 }
 
 .commentaire-consulte {
@@ -454,11 +467,10 @@
 }
 
 .etoile-avis-detail-offre {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 20px;
-  margin-top: 20px;
+  display: block; /* Force le dernier élément à occuper toute la ligne */
+  width: 100%; /* S'assure qu'il prend toute la largeur disponible */
+  margin-top: 10px; /* Ajoute un espacement au-dessus si nécessaire */
+  text-align: right;
 }
 
 .poster_avis{
@@ -522,7 +534,8 @@
 }
 
 #bouton_publier {
-  padding: 10px 30px; /* Padding à droite et à gauche */
+  padding: 10px 0px; /* Padding à droite et à gauche */
+  margin-left: 25px;
   cursor: pointer; /* CuVisiterseur en forme de main */
   border: none;
   border-radius: 8px;
@@ -604,6 +617,44 @@
   color: white;
 }
 
+/* Boutton afficher avis blacklistés */
+
+/* Style général pour le bouton */
+#btn-blacklist {
+  background-color: #d30027; /* Couleur de fond rouge */
+  color: white; /* Couleur du texte */
+  border: 2px solid white; /* Bordure blanche */
+  box-shadow: inset 0 0 0 2px #d30027; /* Bordure vers l'intérieur */
+  border-radius: 5px; /* Coins arrondis */
+  padding: 10px 20px; /* Espacement interne */
+  font-family: 'TripSansBold'; /* Police personnalisée */
+  font-size: 16px; /* Taille de la police */
+  cursor: pointer; /* Curseur en forme de main */
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease, border 0.2s ease; /* Transition pour hover et active */
+}
+
+/* Effet au survol */
+#btn-blacklist:hover {
+  background-color: #b80020; /* Couleur de fond légèrement plus foncée */
+  transform: scale(1.05); /* Agrandissement léger */
+}
+
+/* Style pour le bouton désactivé */
+#btn-blacklist:disabled {
+  background-color: #cccccc; /* Couleur de fond grise */
+  color: #666666; /* Couleur du texte grise */
+  cursor: not-allowed; /* Curseur interdit */
+  opacity: 0.7; /* Transparence */
+}
+
+/* Style pour le bouton lorsqu'il est cliqué */
+#btn-blacklist.clicked {
+  background-color: white; /* Fond blanc */
+  color: #d30027; /* Texte en rouge */
+  box-shadow: inset 0 0 0 2px #d30027; /* Bordure rouge vers l'intérieur */
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Transition douce */
+}
+
 /* Bouton signaler avis */
 
 #icone-signaler {
@@ -613,23 +664,30 @@
 }
 
 .btn-signaler {
-  display: flex;
+  display: flex; /* S'assure que le bouton s'aligne correctement */
   align-items: center;
   justify-content: space-between;
-  margin: 5px 0px 20px 0px;
-  padding: 0px 0px;
+  border: none;
+  padding: 0.5em;
   cursor: pointer;
   font-size: 16px;
   width: fit-content;
+  height: fit-content;
   color: rgb(255, 0, 0) !important;
   gap: 10px; /* Ajoute de l'espace entre les éléments */
-  border: none;
   background-color: transparent;
+  border-radius: 8px; /* Ajout d'une bordure arrondie */
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease, border 0.2s ease; /* Transition pour hover et active */
+
 }
 
 .btn-signaler p {
   font-family: TripSansRegular ;
   color: red;
+}
+
+.btn-signaler:hover {
+  background-color: rgba(255, 0, 0, 0.333);
 }
 
 /*Bouton blacklister avis*/
@@ -640,7 +698,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 0px;
   cursor: pointer;
   font-size: 16px;
   width: fit-content;
@@ -648,7 +705,13 @@
   gap: 10px; /* Ajoute de l'espace entre les éléments */
   border: none;
   background-color: transparent;
-  margin: 0.5em 0;
+  padding: 0.5em;
+  border-radius: 8px; /* Ajout d'une bordure arrondie */
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.2s ease, border 0.2s ease; /* Transition pour hover et active */
+}
+
+.btn-blacklist:hover {
+  background-color: rgba(152, 152, 152, 0.333);
 }
 
 #icone-blacklist {
@@ -678,6 +741,10 @@
   text-align: left;
   text-decoration: none;
   width : auto;
+}
+
+.blacklist-content button:hover {
+    background-color: #949494; /* Fond gris clair */
 }
 
 /* PopUp confirmation signalement */
@@ -744,8 +811,8 @@
 
 .signaler-like {
   display: flex !important; /* Assurez-vous que c'est en flex */
-  flex-direction: row; /* Les éléments sont alignés horizontalement */
-  align-items: center; /* Alignez verticalement au centre si nécessaire */
+  flex-direction: row; /* Les éléments sont alignés verticalement */
+  align-items: center; /* Alignez horizontalement au centre si nécessaire */
   justify-content: space-between; /* Espacement entre les éléments */
 }
 
@@ -764,10 +831,7 @@
   margin-right: 5px;
 }
 
-.btn-signaler {
-  display: flex; /* S'assure que le bouton s'aligne correctement */
-  align-items: center;
-}
+
 
 .btn-blacklist{
   display: flex;
@@ -788,6 +852,9 @@
   margin-right: 5px;
 }
 
+.blacklisted {
+  display : none;
+}
 }
 
 @media (max-width: 800px) {
@@ -1150,11 +1217,26 @@ color: white;
 }
 
 .profil {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: baseline;
+  display: flex; /* Active Flexbox */
+  flex-direction: column; /* Aligne les éléments verticalement */
+  align-items: center; /* Centre les éléments horizontalement */
+  width: 100%; /* La div prend toute la largeur disponible */
   margin-top: 20px;
+}
+
+.profil > .container-profil {
+  width: 100%; /* Prend toute la largeur disponible */
+  display: flex; /* Active Flexbox pour aligner les enfants */
+  align-items: center; /* Centre verticalement les enfants */
+  justify-content: left; /* Répartit les éléments horizontalement */
+}
+
+.profil > .etoile-avis-detail-offre {
+  width: 100%; /* Prend toute la largeur disponible */
+  display: flex; /* Active Flexbox pour aligner les étoiles */
+  justify-content: center; /* Centre les étoiles horizontalement */
+  margin-top: 10px; /* Ajoute un espacement au-dessus */
+  gap: 5px; /* Ajoute un espacement entre les étoiles */
 }
 
 .profil div {
@@ -1168,13 +1250,20 @@ color: white;
 }
 
 .header-avis-profil {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
   width: 100%;
   margin-bottom: 10px;
+  /* padding: 20px; */
 }
+
+.container-profil {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
 
 .commentaire-consulte {
   display: flex;
@@ -1226,13 +1315,6 @@ color: white;
   flex-direction: column;
 }
 
-.etoile-avis-detail-offre {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  height: 20px;
-  margin-top: 20px;
-}
 
 .poster_avis{
   width: 100%;
@@ -1283,18 +1365,26 @@ color: white;
   margin-bottom: 5px;
 }
 
-.titre-date{
-  display: flex;
-  padding: 0px !important;
+.titre-date {
+  display: flex; /* Active Flexbox */
+  flex-direction: column; /* Aligne les éléments verticalement */
+  align-items: flex-start; /* Aligne les éléments à gauche */
+  gap: 5px; /* Ajoute un espacement entre le titre et la date */
+  width: 100%; /* S'assure que la div prend toute la largeur disponible */
+  margin-left: -5px !important; /* Ajuste la marge à gauche pour un meilleur alignement */
 }
 
-.titre-date > h4{
-  margin-right: 5px;
+.titre-date > h4 {
+  flex: 0; /* Permet au titre de prendre uniquement la place nécessaire */
+  white-space: normal; /* Permet au titre de retourner à la ligne si nécessaire */
+  margin: 0; /* Supprime les marges par défaut */
 }
 
-.titre-date > p{
-  opacity: 70%;
-  font-family: 'TripSansRegular';
+.titre-date > p {
+  flex: 0; /* Permet à la date de prendre uniquement la place nécessaire */
+  opacity: 70%; /* Style existant pour la date */
+  font-family: 'TripSansRegular'; /* Style existant pour la date */
+  margin: 0; /* Supprime les marges par défaut */
 }
 
 .pseudo-contexte{
@@ -1451,6 +1541,10 @@ color: white;
   margin-right: 5px;
 }
 
+.blacklisted {
+  display : none;
+}
+
 }
 
 /* CSS FACTURATION */
@@ -1511,15 +1605,23 @@ padding: 10px 10px;
 }
 
 .facture-composant-liste {
-display: flex;
-flex-direction: column;
-margin-top: 20px;
-background-color: #99530317;
-padding: 10px;
-border-radius: 10px;
-border: 2px solid var(--bleuFonce-rougeFonce);
-font-family: 'TripSansRegular';
-box-shadow: 1px 1px 5px #383838;
+  display: flex;
+  flex-direction: column;
+  margin-top: 35px;
+  background-color: #99530317;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--bleuFonce-rougeFonce);
+  font-family: 'TripSansRegular';
+  box-shadow: 1px 1px 5px #383838;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 92%;
+  margin: 30px auto;
+}
+
+.facture-composant-liste:hover {
+  transform: scale(1.01);
+  box-shadow: 3px 3px 10px #1d1d1d;
 }
 
 .facture-offre {
@@ -1693,13 +1795,13 @@ hr {
   border-radius: 25px;
 }
 
-#croix_small.desktop {
+#croix_small {
   width: 15px;
   height: 15px;
   object-fit: cover;
   cursor: pointer;
   position: relative;
-  bottom: 63%;
+  bottom: 57%;
   left: 3%;
   padding: 1.5px;
   background-color: var(--bleuFonce-rougeFonce);
@@ -1830,7 +1932,7 @@ hr {
   border-radius: 25px;
 }
 
-#croix_small.mobile {
+#croix_small {
   width: 15px;
   height: 15px;
   object-fit: cover;

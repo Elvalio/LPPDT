@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-
+    console.log("test");
     if(document.getElementById("etoile_note1") !== null){
 
         const etoile_plein = "../icons/etoile_bleue.png";
@@ -646,15 +646,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (btnBlacklist) {
         const nbrAvisBlacklist = btnBlacklist.getAttribute('data-nbr-avis-blacklist');
-        
+
         btnBlacklist.addEventListener('click', function () {
-            // Ajoute une classe au body ou un élément parent
-            document.body.classList.toggle('show-blacklisted');
+            // Récupère tous les avis blacklistés
+            const blacklistedAvis = document.querySelectorAll('.blacklisted');
+
+            // Vérifie si les avis blacklistés sont actuellement affichés
+            const isShowing = document.body.classList.toggle('show-blacklisted');
+
+            // Ajouter la classe "clicked" au bouton lorsqu'il est cliqué
+            this.classList.toggle('clicked');
 
             // Change le texte du bouton
-            this.textContent = document.body.classList.contains('show-blacklisted') 
-                ? `Masquer avis blacklistés (${nbrAvisBlacklist})` 
+            this.textContent = isShowing
+                ? `Masquer avis blacklistés (${nbrAvisBlacklist})`
                 : `Afficher avis blacklistés (${nbrAvisBlacklist})`;
+
+            // Affiche ou masque les avis blacklistés
+            blacklistedAvis.forEach(avis => {
+                avis.style.display = isShowing ? 'block' : 'none';
+            });
         });
     }
 

@@ -1,9 +1,8 @@
 // import { closeSortMenu } from './scriptFilter.js';
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
-
+    
     const body = document.querySelector('body');
 
     const trie_text = document.querySelector('.dropdown-toggle > p');
@@ -460,16 +459,20 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Fonction pour afficher uniquement les offres filtrées
     // Stocker les marqueurs pour les supprimer avant d'en ajouter de nouveaux
-    var markersLayer = L.layerGroup().addTo(map);
+    // Déclaration globale : on crée un groupe de clusters et on l'ajoute à la carte
+    var markersCluster = L.markerClusterGroup({
+        disableClusteringAtZoom: 18, // Au niveau du zoom 18, les clusters se désagrègent
+        spiderfyOnMaxZoom: true,     // Permet de séparer les marqueurs en "araignée" au zoom maximum
+        zoomToBoundsOnClick: true    // Zoom sur le cluster lorsqu'on clique dessus
+    });
+    map.addLayer(markersCluster);
 
     // Fonction pour afficher uniquement les offres filtrées
     function afficherResultats(offresVisibles) {
         trie(offresVisibles);
         
         const rechercheTexte = rechercheOffre.value.toLowerCase();
-
         offresVisibles = offresVisibles.filter(offre => {
             const offreTexte = offre.textContent.toLowerCase();
             const offreCategorie = offre.getAttribute('data-categorie').toLowerCase();
@@ -487,19 +490,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+        // On vide les anciens marqueurs du groupe global
+        markersCluster.clearLayers();
+
         // Instanciation du géocodeur Google
         var geocoder = new google.maps.Geocoder();
-
-        // Création du groupe de clusters (à la place de markersLayer)
-        // Tu peux configurer les options selon tes besoins.
-        var markersCluster = L.markerClusterGroup({
-            disableClusteringAtZoom: 18, // Au niveau du zoom 18, les clusters se désagrègent
-            spiderfyOnMaxZoom: true,     // Permet de séparer les marqueurs en "araignée" au zoom maximum
-            zoomToBoundsOnClick: true    // Zoom sur le cluster lorsqu'on clique dessus
-        });
-
-        // Supprimer tous les anciens marqueurs (si nécessaire)
-        markersCluster.clearLayers();
 
         let isMobile = ecran === 'mobile';
         let isFO = body.classList.contains('FO');
@@ -512,14 +507,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     var longitude = results[0].geometry.location.lng();
 
                     if (latitude && longitude) {
-                        // Création du marqueur sans l'ajouter directement à la carte
+                        // Création du marqueur et ajout dans le groupe de clusters global
                         var marker = L.marker([latitude, longitude]);
-                        markersCluster.addLayer(marker); // Ajout du marqueur au cluster
+                        markersCluster.addLayer(marker);
 
                         // Création de la popup
                         var popup = L.popup({ autoClose: false, closeOnClick: false, closeButton: false });
 
-                        // Affichage de la popup lors du survol du marqueur
+                        // Affichage de la popup au survol du marqueur
                         marker.on('mouseover', function (e) {
                             let titre = element.getAttribute("data-titre");
                             let adresse = element.getAttribute("data-adresse");
@@ -535,10 +530,9 @@ document.addEventListener('DOMContentLoaded', function () {
                             let isOpen = element.classList.contains("ferme") ? "🟢 Fermé" : "🟢 Ouvert";
                             let ido = element.getAttribute("data-ido");
 
-                            // Conversion de la note en étoiles visuelles
+                            // Conversion de la note en étoiles
                             let stars = "";
                             if (avis !== 0) {
-                                console.log(note);
                                 for (let i = 0; i < Math.floor(note); i++) {
                                     stars += `<img src="../icons/${etoiles}.png" alt="Étoile" class="popup-star">`;
                                 }
@@ -610,26 +604,33 @@ document.addEventListener('DOMContentLoaded', function () {
                             marker.bindPopup(popup).openPopup();
                         });
 
-                        // Fermer la popup quand la souris quitte le marqueur
+                        // Fermer la popup au retrait de la souris
                         marker.on('mouseout', function () {
                             marker.closePopup();
                         });
                         
-                        // Action lors du clic sur le marqueur
+                        // Action au clic sur le marqueur
                         marker.on('click', function () {
                             const elementId = element.getAttribute('data-ido');
                             const elementToScroll = document.getElementsByClassName(elementId)[0];
                             if (elementToScroll) {
                                 elementToScroll.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                // Animation de surbrillance
+                                let tempTransition = elementToScroll.style.transition;
+                                let tempOpacity = elementToScroll.style.opacity;
+                                let tempBoxShadow = elementToScroll.style.boxShadow;
+                                let tempTransform = elementToScroll.style.transform;
                                 elementToScroll.style.transition = 'all 1s ease-in-out';
                                 elementToScroll.style.transform = 'scale(1.05) translateY(-15px)';
                                 elementToScroll.style.opacity = '1';
                                 elementToScroll.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
                                 setTimeout(() => {
-                                    elementToScroll.style.transform = 'scale(1)';
+                                    elementToScroll.style.transform = tempTransform;
+                                    elementToScroll.style.boxShadow = tempBoxShadow;
                                 }, 1000);
                                 setTimeout(() => {
-                                    elementToScroll.style.opacity = '';
+                                    elementToScroll.style.opacity = tempOpacity;
+                                    elementToScroll.style.transition = tempTransition;
                                 }, 2000);
                             }
                         });
@@ -637,11 +638,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
         });
-
-        // Ajoute le groupe de clusters à la carte
-        map.addLayer(markersCluster);
-
     }
+
 
     
 
@@ -713,14 +711,14 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.from(boutonNouveau).forEach(bouton => {
         bouton.addEventListener('click', function () {
             bouton.classList.toggle('active');
-            if (this.classList.contains('active')) {
-                this.style.backgroundColor = '#2C2C2C';
-                this.querySelector('p').style.color = '#F5F5F5';
+            // if (this.classList.contains('active')) {
+            //     this.style.backgroundColor = 'var(--bleuFonce-rougeFonce)';
+            //     this.querySelector('p').style.color = '#F5F5F5';
                 
-            } else {
-                this.style.backgroundColor = '#F5F5F5';
-                this.querySelector('p').style.color = '#757575';
-            }
+            // } else {
+            //     this.style.backgroundColor = '#F5F5F5';
+            //     this.querySelector('p').style.color = '#757575';
+            // }
             filtrerParBouton();
         });
     });
@@ -728,14 +726,14 @@ document.addEventListener('DOMContentLoaded', function () {
     Array.from(boutonALaUne).forEach(bouton => {
         bouton.addEventListener('click', function () {
             bouton.classList.toggle('active');
-            if (this.classList.contains('active')) {
-                this.style.backgroundColor = '#2C2C2C';
-                this.querySelector('p').style.color = '#F5F5F5';
+            // if (this.classList.contains('active')) {
+            //     this.style.backgroundColor = '#2C2C2C';
+            //     this.querySelector('p').style.color = '#F5F5F5';
                 
-            } else {
-                this.style.backgroundColor = '#F5F5F5';
-                this.querySelector('p').style.color = '#757575';
-            }
+            // } else {
+            //     this.style.backgroundColor = '#F5F5F5';
+            //     this.querySelector('p').style.color = '#757575';
+            // }
             filtrerParBouton();
         });
     });

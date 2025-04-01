@@ -307,6 +307,19 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
+    <script src="../js/detail_offre.js"></script>
+    
+    <!-- Je ne sais pas pourquoi, mais cette fonction refuse de fonctionner si je ne l'inclut pas dans le script, même si il est inclut dans detail-offre.js -->
+    <script>
+    function toggle_reponse(id) {
+        var form = document.getElementById("form_reponse_" + id);
+        if (form.style.display === "none" || form.style.display === "") {
+            form.style.display = "inline";
+        } else {
+            form.style.display = "none";
+        }
+    }
+    </script>
     <?php 
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
@@ -736,25 +749,27 @@ try {
             <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
-                        <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
-                        <div class="titre-contexte">
-                            <div class="titre-date">
-                                <h4>
-                                    <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
-                                </h4>
-                                <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
-                            </div>
-                            <div class="pseudo-contexte">
-                                <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
-                                    <p style="font-style: italic" class="ligne_sepa_contexte">
-                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
-                                    </p>
-                                <?php } else { ?>
-                                    <p class="ligne_sepa_contexte">
-                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
-                                    </p>
-                                <?php } ?>
-                                <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
+                        <div class="container-profil">
+                            <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
+                            <div class="titre-contexte">
+                                <div class="titre-date">
+                                    <h4>
+                                        <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
+                                    </h4>
+                                    <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
+                                </div>
+                                <div class="pseudo-contexte">
+                                    <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
+                                        <p style="font-style: italic" class="ligne_sepa_contexte">
+                                            <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                        </p>
+                                    <?php } else { ?>
+                                        <p class="ligne_sepa_contexte">
+                                            <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                        </p>
+                                    <?php } ?>
+                                    <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
+                                </div>
                             </div>
                         </div>
                         <div class="etoile-avis-detail-offre">
@@ -771,6 +786,7 @@ try {
                             <?php endfor;
                         ?>
                         </div>
+                    </div>
                     </div>
                     <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
                     if (!isset($reponse['ida'])) { ?>
@@ -813,11 +829,13 @@ try {
                         <?php
                 
                 if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "membre" || $_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $avisIndividuel['idc'] != $_COOKIE['user']) : ?>
-                        <button type="button" class="btn-signaler"
-                            id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
-                            <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
-                            <p>Signaler l'avis</p>
-                        </button>
+                        <div class="signaler">
+                            <button type="button" class="btn-signaler"
+                                id="btn_signaler_avis_<?php echo $_COOKIE['user']; ?>_<?php echo $avisIndividuel['ida']; ?>">
+                                  <img src="../icons/warningred.png" alt="Icône signaler" id="icone-signaler">
+                                <p>Signaler l'avis</p>
+                            </button>
+                        </div>
                         <?php
 
                        if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
@@ -1045,7 +1063,7 @@ try {
                     <?php endif;
                         
                         } else { ?>
-<button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>);" id="btn-reponse">Ajouter une réponse</button>
+                            <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>)" id="btn-reponse">Ajouter une réponse</button>
                             <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse_<?php echo $id_avis; ?>" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">
                                 <input type="hidden" name="avis" value=<?php echo $avisIndividuel['ida']?>>
@@ -1058,7 +1076,7 @@ try {
                     }
                 }
                 ?>
-                </div>
+            </div>
                 <?php
             $id_avis++;
             endforeach; }?>
@@ -1150,7 +1168,6 @@ try {
         <?php include_once 'footer.php'; ?>
     </footer>
 
-    <script src="../js/detail_offre.js"></script>
 </body>
 
 </html>

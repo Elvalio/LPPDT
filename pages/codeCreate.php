@@ -61,45 +61,42 @@ try{
 <body class = "<?php if($_COOKIE['type_compte'] == "membre"){echo "FO";}else{echo "BO";}?> auth">
     <section>
         <h1 class="TS-bold">QR CODE</h1>
+        <button id="recreate_code"><img src="../icons/changer.svg" alt="Rénitialiser le code" width = "35em"></button>
         <article>
             <?php
                 require (__DIR__. '/../vendor/autoload.php');
 
                 use OTPHP\TOTP;
 
-                //$clock = new MyClock(); // Your own implementation of a PSR-20 Clock
+                //get le secret
+                $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
-                // A random secret will be generated from this.
-                // You should store the secret with the user for verification.
-                $otp = TOTP::generate();
-                //echo "The OTP secret is: {$otp->getSecret()}\n";
+                $stmt = $dbh->prepare("SELECT secretOtp FROM pact._compte WHERE idC = :idc");
+                $stmt->bindParam(':idc', $_COOKIE['user']);
+                $stmt->execute();
 
-                // Note: use your own way to load the user secret.
-                // The function "load_user_secret" is simply a placeholder.
-                //  $secret = load_user_secret();
-                $secret = $otp->getSecret(); //should get it from database or create if not set
+                $secret = $stmt->fetch(PDO::FETCH_ASSOC)["secretotp"]; // retourne le secret 
 
-                $otp = TOTP::createFromSecret($secret);
-
-                //echo "The current OTP is: {$otp->now()}\n";
+                if ($secret === null || isset($_POST["reset"])){
+                    //met le secret dans la bdd si elle n'est pas déja
+                    $otp = TOTP::generate();
+                    $secret = $otp->getSecret();
+                    $stmt = $dbh -> prepare("UPDATE pact._compte SET secretOtp = :secretOtp WHERE idC = :idC");
+                    $stmt -> bindParam(':secretOtp', $secret);
+                    $stmt -> bindParam(':idC', $_COOKIE['user']);
+                    $stmt ->execute();
+                }
+                $dbh = null;
 
                 $totp = TOTP::createFromSecret($secret); // New TOTP
-                $totp->setLabel($compte["email"]); // The label (string)
+                $totp->setLabel($compte["email"]); // Le label (string)
 
                 $goqr_me = $totp->getQrCodeUri(
                     'https://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=[DATA]&qzone=2&margin=0&size=300x300&ecc=M',
                     '[DATA]'
                 );
-                echo "<img src='{$goqr_me}'>";
 
-                //echo 'Current OTP: ' . $totp->now();
-
-                
-                $stmt = $dbh -> prepare("UPDATE pact._compte SET secretOtp = :secretOtp WHERE idC = :idC");
-
-                $stmt -> bindParam(':secretOtp', $secret);
-                $stmt -> bindParam(':idC', $_COOKIE['user']);
-                $stmt ->execute();
+                echo "<img src='{$goqr_me}' id = 'qr_code'>";
 
                 $dbh = null;
                 ?>
