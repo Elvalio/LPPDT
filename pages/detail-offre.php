@@ -307,7 +307,7 @@ try {
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <script src="../js/detail-offre-offre.js" async></script>
-    <script src="../js/detail-offre.js"></script>
+    <script src="../js/detail_offre.js"></script>
     
     <!-- Je ne sais pas pourquoi, mais cette fonction refuse de fonctionner si je ne l'inclut pas dans le script, même si il est inclut dans detail-offre.js -->
     <script>
