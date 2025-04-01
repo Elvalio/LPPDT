@@ -749,25 +749,27 @@ try {
             <div class="alignement-conteneur-avis <?= $classBlacklist ?>">
                 <div class="header-avis-profil">
                     <div class="profil">
-                        <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
-                        <div class="titre-contexte">
-                            <div class="titre-date">
-                                <h4>
-                                    <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
-                                </h4>
-                                <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
-                            </div>
-                            <div class="pseudo-contexte">
-                                <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
-                                    <p style="font-style: italic" class="ligne_sepa_contexte">
-                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
-                                    </p>
-                                <?php } else { ?>
-                                    <p class="ligne_sepa_contexte">
-                                        <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
-                                    </p>
-                                <?php } ?>
-                                <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
+                        <div class="container-profil">
+                            <img src="../images/1 2.png" alt="Photo de profil" width="40px" height="40px">
+                            <div class="titre-contexte">
+                                <div class="titre-date">
+                                    <h4>
+                                        <?php echo htmlspecialchars($avisIndividuel['titre_avis']); ?>
+                                    </h4>
+                                    <p><?php echo htmlspecialchars($avisIndividuel['date_visite']); ?></p>
+                                </div>
+                                <div class="pseudo-contexte">
+                                    <?php if($avisIndividuel['pseudo'] == 'Anonyme') { ?>
+                                        <p style="font-style: italic" class="ligne_sepa_contexte">
+                                            <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                        </p>
+                                    <?php } else { ?>
+                                        <p class="ligne_sepa_contexte">
+                                            <?php echo htmlspecialchars($avisIndividuel['pseudo']); ?>
+                                        </p>
+                                    <?php } ?>
+                                    <p><?php echo htmlspecialchars($avisIndividuel['contexte']); ?></p>
+                                </div>
                             </div>
                         </div>
                         <div class="etoile-avis-detail-offre">
@@ -784,6 +786,7 @@ try {
                             <?php endfor;
                         ?>
                         </div>
+                    </div>
                     </div>
                     <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") && $offre['idc'] == $_COOKIE['user']) { 
                     if (!isset($reponse['ida'])) { ?>
@@ -1073,7 +1076,6 @@ try {
                     }
                 }
                 ?>
-                </div>
             </div>
                 <?php
             $id_avis++;
