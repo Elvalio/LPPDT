@@ -128,6 +128,19 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
             .boutonA2F:hover {
                 background-color: #5b60f3; /* Couleur plus claire ou différente */
             }
+
+            .close-btn{
+                background-color: #3136ED;
+            }
+            .close-btn:hover {
+                background-color: #5b60f3; /* Couleur plus claire ou différente */
+            }
+            .confirm-btn{
+                background-color: #3136ED;
+            }
+            .confirm-btn:hover {
+                background-color: #5b60f3; /* Couleur plus claire ou différente */
+            }
         <?php }else{ ?>
             .bouton-modif-avis{
                 background-color: #ED3631;
@@ -143,7 +156,37 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
             .boutonA2F:hover {
                 background-color: #A2021F; /* Couleur plus claire ou différente */
             }
+            .close-btn{
+                background-color: #ED3631;
+            }
+            .close-btn:hover {
+                background-color: #A2021F; /* Couleur plus claire ou différente */
+            }
+            .confirm-btn{
+                background-color: #ED3631;
+            }
+            .confirm-btn:hover {
+                background-color: #A2021F; /* Couleur plus claire ou différente */
+            }
         <?php } ?>
+
+            @media (max-width: 800px){
+                .bouton-modif-avis{
+                    background-color: black;
+                }
+
+                .boutonA2F {
+                    background-color: black;
+                }
+
+                .boutonA2F:hover {
+                    background-color: black;
+                }
+
+                .bouton-modif-avis:hover {
+                    background-color: black;
+                }
+            }
     </style>
 </head>
 

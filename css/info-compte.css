@@ -164,7 +164,15 @@
 .close-btn {
     cursor: pointer;
     margin-top: 10px;
-    background: red;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.confirm-btn {
+    cursor: pointer;
+    margin-top: 10px;
     color: white;
     padding: 5px 10px;
     border: none;
@@ -172,6 +180,10 @@
 }
 
 #password-popup{
+    width: 80%;
+}
+
+#password2-popup{
     width: 80%;
 }
 
@@ -346,6 +358,18 @@
     border: none;               /* Remove all borders */
     border-bottom: 1px solid #ccc; /* Only the bottom border */
     border-radius: 0;
+    }
+
+    .popup {
+        width: 60%;
+    }
+
+    .close-btn{
+        background-color: black ;
+    }
+    
+    .confirm-btn{
+        background-color: black ;
     }
 
 }
