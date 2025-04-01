@@ -53,15 +53,6 @@ insert into pact.parc_d_attraction (titre, resume, "type", description, site_web
 insert into pact.activite (titre, resume, "type", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, age_min, prestation_incluse, prestation_excluse, ville, numero_voie, voie, code_postal, complement, idC) values ('Archipel de Bréhat en kayak', 'Découvrer l''archipel de Bréhat, en Bretagne, offre des paysages magnifiques et des eaux cristallines, parfaits pour explorer en kayak.', 2, 'L''archipel de Bréhat, situé au large de la côte bretonne, est un véritable joyau naturel, composé de plusieurs îles et îlots aux paysages variés. En kayak, vous pourrez naviguer entre ses eaux cristallines et ses rochers granitiques, tout en découvrant des plages de sable fin et une riche biodiversité marine.', 'https://www.guingamp-paimpol.com/bienvenue-chez-nous/les-sites-incontournables/archipel-de-brehat', 9.50, 'Non', now(), now(), interval '1 hour 30 minutes', 13, 'Kayak, Pagaie, Gilet de sauvetage', 'Casque', 'Île-de-Bréhat', 1, 'place du centre', 22870, '', 11);
 -- 7 --
 insert into pact.visite (titre, resume, "type", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC) values ('Parc et château de la Roche Jagu', 'Le Parc et Château de la Roche Jagu, situé en Bretagne, allie patrimoine historique et jardins paysagers.', 1, 'Le Parc et Château de la Roche Jagu est un lieu chargé d''histoire et de beauté naturelle. Datant du XVe siècle, le château, avec son architecture médiévale, surplombe la vallée du Trieux et invite à la découverte de ses salons et de son histoire fascinante.', 'https://www.larochejagu.fr', 3.00, 'Le public en situation de handicap est accueilli et pris en main', now(), now(), interval '3 hours', 'Français', 'Ploëzal', 1, 'parc de la roche-jagu', 22260, '', 8);
--- 8 --
-insert into pact.restauration (titre, resume, "type", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, gamme_prix, petit_dejeuner, brunch, dejeuner, diner, boissons, ville, numero_voie, voie, code_postal, complement, idC) values ('Le Brélevenez', 'Christophe vous propose une cuisine de produits locaux et de saisons.', 1, 'Priscilla en salle, son mari Christophe chef de cuisine et toute l''équipevous accueillent dans leur restaurant,ouvert depuis Janvier 2018, dans le quartier Historique De Lannion', 'https://www.restaurant-lebrelevenez.fr', 35.00, 'Le restaurant est ouvert et accessible pour les personnes possédant un handicap', now(), now(), 'image_offre/8-menu.png', '€€€' false, false, true, true, false, 'Lannion', 1, 'rue de stang ar beo', 22300, '', 8);
-insert into _horaire (idO, heureOuverture, heureFermeture) values (8, '18:00', '22:00');
--- 9 -- 
-insert into pact.visite (titre, resume, "type", description, site_web, prix_min, accessibilite, date_creation, date_publication, duree, langues, ville, numero_voie, voie, code_postal, complement, idC) values ('La Roche-Derrien au Moyen-Age', 'Une immersion augmentée au cœur du Moyen-Âge.', 2, 'Une réalité augmentée, un parcours interactif pour découvrir le passé médiéval de La Roche Derrien, du son dans toutes les dimensions, visité le cœur de la guerre de Cent Ans en Bretagne.', 'Non disponible', 0.00, 'La visite est disponible pour toute personne handicapé', now(), now(), interval '2 hours', 'Français', 'Roche Derrien', 1, 'place du martray', 22450, 11);
-insert into _option_offre(idO, idOption, date_lancement, duree_option) values(currval('_offre_ido_seq'), 1, now(), interval '7 day');
--- 10 --
-insert into pact.parc_d_attraction (titre, resume, "type", description, site_web, prix_min, accessibilite, date_creation, date_publication, src_image, nbr_attractions, age_min, ville, numero_voie, voie, code_postal, complement, idC) values ('Aquarium Marin de Trégastel', 'Aquarium unique avec expositions intérieures et souterraines.', 3, 'Aquarium unique avec expositions intérieures et souterraines dans passages de grottes en granite rose. Les milieux de vie des espèces sous-marines bretonnes sont recréés en trois univers distincts et un parcours ludique et pédagogique pour petits et grands.', 'https://www.aquarium-tregastel.com', 5.00, 'Non', now(), now(), 'image_offre/10-plan.jpg', 1, 3, 'Tregastel', 37, 'boulevard du coz-pors', 22730, 12);
-insert into _option_offre(idO, idOption, date_lancement, duree_option) values(currval('_offre_ido_seq'), 2, now(), interval '14 day');
 
 update _offre set en_ligne = true; 
 
@@ -151,14 +142,6 @@ insert into pact.photo_offre (src_image, idO) values ('image_offre/5-1.webp', 5)
 insert into pact.photo_offre (src_image, idO) values ('image_offre/6-1.jpg', 6);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/7-1.jpg', 7);
 insert into pact.photo_offre (src_image, idO) values ('image_offre/7-2.jpg', 7);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/8-1.jpg', 8);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/8-2.jpg', 8);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/8-3.jpg', 8);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/9-1.png', 9);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/9-2.png', 9);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/9-3.png', 9);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/10-1.jpg', 10);
-insert into pact.photo_offre (src_image, idO) values ('image_offre/10-2.jpg', 10);
 
 -- AVIS --
 
@@ -175,12 +158,6 @@ insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, con
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (6, 5, 'Parc d''attraction original', 4, 'Parc d''attraction très sympathique avec un thème unique et des attractions mémorables. J''aurai espéré voir plus d''attractions à sensation forte cependant.', now(), 'Famille');
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (1, 6, 'Agréable', 4, 'Étant tous des kayakistes depuis plusieurs années, nous avons apprécié l''activité ainsi que ses paysages divers offerts.', now(), 'Amis');
 insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (3, 6, 'Inacceptable', 1, 'Lorsque nous sommes arrivés sur place, il manquait de l''équipement qui était censé être mis à disposition, ce qui a énormément retardé notre départ.', now(), 'Famille');
-insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (2, 8, 'A ne pas manquer', 5, 'Nous étions de passage et avons décidé de nous arrêter ici. Nous pouvons dire que nous n''avions pas été déçu. La présentation était magnifique et le repas en lui même était succulent. Bravo !', now(), 'Amis');
-insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (5, 8, 'Délicieux', 5, 'Un incontournable. Du travail exceptionnel est mis en œuvre pour chaque plat. Vaut très largement son prix, vous ne serez pas déçu !', now(), 'Amis');
-insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (7, 9, 'Incroyable', 5, 'Nous avons adoré la visite, le parcours interactif était innovant et nous occupaient. Nous avons découvert une partie de notre histoire hors du norme.', now(), 'Famille')
-insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (1, 10, 'Déçue', 2, 'Personnel extrêmement sympa mais en 30 min grand maximum, le tour est fait et il n’y a vraiment pas grand chose à voir...', now(), 'Famille');
-insert into pact.experience (idC, idO, titre_avis, note, corps, date_visite, contexte) values (3, 10, 'Chouette', 5, 'Petit aquarium de bord de mer. Se démarque des autres en étant vraiment axé sur les espèces endémiques et locales.', now(), 'Seul');
-
 
 -- FACTURE --
 /*
