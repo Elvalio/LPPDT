@@ -1227,9 +1227,7 @@ color: white;
   width: 100%; /* Prend toute la largeur disponible */
   display: flex; /* Active Flexbox pour aligner les enfants */
   align-items: center; /* Centre verticalement les enfants */
-  margin-top: 20px;
   justify-content: left; /* Répartit les éléments horizontalement */
-  flex-direction: row;
 }
 
 .profil > .etoile-avis-detail-offre {
@@ -1255,6 +1253,14 @@ color: white;
   width: 100%;
   margin-bottom: 10px;
   /* padding: 20px; */
+}
+
+.container-profil {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
 
