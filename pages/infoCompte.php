@@ -284,22 +284,9 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
                     <?php } ?>
                     <a href="#" class="info-compte-bouton-deconnecter" data-icon="deconnection" onclick="deconnexion()">Se déconnecter</a>
 
-                    <button id="delete-btn-compte" class="bouton-modif-avis TS-bold">
+                    <button type="submit" id="delete-btn-compte" class="bouton-modif-avis TS-bold">
                         Supprimer le compte
                     </button>
-                </div>
-                <div id="overlay">
-                <div id="popup_suppr_compte">
-                    <div id="group">
-                        <div id="text">
-                            <p>Voulez-vous vraiment supprimer votre compte ?</p>
-                        </div>
-                        <form method="POST" action="infoCompte.php" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="delete" value="oui">
-                            <button type="submit" class="confirm-delete-btn-compte">Supprimer le compte</button>
-                        </form>
-                    </div>
-                    <img id="croix_small" src="../images/croix.png" alt="" class="close-popup">
                 </div>
             </div>
         </div>
@@ -308,6 +295,3 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
 
 <?php include_once'footerNav.php' ?>
 </html>
-
-
-
