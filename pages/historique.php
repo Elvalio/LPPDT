@@ -102,7 +102,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                         <button class="noselect" id="deleteHistory"><span class="text">Effacer l'historique</span><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"></path></svg></span></button>
                     </div>
                 </div>
-                <header class="phone-element">
+                <header class="phone-element historique">
                     <?php
                     include 'header.php';
                     ?>
@@ -185,7 +185,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     <path fill="#B5BAC1" d="M2 13H48L47.6742 21.28H2.32031L2 13Z"></path>
                 </svg>
 
-                <span class="tooltip">Delete</span>
+                <span class="tooltip">Supprimer</span>
                 </button>
             `;
 

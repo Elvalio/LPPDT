@@ -1,6 +1,6 @@
 <?php
 
-const NB_OFFRES_NOUVEAUTES = 3;
+const NB_OFFRES_NOUVEAUTES = 10;
 
 include('../sql/connect_params.php');
 
@@ -70,7 +70,7 @@ LEFT JOIN
     $date_tab = array_column($resultat, 'date_publication');
     array_multisort($date_tab, SORT_DESC, $resultat);
     $date_tab = array_slice($date_tab, 0, NB_OFFRES_NOUVEAUTES);
-
+    
 } catch (PDOException $e) {
     print "Erreur !: " . $e->getMessage() . "<br/>";
     die();
@@ -86,17 +86,17 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/accueilBO.css">
     
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
           integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
           crossorigin="anonymous"/>
+
+          
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.0.3/dist/MarkerCluster.Default.css">
     
-    <!-- MarkerCluster CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css">
     
     <title>Accueil</title>
-
+    
     <?php 
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
@@ -121,6 +121,18 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     } else { ?>
         <body class="FO"> <?php
     }?>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+     
+
+    <script src="https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster.js"></script>
+    <script src='https://unpkg.com/leaflet.markercluster@1.3.0/dist/leaflet.markercluster-src.js'></script>
+    
+    <script src="../js/accueil.js"></script>
+    <script type="module" src="../js/filtres.js"></script>
+
+            
         <nav class="desktop-element">
          <?php include_once'nav.php'; ?>
         </nav>
@@ -435,16 +447,6 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
             <footer class="phone-element">
                 <?php include_once'footerNav.php'; ?>
             </footer>
-        <!-- Scripts JavaScript -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-            crossorigin="anonymous"></script>
-    
-    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
-    
-    <!-- Votre script personnalisé doit être chargé après Leaflet et MarkerCluster -->
-    <script defer src="../js/accueil.js"></script>
-            
     </body>
     <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBF8u35uxddQyZa1W94e5zpoTAFU79Nc1k"></script>
 

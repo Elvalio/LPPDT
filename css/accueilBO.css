@@ -1311,18 +1311,21 @@ input[type="range"]::-ms-thumb {
     align-items: center;
     transform: translateY(0);
 
+    
     border: none !important;
 }
 
 #carte.active_filter {
-  transform: translateY(170px);
+    transform: translateY(170px);
     transition: all 0.3s ease-in-out;
 }
 
 #carte #map {
     height: 400px;
-    width: 100%;
-
+    width: 97%;
+    
+    border-radius: 15px;
+    /* padding: 0 20px; */
     z-index: 0;
 
     transition: height 0.4s ease-in;
