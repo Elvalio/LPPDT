@@ -91,11 +91,6 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
         <body class="FO"> <?php
 
     }?>
-    <header class="phone-element">
-                    <?php
-                    include 'header.php';
-                    ?>
-    </header>
         <div class="main-content historique">
             <header class="historiqueHeader">
                 <nav class="desktop-element">
