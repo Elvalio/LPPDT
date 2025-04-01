@@ -2413,16 +2413,29 @@ body {
 }
 
 .menu-item-footer {
-    flex: 1; /* Équilibre la taille des éléments du menu */
+    /* display: flex; */
+    flex: 1;
     text-align: center; /* Centrer les icônes dans chaque menu-item */
+    /* justify-content: center;
+    flex-direction: column;
+    gap: 5px; */
 }
 
 .menu-item-footer img {
     width: 30px;
     height: auto;
+    margin-bottom: 5px;
 }
 
+.menu-item-footer p {
+    margin: 0;
+    font-size: 16px;
+    color: #fff;
+}
 
+.menu-item-footer.activeIcon p {
+    color: #4d6be2;
+}
 
 
 /* =========================== */
