@@ -306,8 +306,8 @@ try {
     </title>
     <link rel="stylesheet" href="../css/samStyles.css">
     <link rel="stylesheet" href="../css/styleGeneral.css">
-    <script src="../js/detail-offre-offre.js" async></script>
-    <script src="../js/detail-offre.js" async></script>
+    <script src="../js/detail-offre-offre.js"></script>
+    <script src="../js/detail_offre.js"></script>
     
     <!-- Je ne sais pas pourquoi, mais cette fonction refuse de fonctionner si je ne l'inclut pas dans le script, même si il est inclut dans detail-offre.js -->
     <script>
@@ -530,8 +530,8 @@ try {
                     echo $nbrAvis;
                 ?>
             </h3>
-            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist > 0) : ?>
-                <button id="btn-blacklist" data-nbr-avis-blacklist="<?php echo $nbrAvisBlacklist; ?>" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
+            <?php if (isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist > 0 && $nbrAvisBlacklist <= 3) : ?>
+                <button id="btn-blacklist" data-nbr-avis-blacklist="<?php echo $nbrAvisBlacklist; ?>" onclick="toggleBlacklistButton()">Afficher avis blacklistés (<?php echo $nbrAvisBlacklist; ?> / 3)</button>
             <?php elseif(isset($_COOKIE['type_compte']) && ($_COOKIE['type_compte'] == "pro_prive") && $nbrAvisBlacklist == 0) : ?>
                 <button id="btn-blacklist" style="cursor: not-allowed;" disabled>Aucun avis blacklistés (<?php echo $nbrAvisBlacklist; ?>)</button>
             <?php endif; ?>
@@ -835,35 +835,49 @@ try {
                         </div>
                         <?php
 
-                       if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
-                            if ($estBlackliste) {
-                                ?>
-                                <div class="blacklist">
-                                    <button type="button" class="btn-blacklist" style="cursor: not-allowed; opacity: 0.5;" disabled>
-                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                                        <p>Avis déjà blacklisté</p>
-                                    </button>
-                                </div>
-                                <?php
-                            } else {
-                                ?>
-                                <div class="blacklist">
-                                    <button type="button" class="btn-blacklist">
-                                        <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
-                                        <p>Blacklister l'avis</p>
-                                    </button>
-                                    <div class="blacklist-content">
-                                        <button type="button" class="btn-blacklist-irr"
-                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                        >Blacklister</button>
-                                        <button type="button" 
-                                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
-                                        class="btn-blacklist-rev">Blacklister temporairement</button>
-                                    </div>
-                                </div>
-                                <?php
-                            } }
-                        ?>
+if ($_COOKIE['type_compte'] == "pro_prive" && $offre['type'] == 3 && $offre['idc'] == $_COOKIE['user']) {
+    if ($nbrAvisBlacklist >= 3) {
+        // Si 3 avis sont déjà blacklistés, désactiver le bouton
+        ?>
+        <div class="blacklist">
+            <button type="button" class="btn-blacklist" style="cursor: not-allowed; opacity: 0.5;" disabled>
+                <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                <p>Plus de jetons de blacklist</p>
+            </button>
+        </div>
+        <?php
+    } else {
+        if ($estBlackliste) {
+            ?>
+            <div class="blacklist">
+                <button type="button" class="btn-blacklist" style="cursor: not-allowed; opacity: 0.5;" disabled>
+                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                    <p>Avis déjà blacklisté</p>
+                </button>
+            </div>
+            <?php
+        } else {
+            ?>
+            <div class="blacklist">
+                <button type="button" class="btn-blacklist">
+                    <img src="../icons/blacklist.png" alt="Icône Blacklist" id="icone-blacklist">
+                    <p>Blacklister l'avis</p>
+                </button>
+                <div class="blacklist-content">
+                    <button type="button" class="btn-blacklist-irr"
+                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>">
+                        Blacklister
+                    </button>
+                    <button type="button"
+                        id="btn_blacklist_<?php echo $_COOKIE['user'] ?>_<?php echo $avisIndividuel['ida'] ?>"
+                        class="btn-blacklist-rev">Blacklister temporairement</button>
+                </div>
+            </div>
+            <?php
+        }
+    }
+}
+?>
 
                         <?php endif;
 
