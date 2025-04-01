@@ -183,6 +183,9 @@ function checkOTP(){
         document.getElementsByClassName("modal")[0].remove(); // supprime la fenêtre modale
         form.submit();
     }else{
+        fields.forEach(field =>{
+            field.value = "";
+        });
         otpError.innerHTML = "Code OTP invalide";
         otpError.style.opacity = "1";
         nombreEssais= nombreEssais + 1;

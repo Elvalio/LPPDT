@@ -231,7 +231,7 @@ use function PHPSTORM_META\type;
             </main>
         </div>
 
-        <div class="modal" id="modal">
+        <div class="modal" id="modal" style="display: none;">
         <form action="" method="post">
             <div id='tarif-modal'>
                 <input type="hidden" name="status" value="" id="modal-id">
