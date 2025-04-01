@@ -68,14 +68,14 @@ try{
 
                 use OTPHP\TOTP;
 
-                //get secret
+                //get le secret
                 $dbh = new PDO("$driver:host=$server;port=$port;dbname=$dbname", $user, $pass);
 
                 $stmt = $dbh->prepare("SELECT secretOtp FROM pact._compte WHERE idC = :idc");
                 $stmt->bindParam(':idc', $_COOKIE['user']);
                 $stmt->execute();
 
-                $secret = $stmt->fetch(PDO::FETCH_ASSOC)["secretotp"];
+                $secret = $stmt->fetch(PDO::FETCH_ASSOC)["secretotp"]; // retourne le secret 
 
                 if ($secret === null || isset($_POST["reset"])){
                     //met le secret dans la bdd si elle n'est pas déja
@@ -89,7 +89,7 @@ try{
                 $dbh = null;
 
                 $totp = TOTP::createFromSecret($secret); // New TOTP
-                $totp->setLabel($compte["email"]); // The label (string)
+                $totp->setLabel($compte["email"]); // Le label (string)
 
                 $goqr_me = $totp->getQrCodeUri(
                     'https://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=[DATA]&qzone=2&margin=0&size=300x300&ecc=M',

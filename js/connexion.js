@@ -7,6 +7,7 @@ const divConnexion = document.getElementsByClassName('form-container-connexion')
 var nombreEssais = 0;
 
 submitButton.addEventListener("click", async () => {
+    // vérifie si secret OTP existe
     var xmlhttp = new XMLHttpRequest();
     var res = "";
     xmlhttp.onload = function() {
@@ -16,6 +17,8 @@ submitButton.addEventListener("click", async () => {
     xmlhttp.open("GET", "connexion.php?id=" + identifiant.value, false); // not async
     xmlhttp.send();
     if(res == "true" && document.getElementsByClassName("modal").length === 0){
+
+        //création de pop-up de l'otp
         let otpDiv = document.createElement("div");
         let otpForm = document.createElement("form");
         otpForm.classList.add(".form-group-connexion");
@@ -72,14 +75,14 @@ submitButton.addEventListener("click", async () => {
         otpForm.appendChild(otpDivButtons);
         const fields = document.querySelectorAll('.code-input');
 
-        //paste event for six digit code
+        //paste event pour code OTP
         fields.forEach((field) => {
             field.addEventListener('paste', (event) => {
                 event.preventDefault();
                 const pasteData = (event.clipboardData || window.clipboardData).getData('text').trim();
 
                 if (/^\d{6}$/.test(pasteData)) {
-                    // Distribute pasted digits into input fields
+                    // distribue les chiffres dans l'input fields
                     [...pasteData].forEach((char, idx) => {
                         if (fields[idx]) fields[idx].value = char;
                     });
@@ -89,12 +92,13 @@ submitButton.addEventListener("click", async () => {
             });
         });
 
+        //cookie pour l'erreur
         var cookieErreur = document.cookie
         .split("; ")
         .find((row) => row.startsWith("otp="))
         ?.split("=")[1];
 
-        if (identifiant.value === cookieErreur) {
+        if (identifiant.value === cookieErreur) { // vérifie si c'est le compte qui est en timeout pour l'otp
             otpError.style.opacity = "1";
             otpError.innerHTML = "Trop d'essais réesayer plus tard";
             otpSubmitButton.disabled = true;
@@ -128,8 +132,7 @@ submitButton.addEventListener("click", async () => {
             
         };
 
-        // event listener for buttons
-
+        // event listener pour boutons
         otpSubmitButton.addEventListener("click", checkOTP);
 
         otpCancelButton.addEventListener("click", async () => {
@@ -142,7 +145,9 @@ submitButton.addEventListener("click", async () => {
     
 })
 
+//fonction de verif du code OTP à chaque input
 function verifyCodeOTP(codeOTP) {
+
     res = true;
     let otpError = document.getElementById('otpError');
     let otpSubmitButton = document.getElementById('modal-submit');
@@ -163,12 +168,14 @@ function verifyCodeOTP(codeOTP) {
     return res;
 }
 
+// vérification suite à soumission du code OTP
 function checkOTP(){
     var fields = document.querySelectorAll('.code-input');
     var codeOTP = Array.from(fields).map((field) => field.value).join('');
     let otpError = document.getElementById('otpError');
 
     var res = true;
+    //véride si OTP est correct
     var xmlhttp = new XMLHttpRequest();
     var rep = "";
     xmlhttp.onload = function() {
