@@ -659,8 +659,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Change le texte du bouton
             this.textContent = isShowing
-                ? `Masquer avis blacklistés (${nbrAvisBlacklist})`
-                : `Afficher avis blacklistés (${nbrAvisBlacklist})`;
+                ? `Masquer avis blacklistés (${nbrAvisBlacklist} / 3)`
+                : `Afficher avis blacklistés (${nbrAvisBlacklist} / 3)`;
 
             // Affiche ou masque les avis blacklistés
             blacklistedAvis.forEach(avis => {
