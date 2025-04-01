@@ -38,7 +38,9 @@ error_reporting(E_ALL);
         
     </head>
     <body class="BO">
-        <div> <?php include_once('nav.php'); ?> </div>
+        <nav> 
+            <?php include_once('nav.php'); ?> 
+        </nav>
 
         <div class="main-content-crea-modif-offre"> 
             <h1 class="TS-bold">Créez votre offre</h1>            
@@ -180,8 +182,9 @@ error_reporting(E_ALL);
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
                                 <input id="submit-button" type="submit" class="FS" value="Prévisualiser" />
-                                <button class="FS" id="annuler" type="button">
-                                    Annuler
+                                <button class="FS" onclick="confirmer(event)">
+                                    <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
+                                    Retour
                                 </button>
                             </div>
                         </div>

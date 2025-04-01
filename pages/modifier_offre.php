@@ -887,7 +887,7 @@ try{
                             <!-- Bouton de soumission -->
                             <div id="publier-retour">
                                 <input id="submit-button" type="submit" class="FS" value="Modifier"/>
-                                <button class="FS" onclick="confirmer()">
+                                <button class="FS" onclick="confirmer(event)">
                                     <img src="../icons/arrow-left-o.svg" alt="Bouton Image">
                                     Retour
                                 </button>

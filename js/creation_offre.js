@@ -67,16 +67,6 @@
                 
                 const mapStatus = document.getElementById("status-map"); 
 
-
-                ////////////////////////////////////////////////////////////////////////////////////////
-                ///////////////////////////////// GESTION ANNULATION CREATION OFFRE /////////////////////
-                ////////////////////////////////////////////////////////////////////////////////////////
-                if(window.location.pathname.split("/").pop() == 'creation_offre.php'){
-                    document.getElementById('annuler').addEventListener('click', function() {
-                        location.assign('tableau_de_bord.php');
-                    });
-                }
-
                 ////////////////////////////////////////////////////////////////////////////////////////
                 ///////////////////////////////// GESTION DES CHAMPS PAR CATEGORIE /////////////////////
                 ////////////////////////////////////////////////////////////////////////////////////////
@@ -932,11 +922,35 @@
             document.getElementById('langue').addEventListener('input', validateLangue);
 
             ////////////////////////////////////////////////////////////////////////////////////////////
-            ////////////////////////////////////   MODIFIER OFFRE   ////////////////////////////////////
+            ////////////////////////////////////   ALERT ABANDON    ////////////////////////////////////
             ////////////////////////////////////////////////////////////////////////////////////////////
 
-            function confirmer() {
-                if (confirm("Vos modifications ne seront pas sauvegardées, êtes-vous sûr?")) {
-                    window.location.replace("tableau_de_bord.php");
+            function confirmer(event) {
+                event.preventDefault(); // Empêche la navigation automatique
+                if (window.location.pathname.split("/").pop() == 'creation_offre.php'){
+                    if (confirm("Vos informations ne seront pas sauvegardées, êtes-vous sûr?")) {
+                        window.location.replace("tableau_de_bord.php");
+                    }
+                } else {
+                    if (confirm("Vos modifications ne seront pas sauvegardées, êtes-vous sûr?")) {
+                        window.location.replace("tableau_de_bord.php");
+                    }
                 }
+                
             }
+
+
+            document.addEventListener("DOMContentLoaded", function () {
+                // Sélectionne tous les liens <a> du <nav>
+                const navLinks = document.querySelectorAll("nav a");
+            
+                // Ajoute un événement 'click' sur chaque lien
+                navLinks.forEach(link => {
+                    // Vérifie que ce n'est pas le bouton de déconnexion (qui a déjà son propre `onclick`)
+                    if (!link.onclick) {
+                        link.addEventListener("click", function (event) {
+                            confirmer(event, this.href); // Passe l'URL du lien à la fonction
+                        });
+                    }
+                });
+            });
