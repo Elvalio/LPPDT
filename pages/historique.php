@@ -76,7 +76,7 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tableau de Bord</title>
+        <title>Historique</title>
         <link rel="stylesheet" href="../css/styleGeneral.css">
     </head>
     
@@ -214,6 +214,9 @@ $lieux = array_unique(array_column($resultat, 'ville'), SORT_REGULAR);
                     historique = historique.filter(offreFiltree => offreFiltree.id !== offre.id);
                     localStorage.setItem("historique_offres", JSON.stringify(historique));
                     offreDiv.remove();
+                    if (historique.length === 0) {
+                        container.innerHTML = "<p>Aucune offre consultée récemment.</p>";
+                    }
                 }, 500);
             });
 

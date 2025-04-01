@@ -521,7 +521,8 @@
 }
 
 #bouton_publier {
-  padding: 10px 30px; /* Padding à droite et à gauche */
+  padding: 10px 0px; /* Padding à droite et à gauche */
+  margin-left: 25px;
   cursor: pointer; /* CuVisiterseur en forme de main */
   border: none;
   border-radius: 8px;
