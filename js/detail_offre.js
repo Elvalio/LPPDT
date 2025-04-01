@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-
+    console.log("test");
     if(document.getElementById("etoile_note1") !== null){
 
         const etoile_plein = "../icons/etoile_bleue.png";
