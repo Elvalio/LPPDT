@@ -350,43 +350,57 @@
 }
 
 .profil {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content:space-between;
-  margin-top: 20px;
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les éléments */
+  justify-content: flex-start; /* Aligne les éléments à gauche */
+  gap: 20px; /* Ajoute un espacement entre les éléments */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.profil div {
-  padding-left: 10px;
-  font-family: 'TripSansBold';
+.profil > .container-profil {
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les enfants */
+  justify-content: flex-start; /* Aligne les enfants à gauche */
+  gap: 10px; /* Ajoute un espacement entre les enfants */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.titre-date{
-  display: flex;
-  padding: 0px !important;
+.titre-date {
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les éléments */
+  gap: 5px; /* Ajoute un espacement entre le titre et la date */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.titre-date > h4{
-  margin-right: 5px;
+.titre-date > h4 {
+  margin: 0; /* Supprime les marges par défaut */
+  white-space: nowrap; /* Empêche le titre de retourner à la ligne */
+  overflow: hidden; /* Coupe le texte qui dépasse */
+  text-overflow: ellipsis; /* Ajoute des points de suspension si le texte est trop long */
 }
 
-.titre-date > p{
-  opacity: 70%;
-  font-family: 'TripSansRegular';
+.titre-date > p {
+  margin: 0; /* Supprime les marges par défaut */
+  white-space: nowrap; /* Empêche la date de retourner à la ligne */
+  opacity: 70%; /* Style existant pour la date */
+  font-family: 'TripSansRegular'; /* Style existant pour la date */
 }
 
-.pseudo-contexte{
-  display: flex;
-  padding: 0px !important;
-  width: 200px;
-  justify-content: space-between;
+.pseudo-contexte {
+  display: flex; /* Active Flexbox */
+  flex-direction: row; /* Aligne les éléments horizontalement */
+  align-items: center; /* Centre verticalement les éléments */
+  gap: 10px; /* Ajoute un espacement entre les éléments */
+  width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
-.pseudo-contexte > p{
-  margin: 5px;
-  opacity: 70%;
-  font-family: 'TripSansRegular';
+.pseudo-contexte > p {
+  margin: 0; /* Supprime les marges par défaut */
+  opacity: 70%; /* Style existant pour le texte */
+  font-family: 'TripSansRegular'; /* Style existant pour le texte */
 }
 
 .ligne_sepa_contexte {
@@ -456,7 +470,7 @@
   display: block; /* Force le dernier élément à occuper toute la ligne */
   width: 100%; /* S'assure qu'il prend toute la largeur disponible */
   margin-top: 10px; /* Ajoute un espacement au-dessus si nécessaire */
-  text-align: center;
+  text-align: right;
 }
 
 .poster_avis{
@@ -1213,7 +1227,9 @@ color: white;
   width: 100%; /* Prend toute la largeur disponible */
   display: flex; /* Active Flexbox pour aligner les enfants */
   align-items: center; /* Centre verticalement les enfants */
+  margin-top: 20px;
   justify-content: left; /* Répartit les éléments horizontalement */
+  flex-direction: row;
 }
 
 .profil > .etoile-avis-detail-offre {
@@ -1239,14 +1255,6 @@ color: white;
   width: 100%;
   margin-bottom: 10px;
   /* padding: 20px; */
-}
-
-.container-profil {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 20px;
 }
 
 

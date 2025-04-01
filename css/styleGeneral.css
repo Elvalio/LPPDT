@@ -243,7 +243,7 @@ body {
 @media (max-width: 800px) {
 
     .phone-element {
-        padding-bottom: 3em;
+        /*padding-bottom: 3em;*/
     }
 
     h1 {
@@ -3437,8 +3437,26 @@ main#historique .offre_historique_container {
 @media screen and (max-width: 800px) {
 
     div.historiqueHeaderBis {
-        flex-wrap: wrap;
+        display: flex; /* Active Flexbox */
+        flex-direction: column; /* Aligne les éléments verticalement */
+        justify-content: space-between; /* Place les éléments en haut et en bas */
+        align-items: stretch; /* Étire les enfants pour qu'ils prennent toute la largeur */
+        padding: 15px; /* Ajoute des marges internes */
+        height: 120px; /* Définit une hauteur pour permettre l'espacement vertical */
     }
+    
+    div.historiqueHeaderBis h1 {
+        align-self: flex-start; /* Aligne le h1 en haut à gauche */
+        margin: 0; /* Supprime les marges par défaut */
+    }
+    
+    div.historiqueHeaderBis .buttonsHistory {
+        display: flex; /* Active Flexbox pour les boutons */
+        justify-content: flex-end; /* Aligne les boutons à droite */
+        align-items: center; /* Centre verticalement les boutons */
+        width: 100%; /* Prend toute la largeur disponible */
+    }
+
     #logo {
         width: auto;
         margin-bottom: 10px;
