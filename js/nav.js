@@ -11,9 +11,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const creationOffreItem = document.querySelector('[data-icon="creation"]');
     const notificationAvecItem = document.querySelector('[data-icon="notification-avec-notif"]');
     const notificationSansItem = document.querySelector('[data-icon="notification-sans-notif"]');
+    const ParametreItem = document.querySelector('[data-icon="parametre"]');
 
     function changerApparenceIcon(p, it, im, ic){
-        if (p === currentPage || (it === accueilItem && currentPage === 'detail-offre.php') || (it === tableauDeBordItem && currentPage === 'modifier_offre.php') || (it === creationOffreItem && currentPage === 'previsualisation_offre.php') || (it === notificationAvecItem && currentPage === 'avis_non_rep.php') || (it === notificationSansItem && currentPage === 'avis_non_rep.php')) {
+        if (p === currentPage || (it === accueilItem && currentPage === 'detail-offre.php') || (it === tableauDeBordItem && currentPage === 'modifier_offre.php') || (it === creationOffreItem && currentPage === 'previsualisation_offre.php') || (it === notificationAvecItem && currentPage === 'avis_non_rep.php') || (it === notificationSansItem && currentPage === 'avis_non_rep.php') || (it === ParametreItem && currentPage == 'modifInfo.php')) {
             it.classList.add('actuel');
             if(sidebar.classList.contains("FO")){
                 im.src = `../icons/icons-bleu/icon-${ic}-bleu.svg`;  // Chemin pour l'icône actif
