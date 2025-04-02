@@ -36,7 +36,6 @@
 
                 $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                echo " JSPPPP " . $image_profil;
 
                 $stmt = $dbh->prepare("SELECT src_image FROM pact._image WHERE idImage = :idimage");
                 $stmt->bindParam(':idimage', $image_profil['image_compte']);
@@ -44,7 +43,6 @@
 
                 $image_profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                echo " JSPPPP " . $image_profil;
 
                 if ($row) {
                     // Récupérer les valeurs des trois colonnes
