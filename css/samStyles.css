@@ -351,10 +351,9 @@
 
 .profil {
   display: flex; /* Active Flexbox */
-  flex-direction: row; /* Aligne les éléments horizontalement */
-  align-items: center; /* Centre verticalement les éléments */
-  justify-content: flex-start; /* Aligne les éléments à gauche */
-  gap: 20px; /* Ajoute un espacement entre les éléments */
+  flex-direction: column; /* Aligne les éléments verticalement */
+  align-items: flex-start; /* Aligne les éléments à gauche */
+  gap: 10px; /* Ajoute un espacement entre les éléments */
   width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
 }
 
@@ -365,6 +364,13 @@
   justify-content: flex-start; /* Aligne les enfants à gauche */
   gap: 10px; /* Ajoute un espacement entre les enfants */
   width: auto; /* Permet à la div de prendre uniquement la place nécessaire */
+}
+
+.profil > .etoile-avis-detail-offre {
+  display: block; /* Force le dernier élément à occuper toute la ligne */
+  width: 100%; /* S'assure qu'il prend toute la largeur disponible */
+  margin-top: 0px; /* Ajoute un espacement au-dessus si nécessaire */
+  text-align: center;
 }
 
 .titre-date {
@@ -410,10 +416,8 @@
 
 .header-avis-profil {
   display: block !important;
-
   width: auto;
-  margin-bottom: 10px;
-  padding: 20px;
+  padding: 0px 20px 10px 20px;
 }
 
 .commentaire-consulte {
@@ -437,6 +441,7 @@
 
 .alignement-conteneur-avis {
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .commentaire-non-consulte {
@@ -466,12 +471,6 @@
   flex-direction: column;
 }
 
-.etoile-avis-detail-offre {
-  display: block; /* Force le dernier élément à occuper toute la ligne */
-  width: 100%; /* S'assure qu'il prend toute la largeur disponible */
-  margin-top: 10px; /* Ajoute un espacement au-dessus si nécessaire */
-  text-align: right;
-}
 
 .poster_avis{
   width: 100%;
