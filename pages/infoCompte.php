@@ -207,6 +207,20 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
                                 <input type="text" class="BO" value="<?php echo $compte['siren'] ?>" id="siren" name="siren" readonly>
                             <?php } ?>
                         <?php } ?>
+
+                        <button class="boutonA2F TS-bold" id="A2F" onclick="openPopup()" >Activer l'authentification à deux facteurs</button>
+                        <div class="overlay" id="overlay" onclick="closePopup()"></div>
+                        <div class="popup" id="popup">
+                            <h3 class="TS-bold" id="titre-popup">Confirmer le mot de passe</h3>
+ 
+                            <label name="password" class="FS">Mot de passe</label>
+                            <input type="password" class="FS" id="password-popup" name="password" >
+ 
+                            <label name="password2" class="FS">Confirmer le mot de passe</label>
+                            <input type="password" class="FS" id="password2-popup" name="password2" >
+                            <button class="confirm-btn" onclick="checkPassword()">Confirmer</button>
+                            <button class="close-btn" onclick="closePopup()">Fermer</button>
+                         </div>
                     </div>
                 </div>
                 <div class="info-compte-buttons">
