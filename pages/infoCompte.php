@@ -93,7 +93,10 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
     <title>Paramètres de Compte</title>
     <link rel="stylesheet" href="../css/styleGeneral.css">
     <link rel="stylesheet" href="../css/info-compte.css">
+    <link rel="stylesheet" href="../css/samStyles.css">
     <?php 
+    print_r($_COOKIE['type_compte']);
+    print_r("test");
     if(isset($_COOKIE['type_compte'])){
         if ($_COOKIE['type_compte'] == "pro_public" || $_COOKIE['type_compte'] == "pro_prive") { ?>
             <link id="dynamic-favicon" rel="icon" type="image/x-icon" href="../logo/rouge.ico"> <?php   
@@ -122,25 +125,6 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
             .bouton-modif-avis:hover {
                 background-color: #5b60f3; /* Couleur plus claire ou différente */
             }
-            .boutonA2F{
-                background-color: #3136ED;
-            }
-            .boutonA2F:hover {
-                background-color: #5b60f3; /* Couleur plus claire ou différente */
-            }
-
-            .close-btn{
-                background-color: #3136ED;
-            }
-            .close-btn:hover {
-                background-color: #5b60f3; /* Couleur plus claire ou différente */
-            }
-            .confirm-btn{
-                background-color: #3136ED;
-            }
-            .confirm-btn:hover {
-                background-color: #5b60f3; /* Couleur plus claire ou différente */
-            }
         <?php }else{ ?>
             .bouton-modif-avis{
                 background-color: #ED3631;
@@ -149,44 +133,7 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
             .bouton-modif-avis:hover {
                 background-color: #A2021F; /* Couleur plus claire ou différente */
             }
-
-            .boutonA2F{
-                background-color: #ED3631;
-            }
-            .boutonA2F:hover {
-                background-color: #A2021F; /* Couleur plus claire ou différente */
-            }
-            .close-btn{
-                background-color: #ED3631;
-            }
-            .close-btn:hover {
-                background-color: #A2021F; /* Couleur plus claire ou différente */
-            }
-            .confirm-btn{
-                background-color: #ED3631;
-            }
-            .confirm-btn:hover {
-                background-color: #A2021F; /* Couleur plus claire ou différente */
-            }
         <?php } ?>
-
-            @media (max-width: 800px){
-                .bouton-modif-avis{
-                    background-color: black;
-                }
-
-                .boutonA2F {
-                    background-color: black;
-                }
-
-                .boutonA2F:hover {
-                    background-color: black;
-                }
-
-                .bouton-modif-avis:hover {
-                    background-color: black;
-                }
-            }
     </style>
 </head>
 
@@ -260,20 +207,6 @@ $stmt = $dbh->prepare("SELECT image_compte FROM pact._compte WHERE idC = :idc");
                                 <input type="text" class="BO" value="<?php echo $compte['siren'] ?>" id="siren" name="siren" readonly>
                             <?php } ?>
                         <?php } ?>
-
-                        <button class="boutonA2F TS-bold" id="A2F" onclick="openPopup()" >Activer l'authentification à deux facteurs</button>
-                        <div class="overlay" id="overlay" onclick="closePopup()"></div>
-                        <div class="popup" id="popup">
-                            <h3 class="TS-bold" id="titre-popup">Confirmer le mot de passe</h3>
-
-                            <label name="password" class="FS">Mot de passe</label>
-                            <input type="password" class="FS" id="password-popup" name="password" >
-
-                            <label name="password2" class="FS">Confirmer le mot de passe</label>
-                            <input type="password" class="FS" id="password2-popup" name="password2" >
-                            <button class="confirm-btn" onclick="checkPassword()">Confirmer</button>
-                            <button class="close-btn" onclick="closePopup()">Fermer</button>
-                        </div>
                     </div>
                 </div>
                 <div class="info-compte-buttons">

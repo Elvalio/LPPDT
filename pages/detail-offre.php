@@ -1070,7 +1070,7 @@ endif;
 
                     <?php endif;
                         
-                        } else { ?>
+                        } else if ($_COOKIE['type_compte'] != "membre" || $offre['idc'] == $_COOKIE['user']) { ?>
                             <button type="button" onclick="toggle_reponse(<?php echo $id_avis ?>)" id="btn-reponse">Ajouter une réponse</button>
                             <form method="POST" action="detail-offre.php?value=<?php $offre['ido']?>" class="zone-btn-publier form_reponse" id="form_reponse_<?php echo $id_avis; ?>" style="display: none">
                                 <input type="hidden" name="type_form" value="poste-reponse">

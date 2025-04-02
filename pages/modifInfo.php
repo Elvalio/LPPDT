@@ -232,11 +232,19 @@ try{
                 background-color: #3136ED;
             }
 
+            .bouton-retour-page-modif-compte button{
+                background-color: #3136ED;
+            }
+
             .bouton-envoi-formulaire-modif-compte:hover{
                 background-color: #5b60f3;
             }
 
             .boutonA2F:hover{
+                background-color: #5b60f3;
+            }
+
+            .bouton-retour-page-modif-compte button:hover{
                 background-color: #5b60f3;
             }
 
@@ -249,13 +257,20 @@ try{
                 background-color: #ED3631;
             }
 
+            .bouton-retour-page-modif-compte button{
+                background-color: #ED3631;
+            }
+
             .bouton-envoi-formulaire-modif-compte:hover{
                 background-color: #A2021F;
             }
 
             .boutonA2F:hover{
                 background-color: #A2021F;
-            }   
+            }
+            .bouton-retour-page-modif-compte button:hover{
+                background-color: #A2021F;
+            }
         <?php } ?>
     </style>
 </head>
@@ -267,6 +282,12 @@ try{
 </div>
 
 <body class = "<?php if($_COOKIE['type_compte'] == "membre"){echo "FO";}else{echo "BO";}?>">
+    <!-- Bouton de retour -->
+    <div class="bouton-retour-page-modif-compte">
+        <button class="FS" onclick="history.back();">
+            <img src="../icons/arrow-left-w.svg" alt="Bouton Image"> Retour
+        </button>
+    </div>
 
     <div class="container-page-info-compte">
         <div class="compte-titre-photo-profil TS-bold" id="link-membre">

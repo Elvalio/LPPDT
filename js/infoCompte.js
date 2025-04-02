@@ -36,7 +36,7 @@ function updateBodyClass() {
 }
 
 
-/*updateBodyClass();
+updateBodyClass();
 
 
 boutonSupprimer.addEventListener('click', function() {
@@ -52,7 +52,7 @@ document.getElementById('croix_small').addEventListener('click', function() {
 overlay.addEventListener('click', function () {
     popup.classList.remove("montrer"); // Désactive l'effet
     overlay.classList.remove("montrer");
-});*/
+});
 
 
 
