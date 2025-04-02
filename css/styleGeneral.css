@@ -1090,7 +1090,7 @@ p {
 .footer > .autres_liens{
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;*/
     justify-content: space-between;
     margin-left: 20px;
     margin-right: 20px;
@@ -1175,6 +1175,20 @@ a {
 
 .bouton-retour-page-création-pro button:hover {
     background-color: #be1937;
+}
+
+.bouton-retour-page-modif-compte button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: fixed;
+    top: 30px;
+    left: 150px;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 /* Permet de bien définir la zone du formulaire */
