@@ -15,7 +15,7 @@ if (isset($_REQUEST["id"]) && $_REQUEST["id"]!=null) {
         $stmt->execute();
         $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $idC = isset($results[0]['idC']) ? $results[0]['idC'] : null;
-        if ($idC==null && is_int($idC)) {
+        if ($idC==null && is_int($id)) {
             $stmt = $dbh->prepare(
                 "SELECT idC FROM pact._professionnel WHERE codePro = :codePro;"
             );
