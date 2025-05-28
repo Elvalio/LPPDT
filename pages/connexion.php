@@ -13,17 +13,19 @@ if (isset($_REQUEST["id"]) && $_REQUEST["id"]!=null) {
         );
         $stmt->bindParam(':pseudo', $id, PDO::PARAM_STR);
         $stmt->execute();
-        $idC = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]["idc"];
-        if (!$idC && is_int($idC)) {
+        $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $idC = isset($results[0]['idC']) ? $results[0]['idC'] : null;
+        if ($idC==null && is_int($idC)) {
             $stmt = $dbh->prepare(
                 "SELECT idC FROM pact._professionnel WHERE codePro = :codePro;"
             );
             $stmt->bindParam(':codePro', $id, PDO::PARAM_INT);
 
             $stmt->execute();
-            $idC = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]["idC"];
+            $resultat = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $idC = isset($results[0]['idC']) ? $results[0]['idC'] : null;
         }
-        if (!$idC) {
+        if ($idC!=null) {
             //get secret
             $stmt = $dbh->prepare("SELECT secretOtp FROM pact._compte WHERE idC = :idc");
             $stmt->bindParam(':idc', $idC);
